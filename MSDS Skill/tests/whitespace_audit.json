@@ -1,0 +1,124 @@
+{
+  "pass": false,
+  "issue_count": 16,
+  "issues": [
+    {
+      "type": "tab_element",
+      "table": 4,
+      "row": 2,
+      "cell": 1,
+      "paragraph": 0
+    },
+    {
+      "type": "tab_element",
+      "table": 4,
+      "row": 4,
+      "cell": 1,
+      "paragraph": 0
+    },
+    {
+      "type": "tab_element",
+      "table": 4,
+      "row": 4,
+      "cell": 1,
+      "paragraph": 1
+    },
+    {
+      "type": "trailing_space",
+      "table": 6,
+      "row": 2,
+      "cell": 1,
+      "paragraph": 0,
+      "run": 5
+    },
+    {
+      "type": "tab_element",
+      "table": 7,
+      "row": 3,
+      "cell": 1,
+      "paragraph": 0
+    },
+    {
+      "type": "tab_element",
+      "table": 8,
+      "row": 3,
+      "cell": 1,
+      "paragraph": 0
+    },
+    {
+      "type": "tab_element",
+      "table": 8,
+      "row": 4,
+      "cell": 1,
+      "paragraph": 0
+    },
+    {
+      "type": "trailing_space",
+      "table": 10,
+      "row": 4,
+      "cell": 2,
+      "paragraph": 0,
+      "run": 0
+    },
+    {
+      "type": "trailing_space",
+      "table": 10,
+      "row": 17,
+      "cell": 1,
+      "paragraph": 1,
+      "run": 0
+    },
+    {
+      "type": "tab_element",
+      "table": 11,
+      "row": 3,
+      "cell": 1,
+      "paragraph": 0
+    },
+    {
+      "type": "tab_element",
+      "table": 11,
+      "row": 3,
+      "cell": 1,
+      "paragraph": 1
+    },
+    {
+      "type": "tab_element",
+      "table": 11,
+      "row": 3,
+      "cell": 1,
+      "paragraph": 2
+    },
+    {
+      "type": "tab_element",
+      "table": 11,
+      "row": 3,
+      "cell": 1,
+      "paragraph": 3
+    },
+    {
+      "type": "trailing_space",
+      "table": 14,
+      "row": 5,
+      "cell": 0,
+      "paragraph": 0,
+      "run": 0
+    },
+    {
+      "type": "trailing_space",
+      "table": 14,
+      "row": 6,
+      "cell": 0,
+      "paragraph": 0,
+      "run": 0
+    },
+    {
+      "type": "trailing_space",
+      "table": 14,
+      "row": 7,
+      "cell": 0,
+      "paragraph": 0,
+      "run": 0
+    }
+  ]
+}

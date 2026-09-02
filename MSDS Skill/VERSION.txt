@@ -1,0 +1,4 @@
+MSDS Skill
+1.0
+Internal content baseline: Unified MSDS Eight-Deliverable Standardizer v3.6.2
+Template SHA-256: cbbf558fb6511edecd8b6a44d3e6bde23ce8a01d715e370d5a19ddc1978a1c9c
