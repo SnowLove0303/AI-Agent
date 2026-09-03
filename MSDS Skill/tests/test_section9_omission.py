@@ -1,13 +1,17 @@
 import re
+import importlib.util
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-sys.path.insert(0, str(ROOT / "tests" / "support"))
+task_root = next(path for path in (ROOT / "_task_work", ROOT.parent / "_task_work") if (path / "generate_pu2345_eight.py").exists())
+sys.path.insert(0, str(task_root))
 
 from docx import Document
-import generate_pu2345_eight as generator
+spec = importlib.util.spec_from_file_location("generate_pu2345_eight_test", task_root / "generate_pu2345_eight.py")
+generator = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(generator)
 
 
 def section9_rows(document):
@@ -19,7 +23,7 @@ def test_pu2345_section9_omits_missing_rows_and_renumbers():
         ("zh", "无数据", "不适用"),
         ("en", "No data available", "Not applicable"),
     ):
-        document = Document(str(generator.TEMPLATE))
+        document = Document(str(generator.template_for(language)))
         facts = generator.source_facts(language, "guanzhi")
         generator.ensure_s3_component_rows(document, component_count=4)
         generator.write_body(document, facts, language)

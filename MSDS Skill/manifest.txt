@@ -1,6 +1,5 @@
-VERSION.txt
-README.md
 CHANGELOG.md
+VERSION.txt
 SKILL.md
 docs/four_format_qa.md
 docs/in_place_overwrite_contract.md
@@ -12,6 +11,7 @@ docs/requirements_spec.md
 docs/section_mapping_rules.md
 docs/template_baseline.md
 docs/unified_architecture.md
+docs/template_mutation_whitelist.md
 docs/v2_9_inheritance_contract.md
 examples/approved_EP-1704_v2.4.docx
 examples/approved_HPU-7660_冠志_v2.7.docx
@@ -20,6 +20,8 @@ examples/nonstandard_source_PA-4817.doc
 examples/regression_EP-1704_source.docx
 examples/regression_HPU-7660_source.docx
 examples/template_reference.docx
+examples/template_reference_en_source.docx
+examples/template_reference_en.docx
 legacy_v2_9/CHANGELOG_v2.9.md
 legacy_v2_9/SKILL_v2.9.md
 legacy_v2_9/sentence_boundary_policy_v2.9.py
@@ -28,6 +30,7 @@ manifest.txt
 resources/professional_translation_glossary.tsv
 resources/section_translation_rules.md
 resources/structured_toxicology_translation.md
+resources/section2_ghs_policy.md
 scripts/audit_english_terminology.py
 scripts/audit_four_format_release.py
 scripts/audit_locked_labels.py
@@ -47,7 +50,16 @@ scripts/sentence_boundary_policy.py
 scripts/snapshot_template.py
 scripts/snapshot_template_geometry.py
 scripts/audit_template_geometry.py
+scripts/normalize_en_template.py
+scripts/normalize_en_layout.py
+scripts/section2_ghs_policy.py
+scripts/ghs_pictogram_policy.py
+scripts/audit_section2_release.py
+scripts/audit_template_mutation_whitelist.py
 scripts/structured_toxicology_policy.py
+scripts/section11_alias_policy.py
+scripts/template_mutation_whitelist.py
+scripts/convert_docx_to_pdf.py
 tests/EP-1704_policy_expectations.md
 tests/README.md
 tests/label_audit.json
@@ -67,5 +79,15 @@ docs/pdf_publication_contract.md
 docs/cn_pdf_layout_compatibility.md
 tests/test_eight_file_policy.py
 tests/test_section9_omission.py
-tests/support/generate_pu2345_eight.py
+tests/test_template_language_parity.py
+tests/test_section2_ghs_policy.py
+tests/test_en_template_format_parity.py
+tests/test_os9015_source_mapping.py
+tests/test_template_mutation_whitelist.py
+tests/test_section11_alias_policy.py
+tests/template_snapshot_en.json
+tests/template_snapshot_v39.json
+tests/template_snapshot_en_v39.json
+tests/template_geometry_v39.json
+tests/template_geometry_en_v39.json
 tests/PU2345_section9_policy.md

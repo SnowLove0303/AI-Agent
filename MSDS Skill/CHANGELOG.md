@@ -1,14 +1,28 @@
-# MSDS Skill — Release history
+# MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
-## 1.0 — 2026-09-02
-- Published the validated v3.6.2 implementation as the formal `MSDS Skill 1.0` release.
-- Preserved the complete v2.9 overwrite core, v3.2/v3.3 four-format and eight-file architecture, unified semantic model, professional English layer, structured Section 11 through 11.10, Section 9 whole-row omission/renumbering, DOCX-first PDF derivation, release blockers and page-by-page QA.
-- Bundled the approved template baseline with SHA-256 `cbbf558fb6511edecd8b6a44d3e6bde23ce8a01d715e370d5a19ddc1978a1c9c`.
-- Published as a single self-contained repository directory so the GitHub repository root remains free of scattered Skill files.
+## v3.9.0 — 2026-09-03
+- Added the executable template mutation whitelist based on the Feishu “17节Section 标准骨架结构” contract.
+- Locked sequence/label cell formatting and wording by default; ordinary writes now target only existing value cells, with explicit S3/S8.2/note-slot exceptions.
+- Added a release-blocking locked-skeleton XML audit covering paragraph/run properties, cell properties and label-body preservation after approved S2/S9 omission.
+- Changed the Section 11 alias policy so source `主要粘膜刺激性` is classified into the existing `11.3 主要眼睛刺激性` endpoint while preserving the source value and avoiding duplicate `11.10` content.
+- Removed legacy customer-facing Section 2 cross-reference payloads from the generator facts and kept label elements explicit and line-separated.
+- Preserved the complete v2.9/v3.2/v3.3/v3.8 inheritance, four-language/company matrix, DOCX-first PDF derivation and all prior release gates.
+- Published as an independent V3.9 directory; V3.8 and all earlier versions remain intact.
 
-# Internal lineage history
+## v3.8.0 — 2026-09-02
+- Added source-grounded Section 2 GHS pictogram extraction and in-place insertion, preserving the maintained template table geometry and the source image as the visual authority.
+- Replaced customer-facing Section 2 cross-references such as `见2.4-2.6` / `See 2.4-2.6` with explicit, line-separated label-element tips; pure missing-data rows are suppressed and surviving Section 2 items are renumbered continuously.
+- Corrected the OS-9015 Section 11 projection to use the toxicology facts actually present in the source and blocked unrequested method, species, classification, similar-product, overall-assessment and additional-information inference.
+- Changed production EN formatting to synchronize paragraph and run properties from the maintained EN template before row suppression; global font/size normalization is no longer used in the production path.
+- Added Section 2 release auditing and regression coverage for pictogram presence, explicit label tips, missing-row suppression, source-only Section 11 mapping and EN template-format parity.
+- Released as an independent V3.8 directory; V3.7 and all earlier versions remain intact.
 
-# v3.4
+## v3.7.0 — 2026-09-02
+- Added the supplied EN template as a separate, language-specific template lineage while preserving the exact source copy for auditability.
+- Normalized the EN template's missing Section 1.1 row so CN and EN expose the same section positions and semantic fields; no product facts were promoted from template examples.
+- Changed the generator to clone CN outputs from the CN reference and EN outputs from the maintained EN reference. Added fail-fast template capacity validation and per-output template hash evidence.
+- Added EN template source/baseline snapshots, CN/EN geometry and template-lineage regression coverage, and retained the existing v2.9/v3.2/v3.3/v3.6.2 inheritance, semantic, PDF, and page-QA requirements.
+- Generated the eight PU-2345 deliverables by final-DOCX-first conversion for the EN format repair; historical local versions and GitHub `MSDS Skill 1.0` remain unchanged.
 
 ## v3.6.2 — 2026-09-02
 - Replaced the bundled authoritative template with the newer user-supplied `模板_MSDS_CN_冠志.docx` and pinned SHA-256 `cbbf558fb6511edecd8b6a44d3e6bde23ce8a01d715e370d5a19ddc1978a1c9c`.

@@ -10,7 +10,7 @@ from pathlib import Path
 from docx import Document
 from lxml import etree
 
-ALLOWED_COMPANY_LABELS = ('供应商名称','供应商地址','电话','传真','Supplier name','Supplier address','Telephone','Fax')
+ALLOWED_COMPANY_LABELS = ('供应商名称','供应商地址','电话','传真','Supplier name','Supplier address','Telephone','Fax','Name of supplier','Tel')
 
 def sha(p):
     h=hashlib.sha256(); h.update(Path(p).read_bytes()); return h.hexdigest()

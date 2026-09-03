@@ -15,34 +15,28 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Pt
 
+from template_mutation_whitelist import unique_cells as whitelist_unique_cells
+
 
 def unique_cells(row):
-    seen = set()
-    cells = []
-    for cell in row.cells:
-        key = id(cell._tc)
-        if key not in seen:
-            seen.add(key)
-            cells.append(cell)
-    return cells
+    return whitelist_unique_cells(row)
 
 
 def compact_table_body(document) -> None:
     """Compact table paragraphs while retaining template indentation and runs."""
-    for table in document.tables:
-        for row in table.rows:
-            for cell in unique_cells(row):
+    for table_index, table in enumerate(document.tables):
+        for row_index, row in enumerate(table.rows):
+            cells = unique_cells(row)
+            for cell_index, cell in enumerate(cells):
+                if row_index == 0 or (table_index == 2 and row_index in {2, 3}) or (len(cells) > 1 and cell_index == 0):
+                    # Table headings and the first physical cell of each
+                    # field row contain the template-owned heading/label /
+                    # sequence skeleton.  Never compact or normalize them.
+                    continue
                 for paragraph in cell.paragraphs:
-                    locked_label = any(
-                        run.bold and run.text.strip() for run in paragraph.runs
-                    )
-                    # Locked template label paragraphs retain their original
-                    # pPr.  Their adjacent value paragraphs receive the
-                    # compact spacing that controls the visual density.
-                    if not locked_label:
-                        paragraph.paragraph_format.space_before = Pt(0)
-                        paragraph.paragraph_format.space_after = Pt(0)
-                        paragraph.paragraph_format.line_spacing = 1.0
+                    paragraph.paragraph_format.space_before = Pt(0)
+                    paragraph.paragraph_format.space_after = Pt(0)
+                    paragraph.paragraph_format.line_spacing = 1.0
                     for run in paragraph.runs:
                         run.font.size = Pt(10)
 
