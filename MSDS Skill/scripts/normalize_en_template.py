@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
-"""Normalize the supplied EN template to the approved CN section geometry.
+"""Historical EN-template migration utility.
 
-The supplied English template is retained byte-for-byte as
-``template_reference_en_source.docx``.  This script creates the maintained EN
-baseline by adding the missing Section 1.1 Chinese-name row while preserving
-the source row's table, cell, paragraph, and character formatting.  It does
-not translate or invent product facts; the generator overwrites factual cells
-from the shared semantic model.
+This utility is retained for v3.10-era rollback and audit reproduction. It is
+not part of the active v3.11 generation path. The active EN baseline is the
+user-supplied template used byte-for-byte; it must not be normalized to the CN
+geometry or have a Chinese-name row added. It does not translate or invent
+product facts.
 """
 
 from __future__ import annotations

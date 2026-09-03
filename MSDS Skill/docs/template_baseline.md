@@ -5,19 +5,23 @@ The language-specific files below are the authoritative MSDS templates bundled w
 
 - CN: `examples/template_reference.docx`
 - EN source record: `examples/template_reference_en_source.docx` (byte-preserved copy of the user-supplied file)
-- EN maintained baseline: `examples/template_reference_en.docx` (the source record with the approved Section 1.1 capacity repair)
+- EN active baseline: `examples/template_reference_en.docx` (byte-identical to the user-supplied EN template)
+- Historical normalized EN baseline: `examples/archive/template_reference_en_v3.10_normalized.docx` (retained for rollback/audit only; not active)
 
-Pinned source filename supplied by the user: `模板_MSDS_CN_冠志.docx`
+Pinned source filenames supplied by the user: `模板_MSDS_CN_冠志.docx` for CN and
+`模板_MSDS_EN_冠志 - 副本.docx` for EN.
 
 CN SHA-256: `cbbf558fb6511edecd8b6a44d3e6bde23ce8a01d715e370d5a19ddc1978a1c9c`
 
 EN source SHA-256: `415bcaf73256c17b3707c4d660dc6f5c4b7f69e2ab5d728ec8f3108dde16b569`
 
-EN maintained SHA-256: `b36d542e7e000c7fa979875f127459505dc9f7d9e0b9180ecb1f3856fd74103f`
+EN active SHA-256: `415bcaf73256c17b3707c4d660dc6f5c4b7f69e2ab5d728ec8f3108dde16b569`
 
 ## Structural baseline
 - 16 tables / MSDS sections.
-- Table row counts: `10, 16, 6, 6, 5, 4, 3, 12, 24, 6, 18, 6, 3, 5, 9, 2`.
+- CN table row counts: `10, 16, 6, 6, 5, 4, 3, 12, 24, 6, 18, 6, 3, 5, 9, 2`.
+- EN table row counts: `9, 16, 6, 6, 5, 4, 3, 12, 24, 6, 18, 6, 3, 5, 9, 2`.
+- CN and EN intentionally retain different physical structures. The same semantic model and overwrite rules are projected into each language's existing slots.
 - Section 15 has 9 rows in the current baseline.
 - Section 15 has 9 rows and **does include** the row `物质或混合物的相关安全、健康和环保法律法规`. Preserve it exactly as part of the current template.
 - Section 11 now has 6 table rows and its current 4-column/merged-cell geometry is authoritative; do not rebuild it from older outputs.
@@ -27,18 +31,18 @@ EN maintained SHA-256: `b36d542e7e000c7fa979875f127459505dc9f7d9e0b9180ecb1f3856
 - v3.6.2 border adjustment: Section 8 changes the internal boundaries for the PPE/hand-protection rows to dotted lines and adjusts the surrounding top/bottom boundary edges; Section 11 changes the boundary edges around the introductory/reference-data transition to dotted lines. These are template-owned visual properties and must be retained by fresh-clone generation.
 - v3.6.2 audit finding: table count, row counts, column/grid widths, merges, paragraph properties and character properties are unchanged from v3.6.1; only the approved Section 8/11 cell-border geometry and a non-visible footer table-property extension changed.
 - `tests/template_snapshot.json` records the CN table/cell merges, grid and cell widths, paragraph/run properties, and header/footer parts.
-- `tests/template_snapshot_en.json` records the maintained EN baseline with the same geometry/property coverage.
-- The shared logical baseline is 16 tables with row counts `10, 16, 6, 6, 5, 4, 3, 12, 24, 6, 18, 6, 3, 5, 9, 2` and column counts `2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 1, 1`.
-- The EN source supplied by the user had nine rows in its first table; `scripts/normalize_en_template.py` adds the missing Section 1.1 row in the maintained copy and preserves the source record unchanged.
+- `tests/template_snapshot_en.json` and `tests/template_snapshot_en_v311.json` record the exact active EN baseline with the same geometry/property coverage.
+- Both language baselines have 16 tables and column counts `2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 1, 1`; their row capacities differ only where the supplied templates differ.
+- The EN source supplied by the user has nine rows in its first table and is used as-is. `scripts/normalize_en_template.py` is retained only as a historical migration utility and must not run in the active v3.11 generation path.
 - Product-like text embedded in either template is example content only; it is never a source of product facts.
 
 ## Replacement procedure
 When the user explicitly designates a new approved template as the new built-in baseline:
 1. Preserve the supplied source file as an unchanged `*_source.docx` record.
-2. Create the maintained language baseline by applying only an approved structural normalization.
+2. Install the supplied language template byte-for-byte as the active baseline; do not normalize it to the other language.
 3. Update this document's source filenames, SHA-256 values and structural baseline.
 4. Regenerate the corresponding language snapshot(s) with `scripts/snapshot_template_geometry.py`.
-5. Run locked-label / structural audits against each maintained baseline.
+5. Run locked-label / structural audits against each active language baseline.
 6. Render each template to PNG and visually inspect every page.
 7. Update `CHANGELOG.md` and bump the skill version.
 8. Rebuild and integrity-test the ZIP.

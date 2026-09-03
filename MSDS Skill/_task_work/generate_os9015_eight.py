@@ -230,7 +230,8 @@ def write_body(doc, facts, language):
     clear_value_cells(doc)
     for sec in range(1, 17):
         table = doc.tables[sec - 1]
-        for ri, values in enumerate(facts[f"s{sec}"], 1):
+        rows = base.project_rows_to_template(facts[f"s{sec}"], language, sec, table)
+        for ri, values in enumerate(rows, 1):
             if ri >= len(table.rows):
                 raise RuntimeError(f"template capacity mismatch S{sec}: row {ri}")
             base.set_row(table.rows[ri], values, table_index=sec - 1, row_index=ri)
@@ -317,8 +318,9 @@ def build_one(language, brand):
     base.ensure_s3_component_rows(doc, component_count=len(facts["s3"]) - 3)
     write_body(doc, facts, language)
     if language == "en":
-        # Sync against the untouched maintained EN template before any row
-        # suppression changes physical row indexes.
+        # Re-assert value-cell formatting from the exact active EN template
+        # before any row suppression changes physical row indexes.  This is a
+        # template-format sync, not a CN-to-EN normalization or redesign.
         base.normalize_en_document(doc, template_path=TEMPLATE_EN)
     pictogram_audit = insert_source_pictogram(doc, SOURCE)
     s2_policy = suppress_missing_section2_rows_and_renumber(doc, set_paragraph_text)
@@ -360,6 +362,8 @@ def main():
     for template in (TEMPLATE_CN, TEMPLATE_EN_SOURCE, TEMPLATE_EN):
         if not template.is_file():
             raise FileNotFoundError(template)
+    if sha256(TEMPLATE_EN) != sha256(TEMPLATE_EN_SOURCE):
+        raise RuntimeError("active EN template must remain byte-identical to the supplied EN source record")
     OUT_ROOT.mkdir(parents=True, exist_ok=True)
     (OUT_ROOT / "source-structure-snapshot.json").write_text(json.dumps(source_structure_snapshot(SOURCE), ensure_ascii=False, indent=2), encoding="utf-8")
     audits = [build_one(language, brand) for brand in ("guanzhi", "guocai") for language in ("zh", "en")]

@@ -5,35 +5,38 @@ from docx import Document
 
 
 ROOT = Path(__file__).resolve().parents[1]
-EXPECTED_ROWS = [10, 16, 6, 6, 5, 4, 3, 12, 24, 6, 18, 6, 3, 5, 9, 2]
+CN_ROWS = [10, 16, 6, 6, 5, 4, 3, 12, 24, 6, 18, 6, 3, 5, 9, 2]
+EN_ROWS = [9, 16, 6, 6, 5, 4, 3, 12, 24, 6, 18, 6, 3, 5, 9, 2]
 
 
 def _rows(document):
     return [len(table.rows) for table in document.tables]
 
 
-def test_cn_and_en_templates_have_same_section_capacity():
+def test_cn_and_en_templates_keep_independent_language_specific_capacity():
     cn = Document(ROOT / "examples" / "template_reference.docx")
     en = Document(ROOT / "examples" / "template_reference_en.docx")
     assert len(cn.tables) == len(en.tables) == 16
-    assert _rows(cn) == EXPECTED_ROWS
-    assert _rows(en) == EXPECTED_ROWS
+    assert _rows(cn) == CN_ROWS
+    assert _rows(en) == EN_ROWS
 
 
 def test_en_template_is_distinct_and_uses_english_section_labels():
     source = ROOT / "examples" / "template_reference_en_source.docx"
     en = Document(ROOT / "examples" / "template_reference_en.docx")
     assert source.is_file()
+    assert source.read_bytes() == (ROOT / "examples" / "template_reference_en.docx").read_bytes()
     assert "Identification" in en.tables[0].rows[0].cells[0].text
-    assert "Chinese name:" in en.tables[0].rows[2].cells[0].text
+    assert "Chemical category" in en.tables[0].rows[2].cells[0].text
+    assert "Chinese name:" not in "\n".join(cell.text for row in en.tables[0].rows for cell in row.cells)
     assert "8.2" in "\n".join(cell.text for row in en.tables[7].rows for cell in row.cells)
     assert "11.10" in "\n".join(cell.text for row in en.tables[10].rows for cell in row.cells)
 
 
-def test_en_snapshot_pins_normalized_template_hash_and_geometry():
+def test_en_snapshot_pins_the_supplied_template_hash_and_geometry():
     snapshot = json.loads((ROOT / "tests" / "template_snapshot_en.json").read_text(encoding="utf-8"))
-    assert snapshot["source_sha256"] == "b36d542e7e000c7fa979875f127459505dc9f7d9e0b9180ecb1f3856fd74103f"
-    assert [table["row_count"] for table in snapshot["tables"]] == EXPECTED_ROWS
+    assert snapshot["source_sha256"] == "415bcaf73256c17b3707c4d660dc6f5c4b7f69e2ab5d728ec8f3108dde16b569"
+    assert [table["row_count"] for table in snapshot["tables"]] == EN_ROWS
     assert [table["column_count"] for table in snapshot["tables"]] == [2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 1, 1]
 
 

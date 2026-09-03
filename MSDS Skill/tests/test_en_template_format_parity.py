@@ -14,7 +14,7 @@ def _xml(element):
     return etree.tostring(element, method="c14n") if element is not None else b""
 
 
-def test_en_text_format_is_restored_from_the_maintained_template():
+def test_en_text_format_is_restored_from_the_active_en_template():
     template = ROOT / "examples" / "template_reference_en.docx"
     document = Document(str(template))
     target = document.tables[0].cell(1, 1).paragraphs[0]

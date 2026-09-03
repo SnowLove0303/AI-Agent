@@ -56,17 +56,27 @@ def normalize_company(doc):
 
 def main():
     ap=argparse.ArgumentParser()
-    ap.add_argument('--template',required=True)
+    # ``--template`` remains a compatibility alias for older same-template
+    # callers.  New releases must pass the independent CN and EN baselines.
+    ap.add_argument('--template')
+    ap.add_argument('--template-cn')
+    ap.add_argument('--template-en')
     ap.add_argument('--cn-gz',required=True); ap.add_argument('--cn-gc',required=True)
     ap.add_argument('--en-gz',required=True); ap.add_argument('--en-gc',required=True)
     a=ap.parse_args()
-    td=Document(a.template); docs={k:Document(v) for k,v in {'cn_gz':a.cn_gz,'cn_gc':a.cn_gc,'en_gz':a.en_gz,'en_gc':a.en_gc}.items()}
+    template_cn = a.template_cn or a.template
+    template_en = a.template_en or a.template
+    if not template_cn or not template_en:
+        ap.error('provide --template-cn and --template-en (or legacy --template)')
+    templates = {'cn': Document(template_cn), 'en': Document(template_en)}
+    docs={k:Document(v) for k,v in {'cn_gz':a.cn_gz,'cn_gc':a.cn_gc,'en_gz':a.en_gz,'en_gc':a.en_gc}.items()}
     errors=[]
-    tg=geom(td)
     for k,d in docs.items():
-        if len(d.tables)!=len(td.tables): errors.append(f'{k}: table count {len(d.tables)} != template {len(td.tables)}')
+        language = 'en' if k.startswith('en_') else 'cn'
+        tg=geom(templates[language])
+        if len(d.tables)!=len(templates[language].tables): errors.append(f'{k}: table count {len(d.tables)} != {language} template {len(templates[language].tables)}')
         # Geometry invariant on surviving rows: column count and tcPr must remain template-compatible.
-        for ti,t in enumerate(d.tables[:len(td.tables)]):
+        for ti,t in enumerate(d.tables[:len(templates[language].tables)]):
             allowed_cols={tuple(x) for x in [tg[ti]['cols']]}
             template_col_counts=set(tg[ti]['cols'])
             for ri,r in enumerate(t.rows):
@@ -77,6 +87,6 @@ def main():
     # Same-language company parity outside supplier rows.
     if normalize_company(docs['cn_gz']) != normalize_company(docs['cn_gc']): errors.append('CN Guanzhi/Guocai differ outside company whitelist')
     if normalize_company(docs['en_gz']) != normalize_company(docs['en_gc']): errors.append('EN Guanzhi/Guocai differ outside company whitelist')
-    print(json.dumps({'template_sha256':sha(a.template),'errors':errors},ensure_ascii=False,indent=2))
+    print(json.dumps({'template_sha256_cn':sha(template_cn),'template_sha256_en':sha(template_en),'errors':errors},ensure_ascii=False,indent=2))
     return 1 if errors else 0
 if __name__=='__main__': raise SystemExit(main())

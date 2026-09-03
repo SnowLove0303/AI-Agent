@@ -83,15 +83,35 @@ def template_for(language: str) -> Path:
 
 
 def template_geometry(language: str) -> dict:
-    # CN and the normalized EN baseline intentionally expose identical
-    # section positions and row capacities.  Output-only mutations expand S3
-    # and suppress/renumber S9 later in the pipeline.
     if language not in {"zh", "en"}:
         raise ValueError(f"unsupported language: {language}")
+    # CN and EN are language-specific templates.  Their shared semantic
+    # model does not require identical physical row counts: the supplied EN
+    # template has no separate Chinese-name row in Section 1.
+    rows = (
+        [10, 16, 6, 6, 5, 4, 3, 12, 24, 6, 18, 6, 3, 5, 9, 2]
+        if language == "zh"
+        else [9, 16, 6, 6, 5, 4, 3, 12, 24, 6, 18, 6, 3, 5, 9, 2]
+    )
     return {
         "table_count": 16,
-        "rows": [10, 16, 6, 6, 5, 4, 3, 12, 24, 6, 18, 6, 3, 5, 9, 2],
+        "rows": rows,
     }
+
+
+def project_rows_to_template(values, language: str, section: int, table: object) -> list:
+    """Project shared semantic rows onto the language-specific template slots.
+
+    The EN reference intentionally omits the separate ``Chinese name`` slot
+    that exists in the CN reference.  The semantic model may still retain
+    that field for CN output; EN mapping drops only that unsupported slot and
+    writes the chemical classification into the template's ``Chemical
+    category`` value cell.  No row is inserted or rebuilt.
+    """
+    rows = list(values)
+    if language == "en" and section == 1 and len(table.rows) == 9 and len(rows) == 9:
+        return [rows[0], *rows[2:]]
+    return rows
 
 
 def validate_template_capacity(doc: Document, language: str) -> None:
@@ -260,7 +280,7 @@ def write_body(doc: Document, facts: dict, language: str):
     clear_template_values(doc)
     for sec in range(1, 17):
         table = doc.tables[sec - 1]
-        rows = facts[f"s{sec}"]
+        rows = project_rows_to_template(facts[f"s{sec}"], language, sec, table)
         for ri, values in enumerate(rows, 1):
             if ri >= len(table.rows):
                 raise RuntimeError(f"template capacity mismatch S{sec}: row {ri}")
@@ -366,8 +386,9 @@ def build_one(language: str, brand: str):
     ensure_s3_component_rows(doc, component_count=4)
     write_body(doc, facts, language)
     if language == "en":
-        # Sync against the untouched maintained EN template before any row
-        # suppression changes physical row indexes.
+        # Re-assert value-cell formatting from the exact active EN template
+        # before any row suppression changes physical row indexes.  This is a
+        # template-format sync, not a CN-to-EN normalization or redesign.
         normalize_en_document(doc, template_path=TEMPLATE_EN)
     s2_policy = suppress_missing_section2_rows_and_renumber(doc, set_paragraph_text)
     section9_policy = suppress_missing_section9_rows_and_renumber(doc)
@@ -378,6 +399,7 @@ def build_one(language: str, brand: str):
     else:
         normalize_footer(doc)
     doc.save(out_docx)
+    output_rows = [len(table.rows) for table in doc.tables]
     audit = {
         "product": "PU-2345",
         "brand": brand,
@@ -389,7 +411,7 @@ def build_one(language: str, brand: str):
         "template_source_reference": str(TEMPLATE_EN_SOURCE) if language == "en" else None,
         "template_source_reference_sha256": sha256(TEMPLATE_EN_SOURCE) if language == "en" else None,
         "template_geometry": template_geometry(language),
-        "output_geometry": {"table_count": 16, "rows": [10, 16, 8, 6, 5, 4, 3, 12, 14, 6, 18, 6, 3, 5, 9, 2], "s3_component_rows": 4},
+        "output_geometry": {"table_count": 16, "rows": output_rows, "s3_component_rows": 4},
         "section9_policy": section9_policy,
         "status": "ready",
         "formal_ready": True,
@@ -407,6 +429,8 @@ def main():
     for template in (TEMPLATE_CN, TEMPLATE_EN_SOURCE, TEMPLATE_EN):
         if not template.is_file():
             raise FileNotFoundError(template)
+    if sha256(TEMPLATE_EN) != sha256(TEMPLATE_EN_SOURCE):
+        raise RuntimeError("active EN template must remain byte-identical to the supplied EN source record")
     OUT_ROOT.mkdir(parents=True, exist_ok=True)
     audits = [build_one(language, brand) for brand in ("guanzhi", "guocai") for language in ("zh", "en")]
     report = {

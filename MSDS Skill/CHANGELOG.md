@@ -1,5 +1,12 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.11.0 — 2026-09-03
+- Corrected the EN template authority: `examples/template_reference_en.docx` now uses the user-supplied `模板_MSDS_EN_冠志 - 副本.docx` byte-for-byte with SHA-256 `415bcaf73256c17b3707c4d660dc6f5c4b7f69e2ab5d728ec8f3108dde16b569`.
+- Preserved the previous normalized EN baseline as `examples/archive/template_reference_en_v3.10_normalized.docx`; it is rollback/audit evidence only and is not used for generation.
+- Removed the false CN/EN physical-capacity assumption. EN Section 1 remains the supplied 9-row structure, while CN remains the independent 10-row structure; the shared semantic model projects only fields supported by each template.
+- Updated EN geometry snapshots, hash/lineage checks, capacity validation, generator mapping and template-format parity coverage. Section 8 hand protection/8.2 and Section 11 through 11.10 remain template-owned.
+- Preserved all v2.9/v3.2/v3.3/v3.8/v3.9/v3.10 overwrite rules, unified semantic model, four-language/company matrix, source-only facts, DOCX-first WPS/Word-compatible PDF conversion, release blockers and page-by-page QA.
+
 ## v3.10.0 — 2026-09-03
 - Fixed the single DOCX-to-PDF publication adapter to use the native WPS/Word-compatible `word2pdf` exporter. LibreOffice is no longer a silent alternate renderer because it produced material pagination and table-layout drift from the approved Word/WPS baseline.
 - Added a unified customer-deliverable evaluation standard with a fixed 100-point model and separate release outcome.

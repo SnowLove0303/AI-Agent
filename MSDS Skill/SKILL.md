@@ -3,7 +3,7 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS Word standardization skill that converts a source MSDS into synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, with professional SDS English, source-grounded facts, locked template geometry, structured Section 11 handling, continuous numbering, company overlays, and mandatory render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.9
+# Unified MSDS Eight-Deliverable Standardizer v3.11
 
 ## Mandatory v2.9 inheritance (release blocker)
 
@@ -42,17 +42,20 @@ The language-specific template baselines are authoritative:
 
 - CN: `examples/template_reference.docx`, derived from the newer user-supplied `模板_MSDS_CN_冠志.docx`.
 - EN source record: `examples/template_reference_en_source.docx`, an unchanged copy of the user-supplied `模板_MSDS_EN_冠志 - 副本.docx`.
-- EN maintained baseline: `examples/template_reference_en.docx`, normalized from the source record only to restore the missing Section 1.1 row while preserving the supplied EN table geometry and formatting anchors.
+- EN active baseline: `examples/template_reference_en.docx`, byte-identical to the supplied `模板_MSDS_EN_冠志 - 副本.docx`.
+- The former normalized EN baseline is retained separately at `examples/archive/template_reference_en_v3.10_normalized.docx` and is historical evidence only; it is not an active template.
 
 Pinned SHA-256:
 
 - CN: `cbbf558fb6511edecd8b6a44d3e6bde23ce8a01d715e370d5a19ddc1978a1c9c`
 - EN source: `415bcaf73256c17b3707c4d660dc6f5c4b7f69e2ab5d728ec8f3108dde16b569`
-- EN maintained baseline: `b36d542e7e000c7fa979875f127459505dc9f7d9e0b9180ecb1f3856fd74103f`.
+- EN active baseline: `415bcaf73256c17b3707c4d660dc6f5c4b7f69e2ab5d728ec8f3108dde16b569`.
 
 Structural baseline:
 - 16 tables
-- row counts: `[10,16,6,6,5,4,3,12,24,6,18,6,3,5,9,2]`
+- CN row counts: `[10,16,6,6,5,4,3,12,24,6,18,6,3,5,9,2]`
+- EN row counts: `[9,16,6,6,5,4,3,12,24,6,18,6,3,5,9,2]`
+- CN and EN are intentionally different physical templates. Shared semantic content and overwrite rules do not require identical physical row counts or label wording.
 - Section 11 current multi-column/merged-cell geometry is locked.
 - Section 12 current 6-row geometry is locked.
 - Section 15 current 9-row geometry is locked.
@@ -61,14 +64,14 @@ Structural baseline:
 - Section 11 includes the uploaded template's structured rows through `11.10 Additional information`.
 - The v3.6.2 template geometry update changes only approved border styling: Section 8 internal PPE boundaries use dotted borders with the adjusted boundary edges around the first exposure-control rows; Section 11 uses dotted boundary edges around its introductory/reference-data transition row. No table count, row count, grid width, merge, paragraph-property or run-property baseline changed.
 - The complete structural snapshot, including paragraph/run properties and header/footer parts, is pinned in `tests/template_snapshot.json`.
-- The EN structural snapshot, including the source-copy hash and normalized baseline geometry, is pinned in `tests/template_snapshot_en.json`.
+- The EN structural snapshot, including the exact supplied-template hash and geometry, is pinned in `tests/template_snapshot_en.json`; the versioned v3.11 copy is `tests/template_snapshot_en_v311.json`.
 - Section 3 component rule: every component occupies exactly one physical data row. Never pack multiple component names, CAS numbers or concentrations into one row separated by line breaks. If the source has more components than the template's initial slots, clone the existing styled component row in place and preserve its OOXML geometry.
 
 A newer user-approved template immediately supersedes this one. Do not restore geometry or paragraph formatting from older outputs. Text visible in the template (including PEA-4139, example ingredients, hazards, toxicology and ecology values) is illustrative structure only and MUST NOT become product facts.
 
 
 ## 2A. Highest-priority in-place overwrite contract
-This rule overrides every language/layout convenience rule. Each CN deliverable MUST be created by cloning `examples/template_reference.docx`; each EN deliverable MUST be created by cloning `examples/template_reference_en.docx`; all four are then mutated in place. Never create an EN document from a blank document, from a rebuilt table set, or from a rendered CN output.
+This rule overrides every language/layout convenience rule. Each CN deliverable MUST be created by cloning `examples/template_reference.docx`; each EN deliverable MUST be created by cloning the independent `examples/template_reference_en.docx`; all four are then mutated in place. Never create an EN document from a blank document, from a rebuilt table set, or from a rendered CN output. Never add a CN-only row to the EN template merely to equalize section capacity.
 
 The template owns: table count/order, row/column geometry, grid, merges, cell properties, borders, widths, section placement, label cells, paragraph properties, and character-format anchors. The source owns facts only. The language layer may select an existing language-appropriate template label, but it may not generically rewrite, rebuild or normalize sequence/label cells.
 
@@ -361,11 +364,12 @@ CN pass after all facts are written.
   reference is a release blocker even when the PDF is technically readable.
 
 ## 17C. EN output-layout compatibility (mandatory for EN outputs)
-The supplied EN template is the source of the English table/section layout, but
-its inherited paragraph settings can produce stretched word gaps and broken
-short labels under office-engine substitutions. After EN content and company overlay are
-written, run `scripts/normalize_en_layout.py` through its
-`normalize_en_document()` entry point with the maintained EN template path.
+The supplied EN template is the sole source of the English table/section
+layout. After EN content and company overlay are written, run
+`scripts/normalize_en_layout.py` through its `normalize_en_document()` entry
+point with the active EN template path only to re-assert value-cell paragraph
+and run properties from that same template. This is a controlled format sync;
+it must not normalize EN to CN, add rows, or redesign labels/geometry.
 
 - The production pass does not rebuild tables, change row/column counts, grid
   widths, merges, borders or facts. It restores paragraph and run properties
@@ -386,7 +390,7 @@ written, run `scripts/normalize_en_layout.py` through its
   maintained baseline is a release blocker.
 - EN body value paragraphs and runs must pass a template-format parity audit;
   an output that is semantically correct but uses a different paragraph/run
-  format from the maintained EN template is blocked.
+  format from the active EN template is blocked.
 
 ## 18. Maintenance rule
 This is the only maintained skill. When a rule changes (for example Section 11, omission, numbering, template geometry, company profile, CN layout compatibility or PDF conversion), record the user's observed failure as a regression case, update the shared semantic policy once, and add tests that cover both languages and both companies. A release is not complete until the same real input is replayed through the complete DOCX-first pipeline and the feedback case is demonstrably closed. Do not fork separate CN/EN skills again.
