@@ -1,4 +1,4 @@
-# MSDS Skill 3.9.0
+# MSDS Skill 3.10.0
 
 `MSDS Skill` is the controlled MSDS/SDS standardization skill for producing synchronized Chinese and English deliverables for the Guanzhi and Guocai company profiles.
 
@@ -20,6 +20,9 @@
   explicit Section 11 aliases may change.
 - Source `主要粘膜刺激性` is mapped to the existing `11.3 主要眼睛刺激性`
   endpoint without inventing an additional conclusion or moving it to 11.10.
+- A unified deliverable evaluation layer assigns a fixed 100-point quality
+  score, applies B0/B1/B2 release blockers, and emits one evidence-complete
+  audit report for every eight-file package.
 
 ## Entrypoint
 
@@ -27,7 +30,7 @@ Read [`SKILL.md`](SKILL.md) for the operating contract. The reusable scripts, te
 
 ## Version
 
-Public release: `MSDS Skill 3.9.0`
+Public release: `MSDS Skill 3.10.0`
 
 Template baseline: the supplied CN/EN maintained templates, with CN SHA-256
 `cbbf558fb6511edecd8b6a44d3e6bde23ce8a01d715e370d5a19ddc1978a1c9c` and EN
@@ -36,3 +39,17 @@ SHA-256 `b36d542e7e000c7fa979875f127459505dc9f7d9e0b9180ecb1f3856fd74103f`.
 The public release contains Skill source and validation assets only.
 Customer-specific generated files, temporary runs, rendered QA images and
 interpreter caches are not part of the release.
+
+Run the unified release audit with:
+
+```powershell
+python scripts/audit_deliverable_package.py <package-root> <MODEL> `
+  --template-cn examples/template_reference.docx `
+  --template-en examples/template_reference_en.docx
+```
+
+The command writes `audit/deliverable-audit.json` and
+`audit/deliverable-audit.txt`. `RELEASE_PASS` requires a complete eight-file
+matrix, complete evidence, no B0/B1 blocker and a score of at least 95/100.
+Read `docs/deliverable_evaluation_standard.md` and
+`docs/deliverable_audit_checklist.md` for the customer-delivery gate.

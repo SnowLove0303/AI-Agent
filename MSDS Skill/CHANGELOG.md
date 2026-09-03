@@ -1,5 +1,12 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.10.0 — 2026-09-03
+- Added a unified customer-deliverable evaluation standard with a fixed 100-point model and separate release outcome.
+- Added B0/B1/B2 blocker precedence so score cannot override template, source-fidelity, PDF-lineage or package failures.
+- Added a complete stable-ID audit checklist, evidence schema and human-readable/JSON report contract.
+- Added deterministic eight-file discovery and DOCX/PDF pairing primitives plus an orchestrator that fails closed on missing evidence.
+- Preserved the V2.9 inheritance contract, V3.8/V3.9 template, whitelist, semantic model, four-format matrix and DOCX-first PDF behavior.
+
 ## v3.9.0 — 2026-09-03
 - Added the executable template mutation whitelist based on the Feishu “17节Section 标准骨架结构” contract.
 - Locked sequence/label cell formatting and wording by default; ordinary writes now target only existing value cells, with explicit S3/S8.2/note-slot exceptions.

@@ -390,3 +390,23 @@ written, run `scripts/normalize_en_layout.py` through its
 
 ## 18. Maintenance rule
 This is the only maintained skill. When a rule changes (for example Section 11, omission, numbering, template geometry, company profile, CN layout compatibility or PDF conversion), record the user's observed failure as a regression case, update the shared semantic policy once, and add tests that cover both languages and both companies. A release is not complete until the same real input is replayed through the complete DOCX-first pipeline and the feedback case is demonstrably closed. Do not fork separate CN/EN skills again.
+
+## 19. Deliverable evaluation and audit evidence (mandatory)
+
+Before a customer delivery, run `scripts/audit_deliverable_package.py` against
+the complete eight-file package. This audit layer is additive to every prior
+release gate and does not replace the source-grounded semantic pipeline,
+template geometry audit, mutation whitelist, V2.9 inheritance audit or
+page-by-page QA.
+
+- Use the fixed 100-point model in `docs/deliverable_evaluation_standard.md`.
+- Apply the stable-ID checklist in `docs/deliverable_audit_checklist.md`.
+- Treat `B0` and `B1` as non-overridable blockers; `B2` must remain visible in
+  the evidence report even when it does not block release.
+- A missing, duplicate, unparsed or untested rule is not a pass. The final
+  decision must be `NOT_READY` or `RELEASE_FAIL` until evidence is complete.
+- JSON and TXT audit reports are release evidence. Every record must identify
+  its source of truth, method, pass condition, observed result and evidence
+  path as defined in `docs/audit_evidence_schema.md`.
+- A score of 95/100 is necessary but not sufficient: `RELEASE_PASS` also
+  requires zero B0/B1 blockers and complete evidence.
