@@ -21,6 +21,16 @@ def test_pdf_path_forbids_independent_authoring():
     assert "independent_pdf_authoring" in (ROOT / "scripts" / "convert_docx_to_pdf.py").read_text(encoding="utf-8")
 
 
+def test_converter_uses_one_native_wps_word2pdf_path_without_renderer_fallback():
+    converter = (ROOT / "scripts" / "convert_docx_to_pdf.py").read_text(encoding="utf-8")
+    assert "word2pdf" in converter
+    assert "WPSCLI_PATH" in converter
+    assert "find_wpscli" in converter
+    assert "libreoffice" not in converter.lower()
+    assert "soffice" not in converter.lower()
+    assert "source_is_final_docx" in converter
+
+
 def test_upstream_adoption_is_documented():
     assert "github.com/Guki125/dconv" in ADOPTION
     assert "github.com/AlJohri/docx2pdf" in ADOPTION

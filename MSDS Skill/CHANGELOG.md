@@ -1,6 +1,7 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
 ## v3.10.0 — 2026-09-03
+- Fixed the single DOCX-to-PDF publication adapter to use the native WPS/Word-compatible `word2pdf` exporter. LibreOffice is no longer a silent alternate renderer because it produced material pagination and table-layout drift from the approved Word/WPS baseline.
 - Added a unified customer-deliverable evaluation standard with a fixed 100-point model and separate release outcome.
 - Added B0/B1/B2 blocker precedence so score cannot override template, source-fidelity, PDF-lineage or package failures.
 - Added a complete stable-ID audit checklist, evidence schema and human-readable/JSON report contract.

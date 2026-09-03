@@ -2,8 +2,11 @@
 """Deterministic DOCX -> PDF publication adapter for the MSDS skill.
 
 The adapter deliberately accepts one already-audited DOCX and writes one PDF.
-It uses an isolated LibreOffice profile and a temporary output directory so a
-failed conversion never leaves a partially written customer PDF behind.
+It uses the host's native WPS/Word-compatible ``word2pdf`` exporter and a
+temporary output directory so a failed conversion never leaves a partially
+written customer PDF behind.  There is intentionally no renderer fallback:
+two office engines can produce materially different pagination and table
+geometry from the same DOCX.
 """
 from __future__ import annotations
 
@@ -28,27 +31,54 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def find_soffice(explicit: str | None = None) -> str:
+def _registry_wps_paths() -> list[str]:
+    if os.name != "nt":
+        return []
+    try:
+        import winreg
+
+        paths = []
+        locations = (
+            (winreg.HKEY_CURRENT_USER, r"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\wps.exe"),
+            (winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\wps.exe"),
+            (winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\App Paths\wps.exe"),
+        )
+        for hive, key_path in locations:
+            try:
+                with winreg.OpenKey(hive, key_path) as key:
+                    value, _ = winreg.QueryValueEx(key, None)
+                if value:
+                    office_dir = Path(value).expanduser().resolve().parent
+                    paths.extend((str(office_dir / "kwpsconvert.exe"), str(office_dir / "wpscli.exe")))
+            except (FileNotFoundError, OSError):
+                continue
+        return paths
+    except (ImportError, OSError):  # pragma: no cover - non-Windows fallback
+        return []
+
+
+def find_wpscli(explicit: str | None = None) -> str:
     candidates = []
     if explicit:
         candidates.append(explicit)
-    env_path = os.environ.get("SOFFICE_PATH")
+    env_path = os.environ.get("WPSCLI_PATH")
     if env_path:
         candidates.append(env_path)
-    candidates.extend(("soffice.com", "soffice.exe", "soffice"))
+    candidates.extend(("kwpsconvert.exe", "wpscli.exe"))
+    candidates.extend(_registry_wps_paths())
     for candidate in candidates:
         resolved = shutil.which(candidate) or candidate
         if Path(resolved).exists() or shutil.which(candidate):
             return str(resolved)
     raise FileNotFoundError(
-        "LibreOffice executable not found; set SOFFICE_PATH or pass --soffice"
+        "WPS CLI converter not found; set WPSCLI_PATH or pass --wpscli"
     )
 
 
-def version(soffice: str) -> str:
+def version(wpscli: str) -> str:
     try:
         result = subprocess.run(
-            [soffice, "--version"],
+            [wpscli, "--version"],
             check=False,
             capture_output=True,
             text=True,
@@ -72,7 +102,7 @@ def count_pdf_pages(path: Path) -> int | None:
         return len(matches) or None
 
 
-def convert(input_path: Path, output_path: Path, timeout: int = 180, soffice: str | None = None) -> dict:
+def convert(input_path: Path, output_path: Path, timeout: int = 300, wpscli: str | None = None) -> dict:
     input_path = input_path.resolve()
     output_path = output_path.resolve()
     if not input_path.is_file():
@@ -82,7 +112,7 @@ def convert(input_path: Path, output_path: Path, timeout: int = 180, soffice: st
     if input_path == output_path:
         raise ValueError("input DOCX and output PDF must be different files")
 
-    executable = find_soffice(soffice)
+    executable = find_wpscli(wpscli)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     started = time.time()
     source_hash = sha256(input_path)
@@ -92,22 +122,17 @@ def convert(input_path: Path, output_path: Path, timeout: int = 180, soffice: st
 
     # Keep the converted temporary file on the destination volume: Windows
     # cannot atomically replace a file across volumes (for example C: -> F:).
-    with tempfile.TemporaryDirectory(prefix="msds_lo_profile_") as profile, tempfile.TemporaryDirectory(
-        prefix="msds_pdf_output_", dir=str(output_path.parent)
+    with tempfile.TemporaryDirectory(
+        prefix="msds_wps_pdf_output_", dir=str(output_path.parent)
     ) as converted:
-        profile_uri = Path(profile).resolve().as_uri()
+        generated = Path(converted) / output_path.name
         command = [
             executable,
-            "--headless",
-            "--nologo",
-            "--nodefault",
-            "--norestore",
-            f"-env:UserInstallation={profile_uri}",
-            "--convert-to",
-            "pdf:writer_pdf_Export",
-            "--outdir",
-            converted,
+            "word2pdf",
             str(input_path),
+            "--output",
+            str(generated),
+            "--json",
         ]
         try:
             result = subprocess.run(
@@ -121,19 +146,19 @@ def convert(input_path: Path, output_path: Path, timeout: int = 180, soffice: st
                 creationflags=flags,
             )
         except subprocess.TimeoutExpired as exc:
-            raise RuntimeError(f"LibreOffice conversion timed out after {timeout}s") from exc
-        generated = Path(converted) / f"{input_path.stem}.pdf"
+            raise RuntimeError(f"WPS DOCX-to-PDF conversion timed out after {timeout}s") from exc
         if result.returncode != 0 or not generated.is_file() or generated.stat().st_size == 0:
             diagnostics = "\n".join(x for x in (result.stdout, result.stderr) if x)
             raise RuntimeError(
-                f"LibreOffice conversion failed (returncode={result.returncode}).\n{diagnostics}"
+                f"WPS DOCX-to-PDF conversion failed (returncode={result.returncode}).\n{diagnostics}"
             )
         os.replace(generated, output_path)
 
     if not output_path.is_file() or output_path.stat().st_size == 0:
         raise RuntimeError(f"conversion produced no usable PDF: {output_path}")
     evidence = {
-        "converter": "libreoffice-headless",
+        "converter": "wpscli-word2pdf",
+        "converter_executable": str(executable),
         "converter_version": version(executable),
         "source_docx": str(input_path),
         "source_sha256": source_hash,
@@ -152,11 +177,11 @@ def main() -> int:
     parser.add_argument("input_docx", type=Path)
     parser.add_argument("output_pdf", type=Path)
     parser.add_argument("--evidence", type=Path)
-    parser.add_argument("--soffice")
-    parser.add_argument("--timeout", type=int, default=180)
+    parser.add_argument("--wpscli")
+    parser.add_argument("--timeout", type=int, default=300)
     args = parser.parse_args()
     try:
-        evidence = convert(args.input_docx, args.output_pdf, args.timeout, args.soffice)
+        evidence = convert(args.input_docx, args.output_pdf, args.timeout, args.wpscli)
     except Exception as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1

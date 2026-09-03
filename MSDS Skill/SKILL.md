@@ -316,9 +316,9 @@ Hard rules:
 - One-to-one basename parity between every DOCX and PDF.
 - PDF content must not be separately translated, edited, reflowed, redrawn, or regenerated with ReportLab.
 - Convert only after the corresponding DOCX passes all semantic, geometry, numbering, company, identity, header/footer, and terminology audits.
-- Use the bundled `scripts/convert_docx_to_pdf.py` adapter for one-to-one DOCX-to-PDF publication. It uses LibreOffice headless with an isolated profile, temporary output and atomic target replacement. Read `docs/pdf_converter_adoption.md` before changing the converter.
+- Use the bundled `scripts/convert_docx_to_pdf.py` adapter for one-to-one DOCX-to-PDF publication. It uses the host's native WPS/Word-compatible `word2pdf` exporter, temporary output and atomic target replacement. Read `docs/pdf_converter_adoption.md` before changing the converter.
 - The adapter must receive the exact final audited DOCX, write the same-basename PDF, and record source/target SHA-256, converter version, page count and elapsed time in an evidence JSON file.
-- If the host has no LibreOffice, do not silently switch to an unverified PDF authoring path. A Word-backed converter may be added only as an explicitly tested alternative with its own environment gate.
+- If the host has no WPS/Word-compatible CLI converter, fail closed and do not silently switch to LibreOffice, ReportLab, PDF redrawing or another unverified PDF authoring path. A different renderer requires an explicitly tested layout baseline and a separately approved Skill change.
 - Render every final PDF with `/home/oai/skills/pdfs/scripts/render_pdf.py` and inspect every page.
 - Release blockers: conversion failure, zero-byte PDF, broken/missing glyphs, clipping, overlap, broken tables, missing header/footer, page-number failure, or material visual divergence from the corresponding DOCX render.
 - PDF page count MUST equal the rendered page count of its corresponding DOCX. Different language/company variants may naturally have different page counts.
@@ -335,9 +335,9 @@ Eight-file release gate:
 
 ## 17B. CN compact-layout compatibility (mandatory for CN outputs)
 The approved CN reference PDF is a visual compatibility baseline. Under the
-available LibreOffice conversion engine, the uploaded WPS/Word-style template's
-inherited table-body formatting expands materially unless a controlled CN pass
-is applied after all facts are written.
+approved WPS/Word-compatible conversion engine, the uploaded WPS/Word-style
+template's inherited table-body formatting must be normalized by the controlled
+CN pass after all facts are written.
 
 - After the final CN content and company overlay are written, run
   `scripts/compact_cn_layout.py` through its `compact_cn_document()` entry point.
@@ -363,7 +363,7 @@ is applied after all facts are written.
 ## 17C. EN output-layout compatibility (mandatory for EN outputs)
 The supplied EN template is the source of the English table/section layout, but
 its inherited paragraph settings can produce stretched word gaps and broken
-short labels under LibreOffice. After EN content and company overlay are
+short labels under office-engine substitutions. After EN content and company overlay are
 written, run `scripts/normalize_en_layout.py` through its
 `normalize_en_document()` entry point with the maintained EN template path.
 
