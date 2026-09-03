@@ -3,7 +3,7 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS Word standardization skill that converts a source MSDS into synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, with professional SDS English, source-grounded facts, locked template geometry, structured Section 11 handling, continuous numbering, company overlays, and mandatory render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.11
+# Unified MSDS Eight-Deliverable Standardizer v3.12
 
 ## Mandatory v2.9 inheritance (release blocker)
 
@@ -41,15 +41,16 @@ Hard rules:
 The language-specific template baselines are authoritative:
 
 - CN: `examples/template_reference.docx`, derived from the newer user-supplied `模板_MSDS_CN_冠志.docx`.
-- EN source record: `examples/template_reference_en_source.docx`, an unchanged copy of the user-supplied `模板_MSDS_EN_冠志 - 副本.docx`.
-- EN active baseline: `examples/template_reference_en.docx`, byte-identical to the supplied `模板_MSDS_EN_冠志 - 副本.docx`.
+- EN source record: `examples/template_reference_en_source.docx`, an unchanged copy of the latest user-supplied `模板_MSDS_EN_冠志 - 副本.docx`.
+- EN active baseline: `examples/template_reference_en.docx`, byte-identical to that latest supplied EN template.
+- The previous v3.11 EN baseline is retained at `examples/archive/template_reference_en_v3.11_pre_field_update.docx` for rollback/audit only.
 - The former normalized EN baseline is retained separately at `examples/archive/template_reference_en_v3.10_normalized.docx` and is historical evidence only; it is not an active template.
 
 Pinned SHA-256:
 
 - CN: `cbbf558fb6511edecd8b6a44d3e6bde23ce8a01d715e370d5a19ddc1978a1c9c`
-- EN source: `415bcaf73256c17b3707c4d660dc6f5c4b7f69e2ab5d728ec8f3108dde16b569`
-- EN active baseline: `415bcaf73256c17b3707c4d660dc6f5c4b7f69e2ab5d728ec8f3108dde16b569`.
+- EN source: `2f287b544705d0db7ff724610c6f7878a88ff2912bbf074151e107f36a588a0e`
+- EN active baseline: `2f287b544705d0db7ff724610c6f7878a88ff2912bbf074151e107f36a588a0e`.
 
 Structural baseline:
 - 16 tables
@@ -64,7 +65,7 @@ Structural baseline:
 - Section 11 includes the uploaded template's structured rows through `11.10 Additional information`.
 - The v3.6.2 template geometry update changes only approved border styling: Section 8 internal PPE boundaries use dotted borders with the adjusted boundary edges around the first exposure-control rows; Section 11 uses dotted boundary edges around its introductory/reference-data transition row. No table count, row count, grid width, merge, paragraph-property or run-property baseline changed.
 - The complete structural snapshot, including paragraph/run properties and header/footer parts, is pinned in `tests/template_snapshot.json`.
-- The EN structural snapshot, including the exact supplied-template hash and geometry, is pinned in `tests/template_snapshot_en.json`; the versioned v3.11 copy is `tests/template_snapshot_en_v311.json`.
+- The EN structural snapshot, including the exact supplied-template hash and geometry, is pinned in `tests/template_snapshot_en.json`; the versioned v3.12 copy is `tests/template_snapshot_en_v312.json`.
 - Section 3 component rule: every component occupies exactly one physical data row. Never pack multiple component names, CAS numbers or concentrations into one row separated by line breaks. If the source has more components than the template's initial slots, clone the existing styled component row in place and preserve its OOXML geometry.
 
 A newer user-approved template immediately supersedes this one. Do not restore geometry or paragraph formatting from older outputs. Text visible in the template (including PEA-4139, example ingredients, hazards, toxicology and ecology values) is illustrative structure only and MUST NOT become product facts.
@@ -376,8 +377,10 @@ it must not normalize EN to CN, add rows, or redesign labels/geometry.
   from the maintained EN template after text replacement. A global font/size
   reset is not permitted because it breaks template text-format parity. Keep
   Section 11 sublabels (`Oral`, `Inhalation`, `Dermal`, `Fertility`,
-  `Developmental toxicity` and `In-vitro genetic toxicity`) in their approved
-  template cells.
+  `Teratogenicity` and `In vitro genotoxicity`) in their approved template
+  cells. These six Section 11 route/sublabel fields are the latest EN template
+  labels: `Oral:`, `Inhalation:`, `Dermal:`, `Fertility:`, `Teratogenicity:`
+  and `In vitro genotoxicity:`.
 - The EN locked-label audit must be run with `--language en`; it permits only
   the documented EN paragraph-layout normalization while continuing to check
   the ordered label anchors, table/cell positions and run properties.

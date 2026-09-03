@@ -20,8 +20,8 @@ def test_en_layout_policy_removes_duplicate_first_heading_and_wrap_risk(tmp_path
         4: "Inhalation",
         5: "Dermal",
         12: "Fertility",
-        13: "Developmental toxicity",
-        14: "In-vitro genetic toxicity",
+        13: "Teratogenicity",
+        14: "In vitro genotoxicity",
     }.items():
         section11.rows[row_index].cells[1].text = text
     normalize_en_document(doc)
@@ -31,6 +31,6 @@ def test_en_layout_policy_removes_duplicate_first_heading_and_wrap_risk(tmp_path
     assert checked.tables[0].cell(0, 0).text == "Identification"
     assert checked.tables[10].cell(4, 1).text == "Inhalation"
     assert checked.tables[10].cell(5, 1).text == "Dermal"
-    assert checked.tables[10].cell(13, 1).text == "Developmental toxicity"
-    assert checked.tables[10].cell(14, 1).text == "In-vitro genetic toxicity"
+    assert checked.tables[10].cell(13, 1).text == "Teratogenicity"
+    assert checked.tables[10].cell(14, 1).text == "In vitro genotoxicity"
     assert checked.tables[12].cell(2, 1).paragraphs[0].alignment == 0

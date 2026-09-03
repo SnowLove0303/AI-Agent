@@ -4,8 +4,9 @@
 The language-specific files below are the authoritative MSDS templates bundled with this skill:
 
 - CN: `examples/template_reference.docx`
-- EN source record: `examples/template_reference_en_source.docx` (byte-preserved copy of the user-supplied file)
-- EN active baseline: `examples/template_reference_en.docx` (byte-identical to the user-supplied EN template)
+- EN source record: `examples/template_reference_en_source.docx` (byte-preserved copy of the latest user-supplied file)
+- EN active baseline: `examples/template_reference_en.docx` (byte-identical to the latest user-supplied EN template)
+- Previous v3.11 EN baseline: `examples/archive/template_reference_en_v3.11_pre_field_update.docx` (rollback/audit only; not active)
 - Historical normalized EN baseline: `examples/archive/template_reference_en_v3.10_normalized.docx` (retained for rollback/audit only; not active)
 
 Pinned source filenames supplied by the user: `模板_MSDS_CN_冠志.docx` for CN and
@@ -13,9 +14,9 @@ Pinned source filenames supplied by the user: `模板_MSDS_CN_冠志.docx` for C
 
 CN SHA-256: `cbbf558fb6511edecd8b6a44d3e6bde23ce8a01d715e370d5a19ddc1978a1c9c`
 
-EN source SHA-256: `415bcaf73256c17b3707c4d660dc6f5c4b7f69e2ab5d728ec8f3108dde16b569`
+EN source SHA-256: `2f287b544705d0db7ff724610c6f7878a88ff2912bbf074151e107f36a588a0e`
 
-EN active SHA-256: `415bcaf73256c17b3707c4d660dc6f5c4b7f69e2ab5d728ec8f3108dde16b569`
+EN active SHA-256: `2f287b544705d0db7ff724610c6f7878a88ff2912bbf074151e107f36a588a0e`
 
 ## Structural baseline
 - 16 tables / MSDS sections.
@@ -31,9 +32,9 @@ EN active SHA-256: `415bcaf73256c17b3707c4d660dc6f5c4b7f69e2ab5d728ec8f3108dde16
 - v3.6.2 border adjustment: Section 8 changes the internal boundaries for the PPE/hand-protection rows to dotted lines and adjusts the surrounding top/bottom boundary edges; Section 11 changes the boundary edges around the introductory/reference-data transition to dotted lines. These are template-owned visual properties and must be retained by fresh-clone generation.
 - v3.6.2 audit finding: table count, row counts, column/grid widths, merges, paragraph properties and character properties are unchanged from v3.6.1; only the approved Section 8/11 cell-border geometry and a non-visible footer table-property extension changed.
 - `tests/template_snapshot.json` records the CN table/cell merges, grid and cell widths, paragraph/run properties, and header/footer parts.
-- `tests/template_snapshot_en.json` and `tests/template_snapshot_en_v311.json` record the exact active EN baseline with the same geometry/property coverage.
+- `tests/template_snapshot_en.json` and `tests/template_snapshot_en_v312.json` record the exact active EN baseline with the same geometry/property coverage.
 - Both language baselines have 16 tables and column counts `2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 1, 1`; their row capacities differ only where the supplied templates differ.
-- The EN source supplied by the user has nine rows in its first table and is used as-is. `scripts/normalize_en_template.py` is retained only as a historical migration utility and must not run in the active v3.11 generation path.
+- The EN source supplied by the user has nine rows in its first table and is used as-is. Its Section 11 sublabels are `Oral:`, `Inhalation:`, `Dermal:`, `Fertility:`, `Teratogenicity:` and `In vitro genotoxicity:`. `scripts/normalize_en_template.py` is retained only as a historical migration utility and must not run in the active v3.12 generation path.
 - Product-like text embedded in either template is example content only; it is never a source of product facts.
 
 ## Replacement procedure

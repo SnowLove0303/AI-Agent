@@ -160,14 +160,14 @@ def normalize_en_document(document, template_path: str | Path | None = None) -> 
             # grid widths or merge topology.
             if table_index == 10 and len(cells) >= 3 and cells[1].text.strip():
                 sublabel = cells[1].text.strip()
-                if sublabel in {
+                if sublabel.rstrip(":：") in {
                     "Oral",
                     "Inhalation",
                     "Dermal",
                     "Overall assessment",
                     "Fertility",
-                    "Developmental toxicity",
-                    "In-vitro genetic toxicity",
+                    "Teratogenicity",
+                    "In vitro genotoxicity",
                 }:
                     for paragraph in cells[1].paragraphs:
                         _set_paragraph_alignment(paragraph, WD_ALIGN_PARAGRAPH.CENTER)

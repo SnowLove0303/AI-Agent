@@ -2,7 +2,7 @@
 """Historical EN-template migration utility.
 
 This utility is retained for v3.10-era rollback and audit reproduction. It is
-not part of the active v3.11 generation path. The active EN baseline is the
+not part of the active v3.12 generation path. The active EN baseline is the
 user-supplied template used byte-for-byte; it must not be normalized to the CN
 geometry or have a Chinese-name row added. It does not translate or invent
 product facts.

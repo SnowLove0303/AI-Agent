@@ -31,11 +31,20 @@ def test_en_template_is_distinct_and_uses_english_section_labels():
     assert "Chinese name:" not in "\n".join(cell.text for row in en.tables[0].rows for cell in row.cells)
     assert "8.2" in "\n".join(cell.text for row in en.tables[7].rows for cell in row.cells)
     assert "11.10" in "\n".join(cell.text for row in en.tables[10].rows for cell in row.cells)
+    assert en.tables[10].cell(3, 1).text == "Oral:"
+    assert en.tables[10].cell(4, 1).text == "Inhalation:"
+    assert en.tables[10].cell(5, 1).text == "Dermal:"
+    # Preserve the punctuation actually present in the user-supplied EN
+    # template: ASCII colons in the acute-toxicity labels and full-width
+    # colons in the reproductive-toxicity labels.
+    assert en.tables[10].cell(12, 1).text == "Fertility："
+    assert en.tables[10].cell(13, 1).text == "Teratogenicity："
+    assert en.tables[10].cell(14, 1).text == "In vitro genotoxicity："
 
 
 def test_en_snapshot_pins_the_supplied_template_hash_and_geometry():
     snapshot = json.loads((ROOT / "tests" / "template_snapshot_en.json").read_text(encoding="utf-8"))
-    assert snapshot["source_sha256"] == "415bcaf73256c17b3707c4d660dc6f5c4b7f69e2ab5d728ec8f3108dde16b569"
+    assert snapshot["source_sha256"] == "2f287b544705d0db7ff724610c6f7878a88ff2912bbf074151e107f36a588a0e"
     assert [table["row_count"] for table in snapshot["tables"]] == EN_ROWS
     assert [table["column_count"] for table in snapshot["tables"]] == [2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 1, 1]
 

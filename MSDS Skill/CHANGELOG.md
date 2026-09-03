@@ -1,5 +1,11 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.12.0 — 2026-09-03
+- Adopted the latest user-supplied EN template as the authoritative source and active baseline with SHA-256 `2f287b544705d0db7ff724610c6f7878a88ff2912bbf074151e107f36a588a0e`.
+- Preserved the prior v3.11 EN baseline at `examples/archive/template_reference_en_v3.11_pre_field_update.docx`.
+- Locked the six revised Section 11 EN sublabels to the supplied template wording: `Oral:`, `Inhalation:`, `Dermal:`, `Fertility:`, `Teratogenicity:` and `In vitro genotoxicity:`.
+- Updated the EN template source/active hash, structural snapshot, layout normalizer, generator payloads and regression tests without changing CN geometry or the shared source-grounded overwrite rules.
+
 ## v3.11.0 — 2026-09-03
 - Corrected the EN template authority: `examples/template_reference_en.docx` now uses the user-supplied `模板_MSDS_EN_冠志 - 副本.docx` byte-for-byte with SHA-256 `415bcaf73256c17b3707c4d660dc6f5c4b7f69e2ab5d728ec8f3108dde16b569`.
 - Preserved the previous normalized EN baseline as `examples/archive/template_reference_en_v3.10_normalized.docx`; it is rollback/audit evidence only and is not used for generation.
