@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.1 — 2026-09-04
+
+- 内化用户提供的四个新 TDS `.doc` 模板并刷新四个 active DOCX、来源 hash、active hash、结构 snapshot 和 package baseline。
+- 更新 EN registry：性能表锁定标签按英文模板校验，并吸收新的英文列宽与标签结构；CN 基线同步登记新来源 hash。
+- 增加模板变更回归覆盖，确保新 EN grid widths、英文性能标签和四变体 fresh-clone 覆写链路保持一致。
+
 ## 1.3.0 — 2026-09-04
 
 - 明确 TDS 主链路为“原始证据抽取 → 事实整理/语义标准化 → 专业英文翻译 → 模板原位覆写”，不再把源值和最终覆写值视为同一层。

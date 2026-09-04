@@ -3,9 +3,9 @@
   "variants": {
     "TDS_CN_冠志模板": {
       "file": "templates\\active\\TDS_CN_冠志模板.docx",
-      "sha256": "c0369205f5d2270cda45dd6f959493ce39e475d51fba37cf622cec3a6761ba94",
+      "sha256": "b31caf4b5409891780308f162c2bb4697f84da0911e1d02041588f1e8e9755eb",
       "source_file": "templates\\source\\TDS_CN_冠志模板.doc",
-      "source_sha256": "04e0b56e4bbed8a50919aaddd08acda4edfd524886546f14f66b04da2ed712c0",
+      "source_sha256": "f1b7d15954ebfb6a1a8308f06c1399fd150d78062f02759662c8db939dc24d8b",
       "snapshot": {
         "sections": [
           {
@@ -391,22 +391,6 @@
                   "font": "宋体",
                   "size_pt": 14.0,
                   "color": null
-                },
-                {
-                  "bold": null,
-                  "italic": null,
-                  "underline": null,
-                  "font": "宋体",
-                  "size_pt": 12.0,
-                  "color": null
-                },
-                {
-                  "bold": true,
-                  "italic": null,
-                  "underline": null,
-                  "font": "宋体",
-                  "size_pt": 14.0,
-                  "color": null
                 }
               ]
             }
@@ -1740,11 +1724,11 @@
       "package_parts": {
         "[Content_Types].xml": "549b4d26d851f7ab914ea0e4a5db6ac29f1b1fb9c2d1e5314da6797496f46cf6",
         "_rels/.rels": "3823de16366678a094490aa4983c96c800dd02d98852331736bf558c1f6ebfcf",
-        "docProps/app.xml": "2fbd2bc9bf527ed06ecec51c9c3756191275b55b410ab89564f7810feacaa3cb",
-        "docProps/core.xml": "c724024fad4096463609fa1c6026a31d2744411bdf94ca308e7773fa5edc3c82",
+        "docProps/app.xml": "3025935d8f315fef3170c65ac3501de34dc93c10d254643347916be9e40239df",
+        "docProps/core.xml": "383c708a5bef218deebe1d729bc6e7b72930058d72701183fc5cf1c63ea08f6b",
         "docProps/custom.xml": "edd6662280c75166b9603ec36ec9596ef41c33f0f9c1e62f3e3d10943d6dde02",
         "word/_rels/document.xml.rels": "9ba575e6004d082a65c03ece1c3665c068f7e09662e0e36729e2d0456598ab16",
-        "word/document.xml": "3733878b461011ec02ea9d799f8d1e6244da45be5bcd4afb70563d0cbc39d11a",
+        "word/document.xml": "ecf4d98088a517da4a6e34e8ea4b75dade91060e587d267e3160292f1f087771",
         "word/fontTable.xml": "cffe3a8f7a71b9386b081a7e7f3414e7b1c748b1fbc90919b0aa5c529b266e83",
         "word/media/image1.jpeg": "54731734d97aff5d6aa55653e3e9c5f1b7daa808e1ca12d284e307ee2e16244f",
         "word/numbering.xml": "106f2e79047599cb1f1cbfb87c140a25311d76519b90a3149ff0b3cb55195109",
@@ -1755,9 +1739,9 @@
     },
     "TDS_CN_国彩模板": {
       "file": "templates\\active\\TDS_CN_国彩模板.docx",
-      "sha256": "aaef04085533aa04104003760b06dce7b7c3a2f1c093d419657d26d2b7720a06",
+      "sha256": "65fcd1d75b7d88f71091a1218ecae8efb095d73a12832175ae3efa8e917bc675",
       "source_file": "templates\\source\\TDS_CN_国彩模板.doc",
-      "source_sha256": "b1783630f21b2176b3390cd95892ec874e03fcd67c5cb840731b16eb2090da94",
+      "source_sha256": "8d1241d3274b9351bae96e0f3bc0dd5387e02917993694ef076b7a3f7974f565",
       "snapshot": {
         "sections": [
           {
@@ -2087,22 +2071,6 @@
                   "font": "宋体",
                   "size_pt": 14.0,
                   "color": null
-                },
-                {
-                  "bold": null,
-                  "italic": null,
-                  "underline": null,
-                  "font": "宋体",
-                  "size_pt": 12.0,
-                  "color": null
-                },
-                {
-                  "bold": true,
-                  "italic": null,
-                  "underline": null,
-                  "font": "宋体",
-                  "size_pt": 14.0,
-                  "color": null
                 }
               ]
             }
@@ -3420,10 +3388,10 @@
         "[Content_Types].xml": "549b4d26d851f7ab914ea0e4a5db6ac29f1b1fb9c2d1e5314da6797496f46cf6",
         "_rels/.rels": "3823de16366678a094490aa4983c96c800dd02d98852331736bf558c1f6ebfcf",
         "docProps/app.xml": "2fbd2bc9bf527ed06ecec51c9c3756191275b55b410ab89564f7810feacaa3cb",
-        "docProps/core.xml": "f5889b0b36a24e6079f1207a1e07db51af726c47ee858b668ae37fb7ee479a4f",
+        "docProps/core.xml": "1da9a0e7127743069b65e962f5076593a2ad1fead1d605fad6f04073d6348059",
         "docProps/custom.xml": "d11d42e74aad9e9caff2ef73814865a2f42774a57e24c794ca9dc7eae72b7269",
         "word/_rels/document.xml.rels": "9628f4383c413f84f89dc2e34f34faaec6570cf016485ba5a94dd55fee9f9998",
-        "word/document.xml": "72ede9045f937bd2f21d72309defb4bfdcf3c7c6d0dcd7bb73795a3d7a6e45b9",
+        "word/document.xml": "c8bac9ae5050528263927f097dc2fdeb359f7893947950b9bdc9cfd537e2870e",
         "word/fontTable.xml": "ec181825019450172844fc875f68a35f64b5bdeb4b58efc869a57d76cd3fd38b",
         "word/numbering.xml": "106f2e79047599cb1f1cbfb87c140a25311d76519b90a3149ff0b3cb55195109",
         "word/settings.xml": "3ccaf006484b25ab36c95b899b037967608370d95f257c730c443c9ab3d7f1b1",
@@ -3433,9 +3401,9 @@
     },
     "TDS_EN_冠志模板": {
       "file": "templates\\active\\TDS_EN_冠志模板.docx",
-      "sha256": "4d602128bd397235e76e48d39a9a02b7862b840063734bc89b67661271d0a216",
+      "sha256": "96b8e2f04902170aa16b1f6688c70f108e5952d7decc070f0d86dd0f6088e24b",
       "source_file": "templates\\source\\TDS_EN_冠志模板.doc",
-      "source_sha256": "a02f5a6e89320149cb64a79c9f292bbc67061215e85eab73733fe5d12cace874",
+      "source_sha256": "c1271e71b6fc5f925953af3a335b94fa7643e28d91f429854171391bf6ce0bbb",
       "snapshot": {
         "sections": [
           {
@@ -4428,10 +4396,10 @@
             "row_count": 6,
             "column_count": 4,
             "grid_widths": [
-              "2240",
-              "2035",
-              "1022",
-              "3191"
+              "2766",
+              "1842",
+              "1174",
+              "2706"
             ],
             "rows": [
               {
@@ -4440,7 +4408,7 @@
                     "text": "Property",
                     "shape": {
                       "props": {
-                        "width": "2240",
+                        "width": "2766",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -4467,7 +4435,7 @@
                     "text": "Specification",
                     "shape": {
                       "props": {
-                        "width": "2035",
+                        "width": "1842",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -4494,7 +4462,7 @@
                     "text": "Unit",
                     "shape": {
                       "props": {
-                        "width": "1022",
+                        "width": "1174",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -4521,7 +4489,7 @@
                     "text": "Test Method",
                     "shape": {
                       "props": {
-                        "width": "3191",
+                        "width": "2706",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -4549,10 +4517,10 @@
               {
                 "cells": [
                   {
-                    "text": "乳液外观",
+                    "text": "Emulsion Appearance",
                     "shape": {
                       "props": {
-                        "width": "2240",
+                        "width": "2766",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -4562,20 +4530,12 @@
                           "alignment": "CENTER (1)",
                           "runs": [
                             {
-                              "bold": false,
+                              "bold": true,
                               "italic": null,
                               "underline": null,
-                              "font": null,
+                              "font": "宋体",
                               "size_pt": 12.0,
-                              "color": "000000"
-                            },
-                            {
-                              "bold": false,
-                              "italic": null,
-                              "underline": null,
-                              "font": null,
-                              "size_pt": 12.0,
-                              "color": "000000"
+                              "color": null
                             }
                           ]
                         }
@@ -4587,7 +4547,7 @@
                     "text": "乳白色液体",
                     "shape": {
                       "props": {
-                        "width": "2035",
+                        "width": "1842",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -4614,7 +4574,7 @@
                     "text": "",
                     "shape": {
                       "props": {
-                        "width": "1022",
+                        "width": "1174",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -4641,7 +4601,7 @@
                     "text": "目测",
                     "shape": {
                       "props": {
-                        "width": "3191",
+                        "width": "2706",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -4669,10 +4629,10 @@
               {
                 "cells": [
                   {
-                    "text": "环氧当量（EEW）",
+                    "text": "Epoxy Equivalent Weight",
                     "shape": {
                       "props": {
-                        "width": "2240",
+                        "width": "2766",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -4682,28 +4642,12 @@
                           "alignment": "CENTER (1)",
                           "runs": [
                             {
-                              "bold": false,
+                              "bold": true,
                               "italic": null,
                               "underline": null,
-                              "font": null,
+                              "font": "宋体",
                               "size_pt": 12.0,
-                              "color": "000000"
-                            },
-                            {
-                              "bold": false,
-                              "italic": null,
-                              "underline": null,
-                              "font": null,
-                              "size_pt": 12.0,
-                              "color": "000000"
-                            },
-                            {
-                              "bold": false,
-                              "italic": null,
-                              "underline": null,
-                              "font": null,
-                              "size_pt": 12.0,
-                              "color": "000000"
+                              "color": null
                             }
                           ]
                         }
@@ -4715,7 +4659,7 @@
                     "text": "900-1100",
                     "shape": {
                       "props": {
-                        "width": "2035",
+                        "width": "1842",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -4742,7 +4686,7 @@
                     "text": "g/mol",
                     "shape": {
                       "props": {
-                        "width": "1022",
+                        "width": "1174",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -4769,7 +4713,7 @@
                     "text": "",
                     "shape": {
                       "props": {
-                        "width": "3191",
+                        "width": "2706",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -4797,10 +4741,10 @@
               {
                 "cells": [
                   {
-                    "text": "固含量",
+                    "text": "Solids Content",
                     "shape": {
                       "props": {
-                        "width": "2240",
+                        "width": "2766",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -4810,20 +4754,12 @@
                           "alignment": "CENTER (1)",
                           "runs": [
                             {
-                              "bold": false,
+                              "bold": true,
                               "italic": null,
                               "underline": null,
-                              "font": null,
+                              "font": "宋体",
                               "size_pt": 12.0,
-                              "color": "000000"
-                            },
-                            {
-                              "bold": false,
-                              "italic": null,
-                              "underline": null,
-                              "font": null,
-                              "size_pt": 12.0,
-                              "color": "000000"
+                              "color": null
                             }
                           ]
                         }
@@ -4835,7 +4771,7 @@
                     "text": "53±2",
                     "shape": {
                       "props": {
-                        "width": "2035",
+                        "width": "1842",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -4862,7 +4798,7 @@
                     "text": "%",
                     "shape": {
                       "props": {
-                        "width": "1022",
+                        "width": "1174",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -4889,7 +4825,7 @@
                     "text": "150℃30min，鼓风烘箱",
                     "shape": {
                       "props": {
-                        "width": "3191",
+                        "width": "2706",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -4925,10 +4861,10 @@
               {
                 "cells": [
                   {
-                    "text": "PH值（25℃）",
+                    "text": "pH Value (25°C)",
                     "shape": {
                       "props": {
-                        "width": "2240",
+                        "width": "2766",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -4938,44 +4874,12 @@
                           "alignment": "CENTER (1)",
                           "runs": [
                             {
-                              "bold": false,
+                              "bold": true,
                               "italic": null,
                               "underline": null,
-                              "font": null,
+                              "font": "宋体",
                               "size_pt": 12.0,
-                              "color": "000000"
-                            },
-                            {
-                              "bold": false,
-                              "italic": null,
-                              "underline": null,
-                              "font": null,
-                              "size_pt": 12.0,
-                              "color": "000000"
-                            },
-                            {
-                              "bold": false,
-                              "italic": null,
-                              "underline": null,
-                              "font": "Times New Roman",
-                              "size_pt": 12.0,
-                              "color": "000000"
-                            },
-                            {
-                              "bold": false,
-                              "italic": null,
-                              "underline": null,
-                              "font": null,
-                              "size_pt": 12.0,
-                              "color": "000000"
-                            },
-                            {
-                              "bold": false,
-                              "italic": null,
-                              "underline": null,
-                              "font": "Times New Roman",
-                              "size_pt": 12.0,
-                              "color": "000000"
+                              "color": null
                             }
                           ]
                         }
@@ -4987,7 +4891,7 @@
                     "text": "6.0-8.0",
                     "shape": {
                       "props": {
-                        "width": "2035",
+                        "width": "1842",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -5014,7 +4918,7 @@
                     "text": "",
                     "shape": {
                       "props": {
-                        "width": "1022",
+                        "width": "1174",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -5041,7 +4945,7 @@
                     "text": "GB/T 6920-1986",
                     "shape": {
                       "props": {
-                        "width": "3191",
+                        "width": "2706",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -5069,10 +4973,10 @@
               {
                 "cells": [
                   {
-                    "text": "粘度（25℃）",
+                    "text": "Viscosity (25°C)",
                     "shape": {
                       "props": {
-                        "width": "2240",
+                        "width": "2766",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -5082,28 +4986,12 @@
                           "alignment": "CENTER (1)",
                           "runs": [
                             {
-                              "bold": false,
+                              "bold": true,
                               "italic": null,
                               "underline": null,
-                              "font": null,
+                              "font": "宋体",
                               "size_pt": 12.0,
-                              "color": "000000"
-                            },
-                            {
-                              "bold": false,
-                              "italic": null,
-                              "underline": null,
-                              "font": null,
-                              "size_pt": 12.0,
-                              "color": "000000"
-                            },
-                            {
-                              "bold": false,
-                              "italic": null,
-                              "underline": null,
-                              "font": null,
-                              "size_pt": 12.0,
-                              "color": "000000"
+                              "color": null
                             }
                           ]
                         }
@@ -5115,7 +5003,7 @@
                     "text": "200-5000",
                     "shape": {
                       "props": {
-                        "width": "2035",
+                        "width": "1842",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -5142,7 +5030,7 @@
                     "text": "mPa·s",
                     "shape": {
                       "props": {
-                        "width": "1022",
+                        "width": "1174",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -5169,7 +5057,7 @@
                     "text": "GB/T 2794-2013",
                     "shape": {
                       "props": {
-                        "width": "3191",
+                        "width": "2706",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -5201,11 +5089,11 @@
       "package_parts": {
         "[Content_Types].xml": "549b4d26d851f7ab914ea0e4a5db6ac29f1b1fb9c2d1e5314da6797496f46cf6",
         "_rels/.rels": "3823de16366678a094490aa4983c96c800dd02d98852331736bf558c1f6ebfcf",
-        "docProps/app.xml": "2fbd2bc9bf527ed06ecec51c9c3756191275b55b410ab89564f7810feacaa3cb",
-        "docProps/core.xml": "ce3daf1fdeba4484ae8e465c97ecc3a8b5b796587cb4661a559cde5070a48eac",
+        "docProps/app.xml": "88e4ce1245102d025818b70e5bebb7277ce4d11876b5dbd9e8d6fdaafb8685e3",
+        "docProps/core.xml": "ceecb38526e10c0c6c5da6d6c241b096ef61ca567c03ece16b8afbe58fe39ff2",
         "docProps/custom.xml": "edd6662280c75166b9603ec36ec9596ef41c33f0f9c1e62f3e3d10943d6dde02",
         "word/_rels/document.xml.rels": "9ba575e6004d082a65c03ece1c3665c068f7e09662e0e36729e2d0456598ab16",
-        "word/document.xml": "b38ea40813d3835969f694a197f691971ed7d31935abdc8de24a0a452d92a555",
+        "word/document.xml": "2c496fb7ca3e4a1925023e591033a47f7e0e2bfb1d39291c0c11d39dc6100f67",
         "word/fontTable.xml": "982c48497ea24535b92bd4cc0c08ba89d3f227af2669ba6fc7b2d28788300c4c",
         "word/media/image1.jpeg": "54731734d97aff5d6aa55653e3e9c5f1b7daa808e1ca12d284e307ee2e16244f",
         "word/numbering.xml": "106f2e79047599cb1f1cbfb87c140a25311d76519b90a3149ff0b3cb55195109",
@@ -5216,9 +5104,9 @@
     },
     "TDS_EN_国彩模板": {
       "file": "templates\\active\\TDS_EN_国彩模板.docx",
-      "sha256": "81ce06371a96acfc569c879a41750b92078cc8f524361bb2b5ea83032b9ffccd",
+      "sha256": "549fc04a1b3005c89b5d9704240377fd0ebc40f70220b6b8806abc8b6887afef",
       "source_file": "templates\\source\\TDS_EN_国彩模板.doc",
-      "source_sha256": "bb122596798375dd4f890e5980d0b2a90238a5cebaf2935771eb66712c2cbb4d",
+      "source_sha256": "27b8e78093a8f56c01ce8f91902db27af9550084f56cf100291b02200385ff54",
       "snapshot": {
         "sections": [
           {
@@ -6218,10 +6106,10 @@
             "row_count": 6,
             "column_count": 4,
             "grid_widths": [
-              "2240",
-              "2035",
-              "1022",
-              "3191"
+              "2993",
+              "1910",
+              "1094",
+              "2587"
             ],
             "rows": [
               {
@@ -6230,7 +6118,7 @@
                     "text": "Property",
                     "shape": {
                       "props": {
-                        "width": "2240",
+                        "width": "2993",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6257,7 +6145,7 @@
                     "text": "Specification",
                     "shape": {
                       "props": {
-                        "width": "2035",
+                        "width": "1910",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6284,7 +6172,7 @@
                     "text": "Unit",
                     "shape": {
                       "props": {
-                        "width": "1022",
+                        "width": "1094",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6311,7 +6199,7 @@
                     "text": "Test Method",
                     "shape": {
                       "props": {
-                        "width": "3191",
+                        "width": "2587",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6339,10 +6227,10 @@
               {
                 "cells": [
                   {
-                    "text": "乳液外观",
+                    "text": "Emulsion Appearance",
                     "shape": {
                       "props": {
-                        "width": "2240",
+                        "width": "2993",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6352,20 +6240,12 @@
                           "alignment": "CENTER (1)",
                           "runs": [
                             {
-                              "bold": false,
+                              "bold": true,
                               "italic": null,
                               "underline": null,
-                              "font": null,
+                              "font": "宋体",
                               "size_pt": 12.0,
-                              "color": "000000"
-                            },
-                            {
-                              "bold": false,
-                              "italic": null,
-                              "underline": null,
-                              "font": null,
-                              "size_pt": 12.0,
-                              "color": "000000"
+                              "color": null
                             }
                           ]
                         }
@@ -6377,7 +6257,7 @@
                     "text": "乳白色液体",
                     "shape": {
                       "props": {
-                        "width": "2035",
+                        "width": "1910",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6404,7 +6284,7 @@
                     "text": "",
                     "shape": {
                       "props": {
-                        "width": "1022",
+                        "width": "1094",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6431,7 +6311,7 @@
                     "text": "目测",
                     "shape": {
                       "props": {
-                        "width": "3191",
+                        "width": "2587",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6459,10 +6339,10 @@
               {
                 "cells": [
                   {
-                    "text": "环氧当量（EEW）",
+                    "text": "Epoxy Equivalent Weight",
                     "shape": {
                       "props": {
-                        "width": "2240",
+                        "width": "2993",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6472,28 +6352,12 @@
                           "alignment": "CENTER (1)",
                           "runs": [
                             {
-                              "bold": false,
+                              "bold": true,
                               "italic": null,
                               "underline": null,
-                              "font": null,
+                              "font": "宋体",
                               "size_pt": 12.0,
-                              "color": "000000"
-                            },
-                            {
-                              "bold": false,
-                              "italic": null,
-                              "underline": null,
-                              "font": null,
-                              "size_pt": 12.0,
-                              "color": "000000"
-                            },
-                            {
-                              "bold": false,
-                              "italic": null,
-                              "underline": null,
-                              "font": null,
-                              "size_pt": 12.0,
-                              "color": "000000"
+                              "color": null
                             }
                           ]
                         }
@@ -6505,7 +6369,7 @@
                     "text": "900-1100",
                     "shape": {
                       "props": {
-                        "width": "2035",
+                        "width": "1910",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6532,7 +6396,7 @@
                     "text": "g/mol",
                     "shape": {
                       "props": {
-                        "width": "1022",
+                        "width": "1094",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6559,7 +6423,7 @@
                     "text": "",
                     "shape": {
                       "props": {
-                        "width": "3191",
+                        "width": "2587",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6587,10 +6451,10 @@
               {
                 "cells": [
                   {
-                    "text": "固含量",
+                    "text": "Solids Content",
                     "shape": {
                       "props": {
-                        "width": "2240",
+                        "width": "2993",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6600,20 +6464,12 @@
                           "alignment": "CENTER (1)",
                           "runs": [
                             {
-                              "bold": false,
+                              "bold": true,
                               "italic": null,
                               "underline": null,
-                              "font": null,
+                              "font": "宋体",
                               "size_pt": 12.0,
-                              "color": "000000"
-                            },
-                            {
-                              "bold": false,
-                              "italic": null,
-                              "underline": null,
-                              "font": null,
-                              "size_pt": 12.0,
-                              "color": "000000"
+                              "color": null
                             }
                           ]
                         }
@@ -6625,7 +6481,7 @@
                     "text": "53±2",
                     "shape": {
                       "props": {
-                        "width": "2035",
+                        "width": "1910",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6652,7 +6508,7 @@
                     "text": "%",
                     "shape": {
                       "props": {
-                        "width": "1022",
+                        "width": "1094",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6679,7 +6535,7 @@
                     "text": "150℃30min，鼓风烘箱",
                     "shape": {
                       "props": {
-                        "width": "3191",
+                        "width": "2587",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6715,10 +6571,10 @@
               {
                 "cells": [
                   {
-                    "text": "PH值（25℃）",
+                    "text": "pH Value (25°C)",
                     "shape": {
                       "props": {
-                        "width": "2240",
+                        "width": "2993",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6728,44 +6584,12 @@
                           "alignment": "CENTER (1)",
                           "runs": [
                             {
-                              "bold": false,
+                              "bold": true,
                               "italic": null,
                               "underline": null,
-                              "font": null,
+                              "font": "宋体",
                               "size_pt": 12.0,
-                              "color": "000000"
-                            },
-                            {
-                              "bold": false,
-                              "italic": null,
-                              "underline": null,
-                              "font": null,
-                              "size_pt": 12.0,
-                              "color": "000000"
-                            },
-                            {
-                              "bold": false,
-                              "italic": null,
-                              "underline": null,
-                              "font": "Times New Roman",
-                              "size_pt": 12.0,
-                              "color": "000000"
-                            },
-                            {
-                              "bold": false,
-                              "italic": null,
-                              "underline": null,
-                              "font": null,
-                              "size_pt": 12.0,
-                              "color": "000000"
-                            },
-                            {
-                              "bold": false,
-                              "italic": null,
-                              "underline": null,
-                              "font": "Times New Roman",
-                              "size_pt": 12.0,
-                              "color": "000000"
+                              "color": null
                             }
                           ]
                         }
@@ -6777,7 +6601,7 @@
                     "text": "6.0-8.0",
                     "shape": {
                       "props": {
-                        "width": "2035",
+                        "width": "1910",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6804,7 +6628,7 @@
                     "text": "",
                     "shape": {
                       "props": {
-                        "width": "1022",
+                        "width": "1094",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6831,7 +6655,7 @@
                     "text": "GB/T 6920-1986",
                     "shape": {
                       "props": {
-                        "width": "3191",
+                        "width": "2587",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6859,10 +6683,10 @@
               {
                 "cells": [
                   {
-                    "text": "粘度（25℃）",
+                    "text": "Viscosity (25°C)",
                     "shape": {
                       "props": {
-                        "width": "2240",
+                        "width": "2993",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6872,28 +6696,12 @@
                           "alignment": "CENTER (1)",
                           "runs": [
                             {
-                              "bold": false,
+                              "bold": true,
                               "italic": null,
                               "underline": null,
-                              "font": null,
+                              "font": "宋体",
                               "size_pt": 12.0,
-                              "color": "000000"
-                            },
-                            {
-                              "bold": false,
-                              "italic": null,
-                              "underline": null,
-                              "font": null,
-                              "size_pt": 12.0,
-                              "color": "000000"
-                            },
-                            {
-                              "bold": false,
-                              "italic": null,
-                              "underline": null,
-                              "font": null,
-                              "size_pt": 12.0,
-                              "color": "000000"
+                              "color": null
                             }
                           ]
                         }
@@ -6905,7 +6713,7 @@
                     "text": "200-5000",
                     "shape": {
                       "props": {
-                        "width": "2035",
+                        "width": "1910",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6932,7 +6740,7 @@
                     "text": "mPa·s",
                     "shape": {
                       "props": {
-                        "width": "1022",
+                        "width": "1094",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6959,7 +6767,7 @@
                     "text": "GB/T 2794-2013",
                     "shape": {
                       "props": {
-                        "width": "3191",
+                        "width": "2587",
                         "grid_span": null,
                         "vmerge": null
                       },
@@ -6992,10 +6800,10 @@
         "[Content_Types].xml": "549b4d26d851f7ab914ea0e4a5db6ac29f1b1fb9c2d1e5314da6797496f46cf6",
         "_rels/.rels": "3823de16366678a094490aa4983c96c800dd02d98852331736bf558c1f6ebfcf",
         "docProps/app.xml": "2fbd2bc9bf527ed06ecec51c9c3756191275b55b410ab89564f7810feacaa3cb",
-        "docProps/core.xml": "6f8f0ef43896c5b672296a0d6eddf5cad75189378cdaa951a7844ab3ebcb9d30",
+        "docProps/core.xml": "86e29996dd437f3b4ca9fce95783feddb638d07c2cd234be2fb028f037bcb71c",
         "docProps/custom.xml": "2e50a37f6b74ad11de644861227e20d94ad1ff2030f0c38b1ff464f3a25f1a73",
         "word/_rels/document.xml.rels": "9628f4383c413f84f89dc2e34f34faaec6570cf016485ba5a94dd55fee9f9998",
-        "word/document.xml": "73ecefe3c4f3b1cb4688e8858daaa5156e89295fe2f41b08aaf4ad402e30d842",
+        "word/document.xml": "73874cefa544492ff1d4107f82b767b76812b98d18e3df1c937a2dceef539934",
         "word/fontTable.xml": "e4570dec0a0d0589520b710e2a3fe49b5826f771184f7f4d6eafe27584c47ca8",
         "word/numbering.xml": "d90a2af04aede4deb269147438556fa34dc044a89c60adb8ca70d47376c0fa34",
         "word/settings.xml": "d63a29326b13ccf16156168e8087fa8da377158d58c9d710fd5ab21a6ecf0120",

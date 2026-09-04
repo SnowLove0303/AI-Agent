@@ -19,10 +19,15 @@ ALIASES = {
         "固含量": "performance.solid_content",
         "固体份含量": "performance.solid_content",
         "solid content": "performance.solid_content",
+        "solids content": "performance.solid_content",
         "ph值（25℃）": "performance.ph_25c",
         "ph value (25°c)": "performance.ph_25c",
+        "ph value (25℃)": "performance.ph_25c",
         "粘度（25℃）": "performance.viscosity_25c",
         "viscosity (25°c)": "performance.viscosity_25c",
+        "viscosity (25℃)": "performance.viscosity_25c",
+        "emulsion appearance": "performance.appearance",
+        "epoxy equivalent weight": "performance.eew",
     }.items()
 }
 TEXT = [

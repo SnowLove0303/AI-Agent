@@ -3,11 +3,12 @@ import argparse
 from pathlib import Path
 from docx import Document
 from tds_common import ROOT, dump, norm, sha256
-ROWS=['乳液外观','环氧当量（EEW）','固含量','PH值（25℃）','粘度（25℃）']
+ROWS_CN=['乳液外观','环氧当量（EEW）','固含量','PH值（25℃）','粘度（25℃）']
+ROWS_EN=['Emulsion Appearance','Epoxy Equivalent Weight','Solids Content','pH Value (25°C)','Viscosity (25°C)']
 def registry_for(path):
-    d=Document(str(path)); en='_EN_' in path.name; storage=31 if en else 32; rows=[]
+    d=Document(str(path)); en='_EN_' in path.name; storage=31 if en else 32; rows=[]; labels=ROWS_EN if en else ROWS_CN
     slots=[{'field_id':'product.title','kind':'paragraph','locator':{'paragraph_index':7}},{'field_id':'product.description','kind':'paragraph','locator':{'paragraph_index':11}},{'field_id':'product.supply_form','kind':'paragraph','locator':{'paragraph_index':14}},{'field_id':'product.features','kind':'paragraph_list','locator':{'paragraph_indices':[21,23]}},{'field_id':'product.application','kind':'paragraph','locator':{'paragraph_index':27}},{'field_id':'product.storage','kind':'paragraph','locator':{'paragraph_index':storage}}]
-    for idx,label in enumerate(ROWS,1):
+    for idx,label in enumerate(labels,1):
         if norm(d.tables[0].rows[idx].cells[0].text)!=norm(label): raise ValueError(f'{path.name}: locked row {idx} mismatch')
         rows.append({'field_id':'performance.'+['appearance','eew','solid_content','ph_25c','viscosity_25c'][idx-1],'kind':'performance_row','label':label,'locator':{'table_index':0,'row_index':idx}})
     return {'template':str(path.relative_to(ROOT)),'template_sha256':sha256(path),'language':'en-US' if en else 'zh-CN','company':'guocai' if '国彩' in path.name else 'guanzhi','slots':slots+rows,'performance_table':{'header_row_index':0,'data_start_row_index':1,'source_led':True,'max_source_rows':100},'performance_extension':{'allowed':True,'row_template_index':5,'insert_after_row_index':5,'max_rows':100,'label_cell_allowed_for_new_rows':True},'feature_extension':{'allowed':True,'paragraph_template_index':23,'insert_after_paragraph_index':23,'max_items':100}}

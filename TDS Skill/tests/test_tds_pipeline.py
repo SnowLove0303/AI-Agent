@@ -29,6 +29,23 @@ def test_all_four_variants_are_fresh_clones(tmp_path):
         assert {k: v for k, v in generated.items() if k != "word/document.xml"} == {k: v for k, v in original.items() if k != "word/document.xml"}
 
 
+def test_language_specific_template_labels_and_grid_widths_are_registered():
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    en_labels = [
+        item["label"]
+        for item in registry["variants"]["TDS_EN_冠志模板"]["slots"]
+        if item["kind"] == "performance_row"
+    ]
+    assert en_labels == [
+        "Emulsion Appearance",
+        "Epoxy Equivalent Weight",
+        "Solids Content",
+        "pH Value (25°C)",
+        "Viscosity (25°C)",
+    ]
+    assert registry["variants"]["TDS_EN_冠志模板"]["template_sha256"] != "4d602128bd397235e76e48d39a9a02b7862b840063734bc89b67661271d0a216"
+
+
 def test_performance_and_feature_extensions_clone_template_styles(tmp_path):
     registry = load(ROOT / "mapping" / "template_field_registry.json")
     mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
