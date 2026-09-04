@@ -33,6 +33,10 @@ def compact_table_body(document) -> None:
                     # field row contain the template-owned heading/label /
                     # sequence skeleton.  Never compact or normalize them.
                     continue
+                if table_index == 7 and row_index in {12, 13}:
+                    # Formal S8.2 locked parent row and header row: their
+                    # paragraph/run properties are release-locked.
+                    continue
                 for paragraph in cell.paragraphs:
                     paragraph.paragraph_format.space_before = Pt(0)
                     paragraph.paragraph_format.space_after = Pt(0)

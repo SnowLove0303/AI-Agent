@@ -22,12 +22,9 @@ def unique_cells(row):
     return out
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("docx", type=Path)
-    ap.add_argument("--require-pictogram", action="store_true")
-    args = ap.parse_args()
-    doc = Document(str(args.docx))
+def run(docx, require_pictogram=False):
+    """Audit one built DOCX; return (errors, info). Import-safe core of main()."""
+    doc = Document(str(docx))
     table = doc.tables[1]
     errors = []
     all_text = "\n".join(cell.text for row in table.rows for cell in unique_cells(row))
@@ -53,7 +50,7 @@ def main() -> int:
                 old_to_new[old] = next_item
                 next_item += 1
             labels.append(f"2.{old_to_new[old]}")
-    if args.require_pictogram and not pictogram_present:
+    if require_pictogram and not pictogram_present:
         errors.append("required source pictogram is absent")
     # Compare unique transitions, while allowing repeated child rows.
     unique_labels = []
@@ -62,7 +59,16 @@ def main() -> int:
             unique_labels.append(label)
     if unique_labels != [f"2.{i}" for i in range(1, len(unique_labels) + 1)]:
         errors.append(f"Section 2 numbering is not continuous: {unique_labels}")
-    print({"pass": not errors, "pictogram_present": pictogram_present, "labels": labels, "errors": errors})
+    return errors, {"pass": not errors, "pictogram_present": pictogram_present, "labels": labels}
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("docx", type=Path)
+    ap.add_argument("--require-pictogram", action="store_true")
+    args = ap.parse_args()
+    errors, info = run(args.docx, require_pictogram=args.require_pictogram)
+    print(info)
     return 0 if not errors else 1
 
 

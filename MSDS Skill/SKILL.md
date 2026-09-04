@@ -3,7 +3,7 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS Word standardization skill that converts a source MSDS into synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, with professional SDS English, source-grounded facts, locked template geometry, structured Section 11 handling, continuous numbering, company overlays, and mandatory render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.14.1
+# Unified MSDS Eight-Deliverable Standardizer v3.14.2
 
 ## Mandatory v2.9 inheritance (release blocker)
 
@@ -419,3 +419,33 @@ page-by-page QA.
   path as defined in `docs/audit_evidence_schema.md`.
 - A score of 95/100 is necessary but not sufficient: `RELEASE_PASS` also
   requires zero B0/B1 blockers and complete evidence.
+
+## 20. Parameterized workflow v3.14.2 (mechanical/agent split)
+
+The overwrite core is extract -> standardize (CN) -> render CN -> translate
+EN from the standardized model. Labor splits as follows:
+
+- Mechanical (deterministic, no judgment): file I/O, template clone, value-cell
+  writes, S2/S9 suppression and renumbering, pictogram insertion,
+  header/footer stamping, PDF conversion, audit execution, S1 supplier block,
+  S3 transcription, S9 ordering, verbatim standard codes. Run
+  `scripts/extract_source_facts.py` for a positioned draft (every candidate
+  carries table/row/cell provenance; unmapped cells block the build).
+- Agent judgment (never scripted in batch): source-fact verification, S2
+  classification, S11 endpoint mapping and aliases, H/P wording, EN
+  professional translation (qualifiers and evidence levels preserved),
+  sensitization study separation, missing-vs-`不适用`, company overlay,
+  cross-language parity, visual QA. Record each call as an `AGENT_DECISION`
+  with its source basis; a wrong call is traceable, never a template to
+  memorize. Batch regex matching of semantics is forbidden: the extractor
+  proposes candidates with provenance, the agent disposes.
+
+One command replaces the per-model copied generators for new models:
+
+`python scripts/build_eight.py --source SRC.docx --facts MODEL.json --out DIR`
+
+The approved facts file holds the standardized `zh` model, the reviewed EN
+translation of that same model (`translation_review` must be empty), and
+`s8_control_parameters`. Any gate failure raises `ReleaseBlocked` before any
+PDF is converted. Legacy `_task_work` generators are frozen regression
+vehicles and are not refactored onto the pipeline.
