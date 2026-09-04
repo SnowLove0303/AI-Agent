@@ -60,7 +60,6 @@ scripts/sentence_boundary_policy.py
 scripts/snapshot_template.py
 scripts/snapshot_template_geometry.py
 scripts/audit_template_geometry.py
-scripts/ensure_s82_child_table.py
 scripts/normalize_en_template.py
 scripts/normalize_en_layout.py
 scripts/section2_ghs_policy.py
@@ -112,10 +111,16 @@ tests/template_geometry_en_v39.json
 tests/template_geometry_en_v311.json
 tests/template_geometry_en_v312.json
 tests/template_snapshot_en_v312.json
+examples/archive/template_reference_cn_v3.13_8.2_nested_child_table.docx
+examples/archive/template_reference_en_v3.13_8.2_nested_child_table.docx
 tests/template_snapshot_v313.json
 tests/template_snapshot_en_v313.json
 tests/template_geometry_v313.json
 tests/template_geometry_en_v313.json
+tests/template_snapshot_v314.json
+tests/template_snapshot_en_v314.json
+tests/template_geometry_v314.json
+tests/template_geometry_en_v314.json
 tests/PU2345_section9_policy.md
 tests/support/generate_pu2345_eight.py
 _task_work/generate_os9015_eight.py

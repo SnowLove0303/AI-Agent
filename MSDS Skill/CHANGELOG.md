@@ -1,5 +1,15 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.14.1 — 2026-09-04
+- Fixed the GHS label-elements value to stay empty when the source states no label ingredients, so the existing missing-row suppression removes the whole row instead of leaving a bare `必须列在标签上的有害成分：` heading in customer-facing output. Behavior with verified ingredients is unchanged.
+
+## v3.14.0 — 2026-09-04
+- Adopted the user-supplied formal templates byte-for-byte as the authoritative CN/EN baselines (CN SHA-256 `2e4f55086bb13de9caa9e933465fad55eb62efc785d595170bc65749a2de6cfc`; EN `59445b62c6d33b25a2e04c05778d428656f1ce0cbe7c21212721b145468c4416` for both source record and active baseline).
+- Replaced the v3.13 nested 8.2 child-table design with the formal top-level four-column control-parameter rows: one-cell `工作场所组分控制参数 / Control parameters for workplace components` parent, locked header (`物质 / 依据 / 类型 / 数值`; EN `Substance / Basis / Type / Value`), then data rows (Section 8 grows 12 to 16 rows; all other tables unchanged).
+- Reworked the whitelist writer for top-level S8.2 data rows: only source-grounded records may be written or cloned; the two template example OEL rows are illustrative and must be cleared — replaced by source records when present, otherwise reduced to a single data row carrying the exact missing-data placeholder (`无数据` / `No data available`) in the value column.
+- Retired the nested child-table installer; archived both v3.13 language baselines separately and regenerated active/versioned snapshots and regression coverage. Template example facts remain non-authoritative.
+- Preserved all v2.9/v3.11/v3.12/v3.13 overwrite rules, unified semantic model, four-language/company matrix, source-only facts, DOCX-first WPS/Word-compatible PDF conversion, release blockers and page-by-page QA.
+
 ## v3.13.0 — 2026-09-03
 - Added the controlled Section 8.2 engineering-controls child table to both maintained language templates without changing the 16 top-level table count, parent rows, sequence/label cells, merges or headers/footers.
 - Pinned the CN child-table headers as `物质 / 依据 / 类型 / 数值` and the EN headers as `Substance / Basis / Type / Value`, using the established four-column grid `[2400, 1100, 1100, 1600]` twips so the child table fits inside the parent value cell.

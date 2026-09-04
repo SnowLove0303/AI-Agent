@@ -1,4 +1,4 @@
-# MSDS Skill 3.13.0
+# MSDS Skill 3.14.1
 
 `MSDS Skill` is the controlled MSDS/SDS standardization skill for producing synchronized Chinese and English deliverables for the Guanzhi and Guocai company profiles.
 
@@ -13,7 +13,7 @@
 - Section 9 omission of pure missing-data rows followed by continuous renumbering.
 - Source-grounded facts only; example values embedded in the template are not product facts.
 - Locked template geometry, labels, paragraph/run formatting and header/footer conventions.
-- Section 8.2 has a maintained four-column child control-parameter table (`物质 / 依据 / 类型 / 数值`; EN `Substance / Basis / Type / Value`) with source-grounded data-row projection.
+- Section 8.2 uses the formal template's top-level four-column control-parameter rows (`物质 / 依据 / 类型 / 数值`; EN `Substance / Basis / Type / Value`) with source-grounded data-row projection; with no verified records a single data row carries the exact missing-data placeholder in the value column.
 - Release-blocking audits and full-page visual QA.
 - Feishu 17-section skeleton mutation whitelist: sequence/label columns and
   template-owned geometry are locked; only approved value cells, structured
@@ -31,12 +31,12 @@ Read [`SKILL.md`](SKILL.md) for the operating contract. The reusable scripts, te
 
 ## Version
 
-Public release: `MSDS Skill 3.13.0`
+Public release: `MSDS Skill 3.14.1`
 
-Template baseline: independent supplied CN/EN templates, with CN SHA-256
-`2e03e8826219f94724281ec415874875420991f34e03d9eab0d8731a16bee969`, EN source
-SHA-256 `2f287b544705d0db7ff724610c6f7878a88ff2912bbf074151e107f36a588a0e`, and
-EN active SHA-256 `4ba9475bb211bfa7dae6328243cddb1797ff36afb17875b66d53d782b15216ff`.
+Template baseline: user-supplied formal CN/EN templates, with CN SHA-256
+`2e4f55086bb13de9caa9e933465fad55eb62efc785d595170bc65749a2de6cfc` and EN
+SHA-256 `59445b62c6d33b25a2e04c05778d428656f1ce0cbe7c21212721b145468c4416`
+(source record and active baseline are byte-identical).
 
 The public release contains Skill source and validation assets only.
 Customer-specific generated files, temporary runs, rendered QA images and

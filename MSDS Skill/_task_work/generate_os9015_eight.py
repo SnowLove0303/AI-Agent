@@ -25,7 +25,7 @@ from template_mutation_whitelist import (
     clear_value_cells,
     set_sequence_prefix,
     unique_cells as whitelist_unique_cells,
-    write_s82_child_rows,
+    write_s82_top_rows,
 )
 
 SOURCE = Path(os.environ.get(
@@ -236,8 +236,8 @@ def write_body(doc, facts, language):
             if ri >= len(table.rows):
                 raise RuntimeError(f"template capacity mismatch S{sec}: row {ri}")
             base.set_row(table.rows[ri], values, table_index=sec - 1, row_index=ri)
-    write_s82_child_rows(
-        doc.tables[7].rows[11].cells[1],
+    write_s82_top_rows(
+        doc.tables[7],
         facts.get("s8_control_parameters", []),
         language,
     )

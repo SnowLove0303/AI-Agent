@@ -3,7 +3,7 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS Word standardization skill that converts a source MSDS into synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, with professional SDS English, source-grounded facts, locked template geometry, structured Section 11 handling, continuous numbering, company overlays, and mandatory render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.13
+# Unified MSDS Eight-Deliverable Standardizer v3.14.1
 
 ## Mandatory v2.9 inheritance (release blocker)
 
@@ -40,36 +40,37 @@ Hard rules:
 ## 2. Template authority
 The language-specific template baselines are authoritative:
 
-- CN: `examples/template_reference.docx`, derived from the newer user-supplied `模板_MSDS_CN_冠志.docx`.
-- EN source record: `examples/template_reference_en_source.docx`, an unchanged copy of the latest user-supplied `模板_MSDS_EN_冠志 - 副本.docx`.
-- EN active baseline: `examples/template_reference_en.docx`, a fresh clone of that source with only the approved Section 8.2 child table and the one identified stray Chinese label suffix removed.
+- CN: `examples/template_reference.docx`, byte-identical to the user-supplied formal `正式模板_MSDS_CN_冠志.docx`.
+- EN source record: `examples/template_reference_en_source.docx`, an unchanged copy of the user-supplied formal `正式模板_MSDS_EN_冠志.docx`.
+- EN active baseline: `examples/template_reference_en.docx`, byte-identical to that formal EN template.
+- The v3.13 CN/EN baselines (nested 8.2 child-table design) are retained at `examples/archive/template_reference_cn_v3.13_8.2_nested_child_table.docx` and `examples/archive/template_reference_en_v3.13_8.2_nested_child_table.docx` for rollback/audit only.
 - The previous v3.11 EN baseline is retained at `examples/archive/template_reference_en_v3.11_pre_field_update.docx` for rollback/audit only.
 - The previous v3.12 CN/EN baselines are retained at `examples/archive/template_reference_cn_v3.12_pre_8.2_child_table_update.docx` and `examples/archive/template_reference_en_v3.12_pre_8.2_child_table_update.docx` for rollback/audit only.
 - The former normalized EN baseline is retained separately at `examples/archive/template_reference_en_v3.10_normalized.docx` and is historical evidence only; it is not an active template.
 
 Pinned SHA-256:
 
-- CN: `2e03e8826219f94724281ec415874875420991f34e03d9eab0d8731a16bee969`
-- EN source: `2f287b544705d0db7ff724610c6f7878a88ff2912bbf074151e107f36a588a0e`
-- EN active baseline: `4ba9475bb211bfa7dae6328243cddb1797ff36afb17875b66d53d782b15216ff`.
+- CN: `2e4f55086bb13de9caa9e933465fad55eb62efc785d595170bc65749a2de6cfc`
+- EN source: `59445b62c6d33b25a2e04c05778d428656f1ce0cbe7c21212721b145468c4416`
+- EN active baseline: `59445b62c6d33b25a2e04c05778d428656f1ce0cbe7c21212721b145468c4416`.
 
 Structural baseline:
 - 16 tables
-- CN row counts: `[10,16,6,6,5,4,3,12,24,6,18,6,3,5,9,2]`
-- EN row counts: `[9,16,6,6,5,4,3,12,24,6,18,6,3,5,9,2]`
+- CN row counts: `[10,16,6,6,5,4,3,16,24,6,18,6,3,5,9,2]`
+- EN row counts: `[9,16,6,6,5,4,3,16,24,6,18,6,3,5,9,2]`
 - CN and EN are intentionally different physical templates. Shared semantic content and overwrite rules do not require identical physical row counts or label wording.
 - Section 11 current multi-column/merged-cell geometry is locked.
 - Section 12 current 6-row geometry is locked.
 - Section 15 current 9-row geometry is locked.
 - Section 2 includes the uploaded template's revised hazard-label structure.
 - Section 8 includes the uploaded template's `Hand protection` and `8.2 Engineering controls` slots.
-- Section 8.2 now contains a template-owned four-column child table in the writable value cell: CN `物质 / 依据 / 类型 / 数值`; EN `Substance / Basis / Type / Value`. It starts with one locked header row and one blank styled data slot. Only source-grounded data rows may be written or cloned; the parent sequence/label cells and child header/topology are locked.
+- Section 8.2 uses the formal template's top-level four-column control-parameter rows: a one-cell `工作场所组分控制参数 / Control parameters for workplace components` parent row, one locked header row (CN `物质 / 依据 / 类型 / 数值`; EN `Substance / Basis / Type / Value`), then data rows. Only source-grounded data rows may be written or cloned; the parent row, header wording/topology and grid are locked. The two template example OEL rows (hexamethylene diisocyanate, propylene glycol methyl ether acetate) are illustrative structure only and MUST be cleared: with verified source records they are replaced by source data rows; with no source records the second example row is removed and the single remaining data row carries the exact missing-data placeholder (`无数据` / `No data available`) in the value column, so besides the header only one result row remains.
 - Section 11 includes the uploaded template's structured rows through `11.10 Additional information`.
 - The v3.6.2 template geometry update changes only approved border styling: Section 8 internal PPE boundaries use dotted borders with the adjusted boundary edges around the first exposure-control rows; Section 11 uses dotted boundary edges around its introductory/reference-data transition row. No table count, row count, grid width, merge, paragraph-property or run-property baseline changed.
-- The complete recursive structural snapshot, including nested child-table geometry, paragraph/run properties and header/footer parts, is pinned in `tests/template_snapshot.json` and `tests/template_snapshot_en.json`; versioned v3.13 copies are retained in `tests/template_snapshot_v313.json`, `tests/template_snapshot_en_v313.json`, `tests/template_geometry_v313.json` and `tests/template_geometry_en_v313.json`.
+- The complete structural snapshot, including paragraph/run properties and header/footer parts, is pinned in `tests/template_snapshot.json` and `tests/template_snapshot_en.json`; versioned v3.14 copies are retained in `tests/template_snapshot_v314.json`, `tests/template_snapshot_en_v314.json`, `tests/template_geometry_v314.json` and `tests/template_geometry_en_v314.json`.
 - Section 3 component rule: every component occupies exactly one physical data row. Never pack multiple component names, CAS numbers or concentrations into one row separated by line breaks. If the source has more components than the template's initial slots, clone the existing styled component row in place and preserve its OOXML geometry.
 
-A newer user-approved template immediately supersedes this one. Do not restore geometry or paragraph formatting from older outputs. Text visible in the template (including PEA-4139, example ingredients, hazards, toxicology and ecology values) is illustrative structure only and MUST NOT become product facts.
+A newer user-approved template immediately supersedes this one. Do not restore geometry or paragraph formatting from older outputs. Text visible in the template (including PEA-4139, example ingredients, hazards, toxicology and ecology values, and the two 8.2 example OEL rows) is illustrative structure only and MUST NOT become product facts.
 
 
 ## 2A. Highest-priority in-place overwrite contract
@@ -98,7 +99,7 @@ mutations are allowed:
 - write source-grounded content to an existing field-value cell;
 - maintain an existing one-cell note slot as a whole semantic slot;
 - write only name/CAS/concentration to S3 component data rows, one component per row;
-- write only approved data to S8.2's existing four-column child-table data rows;
+- write only approved source-grounded data to the S8.2 top-level four-column data rows; with no verified records keep a single data row carrying the exact missing-data placeholder in the value column and remove the extra example row;
 - insert an explicitly sourced GHS pictogram into the existing pictogram value slot;
 - remove a complete pure-missing-data row only under the S2/S9 omission policy;
 - change only the numeric prefix after that approved omission;
@@ -186,7 +187,7 @@ If the source contains H/EUH/P codes, keep each complete coded statement on its 
 Section 2 is customer-facing and must be self-contained:
 
 - If the source DOCX contains a GHS pictogram image, extract and insert that image into the cloned template's existing GHS pictogram cell. Preserve the image as an image; do not replace it with `无数据`, `None`, alt text or a textual description. If no image is supplied, resolve a pictogram only from explicit verified GHS classifications and record the resolution in the audit; never infer from vague prose.
-- The `GHS label elements` value cell must contain explicit, line-separated label tips. For example: `必须列在标签上的有害成分：` followed by `亲水脂肪族聚异氰酸酯` on the next line. The English equivalent is `Hazardous ingredients required to be listed on the label:` followed by the ingredient on the next line.
+- The `GHS label elements` value cell must contain explicit, line-separated label tips. For example: `必须列在标签上的有害成分：` followed by `亲水脂肪族聚异氰酸酯` on the next line. The English equivalent is `Hazardous ingredients required to be listed on the label:` followed by the ingredient on the next line. With no verified label ingredients the value stays empty and the existing missing-row suppression removes the whole row; never leave the bare heading.
 - Never output `见2.4-2.6`, `See 2.4-2.6`, or any customer-facing cross-reference. Signal word, hazard statements and precautionary statements remain directly visible in their own rows.
 - After Section 2 values and pictograms are written, remove a whole dedicated row whose value is only `无数据` / `No data available`, including `眼睛：无数据` / `Eyes: No data available`, and renumber surviving unique `2.x` items in original order. Keep substantive negatives such as `无刺激`, `不适用` and `无危险反应`; repeated child rows retain one shared number. The unnumbered pictogram row remains when an image is present.
 

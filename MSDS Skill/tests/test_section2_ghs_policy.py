@@ -22,6 +22,18 @@ def test_label_elements_are_explicit_and_line_separated():
     assert format_label_elements("en", ["Hydrophilic aliphatic polyisocyanate"]) == "Hazardous ingredients required to be listed on the label:\nHydrophilic aliphatic polyisocyanate"
 
 
+def test_label_elements_without_ingredients_leave_empty_value_for_suppression():
+    assert format_label_elements("zh", []) == ""
+    assert format_label_elements("en", []) == ""
+    document = Document(ROOT / "examples" / "template_reference.docx")
+    table = document.tables[1]
+    table.rows[3].cells[-1].text = format_label_elements("zh", [])
+    result = suppress_missing_section2_rows_and_renumber(document, lambda p, text: setattr(p, "text", text))
+    labels = [row.cells[0].text.strip() for row in document.tables[1].rows[1:]]
+    assert not any("GHS标签要素" in label for label in labels)
+    assert result["removed_count"] >= 1
+
+
 def test_section2_missing_rows_are_removed_and_unique_items_renumbered():
     document = Document(ROOT / "examples" / "template_reference.docx")
     table = document.tables[1]

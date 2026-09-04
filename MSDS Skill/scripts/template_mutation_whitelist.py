@@ -5,6 +5,8 @@ small set of mutations that generation is allowed to make:
 
 * ordinary fields write only to value cells;
 * S3 data rows write name/CAS/concentration to the three data cells;
+* S8.2 top-level data rows write substance/basis/type/value to the four data
+  cells, with the template example rows cleared per the data/placeholder rule;
 * one-cell note slots may be replaced as a whole slot;
 * S2/S9 may remove an explicitly missing row and change only the visible
   sequence prefix afterwards;
@@ -24,9 +26,16 @@ from typing import Callable, Iterable, Sequence
 from docx.oxml.ns import qn
 
 
-S82_CHILD_HEADERS = {
+S82_TOP_HEADERS = {
     "zh": ("物质", "依据", "类型", "数值"),
     "en": ("Substance", "Basis", "Type", "Value"),
+}
+
+S82_CHILD_HEADERS = S82_TOP_HEADERS
+
+S82_MISSING = {
+    "zh": "无数据",
+    "en": "No data available",
 }
 
 
@@ -158,6 +167,11 @@ def write_row_values(row, values: Sequence[object], *, table_index: int | None =
         # one-cell note slot.
         return
 
+    if table_index == 7 and row_index is not None and row_index >= 12:
+        # The formal S8.2 parent/header/data rows are owned by
+        # write_s82_top_rows; generic row writes must not touch them.
+        raise MutationViolation("S8.2 top-level rows must be written through write_s82_top_rows")
+
     # S3 component data rows: name, CAS, concentration are all writable.
     if table_index == 2 and row_index is not None and row_index >= 4:
         if len(cells) != 3 or len(values) < 3:
@@ -178,36 +192,49 @@ def write_row_values(row, values: Sequence[object], *, table_index: int | None =
         set_value_cell_text(cells[offset], value)
 
 
-def write_s82_child_rows(cell, records: Iterable[Sequence[object]], language: str) -> None:
-    """Write verified S8.2 control-parameter records into the child table.
+def write_s82_top_rows(table, records: Iterable[Sequence[object]], language: str) -> dict:
+    """Write verified S8.2 control-parameter records into the formal top-level rows.
 
-    The child-table header and topology belong to the template.  Only data
-    rows are writable; extra rows are cloned from the existing styled data
-    row, and the template's initial blank data slot is retained when the
-    source has no control-parameter records.
+    The one-cell parent row (physical row 12) and the four-column header row
+    (physical row 13) belong to the template.  Data rows (physical row 14 on)
+    are writable: extra rows are cloned from the existing styled data row, and
+    the template example rows are cleared.  With no verified records the
+    second example row is removed and the single remaining data row carries
+    the exact missing-data placeholder in the value column, so besides the
+    header only one result row remains.
     """
-    if language not in S82_CHILD_HEADERS:
-        raise MutationViolation(f"unsupported S8.2 child-table language: {language}")
-    tables = list(cell.tables)
-    if len(tables) != 1:
-        raise MutationViolation("S8.2 must contain exactly one maintained child table")
-    table = tables[0]
-    if len(table.rows) < 2 or len(table.columns) != 4:
-        raise MutationViolation("S8.2 child table must have a header and one styled data row")
-    header = tuple(item.text.strip() for item in table.rows[0].cells)
-    if header != S82_CHILD_HEADERS[language]:
+    if language not in S82_TOP_HEADERS:
+        raise MutationViolation(f"unsupported S8.2 language: {language}")
+    if len(table.rows) < 16:
+        raise MutationViolation("S8.2 formal layout requires 16 Section-8 rows")
+    parent = unique_cells(table.rows[12])
+    if len(parent) != 1:
+        raise MutationViolation("S8.2 parent must be a one-cell row")
+    header = tuple(cell.text.strip() for cell in unique_cells(table.rows[13]))
+    if header != S82_TOP_HEADERS[language]:
         raise MutationViolation(
-            f"S8.2 child-table header mismatch: expected {S82_CHILD_HEADERS[language]}, found {header}"
+            f"S8.2 header mismatch: expected {S82_TOP_HEADERS[language]}, found {header}"
         )
     normalized = [tuple(str(value) for value in record[:4]) for record in records]
     if any(len(record) != 4 for record in normalized):
-        raise MutationViolation("each S8.2 child-table record must contain substance/basis/type/value")
-    while len(table.rows) < 1 + max(1, len(normalized)):
-        table._tbl.append(copy.deepcopy(table.rows[-1]._tr))
-    for row_index, row in enumerate(table.rows[1:], start=0):
-        values = normalized[row_index] if row_index < len(normalized) else ("", "", "", "")
-        for target, value in zip(unique_cells(row), values):
+        raise MutationViolation("each S8.2 record must contain substance/basis/type/value")
+    if not normalized:
+        normalized = [("", "", "", S82_MISSING[language])]
+    while len(table.rows) < 14 + len(normalized):
+        table._tbl.append(copy.deepcopy(table.rows[14]._tr))
+    while len(table.rows) > 14 + len(normalized):
+        table._tbl.remove(table.rows[-1]._tr)
+    for position, row in enumerate(list(table.rows)[14:14 + len(normalized)]):
+        cells = unique_cells(row)
+        if len(cells) != 4:
+            raise MutationViolation("S8.2 data row must have four cells")
+        for target, value in zip(cells, normalized[position]):
             set_value_cell_text(target, value)
+    return {
+        "record_count": len(records),
+        "row_count": len(normalized),
+        "placeholder": not bool(records),
+    }
 
 
 def clear_value_cells(document) -> None:
@@ -224,6 +251,13 @@ def clear_value_cells(document) -> None:
                 continue
             if table_index == 7 and row_index == 1:
                 # S8.1 is a locked parent node, not a value slot.
+                continue
+            if table_index == 7 and row_index in {12, 13}:
+                # S8.2 parent row and four-column header are locked.
+                continue
+            if table_index == 7 and row_index >= 14:
+                for cell in cells:
+                    set_value_cell_text(cell, "")
                 continue
             if table_index == 2 and row_index >= 4:
                 for cell in cells:
@@ -293,6 +327,15 @@ def locked_cell_snapshots(document) -> list[LockedCellSnapshot]:
                 protected = cells
             elif table_index == 2 and row_index >= 4:
                 protected = []
+            elif table_index == 7 and row_index == 12:
+                # S8.2 locked one-cell parent row.
+                protected = cells
+            elif table_index == 7 and row_index == 13:
+                # S8.2 locked four-column header row.
+                protected = cells
+            elif table_index == 7 and row_index >= 14:
+                # S8.2 writable top-level data rows.
+                protected = []
             elif len(cells) == 1:
                 # Feishu marks S11/S12/S13/S15/S16 note slots as whole-slot
                 # writable content, not as a sequence/label column.
@@ -349,9 +392,21 @@ def compare_locked_skeleton(template, output) -> list[str]:
             actual_text = re.sub(r"^\s*\d+\.\d+", "<SEQ>", actual_item.text)
             if expected_text != actual_text:
                 errors.append(f"locked label text changed: {key}")
-    # Child-table headers are a locked substructure.  Data rows are writable,
-    # so compare only the header text/properties here; full child geometry is
-    # covered by the template geometry audit.
+    # The formal S8.2 header row is a locked top-level structure.  Its text is
+    # checked explicitly here because data-row writes share the same table;
+    # formatting is covered by locked_cell_snapshots above.  Nested child
+    # tables, when present in older baselines, are still checked below for
+    # rollback/audit compatibility.
+    if len(template.tables) > 7 and len(output.tables) > 7:
+        template_t7, output_t7 = template.tables[7], output.tables[7]
+        if len(template_t7.rows) > 13 and len(output_t7.rows) > 13:
+            for expected_cell, actual_cell in zip(
+                unique_cells(template_t7.rows[13]), unique_cells(output_t7.rows[13])
+            ):
+                if expected_cell.text != actual_cell.text:
+                    errors.append("locked S8.2 header text changed: table 7 row 13")
+                elif _cell_style_snapshot(expected_cell) != _cell_style_snapshot(actual_cell):
+                    errors.append("locked S8.2 header formatting changed: table 7 row 13")
     for table_index, template_table in enumerate(template.tables):
         if table_index >= len(output.tables):
             continue
@@ -393,8 +448,10 @@ __all__ = [
     "set_value_cell_text",
     "set_sequence_prefix",
     "write_row_values",
-    "write_s82_child_rows",
+    "write_s82_top_rows",
+    "S82_TOP_HEADERS",
     "S82_CHILD_HEADERS",
+    "S82_MISSING",
     "clear_value_cells",
     "locked_cell_snapshots",
     "compare_locked_skeleton",
