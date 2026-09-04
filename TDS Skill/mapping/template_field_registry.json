@@ -1,0 +1,397 @@
+{
+  "schema_version": "1.0.0",
+  "variants": {
+    "TDS_CN_冠志模板": {
+      "template": "templates\\active\\TDS_CN_冠志模板.docx",
+      "template_sha256": "c0369205f5d2270cda45dd6f959493ce39e475d51fba37cf622cec3a6761ba94",
+      "language": "zh-CN",
+      "company": "guanzhi",
+      "slots": [
+        {
+          "field_id": "product.title",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 7
+          }
+        },
+        {
+          "field_id": "product.description",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 11
+          }
+        },
+        {
+          "field_id": "product.supply_form",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 14
+          }
+        },
+        {
+          "field_id": "product.features",
+          "kind": "paragraph_list",
+          "locator": {
+            "paragraph_indices": [
+              21,
+              23
+            ]
+          }
+        },
+        {
+          "field_id": "product.application",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 27
+          }
+        },
+        {
+          "field_id": "product.storage",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 32
+          }
+        },
+        {
+          "field_id": "performance.appearance",
+          "kind": "performance_row",
+          "label": "乳液外观",
+          "locator": {
+            "table_index": 0,
+            "row_index": 1
+          }
+        },
+        {
+          "field_id": "performance.eew",
+          "kind": "performance_row",
+          "label": "环氧当量（EEW）",
+          "locator": {
+            "table_index": 0,
+            "row_index": 2
+          }
+        },
+        {
+          "field_id": "performance.solid_content",
+          "kind": "performance_row",
+          "label": "固含量",
+          "locator": {
+            "table_index": 0,
+            "row_index": 3
+          }
+        },
+        {
+          "field_id": "performance.ph_25c",
+          "kind": "performance_row",
+          "label": "PH值（25℃）",
+          "locator": {
+            "table_index": 0,
+            "row_index": 4
+          }
+        },
+        {
+          "field_id": "performance.viscosity_25c",
+          "kind": "performance_row",
+          "label": "粘度（25℃）",
+          "locator": {
+            "table_index": 0,
+            "row_index": 5
+          }
+        }
+      ]
+    },
+    "TDS_CN_国彩模板": {
+      "template": "templates\\active\\TDS_CN_国彩模板.docx",
+      "template_sha256": "aaef04085533aa04104003760b06dce7b7c3a2f1c093d419657d26d2b7720a06",
+      "language": "zh-CN",
+      "company": "guocai",
+      "slots": [
+        {
+          "field_id": "product.title",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 7
+          }
+        },
+        {
+          "field_id": "product.description",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 11
+          }
+        },
+        {
+          "field_id": "product.supply_form",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 14
+          }
+        },
+        {
+          "field_id": "product.features",
+          "kind": "paragraph_list",
+          "locator": {
+            "paragraph_indices": [
+              21,
+              23
+            ]
+          }
+        },
+        {
+          "field_id": "product.application",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 27
+          }
+        },
+        {
+          "field_id": "product.storage",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 32
+          }
+        },
+        {
+          "field_id": "performance.appearance",
+          "kind": "performance_row",
+          "label": "乳液外观",
+          "locator": {
+            "table_index": 0,
+            "row_index": 1
+          }
+        },
+        {
+          "field_id": "performance.eew",
+          "kind": "performance_row",
+          "label": "环氧当量（EEW）",
+          "locator": {
+            "table_index": 0,
+            "row_index": 2
+          }
+        },
+        {
+          "field_id": "performance.solid_content",
+          "kind": "performance_row",
+          "label": "固含量",
+          "locator": {
+            "table_index": 0,
+            "row_index": 3
+          }
+        },
+        {
+          "field_id": "performance.ph_25c",
+          "kind": "performance_row",
+          "label": "PH值（25℃）",
+          "locator": {
+            "table_index": 0,
+            "row_index": 4
+          }
+        },
+        {
+          "field_id": "performance.viscosity_25c",
+          "kind": "performance_row",
+          "label": "粘度（25℃）",
+          "locator": {
+            "table_index": 0,
+            "row_index": 5
+          }
+        }
+      ]
+    },
+    "TDS_EN_冠志模板": {
+      "template": "templates\\active\\TDS_EN_冠志模板.docx",
+      "template_sha256": "4d602128bd397235e76e48d39a9a02b7862b840063734bc89b67661271d0a216",
+      "language": "en-US",
+      "company": "guanzhi",
+      "slots": [
+        {
+          "field_id": "product.title",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 7
+          }
+        },
+        {
+          "field_id": "product.description",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 11
+          }
+        },
+        {
+          "field_id": "product.supply_form",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 14
+          }
+        },
+        {
+          "field_id": "product.features",
+          "kind": "paragraph_list",
+          "locator": {
+            "paragraph_indices": [
+              21,
+              23
+            ]
+          }
+        },
+        {
+          "field_id": "product.application",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 27
+          }
+        },
+        {
+          "field_id": "product.storage",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 31
+          }
+        },
+        {
+          "field_id": "performance.appearance",
+          "kind": "performance_row",
+          "label": "乳液外观",
+          "locator": {
+            "table_index": 0,
+            "row_index": 1
+          }
+        },
+        {
+          "field_id": "performance.eew",
+          "kind": "performance_row",
+          "label": "环氧当量（EEW）",
+          "locator": {
+            "table_index": 0,
+            "row_index": 2
+          }
+        },
+        {
+          "field_id": "performance.solid_content",
+          "kind": "performance_row",
+          "label": "固含量",
+          "locator": {
+            "table_index": 0,
+            "row_index": 3
+          }
+        },
+        {
+          "field_id": "performance.ph_25c",
+          "kind": "performance_row",
+          "label": "PH值（25℃）",
+          "locator": {
+            "table_index": 0,
+            "row_index": 4
+          }
+        },
+        {
+          "field_id": "performance.viscosity_25c",
+          "kind": "performance_row",
+          "label": "粘度（25℃）",
+          "locator": {
+            "table_index": 0,
+            "row_index": 5
+          }
+        }
+      ]
+    },
+    "TDS_EN_国彩模板": {
+      "template": "templates\\active\\TDS_EN_国彩模板.docx",
+      "template_sha256": "81ce06371a96acfc569c879a41750b92078cc8f524361bb2b5ea83032b9ffccd",
+      "language": "en-US",
+      "company": "guocai",
+      "slots": [
+        {
+          "field_id": "product.title",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 7
+          }
+        },
+        {
+          "field_id": "product.description",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 11
+          }
+        },
+        {
+          "field_id": "product.supply_form",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 14
+          }
+        },
+        {
+          "field_id": "product.features",
+          "kind": "paragraph_list",
+          "locator": {
+            "paragraph_indices": [
+              21,
+              23
+            ]
+          }
+        },
+        {
+          "field_id": "product.application",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 27
+          }
+        },
+        {
+          "field_id": "product.storage",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 31
+          }
+        },
+        {
+          "field_id": "performance.appearance",
+          "kind": "performance_row",
+          "label": "乳液外观",
+          "locator": {
+            "table_index": 0,
+            "row_index": 1
+          }
+        },
+        {
+          "field_id": "performance.eew",
+          "kind": "performance_row",
+          "label": "环氧当量（EEW）",
+          "locator": {
+            "table_index": 0,
+            "row_index": 2
+          }
+        },
+        {
+          "field_id": "performance.solid_content",
+          "kind": "performance_row",
+          "label": "固含量",
+          "locator": {
+            "table_index": 0,
+            "row_index": 3
+          }
+        },
+        {
+          "field_id": "performance.ph_25c",
+          "kind": "performance_row",
+          "label": "PH值（25℃）",
+          "locator": {
+            "table_index": 0,
+            "row_index": 4
+          }
+        },
+        {
+          "field_id": "performance.viscosity_25c",
+          "kind": "performance_row",
+          "label": "粘度（25℃）",
+          "locator": {
+            "table_index": 0,
+            "row_index": 5
+          }
+        }
+      ]
+    }
+  }
+}

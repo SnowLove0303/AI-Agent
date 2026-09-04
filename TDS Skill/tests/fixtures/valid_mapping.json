@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "status": "ready",
+  "mapped_fields": {
+    "product.title": {"values": {"zh-CN": "水性聚氨酯分散体TDS-DEMO", "en-US": "Water-based polyurethane dispersion TDS-DEMO"}},
+    "product.description": {"values": {"zh-CN": "用于水性涂层的聚氨酯分散体。", "en-US": "A polyurethane dispersion for water-based coatings."}},
+    "product.supply_form": {"values": {"zh-CN": "液体分散体。", "en-US": "Liquid dispersion."}},
+    "product.features": {"values": {"zh-CN": "储存稳定性良好；\n粘度稳定。", "en-US": "Good storage stability;\nStable viscosity."}},
+    "product.application": {"values": {"zh-CN": "用于水性防护涂料。", "en-US": "For water-based protective coatings."}},
+    "product.storage": {"values": {"zh-CN": "密封储存在5-35℃，避免冻结。", "en-US": "Store sealed at 5-35°C and protect from freezing."}},
+    "performance.appearance": {"values": {"zh-CN": "乳白色液体", "en-US": "Milky liquid"}, "unit": "", "test_method": "Visual"},
+    "performance.eew": {"values": {"zh-CN": "850-1050", "en-US": "850-1050"}, "unit": "g/mol", "test_method": ""},
+    "performance.solid_content": {"values": {"zh-CN": "48±2", "en-US": "48±2"}, "unit": "%", "test_method": "150°C 30 min, forced-air oven"},
+    "performance.ph_25c": {"values": {"zh-CN": "6.0-8.0", "en-US": "6.0-8.0"}, "unit": "", "test_method": "GB/T 6920-1986"},
+    "performance.viscosity_25c": {"values": {"zh-CN": "100-3000", "en-US": "100-3000"}, "unit": "mPa·s", "test_method": "GB/T 2794-2013"}
+  },
+  "blockers": []
+}

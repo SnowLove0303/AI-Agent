@@ -1,0 +1,6 @@
+{
+  "schema_version": "1.0.0",
+  "allowed": {"paragraph_fields": ["product.title", "product.description", "product.supply_form", "product.features", "product.application", "product.storage"], "performance_fields": ["performance.appearance", "performance.eew", "performance.solid_content", "performance.ph_25c", "performance.viscosity_25c"]},
+  "protected": ["sequence_column", "label_column", "table_shape", "table_merge", "grid_widths", "paragraph_character_properties", "header_footer", "package_parts"],
+  "sample_fact_tokens": ["EP-1704", "PU-2345", "53±2", "900-1100", "200-5000", "150℃30min"]
+}
