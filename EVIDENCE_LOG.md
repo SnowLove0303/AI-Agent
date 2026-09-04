@@ -68,5 +68,19 @@ Each entry: `E-### | timestamp | action | result | status | ref`
 - Status: Verified
 - Ref: `https://xcnch7esppuf.feishu.cn/wiki/BcpFwKXsVi6Ar9k9k2McuXshnkb`
 
+### E-010
+- Time: 2026-09-04T08:38:52Z
+- Action: 回读飞书交接页后，将页面中的 HEAD 记录更新为 handoff state commit，并再次读取关键词范围。
+- Result: 页面 revision 16 已更新为 revision 17；页面标题、最新 HEAD、代码基线和接手正文均可回读。
+- Status: Verified
+- Ref: `https://xcnch7esppuf.feishu.cn/wiki/BcpFwKXsVi6Ar9k9k2McuXshnkb`
+
+### E-011
+- Time: 2026-09-04T08:38:52Z
+- Action: 修正飞书页面中的证据索引，并用 keyword fetch 验证。
+- Result: 页面显示证据范围为 E-001 至 E-009，标题为 `MSDS/TDS 项目交接文档 1.3.2`，revision 17。
+- Status: Verified
+- Ref: `https://xcnch7esppuf.feishu.cn/wiki/BcpFwKXsVi6Ar9k9k2McuXshnkb`
+
 ## Last Updated
-2026-09-04T08:37:23Z · Codex · session-20260904-tds-handoff
+2026-09-04T08:38:52Z · Codex · session-20260904-tds-handoff

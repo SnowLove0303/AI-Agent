@@ -11,7 +11,7 @@
 - Worktree: clean
 - Runtime / entry point: `py "TDS Skill/scripts/tds_cli.py" build --source-cn <cn.doc|cn.docx> --source-en <en.doc|en.docx> --model <MODEL> --output-dir <output-dir>`
 - State files: `TASK_STATE.md`, `HANDOFF.md`, `DECISIONS.md`, `EVIDENCE_LOG.md`
-- Feishu handoff: `https://xcnch7esppuf.feishu.cn/wiki/BcpFwKXsVi6Ar9k9k2McuXshnkb`（revision 15）
+- Feishu handoff: `https://xcnch7esppuf.feishu.cn/wiki/BcpFwKXsVi6Ar9k9k2McuXshnkb`（revision 17）
 
 ## Resume In <30 Seconds
 1. Read `TASK_STATE.md` → goal, progress and blockers.
@@ -47,5 +47,5 @@ py "TDS Skill/scripts/tds_cli.py" build --normalized-mapping <approved-mapping.j
 - `AIharness validate --json` 的既有 `UNKNOWN_DOCUMENT` 记录仍存在，详见 E-008；不要未经 OpenSpec 变更擅自重构仓库文档体系。
 
 ## Handoff From / To
-From: Codex @ 2026-09-04T08:37:23Z
+From: Codex @ 2026-09-04T08:38:52Z
 To: 项目维护者 / 下一位 Agent

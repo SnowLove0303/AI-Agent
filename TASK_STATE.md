@@ -38,4 +38,4 @@ Phases: 1. 需求与规格 | 2. 实现与验证 | 3. Git 发布 | 4. 交接文�
 - `AIharness validate --json` 对仓库既有 AGENTS/ARCHITECTURE/docs 文档报告 `UNKNOWN_DOCUMENT` — likelihood: low — mitigation: 不把这些非 managed 文档改成另一套体系；若项目要求纳管，另行建立 OpenSpec 变更后处理。
 
 ## Last Updated
-2026-09-04T08:37:23Z · Codex · session-20260904-tds-handoff
+2026-09-04T08:38:52Z · Codex · session-20260904-tds-handoff
