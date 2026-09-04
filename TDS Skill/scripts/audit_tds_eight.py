@@ -2,7 +2,7 @@ from __future__ import annotations
 import argparse, hashlib, json, zipfile
 from pathlib import Path
 from docx import Document
-from tds_common import ROOT, dump, feature_spacing_signature, load, numbering_shape, package_inventory, sha256, doc_snapshot
+from tds_common import ROOT, SECTION_HEADINGS, dump, feature_spacing_signature, hidden_field_ids, load, numbering_shape, package_inventory, sha256, doc_snapshot
 
 def shape(s):
     s=json.loads(json.dumps(s));
@@ -30,14 +30,35 @@ def semantic_units(item,lang):
     return (item.get('normalized_unit_values',{}) if 'normalized_unit_values' in item else item.get('unit_values',{})).get(lang)
 def semantic_methods(item,lang):
     return (item.get('normalized_test_method_values',{}) if 'normalized_test_method_values' in item else item.get('test_method_values',{})).get(lang)
-def feature_contract_ok(base_doc, output_doc, variant):
+def feature_contract_ok(base_doc, output_doc, variant, mapping=None):
+    hidden=hidden_field_ids(mapping) if mapping is not None else []
+    if 'product.features' in hidden: return True
     indices=variant.get('feature_format_contract',{}).get('paragraph_indices',[21,23])
-    base=[base_doc.paragraphs[i] for i in indices]; output=[output_doc.paragraphs[i] for i in indices]
+    hide=hidden_paragraph_indices(base_doc, variant, mapping) if mapping is not None else set()
+    if hide is None: return False
+    out_indices=[i-sum(1 for h in hide if h<i) for i in indices]
+    base=[base_doc.paragraphs[i] for i in indices]; output=[output_doc.paragraphs[i] for i in out_indices]
     return all(numbering_shape(p) is None for p in output) and feature_spacing_signature(base[0]) == feature_spacing_signature(base[1]) == feature_spacing_signature(output[0]) == feature_spacing_signature(output[1])
+def hidden_paragraph_indices(base_doc, variant, mapping):
+    """Pristine-template paragraph indices removed by whole-section hiding. None when the heading cannot be located (fail closed)."""
+    hidden=hidden_field_ids(mapping); lang=variant['language']
+    slots={x['field_id']:x for x in variant['slots']}
+    idx=set()
+    for fid in hidden:
+        head=SECTION_HEADINGS[fid][lang]
+        hi=next((i for i,p in enumerate(base_doc.paragraphs) if p.text.strip()==head),None)
+        if hi is None: return None
+        idx.add(hi)
+        loc=slots[fid]['locator']
+        idx.update(loc['paragraph_indices'] if slots[fid]['kind']=='paragraph_list' else [loc['paragraph_index']])
+    return idx
 def audit_shape(base_doc, output_doc, variant, mapping):
     left, right = shape(doc_snapshot(base_doc)), shape(doc_snapshot(output_doc))
     left_table, right_table = left['tables'][0], right['tables'][0]
     if left['sections'] != right['sections'] or left_table['grid_widths'] != right_table['grid_widths']: return False
+    hide=hidden_paragraph_indices(base_doc, variant, mapping)
+    if hide is None: return False
+    left_paras=[p for i,p in enumerate(left['paragraphs']) if i not in hide]
     source_rows=semantic_rows(mapping)
     if source_rows is not None:
         start=variant.get('performance_table',{}).get('data_start_row_index',1)
@@ -52,12 +73,37 @@ def audit_shape(base_doc, output_doc, variant, mapping):
         rows=right_table['rows'][6:]
     for row in (rows if source_rows is None else []):
         if [c['shape'] for c in row['cells']] != [c['shape'] for c in left_table['rows'][5]['cells']]: return False
-    def heading_index(doc, names):
-        return next((i for i,p in enumerate(doc.paragraphs) if p.text.strip() in names),None)
-    names={'【应用】','【Application】'}
-    li,ri=heading_index(base_doc,names),heading_index(output_doc,names)
+    lang=variant['language']
+    chain={'zh-CN':['【应用】','【储存】','【产品特性】'],'en-US':['【Application】','【Storage】','【Product features】']}[lang]
+    li=ri=None
+    for name in chain:
+        a=next((i for i,p in enumerate(base_doc.paragraphs) if p.text.strip()==name),None)
+        b=next((i for i,p in enumerate(output_doc.paragraphs) if p.text.strip()==name),None)
+        if a is not None and b is not None:
+            li=a-sum(1 for h in hide if h<a); ri=b; break
     if li is None or ri is None: return False
-    return left['paragraphs'][:24]+left['paragraphs'][li:] == right['paragraphs'][:24]+right['paragraphs'][ri:]
+    hidden_here=set(hidden_field_ids(mapping))
+    if 'product.features' in hidden_here:
+        lstart=li; rstart=ri
+    else:
+        feat_head={'zh-CN':'【产品特性】','en-US':'【Product features】'}[lang]
+        fa=next((i for i,p in enumerate(base_doc.paragraphs) if p.text.strip()==feat_head),None)
+        fb=next((i for i,p in enumerate(output_doc.paragraphs) if p.text.strip()==feat_head),None)
+        if fa is None or fb is None: return False
+        lstart=fa-sum(1 for h in hide if h<fa); rstart=fb
+    if left_paras[:lstart]+left_paras[li:] != right['paragraphs'][:rstart]+right['paragraphs'][ri:]: return False
+    mid_left=left_paras[lstart:li]; mid_right=right['paragraphs'][rstart:ri]
+    if 'product.features' in hidden_here:
+        return mid_left==[] and mid_right==[]
+    feat_item=semantic_fields(mapping).get('product.features',{})
+    feat_vals=feat_item.get('normalized_values',feat_item.get('values',{}))
+    fvals=(feat_vals.get(lang,'') or '').splitlines()
+    extra_count=max(0,len(fvals)-2)
+    contract_last=variant.get('feature_format_contract',{}).get('paragraph_indices',[21,23])[-1]
+    split_at=contract_last-fa+1
+    anchor_shape=left['paragraphs'][contract_last]
+    if mid_right != mid_left[:split_at]+[anchor_shape]*extra_count+mid_left[split_at:]: return False
+    return True
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--output-dir',type=Path,required=True); ap.add_argument('--registry',type=Path,required=True); ap.add_argument('--mapping',type=Path,required=True); ap.add_argument('--model',required=True); ap.add_argument('--report',type=Path,required=True); args=ap.parse_args()
     reg=load(args.registry); mapping=load(args.mapping); results=[]; errors=[]; warnings=[]
@@ -76,8 +122,10 @@ def main():
         pending=sum(1 for item in decisions if item.get('needs_judgment'))
         if pending: warnings.append(f'pending_agent_judgments:{pending}')
     required_fields=['product.title','product.description','product.supply_form','product.features','product.application','product.storage']
+    hidden=set(hidden_field_ids(mapping))
     for language in ('zh-CN','en-US'):
         for field in required_fields:
+            if field in hidden: continue
             item=fields.get(field,{})
             values=item.get('normalized_values',item.get('values',{}))
             if language not in values: errors.append(f'missing_language_source_value:{language}:{field}')
@@ -94,13 +142,13 @@ def main():
         base=Document(str(ROOT/v['template'])); product=Document(str(out));
         geometry_ok=audit_shape(base,product,v,mapping)
         if not geometry_ok: errors.append(f'geometry_changed:{vid}')
-        feature_ok=feature_contract_ok(base,product,v)
+        feature_ok=feature_contract_ok(base,product,v,mapping)
         if not feature_ok: errors.append(f'feature_format_contract_changed:{vid}')
         parts0=package_inventory(ROOT/v['template']); parts1=package_inventory(out)
         for part,h in parts0.items():
             if part!='word/document.xml' and parts1.get(part)!=h: errors.append(f'package_part_changed:{vid}:{part}')
         text='\n'.join(p.text for p in product.paragraphs)+'\n'+'\n'.join(c.text for t in product.tables for r in t.rows for c in r.cells)
-        leaks=[x for x in load(ROOT/'mapping'/'tds_mutation_whitelist.json')['sample_fact_tokens'] if x.lower() in text.lower()]
+        leaks=[x for x in load(ROOT/'mapping'/'tds_mutation_whitelist.json')['sample_fact_tokens'] if x.lower() in text.lower() and x not in (mapping.get('allowed_source_tokens') or [])]
         if leaks: errors.append(f'sample_fact_leak:{vid}:{leaks}')
         pdf=out.with_suffix('.pdf')
         if not pdf.is_file(): errors.append(f'missing_pdf:{pdf.name}')

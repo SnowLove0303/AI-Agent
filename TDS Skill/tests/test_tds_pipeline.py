@@ -213,3 +213,46 @@ def test_source_led_table_trims_unused_template_rows(tmp_path):
     output = tmp_path / "trimmed.docx"
     write_variant(mapping, registry, "TDS_CN_冠志模板", output)
     assert len(Document(str(output)).tables[0].rows) == 2
+
+
+def test_hidden_no_source_section_is_removed(tmp_path):
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
+    mapping["schema_version"] = "1.3.0"
+    mapping["status"] = "ready"
+    mapping["normalized_model"] = {
+        "status": "approved",
+        "translation": {"source": "normalized_model"},
+        "fields": {
+            field_id: {"field_id": field_id, "source_values": dict(item.get("values", {})), "normalized_values": dict(item.get("values", {})), "provenance": {}}
+            for field_id, item in mapping["mapped_fields"].items()
+        },
+        "performance_rows": None,
+        "decision_ledger": [{"field_id": "product.supply_form", "decision": "hide_no_source", "needs_judgment": False, "provenance": {}}],
+    }
+    mapping["normalized_model"]["fields"]["product.supply_form"] = {"field_id": "product.supply_form", "source_values": {}, "normalized_values": {}, "provenance": {}}
+    for variant_id in ("TDS_CN_冠志模板", "TDS_EN_冠志模板"):
+        output = tmp_path / f"hidden_{variant_id}.docx"
+        write_variant(mapping, registry, variant_id, output)
+        paragraphs = "\n".join(p.text for p in Document(str(output)).paragraphs)
+        heading = "【供应形式】" if registry["variants"][variant_id]["language"] == "zh-CN" else "【Supply Form】"
+        assert heading not in paragraphs
+        assert "无数据" not in paragraphs and "No data available" not in paragraphs
+        base = Document(str(ROOT / registry["variants"][variant_id]["template"]))
+        assert audit_shape(base, Document(str(output)), registry["variants"][variant_id], mapping)
+
+
+def test_empty_text_section_becomes_hide_candidate(tmp_path):
+    facts = tmp_path / "cn.json"
+    facts.write_text(json.dumps({
+        "language": "zh-CN",
+        "title": {"text": "TDS-DEMO"},
+        "sections": {"product.description": {"text": "用于水性涂层。", "locations": [3]}},
+        "performance_rows": [{"item": "外观", "value": "液体", "unit": "", "test_method": "目测", "source_column_count": 4, "source_location": "table[0].row[1]"}]
+    }, ensure_ascii=False), encoding="utf-8")
+    output = tmp_path / "mapping.json"
+    subprocess.run([sys.executable, str(ROOT / "scripts" / "map_tds_fields.py"), "--cn", str(facts), "--registry", str(ROOT / "mapping" / "template_field_registry.json"), "--output", str(output)], check=True)
+    result = json.loads(output.read_text(encoding="utf-8"))
+    decision = next(item for item in result["decision_ledger"] if item["field_id"] == "product.supply_form")
+    assert decision["decision"] == "hide_no_source_candidate"
+    assert decision["needs_judgment"] is True

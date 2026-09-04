@@ -115,3 +115,25 @@ def fresh_write(template: Path, output: Path, edit) -> None:
         xml=changed.read('word/document.xml')
         for info in src.infolist(): dst.writestr(info, xml if info.filename=='word/document.xml' else src.read(info.filename))
     tmp.unlink()
+
+SECTION_HEADINGS={
+ 'product.description':{'zh-CN':'【产品描述】','en-US':'【Characterization】'},
+ 'product.supply_form':{'zh-CN':'【供应形式】','en-US':'【Supply Form】'},
+ 'product.features':{'zh-CN':'【产品特性】','en-US':'【Product features】'},
+ 'product.application':{'zh-CN':'【应用】','en-US':'【Application】'},
+ 'product.storage':{'zh-CN':'【储存】','en-US':'【Storage】'},
+}
+HIDEABLE_FIELDS=list(SECTION_HEADINGS)
+def hidden_field_ids(mapping):
+    """Section fields the Agent approved for whole-section hiding (heading + body removed, no NO_DATA placeholder). Empty unless the normalized decision ledger carries decision=hide_no_source with needs_judgment resolved and both languages empty. product.title can never hide."""
+    model=mapping.get('normalized_model') or {}
+    fields=model.get('fields') or {}
+    ledger={d.get('field_id'):d for d in model.get('decision_ledger',[]) if isinstance(d,dict)}
+    hidden=[]
+    for fid in HIDEABLE_FIELDS:
+        d=ledger.get(fid)
+        if not d or d.get('decision')!='hide_no_source' or d.get('needs_judgment',True): continue
+        vals=(fields.get(fid) or {}).get('normalized_values',{}) or {}
+        if vals.get('zh-CN') or vals.get('en-US'): continue
+        hidden.append(fid)
+    return hidden

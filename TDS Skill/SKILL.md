@@ -2,7 +2,7 @@
 name: tds-four-variant-eight-deliverable-standardizer
 description: Extract, normalize, professionally translate, and overwrite TDS content into CN/EN × Guanzhi/Guocai templates, producing four DOCX and four DOCX-derived PDF deliverables with auditable judgment evidence.
 metadata:
-  version: 1.3.2
+  version: 1.3.3
   short-description: TDS Skill — evidence-led normalization, agent judgment, four refreshed templates, eight auditable files
 ---
 

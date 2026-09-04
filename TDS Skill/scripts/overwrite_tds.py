@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from docx import Document
 from docx.text.paragraph import Paragraph
-from tds_common import ROOT, dump, fresh_write, load, norm, replace_cell, replace_paragraph, sha256
+from tds_common import ROOT, SECTION_HEADINGS, dump, fresh_write, hidden_field_ids, load, norm, replace_cell, replace_paragraph, sha256
 
 NO_DATA={'zh-CN':'无数据','en-US':'No data available'}
 def feature_lines(text): return [re.sub(r'^\s*\d+[.、]\s*','',line) for line in (text or '').splitlines()]
@@ -39,8 +39,10 @@ def write_variant(mapping, registry, variant_id, output):
     source_rows = semantic_rows(mapping)
     if len(extension_rows)>variant.get('performance_extension',{}).get('max_rows',100): raise RuntimeError(f'too many additional performance rows for {variant_id}')
     if source_rows is not None and len(source_rows)>variant.get('performance_table',{}).get('max_source_rows',100): raise RuntimeError(f'too many source performance rows for {variant_id}')
+    hidden=set(hidden_field_ids(mapping))
     def edit(doc):
         for fid,slot in slots.items():
+            if fid in hidden: continue
             fact=fields.get(fid,{}); loc=slot['locator']
             if slot['kind']=='performance_row':
                 if source_rows is not None: continue
@@ -63,10 +65,28 @@ def write_variant(mapping, registry, variant_id, output):
             for extra in extension_rows:
                 clone=deepcopy(table.rows[5]._tr); table._tbl.append(clone); row=table.rows[-1]
                 replace_cell(row.cells[0],extra.get('label_values',{}).get(lang) or NO_DATA[lang]); replace_cell(row.cells[1],value(extra,lang)); replace_cell(row.cells[2],extra.get('unit') or ''); replace_cell(row.cells[3],extra.get('test_method') or '')
+        hidden_paras=[]
+        if hidden:
+            extra_count=0
+            if 'product.features' not in hidden:
+                extra_count=max(0,len(feature_lines(fields.get('product.features',{}).get('values',{}).get(lang,'')))-2)
+            kill=set()
+            for fid in hidden:
+                head=SECTION_HEADINGS[fid][lang]
+                hi=next((i for i,p in enumerate(doc.paragraphs) if p.text.strip()==head),None)
+                if hi is None: raise RuntimeError(f'hidden section heading not found: {fid}')
+                kill.add(hi)
+                loc=slots[fid]['locator']
+                idxs=loc['paragraph_indices'] if slots[fid]['kind']=='paragraph_list' else [loc['paragraph_index']]
+                for j in idxs: kill.add(j+extra_count if j>23 else j)
+            for j in sorted(kill,reverse=True):
+                p=doc.paragraphs[j]; p._p.getparent().remove(p._p); hidden_paras.append(j)
+        else: hidden_paras=[]
+        edit.hidden_paras=sorted(hidden_paras)
     fresh_write(ROOT/variant['template'],output,edit)
     text='\n'.join(p.text for p in Document(str(output)).paragraphs)+'\n'+'\n'.join(c.text for t in Document(str(output)).tables for r in t.rows for c in r.cells)
     leaked=[x for x in sample_tokens if x.lower() in text.lower() and x not in (mapping.get('allowed_source_tokens') or [])]
-    record={'schema_version':'1.3.0','variant_id':variant_id,'template':variant['template'],'template_sha256':variant['template_sha256'],'output':str(output),'output_sha256':sha256(output),'generated_at':datetime.now(timezone.utc).isoformat(),'fresh_clone':True,'source_led_performance_rows':source_rows is not None,'performance_extra_rows':len(extension_rows),'feature_extra_items':max(0,len(fields.get('product.features',{}).get('values',{}).get(lang,'').splitlines())-2),'sample_fact_leaks':leaked,'normalization_model_status':mapping.get('normalized_model',{}).get('status','legacy-mapping'),'translation_source':mapping.get('normalized_model',{}).get('translation',{}).get('source','legacy-mapping'),'decision_ledger_entries':len(mapping.get('decision_ledger',mapping.get('normalized_model',{}).get('decision_ledger',[]))),'ready_for_user_proofreading':not leaked,'customer_ready':False}
+    record={'schema_version':'1.3.3','variant_id':variant_id,'template':variant['template'],'template_sha256':variant['template_sha256'],'output':str(output),'output_sha256':sha256(output),'generated_at':datetime.now(timezone.utc).isoformat(),'fresh_clone':True,'source_led_performance_rows':source_rows is not None,'performance_extra_rows':len(extension_rows),'feature_extra_items':max(0,len(fields.get('product.features',{}).get('values',{}).get(lang,'').splitlines())-2),'hidden_fields':sorted(hidden_field_ids(mapping)),'hidden_paragraphs':getattr(edit,'hidden_paras',[]),'sample_fact_leaks':leaked,'normalization_model_status':mapping.get('normalized_model',{}).get('status','legacy-mapping'),'translation_source':mapping.get('normalized_model',{}).get('translation',{}).get('source','legacy-mapping'),'decision_ledger_entries':len(mapping.get('decision_ledger',mapping.get('normalized_model',{}).get('decision_ledger',[]))),'ready_for_user_proofreading':not leaked,'customer_ready':False}
     dump(output.with_suffix(output.suffix+'.generation.json'),record)
     if leaked: raise RuntimeError(f'sample facts leaked in {output.name}: {leaked}')
 def main():
