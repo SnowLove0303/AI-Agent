@@ -31,6 +31,12 @@ def audit_shape(base_doc, output_doc, variant, mapping):
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--output-dir',type=Path,required=True); ap.add_argument('--registry',type=Path,required=True); ap.add_argument('--mapping',type=Path,required=True); ap.add_argument('--model',required=True); ap.add_argument('--report',type=Path,required=True); args=ap.parse_args()
     reg=load(args.registry); mapping=load(args.mapping); results=[]; errors=[]
+    required_fields=['product.title','product.description','product.supply_form','product.features','product.application','product.storage','performance.appearance','performance.eew','performance.solid_content','performance.ph_25c','performance.viscosity_25c']
+    for language in ('zh-CN','en-US'):
+        for field in required_fields:
+            if language not in mapping.get('mapped_fields',{}).get(field,{}).get('values',{}): errors.append(f'missing_language_source_value:{language}:{field}')
+        for extra in mapping.get('performance_extra_rows',[]):
+            if language not in extra.get('label_values',{}) or language not in extra.get('values',{}): errors.append(f'missing_language_extra_metric:{language}:{extra.get("field_id")}')
     for vid,v in reg['variants'].items():
         stem={'TDS_CN_冠志模板':'TDS_CN_冠志','TDS_CN_国彩模板':'TDS_CN_国彩','TDS_EN_冠志模板':'TDS_EN_冠志','TDS_EN_国彩模板':'TDS_EN_国彩'}[vid]
         out=args.output_dir/f'{args.model}_{stem}.docx'
