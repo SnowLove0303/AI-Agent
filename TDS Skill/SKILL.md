@@ -2,7 +2,7 @@
 name: tds-four-variant-eight-deliverable-standardizer
 description: Independent source-grounded TDS overwriting for CN/EN × Guanzhi/Guocai, producing four DOCX and four DOCX-derived PDF deliverables.
 metadata:
-  version: 1.1.0
+  version: 1.1.1
   short-description: TDS Skill — one semantic model, four maintained templates, eight auditable files
 ---
 

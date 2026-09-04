@@ -8,6 +8,7 @@ from docx.text.paragraph import Paragraph
 from tds_common import ROOT, dump, fresh_write, load, norm, replace_cell, replace_paragraph, sha256
 
 NO_DATA={'zh-CN':'无数据','en-US':'No data available'}
+def feature_lines(text): return [re.sub(r'^\s*\d+[.、]\s*','',line) for line in (text or '').splitlines()]
 def value(fact,lang): return fact.get('values',{}).get(lang) or NO_DATA[lang]
 def write_variant(mapping, registry, variant_id, output):
     variant=registry['variants'][variant_id]; lang=variant['language']; fields=mapping['mapped_fields']; slots={x['field_id']:x for x in variant['slots']}
@@ -21,10 +22,10 @@ def write_variant(mapping, registry, variant_id, output):
                 row=doc.tables[loc['table_index']].rows[loc['row_index']]
                 replace_cell(row.cells[1],value(fact,lang)); replace_cell(row.cells[2],fact.get('unit') or ''); replace_cell(row.cells[3],fact.get('test_method') or '')
             elif slot['kind']=='paragraph_list':
-                vals=(fact.get('values',{}).get(lang) or '').splitlines() if fact.get('values',{}).get(lang) else []
+                vals=feature_lines(fact.get('values',{}).get(lang)) if fid=='product.features' else ((fact.get('values',{}).get(lang) or '').splitlines() if fact.get('values',{}).get(lang) else [])
                 for i,pi in enumerate(loc['paragraph_indices']): replace_paragraph(doc.paragraphs[pi], vals[i] if i<len(vals) else NO_DATA[lang] if i==0 else '')
             else: replace_paragraph(doc.paragraphs[loc['paragraph_index']],value(fact,lang))
-        feature_fact=fields.get('product.features',{}); feature_values=(feature_fact.get('values',{}).get(lang) or '').splitlines()
+        feature_fact=fields.get('product.features',{}); feature_values=feature_lines(feature_fact.get('values',{}).get(lang))
         if len(feature_values)>variant.get('feature_extension',{}).get('max_items',100): raise RuntimeError(f'too many product features for {variant_id}')
         if len(feature_values)>2:
             anchor=doc.paragraphs[23]._p

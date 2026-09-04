@@ -2,7 +2,13 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 from tds_common import dump,load,norm
-ALIASES={'乳液外观':'performance.appearance','appearance':'performance.appearance','环氧当量（EEW）':'performance.eew','epoxy equivalent weight (eew)':'performance.eew','固含量':'performance.solid_content','solid content':'performance.solid_content','ph值（25℃）':'performance.ph_25c','ph value (25°c)':'performance.ph_25c','粘度（25℃）':'performance.viscosity_25c','viscosity (25°c)':'performance.viscosity_25c'}
+ALIASES={norm(k):v for k,v in {
+    '乳液外观':'performance.appearance', '外观':'performance.appearance', 'appearance':'performance.appearance',
+    '环氧当量（EEW）':'performance.eew', 'epoxy equivalent weight (eew)':'performance.eew',
+    '固含量':'performance.solid_content', '固体份含量':'performance.solid_content', 'solid content':'performance.solid_content',
+    'ph值（25℃）':'performance.ph_25c', 'PH值（1:10稀释在水中）':'performance.ph_25c', 'ph value (25°c)':'performance.ph_25c',
+    '粘度（25℃）':'performance.viscosity_25c', 'viscosity (25°c)':'performance.viscosity_25c'
+}.items()}
 TEXT=['product.description','product.supply_form','product.features','product.application','product.storage']
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--cn',type=Path); ap.add_argument('--en',type=Path); ap.add_argument('--registry',type=Path,required=True); ap.add_argument('--output',type=Path,required=True); a=ap.parse_args(); paths=[p for p in (a.cn,a.en) if p]
