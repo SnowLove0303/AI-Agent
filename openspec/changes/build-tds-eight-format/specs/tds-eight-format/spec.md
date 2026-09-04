@@ -23,6 +23,17 @@
 - **WHEN** 写入产品数据
 - **THEN** 表格、合并、grid width、序号列、标签列、段落字符格式和页眉页脚保持对应模板基线。
 
+### Requirement: Controlled content capacity extension
+性能指标和产品特性 MUST 支持超出当前基线数量的源数据；新增性能指标 MUST 按源顺序克隆模板数据行追加，新增产品特性 MUST 克隆模板特性段落追加。只有新性能行的标签单元格允许写入新字段名；既有骨架和格式 MUST 保持不变，超过显式容量或无法一一映射时 MUST fail closed。
+
+#### Scenario: Additional performance rows are supported
+- **WHEN** 源文件包含模板五个基线指标之外的明确性能指标
+- **THEN** 系统克隆模板数据行追加该指标，保留列宽、边框、字体和列语义，并在四个变体中保持源顺序与语言对应。
+
+#### Scenario: Additional feature paragraphs are supported
+- **WHEN** 源文件包含超过模板两个特性段落的产品特性
+- **THEN** 系统克隆模板特性段落追加内容，不重建后续章节，且保留段落样式和用户可读顺序。
+
 ### Requirement: Sample fact isolation
 模板内产品名、成分、指标、危险性、毒理、生态、公司事实 MUST 被标记为结构样例并从产品 semantic model 排除；输出不得泄漏未由源文件提供的样例事实。
 
@@ -50,4 +61,3 @@ PDF MUST 由对应的最终 DOCX 通过统一转换器派生；系统 MUST 记�
 #### Scenario: Blocker takes precedence
 - **WHEN** 任一模板基线、受保护骨架、事实隔离或 DOCX/PDF 配对失败
 - **THEN** 发布结果为 `RELEASE_FAIL`，不得被分数覆盖。
-

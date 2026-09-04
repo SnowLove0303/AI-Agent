@@ -13,6 +13,21 @@ def shape(s):
     for sec in s['sections']:
         for p in sec['header']+sec['footer']: p['text']=''
     return s
+def audit_shape(base_doc, output_doc, variant, mapping):
+    left, right = shape(doc_snapshot(base_doc)), shape(doc_snapshot(output_doc))
+    left_table, right_table = left['tables'][0], right['tables'][0]
+    if left['sections'] != right['sections'] or left_table['grid_widths'] != right_table['grid_widths']: return False
+    if left_table['rows'][:6] != right_table['rows'][:6]: return False
+    extras=mapping.get('performance_extra_rows',[])
+    if len(right_table['rows']) != 6+len(extras): return False
+    for row in right_table['rows'][6:]:
+        if [c['shape'] for c in row['cells']] != [c['shape'] for c in left_table['rows'][5]['cells']]: return False
+    def heading_index(doc, names):
+        return next((i for i,p in enumerate(doc.paragraphs) if p.text.strip() in names),None)
+    names={'【应用】','【Application】'}
+    li,ri=heading_index(base_doc,names),heading_index(output_doc,names)
+    if li is None or ri is None: return False
+    return left['paragraphs'][:24]+left['paragraphs'][li:] == right['paragraphs'][:24]+right['paragraphs'][ri:]
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--output-dir',type=Path,required=True); ap.add_argument('--registry',type=Path,required=True); ap.add_argument('--mapping',type=Path,required=True); ap.add_argument('--model',required=True); ap.add_argument('--report',type=Path,required=True); args=ap.parse_args()
     reg=load(args.registry); mapping=load(args.mapping); results=[]; errors=[]
@@ -21,7 +36,7 @@ def main():
         out=args.output_dir/f'{args.model}_{stem}.docx'
         if not out.is_file(): errors.append(f'missing_docx:{out.name}'); continue
         base=Document(str(ROOT/v['template'])); product=Document(str(out));
-        if shape(doc_snapshot(base))!=shape(doc_snapshot(product)): errors.append(f'geometry_changed:{vid}')
+        if not audit_shape(base,product,v,mapping): errors.append(f'geometry_changed:{vid}')
         parts0=package_inventory(ROOT/v['template']); parts1=package_inventory(out)
         for part,h in parts0.items():
             if part!='word/document.xml' and parts1.get(part)!=h: errors.append(f'package_part_changed:{vid}:{part}')

@@ -14,7 +14,7 @@ def main():
     for ti,t in enumerate(d.tables):
         for ri,row in enumerate(t.rows[1:],1):
             v=[c.text.strip() for c in row.cells]
-            if v and any(v): perf.append({'table_index':ti,'row_index':ri,'item':v[0],'value':v[1] if len(v)>1 else '','unit':v[2] if len(v)>2 else '','test_method':v[3] if len(v)>3 else '','source_location':f'table[{ti}].row[{ri}]'})
+            if v and any(v): perf.append({'table_index':ti,'row_index':ri,'source_column_count':len(v),'item':v[0],'value':v[1] if len(v)>1 else '','unit':v[2] if len(v)>2 else '','test_method':v[3] if len(v)>3 else '','source_location':f'table[{ti}].row[{ri}]'})
     title=next(({'paragraph_index':i,'text':p.text} for i,p in enumerate(d.paragraphs) if re.search(r'[A-Za-z]{1,8}[- ]?\d{3,6}[A-Za-z0-9]*',p.text) and not p.text.lstrip().startswith(('电话','Tel'))),{'paragraph_index':None,'text':''})
     dump(a.output,{'schema_version':'1.0.0','source_docx':str(a.source.resolve()),'source_docx_sha256':sha256(a.source),'language':a.language,'title':title,'sections':{k:{'text':'\n'.join(x['text'] for x in v),'locations':[x['paragraph_index'] for x in v]} for k,v in sections.items()},'performance_rows':perf}); print(f'extracted={a.output} rows={len(perf)}')
 if __name__=='__main__': main()

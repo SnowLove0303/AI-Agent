@@ -97,7 +97,20 @@
             "row_index": 5
           }
         }
-      ]
+      ],
+      "performance_extension": {
+        "allowed": true,
+        "row_template_index": 5,
+        "insert_after_row_index": 5,
+        "max_rows": 100,
+        "label_cell_allowed_for_new_rows": true
+      },
+      "feature_extension": {
+        "allowed": true,
+        "paragraph_template_index": 23,
+        "insert_after_paragraph_index": 23,
+        "max_items": 100
+      }
     },
     "TDS_CN_国彩模板": {
       "template": "templates\\active\\TDS_CN_国彩模板.docx",
@@ -195,7 +208,20 @@
             "row_index": 5
           }
         }
-      ]
+      ],
+      "performance_extension": {
+        "allowed": true,
+        "row_template_index": 5,
+        "insert_after_row_index": 5,
+        "max_rows": 100,
+        "label_cell_allowed_for_new_rows": true
+      },
+      "feature_extension": {
+        "allowed": true,
+        "paragraph_template_index": 23,
+        "insert_after_paragraph_index": 23,
+        "max_items": 100
+      }
     },
     "TDS_EN_冠志模板": {
       "template": "templates\\active\\TDS_EN_冠志模板.docx",
@@ -293,7 +319,20 @@
             "row_index": 5
           }
         }
-      ]
+      ],
+      "performance_extension": {
+        "allowed": true,
+        "row_template_index": 5,
+        "insert_after_row_index": 5,
+        "max_rows": 100,
+        "label_cell_allowed_for_new_rows": true
+      },
+      "feature_extension": {
+        "allowed": true,
+        "paragraph_template_index": 23,
+        "insert_after_paragraph_index": 23,
+        "max_items": 100
+      }
     },
     "TDS_EN_国彩模板": {
       "template": "templates\\active\\TDS_EN_国彩模板.docx",
@@ -391,7 +430,20 @@
             "row_index": 5
           }
         }
-      ]
+      ],
+      "performance_extension": {
+        "allowed": true,
+        "row_template_index": 5,
+        "insert_after_row_index": 5,
+        "max_rows": 100,
+        "label_cell_allowed_for_new_rows": true
+      },
+      "feature_extension": {
+        "allowed": true,
+        "paragraph_template_index": 23,
+        "insert_after_paragraph_index": 23,
+        "max_items": 100
+      }
     }
   }
 }

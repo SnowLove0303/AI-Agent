@@ -1,5 +1,5 @@
 from __future__ import annotations
-import argparse, subprocess, tempfile
+import argparse, subprocess
 from pathlib import Path
 from tds_common import SOFFICE
 def main():
@@ -7,8 +7,7 @@ def main():
     for docx in sorted(args.input_dir.glob('*.docx')):
         if docx.name.endswith('.generation.json'): continue
         if docx.with_suffix('.pdf').is_file() and docx.with_suffix('.pdf').stat().st_mtime >= docx.stat().st_mtime: pdfs.append(docx.with_suffix('.pdf').name); continue
-        profile=Path(tempfile.mkdtemp(prefix='tds-lo-profile-',dir=str(args.input_dir.parent))).resolve()
-        command=[str(SOFFICE),f'-env:UserInstallation=file:///{profile.as_posix()}','--headless','--norestore','--nodefault','--nofirststartwizard','--convert-to','pdf','--outdir',str(args.input_dir),str(docx)]
+        command=[str(SOFFICE),'--headless','--norestore','--nodefault','--nofirststartwizard','--convert-to','pdf','--outdir',str(args.input_dir),str(docx)]
         try: r=subprocess.run(command,capture_output=True,text=True,encoding='utf-8',errors='replace',timeout=60)
         except subprocess.TimeoutExpired:
             if not docx.with_suffix('.pdf').is_file(): raise SystemExit(f'PDF conversion timed out: {docx}')
