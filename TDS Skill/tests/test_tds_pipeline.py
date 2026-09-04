@@ -92,8 +92,8 @@ def test_common_cn_performance_labels_map_to_fixed_slots(tmp_path):
     assert result["mapped_fields"]["performance.appearance"]["values"]["zh-CN"] == "蓝光透明液体"
     assert result["mapped_fields"]["performance.solid_content"]["values"]["zh-CN"] == "22±1"
     assert result["mapped_fields"]["performance.viscosity_25c"]["values"]["zh-CN"] == "＜500"
-    assert result["mapped_fields"]["performance.ph_25c"]["values"]["zh-CN"] == "7.0-9.0"
-    assert result["performance_extra_rows"][0]["label_values"]["zh-CN"] == "密度(25℃)"
+    assert "zh-CN" not in result["mapped_fields"]["performance.ph_25c"]["values"]
+    assert [x["label_values"]["zh-CN"] for x in result["performance_extra_rows"]] == ["PH值（1:10稀释在水中）", "密度(25℃)"]
 
 
 def test_numbered_features_do_not_duplicate_template_numbering(tmp_path):
@@ -105,3 +105,35 @@ def test_numbered_features_do_not_duplicate_template_numbering(tmp_path):
     text = "\n".join(p.text for p in Document(str(output)).paragraphs)
     assert "1. 1." not in text
     assert "2. 2." not in text
+
+
+def test_source_led_performance_rows_keep_order_and_conditions(tmp_path):
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
+    mapping["performance_rows"] = [
+        {"field_id": "performance.row.001", "label_values": {"zh-CN": "外观"}, "values": {"zh-CN": "蓝光透明液体"}, "unit_values": {"zh-CN": ""}, "test_method_values": {"zh-CN": "目测"}},
+        {"field_id": "performance.row.002", "label_values": {"zh-CN": "固体份含量"}, "values": {"zh-CN": "22±1"}, "unit_values": {"zh-CN": "%"}, "test_method_values": {"zh-CN": "150℃ 30min，鼓风烘箱"}},
+        {"field_id": "performance.row.003", "label_values": {"zh-CN": "粘度(25℃)"}, "values": {"zh-CN": "＜500"}, "unit_values": {"zh-CN": "mPa·S"}, "test_method_values": {"zh-CN": "GB/T 2794-2022"}},
+        {"field_id": "performance.row.004", "label_values": {"zh-CN": "PH值（1:10稀释在水中）"}, "values": {"zh-CN": "7.0-9.0"}, "unit_values": {"zh-CN": ""}, "test_method_values": {"zh-CN": "GB 6920-86"}},
+        {"field_id": "performance.row.005", "label_values": {"zh-CN": "密度(25℃)"}, "values": {"zh-CN": "约1.06"}, "unit_values": {"zh-CN": "g/cm3"}, "test_method_values": {"zh-CN": "GB/T 4472-2011"}}
+    ]
+    output = tmp_path / "source-led.docx"
+    write_variant(mapping, registry, "TDS_CN_冠志模板", output)
+    rows = [[c.text for c in row.cells] for row in Document(str(output)).tables[0].rows]
+    assert len(rows) == 6
+    assert rows[1:] == [
+        ["外观", "蓝光透明液体", "", "目测"],
+        ["固体份含量", "22±1", "%", "150℃ 30min，鼓风烘箱"],
+        ["粘度(25℃)", "＜500", "mPa·S", "GB/T 2794-2022"],
+        ["PH值（1:10稀释在水中）", "7.0-9.0", "", "GB 6920-86"],
+        ["密度(25℃)", "约1.06", "g/cm3", "GB/T 4472-2011"]
+    ]
+
+
+def test_source_led_table_trims_unused_template_rows(tmp_path):
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
+    mapping["performance_rows"] = [{"field_id": "performance.row.001", "label_values": {"zh-CN": "外观"}, "values": {"zh-CN": "液体"}, "unit_values": {"zh-CN": ""}, "test_method_values": {"zh-CN": "目测"}}]
+    output = tmp_path / "trimmed.docx"
+    write_variant(mapping, registry, "TDS_CN_冠志模板", output)
+    assert len(Document(str(output)).tables[0].rows) == 2

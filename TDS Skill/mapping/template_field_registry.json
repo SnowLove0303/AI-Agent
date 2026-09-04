@@ -98,6 +98,12 @@
           }
         }
       ],
+      "performance_table": {
+        "header_row_index": 0,
+        "data_start_row_index": 1,
+        "source_led": true,
+        "max_source_rows": 100
+      },
       "performance_extension": {
         "allowed": true,
         "row_template_index": 5,
@@ -209,6 +215,12 @@
           }
         }
       ],
+      "performance_table": {
+        "header_row_index": 0,
+        "data_start_row_index": 1,
+        "source_led": true,
+        "max_source_rows": 100
+      },
       "performance_extension": {
         "allowed": true,
         "row_template_index": 5,
@@ -320,6 +332,12 @@
           }
         }
       ],
+      "performance_table": {
+        "header_row_index": 0,
+        "data_start_row_index": 1,
+        "source_led": true,
+        "max_source_rows": 100
+      },
       "performance_extension": {
         "allowed": true,
         "row_template_index": 5,
@@ -431,6 +449,12 @@
           }
         }
       ],
+      "performance_table": {
+        "header_row_index": 0,
+        "data_start_row_index": 1,
+        "source_led": true,
+        "max_source_rows": 100
+      },
       "performance_extension": {
         "allowed": true,
         "row_template_index": 5,

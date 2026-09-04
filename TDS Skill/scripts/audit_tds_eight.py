@@ -17,10 +17,19 @@ def audit_shape(base_doc, output_doc, variant, mapping):
     left, right = shape(doc_snapshot(base_doc)), shape(doc_snapshot(output_doc))
     left_table, right_table = left['tables'][0], right['tables'][0]
     if left['sections'] != right['sections'] or left_table['grid_widths'] != right_table['grid_widths']: return False
-    if left_table['rows'][:6] != right_table['rows'][:6]: return False
-    extras=mapping.get('performance_extra_rows',[])
-    if len(right_table['rows']) != 6+len(extras): return False
-    for row in right_table['rows'][6:]:
+    source_rows=mapping.get('performance_rows')
+    if source_rows is not None:
+        start=variant.get('performance_table',{}).get('data_start_row_index',1)
+        if right_table['rows'][:start] != left_table['rows'][:start]: return False
+        for i,row in enumerate(right_table['rows'][start:]):
+            expected=left_table['rows'][start+min(i,len(left_table['rows'])-start-1)]
+            if row != expected: return False
+    else:
+        if left_table['rows'][:6] != right_table['rows'][:6]: return False
+        extras=mapping.get('performance_extra_rows',[])
+        if len(right_table['rows']) != 6+len(extras): return False
+        rows=right_table['rows'][6:]
+    for row in (rows if source_rows is None else []):
         if [c['shape'] for c in row['cells']] != [c['shape'] for c in left_table['rows'][5]['cells']]: return False
     def heading_index(doc, names):
         return next((i for i,p in enumerate(doc.paragraphs) if p.text.strip() in names),None)
@@ -31,12 +40,16 @@ def audit_shape(base_doc, output_doc, variant, mapping):
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--output-dir',type=Path,required=True); ap.add_argument('--registry',type=Path,required=True); ap.add_argument('--mapping',type=Path,required=True); ap.add_argument('--model',required=True); ap.add_argument('--report',type=Path,required=True); args=ap.parse_args()
     reg=load(args.registry); mapping=load(args.mapping); results=[]; errors=[]
-    required_fields=['product.title','product.description','product.supply_form','product.features','product.application','product.storage','performance.appearance','performance.eew','performance.solid_content','performance.ph_25c','performance.viscosity_25c']
+    required_fields=['product.title','product.description','product.supply_form','product.features','product.application','product.storage']
     for language in ('zh-CN','en-US'):
         for field in required_fields:
             if language not in mapping.get('mapped_fields',{}).get(field,{}).get('values',{}): errors.append(f'missing_language_source_value:{language}:{field}')
-        for extra in mapping.get('performance_extra_rows',[]):
-            if language not in extra.get('label_values',{}) or language not in extra.get('values',{}): errors.append(f'missing_language_extra_metric:{language}:{extra.get("field_id")}')
+        if 'performance_rows' in mapping:
+            for row in mapping['performance_rows']:
+                if language not in row.get('label_values',{}) or language not in row.get('values',{}): errors.append(f'missing_language_source_row:{language}:{row.get("field_id")}')
+        else:
+            for extra in mapping.get('performance_extra_rows',[]):
+                if language not in extra.get('label_values',{}) or language not in extra.get('values',{}): errors.append(f'missing_language_extra_metric:{language}:{extra.get("field_id")}')
     for vid,v in reg['variants'].items():
         stem={'TDS_CN_冠志模板':'TDS_CN_冠志','TDS_CN_国彩模板':'TDS_CN_国彩','TDS_EN_冠志模板':'TDS_EN_冠志','TDS_EN_国彩模板':'TDS_EN_国彩'}[vid]
         out=args.output_dir/f'{args.model}_{stem}.docx'
@@ -53,6 +66,18 @@ def main():
         if not pdf.is_file(): errors.append(f'missing_pdf:{pdf.name}')
         results.append({'variant_id':vid,'docx':str(out),'docx_sha256':sha256(out),'pdf':str(pdf),'pdf_sha256':sha256(pdf) if pdf.is_file() else None,'pdf_derived_name_match':pdf.stem==out.stem,'geometry':'pass' if shape(doc_snapshot(base))==shape(doc_snapshot(product)) else 'fail'})
         if pdf.stem!=out.stem: errors.append(f'pdf_pair_name_mismatch:{vid}')
+        if 'performance_rows' in mapping:
+            start=v.get('performance_table',{}).get('data_start_row_index',1)
+            actual=[[c.text for c in row.cells] for row in product.tables[0].rows[start:]]
+            expected=[]
+            for source_row in mapping['performance_rows']:
+                expected.append([
+                    source_row.get('label_values',{}).get(v['language']) or ('无数据' if v['language']=='zh-CN' else 'No data available'),
+                    source_row.get('values',{}).get(v['language']) or ('无数据' if v['language']=='zh-CN' else 'No data available'),
+                    source_row.get('unit_values',{}).get(v['language'],source_row.get('unit','')) or '',
+                    source_row.get('test_method_values',{}).get(v['language'],source_row.get('test_method','')) or ''
+                ])
+            if actual!=expected: errors.append(f'performance_source_parity:{vid}')
     pdfs=sorted(args.output_dir.glob('*.pdf'))
     if len(pdfs)!=4: errors.append(f'pdf_count:{len(pdfs)}')
     docxs=sorted(args.output_dir.glob('*.docx'))

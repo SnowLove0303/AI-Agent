@@ -17,11 +17,22 @@
 - **THEN** 四个输出均使用同一个 semantic model，且每个值都有唯一目标槽位。
 
 ### Requirement: Fresh-clone in-place overwrite
-每份输出 DOCX MUST 从对应 active template fresh clone 生成，只能修改 mutation whitelist 允许的值槽位；不得重建表格或把其他变体模板当作替代基线。
+每份输出 DOCX MUST 从对应 active template fresh clone 生成，只能修改 mutation whitelist 允许的值槽位；不得重建表格或把其他变体模板当作替代基线。表头、列结构、列宽、合并和样式必须保持；性能表数据行区域可按源行数量受控裁剪或追加。
 
 #### Scenario: Skeleton is preserved
 - **WHEN** 写入产品数据
 - **THEN** 表格、合并、grid width、序号列、标签列、段落字符格式和页眉页脚保持对应模板基线。
+
+### Requirement: Source-led performance-row fidelity
+性能表 MUST 按源文件原始行顺序输出；每个输出数据行 MUST 保留源项目名称、限定条件、指标值、单位和测试方法。模板示例指标 MUST NOT 被当作产品事实新增；模板标签 MUST NOT 替换源项目名称。语义限定条件不同的项目 MUST NOT 被映射到同一固定字段。
+
+#### Scenario: PU-1001-style source rows
+- **WHEN** 源文件包含“外观、固体份含量、粘度(25℃)、PH值（1:10稀释在水中）、密度(25℃)”五行
+- **THEN** 输出性能表按这五行原顺序保留，不能插入不存在的 EEW 行，不能把 pH 的稀释条件改写为 25℃。
+
+#### Scenario: Missing template example metric
+- **WHEN** 模板包含源文件没有的固定示例指标
+- **THEN** 不得把该示例指标写入产品表；未使用的数据行按源行数量裁剪，或将源行作为受控扩展行追加。
 
 ### Requirement: Controlled content capacity extension
 性能指标和产品特性 MUST 支持超出当前基线数量的源数据；新增性能指标 MUST 按源顺序克隆模板数据行追加，新增产品特性 MUST 克隆模板特性段落追加。只有新性能行的标签单元格允许写入新字段名；既有骨架和格式 MUST 保持不变，超过显式容量或无法一一映射时 MUST fail closed。
@@ -56,8 +67,12 @@ PDF MUST 由对应的最终 DOCX 通过统一转换器派生；系统 MUST 记�
 - **THEN** 每个 PDF 均由其对应 DOCX 转换，并在报告中记录来源和转换证据。
 
 ### Requirement: TDS audit and release blockers
-发布前 MUST 审计模板几何、锁定骨架、白名单变更、源事实保真、CN/EN 语义 parity、冠志/国彩公司 parity、DOCX/PDF 配对、八文件包完整性和证据完整性；任一 B0/B1 阻断失败时 MUST 输出 `RELEASE_FAIL`。
+发布前 MUST 审计模板几何、锁定骨架、白名单变更、源事实保真、性能表逐行 parity、CN/EN 语义 parity、冠志/国彩公司 parity、DOCX/PDF 配对、八文件包完整性和证据完整性；任一 B0/B1 阻断失败时 MUST 输出 `RELEASE_FAIL`。
 
 #### Scenario: Blocker takes precedence
 - **WHEN** 任一模板基线、受保护骨架、事实隔离或 DOCX/PDF 配对失败
 - **THEN** 发布结果为 `RELEASE_FAIL`，不得被分数覆盖。
+
+#### Scenario: Source-output parity blocker
+- **WHEN** 输出性能表的行数、顺序、项目标签、限定条件、指标值、单位或测试方法与源文件不一致
+- **THEN** 审计 MUST 输出明确的 parity blocker，并禁止正式发布。
