@@ -26,15 +26,24 @@ from section2_hp_policy import is_missing_data_value
 
 
 def format_label_elements(language: str, hazardous_ingredients: list[str] | tuple[str, ...]) -> str:
-    """Return the explicit, line-separated GHS label-ingredient tip."""
+    """Return the explicit, line-separated GHS label-ingredient tip.
+
+    With no verified ingredients the value stays empty so the existing
+    missing-row suppression removes the whole label-elements row instead of
+    leaving a bare heading in customer-facing output.
+    """
     ingredients = [str(x).strip() for x in hazardous_ingredients if str(x).strip()]
+    if not ingredients:
+        if language not in ("en", "zh"):
+            raise ValueError("language must be zh or en")
+        return ""
     if language == "en":
         heading = "Hazardous ingredients required to be listed on the label:"
     elif language == "zh":
         heading = "必须列在标签上的有害成分："
     else:
         raise ValueError("language must be zh or en")
-    return "\n".join([heading, *ingredients]) if ingredients else heading
+    return "\n".join([heading, *ingredients])
 
 
 def row_has_visual_content(row) -> bool:

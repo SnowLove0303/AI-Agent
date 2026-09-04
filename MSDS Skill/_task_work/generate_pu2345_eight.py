@@ -40,7 +40,7 @@ from template_mutation_whitelist import (
     clear_value_cells,
     set_sequence_prefix,
     unique_cells as whitelist_unique_cells,
-    write_s82_child_rows,
+    write_s82_top_rows,
     write_row_values,
 )
 
@@ -91,9 +91,9 @@ def template_geometry(language: str) -> dict:
     # model does not require identical physical row counts: the supplied EN
     # template has no separate Chinese-name row in Section 1.
     rows = (
-        [10, 16, 6, 6, 5, 4, 3, 12, 24, 6, 18, 6, 3, 5, 9, 2]
+        [10, 16, 6, 6, 5, 4, 3, 16, 24, 6, 18, 6, 3, 5, 9, 2]
         if language == "zh"
-        else [9, 16, 6, 6, 5, 4, 3, 12, 24, 6, 18, 6, 3, 5, 9, 2]
+        else [9, 16, 6, 6, 5, 4, 3, 16, 24, 6, 18, 6, 3, 5, 9, 2]
     )
     return {
         "table_count": 16,
@@ -287,8 +287,8 @@ def write_body(doc: Document, facts: dict, language: str):
             if ri >= len(table.rows):
                 raise RuntimeError(f"template capacity mismatch S{sec}: row {ri}")
             write_row_values(table.rows[ri], values, table_index=sec - 1, row_index=ri)
-    write_s82_child_rows(
-        doc.tables[7].rows[11].cells[1],
+    write_s82_top_rows(
+        doc.tables[7],
         facts.get("s8_control_parameters", []),
         language,
     )

@@ -5,9 +5,10 @@ from docx import Document
 from docx.oxml.ns import qn
 
 from template_mutation_whitelist import (
+    MutationViolation,
     compare_locked_skeleton,
     set_sequence_prefix,
-    write_s82_child_rows,
+    write_s82_top_rows,
     write_row_values,
 )
 
@@ -15,6 +16,17 @@ from template_mutation_whitelist import (
 ROOT = Path(__file__).resolve().parents[1]
 TEMPLATE = ROOT / "examples" / "template_reference.docx"
 TEMPLATE_EN = ROOT / "examples" / "template_reference_en.docx"
+
+
+def _unique_texts(row):
+    seen = set()
+    texts = []
+    for cell in row.cells:
+        key = id(cell._tc)
+        if key not in seen:
+            seen.add(key)
+            texts.append(cell.text)
+    return texts
 
 
 def test_value_write_preserves_locked_label_and_skeleton():
@@ -78,26 +90,69 @@ def test_s81_parent_node_is_not_a_writable_note_slot():
     assert not compare_locked_skeleton(template, output)
 
 
-def test_s82_child_data_write_preserves_locked_header_and_parent_label():
+def test_s82_top_data_write_preserves_locked_header_and_parent_label():
     template = Document(str(TEMPLATE_EN))
     output = Document(str(TEMPLATE_EN))
-    parent = output.tables[7].rows[11]
-    original_label = parent.cells[0].text
-    write_s82_child_rows(
-        parent.cells[1],
+    table = output.tables[7]
+    original_parent = table.rows[12].cells[0].text
+    audit = write_s82_top_rows(
+        table,
         [["Substance A", "CN OEL", "TWA", "0.03 mg/m3"]],
         "en",
     )
-    child = parent.cells[1].tables[0]
-    assert [cell.text for cell in child.rows[0].cells] == ["Substance", "Basis", "Type", "Value"]
-    assert [cell.text for cell in child.rows[1].cells] == ["Substance A", "CN OEL", "TWA", "0.03 mg/m3"]
-    assert parent.cells[0].text == original_label
+    assert audit == {"record_count": 1, "row_count": 1, "placeholder": False}
+    assert _unique_texts(table.rows[13]) == ["Substance", "Basis", "Type", "Value"]
+    assert _unique_texts(table.rows[14]) == ["Substance A", "CN OEL", "TWA", "0.03 mg/m3"]
+    assert len(table.rows) == 15
+    assert table.rows[12].cells[0].text == original_parent
     assert not compare_locked_skeleton(template, output)
 
 
-def test_s82_child_header_mutation_is_blocked():
+def test_s82_empty_records_keep_single_placeholder_row():
     template = Document(str(TEMPLATE))
     output = Document(str(TEMPLATE))
-    output.tables[7].rows[11].cells[1].tables[0].cell(0, 1).text = "Regulation"
+    table = output.tables[7]
+    audit = write_s82_top_rows(table, [], "zh")
+    assert audit == {"record_count": 0, "row_count": 1, "placeholder": True}
+    assert _unique_texts(table.rows[13]) == ["物质", "依据", "类型", "数值"]
+    assert _unique_texts(table.rows[14]) == ["", "", "", "无数据"]
+    assert len(table.rows) == 15
+    assert not compare_locked_skeleton(template, output)
+
+
+def test_s82_extra_records_clone_styled_data_row():
+    template = Document(str(TEMPLATE_EN))
+    output = Document(str(TEMPLATE_EN))
+    table = output.tables[7]
+    records = [
+        ["Substance A", "CN OEL", "TWA", "0.03 mg/m3"],
+        ["Substance B", "CN OEL", "STEL", "0.06 mg/m3"],
+        ["Substance C", "CN OEL", "TWA", "100 mg/m3"],
+    ]
+    write_s82_top_rows(table, records, "en")
+    assert len(table.rows) == 17
+    assert _unique_texts(table.rows[16]) == ["Substance C", "CN OEL", "TWA", "100 mg/m3"]
+    assert not compare_locked_skeleton(template, output)
+
+
+def test_s82_top_header_mutation_is_blocked():
+    template = Document(str(TEMPLATE))
+    output = Document(str(TEMPLATE))
+    output.tables[7].rows[13].cells[1].paragraphs[0].runs[0].text = "Regulation"
     errors = compare_locked_skeleton(template, output)
-    assert any("locked child-table header text changed" in error for error in errors)
+    assert any("locked S8.2 header text changed" in error for error in errors)
+
+
+def test_s82_generic_row_write_is_blocked():
+    output = Document(str(TEMPLATE))
+    try:
+        write_row_values(
+            output.tables[7].rows[13],
+            ["header", "Substance", "Basis", "Type", "Value"],
+            table_index=7,
+            row_index=13,
+        )
+    except MutationViolation:
+        pass
+    else:
+        raise AssertionError("expected MutationViolation for S8.2 header write")
