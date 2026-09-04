@@ -25,3 +25,4 @@ templates/active/TDS_EN_国彩模板.docx
 tests/fixtures/valid_mapping.json
 tests/test_tds_pipeline.py
 docs/tds_audit_checklist.md
+references/agent_judgment_protocol.md

@@ -96,6 +96,54 @@ def test_common_cn_performance_labels_map_to_fixed_slots(tmp_path):
     assert [x["label_values"]["zh-CN"] for x in result["performance_extra_rows"]] == ["PH值（1:10稀释在水中）", "密度(25℃)"]
 
 
+def test_mapping_keeps_evidence_separate_from_normalized_model(tmp_path):
+    facts = tmp_path / "cn.json"
+    facts.write_text(json.dumps({
+        "language": "zh-CN",
+        "title": {"text": "TDS-DEMO"},
+        "sections": {"product.description": {"text": "用于水性涂层。", "locations": [3]}},
+        "performance_rows": [{"item": "PH值（1:10稀释在水中）", "value": "7.0-9.0", "unit": "", "test_method": "方法A", "source_column_count": 4, "source_location": "table[0].row[4]"}]
+    }, ensure_ascii=False), encoding="utf-8")
+    output = tmp_path / "mapping.json"
+    subprocess.run([sys.executable, str(ROOT / "scripts" / "map_tds_fields.py"), "--cn", str(facts), "--registry", str(ROOT / "mapping" / "template_field_registry.json"), "--output", str(output)], check=True)
+    result = json.loads(output.read_text(encoding="utf-8"))
+    row = result["normalized_model"]["performance_rows"][0]
+    assert row["source_values"]["zh-CN"] == "7.0-9.0"
+    assert row["normalized_values"]["zh-CN"] == "7.0-9.0"
+    assert result["normalized_model"]["translation"]["source"] == "normalized_model"
+    decision = next(item for item in result["decision_ledger"] if item["field_id"] == "performance.row.001")
+    assert decision["decision"] == "preserve_as_source_row"
+    assert decision["provenance"]["zh-CN"] == ["table[0].row[4]"]
+
+
+def test_overwrite_reads_normalized_values_not_raw_values(tmp_path):
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
+    mapping["schema_version"] = "1.3.0"
+    mapping["normalized_model"] = {
+        "status": "approved",
+        "translation": {"source": "normalized_model"},
+        "fields": {
+            field_id: {"field_id": field_id, "normalized_values": dict(item.get("values", {}))}
+            for field_id, item in mapping["mapped_fields"].items()
+        },
+        "performance_rows": [
+            {
+                **row,
+                "normalized_label_values": {"zh-CN": "标准化外观"},
+                "normalized_values": {"zh-CN": "标准化液体"},
+                "normalized_unit_values": {"zh-CN": ""},
+                "normalized_test_method_values": {"zh-CN": "标准化方法"},
+            }
+            for row in [{"field_id": "performance.row.001", "label_values": {"zh-CN": "乳液外观"}, "values": {"zh-CN": "乳白色液体"}}]
+        ],
+    }
+    output = tmp_path / "normalized.docx"
+    write_variant(mapping, registry, "TDS_CN_冠志模板", output)
+    rows = [[cell.text for cell in row.cells] for row in Document(str(output)).tables[0].rows]
+    assert rows[1] == ["标准化外观", "标准化液体", "", "标准化方法"]
+
+
 def test_numbered_features_do_not_duplicate_template_numbering(tmp_path):
     registry = load(ROOT / "mapping" / "template_field_registry.json")
     mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))

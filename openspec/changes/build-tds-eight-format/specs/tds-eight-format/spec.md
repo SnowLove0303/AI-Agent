@@ -10,11 +10,25 @@
 - **THEN** 四个变体均有独立来源身份、active DOCX 和结构基线。
 
 ### Requirement: One semantic model and one-to-one mapping
-一次构建 MUST 只抽取一次源文件并形成一个统一 semantic model；每个输出字段 MUST 映射到一个明确的模板槽位，无法唯一映射或超出模板容量时 MUST fail closed。
+一次构建 MUST 只抽取一次源文件并形成一个分离原始证据与标准化值的统一 semantic model；每个输出字段 MUST 映射到一个明确的模板槽位，无法唯一映射或超出模板容量时 MUST fail closed。标准化值 MUST 保留 provenance、判断理由和决策状态。
 
 #### Scenario: One source maps to four variants
 - **WHEN** 同一源文件通过 TDS 构建命令生成四个变体
 - **THEN** 四个输出均使用同一个 semantic model，且每个值都有唯一目标槽位。
+
+### Requirement: Evidence-preserving normalization and agent judgment
+系统 MUST 将原始抽取证据、标准化语义模型和模板呈现值分层保存。别名、模板示例、历史案例和字段位置只能作为候选线索；Agent MUST 根据源文上下文、强标注框架和目标变体判断抽取边界、归类、限定条件、单位/符号、列表结构及是否需要拆分/合并，并在 decision ledger 中保留来源、理由和置信度。会改变客户含义的未决判断 MUST 阻断发布。
+
+#### Scenario: Candidate alias requires contextual judgment
+- **WHEN** 源文件标签命中一个别名，但其限定条件或上下文可能与固定字段不同
+- **THEN** 系统保留原始标签和值，记录候选归类和 provenance；Agent 未确认前不得静默改写成模板固定字段。
+
+### Requirement: English derives from normalized model
+英文输出 MUST 以标准化 semantic model 的 `normalized_values` 为唯一内容来源并进行专业技术翻译。英文源文件（如有）可以作为目标语言证据和交叉校验，但 MUST NOT 绕过标准化层直接驱动英文模板。译文 MUST 保留事实、数值、单位、否定、范围和限定条件，不得增加源文没有的结论或专业事实。
+
+#### Scenario: English presentation follows standardized facts
+- **WHEN** 标准化模型包含中文事实、限定条件和 Agent 确认的英文译文
+- **THEN** 四个输出的英文值均来自该模型，模板只提供英文结构和格式；英文源文件与模型不一致时产生审计差异，不可静默覆盖模型。
 
 ### Requirement: Fresh-clone in-place overwrite
 每份输出 DOCX MUST 从对应 active template fresh clone 生成，只能修改 mutation whitelist 允许的值槽位；不得重建表格或把其他变体模板当作替代基线。表头、列结构、列宽、合并和样式必须保持；性能表数据行区域可按源行数量受控裁剪或追加。
