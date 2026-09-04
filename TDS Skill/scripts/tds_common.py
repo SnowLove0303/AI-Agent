@@ -58,19 +58,41 @@ def replace_cell(cell: _Cell, text: str) -> None:
         replace_paragraph(cell.paragraphs[0],text)
         for p in cell.paragraphs[1:]: replace_paragraph(p,'')
 
+def xml_attrs(element):
+    if element is None: return None
+    return {key.split('}')[-1]: value for key, value in element.attrib.items()}
+
+def child_attrs(parent, tag):
+    return xml_attrs(parent.find(qn(tag))) if parent is not None else None
+
+def numbering_shape(paragraph: Paragraph):
+    ppr=paragraph._p.pPr
+    num=ppr.find(qn('w:numPr')) if ppr is not None else None
+    if num is None: return None
+    return {child.tag.split('}')[-1]: child.get(qn('w:val')) for child in num}
+
 def run_style(run) -> dict:
-    return {'bold':run.bold,'italic':run.italic,'underline':str(run.underline) if run.underline is not None else None,'font':run.font.name,'size_pt':run.font.size.pt if run.font.size else None,'color':str(run.font.color.rgb) if run.font.color and run.font.color.rgb else None}
+    rpr=run._r.rPr
+    return {'bold':run.bold,'italic':run.italic,'underline':str(run.underline) if run.underline is not None else None,'font':run.font.name,'size_pt':run.font.size.pt if run.font.size else None,'color':str(run.font.color.rgb) if run.font.color and run.font.color.rgb else None,'character_spacing':child_attrs(rpr,'w:spacing'),'kerning':child_attrs(rpr,'w:kern'),'position':child_attrs(rpr,'w:position')}
+
+def paragraph_shape(paragraph: Paragraph) -> dict:
+    pf=paragraph.paragraph_format; ppr=paragraph._p.pPr
+    return {'style':paragraph.style.name if paragraph.style else None,'alignment':str(paragraph.alignment) if paragraph.alignment is not None else None,'numbering':numbering_shape(paragraph),'spacing':{'xml':child_attrs(ppr,'w:spacing'),'line_spacing':str(pf.line_spacing),'line_spacing_rule':str(pf.line_spacing_rule),'space_before':str(pf.space_before),'space_after':str(pf.space_after),'left_indent':str(pf.left_indent),'right_indent':str(pf.right_indent),'first_line_indent':str(pf.first_line_indent)},'runs':[run_style(r) for r in paragraph.runs]}
+
+def feature_spacing_signature(paragraph: Paragraph) -> dict:
+    shape=paragraph_shape(paragraph)
+    return {'spacing':shape['spacing'],'run_spacing':[{k:r[k] for k in ('character_spacing','kerning','position')} for r in shape['runs']]}
 
 def cell_shape(cell: _Cell) -> dict:
     p=cell._tc.tcPr; span=p.gridSpan.get(qn('w:val')) if p is not None and p.gridSpan is not None else None; vm=p.vMerge.get(qn('w:val')) if p is not None and p.vMerge is not None else None; w=p.tcW.get(qn('w:w')) if p is not None and p.tcW is not None else None
-    return {'props':{'width':w,'grid_span':span,'vmerge':vm},'paragraphs':[{'style':x.style.name if x.style else None,'alignment':str(x.alignment) if x.alignment is not None else None,'runs':[run_style(r) for r in x.runs]} for x in cell.paragraphs],'nested_tables':[table_snapshot(x) for x in cell.tables]}
+    return {'props':{'width':w,'grid_span':span,'vmerge':vm},'paragraphs':[{'text':x.text,**paragraph_shape(x)} for x in cell.paragraphs],'nested_tables':[table_snapshot(x) for x in cell.tables]}
 
 def table_snapshot(table: Table) -> dict:
     grid=table._tbl.tblGrid
     return {'row_count':len(table.rows),'column_count':len(table.columns),'grid_widths':[x.get(qn('w:w')) for x in grid.gridCol_lst] if grid is not None else [],'rows':[{'cells':[{'text':c.text,'shape':cell_shape(c)} for c in row.cells]} for row in table.rows]}
 
 def doc_snapshot(doc) -> dict:
-    def ps(paras): return [{'text':p.text,'shape':{'style':p.style.name if p.style else None,'alignment':str(p.alignment) if p.alignment is not None else None,'runs':[run_style(r) for r in p.runs]}} for p in paras]
+    def ps(paras): return [{'text':p.text,'shape':paragraph_shape(p)} for p in paras]
     return {'sections':[{'page_width':s.page_width.twips,'page_height':s.page_height.twips,'top_margin':s.top_margin.twips,'bottom_margin':s.bottom_margin.twips,'left_margin':s.left_margin.twips,'right_margin':s.right_margin.twips,'header':ps(s.header.paragraphs),'footer':ps(s.footer.paragraphs)} for s in doc.sections],'paragraphs':ps(doc.paragraphs),'tables':[table_snapshot(t) for t in doc.tables]}
 
 def package_inventory(path: Path) -> dict:

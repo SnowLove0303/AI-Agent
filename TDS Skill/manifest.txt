@@ -6,6 +6,7 @@ mapping/tds_mutation_whitelist.json
 mapping/template_field_registry.json
 snapshots/template_baselines.json
 scripts/tds_common.py
+scripts/normalize_tds_template.py
 scripts/register_tds_registry.py
 scripts/snapshot_tds_templates.py
 scripts/extract_tds_source.py

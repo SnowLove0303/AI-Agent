@@ -10,7 +10,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from docx import Document
 from overwrite_tds import write_variant
 from audit_tds_eight import audit_shape
-from tds_common import load, package_inventory
+from tds_common import feature_spacing_signature, load, numbering_shape, package_inventory
 
 
 def test_all_four_variants_are_fresh_clones(tmp_path):
@@ -46,6 +46,16 @@ def test_language_specific_template_labels_and_grid_widths_are_registered():
     assert registry["variants"]["TDS_EN_冠志模板"]["template_sha256"] != "4d602128bd397235e76e48d39a9a02b7862b840063734bc89b67661271d0a216"
 
 
+def test_feature_slots_disable_numbering_and_preserve_equal_spacing():
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    for variant in registry["variants"].values():
+        doc = Document(str(ROOT / variant["template"]))
+        p21, p23 = (doc.paragraphs[i] for i in variant["feature_format_contract"]["paragraph_indices"])
+        assert numbering_shape(p21) is None and numbering_shape(p23) is None
+        assert feature_spacing_signature(p21) == feature_spacing_signature(p23)
+        assert variant["feature_format_contract"]["numbering"] == "disabled"
+
+
 def test_performance_and_feature_extensions_clone_template_styles(tmp_path):
     registry = load(ROOT / "mapping" / "template_field_registry.json")
     mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
@@ -67,6 +77,7 @@ def test_performance_and_feature_extensions_clone_template_styles(tmp_path):
         paragraphs = "\n".join(p.text for p in doc.paragraphs)
         assert ("粒径" if registry["variants"][variant_id]["language"] == "zh-CN" else "Particle size") in text
         assert ("低气味。" if registry["variants"][variant_id]["language"] == "zh-CN" else "Low odor.") in paragraphs
+        assert numbering_shape(doc.paragraphs[21]) is None and numbering_shape(doc.paragraphs[23]) is None
         base = Document(str(ROOT / registry["variants"][variant_id]["template"]))
         assert audit_shape(base, doc, registry["variants"][variant_id], mapping)
 

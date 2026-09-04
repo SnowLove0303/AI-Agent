@@ -2,7 +2,7 @@ from __future__ import annotations
 import argparse, hashlib, json, zipfile
 from pathlib import Path
 from docx import Document
-from tds_common import ROOT, dump, load, package_inventory, sha256, doc_snapshot
+from tds_common import ROOT, dump, feature_spacing_signature, load, numbering_shape, package_inventory, sha256, doc_snapshot
 
 def shape(s):
     s=json.loads(json.dumps(s));
@@ -10,6 +10,8 @@ def shape(s):
     for t in s['tables']:
         for row in t['rows']:
             for c in row['cells']: c['text']=''
+            for c in row['cells']:
+                for p in c.get('shape',{}).get('paragraphs',[]): p['text']=''
     for sec in s['sections']:
         for p in sec['header']+sec['footer']: p['text']=''
     return s
@@ -28,6 +30,10 @@ def semantic_units(item,lang):
     return (item.get('normalized_unit_values',{}) if 'normalized_unit_values' in item else item.get('unit_values',{})).get(lang)
 def semantic_methods(item,lang):
     return (item.get('normalized_test_method_values',{}) if 'normalized_test_method_values' in item else item.get('test_method_values',{})).get(lang)
+def feature_contract_ok(base_doc, output_doc, variant):
+    indices=variant.get('feature_format_contract',{}).get('paragraph_indices',[21,23])
+    base=[base_doc.paragraphs[i] for i in indices]; output=[output_doc.paragraphs[i] for i in indices]
+    return all(numbering_shape(p) is None for p in output) and feature_spacing_signature(base[0]) == feature_spacing_signature(base[1]) == feature_spacing_signature(output[0]) == feature_spacing_signature(output[1])
 def audit_shape(base_doc, output_doc, variant, mapping):
     left, right = shape(doc_snapshot(base_doc)), shape(doc_snapshot(output_doc))
     left_table, right_table = left['tables'][0], right['tables'][0]
@@ -88,6 +94,8 @@ def main():
         base=Document(str(ROOT/v['template'])); product=Document(str(out));
         geometry_ok=audit_shape(base,product,v,mapping)
         if not geometry_ok: errors.append(f'geometry_changed:{vid}')
+        feature_ok=feature_contract_ok(base,product,v)
+        if not feature_ok: errors.append(f'feature_format_contract_changed:{vid}')
         parts0=package_inventory(ROOT/v['template']); parts1=package_inventory(out)
         for part,h in parts0.items():
             if part!='word/document.xml' and parts1.get(part)!=h: errors.append(f'package_part_changed:{vid}:{part}')
@@ -96,7 +104,7 @@ def main():
         if leaks: errors.append(f'sample_fact_leak:{vid}:{leaks}')
         pdf=out.with_suffix('.pdf')
         if not pdf.is_file(): errors.append(f'missing_pdf:{pdf.name}')
-        results.append({'variant_id':vid,'docx':str(out),'docx_sha256':sha256(out),'pdf':str(pdf),'pdf_sha256':sha256(pdf) if pdf.is_file() else None,'pdf_derived_name_match':pdf.stem==out.stem,'geometry':'pass' if geometry_ok else 'fail'})
+        results.append({'variant_id':vid,'docx':str(out),'docx_sha256':sha256(out),'pdf':str(pdf),'pdf_sha256':sha256(pdf) if pdf.is_file() else None,'pdf_derived_name_match':pdf.stem==out.stem,'geometry':'pass' if geometry_ok else 'fail','feature_format':'pass' if feature_ok else 'fail'})
         if pdf.stem!=out.stem: errors.append(f'pdf_pair_name_mismatch:{vid}')
         if semantic_rows(mapping) is not None:
             start=v.get('performance_table',{}).get('data_start_row_index',1)

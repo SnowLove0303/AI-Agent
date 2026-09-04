@@ -2,6 +2,6 @@
   "schema_version": "1.0.0",
   "allowed": {"paragraph_fields": ["product.title", "product.description", "product.supply_form", "product.features", "product.application", "product.storage"], "performance_fields": ["performance.appearance", "performance.eew", "performance.solid_content", "performance.ph_25c", "performance.viscosity_25c"], "additional_performance_rows": true, "additional_feature_items": true},
   "extension_rule": "Performance data rows are source-led: keep source order and labels, reuse existing row styles, trim unused template example rows, and clone the maintained row only when source capacity is exceeded. Label content is a controlled source fact; label formatting remains locked.",
-  "protected": ["sequence_column", "table_header", "table_merge", "grid_widths", "paragraph_character_properties", "header_footer", "package_parts"],
+  "protected": ["sequence_column", "table_header", "table_merge", "grid_widths", "paragraph_character_properties", "paragraph_spacing", "character_spacing", "paragraph_numbering", "header_footer", "package_parts"],
   "sample_fact_tokens": ["EP-1704", "PU-2345", "53±2", "900-1100", "200-5000", "150℃30min"]
 }

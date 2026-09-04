@@ -3,7 +3,7 @@
   "variants": {
     "TDS_CN_冠志模板": {
       "template": "templates\\active\\TDS_CN_冠志模板.docx",
-      "template_sha256": "b31caf4b5409891780308f162c2bb4697f84da0911e1d02041588f1e8e9755eb",
+      "template_sha256": "5ef98fd68b32d5102aec0db3879742c70ebd3df0d2e5c4e3daa00862d0454c47",
       "language": "zh-CN",
       "company": "guanzhi",
       "slots": [
@@ -116,11 +116,20 @@
         "paragraph_template_index": 23,
         "insert_after_paragraph_index": 23,
         "max_items": 100
+      },
+      "feature_format_contract": {
+        "paragraph_indices": [
+          21,
+          23
+        ],
+        "numbering": "disabled",
+        "equal_paragraph_spacing": true,
+        "equal_character_spacing": true
       }
     },
     "TDS_CN_国彩模板": {
       "template": "templates\\active\\TDS_CN_国彩模板.docx",
-      "template_sha256": "65fcd1d75b7d88f71091a1218ecae8efb095d73a12832175ae3efa8e917bc675",
+      "template_sha256": "2e77a96522eafab91985afdfd2bc09f0d3be31a538a499c838ba24dc07e91a88",
       "language": "zh-CN",
       "company": "guocai",
       "slots": [
@@ -233,11 +242,20 @@
         "paragraph_template_index": 23,
         "insert_after_paragraph_index": 23,
         "max_items": 100
+      },
+      "feature_format_contract": {
+        "paragraph_indices": [
+          21,
+          23
+        ],
+        "numbering": "disabled",
+        "equal_paragraph_spacing": true,
+        "equal_character_spacing": true
       }
     },
     "TDS_EN_冠志模板": {
       "template": "templates\\active\\TDS_EN_冠志模板.docx",
-      "template_sha256": "96b8e2f04902170aa16b1f6688c70f108e5952d7decc070f0d86dd0f6088e24b",
+      "template_sha256": "ddfac5c067f127c17696667f44c9fe44f19cc91ecdfeba3f57c94dabecd7c2e0",
       "language": "en-US",
       "company": "guanzhi",
       "slots": [
@@ -350,11 +368,20 @@
         "paragraph_template_index": 23,
         "insert_after_paragraph_index": 23,
         "max_items": 100
+      },
+      "feature_format_contract": {
+        "paragraph_indices": [
+          21,
+          23
+        ],
+        "numbering": "disabled",
+        "equal_paragraph_spacing": true,
+        "equal_character_spacing": true
       }
     },
     "TDS_EN_国彩模板": {
       "template": "templates\\active\\TDS_EN_国彩模板.docx",
-      "template_sha256": "549fc04a1b3005c89b5d9704240377fd0ebc40f70220b6b8806abc8b6887afef",
+      "template_sha256": "4087181c7841e02dd37011079c4d1c197a36b9388f5e95a3d62ca4ffcb9fdb0f",
       "language": "en-US",
       "company": "guocai",
       "slots": [
@@ -393,14 +420,14 @@
           "field_id": "product.application",
           "kind": "paragraph",
           "locator": {
-            "paragraph_index": 27
+            "paragraph_index": 28
           }
         },
         {
           "field_id": "product.storage",
           "kind": "paragraph",
           "locator": {
-            "paragraph_index": 31
+            "paragraph_index": 32
           }
         },
         {
@@ -467,6 +494,15 @@
         "paragraph_template_index": 23,
         "insert_after_paragraph_index": 23,
         "max_items": 100
+      },
+      "feature_format_contract": {
+        "paragraph_indices": [
+          21,
+          23
+        ],
+        "numbering": "disabled",
+        "equal_paragraph_spacing": true,
+        "equal_character_spacing": true
       }
     }
   }

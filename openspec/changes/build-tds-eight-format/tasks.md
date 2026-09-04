@@ -20,3 +20,6 @@
 - [x] 增加真实源文件逐行 parity、限定条件保真、模板示例行裁剪和视觉回归审计。
 - [x] 运行 OpenSpec 校验、TDS 全部自动测试、MSDS/V2.9 继承审计、模板 geometry audit、semantic/company parity、八文件/ZIP 完整性审计；本次真实 CN-only 回放按发布闸门正确阻断 EN 缺失。
 - [x] 生成独立 TDS v1.3.0 发布 ZIP，提交并推送 `feature/msds-tds-eight-format`。
+- [x] 内化最新四个 TDS `.doc` 模板，保留来源原件并刷新 active DOCX、来源/active hash、registry 和 snapshot。
+- [x] 清除 active 特性槽位残留智能编号，锁定特性段落无 `numPr`、段落间距与字符间距等格式契约。
+- [x] 增加特性编号/间距回归审计，生成独立 TDS v1.3.2 发布 ZIP。
