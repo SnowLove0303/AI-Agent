@@ -25,12 +25,18 @@ def test_en_template_is_distinct_and_uses_english_section_labels():
     source = ROOT / "examples" / "template_reference_en_source.docx"
     en = Document(ROOT / "examples" / "template_reference_en.docx")
     assert source.is_file()
-    assert source.read_bytes() == (ROOT / "examples" / "template_reference_en.docx").read_bytes()
+    assert source.read_bytes() != (ROOT / "examples" / "template_reference_en.docx").read_bytes()
     assert "Identification" in en.tables[0].rows[0].cells[0].text
     assert "Chemical category" in en.tables[0].rows[2].cells[0].text
     assert "Chinese name:" not in "\n".join(cell.text for row in en.tables[0].rows for cell in row.cells)
     assert "8.2" in "\n".join(cell.text for row in en.tables[7].rows for cell in row.cells)
     assert "11.10" in "\n".join(cell.text for row in en.tables[10].rows for cell in row.cells)
+    assert en.tables[7].rows[3].cells[0].text == "Hand protection:"
+    child = en.tables[7].rows[11].cells[1].tables[0]
+    assert [[cell.text for cell in row.cells] for row in child.rows] == [
+        ["Substance", "Basis", "Type", "Value"],
+        ["", "", "", ""],
+    ]
     assert en.tables[10].cell(3, 1).text == "Oral:"
     assert en.tables[10].cell(4, 1).text == "Inhalation:"
     assert en.tables[10].cell(5, 1).text == "Dermal:"
@@ -44,9 +50,14 @@ def test_en_template_is_distinct_and_uses_english_section_labels():
 
 def test_en_snapshot_pins_the_supplied_template_hash_and_geometry():
     snapshot = json.loads((ROOT / "tests" / "template_snapshot_en.json").read_text(encoding="utf-8"))
-    assert snapshot["source_sha256"] == "2f287b544705d0db7ff724610c6f7878a88ff2912bbf074151e107f36a588a0e"
+    assert snapshot["source_sha256"] == "4ba9475bb211bfa7dae6328243cddb1797ff36afb17875b66d53d782b15216ff"
+    import hashlib
+    assert hashlib.sha256((ROOT / "examples" / "template_reference_en_source.docx").read_bytes()).hexdigest() == "2f287b544705d0db7ff724610c6f7878a88ff2912bbf074151e107f36a588a0e"
     assert [table["row_count"] for table in snapshot["tables"]] == EN_ROWS
     assert [table["column_count"] for table in snapshot["tables"]] == [2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 1, 1]
+    child = snapshot["tables"][7]["rows"][11]["cells"][1]["nested_tables"][0]
+    assert [cell["text"] for cell in child["rows"][0]["cells"]] == ["Substance", "Basis", "Type", "Value"]
+    assert child["grid_widths_dxa"] == ["2400", "1100", "1100", "1600"]
 
 
 def test_generator_selects_language_specific_template():

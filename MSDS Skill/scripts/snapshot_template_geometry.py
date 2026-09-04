@@ -85,6 +85,13 @@ def table_snapshot(table, index):
                     "vMerge": attr(v_merge, "val") if v_merge is not None else None,
                     "text": cell.text,
                     "paragraphs": [paragraph_snapshot(p) for p in cell.paragraphs],
+                    # Nested tables are executable child-level template
+                    # structure.  Keep their full geometry/property snapshot
+                    # instead of treating them as ordinary cell text.
+                    "nested_tables": [
+                        table_snapshot(nested, nested_index)
+                        for nested_index, nested in enumerate(cell.tables)
+                    ],
                 }
             )
         rows.append(

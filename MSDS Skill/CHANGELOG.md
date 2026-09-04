@@ -1,5 +1,14 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.13.0 — 2026-09-03
+- Added the controlled Section 8.2 engineering-controls child table to both maintained language templates without changing the 16 top-level table count, parent rows, sequence/label cells, merges or headers/footers.
+- Pinned the CN child-table headers as `物质 / 依据 / 类型 / 数值` and the EN headers as `Substance / Basis / Type / Value`, using the established four-column grid `[2400, 1100, 1100, 1600]` twips so the child table fits inside the parent value cell.
+- Added a whitelist writer that can populate only source-grounded S8.2 data rows and clone the approved styled data row for additional verified records; child headers and topology are release-locked.
+- Extended the recursive template snapshot and geometry audit to cover nested child-table geometry, cell properties, paragraph/run properties and header/footer parts.
+- Preserved the latest EN attachment byte-for-byte as the source record (`2f287b544705d0db7ff724610c6f7878a88ff2912bbf074151e107f36a588a0e`), generated the active child-table baseline with a non-splittable 8.2 parent row (`4ba9475bb211bfa7dae6328243cddb1797ff36afb17875b66d53d782b15216ff`), and removed one known accidental Chinese suffix from the EN Hand protection label while retaining its formatting.
+- Corrected the child-table grid to `[2400, 1100, 1100, 1600]` twips so the fourth `Value/数值` column remains visible inside the parent value cell; regenerated geometry snapshots and the eight-file replay evidence.
+- Archived both v3.12 language baselines separately and regenerated active/versioned snapshots and regression coverage. Template example facts remain non-authoritative.
+
 ## v3.12.0 — 2026-09-03
 - Adopted the latest user-supplied EN template as the authoritative source and active baseline with SHA-256 `2f287b544705d0db7ff724610c6f7878a88ff2912bbf074151e107f36a588a0e`.
 - Preserved the prior v3.11 EN baseline at `examples/archive/template_reference_en_v3.11_pre_field_update.docx`.

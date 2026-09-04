@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def test_snapshot_pins_current_template_geometry_and_parts():
     snapshot = json.loads((ROOT / "tests/template_snapshot.json").read_text(encoding="utf-8"))
-    assert snapshot["source_sha256"] == "cbbf558fb6511edecd8b6a44d3e6bde23ce8a01d715e370d5a19ddc1978a1c9c"
+    assert snapshot["source_sha256"] == "2e03e8826219f94724281ec415874875420991f34e03d9eab0d8731a16bee969"
     assert len(snapshot["tables"]) == 16
     assert [t["row_count"] for t in snapshot["tables"]] == [10, 16, 6, 6, 5, 4, 3, 12, 24, 6, 18, 6, 3, 5, 9, 2]
     assert [t["column_count"] for t in snapshot["tables"]] == [2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 1, 1]
@@ -24,6 +24,16 @@ def test_snapshot_records_revised_sections_and_example_fact_boundary():
     assert "8.2" in section8
     assert "11.10" in section11
     assert "PEA-4139" in snapshot["sections"][0]["header"]["tables"][0]["rows"][0]["cells"][0]["text"]
+
+
+def test_snapshot_pins_section8_2_child_control_parameter_table():
+    snapshot = json.loads((ROOT / "tests/template_snapshot.json").read_text(encoding="utf-8"))
+    row = snapshot["tables"][7]["rows"][11]
+    child = row["cells"][1]["nested_tables"][0]
+    assert child["row_count"] == 2
+    assert child["column_count"] == 4
+    assert child["grid_widths_dxa"] == ["2400", "1100", "1100", "1600"]
+    assert [cell["text"] for cell in child["rows"][0]["cells"]] == ["物质", "依据", "类型", "数值"]
 
 
 def test_geometry_audit_script_is_packaged():

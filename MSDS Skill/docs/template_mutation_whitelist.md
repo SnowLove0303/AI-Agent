@@ -12,7 +12,10 @@ baseline is adopted:
 - section titles, parent structure rows and fixed labels;
 - sequence and label cell formatting, paragraph properties and run properties;
 - table count/order, row/column geometry, grid widths, merges, borders and row heights;
-- child-table headers, column order and page-number fields;
+- child-table headers, column order and page-number fields. Section 8.2 now
+  contains the maintained four-column child table `物质 / 依据 / 类型 / 数值`
+  (EN: `Substance / Basis / Type / Value`); its header/topology remain locked;
+  only source-grounded data rows are writable;
 - header/footer structure and dynamic page-number fields.
 
 The first physical cell of a normal field row is treated as the sequence/label
@@ -27,7 +30,9 @@ Only the following operations are permitted:
 2. Maintain fixed semantic note slots without changing their position.
 3. Write S3 data rows as exactly three values: chemical name, CAS number and
    concentration. Every component occupies one physical row.
-4. Write S8.2 data rows without changing its five-column header or topology.
+4. Write S8.2 child-table data rows without changing its four-column header or
+   topology. If more verified records exist, clone the existing styled data
+   row in place; never rebuild the parent table.
 5. Insert a source-provided GHS pictogram into the existing pictogram value slot.
 6. Remove a complete dedicated S2/S9 row only when its value is a pure missing
    data sentinel. After that operation, change only the numeric sequence prefix.

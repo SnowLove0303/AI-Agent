@@ -24,6 +24,12 @@ from typing import Callable, Iterable, Sequence
 from docx.oxml.ns import qn
 
 
+S82_CHILD_HEADERS = {
+    "zh": ("物质", "依据", "类型", "数值"),
+    "en": ("Substance", "Basis", "Type", "Value"),
+}
+
+
 class MutationViolation(RuntimeError):
     """Raised when a generator attempts to mutate outside the whitelist."""
 
@@ -172,6 +178,38 @@ def write_row_values(row, values: Sequence[object], *, table_index: int | None =
         set_value_cell_text(cells[offset], value)
 
 
+def write_s82_child_rows(cell, records: Iterable[Sequence[object]], language: str) -> None:
+    """Write verified S8.2 control-parameter records into the child table.
+
+    The child-table header and topology belong to the template.  Only data
+    rows are writable; extra rows are cloned from the existing styled data
+    row, and the template's initial blank data slot is retained when the
+    source has no control-parameter records.
+    """
+    if language not in S82_CHILD_HEADERS:
+        raise MutationViolation(f"unsupported S8.2 child-table language: {language}")
+    tables = list(cell.tables)
+    if len(tables) != 1:
+        raise MutationViolation("S8.2 must contain exactly one maintained child table")
+    table = tables[0]
+    if len(table.rows) < 2 or len(table.columns) != 4:
+        raise MutationViolation("S8.2 child table must have a header and one styled data row")
+    header = tuple(item.text.strip() for item in table.rows[0].cells)
+    if header != S82_CHILD_HEADERS[language]:
+        raise MutationViolation(
+            f"S8.2 child-table header mismatch: expected {S82_CHILD_HEADERS[language]}, found {header}"
+        )
+    normalized = [tuple(str(value) for value in record[:4]) for record in records]
+    if any(len(record) != 4 for record in normalized):
+        raise MutationViolation("each S8.2 child-table record must contain substance/basis/type/value")
+    while len(table.rows) < 1 + max(1, len(normalized)):
+        table._tbl.append(copy.deepcopy(table.rows[-1]._tr))
+    for row_index, row in enumerate(table.rows[1:], start=0):
+        values = normalized[row_index] if row_index < len(normalized) else ("", "", "", "")
+        for target, value in zip(unique_cells(row), values):
+            set_value_cell_text(target, value)
+
+
 def clear_value_cells(document) -> None:
     """Clear only writable value cells, leaving all labels and headings intact."""
     for table_index, table in enumerate(document.tables):
@@ -311,6 +349,40 @@ def compare_locked_skeleton(template, output) -> list[str]:
             actual_text = re.sub(r"^\s*\d+\.\d+", "<SEQ>", actual_item.text)
             if expected_text != actual_text:
                 errors.append(f"locked label text changed: {key}")
+    # Child-table headers are a locked substructure.  Data rows are writable,
+    # so compare only the header text/properties here; full child geometry is
+    # covered by the template geometry audit.
+    for table_index, template_table in enumerate(template.tables):
+        if table_index >= len(output.tables):
+            continue
+        output_table = output.tables[table_index]
+        for row_index, template_row in enumerate(template_table.rows):
+            if row_index >= len(output_table.rows):
+                continue
+            for template_cell, output_cell in zip(unique_cells(template_row), unique_cells(output_table.rows[row_index])):
+                template_children = list(template_cell.tables)
+                output_children = list(output_cell.tables)
+                if not template_children:
+                    continue
+                if len(template_children) != len(output_children):
+                    errors.append(f"locked child-table count changed: table {table_index} row {row_index}")
+                    continue
+                for child_index, (expected_child, actual_child) in enumerate(zip(template_children, output_children)):
+                    if len(expected_child.rows) == 0 or len(actual_child.rows) == 0:
+                        errors.append(f"locked child-table header missing: table {table_index} row {row_index}")
+                        continue
+                    expected_header = unique_cells(expected_child.rows[0])
+                    actual_header = unique_cells(actual_child.rows[0])
+                    if len(expected_header) != len(actual_header):
+                        errors.append(f"locked child-table header width changed: table {table_index} row {row_index}")
+                        continue
+                    for header_cell, actual_header_cell in zip(expected_header, actual_header):
+                        if header_cell.text != actual_header_cell.text:
+                            errors.append(f"locked child-table header text changed: table {table_index} row {row_index}")
+                        expected_style = _cell_style_snapshot(header_cell)
+                        actual_style = _cell_style_snapshot(actual_header_cell)
+                        if expected_style != actual_style:
+                            errors.append(f"locked child-table header formatting changed: table {table_index} row {row_index}")
     return errors
 
 
@@ -321,6 +393,8 @@ __all__ = [
     "set_value_cell_text",
     "set_sequence_prefix",
     "write_row_values",
+    "write_s82_child_rows",
+    "S82_CHILD_HEADERS",
     "clear_value_cells",
     "locked_cell_snapshots",
     "compare_locked_skeleton",

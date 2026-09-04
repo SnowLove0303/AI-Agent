@@ -16,6 +16,19 @@ def sha(p):
     h=hashlib.sha256(); h.update(Path(p).read_bytes()); return h.hexdigest()
 
 def geom(doc):
+    def nested_geometry(table):
+        return {
+            'rows': len(table.rows),
+            'cols': [len(r.cells) for r in table.rows],
+            'grid': [col.w for col in table._tbl.tblGrid.gridCol_lst],
+            'cells': [
+                {
+                    'tcPr': etree.tostring(c._tc.tcPr, encoding='unicode') if c._tc.tcPr is not None else '',
+                    'nested': [nested_geometry(nested) for nested in c.tables],
+                }
+                for r in table.rows for c in r.cells
+            ],
+        }
     out=[]
     for ti,t in enumerate(doc.tables):
         rows=[]
@@ -25,9 +38,13 @@ def geom(doc):
                 tc=c._tc
                 tcpr=tc.tcPr
                 # geometry only; text/runs excluded
-                cells.append(etree.tostring(tcpr, encoding='unicode') if tcpr is not None else '')
+                cells.append({
+                    'tcPr': etree.tostring(tcpr, encoding='unicode') if tcpr is not None else '',
+                    'nested': [nested_geometry(nested) for nested in c.tables],
+                })
             rows.append(cells)
-        out.append({'rows':len(t.rows),'cols':[len(r.cells) for r in t.rows],'cells':rows})
+        out.append({'rows':len(t.rows),'cols':[len(r.cells) for r in t.rows],'cells':rows,
+                    'grid':[col.w for col in t._tbl.tblGrid.gridCol_lst]})
     return out
 
 def row_signature(row):

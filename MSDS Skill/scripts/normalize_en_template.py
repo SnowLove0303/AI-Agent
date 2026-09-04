@@ -2,7 +2,7 @@
 """Historical EN-template migration utility.
 
 This utility is retained for v3.10-era rollback and audit reproduction. It is
-not part of the active v3.12 generation path. The active EN baseline is the
+not part of the active v3.13 generation path. The active EN baseline is the
 user-supplied template used byte-for-byte; it must not be normalized to the CN
 geometry or have a Chinese-name row added. It does not translate or invent
 product facts.
@@ -104,6 +104,19 @@ def normalize(source: Path, output: Path) -> None:
         normalized_rows = table1.findall("w:tr", NS)
         if len(normalized_rows) != 10:
             raise AssertionError("EN template normalization did not produce 10 Section 1 rows")
+
+        # The supplied EN source has one accidental CN factual placeholder
+        # appended to the locked ``Hand protection:`` label in Section 8.1.
+        # Remove only that residual text from the maintained copy.  The source
+        # file remains archived byte-for-byte; sequence/label formatting and
+        # all other source geometry are preserved.
+        section8 = tables[7]
+        section8_rows = section8.findall("w:tr", NS)
+        hand_row = section8_rows[3]
+        hand_cells = hand_row.findall("w:tc", NS)
+        if len(hand_cells) != 2:
+            raise ValueError(f"Section 8.1 hand-protection row has {len(hand_cells)} cells")
+        _set_cell_text(hand_cells[0], "Hand protection:")
 
         xml_bytes = ET.tostring(document, encoding="utf-8", xml_declaration=True)
         output.parent.mkdir(parents=True, exist_ok=True)

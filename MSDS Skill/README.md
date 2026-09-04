@@ -1,4 +1,4 @@
-# MSDS Skill 3.12.0
+# MSDS Skill 3.13.0
 
 `MSDS Skill` is the controlled MSDS/SDS standardization skill for producing synchronized Chinese and English deliverables for the Guanzhi and Guocai company profiles.
 
@@ -13,6 +13,7 @@
 - Section 9 omission of pure missing-data rows followed by continuous renumbering.
 - Source-grounded facts only; example values embedded in the template are not product facts.
 - Locked template geometry, labels, paragraph/run formatting and header/footer conventions.
+- Section 8.2 has a maintained four-column child control-parameter table (`物质 / 依据 / 类型 / 数值`; EN `Substance / Basis / Type / Value`) with source-grounded data-row projection.
 - Release-blocking audits and full-page visual QA.
 - Feishu 17-section skeleton mutation whitelist: sequence/label columns and
   template-owned geometry are locked; only approved value cells, structured
@@ -30,11 +31,12 @@ Read [`SKILL.md`](SKILL.md) for the operating contract. The reusable scripts, te
 
 ## Version
 
-Public release: `MSDS Skill 3.12.0`
+Public release: `MSDS Skill 3.13.0`
 
 Template baseline: independent supplied CN/EN templates, with CN SHA-256
-`cbbf558fb6511edecd8b6a44d3e6bde23ce8a01d715e370d5a19ddc1978a1c9c` and EN
-SHA-256 `2f287b544705d0db7ff724610c6f7878a88ff2912bbf074151e107f36a588a0e`.
+`2e03e8826219f94724281ec415874875420991f34e03d9eab0d8731a16bee969`, EN source
+SHA-256 `2f287b544705d0db7ff724610c6f7878a88ff2912bbf074151e107f36a588a0e`, and
+EN active SHA-256 `4ba9475bb211bfa7dae6328243cddb1797ff36afb17875b66d53d782b15216ff`.
 
 The public release contains Skill source and validation assets only.
 Customer-specific generated files, temporary runs, rendered QA images and

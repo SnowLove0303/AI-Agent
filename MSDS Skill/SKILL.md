@@ -3,7 +3,7 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS Word standardization skill that converts a source MSDS into synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, with professional SDS English, source-grounded facts, locked template geometry, structured Section 11 handling, continuous numbering, company overlays, and mandatory render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.12
+# Unified MSDS Eight-Deliverable Standardizer v3.13
 
 ## Mandatory v2.9 inheritance (release blocker)
 
@@ -42,15 +42,16 @@ The language-specific template baselines are authoritative:
 
 - CN: `examples/template_reference.docx`, derived from the newer user-supplied `模板_MSDS_CN_冠志.docx`.
 - EN source record: `examples/template_reference_en_source.docx`, an unchanged copy of the latest user-supplied `模板_MSDS_EN_冠志 - 副本.docx`.
-- EN active baseline: `examples/template_reference_en.docx`, byte-identical to that latest supplied EN template.
+- EN active baseline: `examples/template_reference_en.docx`, a fresh clone of that source with only the approved Section 8.2 child table and the one identified stray Chinese label suffix removed.
 - The previous v3.11 EN baseline is retained at `examples/archive/template_reference_en_v3.11_pre_field_update.docx` for rollback/audit only.
+- The previous v3.12 CN/EN baselines are retained at `examples/archive/template_reference_cn_v3.12_pre_8.2_child_table_update.docx` and `examples/archive/template_reference_en_v3.12_pre_8.2_child_table_update.docx` for rollback/audit only.
 - The former normalized EN baseline is retained separately at `examples/archive/template_reference_en_v3.10_normalized.docx` and is historical evidence only; it is not an active template.
 
 Pinned SHA-256:
 
-- CN: `cbbf558fb6511edecd8b6a44d3e6bde23ce8a01d715e370d5a19ddc1978a1c9c`
+- CN: `2e03e8826219f94724281ec415874875420991f34e03d9eab0d8731a16bee969`
 - EN source: `2f287b544705d0db7ff724610c6f7878a88ff2912bbf074151e107f36a588a0e`
-- EN active baseline: `2f287b544705d0db7ff724610c6f7878a88ff2912bbf074151e107f36a588a0e`.
+- EN active baseline: `4ba9475bb211bfa7dae6328243cddb1797ff36afb17875b66d53d782b15216ff`.
 
 Structural baseline:
 - 16 tables
@@ -62,10 +63,10 @@ Structural baseline:
 - Section 15 current 9-row geometry is locked.
 - Section 2 includes the uploaded template's revised hazard-label structure.
 - Section 8 includes the uploaded template's `Hand protection` and `8.2 Engineering controls` slots.
+- Section 8.2 now contains a template-owned four-column child table in the writable value cell: CN `物质 / 依据 / 类型 / 数值`; EN `Substance / Basis / Type / Value`. It starts with one locked header row and one blank styled data slot. Only source-grounded data rows may be written or cloned; the parent sequence/label cells and child header/topology are locked.
 - Section 11 includes the uploaded template's structured rows through `11.10 Additional information`.
 - The v3.6.2 template geometry update changes only approved border styling: Section 8 internal PPE boundaries use dotted borders with the adjusted boundary edges around the first exposure-control rows; Section 11 uses dotted boundary edges around its introductory/reference-data transition row. No table count, row count, grid width, merge, paragraph-property or run-property baseline changed.
-- The complete structural snapshot, including paragraph/run properties and header/footer parts, is pinned in `tests/template_snapshot.json`.
-- The EN structural snapshot, including the exact supplied-template hash and geometry, is pinned in `tests/template_snapshot_en.json`; the versioned v3.12 copy is `tests/template_snapshot_en_v312.json`.
+- The complete recursive structural snapshot, including nested child-table geometry, paragraph/run properties and header/footer parts, is pinned in `tests/template_snapshot.json` and `tests/template_snapshot_en.json`; versioned v3.13 copies are retained in `tests/template_snapshot_v313.json`, `tests/template_snapshot_en_v313.json`, `tests/template_geometry_v313.json` and `tests/template_geometry_en_v313.json`.
 - Section 3 component rule: every component occupies exactly one physical data row. Never pack multiple component names, CAS numbers or concentrations into one row separated by line breaks. If the source has more components than the template's initial slots, clone the existing styled component row in place and preserve its OOXML geometry.
 
 A newer user-approved template immediately supersedes this one. Do not restore geometry or paragraph formatting from older outputs. Text visible in the template (including PEA-4139, example ingredients, hazards, toxicology and ecology values) is illustrative structure only and MUST NOT become product facts.
@@ -97,7 +98,7 @@ mutations are allowed:
 - write source-grounded content to an existing field-value cell;
 - maintain an existing one-cell note slot as a whole semantic slot;
 - write only name/CAS/concentration to S3 component data rows, one component per row;
-- write only approved data to S8.2's existing five-column data rows;
+- write only approved data to S8.2's existing four-column child-table data rows;
 - insert an explicitly sourced GHS pictogram into the existing pictogram value slot;
 - remove a complete pure-missing-data row only under the S2/S9 omission policy;
 - change only the numeric prefix after that approved omission;

@@ -35,6 +35,7 @@ def geometry_view(data):
                                 }
                                 for p in c["paragraphs"]
                             ],
+                            "nested_tables": [table_view(nested) for nested in c.get("nested_tables", [])],
                         }
                         for c in r["cells"]
                     ],

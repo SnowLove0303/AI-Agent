@@ -7,12 +7,14 @@ from docx.oxml.ns import qn
 from template_mutation_whitelist import (
     compare_locked_skeleton,
     set_sequence_prefix,
+    write_s82_child_rows,
     write_row_values,
 )
 
 
 ROOT = Path(__file__).resolve().parents[1]
 TEMPLATE = ROOT / "examples" / "template_reference.docx"
+TEMPLATE_EN = ROOT / "examples" / "template_reference_en.docx"
 
 
 def test_value_write_preserves_locked_label_and_skeleton():
@@ -74,3 +76,28 @@ def test_s81_parent_node_is_not_a_writable_note_slot():
     )
     assert output.tables[7].rows[1].cells[0].text == original
     assert not compare_locked_skeleton(template, output)
+
+
+def test_s82_child_data_write_preserves_locked_header_and_parent_label():
+    template = Document(str(TEMPLATE_EN))
+    output = Document(str(TEMPLATE_EN))
+    parent = output.tables[7].rows[11]
+    original_label = parent.cells[0].text
+    write_s82_child_rows(
+        parent.cells[1],
+        [["Substance A", "CN OEL", "TWA", "0.03 mg/m3"]],
+        "en",
+    )
+    child = parent.cells[1].tables[0]
+    assert [cell.text for cell in child.rows[0].cells] == ["Substance", "Basis", "Type", "Value"]
+    assert [cell.text for cell in child.rows[1].cells] == ["Substance A", "CN OEL", "TWA", "0.03 mg/m3"]
+    assert parent.cells[0].text == original_label
+    assert not compare_locked_skeleton(template, output)
+
+
+def test_s82_child_header_mutation_is_blocked():
+    template = Document(str(TEMPLATE))
+    output = Document(str(TEMPLATE))
+    output.tables[7].rows[11].cells[1].tables[0].cell(0, 1).text = "Regulation"
+    errors = compare_locked_skeleton(template, output)
+    assert any("locked child-table header text changed" in error for error in errors)

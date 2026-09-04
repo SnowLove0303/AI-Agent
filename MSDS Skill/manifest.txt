@@ -28,6 +28,8 @@ examples/regression_HPU-7660_source.docx
 examples/template_reference.docx
 examples/template_reference_en_source.docx
 examples/template_reference_en.docx
+examples/archive/template_reference_cn_v3.12_pre_8.2_child_table_update.docx
+examples/archive/template_reference_en_v3.12_pre_8.2_child_table_update.docx
 examples/archive/template_reference_en_v3.10_normalized.docx
 examples/archive/template_reference_en_v3.11_pre_field_update.docx
 legacy_v2_9/CHANGELOG_v2.9.md
@@ -58,6 +60,7 @@ scripts/sentence_boundary_policy.py
 scripts/snapshot_template.py
 scripts/snapshot_template_geometry.py
 scripts/audit_template_geometry.py
+scripts/ensure_s82_child_table.py
 scripts/normalize_en_template.py
 scripts/normalize_en_layout.py
 scripts/section2_ghs_policy.py
@@ -109,6 +112,10 @@ tests/template_geometry_en_v39.json
 tests/template_geometry_en_v311.json
 tests/template_geometry_en_v312.json
 tests/template_snapshot_en_v312.json
+tests/template_snapshot_v313.json
+tests/template_snapshot_en_v313.json
+tests/template_geometry_v313.json
+tests/template_geometry_en_v313.json
 tests/PU2345_section9_policy.md
 tests/support/generate_pu2345_eight.py
 _task_work/generate_os9015_eight.py
