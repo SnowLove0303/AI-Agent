@@ -1,5 +1,7 @@
 from pathlib import Path
 from copy import deepcopy
+import json
+import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -50,3 +52,21 @@ def test_performance_and_feature_extensions_clone_template_styles(tmp_path):
         assert ("低气味。" if registry["variants"][variant_id]["language"] == "zh-CN" else "Low odor.") in paragraphs
         base = Document(str(ROOT / registry["variants"][variant_id]["template"]))
         assert audit_shape(base, doc, registry["variants"][variant_id], mapping)
+
+
+def test_unknown_bilingual_metric_is_paired_by_source_order(tmp_path):
+    sources = {
+        "zh-CN": {"language": "zh-CN", "title": {"text": "TDS-DEMO", "paragraph_index": 0}, "sections": {}, "performance_rows": [{"item": "粒径", "value": "≤ 100 nm", "unit": "nm", "test_method": "方法A", "source_column_count": 4, "source_location": "table[0].row[6]"}]},
+        "en-US": {"language": "en-US", "title": {"text": "TDS-DEMO", "paragraph_index": 0}, "sections": {}, "performance_rows": [{"item": "Particle size", "value": "≤ 100 nm", "unit": "nm", "test_method": "Method A", "source_column_count": 4, "source_location": "table[0].row[6]"}]}
+    }
+    facts = []
+    for language, payload in sources.items():
+        path = tmp_path / f"{language}.json"
+        path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+        facts.append(path)
+    output = tmp_path / "mapping.json"
+    subprocess.run([sys.executable, str(ROOT / "scripts" / "map_tds_fields.py"), "--cn", str(facts[0]), "--en", str(facts[1]), "--registry", str(ROOT / "mapping" / "template_field_registry.json"), "--output", str(output)], check=True)
+    result = json.loads(output.read_text(encoding="utf-8"))
+    assert result["status"] == "ready"
+    assert len(result["performance_extra_rows"]) == 1
+    assert set(result["performance_extra_rows"][0]["label_values"]) == {"zh-CN", "en-US"}

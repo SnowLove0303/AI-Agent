@@ -1,5 +1,6 @@
 from __future__ import annotations
 import argparse
+from pathlib import Path
 from tds_common import dump,load,norm
 ALIASES={'乳液外观':'performance.appearance','appearance':'performance.appearance','环氧当量（EEW）':'performance.eew','epoxy equivalent weight (eew)':'performance.eew','固含量':'performance.solid_content','solid content':'performance.solid_content','ph值（25℃）':'performance.ph_25c','ph value (25°c)':'performance.ph_25c','粘度（25℃）':'performance.viscosity_25c','viscosity (25°c)':'performance.viscosity_25c'}
 TEXT=['product.description','product.supply_form','product.features','product.application','product.storage']
