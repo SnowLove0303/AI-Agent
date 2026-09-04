@@ -1,5 +1,10 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.14.2 — 2026-09-04
+- Added the mechanical/agent-split parameterized workflow: `scripts/extract_source_facts.py` (positioned draft with provenance, coverage fingerprint, EN skeleton; S2/S11/translation stay needs-review), `scripts/msds_pipeline.py` (canonical DOCX-first flow with in-process gates including S9-leftover and S11-toxicology checks) and `scripts/build_eight.py` (one command: 4 DOCX + gates + 4 PDF + matrix report).
+- Hardened the CN compact pass to skip the locked S8.2 parent/header rows and fixed a variant-name key bug found by the pipeline smoke test. Legacy `_task_work` generators are frozen and keep proving prior behavior.
+- Documented the mechanical-vs-judgment split and the batch-matching ban in the new SKILL §20; every agent call is recorded as a traceable `AGENT_DECISION`.
+
 ## v3.14.1 — 2026-09-04
 - Fixed the GHS label-elements value to stay empty when the source states no label ingredients, so the existing missing-row suppression removes the whole row instead of leaving a bare `必须列在标签上的有害成分：` heading in customer-facing output. Behavior with verified ingredients is unchanged.
 

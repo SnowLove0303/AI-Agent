@@ -19,8 +19,9 @@ def text_from_docx(p):
         s=re.sub(r'<[^>]+>',' ',s)
         return re.sub(r'\s+',' ',s)
 
-def main():
-    p=Path(sys.argv[1])
+def run(p):
+    """Audit one built file; return issue list. Import-safe core of main()."""
+    p = Path(p)
     text=text_from_docx(p) if p.suffix.lower()=='.docx' else p.read_text(encoding='utf-8')
     issues=[]
     low=text.lower()
@@ -28,6 +29,12 @@ def main():
         if re.search(pat, low): issues.append('BANNED_TRANSLATION: '+pat)
     for m in MISSING:
         if m in text: issues.append('VISIBLE_MISSING_MARKER: '+m)
+    return issues
+
+
+def main():
+    p=Path(sys.argv[1])
+    issues = run(p)
     if issues:
         print('\n'.join(issues)); return 2
     print('PASS: English terminology audit')

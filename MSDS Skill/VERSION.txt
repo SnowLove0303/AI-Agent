@@ -1,4 +1,4 @@
 MSDS Unified Eight-Deliverable Standardizer Skill
-3.14.1
+3.14.2
 Template mutation whitelist and Feishu 17-section skeleton contract
 Unified deliverable evaluation, release blocker and evidence audit layer

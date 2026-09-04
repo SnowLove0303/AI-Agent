@@ -17,9 +17,9 @@ def unique_cells(row):
         if k not in seen: seen.add(k); out.append(c)
     return out
 
-def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('docx'); ap.add_argument('--json'); a=ap.parse_args()
-    d=Document(a.docx); issues=[]; intentional_breaks=0; intentional_tabs=0
+def run(docx):
+    """Audit one built DOCX; return the report dict. Import-safe core of main()."""
+    d = Document(docx); issues=[]; intentional_breaks=0; intentional_tabs=0
     for ti,t in enumerate(d.tables):
         for ri,row in enumerate(t.rows):
             trPr=row._tr.trPr
@@ -50,8 +50,13 @@ def main():
                     xml=p._p.xml
                     if not locked and '<w:br' in xml: intentional_breaks += 1
                     if not locked and '<w:tab' in xml: intentional_tabs += 1
-    rep={'pass':not issues,'issue_count':len(issues),'intentional_break_count':intentional_breaks,'intentional_tab_count':intentional_tabs,'issues':issues}
+    return {'pass':not issues,'issue_count':len(issues),'intentional_break_count':intentional_breaks,'intentional_tab_count':intentional_tabs,'issues':issues}
+
+
+def main():
+    ap=argparse.ArgumentParser(); ap.add_argument('docx'); ap.add_argument('--json'); a=ap.parse_args()
+    rep = run(a.docx)
     s=json.dumps(rep,ensure_ascii=False,indent=2); print(s)
     if a.json: open(a.json,'w',encoding='utf-8').write(s)
-    sys.exit(0 if not issues else 1)
+    sys.exit(0 if rep['pass'] else 1)
 if __name__=='__main__': main()

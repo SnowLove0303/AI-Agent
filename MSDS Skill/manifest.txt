@@ -72,6 +72,10 @@ scripts/template_mutation_whitelist.py
 scripts/deliverable_audit_framework.py
 scripts/audit_deliverable_package.py
 scripts/convert_docx_to_pdf.py
+scripts/extract_source_facts.py
+scripts/draft_en_facts.py
+scripts/msds_pipeline.py
+scripts/build_eight.py
 tests/EP-1704_policy_expectations.md
 tests/README.md
 tests/label_audit.json
@@ -103,6 +107,8 @@ tests/test_cn_layout_policy.py
 tests/test_en_layout_policy.py
 tests/test_pdf_converter_policy.py
 tests/test_section11_alias_policy.py
+tests/test_extract_source_facts.py
+tests/test_build_eight_smoke.py
 tests/template_snapshot_en.json
 tests/template_snapshot_v39.json
 tests/template_snapshot_en_v39.json
