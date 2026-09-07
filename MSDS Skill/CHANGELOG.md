@@ -1,5 +1,10 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.15.1 — 2026-09-07
+- Removed the accidental Chinese suffix (`喷涂过程中要求有呼吸防护设备。`) from the EN Hand protection label cell, preserving its bold run formatting; the unchanged source record `template_reference_en_source.docx` stays at `59445b62c6d33b25a2e04c05778d428656f1ce0cbe7c21212721b145468c4416`, the active baseline moves to `593EF5A004F641BFE71AD6629847F47FD48D0307FCED14DFA8A810E01CF823F7`.
+- Re-pinned the new active hash in SKILL.md, README.md, docs/template_baseline.md, tests/test_template_language_parity.py and tests/template_snapshot_en.json; added tests/template_snapshot_en_v3151.json and tests/template_geometry_en_v3151.json; v3.14 snapshots retained as rollback evidence.
+- Table geometry unchanged (16 tables, EN rows `[9,16,6,6,5,4,3,16,24,6,18,6,3,5,9,2]`); PU-1001 replay re-verified after the fix.
+
 ## v3.15 — 2026-09-07
 - Published the template-slot contract and four-state source-presence policy from the PU-1001 replay: ordinary blank template slots are non-writable, Section 8.2 remains a controlled table exception, Section 9 suppresses pure missing rows and renumbers survivors, and Sections 11/12 reduce to source explanation rows when no valid endpoint exists.
 - Added source-fidelity regression coverage, independent package evidence, CN/EN and company-overlay parity checks, and DOCX-first eight-file release verification. PU-1001 replay completed with `RELEASE_PASS` and `100/100` package audit.

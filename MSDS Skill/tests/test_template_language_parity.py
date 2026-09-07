@@ -36,17 +36,25 @@ def test_en_template_is_distinct_and_uses_english_section_labels():
     source = ROOT / "examples" / "template_reference_en_source.docx"
     en = Document(ROOT / "examples" / "template_reference_en.docx")
     assert source.is_file()
-    assert source.read_bytes() == (ROOT / "examples" / "template_reference_en.docx").read_bytes()
+    import hashlib
+    import re
+    # v3.15.1: the source record stays byte-identical to the user-supplied
+    # formal template; the active baseline carries only the Hand protection
+    # label correction, so the two files intentionally differ now.
+    assert hashlib.sha256(source.read_bytes()).hexdigest() == "59445b62c6d33b25a2e04c05778d428656f1ce0cbe7c21212721b145468c4416"
+    assert hashlib.sha256((ROOT / "examples" / "template_reference_en.docx").read_bytes()).hexdigest() == "593ef5a004f641bfe71ad6629847f47fd48d0307fced14dfa8a810e01cf823f7"
     assert "Identification" in en.tables[0].rows[0].cells[0].text
     assert "Chemical category" in en.tables[0].rows[2].cells[0].text
     assert "Chinese name:" not in "\n".join(cell.text for row in en.tables[0].rows for cell in row.cells)
     assert "8.2" in "\n".join(cell.text for row in en.tables[7].rows for cell in row.cells)
     assert "11.10" in "\n".join(cell.text for row in en.tables[10].rows for cell in row.cells)
-    # Formal EN template carries its supplied Hand-protection cell verbatim
-    # (label plus tab-separated note); generation never rewrites label cells.
+    # v3.15.1: the accidental Chinese suffix was removed from the
+    # Hand-protection label cell (formatting retained); generation never
+    # rewrites label cells.
     hand_protection = en.tables[7].rows[3].cells[0].text
     assert hand_protection.startswith("Hand protection")
-    assert "喷涂过程中要求有呼吸防护设备。" in hand_protection
+    assert "喷涂过程中要求有呼吸防护设备。" not in hand_protection
+    assert not re.search(r"[一-鿿]", hand_protection)
     assert en.tables[7].rows[12].cells[0].text == "Control parameters for workplace components"
     assert _unique_texts(en.tables[7].rows[13]) == ["Substance", "Basis", "Type", "Value"]
     assert _unique_texts(en.tables[7].rows[14]) == ["六亚甲基-1,6-二异氰酸酯", "CN OEL", "TWA", "0.03 mg/m3"]
@@ -63,7 +71,7 @@ def test_en_template_is_distinct_and_uses_english_section_labels():
 
 def test_en_snapshot_pins_the_supplied_template_hash_and_geometry():
     snapshot = json.loads((ROOT / "tests" / "template_snapshot_en.json").read_text(encoding="utf-8"))
-    assert snapshot["source_sha256"] == "59445b62c6d33b25a2e04c05778d428656f1ce0cbe7c21212721b145468c4416"
+    assert snapshot["source_sha256"] == "593EF5A004F641BFE71AD6629847F47FD48D0307FCED14DFA8A810E01CF823F7"
     import hashlib
     assert hashlib.sha256((ROOT / "examples" / "template_reference_en_source.docx").read_bytes()).hexdigest() == "59445b62c6d33b25a2e04c05778d428656f1ce0cbe7c21212721b145468c4416"
     assert [table["row_count"] for table in snapshot["tables"]] == EN_ROWS

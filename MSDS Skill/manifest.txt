@@ -130,6 +130,8 @@ tests/template_snapshot_v314.json
 tests/template_snapshot_en_v314.json
 tests/template_geometry_v314.json
 tests/template_geometry_en_v314.json
+tests/template_snapshot_en_v3151.json
+tests/template_geometry_en_v3151.json
 tests/PU2345_section9_policy.md
 tests/support/generate_pu2345_eight.py
 _task_work/generate_os9015_eight.py

@@ -3,7 +3,7 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS Word standardization skill that converts a source MSDS into synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, with professional SDS English, source-grounded facts, locked template geometry, structured Section 11 handling, continuous numbering, company overlays, and mandatory render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.15
+# Unified MSDS Eight-Deliverable Standardizer v3.15.1
 
 ## Mandatory v2.9 inheritance (release blocker)
 
@@ -42,7 +42,7 @@ The language-specific template baselines are authoritative:
 
 - CN: `examples/template_reference.docx`, byte-identical to the user-supplied formal `正式模板_MSDS_CN_冠志.docx`.
 - EN source record: `examples/template_reference_en_source.docx`, an unchanged copy of the user-supplied formal `正式模板_MSDS_EN_冠志.docx`.
-- EN active baseline: `examples/template_reference_en.docx`, byte-identical to that formal EN template.
+- EN active baseline: `examples/template_reference_en.docx`, the formal EN template plus the v3.15.1 Hand protection label correction (accidental Chinese suffix removed, formatting retained).
 - The v3.13 CN/EN baselines (nested 8.2 child-table design) are retained at `examples/archive/template_reference_cn_v3.13_8.2_nested_child_table.docx` and `examples/archive/template_reference_en_v3.13_8.2_nested_child_table.docx` for rollback/audit only.
 - The previous v3.11 EN baseline is retained at `examples/archive/template_reference_en_v3.11_pre_field_update.docx` for rollback/audit only.
 - The previous v3.12 CN/EN baselines are retained at `examples/archive/template_reference_cn_v3.12_pre_8.2_child_table_update.docx` and `examples/archive/template_reference_en_v3.12_pre_8.2_child_table_update.docx` for rollback/audit only.
@@ -52,7 +52,7 @@ Pinned SHA-256:
 
 - CN: `2e4f55086bb13de9caa9e933465fad55eb62efc785d595170bc65749a2de6cfc`
 - EN source: `59445b62c6d33b25a2e04c05778d428656f1ce0cbe7c21212721b145468c4416`
-- EN active baseline: `59445b62c6d33b25a2e04c05778d428656f1ce0cbe7c21212721b145468c4416`.
+- EN active baseline: `593EF5A004F641BFE71AD6629847F47FD48D0307FCED14DFA8A810E01CF823F7`.
 
 Structural baseline:
 - 16 tables

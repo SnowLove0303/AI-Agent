@@ -31,12 +31,14 @@ Read [`SKILL.md`](SKILL.md) for the operating contract. The reusable scripts, te
 
 ## Version
 
-Public release: `MSDS Skill 3.15`
+Public release: `MSDS Skill 3.15.1`
 
 Template baseline: user-supplied formal CN/EN templates, with CN SHA-256
 `2e4f55086bb13de9caa9e933465fad55eb62efc785d595170bc65749a2de6cfc` and EN
-SHA-256 `59445b62c6d33b25a2e04c05778d428656f1ce0cbe7c21212721b145468c4416`
-(source record and active baseline are byte-identical).
+active SHA-256 `593EF5A004F641BFE71AD6629847F47FD48D0307FCED14DFA8A810E01CF823F7`
+(formal template plus the v3.15.1 Hand protection label correction; the
+unchanged source record `template_reference_en_source.docx` remains
+`59445b62c6d33b25a2e04c05778d428656f1ce0cbe7c21212721b145468c4416`).
 
 The public release contains Skill source and validation assets only.
 Customer-specific generated files, temporary runs, rendered QA images and

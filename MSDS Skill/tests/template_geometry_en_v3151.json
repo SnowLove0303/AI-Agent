@@ -1,6 +1,6 @@
 {
   "source_filename": "template_reference_en.docx",
-  "source_sha256": "593EF5A004F641BFE71AD6629847F47FD48D0307FCED14DFA8A810E01CF823F7",
+  "source_sha256": "593ef5a004f641bfe71ad6629847f47fd48d0307fced14dfa8a810e01cf823f7",
   "tables": [
     {
       "table": 0,
@@ -5100,39 +5100,15 @@
               "tcW_type": "dxa",
               "gridSpan": "2",
               "vMerge": null,
-              "text": "Hand protection：\t喷涂过程中要求有呼吸防护设备。",
+              "text": "Hand protection：",
               "paragraphs": [
                 {
-                  "text": "Hand protection：\t喷涂过程中要求有呼吸防护设备。",
+                  "text": "Hand protection：",
                   "pPr_hash": "8c0331ddab684d51039ee7d88cf3b77ae05078d20f0ae5c0733baf2a80a6d581",
                   "runs": [
                     {
                       "text": "Hand protection：",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
-                      "bold": true,
-                      "italic": null,
-                      "underline": null,
-                      "font": {
-                        "name": null,
-                        "size_pt": 12.0,
-                        "color": null
-                      }
-                    },
-                    {
-                      "text": "\t",
-                      "rPr_hash": "64660e0e0acbab77746d3d1b35dd075c3f655c71de7a28ea55c06087dc46bcb9",
-                      "bold": true,
-                      "italic": null,
-                      "underline": null,
-                      "font": {
-                        "name": null,
-                        "size_pt": 12.0,
-                        "color": null
-                      }
-                    },
-                    {
-                      "text": "喷涂过程中要求有呼吸防护设备。",
-                      "rPr_hash": "26762978c0eb492537a4ee415332e11acd8c0d9f7bc41a2d938b6a2b8dcffb88",
                       "bold": true,
                       "italic": null,
                       "underline": null,
