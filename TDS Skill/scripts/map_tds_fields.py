@@ -79,7 +79,7 @@ def source_row_decision(item: dict) -> dict:
 
 
 def text_decisions(fields: dict) -> list[dict]:
-    return [
+    out = [
         {
             "field_id": field_id,
             "kind": "text",
@@ -94,6 +94,22 @@ def text_decisions(fields: dict) -> list[dict]:
         for field_id, item in fields.items()
         if item.get("values")
     ]
+    out.extend(
+        {
+            "field_id": field_id,
+            "kind": "text",
+            "source_values": {},
+            "normalized_values": {},
+            "provenance": {},
+            "decision": "hide_no_source_candidate",
+            "confidence": "high",
+            "needs_judgment": True,
+            "reason": "源文件无本章节证据；Agent 确认后整节隐藏（标题+内容删除，不写无数据），确认前不得发布。",
+        }
+        for field_id in TEXT
+        if field_id in fields and not fields[field_id].get("values")
+    )
+    return out
 
 
 def normalized_model(fields: dict, performance_rows: list[dict], decisions: list[dict]) -> dict:

@@ -1,25 +1,16 @@
-"""Normalize only the active TDS template feature slots."""
+"""Validate active TDS template feature slots without changing their numbering."""
 from __future__ import annotations
 import argparse
 from pathlib import Path
 from docx import Document
-from docx.oxml.ns import qn
-from tds_common import feature_spacing_signature
-
-FEATURE_PARAGRAPH_INDICES=(21,23)
+from register_tds_registry import feature_layout
 
 def normalize_document(source: Path, output: Path) -> list[int]:
-    doc=Document(str(source)); removed=[]
-    for index in FEATURE_PARAGRAPH_INDICES:
-        p=doc.paragraphs[index]; ppr=p._p.pPr
-        num=ppr.find(qn('w:numPr')) if ppr is not None else None
-        if num is not None:
-            ppr.remove(num); removed.append(index)
-    if feature_spacing_signature(doc.paragraphs[21]) != feature_spacing_signature(doc.paragraphs[23]):
-        raise ValueError(f'{source.name}: feature paragraph spacing is not equal')
+    doc=Document(str(source)); language='en-US' if '_EN_' in source.name else 'zh-CN'
+    feature_layout(doc,language)
     output.parent.mkdir(parents=True,exist_ok=True)
-    tmp=output.with_name(output.name+'.normalized.docx'); doc.save(str(tmp)); tmp.replace(output)
-    return removed
+    tmp=output.with_name(output.name+'.validated.docx'); doc.save(str(tmp)); tmp.replace(output)
+    return []
 
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--input',type=Path,required=True); ap.add_argument('--output',type=Path,required=True); args=ap.parse_args()

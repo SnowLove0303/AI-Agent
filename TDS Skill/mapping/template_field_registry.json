@@ -3,7 +3,7 @@
   "variants": {
     "TDS_CN_冠志模板": {
       "template": "templates\\active\\TDS_CN_冠志模板.docx",
-      "template_sha256": "5ef98fd68b32d5102aec0db3879742c70ebd3df0d2e5c4e3daa00862d0454c47",
+      "template_sha256": "5d82729f130b3aa73807e87534955ef57b9bcf82cfd4e2984ae912ca2c62bec6",
       "language": "zh-CN",
       "company": "guanzhi",
       "slots": [
@@ -34,7 +34,7 @@
           "locator": {
             "paragraph_indices": [
               21,
-              23
+              22
             ]
           }
         },
@@ -42,259 +42,7 @@
           "field_id": "product.application",
           "kind": "paragraph",
           "locator": {
-            "paragraph_index": 27
-          }
-        },
-        {
-          "field_id": "product.storage",
-          "kind": "paragraph",
-          "locator": {
-            "paragraph_index": 32
-          }
-        },
-        {
-          "field_id": "performance.appearance",
-          "kind": "performance_row",
-          "label": "乳液外观",
-          "locator": {
-            "table_index": 0,
-            "row_index": 1
-          }
-        },
-        {
-          "field_id": "performance.eew",
-          "kind": "performance_row",
-          "label": "环氧当量（EEW）",
-          "locator": {
-            "table_index": 0,
-            "row_index": 2
-          }
-        },
-        {
-          "field_id": "performance.solid_content",
-          "kind": "performance_row",
-          "label": "固含量",
-          "locator": {
-            "table_index": 0,
-            "row_index": 3
-          }
-        },
-        {
-          "field_id": "performance.ph_25c",
-          "kind": "performance_row",
-          "label": "PH值（25℃）",
-          "locator": {
-            "table_index": 0,
-            "row_index": 4
-          }
-        },
-        {
-          "field_id": "performance.viscosity_25c",
-          "kind": "performance_row",
-          "label": "粘度（25℃）",
-          "locator": {
-            "table_index": 0,
-            "row_index": 5
-          }
-        }
-      ],
-      "performance_table": {
-        "header_row_index": 0,
-        "data_start_row_index": 1,
-        "source_led": true,
-        "max_source_rows": 100
-      },
-      "performance_extension": {
-        "allowed": true,
-        "row_template_index": 5,
-        "insert_after_row_index": 5,
-        "max_rows": 100,
-        "label_cell_allowed_for_new_rows": true
-      },
-      "feature_extension": {
-        "allowed": true,
-        "paragraph_template_index": 23,
-        "insert_after_paragraph_index": 23,
-        "max_items": 100
-      },
-      "feature_format_contract": {
-        "paragraph_indices": [
-          21,
-          23
-        ],
-        "numbering": "disabled",
-        "equal_paragraph_spacing": true,
-        "equal_character_spacing": true
-      }
-    },
-    "TDS_CN_国彩模板": {
-      "template": "templates\\active\\TDS_CN_国彩模板.docx",
-      "template_sha256": "2e77a96522eafab91985afdfd2bc09f0d3be31a538a499c838ba24dc07e91a88",
-      "language": "zh-CN",
-      "company": "guocai",
-      "slots": [
-        {
-          "field_id": "product.title",
-          "kind": "paragraph",
-          "locator": {
-            "paragraph_index": 7
-          }
-        },
-        {
-          "field_id": "product.description",
-          "kind": "paragraph",
-          "locator": {
-            "paragraph_index": 11
-          }
-        },
-        {
-          "field_id": "product.supply_form",
-          "kind": "paragraph",
-          "locator": {
-            "paragraph_index": 14
-          }
-        },
-        {
-          "field_id": "product.features",
-          "kind": "paragraph_list",
-          "locator": {
-            "paragraph_indices": [
-              21,
-              23
-            ]
-          }
-        },
-        {
-          "field_id": "product.application",
-          "kind": "paragraph",
-          "locator": {
-            "paragraph_index": 27
-          }
-        },
-        {
-          "field_id": "product.storage",
-          "kind": "paragraph",
-          "locator": {
-            "paragraph_index": 32
-          }
-        },
-        {
-          "field_id": "performance.appearance",
-          "kind": "performance_row",
-          "label": "乳液外观",
-          "locator": {
-            "table_index": 0,
-            "row_index": 1
-          }
-        },
-        {
-          "field_id": "performance.eew",
-          "kind": "performance_row",
-          "label": "环氧当量（EEW）",
-          "locator": {
-            "table_index": 0,
-            "row_index": 2
-          }
-        },
-        {
-          "field_id": "performance.solid_content",
-          "kind": "performance_row",
-          "label": "固含量",
-          "locator": {
-            "table_index": 0,
-            "row_index": 3
-          }
-        },
-        {
-          "field_id": "performance.ph_25c",
-          "kind": "performance_row",
-          "label": "PH值（25℃）",
-          "locator": {
-            "table_index": 0,
-            "row_index": 4
-          }
-        },
-        {
-          "field_id": "performance.viscosity_25c",
-          "kind": "performance_row",
-          "label": "粘度（25℃）",
-          "locator": {
-            "table_index": 0,
-            "row_index": 5
-          }
-        }
-      ],
-      "performance_table": {
-        "header_row_index": 0,
-        "data_start_row_index": 1,
-        "source_led": true,
-        "max_source_rows": 100
-      },
-      "performance_extension": {
-        "allowed": true,
-        "row_template_index": 5,
-        "insert_after_row_index": 5,
-        "max_rows": 100,
-        "label_cell_allowed_for_new_rows": true
-      },
-      "feature_extension": {
-        "allowed": true,
-        "paragraph_template_index": 23,
-        "insert_after_paragraph_index": 23,
-        "max_items": 100
-      },
-      "feature_format_contract": {
-        "paragraph_indices": [
-          21,
-          23
-        ],
-        "numbering": "disabled",
-        "equal_paragraph_spacing": true,
-        "equal_character_spacing": true
-      }
-    },
-    "TDS_EN_冠志模板": {
-      "template": "templates\\active\\TDS_EN_冠志模板.docx",
-      "template_sha256": "ddfac5c067f127c17696667f44c9fe44f19cc91ecdfeba3f57c94dabecd7c2e0",
-      "language": "en-US",
-      "company": "guanzhi",
-      "slots": [
-        {
-          "field_id": "product.title",
-          "kind": "paragraph",
-          "locator": {
-            "paragraph_index": 7
-          }
-        },
-        {
-          "field_id": "product.description",
-          "kind": "paragraph",
-          "locator": {
-            "paragraph_index": 11
-          }
-        },
-        {
-          "field_id": "product.supply_form",
-          "kind": "paragraph",
-          "locator": {
-            "paragraph_index": 14
-          }
-        },
-        {
-          "field_id": "product.features",
-          "kind": "paragraph_list",
-          "locator": {
-            "paragraph_indices": [
-              21,
-              23
-            ]
-          }
-        },
-        {
-          "field_id": "product.application",
-          "kind": "paragraph",
-          "locator": {
-            "paragraph_index": 27
+            "paragraph_index": 26
           }
         },
         {
@@ -307,7 +55,7 @@
         {
           "field_id": "performance.appearance",
           "kind": "performance_row",
-          "label": "Emulsion Appearance",
+          "label": "乳液外观",
           "locator": {
             "table_index": 0,
             "row_index": 1
@@ -316,7 +64,7 @@
         {
           "field_id": "performance.eew",
           "kind": "performance_row",
-          "label": "Epoxy Equivalent Weight",
+          "label": "环氧当量（EEW）",
           "locator": {
             "table_index": 0,
             "row_index": 2
@@ -325,7 +73,7 @@
         {
           "field_id": "performance.solid_content",
           "kind": "performance_row",
-          "label": "Solids Content",
+          "label": "固含量",
           "locator": {
             "table_index": 0,
             "row_index": 3
@@ -334,7 +82,7 @@
         {
           "field_id": "performance.ph_25c",
           "kind": "performance_row",
-          "label": "pH Value (25°C)",
+          "label": "PH值（25℃）",
           "locator": {
             "table_index": 0,
             "row_index": 4
@@ -343,7 +91,7 @@
         {
           "field_id": "performance.viscosity_25c",
           "kind": "performance_row",
-          "label": "Viscosity (25°C)",
+          "label": "粘度（25℃）",
           "locator": {
             "table_index": 0,
             "row_index": 5
@@ -365,24 +113,25 @@
       },
       "feature_extension": {
         "allowed": true,
-        "paragraph_template_index": 23,
-        "insert_after_paragraph_index": 23,
+        "paragraph_template_index": 22,
+        "separator_paragraph_index": 23,
+        "insert_after_paragraph_index": 22,
         "max_items": 100
       },
       "feature_format_contract": {
         "paragraph_indices": [
           21,
-          23
+          22
         ],
-        "numbering": "disabled",
+        "numbering": "enabled",
         "equal_paragraph_spacing": true,
         "equal_character_spacing": true
       }
     },
-    "TDS_EN_国彩模板": {
-      "template": "templates\\active\\TDS_EN_国彩模板.docx",
-      "template_sha256": "4087181c7841e02dd37011079c4d1c197a36b9388f5e95a3d62ca4ffcb9fdb0f",
-      "language": "en-US",
+    "TDS_CN_国彩模板": {
+      "template": "templates\\active\\TDS_CN_国彩模板.docx",
+      "template_sha256": "f7f3b76316975388327ba7426362ed61067f2d523d22fec906234ec60d93b2bb",
+      "language": "zh-CN",
       "company": "guocai",
       "slots": [
         {
@@ -412,7 +161,7 @@
           "locator": {
             "paragraph_indices": [
               21,
-              23
+              22
             ]
           }
         },
@@ -420,14 +169,141 @@
           "field_id": "product.application",
           "kind": "paragraph",
           "locator": {
-            "paragraph_index": 28
+            "paragraph_index": 26
           }
         },
         {
           "field_id": "product.storage",
           "kind": "paragraph",
           "locator": {
-            "paragraph_index": 32
+            "paragraph_index": 31
+          }
+        },
+        {
+          "field_id": "performance.appearance",
+          "kind": "performance_row",
+          "label": "乳液外观",
+          "locator": {
+            "table_index": 0,
+            "row_index": 1
+          }
+        },
+        {
+          "field_id": "performance.eew",
+          "kind": "performance_row",
+          "label": "环氧当量（EEW）",
+          "locator": {
+            "table_index": 0,
+            "row_index": 2
+          }
+        },
+        {
+          "field_id": "performance.solid_content",
+          "kind": "performance_row",
+          "label": "固含量",
+          "locator": {
+            "table_index": 0,
+            "row_index": 3
+          }
+        },
+        {
+          "field_id": "performance.ph_25c",
+          "kind": "performance_row",
+          "label": "PH值（25℃）",
+          "locator": {
+            "table_index": 0,
+            "row_index": 4
+          }
+        },
+        {
+          "field_id": "performance.viscosity_25c",
+          "kind": "performance_row",
+          "label": "粘度（25℃）",
+          "locator": {
+            "table_index": 0,
+            "row_index": 5
+          }
+        }
+      ],
+      "performance_table": {
+        "header_row_index": 0,
+        "data_start_row_index": 1,
+        "source_led": true,
+        "max_source_rows": 100
+      },
+      "performance_extension": {
+        "allowed": true,
+        "row_template_index": 5,
+        "insert_after_row_index": 5,
+        "max_rows": 100,
+        "label_cell_allowed_for_new_rows": true
+      },
+      "feature_extension": {
+        "allowed": true,
+        "paragraph_template_index": 22,
+        "separator_paragraph_index": 23,
+        "insert_after_paragraph_index": 22,
+        "max_items": 100
+      },
+      "feature_format_contract": {
+        "paragraph_indices": [
+          21,
+          22
+        ],
+        "numbering": "enabled",
+        "equal_paragraph_spacing": true,
+        "equal_character_spacing": true
+      }
+    },
+    "TDS_EN_冠志模板": {
+      "template": "templates\\active\\TDS_EN_冠志模板.docx",
+      "template_sha256": "73493add7fa58459c19b4699978c01d3a38ad2f84324cd52fae5c8c02a8228f8",
+      "language": "en-US",
+      "company": "guanzhi",
+      "slots": [
+        {
+          "field_id": "product.title",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 7
+          }
+        },
+        {
+          "field_id": "product.description",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 11
+          }
+        },
+        {
+          "field_id": "product.supply_form",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 14
+          }
+        },
+        {
+          "field_id": "product.features",
+          "kind": "paragraph_list",
+          "locator": {
+            "paragraph_indices": [
+              21,
+              22
+            ]
+          }
+        },
+        {
+          "field_id": "product.application",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 26
+          }
+        },
+        {
+          "field_id": "product.storage",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 30
           }
         },
         {
@@ -491,16 +367,144 @@
       },
       "feature_extension": {
         "allowed": true,
-        "paragraph_template_index": 23,
-        "insert_after_paragraph_index": 23,
+        "paragraph_template_index": 22,
+        "separator_paragraph_index": 23,
+        "insert_after_paragraph_index": 22,
         "max_items": 100
       },
       "feature_format_contract": {
         "paragraph_indices": [
           21,
-          23
+          22
         ],
-        "numbering": "disabled",
+        "numbering": "enabled",
+        "equal_paragraph_spacing": true,
+        "equal_character_spacing": true
+      }
+    },
+    "TDS_EN_国彩模板": {
+      "template": "templates\\active\\TDS_EN_国彩模板.docx",
+      "template_sha256": "3821e04158adf014c5671635ded31f9359c72070d6586a4f30c47215a8f1b137",
+      "language": "en-US",
+      "company": "guocai",
+      "slots": [
+        {
+          "field_id": "product.title",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 7
+          }
+        },
+        {
+          "field_id": "product.description",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 11
+          }
+        },
+        {
+          "field_id": "product.supply_form",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 14
+          }
+        },
+        {
+          "field_id": "product.features",
+          "kind": "paragraph_list",
+          "locator": {
+            "paragraph_indices": [
+              21,
+              22
+            ]
+          }
+        },
+        {
+          "field_id": "product.application",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 26
+          }
+        },
+        {
+          "field_id": "product.storage",
+          "kind": "paragraph",
+          "locator": {
+            "paragraph_index": 30
+          }
+        },
+        {
+          "field_id": "performance.appearance",
+          "kind": "performance_row",
+          "label": "Emulsion Appearance",
+          "locator": {
+            "table_index": 0,
+            "row_index": 1
+          }
+        },
+        {
+          "field_id": "performance.eew",
+          "kind": "performance_row",
+          "label": "Epoxy Equivalent Weight",
+          "locator": {
+            "table_index": 0,
+            "row_index": 2
+          }
+        },
+        {
+          "field_id": "performance.solid_content",
+          "kind": "performance_row",
+          "label": "Solids Content",
+          "locator": {
+            "table_index": 0,
+            "row_index": 3
+          }
+        },
+        {
+          "field_id": "performance.ph_25c",
+          "kind": "performance_row",
+          "label": "pH Value (25°C)",
+          "locator": {
+            "table_index": 0,
+            "row_index": 4
+          }
+        },
+        {
+          "field_id": "performance.viscosity_25c",
+          "kind": "performance_row",
+          "label": "Viscosity (25°C)",
+          "locator": {
+            "table_index": 0,
+            "row_index": 5
+          }
+        }
+      ],
+      "performance_table": {
+        "header_row_index": 0,
+        "data_start_row_index": 1,
+        "source_led": true,
+        "max_source_rows": 100
+      },
+      "performance_extension": {
+        "allowed": true,
+        "row_template_index": 5,
+        "insert_after_row_index": 5,
+        "max_rows": 100,
+        "label_cell_allowed_for_new_rows": true
+      },
+      "feature_extension": {
+        "allowed": true,
+        "paragraph_template_index": 22,
+        "separator_paragraph_index": 23,
+        "insert_after_paragraph_index": 22,
+        "max_items": 100
+      },
+      "feature_format_contract": {
+        "paragraph_indices": [
+          21,
+          22
+        ],
+        "numbering": "enabled",
         "equal_paragraph_spacing": true,
         "equal_character_spacing": true
       }

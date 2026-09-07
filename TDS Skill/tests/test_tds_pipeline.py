@@ -46,14 +46,17 @@ def test_language_specific_template_labels_and_grid_widths_are_registered():
     assert registry["variants"]["TDS_EN_冠志模板"]["template_sha256"] != "4d602128bd397235e76e48d39a9a02b7862b840063734bc89b67661271d0a216"
 
 
-def test_feature_slots_disable_numbering_and_preserve_equal_spacing():
+def test_feature_slots_preserve_numbering_and_equal_spacing():
     registry = load(ROOT / "mapping" / "template_field_registry.json")
     for variant in registry["variants"].values():
         doc = Document(str(ROOT / variant["template"]))
-        p21, p23 = (doc.paragraphs[i] for i in variant["feature_format_contract"]["paragraph_indices"])
-        assert numbering_shape(p21) is None and numbering_shape(p23) is None
-        assert feature_spacing_signature(p21) == feature_spacing_signature(p23)
-        assert variant["feature_format_contract"]["numbering"] == "disabled"
+        indices = variant["feature_format_contract"]["paragraph_indices"]
+        feature_paragraphs = [doc.paragraphs[i] for i in indices]
+        numbers = [numbering_shape(p) for p in feature_paragraphs]
+        assert all(n is not None and n.get("ilvl") == "0" for n in numbers)
+        assert len({n.get("numId") for n in numbers}) == 1
+        assert feature_spacing_signature(feature_paragraphs[0]) == feature_spacing_signature(feature_paragraphs[1])
+        assert variant["feature_format_contract"]["numbering"] == "enabled"
 
 
 def test_performance_and_feature_extensions_clone_template_styles(tmp_path):
@@ -77,7 +80,9 @@ def test_performance_and_feature_extensions_clone_template_styles(tmp_path):
         paragraphs = "\n".join(p.text for p in doc.paragraphs)
         assert ("粒径" if registry["variants"][variant_id]["language"] == "zh-CN" else "Particle size") in text
         assert ("低气味。" if registry["variants"][variant_id]["language"] == "zh-CN" else "Low odor.") in paragraphs
-        assert numbering_shape(doc.paragraphs[21]) is None and numbering_shape(doc.paragraphs[23]) is None
+        indices = registry["variants"][variant_id]["feature_format_contract"]["paragraph_indices"]
+        nums=[numbering_shape(doc.paragraphs[i]) for i in indices]
+        assert all(n is not None and n.get("ilvl")=="0" for n in nums) and len({n.get("numId") for n in nums})==1
         base = Document(str(ROOT / registry["variants"][variant_id]["template"]))
         assert audit_shape(base, doc, registry["variants"][variant_id], mapping)
 
@@ -213,3 +218,68 @@ def test_source_led_table_trims_unused_template_rows(tmp_path):
     output = tmp_path / "trimmed.docx"
     write_variant(mapping, registry, "TDS_CN_冠志模板", output)
     assert len(Document(str(output)).tables[0].rows) == 2
+
+
+def test_hidden_no_source_section_is_removed(tmp_path):
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
+    mapping["schema_version"] = "1.3.0"
+    mapping["status"] = "ready"
+    mapping["normalized_model"] = {
+        "status": "approved",
+        "translation": {"source": "normalized_model"},
+        "fields": {
+            field_id: {"field_id": field_id, "source_values": dict(item.get("values", {})), "normalized_values": dict(item.get("values", {})), "provenance": {}}
+            for field_id, item in mapping["mapped_fields"].items()
+        },
+        "performance_rows": None,
+        "decision_ledger": [{"field_id": "product.supply_form", "decision": "hide_no_source", "needs_judgment": False, "provenance": {}}],
+    }
+    mapping["normalized_model"]["fields"]["product.supply_form"] = {"field_id": "product.supply_form", "source_values": {}, "normalized_values": {}, "provenance": {}}
+    for variant_id in ("TDS_CN_冠志模板", "TDS_EN_冠志模板"):
+        output = tmp_path / f"hidden_{variant_id}.docx"
+        write_variant(mapping, registry, variant_id, output)
+        paragraphs = "\n".join(p.text for p in Document(str(output)).paragraphs)
+        heading = "【供应形式】" if registry["variants"][variant_id]["language"] == "zh-CN" else "【Supply Form】"
+        assert heading not in paragraphs
+        assert "无数据" not in paragraphs and "No data available" not in paragraphs
+        base = Document(str(ROOT / registry["variants"][variant_id]["template"]))
+        assert audit_shape(base, Document(str(output)), registry["variants"][variant_id], mapping)
+
+
+def test_empty_text_section_becomes_hide_candidate(tmp_path):
+    facts = tmp_path / "cn.json"
+    facts.write_text(json.dumps({
+        "language": "zh-CN",
+        "title": {"text": "TDS-DEMO"},
+        "sections": {"product.description": {"text": "用于水性涂层。", "locations": [3]}},
+        "performance_rows": [{"item": "外观", "value": "液体", "unit": "", "test_method": "目测", "source_column_count": 4, "source_location": "table[0].row[1]"}]
+    }, ensure_ascii=False), encoding="utf-8")
+    output = tmp_path / "mapping.json"
+    subprocess.run([sys.executable, str(ROOT / "scripts" / "map_tds_fields.py"), "--cn", str(facts), "--registry", str(ROOT / "mapping" / "template_field_registry.json"), "--output", str(output)], check=True)
+    result = json.loads(output.read_text(encoding="utf-8"))
+    decision = next(item for item in result["decision_ledger"] if item["field_id"] == "product.supply_form")
+    assert decision["decision"] == "hide_no_source_candidate"
+    assert decision["needs_judgment"] is True
+
+
+def test_feature_extension_keeps_numbering_and_separator_rhythm(tmp_path):
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
+    mapping["mapped_fields"]["product.features"]["values"]["zh-CN"] += "\n低气味。"
+    mapping["mapped_fields"]["product.features"]["values"]["en-US"] += "\nLow odor."
+    for variant_id in ("TDS_CN_冠志模板", "TDS_EN_冠志模板"):
+        output = tmp_path / f"rhythm_{variant_id}.docx"
+        write_variant(mapping, registry, variant_id, output)
+        doc = Document(str(output))
+        head = next(i for i,p in enumerate(doc.paragraphs) if p.text.strip() in ("【产品特性】", "【Product features】"))
+        next_head = next(i for i in range(head + 1, len(doc.paragraphs)) if doc.paragraphs[i].text.strip() in ("【应用】", "【Application】"))
+        region = doc.paragraphs[head + 1:next_head]
+        items = [p for p in region if p.text.strip()]
+        assert all(p.text.strip() for p in items)
+        assert any(not p.text.strip() for p in region)
+        nums = [numbering_shape(p) for p in items]
+        assert all(n is not None and n.get("ilvl") == "0" for n in nums) and len({n.get("numId") for n in nums}) == 1
+        assert feature_spacing_signature(items[0]) == feature_spacing_signature(items[1]) == feature_spacing_signature(items[2])
+        base = Document(str(ROOT / registry["variants"][variant_id]["template"]))
+        assert audit_shape(base, doc, registry["variants"][variant_id], mapping)
