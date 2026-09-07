@@ -40,5 +40,19 @@
 - Date: 2026-09-04T08:29:28Z
 - Supersedes: none
 
+### D-006
+- Decision: 本次线上交接文档单独建立为 MSDS 专属页面 `BCuhwr1GviyJubkYWcscvFIynaf`，不沿用或覆盖 TDS 交接页内容。
+- Rationale: 用户明确要求“MSDS”，MSDS 与 TDS 的模板、字段、事实和入口必须独立；交接文档也必须保持同一边界。
+- Alternatives considered: 复用 MSDS/TDS 混合页 — rejected because it obscures the active product/document boundary and can cause wrong-template continuation.
+- Date: 2026-09-07T10:20:00+08:00
+- Supersedes: none
+
+### D-007
+- Decision: 交接证据区分“当前 v3.14.2 基线验证”和“历史真实回放证据”；历史 `RELEASE_PASS` 不自动等价于新产品当前客户验收。
+- Rationale: 模板和入口已经演进，且客户交付必须以当前 active template、当前 semantic model、当前 PDF lineage 和逐页 QA 为准。
+- Alternatives considered: 直接把历史回放作为当前发布证明 — rejected because it hides replay date/baseline and weakens release evidence.
+- Date: 2026-09-07T10:20:00+08:00
+- Supersedes: none
+
 ## Last Updated
-2026-09-04T08:38:52Z · Codex · session-20260904-tds-handoff
+2026-09-07T10:20:00+08:00 · Codex · MSDS handoff session

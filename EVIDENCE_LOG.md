@@ -82,5 +82,68 @@ Each entry: `E-### | timestamp | action | result | status | ref`
 - Status: Verified
 - Ref: `https://xcnch7esppuf.feishu.cn/wiki/BcpFwKXsVi6Ar9k9k2McuXshnkb`
 
+### E-012
+- Time: 2026-09-07T09:45:00+08:00
+- Action: 在唯一根执行 `openspec context --json`，核对 Git branch/HEAD/remote/status。
+- Result: OpenSpec 根为 `F:\APP Location\Guanzhi Tong\Skill\覆写技能\AI-Agent`，当前分支 `feature/msds-tds-eight-format`，MSDS v3.14.2 功能基线为 `fbcdd958547b090ce74c5c5bb39298842062bc53`；当前 HEAD 为后续 TDS-only 提交，工作区脏改动限定在 `TDS Skill/`。
+- Status: Verified
+- Ref: `openspec/context`; `git status --short`; `git log`; `git remote -v`
+
+### E-013
+- Time: 2026-09-07T09:50:00+08:00
+- Action: 完整读取 `agent-handoff-kit/SKILL.md`、`references/state-schemas.md`、`references/workflow.md`，并按 TASK_STATE → HANDOFF → DECISIONS → 最新 EVIDENCE 顺序恢复既有状态。
+- Result: 确认本次需要维护四个本地交接状态文件，并将之前的 TDS 交接历史保留为历史证据，当前交接切换为 MSDS 专属范围。
+- Status: Verified
+- Ref: `C:\Users\Administrator\.codex\skills\agent-handoff-kit\SKILL.md`; `TASK_STATE.md`; `HANDOFF.md`
+
+### E-014
+- Time: 2026-09-07T09:58:00+08:00
+- Action: `py -m pytest -q "MSDS Skill/tests"`; `py -X utf8 ...quick_validate.py "MSDS Skill"`。
+- Result: MSDS `65 passed`；Skill quick validation 输出 `Skill is valid!`。默认 quick validation 的 GBK 解码路径曾失败，使用 UTF-8 模式后通过；该问题属于外部校验器兼容性，不是 Skill 内容失败。
+- Status: Verified
+- Ref: `MSDS Skill/tests/`; `MSDS Skill/SKILL.md`
+
+### E-015
+- Time: 2026-09-07T10:02:00+08:00
+- Action: 执行 `audit_v29_inheritance.py`、CN `audit_template_geometry.py`、EN `audit_template_geometry.py`。
+- Result: v2.9 继承审计通过，检查 37 个 legacy files；CN/EN geometry 均通过，均为 16 表，且哈希与 v3.14 快照一致。
+- Status: Verified
+- Ref: `MSDS Skill/legacy_v2_9/`; `MSDS Skill/tests/template_geometry_v314.json`; `MSDS Skill/tests/template_geometry_en_v314.json`
+
+### E-016
+- Time: 2026-09-07T10:04:00+08:00
+- Action: 核对 `MSDS Skill/_task_work/replay_v313_final/OS-9015/` 和 `PU-2345/` 的 matrix-report、deliverable-audit、八文件审计结果。
+- Result: 两个历史回放均为 4 DOCX + 4 PDF、4 个 formal-ready、0 个 draft、无 shared blocker；已有报告 score=100、outcome=`RELEASE_PASS`。这些是历史回放证据，不替代当前 v3.14.2 新回放和人工逐页 QA。
+- Status: Verified with scope caveat
+- Ref: `MSDS Skill/_task_work/replay_v313_final/OS-9015/`; `MSDS Skill/_task_work/replay_v313_final/PU-2345/`
+
+### E-017
+- Time: 2026-09-07T10:08:00+08:00
+- Action: 使用 `lark-cli wiki +node-get` 和 `lark-cli docs +fetch --doc-format xml --detail full` 读取目标 Wiki。
+- Result: 节点 `BCuhwr1GviyJubkYWcscvFIynaf`、文档 token `R8VxdD0oqoRlcaxu0cecT7Pdn1b` 已确认；原正文只有标题 `MSDS` 和空白段落，revision=3。
+- Status: Verified
+- Ref: `https://xcnch7esppuf.feishu.cn/wiki/BCuhwr1GviyJubkYWcscvFIynaf`
+
+### E-018
+- Time: 2026-09-07T10:18:00+08:00
+- Action: 通过 `lark-cli docs +update --command block_replace --doc-format xml` 写入完整 MSDS 交接正文，使用 `drive +update-title` 更新标题，再用 `docs +fetch` 回读。
+- Result: 标题为 `MSDS 项目交接文档 v3.14.2`；revision=5；正文长度约 15,171 字符；MSDS/TDS 隔离、CN/EN 哈希、Section 2/3/8/9/11/14、`build_eight.py` 和下一步均核验命中。
+- Status: Verified
+- Ref: `https://xcnch7esppuf.feishu.cn/wiki/BCuhwr1GviyJubkYWcscvFIynaf`
+
+### E-019
+- Time: 2026-09-07T10:19:00+08:00
+- Action: `AIharness --version`; `AIharness validate --json`。
+- Result: Harness=1.0.0；对仓库既有 `AGENTS.md`、`ARCHITECTURE.md` 和 `docs/` 非 managed 文档报告 `UNKNOWN_DOCUMENT`。没有为绕过该结果而改写项目级文档或建立第二套体系。
+- Status: Partial / tool-layer finding
+- Ref: `AGENTS.md`; `ARCHITECTURE.md`; `docs/`
+
+### E-020
+- Time: 2026-09-07T10:22:00+08:00
+- Action: `py C:\Users\Administrator\.codex\skills\agent-handoff-kit\scripts\check_state.py --strict`。
+- Result: state files strict check 完成，0 error、0 warning；仅提示 TASK_STATE 存在 4 项 open risks，均已明确记录 mitigation 或 unblock 条件。
+- Status: Verified
+- Ref: `TASK_STATE.md`; `HANDOFF.md`; `DECISIONS.md`; `EVIDENCE_LOG.md`
+
 ## Last Updated
-2026-09-04T08:38:52Z · Codex · session-20260904-tds-handoff
+2026-09-07T10:20:00+08:00 · Codex · MSDS handoff session
