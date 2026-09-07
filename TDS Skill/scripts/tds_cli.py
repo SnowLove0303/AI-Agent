@@ -6,6 +6,19 @@ SCRIPTS=Path(__file__).parent
 def run(name,*args):
     r=subprocess.run([sys.executable,str(SCRIPTS/name),*map(str,args)],text=True,encoding='utf-8',errors='replace');
     if r.returncode: raise SystemExit(r.returncode)
+def report_delivery(output_dir):
+    import json
+    root=Path(output_dir).resolve()
+    print(f'deliverables_root={root}')
+    for sub in ('WORD','PDF'):
+        for p in sorted((root/sub).glob('*')):
+            if p.is_file(): print(f'deliverable={p} bytes={p.stat().st_size}')
+    report=root/'audit'/'release_report.json'
+    if report.is_file():
+        try: status=json.loads(report.read_text(encoding='utf-8')).get('status')
+        except Exception: status='unreadable'
+        print(f'release_report={report} status={status}')
+    else: print(f'release_report=missing expected={report}')
 def main():
     ap=argparse.ArgumentParser(description='Independent TDS CN/EN x Guanzhi/Guocai eight-format builder'); sub=ap.add_subparsers(dest='cmd',required=True)
     b=sub.add_parser('baseline'); b.add_argument('--output',type=Path,default=ROOT/'snapshots'/'template_baselines.json')
@@ -28,7 +41,7 @@ def main():
         run('audit_tds_eight.py','--output-dir',x.output_dir,'--registry',ROOT/'mapping'/'template_field_registry.json','--mapping',mapping,'--model',x.model,'--report',audit/'docx_preflight_report.json','--docx-only')
         for docx in sorted(word_dir.glob('*.docx')):
             run('convert_docx_to_pdf.py',docx,pdf_dir/(docx.stem+'.pdf'),'--evidence',pdf_evidence_dir/(docx.stem+'.conversion.json'))
-        run('audit_tds_eight.py','--output-dir',x.output_dir,'--registry',ROOT/'mapping'/'template_field_registry.json','--mapping',mapping,'--model',x.model,'--report',audit/'release_report.json','--conversion-evidence-dir',pdf_evidence_dir); return
+        run('audit_tds_eight.py','--output-dir',x.output_dir,'--registry',ROOT/'mapping'/'template_field_registry.json','--mapping',mapping,'--model',x.model,'--report',audit/'release_report.json','--conversion-evidence-dir',pdf_evidence_dir); report_delivery(x.output_dir); return
     args=['--output-dir',x.output_dir,'--registry',ROOT/'mapping'/'template_field_registry.json','--mapping',x.mapping,'--model',x.output_dir.name,'--report',x.report]
     if x.conversion_evidence_dir: args += ['--conversion-evidence-dir',x.conversion_evidence_dir]
     run('audit_tds_eight.py',*args)

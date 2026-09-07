@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.12 — 2026-09-07
+
+- 基于官方 1.3.11 的本地增量：特性合约审计支持应用章节隐藏（右界回退链应用→储存→文末），隐藏章节缺失时不再崩溃。
+- 构建收尾自动打印交付清单（输出根目录 + `WORD/`/`PDF/` 路径字节数 + release report 状态）；审计清单加“交付报告”必检项。
+
 ## 1.3.11 — 2026-09-07
 
 - 将 TDS PDF 发布链路切换为内置 WPS/Word-compatible `word2pdf` 转换器：先生成并 preflight 最终 Word，再逐个 Word 派生 PDF；禁止 LibreOffice fallback、独立 PDF 制作和 PDF 后编辑。

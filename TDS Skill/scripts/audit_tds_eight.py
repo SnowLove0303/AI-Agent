@@ -45,10 +45,16 @@ def feature_contract_ok(base_doc, output_doc, variant, mapping=None):
     contract=variant.get('feature_format_contract',{})
     expected={'ind':{'start':str(contract.get('text_start_twips',560)),'hanging':str(contract.get('hanging_twips',160))},'tabs':[]}
     if any(feature_layout_signature(p)!=expected for p in output): return False
-    app=OUTPUT_HEADINGS['product.application'][variant['language']]
     head=OUTPUT_HEADINGS['product.features'][variant['language']]
-    hi=next(i for i,p in enumerate(output_doc.paragraphs) if p.text.strip()==head)
-    ai=next(i for i in range(hi+1,len(output_doc.paragraphs)) if output_doc.paragraphs[i].text.strip()==app)
+    hi=next((i for i,p in enumerate(output_doc.paragraphs) if p.text.strip()==head),None)
+    if hi is None: return False
+    ai=None
+    for follower in ('product.application','product.storage'):
+        if follower in (hidden or []): continue
+        name=OUTPUT_HEADINGS[follower][variant['language']]
+        ai=next((i for i in range(hi+1,len(output_doc.paragraphs)) if output_doc.paragraphs[i].text.strip()==name),None)
+        if ai is not None: break
+    if ai is None: ai=len(output_doc.paragraphs)
     region=output_doc.paragraphs[hi+1:ai]
     items=[p for p in region if p.text.strip()]
     if len(items)<2 or any(numbering_shape(p) is None for p in items): return False
