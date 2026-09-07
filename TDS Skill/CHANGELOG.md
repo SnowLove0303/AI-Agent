@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.9 — 2026-09-07
+
+- 将产品产出物与技能仓库隔离写入规范：Word、PDF、审计资料、mapping、generation record、执行日志和产品级中间文件不得加入、提交或推送到 Git；`output-dir` 必须位于仓库外。
+
 ## 1.3.8 — 2026-09-07
 
 - 分离产出目录：Word 文件统一写入 `WORD`，PDF 文件统一写入 `PDF`，生成元数据和覆写执行日志归档到 `audit/generation` 与 `audit/execution_logs`。

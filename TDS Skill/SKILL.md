@@ -2,7 +2,7 @@
 name: tds-four-variant-eight-deliverable-standardizer
 description: Extract, normalize, professionally translate, and overwrite TDS content into CN/EN × Guanzhi/Guocai templates, producing four DOCX and four DOCX-derived PDF deliverables with auditable judgment evidence.
 metadata:
-  version: 1.3.8
+  version: 1.3.9
   short-description: TDS Skill — evidence-led normalization, agent judgment, four refreshed templates, eight auditable files
 ---
 
@@ -36,6 +36,7 @@ metadata:
 - 当前四个模板的产品特性槽位保留模板自动编号，但输出统一采用紧凑悬挂式列表：编号起点与正文首行基准线对齐，编号起点固定为 400 twips、正文起点固定为 560 twips、悬挂量固定为 160 twips，编号后使用普通空格而不是远距离制表位。空白分隔段不得带 `numPr`、tab 或列表缩进；新增特性插入到原有分隔段之前。registry 按模板标题和实际特性段落动态注册槽位，覆写不得硬编码段落位置；源文本中的手工序号只去除显示性前缀。
 - PDF 只能由相应的最终 DOCX 通过 `scripts/convert_docx_to_pdf.py` 派生；禁止独立排版 PDF。
 - 机器审计通过只代表 `ready_for_user_proofreading`，不自动宣称客户可交付。
+- 产品产出物与技能仓库严格隔离：Word、PDF、`audit`、mapping、generation record、覆写执行日志及其他产品级中间文件必须写入仓库外的独立 `output-dir`；不得将产品产出物执行 `git add`、提交或推送。若目标 `output-dir` 位于技能仓库内，必须先停止并改用仓库外路径；仓库只允许收录技能代码、测试、规范、文档及用户明确要求发布的技能版本包。
 
 ## 四变体与八文件
 
@@ -51,4 +52,4 @@ py scripts/tds_cli.py build --source-cn <cn.doc|cn.docx> --source-en <en.doc|en.
 
 该命令第一次运行会生成 `audit/mapping.json`（`normalized_model.status=candidate`）。Agent 完成事实整理、标准化和英文翻译后，将同一 mapping 的标准化值、decision ledger 和状态提升为 `approved`，再用 `--normalized-mapping <approved-mapping.json>` 重跑构建；这样不重复抽取，也不绕过同一套模板、白名单、PDF 和审计链路。
 
-缺少英文源数据时英文槽位不会复制中文或模板示例；若 Agent 已从标准化模型完成专业英文翻译，应将翻译后的 `normalized_values` 作为覆写输入并保留中文标准化值与 provenance。没有完成翻译判断的输出仅可作为审计失败的诊断结果。构建产出固定分层：`<output-dir>/WORD/*.docx`、`<output-dir>/PDF/*.pdf`、`<output-dir>/audit/generation/*.generation.json`、`<output-dir>/audit/execution_logs/*.overwrite.log.json`，发布报告位于 `<output-dir>/audit/release_report.json`。
+缺少英文源数据时英文槽位不会复制中文或模板示例；若 Agent 已从标准化模型完成专业英文翻译，应将翻译后的 `normalized_values` 作为覆写输入并保留中文标准化值与 provenance。没有完成翻译判断的输出仅可作为审计失败的诊断结果。构建产出固定分层：`<output-dir>/WORD/*.docx`、`<output-dir>/PDF/*.pdf`、`<output-dir>/audit/generation/*.generation.json`、`<output-dir>/audit/execution_logs/*.overwrite.log.json`，发布报告位于 `<output-dir>/audit/release_report.json`；`<output-dir>` 必须位于技能仓库之外，产品产出不得进入 Git 仓库。
