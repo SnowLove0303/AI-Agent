@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.11 — 2026-09-07
+
+- 将 TDS PDF 发布链路切换为内置 WPS/Word-compatible `word2pdf` 转换器：先生成并 preflight 最终 Word，再逐个 Word 派生 PDF；禁止 LibreOffice fallback、独立 PDF 制作和 PDF 后编辑。
+- 增加 PDF 转换证据、来源/目标哈希校验、转换器版本和页数记录，最终审计阻断非最终 DOCX 来源或缺失转换证据的 PDF。
+
 ## 1.3.10 — 2026-09-07
 
 - 新增已验收的应用正文多行布局与序号清理参考实践，记录 OOXML 定位、呈现层最小修复、四变体验证和产品产出与仓库隔离要求。

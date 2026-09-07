@@ -11,6 +11,6 @@
 | 事实保真 | 源文件一次抽取；每字段唯一映射；无冲突、无容量溢出、无模板示例事实泄漏 | source facts + mapping + leak audit |
 | 翻译来源 | 英文 presentation value 来自 normalized model；英文源文件仅作证据/校验；事实、单位、范围和限定条件不被翻译改变 | normalized model + translation metadata |
 | 语言/公司 | CN/EN 使用各自受控值；冠志/国彩使用各自模板骨架；不以另一变体替代 | registry + four-variant audit |
-| PDF 派生 | 每个 PDF 与同名最终 DOCX 配对，转换前 DOCX 已审计，PDF 非独立制作 | PDF pair evidence |
+| PDF 派生 | 先完成 DOCX preflight，再由内置 WPS/Word-compatible `word2pdf` 一对一转换；无 LibreOffice fallback、无独立 PDF 制作；source/output hash 与转换标志一致 | `audit/pdf_conversion/*.conversion.json` + `audit/release_report.json` |
 | 视觉 QA | 每个 DOCX 至少渲染一页；检查截断、溢出、空白页、表格变形和公司标识 | rendered page images |
 | 客户交付 | 完成自动测试、ZIP 完整性和用户校对 | release report + package manifest |

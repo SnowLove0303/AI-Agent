@@ -130,7 +130,7 @@ def audit_shape(base_doc, output_doc, variant, mapping):
     if [_no_num(p) for p in mid_right] != expected_mid: return False
     return True
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--output-dir',type=Path,required=True); ap.add_argument('--registry',type=Path,required=True); ap.add_argument('--mapping',type=Path,required=True); ap.add_argument('--model',required=True); ap.add_argument('--report',type=Path,required=True); args=ap.parse_args()
+    ap=argparse.ArgumentParser(); ap.add_argument('--output-dir',type=Path,required=True); ap.add_argument('--registry',type=Path,required=True); ap.add_argument('--mapping',type=Path,required=True); ap.add_argument('--model',required=True); ap.add_argument('--report',type=Path,required=True); ap.add_argument('--docx-only',action='store_true'); ap.add_argument('--conversion-evidence-dir',type=Path); args=ap.parse_args()
     docx_dir=args.output_dir/'WORD' if (args.output_dir/'WORD').is_dir() else args.output_dir
     pdf_dir=args.output_dir/'PDF' if (args.output_dir/'PDF').is_dir() else args.output_dir
     reg=load(args.registry); mapping=load(args.mapping); results=[]; errors=[]; warnings=[]
@@ -178,9 +178,23 @@ def main():
         leaks=[x for x in load(ROOT/'mapping'/'tds_mutation_whitelist.json')['sample_fact_tokens'] if x.lower() in text.lower() and x not in (mapping.get('allowed_source_tokens') or [])]
         if leaks: errors.append(f'sample_fact_leak:{vid}:{leaks}')
         pdf=pdf_dir/f'{out.stem}.pdf'
-        if not pdf.is_file(): errors.append(f'missing_pdf:{pdf.name}')
-        results.append({'variant_id':vid,'docx':str(out),'docx_sha256':sha256(out),'pdf':str(pdf),'pdf_sha256':sha256(pdf) if pdf.is_file() else None,'pdf_derived_name_match':pdf.stem==out.stem,'geometry':'pass' if geometry_ok else 'fail','feature_format':'pass' if feature_ok else 'fail'})
-        if pdf.stem!=out.stem: errors.append(f'pdf_pair_name_mismatch:{vid}')
+        if not args.docx_only:
+            if not pdf.is_file(): errors.append(f'missing_pdf:{pdf.name}')
+            if args.conversion_evidence_dir is None: errors.append('missing_conversion_evidence_dir')
+            else:
+                evidence_path=args.conversion_evidence_dir/f'{out.stem}.conversion.json'
+                if not evidence_path.is_file(): errors.append(f'missing_conversion_evidence:{evidence_path.name}')
+                else:
+                    evidence=load(evidence_path)
+                    try: source_matches=Path(evidence.get('source_docx','')).resolve()==out.resolve()
+                    except (OSError,ValueError): source_matches=False
+                    if not source_matches: errors.append(f'conversion_source_mismatch:{vid}')
+                    if evidence.get('source_sha256')!=sha256(out): errors.append(f'conversion_source_hash_mismatch:{vid}')
+                    if pdf.is_file() and evidence.get('output_sha256')!=sha256(pdf): errors.append(f'conversion_output_hash_mismatch:{vid}')
+                    if evidence.get('source_is_final_docx') is not True: errors.append(f'conversion_not_final_docx:{vid}')
+                    if evidence.get('independent_pdf_authoring') is not False: errors.append(f'independent_pdf_authoring:{vid}')
+            if pdf.stem!=out.stem: errors.append(f'pdf_pair_name_mismatch:{vid}')
+        results.append({'variant_id':vid,'docx':str(out),'docx_sha256':sha256(out),'pdf':None if args.docx_only else str(pdf),'pdf_sha256':None if args.docx_only or not pdf.is_file() else sha256(pdf),'conversion_evidence':None if args.docx_only else str(args.conversion_evidence_dir/f'{out.stem}.conversion.json') if args.conversion_evidence_dir else None,'pdf_derived_name_match':None if args.docx_only else pdf.stem==out.stem,'geometry':'pass' if geometry_ok else 'fail','feature_format':'pass' if feature_ok else 'fail'})
         if semantic_rows(mapping) is not None:
             start=v.get('performance_table',{}).get('data_start_row_index',1)
             actual=[[c.text for c in row.cells] for row in product.tables[0].rows[start:]]
@@ -193,11 +207,11 @@ def main():
                     semantic_methods(source_row,v['language']) or source_row.get('test_method','') or ''
                 ])
             if actual!=expected: errors.append(f'performance_source_parity:{vid}')
-    pdfs=sorted(pdf_dir.glob('*.pdf'))
-    if len(pdfs)!=4: errors.append(f'pdf_count:{len(pdfs)}')
+    pdfs=[] if args.docx_only else sorted(pdf_dir.glob('*.pdf'))
+    if not args.docx_only and len(pdfs)!=4: errors.append(f'pdf_count:{len(pdfs)}')
     docxs=sorted(docx_dir.glob('*.docx'))
     if len(docxs)!=4: errors.append(f'docx_count:{len(docxs)}')
-    report={'schema_version':'1.1.0','status':'RELEASE_PASS' if not errors else 'RELEASE_FAIL','release_blocker':bool(errors),'docx_count':len(docxs),'pdf_count':len(pdfs),'errors':sorted(set(errors)),'warnings':sorted(set(warnings)),'normalization_model_status':model.get('status','legacy-mapping'),'translation_source':model.get('translation',{}).get('source','legacy-mapping'),'variants':results,'customer_ready':False,'ready_for_user_proofreading':not errors and not warnings}
+    report={'schema_version':'1.2.0','status':'DOCX_PREFLIGHT_PASS' if args.docx_only and not errors else 'RELEASE_PASS' if not errors else 'RELEASE_FAIL','release_blocker':bool(errors),'docx_count':len(docxs),'pdf_count':len(pdfs),'docx_only':args.docx_only,'errors':sorted(set(errors)),'warnings':sorted(set(warnings)),'normalization_model_status':model.get('status','legacy-mapping'),'translation_source':model.get('translation',{}).get('source','legacy-mapping'),'variants':results,'customer_ready':False,'ready_for_user_proofreading':not errors and not warnings}
     dump(args.report,report); print(f"status={report['status']} errors={len(errors)}")
     raise SystemExit(1 if errors else 0)
 if __name__=='__main__': main()

@@ -25,6 +25,9 @@ templates/active/TDS_EN_冠志模板.docx
 templates/active/TDS_EN_国彩模板.docx
 tests/fixtures/valid_mapping.json
 tests/test_tds_pipeline.py
+tests/test_tds_pdf_converter_policy.py
 docs/tds_audit_checklist.md
+docs/pdf_publication_contract.md
+docs/pdf_converter_adoption.md
 references/agent_judgment_protocol.md
 references/overwrite_practice_application_layout.md
