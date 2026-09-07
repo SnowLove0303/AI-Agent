@@ -2,7 +2,7 @@
 name: tds-four-variant-eight-deliverable-standardizer
 description: Extract, normalize, professionally translate, and overwrite TDS content into CN/EN × Guanzhi/Guocai templates, producing four DOCX and four DOCX-derived PDF deliverables with auditable judgment evidence.
 metadata:
-  version: 1.3.9
+  version: 1.3.10
   short-description: TDS Skill — evidence-led normalization, agent judgment, four refreshed templates, eight auditable files
 ---
 
@@ -25,6 +25,8 @@ metadata:
 - 具体抽取边界、归类、合并/拆分、单位与限定条件保留方式、术语选择和英文句法由 Agent 根据上下文、源证据和目标变体判断。若存在会改变客户含义的多种解释，保留原始证据并标记 `needs_judgment`；未解决前不得发布。
 
 执行源文件、翻译或覆写任务前，读取 `references/agent_judgment_protocol.md`。它规定判断顺序和证据格式，不替代 Agent 对具体内容的专业判断。
+
+已验收的应用正文多行布局与序号清理实践见 `references/overwrite_practice_application_layout.md`；遇到应用换行错位或错误序号时，按该参考实践定位和验证，不将产品产出复制回技能仓库。
 
 ## 固定边界
 
