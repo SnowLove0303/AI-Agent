@@ -9,7 +9,7 @@
 - MSDS v3.14.2 functional baseline: `fbcdd958547b090ce74c5c5bb39298842062bc53` — `Release MSDS Skill v3.14.2 with formal top-level 8.2 rows and parameterized pipeline`
 - Code HEAD audited for this handoff: `037e57214861983f76bee6ce821a57a8b28102e0` — later TDS-only commit; do not use it as evidence of a new MSDS behavior change. The handoff state files are committed separately after this audit.
 - Remote: `origin https://github.com/SnowLove0303/AI-Agent.git`
-- Worktree: dirty only in `TDS Skill/` files and one TDS release ZIP; these changes are outside this MSDS handoff and must be preserved.
+- Worktree: clean at final verification; TDS remains an independent Skill and is outside this MSDS handoff.
 - Runtime / entry point: `py "MSDS Skill/scripts/build_eight.py" --source SRC.docx --facts MODEL.json --out OUTPUT_DIR`
 - Feishu handoff: `https://xcnch7esppuf.feishu.cn/wiki/BCuhwr1GviyJubkYWcscvFIynaf`
 - Feishu title/revision at handoff: `MSDS 项目交接文档 v3.14.2`, revision `5`
@@ -24,7 +24,7 @@
 
 ## Context The Next Agent Must Know
 
-本页只交接 MSDS。仓库中虽然存在独立的 TDS Skill，但其代码、模板、事实、产物和交接规则均不属于本项目；当前 TDS 未提交修改必须保留，不能作为 MSDS 证据，也不能进入 `MSDS Skill/`。
+本页只交接 MSDS。仓库中虽然存在独立的 TDS Skill，但其代码、模板、事实、产物和交接规则均不属于本项目；交接复核时工作区为 clean，TDS 不能作为 MSDS 证据，也不能进入 `MSDS Skill/`。
 
 MSDS v3.14.2 已把用户模板、哈希、几何快照、受控覆写白名单、语义模型、Section 2/3/8/9/11/14 规则、独立 CN/EN 语言层、DOCX-first PDF、release blockers 和八文件审计固化在 Skill 文档与脚本中。所有客户产品仍需按当前源文档重新抽取、判断、生成和逐页验收。
 
@@ -74,7 +74,7 @@ MSDS v3.14.2 已把用户模板、哈希、几何快照、受控覆写白名单�
 - Do not add TDS content, TDS templates, TDS facts or TDS mappings to `MSDS Skill/`.
 - Do not modify user source templates to probe a fix; create active baselines only through the documented provenance process.
 - Do not use an illustrative template fact, another product, another language or an unapproved candidate model to fill a missing value.
-- Do not reset, clean, stash or delete the current TDS dirty worktree while doing MSDS work.
+- Do not mix TDS code, templates, facts or outputs into MSDS; re-check the clean worktree before future MSDS changes.
 - Do not declare a customer deliverable from an unreviewed candidate model, stale replay, failed audit or a PDF that was not derived from the final DOCX.
 
 ## Handoff From / To

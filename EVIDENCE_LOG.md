@@ -85,7 +85,7 @@ Each entry: `E-### | timestamp | action | result | status | ref`
 ### E-012
 - Time: 2026-09-07T09:45:00+08:00
 - Action: 在唯一根执行 `openspec context --json`，核对 Git branch/HEAD/remote/status。
-- Result: OpenSpec 根为 `F:\APP Location\Guanzhi Tong\Skill\覆写技能\AI-Agent`，当前分支 `feature/msds-tds-eight-format`，MSDS v3.14.2 功能基线为 `fbcdd958547b090ce74c5c5bb39298842062bc53`；当前 HEAD 为后续 TDS-only 提交，工作区脏改动限定在 `TDS Skill/`。
+- Result: OpenSpec 根为 `F:\APP Location\Guanzhi Tong\Skill\覆写技能\AI-Agent`，当前分支 `feature/msds-tds-eight-format`，MSDS v3.14.2 功能基线为 `fbcdd958547b090ce74c5c5bb39298842062bc53`；交接复核时工作区为 clean，当前 HEAD 为该基线之后的仓库历史。
 - Status: Verified
 - Ref: `openspec/context`; `git status --short`; `git log`; `git remote -v`
 
@@ -145,5 +145,12 @@ Each entry: `E-### | timestamp | action | result | status | ref`
 - Status: Verified
 - Ref: `TASK_STATE.md`; `HANDOFF.md`; `DECISIONS.md`; `EVIDENCE_LOG.md`
 
+### E-021
+- Time: 2026-09-07T10:25:00+08:00
+- Action: 复核实际 `git status --short` 后，使用 Feishu `str_replace` 修正线上交接页和本地交接文件中关于 TDS 工作区状态的过时描述。
+- Result: 工作区最终为 clean；线上页面保留 MSDS-only 交接边界，revision=6；不再把不存在的 TDS 未提交修改写成风险，且未修改 MSDS 代码、模板或产出规则。
+- Status: Verified
+- Ref: `https://xcnch7esppuf.feishu.cn/wiki/BCuhwr1GviyJubkYWcscvFIynaf`; `TASK_STATE.md`; `HANDOFF.md`
+
 ## Last Updated
-2026-09-07T10:20:00+08:00 · Codex · MSDS handoff session
+2026-09-07T10:25:00+08:00 · Codex · MSDS handoff session
