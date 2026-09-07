@@ -38,9 +38,80 @@ S82_MISSING = {
     "en": "No data available",
 }
 
+# Blank cells are not automatically writable.  These are the two intentional
+# blank inputs in the maintained template; Section 8's blank Recommendation
+# slot is deliberately absent from this set.
+BLANK_VALUE_SLOTS = {(0, 1), (1, 1)}
+
 
 class MutationViolation(RuntimeError):
     """Raised when a generator attempts to mutate outside the whitelist."""
+
+
+@dataclass(frozen=True)
+class TemplateSlot:
+    table_index: int
+    row_index: int
+    cell_indices: tuple[int, ...]
+    role: str
+    authorized: bool
+
+
+class TemplateSlotRegistry:
+    """Runtime map of template-owned writable cells.
+
+    It is built from the cloned template before clearing values.  Formatting,
+    merges and labels remain in the DOCX; the registry only answers where data
+    may go.
+    """
+
+    def __init__(self, slots: dict[tuple[int, int], TemplateSlot]):
+        self.slots = slots
+
+    @classmethod
+    def from_document(cls, document) -> "TemplateSlotRegistry":
+        slots = {}
+        for table_index, table in enumerate(document.tables):
+            for row_index, row in enumerate(table.rows):
+                cells = unique_cells(row)
+                if not cells or row_index == 0:
+                    continue
+                if table_index == 2 and row_index >= 4:
+                    slots[table_index, row_index] = TemplateSlot(
+                        table_index, row_index, tuple(range(len(cells))), "s3_data", True)
+                    continue
+                if table_index == 2 and row_index in {2, 3}:
+                    continue
+                if table_index == 7 and row_index >= 14:
+                    slots[table_index, row_index] = TemplateSlot(
+                        table_index, row_index, tuple(range(len(cells))), "s82_data", True)
+                    continue
+                if table_index == 7 and row_index == 1:
+                    continue
+                if table_index == 7 and row_index in {12, 13}:
+                    continue
+                if len(cells) == 1:
+                    slots[table_index, row_index] = TemplateSlot(
+                        table_index, row_index, (0,), "note", True)
+                    continue
+                payload = tuple(index for index, cell in enumerate(cells[1:], 1)
+                                if cell.text.strip())
+                if not payload and (table_index, row_index) in BLANK_VALUE_SLOTS:
+                    payload = tuple(range(1, len(cells)))
+                slots[table_index, row_index] = TemplateSlot(
+                    table_index, row_index, payload, "field", bool(payload))
+        return cls(slots)
+
+    def writable_cells(self, table_index: int, row_index: int, row) -> list:
+        slot = self.slots.get((table_index, row_index))
+        if not slot or not slot.authorized:
+            return []
+        cells = unique_cells(row)
+        return [cells[index] for index in slot.cell_indices if index < len(cells)]
+
+    def is_authorized(self, table_index: int, row_index: int) -> bool:
+        slot = self.slots.get((table_index, row_index))
+        return bool(slot and slot.authorized and slot.cell_indices)
 
 
 def unique_cells(row) -> list:
@@ -144,7 +215,9 @@ def _payload_for_field_row(cells: list, values: Sequence[object]) -> list[str]:
     return values[1:]
 
 
-def write_row_values(row, values: Sequence[object], *, table_index: int | None = None, row_index: int | None = None) -> None:
+def write_row_values(row, values: Sequence[object], *, table_index: int | None = None,
+                     row_index: int | None = None,
+                     registry: TemplateSlotRegistry | None = None) -> dict | None:
     """Write a semantic row through the mutation whitelist.
 
     ``values`` keeps the historical source-fact shape, where the first item is
@@ -182,10 +255,22 @@ def write_row_values(row, values: Sequence[object], *, table_index: int | None =
 
     # One-cell fixed semantic note slots are expressly writable as a slot.
     if len(cells) == 1:
-        set_value_cell_text(cells[0], "\n".join(values))
+        targets = registry.writable_cells(table_index, row_index, row) if registry else cells
+        if targets:
+            set_value_cell_text(targets[0], "\n".join(values))
         return
 
     payload = _payload_for_field_row(cells, values)
+    if registry is not None:
+        targets = registry.writable_cells(table_index, row_index, row)
+        if not targets:
+            if any(value.strip() for value in payload):
+                return {"status": "skipped_blank_template_slot",
+                        "table_index": table_index, "row_index": row_index}
+            return None
+        for cell, value in zip(targets, payload):
+            set_value_cell_text(cell, value)
+        return None
     for offset, value in enumerate(payload, start=1):
         if offset >= len(cells):
             break
@@ -237,7 +322,7 @@ def write_s82_top_rows(table, records: Iterable[Sequence[object]], language: str
     }
 
 
-def clear_value_cells(document) -> None:
+def clear_value_cells(document, registry: TemplateSlotRegistry | None = None) -> None:
     """Clear only writable value cells, leaving all labels and headings intact."""
     for table_index, table in enumerate(document.tables):
         for row_index, row in enumerate(table.rows):
@@ -245,6 +330,10 @@ def clear_value_cells(document) -> None:
                 continue
             cells = unique_cells(row)
             if not cells:
+                continue
+            if registry is not None:
+                for cell in registry.writable_cells(table_index, row_index, row):
+                    set_value_cell_text(cell, "")
                 continue
             if table_index == 2 and row_index in {2, 3}:
                 # S3 parent row and three-column table header are locked.

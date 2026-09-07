@@ -3,7 +3,7 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS Word standardization skill that converts a source MSDS into synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, with professional SDS English, source-grounded facts, locked template geometry, structured Section 11 handling, continuous numbering, company overlays, and mandatory render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.14.2
+# Unified MSDS Eight-Deliverable Standardizer v3.14.3
 
 ## Mandatory v2.9 inheritance (release blocker)
 
@@ -76,7 +76,7 @@ A newer user-approved template immediately supersedes this one. Do not restore g
 ## 2A. Highest-priority in-place overwrite contract
 This rule overrides every language/layout convenience rule. Each CN deliverable MUST be created by cloning `examples/template_reference.docx`; each EN deliverable MUST be created by cloning the independent `examples/template_reference_en.docx`; all four are then mutated in place. Never create an EN document from a blank document, from a rebuilt table set, or from a rendered CN output. Never add a CN-only row to the EN template merely to equalize section capacity.
 
-The template owns: table count/order, row/column geometry, grid, merges, cell properties, borders, widths, section placement, label cells, paragraph properties, and character-format anchors. The source owns facts only. The language layer may select an existing language-appropriate template label, but it may not generically rewrite, rebuild or normalize sequence/label cells.
+The template owns: table count/order, row/column geometry, grid, merges, cell properties, borders, widths, section placement, label cells, paragraph properties, and character-format anchors. The source owns facts only. The language layer may select an existing language-appropriate template label, but it may not generically rewrite, rebuild or normalize sequence/label cells. The shared runtime builds a slot registry from the fresh clone before clearing values: a non-empty template value object is writable, an intentionally blank object is not writable unless the semantic contract explicitly marks it as an input slot, and Section 8.2 data rows are handled only by their dedicated writer. This prevents source data from leaking into blank template slots such as Section 8 `建议 / Recommendation`.
 
 Deletion of an unsupported item must use the smallest safe template boundary. It may remove a whole dedicated row when that row is exactly one item; otherwise it must suppress only the unsupported item without damaging supported siblings or merge/grid integrity. After suppression, all four variants MUST have the same semantic item-presence set.
 
@@ -123,13 +123,13 @@ Never invent:
 - regulatory conclusions
 - official company English legal names
 
-For customer-facing MSDS output, a source-supported missing value is written exactly as `无数据` in Chinese or `No data available` in English. Do not write `无数据资料`, `暂无数据`, `无可用数据`, `无适用资料`, `source file not provided`, `源文件未提供`, `源文件记载`, or equivalent internal provenance commentary. A missing-data value is not permission to invent a result; use the exact placeholder and retain the surrounding supported item when the template requires the endpoint.
+For customer-facing MSDS output, a source-supported missing value is written exactly as `无数据` in Chinese or `No data available` in English. Do not write `无数据资料`, `暂无数据`, `无可用数据`, `无适用资料`, `source file not provided`, `源文件未提供`, `源文件记载`, or equivalent internal provenance commentary. A missing-data value is not permission to invent a result; use the exact placeholder and retain the surrounding supported item when the template requires the endpoint. The shared model distinguishes `SUPPORTED`, `EXPLICIT_MISSING`, `NOT_APPLICABLE`, and `ABSENT`: only `EXPLICIT_MISSING` may produce the customer-facing placeholder, while `ABSENT` suppresses a template-only field.
 
 Section 9 property exception: when a property value is only a missing-data placeholder, omit the entire dedicated property row before customer-facing write. Do not leave a blank row. Renumber the surviving visible Section 9 properties continuously in original semantic order. Preserve substantive values, including `不适用` / `Not applicable`, measured values and source-supported `其他信息` / `Other information`.
 
 Do not treat `不适用` or substantive negative conclusions as missing data. Keep conclusions such as `非危险品`, `无危险反应`, `初沸点以下无闪点`, or `未满足分类标准` when source-supported.
 
-Section-level explanatory sentences such as `该产品无可用的毒理学研究。` may be substantive context and must be preserved when they introduce supported component/reference data. They must not be followed by drafting, review, source-file, or data-request commentary.
+Section-level explanatory sentences such as `该产品无可用的毒理学研究。` may be substantive context and must be preserved when they introduce supported component/reference data. When all Section 11 or Section 12 endpoint rows are absent or explicitly missing, retain only the source explanation row and remove the template's endpoint/example rows. They must not be followed by drafting, review, source-file, or data-request commentary.
 
 ## 5. Product identity
 Current company rule:
@@ -226,7 +226,7 @@ Rules:
 - Do not merge oral/dermal/inhalation acute toxicity.
 - Preserve source route order where the template supports it.
 - A simple conclusion such as `STOT assessment - single exposure: Based on available data, the classification criteria are not met.` may remain one field:value line; do not over-split it.
-- When the authoritative template provides a required endpoint row, retain that row and write the exact missing-data placeholder; do not add explanatory missing-source prose. Only omit an endpoint when the governing semantic model explicitly marks the entire item as unsupported and the template contract permits removal.
+- When the source explicitly supplies a missing endpoint value, retain that endpoint row and write the exact missing-data placeholder. When the source has no endpoint field at all, suppress the template-only row; if every endpoint in Section 11 or 12 is absent or explicitly missing, retain only the source explanation row.
 - Section 11 is source-field projection, not a reasoning step. Write only endpoint values, species, results, classifications, methods or evidence qualifiers explicitly present in the verified source/semantic payload. Do not add a method, species, classification, “similar product” qualifier, overall assessment or additional-information conclusion merely because a neighboring field exists in the template.
 - The verified alias policy maps source `主要粘膜刺激性` to the existing standard endpoint `11.3 主要眼睛刺激性`; this is controlled field classification, not a new label or an inference. Preserve the source result/value exactly and do not duplicate it into `11.10 附加信息`.
 - For study results, use direct source-grounded field lines in the value cell, such as material/substance, species, result, classification, method/guideline and the supported evidence qualifier `对类似产品的研究` / `Study of a similar product`.

@@ -27,6 +27,7 @@ import json
 import re
 import shutil
 import sys
+import time
 from pathlib import Path
 
 from docx import Document
@@ -53,6 +54,7 @@ from section2_ghs_policy import (  # noqa: E402
     suppress_missing_section2_rows_and_renumber,
 )
 from section2_hp_policy import is_missing_data_value  # noqa: E402
+from missing_data_policy import apply_source_absence_policy  # noqa: E402
 from structured_toxicology_policy import (  # noqa: E402
     audit_field_value_integrity,
     audit_study_separation,
@@ -61,6 +63,7 @@ from template_mutation_whitelist import (  # noqa: E402
     clear_value_cells,
     compare_locked_skeleton,
     set_sequence_prefix,
+    TemplateSlotRegistry,
     unique_cells,
     write_s82_top_rows,
 )
@@ -127,31 +130,34 @@ def set_cell_text(cell, text: str) -> None:
     base.set_cell_text(cell, text)
 
 
-def write_body(doc, facts: dict, language: str) -> None:
-    clear_value_cells(doc)
+def write_body(doc, facts: dict, language: str) -> dict:
+    registry = TemplateSlotRegistry.from_document(doc)
+    clear_value_cells(doc, registry=registry)
+    skipped_slots = []
     for sec in range(1, 17):
         table = doc.tables[sec - 1]
         rows = base.project_rows_to_template(facts[f"s{sec}"], language, sec, table)
         for row_index, values in enumerate(rows, 1):
             if row_index >= len(table.rows):
                 raise RuntimeError(f"template capacity mismatch S{sec}: row {row_index}")
-            base.set_row(table.rows[row_index], values, table_index=sec - 1, row_index=row_index)
+            audit = base.set_row(table.rows[row_index], values, table_index=sec - 1,
+                                 row_index=row_index, registry=registry)
+            if audit:
+                audit["section"] = sec
+                skipped_slots.append(audit)
     write_s82_top_rows(
         doc.tables[7],
         (facts.get("s8_control_parameters") or {}).get(language, []),
         language,
     )
+    absence = apply_source_absence_policy(doc, facts, unique_cells)
+    return {"skipped_blank_template_slots": skipped_slots, **absence}
 
 
 def write_header_footer(doc, language: str, brand: str, product: str, revision: str) -> None:
     is_en = language == "en"
     company_name, _ = company(language, brand)
     for section in doc.sections:
-        for paragraph in section.header.paragraphs:
-            if "Version" in paragraph.text or "版本" in paragraph.text:
-                set_paragraph_text(paragraph, "Version: 1.0" if is_en else "版本：1.0")
-            elif paragraph.text.strip() and ("安全" in paragraph.text or "Material" in paragraph.text):
-                set_paragraph_text(paragraph, "Material Safety Data Sheet" if is_en else "物料安全数据表")
         for table in section.header.tables:
             for row in table.rows:
                 for cell in unique_cells(row):
@@ -282,20 +288,25 @@ def build_one(*, template_cn: Path, template_en: Path, template_en_source: Path,
     base.validate_template_capacity(doc, language)
     lang_facts = {key: (list(value) if isinstance(value, list) else value)
                   for key, value in facts[language].items()}
-    # Company overlay is brand-authoritative: S1 supplier rows always come
-    # from the approved profile, never from the facts payload.
+    s1 = [list(row) for row in lang_facts["s1"]]
+    # Company identity/contacts are overlay-controlled.  The Guanzhi address
+    # remains source-authoritative so a source spelling such as 掬泉 is not
+    # silently replaced by a stale profile literal.
     company_name, company_addr = company(language, brand)
+    if brand == "guanzhi" and len(s1) > 6:
+        source_address = s1[6][1] if len(s1[6]) > 1 else ""
+        if str(source_address).strip():
+            company_addr = str(source_address)
     tel = company_tel(language, brand)
     fax = company_fax(language, brand)
     supplier_rows = [[None, company_name], [None, company_addr], [None, tel], [None, fax]]
-    s1 = [list(row) for row in lang_facts["s1"]]
     for offset, (_, value) in enumerate(supplier_rows):
         if len(s1) > 5 + offset and len(s1[5 + offset]) > 1:
             s1[5 + offset][1] = value
     lang_facts["s1"] = s1
     lang_facts["s8_control_parameters"] = (facts.get("s8_control_parameters") or {}).get(language, [])
     base.ensure_s3_component_rows(doc, component_count=len(lang_facts["s3"]) - 3)
-    write_body(doc, lang_facts, language)
+    body_audit = write_body(doc, lang_facts, language)
     if language == "en":
         base.normalize_en_document(doc, template_path=template_en)
     pictogram_audit = insert_source_pictogram(doc, source) if with_pictogram else {
@@ -337,6 +348,7 @@ def build_one(*, template_cn: Path, template_en: Path, template_en_source: Path,
         "section2_policy": s2_policy,
         "pictogram": pictogram_audit,
         "section9_policy": s9_policy,
+        "source_presence_policy": body_audit,
         "status": "ready",
         "formal_ready": True,
         "blockers": [],
@@ -348,6 +360,10 @@ def build_one(*, template_cn: Path, template_en: Path, template_en_source: Path,
 def source_has_images(source: Path) -> bool:
     import zipfile
 
+    if source.suffix.lower() != ".docx":
+        # Legacy .doc inputs are read through Word during extraction; they do
+        # not expose OOXML media parts to this DOCX-only image probe.
+        return False
     with zipfile.ZipFile(source) as archive:
         return any(name.startswith("word/media/") and not name.endswith("/")
                    for name in archive.namelist())
@@ -372,8 +388,11 @@ def build_matrix(*, source: Path, facts: dict, out_root: Path,
                 ("en", "guanzhi"): names[2], ("en", "guocai"): names[3]}
     with_pictogram = source_has_images(source)
     records = []
+    timing = {"variants": [], "docx_seconds": 0.0, "pdf_seconds": 0.0}
+    total_started = time.perf_counter()
     for language, brand in variants:
         out_docx = out_root / name_map[(language, brand)]
+        variant_started = time.perf_counter()
         record = build_one(
             template_cn=SKILL_ROOT / "examples" / "template_reference.docx",
             template_en=SKILL_ROOT / "examples" / "template_reference_en.docx",
@@ -381,12 +400,22 @@ def build_matrix(*, source: Path, facts: dict, out_root: Path,
             source=source, facts=facts, language=language, brand=brand,
             product=model, revision=revision, out_docx=out_docx,
             with_pictogram=with_pictogram)
+        docx_seconds = time.perf_counter() - variant_started
+        timing["docx_seconds"] += docx_seconds
+        timing_item = {"language": language, "brand": brand,
+                       "docx_seconds": round(docx_seconds, 3),
+                       "pdf_seconds": 0.0}
         if do_pdf:
             out_pdf = out_docx.with_suffix(".pdf")
+            pdf_started = time.perf_counter()
             evidence = convert_pdf(out_docx, out_pdf, timeout=timeout)
+            timing_item["pdf_seconds"] = round(time.perf_counter() - pdf_started, 3)
+            timing["pdf_seconds"] += timing_item["pdf_seconds"]
             record["pdf_path"] = str(out_pdf)
             record["pdf_evidence"] = evidence
+        timing["variants"].append(timing_item)
         records.append(record)
+    timing["total_seconds"] = round(time.perf_counter() - total_started, 3)
     report = {
         "product": model,
         "matrix": "2 brands x 2 languages x 2 formats" if do_pdf else "2 brands x 2 languages (DOCX only)",
@@ -397,6 +426,7 @@ def build_matrix(*, source: Path, facts: dict, out_root: Path,
         "shared_blocker": None,
         "source_docx_sha256": sha256(source),
         "records": records,
+        "timing": timing,
     }
     (out_root / "matrix-report.json").write_text(
         json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")

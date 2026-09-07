@@ -3,6 +3,8 @@ import json
 import sys
 from pathlib import Path
 
+from docx import Document
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
@@ -42,3 +44,5 @@ def test_pipeline_builds_matrix_docx_only(tmp_path):
         assert Path(record["output_path"]).is_file()
     zh_rows = records[0]["output_geometry"]["rows"]
     assert zh_rows[7] == 15  # S8.2 example row removed, placeholder kept
+    output = Document(records[0]["output_path"])
+    assert "掬泉路3号" in output.tables[0].rows[7].cells[1].text

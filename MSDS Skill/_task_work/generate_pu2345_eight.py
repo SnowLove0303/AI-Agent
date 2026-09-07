@@ -45,11 +45,11 @@ from template_mutation_whitelist import (
 )
 
 CN_GUANZHI = "广州冠志新材料科技有限公司"
-CN_GUANZHI_ADDR = "广州市萝岗区科学城揽泉路3号广州国际企业孵化器A区1106室"
+CN_GUANZHI_ADDR = "广州市萝岗区科学城掬泉路3号广州国际企业孵化器A区1106室"
 CN_GUOCAI = "英德市国彩精细化工有限公司"
 CN_GUOCAI_ADDR = "广东省英德市白沙镇太平村更古坑凯迪工业园区"
 EN_GUANZHI = "Guangzhou Guanzhi New Material Technology Co., Ltd."
-EN_GUANZHI_ADDR = "Room 1106, Area A, Guangzhou International Enterprise Incubator, No. 3 Lanquan Road, Science City, Luogang District, Guangzhou"
+EN_GUANZHI_ADDR = "Room 1106, Area A, Guangzhou International Enterprise Incubator, No. 3 Juquan Road, Science City, Luogang District, Guangzhou"
 EN_GUOCAI = "Yingde Guocai Fine Chemical Co., Ltd."
 EN_GUOCAI_ADDR = "Kaidi Industrial Park, Genggukeng, Taiping Village, Baisha Town, Yingde City, Guangdong Province, China"
 
@@ -164,8 +164,9 @@ def set_cell_text(cell, text: str):
         p._element.getparent().remove(p._element)
 
 
-def set_row(row, values, *, table_index=None, row_index=None):
-    write_row_values(row, values, table_index=table_index, row_index=row_index)
+def set_row(row, values, *, table_index=None, row_index=None, registry=None):
+    return write_row_values(row, values, table_index=table_index, row_index=row_index,
+                            registry=registry)
 
 
 def clear_template_values(doc):

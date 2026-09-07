@@ -22,6 +22,14 @@ The first physical cell of a normal field row is treated as the sequence/label
 cell. In structured rows, the sublabel cell retains the template's formatting;
 only its approved source-grounded subvalue may be written.
 
+The runtime creates a slot registry from the fresh template clone before it
+clears values. Non-empty value objects are writable; blank value objects remain
+locked unless an explicit semantic input exception exists (for example the
+product-name and emergency-overview inputs). The blank Section 8
+`建议 / Recommendation` value is not an input slot. A skipped write to an
+intentionally blank slot is recorded in the source-presence audit, rather than
+silently changing the template.
+
 ## Writable regions
 
 Only the following operations are permitted:
@@ -42,6 +50,9 @@ Only the following operations are permitted:
 7. Apply an approved semantic alias to an existing endpoint. For example,
    `主要粘膜刺激性` maps to `11.3 主要眼睛刺激性`; the source value itself is
    preserved and no additional conclusion is generated.
+8. In Sections 11 and 12, when no endpoint is supported, retain the source
+   explanation row only. In other ordinary sections, suppress a source-absent
+   template row but retain an explicitly sourced missing value.
 
 ## Forbidden operations
 
@@ -58,5 +69,6 @@ The generator must fail if it attempts to:
 
 `scripts/template_mutation_whitelist.py` is the single write boundary. The
 release audit compares the output's locked-cell XML properties and label bodies
-with the fresh-cloned template. S2/S9 row omission is allowed only as an
-explicit whole-row exception; no arbitrary row deletion is accepted.
+with the fresh-cloned template. Row omission is allowed only for a dedicated
+S2/S9 pure-missing item, a source-absent ordinary field, or the documented
+note-only Sections 11/12 policy; no arbitrary row deletion is accepted.
