@@ -32,7 +32,7 @@ def write_source_performance_rows(doc, rows, variant, lang):
         replace_cell(row.cells[1],row_value(item,'values',lang,'values') or NO_DATA[lang])
         replace_cell(row.cells[2],row_value(item,'unit_values',lang,'unit_values') or item.get('unit',''))
         replace_cell(row.cells[3],row_value(item,'test_method_values',lang,'test_method_values') or item.get('test_method',''))
-def _write_variant(mapping, registry, variant_id, output, event=None):
+def _write_variant(mapping, registry, variant_id, output, event=None, generation_path=None, execution_log_file=None):
     variant=registry['variants'][variant_id]; lang=variant['language']; fields=semantic_fields(mapping); slots={x['field_id']:x for x in variant['slots']}
     if event: event('mapping_loaded', language=lang, field_count=len(fields), slot_count=len(slots))
     sample_tokens=load(ROOT/'mapping'/'tds_mutation_whitelist.json')['sample_fact_tokens']
@@ -115,13 +115,19 @@ def _write_variant(mapping, registry, variant_id, output, event=None):
     if event: event('docx_written', output_bytes=output.stat().st_size)
     text='\n'.join(p.text for p in Document(str(output)).paragraphs)+'\n'+'\n'.join(c.text for t in Document(str(output)).tables for r in t.rows for c in r.cells)
     leaked=[x for x in sample_tokens if x.lower() in text.lower() and x not in (mapping.get('allowed_source_tokens') or [])]
-    record={'schema_version':'1.3.7','variant_id':variant_id,'template':variant['template'],'template_sha256':variant['template_sha256'],'output':str(output),'output_sha256':sha256(output),'generated_at':datetime.now(timezone.utc).isoformat(),'fresh_clone':True,'source_led_performance_rows':source_rows is not None,'performance_extra_rows':len(extension_rows),'feature_extra_items':max(0,len(feature_lines(fields.get('product.features',{}).get('values',{}).get(lang,'')))-len(variant.get('feature_format_contract',{}).get('paragraph_indices',[21,23]))),'hidden_fields':sorted(hidden_field_ids(mapping)),'hidden_paragraphs':getattr(edit,'hidden_paras',[]),'sample_fact_leaks':leaked,'normalization_model_status':mapping.get('normalized_model',{}).get('status','legacy-mapping'),'translation_source':mapping.get('normalized_model',{}).get('translation',{}).get('source','legacy-mapping'),'decision_ledger_entries':len(mapping.get('decision_ledger',mapping.get('normalized_model',{}).get('decision_ledger',[]))),'execution_log_file':output.name+'.overwrite.log.json','ready_for_user_proofreading':not leaked,'customer_ready':False}
-    dump(output.with_suffix(output.suffix+'.generation.json'),record)
+    record={'schema_version':'1.3.8','variant_id':variant_id,'template':variant['template'],'template_sha256':variant['template_sha256'],'output':str(output),'output_sha256':sha256(output),'generated_at':datetime.now(timezone.utc).isoformat(),'fresh_clone':True,'source_led_performance_rows':source_rows is not None,'performance_extra_rows':len(extension_rows),'feature_extra_items':max(0,len(feature_lines(fields.get('product.features',{}).get('values',{}).get(lang,'')))-len(variant.get('feature_format_contract',{}).get('paragraph_indices',[21,23]))),'hidden_fields':sorted(hidden_field_ids(mapping)),'hidden_paragraphs':getattr(edit,'hidden_paras',[]),'sample_fact_leaks':leaked,'normalization_model_status':mapping.get('normalized_model',{}).get('status','legacy-mapping'),'translation_source':mapping.get('normalized_model',{}).get('translation',{}).get('source','legacy-mapping'),'decision_ledger_entries':len(mapping.get('decision_ledger',mapping.get('normalized_model',{}).get('decision_ledger',[]))),'execution_log_file':execution_log_file or output.name+'.overwrite.log.json','ready_for_user_proofreading':not leaked,'customer_ready':False}
+    dump(generation_path or output.with_suffix(output.suffix+'.generation.json'),record)
     if leaked: raise RuntimeError(f'sample facts leaked in {output.name}: {leaked}')
 
-def write_variant(mapping, registry, variant_id, output):
+def write_variant(mapping, registry, variant_id, output, log_dir=None, generation_dir=None, artifact_root=None):
     output=Path(output)
-    log_path=output.with_name(output.name+'.overwrite.log.json')
+    log_path=(Path(log_dir) / (output.name+'.overwrite.log.json')) if log_dir else output.with_name(output.name+'.overwrite.log.json')
+    generation_path=(Path(generation_dir) / (output.name+'.generation.json')) if generation_dir else output.with_suffix(output.suffix+'.generation.json')
+    log_path.parent.mkdir(parents=True,exist_ok=True); generation_path.parent.mkdir(parents=True,exist_ok=True)
+    execution_log_file=log_path.name
+    if artifact_root:
+        try: execution_log_file=log_path.relative_to(Path(artifact_root)).as_posix()
+        except ValueError: pass
     log={'schema_version':'1.0.0','status':'running','variant_id':variant_id,'output':str(output),'started_at':datetime.now(timezone.utc).isoformat(),'events':[]}
     def event(name, **details):
         log['events'].append({'at':datetime.now(timezone.utc).isoformat(),'event':name,**details})
@@ -129,7 +135,7 @@ def write_variant(mapping, registry, variant_id, output):
     dump(log_path,log)
     event('overwrite_started')
     try:
-        _write_variant(mapping, registry, variant_id, output, event)
+        _write_variant(mapping, registry, variant_id, output, event, generation_path, execution_log_file)
         event('leak_scan_passed')
         log['status']='completed'; log['finished_at']=datetime.now(timezone.utc).isoformat(); log['output_sha256']=sha256(output)
         dump(log_path,log)
@@ -140,12 +146,12 @@ def write_variant(mapping, registry, variant_id, output):
         raise
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--mapping',type=Path,required=True); ap.add_argument('--registry',type=Path,required=True); ap.add_argument('--output-dir',type=Path,required=True); ap.add_argument('--model',required=True); args=ap.parse_args()
+    ap=argparse.ArgumentParser(); ap.add_argument('--mapping',type=Path,required=True); ap.add_argument('--registry',type=Path,required=True); ap.add_argument('--output-dir',type=Path,required=True); ap.add_argument('--log-dir',type=Path); ap.add_argument('--generation-dir',type=Path); ap.add_argument('--artifact-root',type=Path); ap.add_argument('--model',required=True); args=ap.parse_args()
     m=load(args.mapping); r=load(args.registry)
     if m.get('status')!='ready': raise SystemExit('mapping is blocked; no DOCX written')
     args.output_dir.mkdir(parents=True,exist_ok=True)
     names={'TDS_CN_冠志模板':'TDS_CN_冠志','TDS_CN_国彩模板':'TDS_CN_国彩','TDS_EN_冠志模板':'TDS_EN_冠志','TDS_EN_国彩模板':'TDS_EN_国彩'}
     for vid,v in r['variants'].items():
-        stem=names[vid]; write_variant(m,r,vid,args.output_dir/f'{args.model}_{stem}.docx')
+        stem=names[vid]; write_variant(m,r,vid,args.output_dir/f'{args.model}_{stem}.docx',args.log_dir,args.generation_dir,args.artifact_root)
     print(f'docx_variants=4 output={args.output_dir}')
 if __name__=='__main__': main()

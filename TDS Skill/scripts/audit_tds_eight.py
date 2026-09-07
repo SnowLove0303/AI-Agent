@@ -131,6 +131,8 @@ def audit_shape(base_doc, output_doc, variant, mapping):
     return True
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--output-dir',type=Path,required=True); ap.add_argument('--registry',type=Path,required=True); ap.add_argument('--mapping',type=Path,required=True); ap.add_argument('--model',required=True); ap.add_argument('--report',type=Path,required=True); args=ap.parse_args()
+    docx_dir=args.output_dir/'WORD' if (args.output_dir/'WORD').is_dir() else args.output_dir
+    pdf_dir=args.output_dir/'PDF' if (args.output_dir/'PDF').is_dir() else args.output_dir
     reg=load(args.registry); mapping=load(args.mapping); results=[]; errors=[]; warnings=[]
     fields=semantic_fields(mapping)
     model=mapping.get('normalized_model',{})
@@ -162,7 +164,7 @@ def main():
                 if language not in extra.get('label_values',{}) or language not in extra.get('values',{}): errors.append(f'missing_language_extra_metric:{language}:{extra.get("field_id")}')
     for vid,v in reg['variants'].items():
         stem={'TDS_CN_冠志模板':'TDS_CN_冠志','TDS_CN_国彩模板':'TDS_CN_国彩','TDS_EN_冠志模板':'TDS_EN_冠志','TDS_EN_国彩模板':'TDS_EN_国彩'}[vid]
-        out=args.output_dir/f'{args.model}_{stem}.docx'
+        out=docx_dir/f'{args.model}_{stem}.docx'
         if not out.is_file(): errors.append(f'missing_docx:{out.name}'); continue
         base=Document(str(ROOT/v['template'])); product=Document(str(out));
         geometry_ok=audit_shape(base,product,v,mapping)
@@ -175,7 +177,7 @@ def main():
         text='\n'.join(p.text for p in product.paragraphs)+'\n'+'\n'.join(c.text for t in product.tables for r in t.rows for c in r.cells)
         leaks=[x for x in load(ROOT/'mapping'/'tds_mutation_whitelist.json')['sample_fact_tokens'] if x.lower() in text.lower() and x not in (mapping.get('allowed_source_tokens') or [])]
         if leaks: errors.append(f'sample_fact_leak:{vid}:{leaks}')
-        pdf=out.with_suffix('.pdf')
+        pdf=pdf_dir/f'{out.stem}.pdf'
         if not pdf.is_file(): errors.append(f'missing_pdf:{pdf.name}')
         results.append({'variant_id':vid,'docx':str(out),'docx_sha256':sha256(out),'pdf':str(pdf),'pdf_sha256':sha256(pdf) if pdf.is_file() else None,'pdf_derived_name_match':pdf.stem==out.stem,'geometry':'pass' if geometry_ok else 'fail','feature_format':'pass' if feature_ok else 'fail'})
         if pdf.stem!=out.stem: errors.append(f'pdf_pair_name_mismatch:{vid}')
@@ -191,9 +193,9 @@ def main():
                     semantic_methods(source_row,v['language']) or source_row.get('test_method','') or ''
                 ])
             if actual!=expected: errors.append(f'performance_source_parity:{vid}')
-    pdfs=sorted(args.output_dir.glob('*.pdf'))
+    pdfs=sorted(pdf_dir.glob('*.pdf'))
     if len(pdfs)!=4: errors.append(f'pdf_count:{len(pdfs)}')
-    docxs=sorted(args.output_dir.glob('*.docx'))
+    docxs=sorted(docx_dir.glob('*.docx'))
     if len(docxs)!=4: errors.append(f'docx_count:{len(docxs)}')
     report={'schema_version':'1.1.0','status':'RELEASE_PASS' if not errors else 'RELEASE_FAIL','release_blocker':bool(errors),'docx_count':len(docxs),'pdf_count':len(pdfs),'errors':sorted(set(errors)),'warnings':sorted(set(warnings)),'normalization_model_status':model.get('status','legacy-mapping'),'translation_source':model.get('translation',{}).get('source','legacy-mapping'),'variants':results,'customer_ready':False,'ready_for_user_proofreading':not errors and not warnings}
     dump(args.report,report); print(f"status={report['status']} errors={len(errors)}")

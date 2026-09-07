@@ -110,7 +110,8 @@ def convert_legacy(source: Path, outdir: Path) -> Path:
 def fresh_write(template: Path, output: Path, edit) -> None:
     from docx import Document
     doc=Document(str(template)); edit(doc)
-    tmp=output.with_name(output.name+'.edited.docx'); doc.save(str(tmp)); output.parent.mkdir(parents=True,exist_ok=True)
+    output.parent.mkdir(parents=True,exist_ok=True)
+    tmp=output.with_name(output.name+'.edited.docx'); doc.save(str(tmp))
     with zipfile.ZipFile(template) as src, zipfile.ZipFile(tmp) as changed, zipfile.ZipFile(output,'w') as dst:
         xml=changed.read('word/document.xml')
         for info in src.infolist(): dst.writestr(info, xml if info.filename=='word/document.xml' else src.read(info.filename))

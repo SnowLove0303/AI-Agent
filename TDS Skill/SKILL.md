@@ -2,7 +2,7 @@
 name: tds-four-variant-eight-deliverable-standardizer
 description: Extract, normalize, professionally translate, and overwrite TDS content into CN/EN × Guanzhi/Guocai templates, producing four DOCX and four DOCX-derived PDF deliverables with auditable judgment evidence.
 metadata:
-  version: 1.3.7
+  version: 1.3.8
   short-description: TDS Skill — evidence-led normalization, agent judgment, four refreshed templates, eight auditable files
 ---
 
@@ -51,4 +51,4 @@ py scripts/tds_cli.py build --source-cn <cn.doc|cn.docx> --source-en <en.doc|en.
 
 该命令第一次运行会生成 `audit/mapping.json`（`normalized_model.status=candidate`）。Agent 完成事实整理、标准化和英文翻译后，将同一 mapping 的标准化值、decision ledger 和状态提升为 `approved`，再用 `--normalized-mapping <approved-mapping.json>` 重跑构建；这样不重复抽取，也不绕过同一套模板、白名单、PDF 和审计链路。
 
-缺少英文源数据时英文槽位不会复制中文或模板示例；若 Agent 已从标准化模型完成专业英文翻译，应将翻译后的 `normalized_values` 作为覆写输入并保留中文标准化值与 provenance。没有完成翻译判断的输出仅可作为审计失败的诊断结果。构建后报告位于 `<output-dir>/audit/release_report.json`。
+缺少英文源数据时英文槽位不会复制中文或模板示例；若 Agent 已从标准化模型完成专业英文翻译，应将翻译后的 `normalized_values` 作为覆写输入并保留中文标准化值与 provenance。没有完成翻译判断的输出仅可作为审计失败的诊断结果。构建产出固定分层：`<output-dir>/WORD/*.docx`、`<output-dir>/PDF/*.pdf`、`<output-dir>/audit/generation/*.generation.json`、`<output-dir>/audit/execution_logs/*.overwrite.log.json`，发布报告位于 `<output-dir>/audit/release_report.json`。

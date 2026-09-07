@@ -4,7 +4,7 @@
 
 | 类别 | 必检项 | 证据 |
 |---|---|---|
-| 包身份 | CN/EN × 冠志/国彩 四 DOCX + 四 PDF，文件名唯一 | `audit/release_report.json` |
+| 包身份 | CN/EN × 冠志/国彩 四 DOCX + 四 PDF，文件名唯一；Word/PDF 与审计资料分目录 | `WORD/`、`PDF/`、`audit/`、`audit/release_report.json` |
 | 模板基线 | 来源 `.doc`、来源 SHA-256、active `.docx`、geometry/package snapshot | `snapshots/template_baselines.json`、`mapping/template_field_registry.json` |
 | 内容分层 | 原始 evidence、normalized semantic model、presentation value 三层分离；每个判断带 provenance、reason、confidence；未决客户含义判断阻断 | mapping `normalized_model` + `decision_ledger` |
 | 受控覆写 | fresh clone；只改 registry/whitelist 值槽；既有序号、标签、表格、合并、grid width、段落/字符格式、段落/字符间距、页眉页脚不变；特性槽位无智能编号；新增性能行/特性只克隆模板样式 | generation record + geometry/feature-format audit |

@@ -36,6 +36,20 @@ def test_all_four_variants_are_fresh_clones(tmp_path):
         assert {k: v for k, v in generated.items() if k != "word/document.xml"} == {k: v for k, v in original.items() if k != "word/document.xml"}
 
 
+def test_variant_metadata_can_be_separated_from_word_output(tmp_path):
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    mapping = load(ROOT / "tests" / "fixtures" / "valid_mapping.json")
+    output = tmp_path / "WORD" / "TDS-DEMO_TDS_CN_冠志.docx"
+    log_dir = tmp_path / "audit" / "execution_logs"
+    generation_dir = tmp_path / "audit" / "generation"
+    write_variant(mapping, registry, "TDS_CN_冠志模板", output, log_dir, generation_dir, tmp_path)
+    assert output.is_file()
+    assert not list(output.parent.glob("*.json"))
+    assert (log_dir / (output.name + ".overwrite.log.json")).is_file()
+    generation = json.loads((generation_dir / (output.name + ".generation.json")).read_text(encoding="utf-8"))
+    assert generation["execution_log_file"] == "audit/execution_logs/" + output.name + ".overwrite.log.json"
+
+
 def test_language_specific_template_labels_and_grid_widths_are_registered():
     registry = load(ROOT / "mapping" / "template_field_registry.json")
     en_labels = [

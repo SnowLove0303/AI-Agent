@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.8 — 2026-09-07
+
+- 分离产出目录：Word 文件统一写入 `WORD`，PDF 文件统一写入 `PDF`，生成元数据和覆写执行日志归档到 `audit/generation` 与 `audit/execution_logs`。
+- PDF 转换和八格式审计支持分离目录，同时保留旧的脚本直接调用兼容性。
+
 ## 1.3.7 — 2026-09-07
 
 - 英文 TDS 输出统一使用专业章节标题，优化 `waterborne polyurethane dispersion`、产品特性、应用、储存及性能指标术语和句式；统一 `forced-air oven`、`MPa`、`mPa·s`、范围符号等技术写法。
