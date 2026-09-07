@@ -2,7 +2,7 @@ from __future__ import annotations
 import argparse, hashlib, json, zipfile
 from pathlib import Path
 from docx import Document
-from tds_common import ROOT, SECTION_HEADINGS, dump, feature_spacing_signature, hidden_field_ids, load, numbering_shape, package_inventory, sha256, doc_snapshot
+from tds_common import ROOT, SECTION_HEADINGS, clear_feature_empty_paragraph, dump, feature_layout_signature, feature_spacing_signature, hidden_field_ids, load, numbering_shape, package_inventory, sha256, doc_snapshot
 
 def shape(s):
     s=json.loads(json.dumps(s));
@@ -41,7 +41,22 @@ def feature_contract_ok(base_doc, output_doc, variant, mapping=None):
     nums=[numbering_shape(p) for p in output]
     if any(n is None or n.get('ilvl')!='0' for n in nums): return False
     if len({n.get('numId') for n in nums})!=1: return False
-    return feature_spacing_signature(base[0]) == feature_spacing_signature(base[1]) == feature_spacing_signature(output[0]) == feature_spacing_signature(output[1])
+    if feature_spacing_signature(base[0]) != feature_spacing_signature(base[1]) or feature_spacing_signature(output[0]) != feature_spacing_signature(output[1]): return False
+    contract=variant.get('feature_format_contract',{})
+    expected={'ind':{'start':str(contract.get('text_start_twips',560)),'hanging':str(contract.get('hanging_twips',160))},'tabs':[]}
+    if any(feature_layout_signature(p)!=expected for p in output): return False
+    app={'zh-CN':'【应用】','en-US':'【Application】'}[variant['language']]
+    head={'zh-CN':'【产品特性】','en-US':'【Product features】'}[variant['language']]
+    hi=next(i for i,p in enumerate(output_doc.paragraphs) if p.text.strip()==head)
+    ai=next(i for i in range(hi+1,len(output_doc.paragraphs)) if output_doc.paragraphs[i].text.strip()==app)
+    region=output_doc.paragraphs[hi+1:ai]
+    items=[p for p in region if p.text.strip()]
+    if len(items)<2 or any(numbering_shape(p) is None for p in items): return False
+    if any(not p.text.strip() and numbering_shape(p) is not None for p in region): return False
+    first_item=next(i for i,p in enumerate(region) if p.text.strip())
+    last_item=max(i for i,p in enumerate(region) if p.text.strip())
+    if any(not region[i].text.strip() for i in range(first_item,last_item+1)): return False
+    return True
 def hidden_paragraph_indices(base_doc, variant, mapping):
     """Pristine-template paragraph indices removed by whole-section hiding. None when the heading cannot be located (fail closed)."""
     hidden=hidden_field_ids(mapping); lang=variant['language']
@@ -106,11 +121,13 @@ def audit_shape(base_doc, output_doc, variant, mapping):
     contract_last=feature_indices[-1]
     split_at=contract_last-fa+1
     def _no_num(p):
-        q=json.loads(json.dumps(p)); q.get('shape',{})['numbering']=None; return q
+        q=json.loads(json.dumps(p)); q.get('shape',{})['numbering']=None
+        if 'spacing' in q.get('shape',{}): q['shape']['spacing']['first_line_indent']=None
+        return q
     anchor_shape=_no_num(left['paragraphs'][contract_last])
     separator_index=variant.get('feature_extension',{}).get('separator_paragraph_index',contract_last+1)
     sep_shape=_no_num(left['paragraphs'][separator_index])
-    expected_mid=[_no_num(p) for p in mid_left[:split_at]]+[sep_shape,anchor_shape]*extra_count+[_no_num(p) for p in mid_left[split_at:]]
+    expected_mid=[_no_num(p) for p in mid_left[:split_at]]+[anchor_shape]*extra_count+[_no_num(p) for p in mid_left[split_at:]]
     if [_no_num(p) for p in mid_right] != expected_mid: return False
     return True
 def main():

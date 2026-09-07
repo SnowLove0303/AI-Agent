@@ -2,7 +2,7 @@
 name: tds-four-variant-eight-deliverable-standardizer
 description: Extract, normalize, professionally translate, and overwrite TDS content into CN/EN × Guanzhi/Guocai templates, producing four DOCX and four DOCX-derived PDF deliverables with auditable judgment evidence.
 metadata:
-  version: 1.3.5
+  version: 1.3.6
   short-description: TDS Skill — evidence-led normalization, agent judgment, four refreshed templates, eight auditable files
 ---
 
@@ -33,7 +33,7 @@ metadata:
 - 一次源文件抽取形成一个包含原始证据和标准化值的 semantic model，再映射到四个变体；字段不明确、数据冲突、翻译判断未解决或模板容量不足时 fail closed。
 - 模板中的产品名、性能指标、示例数值和公司事实是结构样例，不是产品事实。
 - 只允许修改 `mapping/tds_mutation_whitelist.json` 声明的值槽位；表头、表格拓扑、合并、grid widths、段落/字符属性、段落/字符间距、段落编号、页眉页脚和包部件受保护。性能数据行的项目标签是源事实值槽位，标签格式受保护；不得用模板示例标签替换源标签。
-- 当前四个模板的产品特性槽位保留模板自动编号：registry 按模板标题和实际特性段落动态注册槽位，覆写不得硬编码段落位置；源文本中的手工序号只去除显示性前缀。新增特性必须克隆模板特性段落及其分隔段，审计要求基线特性间距、字符间距、编号和结构契约与 active 模板一致。
+- 当前四个模板的产品特性槽位保留模板自动编号，但输出统一采用紧凑悬挂式列表：编号起点与正文首行基准线对齐，编号起点固定为 400 twips、正文起点固定为 560 twips、悬挂量固定为 160 twips，编号后使用普通空格而不是远距离制表位。空白分隔段不得带 `numPr`、tab 或列表缩进；新增特性插入到原有分隔段之前。registry 按模板标题和实际特性段落动态注册槽位，覆写不得硬编码段落位置；源文本中的手工序号只去除显示性前缀。
 - PDF 只能由相应的最终 DOCX 通过 `scripts/convert_docx_to_pdf.py` 派生；禁止独立排版 PDF。
 - 机器审计通过只代表 `ready_for_user_proofreading`，不自动宣称客户可交付。
 

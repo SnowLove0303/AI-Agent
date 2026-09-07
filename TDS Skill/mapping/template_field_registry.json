@@ -124,8 +124,13 @@
           22
         ],
         "numbering": "enabled",
+        "number_start_twips": 400,
+        "text_start_twips": 560,
+        "hanging_twips": 160,
         "equal_paragraph_spacing": true,
-        "equal_character_spacing": true
+        "equal_character_spacing": true,
+        "empty_numbered_paragraphs": false,
+        "items_contiguous": true
       }
     },
     "TDS_CN_国彩模板": {
@@ -251,8 +256,13 @@
           22
         ],
         "numbering": "enabled",
+        "number_start_twips": 400,
+        "text_start_twips": 560,
+        "hanging_twips": 160,
         "equal_paragraph_spacing": true,
-        "equal_character_spacing": true
+        "equal_character_spacing": true,
+        "empty_numbered_paragraphs": false,
+        "items_contiguous": true
       }
     },
     "TDS_EN_冠志模板": {
@@ -378,8 +388,13 @@
           22
         ],
         "numbering": "enabled",
+        "number_start_twips": 400,
+        "text_start_twips": 560,
+        "hanging_twips": 160,
         "equal_paragraph_spacing": true,
-        "equal_character_spacing": true
+        "equal_character_spacing": true,
+        "empty_numbered_paragraphs": false,
+        "items_contiguous": true
       }
     },
     "TDS_EN_国彩模板": {
@@ -505,8 +520,13 @@
           22
         ],
         "numbering": "enabled",
+        "number_start_twips": 400,
+        "text_start_twips": 560,
+        "hanging_twips": 160,
         "equal_paragraph_spacing": true,
-        "equal_character_spacing": true
+        "equal_character_spacing": true,
+        "empty_numbered_paragraphs": false,
+        "items_contiguous": true
       }
     }
   }

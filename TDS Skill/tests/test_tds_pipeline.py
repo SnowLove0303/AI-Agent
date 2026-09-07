@@ -10,7 +10,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from docx import Document
 from overwrite_tds import write_variant
 from audit_tds_eight import audit_shape
-from tds_common import feature_spacing_signature, load, numbering_shape, package_inventory
+from tds_common import feature_layout_signature, feature_spacing_signature, load, numbering_shape, package_inventory
 
 
 def test_all_four_variants_are_fresh_clones(tmp_path):
@@ -57,6 +57,9 @@ def test_feature_slots_preserve_numbering_and_equal_spacing():
         assert len({n.get("numId") for n in numbers}) == 1
         assert feature_spacing_signature(feature_paragraphs[0]) == feature_spacing_signature(feature_paragraphs[1])
         assert variant["feature_format_contract"]["numbering"] == "enabled"
+        assert variant["feature_format_contract"]["number_start_twips"] == 400
+        assert variant["feature_format_contract"]["text_start_twips"] == 560
+        assert variant["feature_format_contract"]["hanging_twips"] == 160
 
 
 def test_performance_and_feature_extensions_clone_template_styles(tmp_path):
@@ -281,5 +284,9 @@ def test_feature_extension_keeps_numbering_and_separator_rhythm(tmp_path):
         nums = [numbering_shape(p) for p in items]
         assert all(n is not None and n.get("ilvl") == "0" for n in nums) and len({n.get("numId") for n in nums}) == 1
         assert feature_spacing_signature(items[0]) == feature_spacing_signature(items[1]) == feature_spacing_signature(items[2])
+        assert all(feature_layout_signature(p) == {'ind': {'start': '560', 'hanging': '160'}, 'tabs': []} for p in items)
+        first=next(i for i,p in enumerate(region) if p.text.strip()); last=max(i for i,p in enumerate(region) if p.text.strip())
+        assert all(region[i].text.strip() for i in range(first,last+1))
+        assert all(numbering_shape(p) is None for p in region if not p.text.strip())
         base = Document(str(ROOT / registry["variants"][variant_id]["template"]))
         assert audit_shape(base, doc, registry["variants"][variant_id], mapping)

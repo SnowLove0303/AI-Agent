@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from docx import Document
 from docx.text.paragraph import Paragraph
-from tds_common import ROOT, SECTION_HEADINGS, dump, ensure_feature_numbering, fresh_write, hidden_field_ids, load, norm, replace_cell, replace_paragraph, sha256
+from tds_common import ROOT, SECTION_HEADINGS, clear_feature_empty_paragraph, dump, ensure_feature_numbering, feature_layout_signature, fresh_write, hidden_field_ids, load, norm, normalize_feature_list_paragraph, numbering_shape, replace_cell, replace_paragraph, sha256
 
 NO_DATA={'zh-CN':'无数据','en-US':'No data available'}
 def feature_lines(text): return [re.sub(r'^\s*\d+[.、]\s*','',line) for line in (text or '').splitlines()]
@@ -58,17 +58,21 @@ def write_variant(mapping, registry, variant_id, output):
         feature_fact=fields.get('product.features',{}); feature_values=feature_lines(feature_fact.get('values',{}).get(lang))
         if len(feature_values)>variant.get('feature_extension',{}).get('max_items',100): raise RuntimeError(f'too many product features for {variant_id}')
         if 'product.features' not in hidden:
+            template_num_id=next(((numbering_shape(doc.paragraphs[i]) or {}).get('numId') for i in feature_indices if (numbering_shape(doc.paragraphs[i]) or {}).get('numId') not in (None,'0')),None)
             for i in feature_indices:
-                if i < len(doc.paragraphs): ensure_feature_numbering(doc.paragraphs[i])
+                if i < len(doc.paragraphs): normalize_feature_list_paragraph(doc.paragraphs[i],template_num_id)
+            feature_head=next((i for i,p in enumerate(doc.paragraphs) if p.text.strip()==SECTION_HEADINGS['product.features'][lang]),None)
+            application_head=next((i for i in range((feature_head or 0)+1,len(doc.paragraphs)) if doc.paragraphs[i].text.strip()==SECTION_HEADINGS['product.application'][lang]),None)
+            if feature_head is not None and application_head is not None:
+                for p in doc.paragraphs[feature_head+1:application_head]:
+                    if not p.text.strip(): clear_feature_empty_paragraph(p)
         if len(feature_values)>feature_count:
             item_src=doc.paragraphs[feature_extension.get('paragraph_template_index',feature_indices[-1])]._p
-            sep_src=doc.paragraphs[feature_extension.get('separator_paragraph_index',feature_indices[-1]+1)]._p
             anchor=item_src
-            for text in feature_values[2:]:
-                sep_clone=deepcopy(sep_src); anchor.addnext(sep_clone); anchor=sep_clone
-                replace_paragraph(Paragraph(sep_clone,doc),'')
+            for text in feature_values[feature_count:]:
                 clone=deepcopy(item_src); anchor.addnext(clone); anchor=clone
                 replace_paragraph(Paragraph(clone,doc),text)
+                normalize_feature_list_paragraph(Paragraph(clone,doc),template_num_id)
         if source_rows is not None:
             write_source_performance_rows(doc, source_rows, variant, lang)
         else:
@@ -80,7 +84,7 @@ def write_variant(mapping, registry, variant_id, output):
         if hidden:
             extra_count=0
             if 'product.features' not in hidden:
-                extra_count=max(0,len(feature_values)-feature_count)*2
+                extra_count=max(0,len(feature_values)-feature_count)
             kill=set()
             for fid in hidden:
                 head=SECTION_HEADINGS[fid][lang]
@@ -97,7 +101,7 @@ def write_variant(mapping, registry, variant_id, output):
     fresh_write(ROOT/variant['template'],output,edit)
     text='\n'.join(p.text for p in Document(str(output)).paragraphs)+'\n'+'\n'.join(c.text for t in Document(str(output)).tables for r in t.rows for c in r.cells)
     leaked=[x for x in sample_tokens if x.lower() in text.lower() and x not in (mapping.get('allowed_source_tokens') or [])]
-    record={'schema_version':'1.3.5','variant_id':variant_id,'template':variant['template'],'template_sha256':variant['template_sha256'],'output':str(output),'output_sha256':sha256(output),'generated_at':datetime.now(timezone.utc).isoformat(),'fresh_clone':True,'source_led_performance_rows':source_rows is not None,'performance_extra_rows':len(extension_rows),'feature_extra_items':max(0,len(fields.get('product.features',{}).get('values',{}).get(lang,'').splitlines())-len(variant.get('feature_format_contract',{}).get('paragraph_indices',[21,23]))),'hidden_fields':sorted(hidden_field_ids(mapping)),'hidden_paragraphs':getattr(edit,'hidden_paras',[]),'sample_fact_leaks':leaked,'normalization_model_status':mapping.get('normalized_model',{}).get('status','legacy-mapping'),'translation_source':mapping.get('normalized_model',{}).get('translation',{}).get('source','legacy-mapping'),'decision_ledger_entries':len(mapping.get('decision_ledger',mapping.get('normalized_model',{}).get('decision_ledger',[]))),'ready_for_user_proofreading':not leaked,'customer_ready':False}
+    record={'schema_version':'1.3.6','variant_id':variant_id,'template':variant['template'],'template_sha256':variant['template_sha256'],'output':str(output),'output_sha256':sha256(output),'generated_at':datetime.now(timezone.utc).isoformat(),'fresh_clone':True,'source_led_performance_rows':source_rows is not None,'performance_extra_rows':len(extension_rows),'feature_extra_items':max(0,len(feature_lines(fields.get('product.features',{}).get('values',{}).get(lang,'')))-len(variant.get('feature_format_contract',{}).get('paragraph_indices',[21,23]))),'hidden_fields':sorted(hidden_field_ids(mapping)),'hidden_paragraphs':getattr(edit,'hidden_paras',[]),'sample_fact_leaks':leaked,'normalization_model_status':mapping.get('normalized_model',{}).get('status','legacy-mapping'),'translation_source':mapping.get('normalized_model',{}).get('translation',{}).get('source','legacy-mapping'),'decision_ledger_entries':len(mapping.get('decision_ledger',mapping.get('normalized_model',{}).get('decision_ledger',[]))),'ready_for_user_proofreading':not leaked,'customer_ready':False}
     dump(output.with_suffix(output.suffix+'.generation.json'),record)
     if leaked: raise RuntimeError(f'sample facts leaked in {output.name}: {leaked}')
 def main():

@@ -138,14 +138,17 @@ def hidden_field_ids(mapping):
         hidden.append(fid)
     return hidden
 FEATURE_NUM_ID='1'
-def ensure_feature_numbering(paragraph: Paragraph) -> bool:
-    """Attach template-style auto numbering (numId 1, level 0) at schema-valid pPr position. Returns True when added."""
+FEATURE_NUMBER_START=400
+FEATURE_TEXT_START=560
+FEATURE_HANGING=160
+def ensure_feature_numbering(paragraph: Paragraph, num_id: str|None=None) -> bool:
+    """Attach auto numbering at schema-valid pPr position. Returns True when added."""
     from docx.oxml import OxmlElement
     pPr=paragraph._p.get_or_add_pPr()
     if pPr.find(qn('w:numPr')) is not None: return False
     numPr=OxmlElement('w:numPr')
     ilvl=OxmlElement('w:ilvl'); ilvl.set(qn('w:val'),'0')
-    numId=OxmlElement('w:numId'); numId.set(qn('w:val'),FEATURE_NUM_ID)
+    numId=OxmlElement('w:numId'); numId.set(qn('w:val'),num_id or FEATURE_NUM_ID)
     numPr.append(ilvl); numPr.append(numId)
     after={'w:suppressLineNumbers','w:pBdr','w:shd','w:tabs','w:suppressAutoHyphens','w:kinsoku','w:wordWrap','w:overflowPunct','w:topLinePunct','w:autoSpaceDE','w:autoSpaceDN','w:bidi','w:adjustRightInd','w:snapToGrid','w:spacing','w:ind','w:contextualSpacing','w:mirrorIndents','w:suppressOverlap','w:jc','w:textDirection','w:textAlignment','w:textboxTightWrap','w:outlineLvl','w:divId','w:cnfStyle','w:rPr','w:sectPr','w:pPrChange'}
     for child in pPr:
@@ -154,3 +157,37 @@ def ensure_feature_numbering(paragraph: Paragraph) -> bool:
     else:
         pPr.append(numPr)
     return True
+
+def _remove_ppr_child(pPr, tag):
+    child=pPr.find(qn(tag))
+    if child is not None: pPr.remove(child)
+
+def feature_layout_signature(paragraph: Paragraph) -> dict:
+    pPr=paragraph._p.pPr
+    ind=pPr.find(qn('w:ind')) if pPr is not None else None
+    tabs=pPr.find(qn('w:tabs')) if pPr is not None else None
+    return {
+        'ind': xml_attrs(ind),
+        'tabs':[xml_attrs(tab) for tab in tabs] if tabs is not None else [],
+    }
+
+def normalize_feature_list_paragraph(paragraph: Paragraph, num_id: str|None=None) -> None:
+    """Use one compact hanging-list geometry for every product-feature item."""
+    ensure_feature_numbering(paragraph, num_id)
+    pPr=paragraph._p.get_or_add_pPr()
+    _remove_ppr_child(pPr,'w:tabs')
+    ind=pPr.find(qn('w:ind'))
+    if ind is None:
+        from docx.oxml import OxmlElement
+        ind=OxmlElement('w:ind')
+        pPr.append(ind)
+    for key in ('firstLineChars','firstLine','startChars','endChars','end'):
+        ind.attrib.pop(qn('w:'+key),None)
+    ind.set(qn('w:start'),str(FEATURE_TEXT_START))
+    ind.set(qn('w:hanging'),str(FEATURE_HANGING))
+
+def clear_feature_empty_paragraph(paragraph: Paragraph) -> None:
+    """Prevent blank feature separators from participating in list numbering/layout."""
+    pPr=paragraph._p.get_or_add_pPr()
+    for tag in ('w:numPr','w:tabs','w:ind'):
+        _remove_ppr_child(pPr,tag)
