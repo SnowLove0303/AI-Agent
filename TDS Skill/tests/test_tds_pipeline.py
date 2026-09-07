@@ -50,6 +50,22 @@ def test_variant_metadata_can_be_separated_from_word_output(tmp_path):
     assert generation["execution_log_file"] == "audit/execution_logs/" + output.name + ".overwrite.log.json"
 
 
+def test_application_lines_are_clean_and_aligned(tmp_path):
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
+    mapping["mapped_fields"]["product.application"]["values"]["zh-CN"] = "适用于高光泽涂层。\n2.与各种基材附着力优异。"
+    output = tmp_path / "application.docx"
+    write_variant(mapping, registry, "TDS_CN_冠志模板", output)
+    doc = Document(str(output))
+    heading = next(i for i, p in enumerate(doc.paragraphs) if p.text == "【应用】")
+    paragraph = doc.paragraphs[heading + 2]
+    assert paragraph.text == "适用于高光泽涂层。\n与各种基材附着力优异。"
+    ind = paragraph._p.pPr.find("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}ind")
+    attrs = ind.attrib
+    assert attrs["{http://schemas.openxmlformats.org/wordprocessingml/2006/main}startChars"] == "200"
+    assert "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}firstLineChars" not in attrs
+
+
 def test_language_specific_template_labels_and_grid_widths_are_registered():
     registry = load(ROOT / "mapping" / "template_field_registry.json")
     en_labels = [

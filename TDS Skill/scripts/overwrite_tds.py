@@ -4,11 +4,18 @@ from copy import deepcopy
 from datetime import datetime, timezone
 from pathlib import Path
 from docx import Document
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
 from docx.text.paragraph import Paragraph
 from tds_common import OUTPUT_HEADINGS, ROOT, SECTION_HEADINGS, clear_feature_empty_paragraph, dump, ensure_feature_numbering, feature_layout_signature, fresh_write, hidden_field_ids, load, norm, normalize_feature_list_paragraph, numbering_shape, replace_cell, replace_paragraph, sha256
 
 NO_DATA={'zh-CN':'无数据','en-US':'No data available'}
 def feature_lines(text): return [re.sub(r'^\s*\d+[.、]\s*','',line) for line in (text or '').splitlines()]
+def application_text(text): return '\n'.join(re.sub(r'^\s*\d+[.、]\s*','',line).strip() for line in (text or '').splitlines() if line.strip())
+def normalize_application_layout(paragraph):
+    ppr=paragraph._p.get_or_add_pPr(); ind=ppr.find(qn('w:ind'))
+    if ind is None: ind=OxmlElement('w:ind'); ppr.append(ind)
+    ind.attrib.pop(qn('w:firstLine'),None); ind.attrib.pop(qn('w:firstLineChars'),None); ind.attrib.pop(qn('w:start'),None); ind.set(qn('w:startChars'),'200')
 def value(fact,lang): return fact.get('values',{}).get(lang) or NO_DATA[lang]
 def semantic_fields(mapping):
     model=mapping.get('normalized_model',{})
@@ -56,7 +63,10 @@ def _write_variant(mapping, registry, variant_id, output, event=None, generation
             elif slot['kind']=='paragraph_list':
                 vals=feature_lines(fact.get('values',{}).get(lang)) if fid=='product.features' else ((fact.get('values',{}).get(lang) or '').splitlines() if fact.get('values',{}).get(lang) else [])
                 for i,pi in enumerate(loc['paragraph_indices']): replace_paragraph(doc.paragraphs[pi], vals[i] if i<len(vals) else NO_DATA[lang] if i==0 else '')
-            else: replace_paragraph(doc.paragraphs[loc['paragraph_index']],value(fact,lang))
+            else:
+                text=application_text(fact.get('values',{}).get(lang)) if fid=='product.application' else value(fact,lang)
+                replace_paragraph(doc.paragraphs[loc['paragraph_index']],text)
+                if fid=='product.application': normalize_application_layout(doc.paragraphs[loc['paragraph_index']])
         if event: event('semantic_fields_written', field_ids=sorted(slots))
         feature_fact=fields.get('product.features',{}); feature_values=feature_lines(feature_fact.get('values',{}).get(lang))
         if len(feature_values)>variant.get('feature_extension',{}).get('max_items',100): raise RuntimeError(f'too many product features for {variant_id}')
@@ -115,7 +125,7 @@ def _write_variant(mapping, registry, variant_id, output, event=None, generation
     if event: event('docx_written', output_bytes=output.stat().st_size)
     text='\n'.join(p.text for p in Document(str(output)).paragraphs)+'\n'+'\n'.join(c.text for t in Document(str(output)).tables for r in t.rows for c in r.cells)
     leaked=[x for x in sample_tokens if x.lower() in text.lower() and x not in (mapping.get('allowed_source_tokens') or [])]
-    record={'schema_version':'1.3.8','variant_id':variant_id,'template':variant['template'],'template_sha256':variant['template_sha256'],'output':str(output),'output_sha256':sha256(output),'generated_at':datetime.now(timezone.utc).isoformat(),'fresh_clone':True,'source_led_performance_rows':source_rows is not None,'performance_extra_rows':len(extension_rows),'feature_extra_items':max(0,len(feature_lines(fields.get('product.features',{}).get('values',{}).get(lang,'')))-len(variant.get('feature_format_contract',{}).get('paragraph_indices',[21,23]))),'hidden_fields':sorted(hidden_field_ids(mapping)),'hidden_paragraphs':getattr(edit,'hidden_paras',[]),'sample_fact_leaks':leaked,'normalization_model_status':mapping.get('normalized_model',{}).get('status','legacy-mapping'),'translation_source':mapping.get('normalized_model',{}).get('translation',{}).get('source','legacy-mapping'),'decision_ledger_entries':len(mapping.get('decision_ledger',mapping.get('normalized_model',{}).get('decision_ledger',[]))),'execution_log_file':execution_log_file or output.name+'.overwrite.log.json','ready_for_user_proofreading':not leaked,'customer_ready':False}
+    record={'schema_version':'1.3.9','variant_id':variant_id,'template':variant['template'],'template_sha256':variant['template_sha256'],'output':str(output),'output_sha256':sha256(output),'generated_at':datetime.now(timezone.utc).isoformat(),'fresh_clone':True,'source_led_performance_rows':source_rows is not None,'performance_extra_rows':len(extension_rows),'feature_extra_items':max(0,len(feature_lines(fields.get('product.features',{}).get('values',{}).get(lang,'')))-len(variant.get('feature_format_contract',{}).get('paragraph_indices',[21,23]))),'hidden_fields':sorted(hidden_field_ids(mapping)),'hidden_paragraphs':getattr(edit,'hidden_paras',[]),'sample_fact_leaks':leaked,'normalization_model_status':mapping.get('normalized_model',{}).get('status','legacy-mapping'),'translation_source':mapping.get('normalized_model',{}).get('translation',{}).get('source','legacy-mapping'),'decision_ledger_entries':len(mapping.get('decision_ledger',mapping.get('normalized_model',{}).get('decision_ledger',[]))),'execution_log_file':execution_log_file or output.name+'.overwrite.log.json','ready_for_user_proofreading':not leaked,'customer_ready':False}
     dump(generation_path or output.with_suffix(output.suffix+'.generation.json'),record)
     if leaked: raise RuntimeError(f'sample facts leaked in {output.name}: {leaked}')
 
