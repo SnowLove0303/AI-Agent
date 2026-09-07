@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.7 — 2026-09-07
+
+- 英文 TDS 输出统一使用专业章节标题，优化 `waterborne polyurethane dispersion`、产品特性、应用、储存及性能指标术语和句式；统一 `forced-air oven`、`MPa`、`mPa·s`、范围符号等技术写法。
+- 英文源文档提取兼容 `Product Description`、`Product Features` 等标准化标题。
+
 ## 1.3.6 — 2026-09-07
 
 - 修复产品特性自动编号的列表布局：编号与正文基准线统一，正文采用紧凑悬挂式缩进，编号后不再使用远距离制表位。

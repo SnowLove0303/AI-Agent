@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from docx import Document
 from docx.text.paragraph import Paragraph
-from tds_common import ROOT, SECTION_HEADINGS, clear_feature_empty_paragraph, dump, ensure_feature_numbering, feature_layout_signature, fresh_write, hidden_field_ids, load, norm, normalize_feature_list_paragraph, numbering_shape, replace_cell, replace_paragraph, sha256
+from tds_common import OUTPUT_HEADINGS, ROOT, SECTION_HEADINGS, clear_feature_empty_paragraph, dump, ensure_feature_numbering, feature_layout_signature, fresh_write, hidden_field_ids, load, norm, normalize_feature_list_paragraph, numbering_shape, replace_cell, replace_paragraph, sha256
 
 NO_DATA={'zh-CN':'无数据','en-US':'No data available'}
 def feature_lines(text): return [re.sub(r'^\s*\d+[.、]\s*','',line) for line in (text or '').splitlines()]
@@ -97,6 +97,13 @@ def write_variant(mapping, registry, variant_id, output):
             for j in sorted(kill,reverse=True):
                 p=doc.paragraphs[j]; p._p.getparent().remove(p._p); hidden_paras.append(j)
         else: hidden_paras=[]
+        if lang=='en-US':
+            for fid in ('product.description','product.supply_form','product.features','product.application','product.storage'):
+                old=SECTION_HEADINGS[fid][lang]; new=OUTPUT_HEADINGS[fid][lang]
+                for p in doc.paragraphs:
+                    if p.text.strip()==old: replace_paragraph(p,new)
+            for p in doc.paragraphs:
+                if p.text.strip()=='【Technical Data】': replace_paragraph(p,'Technical Data')
         edit.hidden_paras=sorted(hidden_paras)
     fresh_write(ROOT/variant['template'],output,edit)
     text='\n'.join(p.text for p in Document(str(output)).paragraphs)+'\n'+'\n'.join(c.text for t in Document(str(output)).tables for r in t.rows for c in r.cells)

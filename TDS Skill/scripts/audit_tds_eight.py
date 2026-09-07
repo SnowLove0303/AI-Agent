@@ -2,7 +2,7 @@ from __future__ import annotations
 import argparse, hashlib, json, zipfile
 from pathlib import Path
 from docx import Document
-from tds_common import ROOT, SECTION_HEADINGS, clear_feature_empty_paragraph, dump, feature_layout_signature, feature_spacing_signature, hidden_field_ids, load, numbering_shape, package_inventory, sha256, doc_snapshot
+from tds_common import OUTPUT_HEADINGS, ROOT, SECTION_HEADINGS, clear_feature_empty_paragraph, dump, feature_layout_signature, feature_spacing_signature, hidden_field_ids, load, numbering_shape, package_inventory, sha256, doc_snapshot
 
 def shape(s):
     s=json.loads(json.dumps(s));
@@ -45,8 +45,8 @@ def feature_contract_ok(base_doc, output_doc, variant, mapping=None):
     contract=variant.get('feature_format_contract',{})
     expected={'ind':{'start':str(contract.get('text_start_twips',560)),'hanging':str(contract.get('hanging_twips',160))},'tabs':[]}
     if any(feature_layout_signature(p)!=expected for p in output): return False
-    app={'zh-CN':'【应用】','en-US':'【Application】'}[variant['language']]
-    head={'zh-CN':'【产品特性】','en-US':'【Product features】'}[variant['language']]
+    app=OUTPUT_HEADINGS['product.application'][variant['language']]
+    head=OUTPUT_HEADINGS['product.features'][variant['language']]
     hi=next(i for i,p in enumerate(output_doc.paragraphs) if p.text.strip()==head)
     ai=next(i for i in range(hi+1,len(output_doc.paragraphs)) if output_doc.paragraphs[i].text.strip()==app)
     region=output_doc.paragraphs[hi+1:ai]
@@ -92,11 +92,11 @@ def audit_shape(base_doc, output_doc, variant, mapping):
     for row in (rows if source_rows is None else []):
         if [c['shape'] for c in row['cells']] != [c['shape'] for c in left_table['rows'][5]['cells']]: return False
     lang=variant['language']
-    chain={'zh-CN':['【应用】','【储存】','【产品特性】'],'en-US':['【Application】','【Storage】','【Product features】']}[lang]
+    chain_fields=['product.application','product.storage','product.features']
     li=ri=None
-    for name in chain:
-        a=next((i for i,p in enumerate(base_doc.paragraphs) if p.text.strip()==name),None)
-        b=next((i for i,p in enumerate(output_doc.paragraphs) if p.text.strip()==name),None)
+    for fid in chain_fields:
+        a=next((i for i,p in enumerate(base_doc.paragraphs) if p.text.strip()==SECTION_HEADINGS[fid][lang]),None)
+        b=next((i for i,p in enumerate(output_doc.paragraphs) if p.text.strip()==OUTPUT_HEADINGS[fid][lang]),None)
         if a is not None and b is not None:
             li=a-sum(1 for h in hide if h<a); ri=b; break
     if li is None or ri is None: return False
@@ -104,9 +104,8 @@ def audit_shape(base_doc, output_doc, variant, mapping):
     if 'product.features' in hidden_here:
         lstart=li; rstart=ri
     else:
-        feat_head={'zh-CN':'【产品特性】','en-US':'【Product features】'}[lang]
-        fa=next((i for i,p in enumerate(base_doc.paragraphs) if p.text.strip()==feat_head),None)
-        fb=next((i for i,p in enumerate(output_doc.paragraphs) if p.text.strip()==feat_head),None)
+        fa=next((i for i,p in enumerate(base_doc.paragraphs) if p.text.strip()==SECTION_HEADINGS['product.features'][lang]),None)
+        fb=next((i for i,p in enumerate(output_doc.paragraphs) if p.text.strip()==OUTPUT_HEADINGS['product.features'][lang]),None)
         if fa is None or fb is None: return False
         lstart=fa-sum(1 for h in hide if h<fa); rstart=fb
     if left_paras[:lstart]+left_paras[li:] != right['paragraphs'][:rstart]+right['paragraphs'][ri:]: return False

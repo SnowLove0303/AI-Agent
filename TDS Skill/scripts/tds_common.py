@@ -123,6 +123,13 @@ SECTION_HEADINGS={
  'product.application':{'zh-CN':'【应用】','en-US':'【Application】'},
  'product.storage':{'zh-CN':'【储存】','en-US':'【Storage】'},
 }
+OUTPUT_HEADINGS={
+ 'product.description':{'zh-CN':'【产品描述】','en-US':'Product Description'},
+ 'product.supply_form':{'zh-CN':'【供应形式】','en-US':'Supply Form'},
+ 'product.features':{'zh-CN':'【产品特性】','en-US':'Product Features'},
+ 'product.application':{'zh-CN':'【应用】','en-US':'Application'},
+ 'product.storage':{'zh-CN':'【储存】','en-US':'Storage'},
+}
 HIDEABLE_FIELDS=list(SECTION_HEADINGS)
 def hidden_field_ids(mapping):
     """Section fields the Agent approved for whole-section hiding (heading + body removed, no NO_DATA placeholder). Empty unless the normalized decision ledger carries decision=hide_no_source with needs_judgment resolved and both languages empty. product.title can never hide."""

@@ -275,8 +275,8 @@ def test_feature_extension_keeps_numbering_and_separator_rhythm(tmp_path):
         output = tmp_path / f"rhythm_{variant_id}.docx"
         write_variant(mapping, registry, variant_id, output)
         doc = Document(str(output))
-        head = next(i for i,p in enumerate(doc.paragraphs) if p.text.strip() in ("【产品特性】", "【Product features】"))
-        next_head = next(i for i in range(head + 1, len(doc.paragraphs)) if doc.paragraphs[i].text.strip() in ("【应用】", "【Application】"))
+        head = next(i for i,p in enumerate(doc.paragraphs) if p.text.strip() in ("【产品特性】", "【Product features】", "Product Features"))
+        next_head = next(i for i in range(head + 1, len(doc.paragraphs)) if doc.paragraphs[i].text.strip() in ("【应用】", "【Application】", "Application"))
         region = doc.paragraphs[head + 1:next_head]
         items = [p for p in region if p.text.strip()]
         assert all(p.text.strip() for p in items)
