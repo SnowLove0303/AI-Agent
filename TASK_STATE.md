@@ -38,9 +38,9 @@ Phases: 1. 需求与规格 | 2. MSDS 实现与验证 | 3. Git 基线 | 4. 交接
 ## Open Risks
 - 既有 OS-9015/PU-2345 回放报告是在历史回放目录生成的，虽显示 RELEASE_PASS，但仍需用当前 v3.14.2 入口对新产品或选定样例重放并逐页核验后，才可作为当前客户发布依据。
 - 线上交接页已完成，但真实产品的最终客户验收仍需要人工逐页检查；风险：medium；mitigation：最终 DOCX 先审计，PDF 只从对应最终 DOCX 派生。
-- 当前本地分支在交接状态提交 `149980a` 后领先远端同名分支；本次用户要求的交接正文已写入 Feishu，若要把本地状态文件同步到 GitHub，需另行执行 push。
+- 当前本地分支包含本次新增的交接状态提交并领先远端同名分支；本次用户要求的交接正文已写入 Feishu，本次未执行 GitHub push，若要同步本地状态文件需另行执行 push。
 - AIharness 1.0.0 对仓库既有 `AGENTS.md`、`ARCHITECTURE.md` 和 `docs/` 非 managed 文档返回 `UNKNOWN_DOCUMENT`；风险：low；mitigation：不在本任务中另起文档体系，若需纳管必须建立 OpenSpec 变更。
 - 当前 MSDS 目录没有本次交接所需的现成 v3.14.2 release ZIP；如需正式包，必须按 `MSDS Skill/manifest.txt` 重建并完成 ZIP/manifest/八文件审计后再发布。
 
 ## Last Updated
-2026-09-07T10:25:00+08:00 · Codex · MSDS handoff session
+2026-09-07T10:28:00+08:00 · Codex · MSDS handoff session

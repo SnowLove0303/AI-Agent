@@ -152,5 +152,12 @@ Each entry: `E-### | timestamp | action | result | status | ref`
 - Status: Verified
 - Ref: `https://xcnch7esppuf.feishu.cn/wiki/BCuhwr1GviyJubkYWcscvFIynaf`; `TASK_STATE.md`; `HANDOFF.md`
 
+### E-022
+- Time: 2026-09-07T10:28:00+08:00
+- Action: 使用 `git ls-remote`、`git fetch --no-tags origin feature/msds-tds-eight-format` 和 `git rev-list HEAD...FETCH_HEAD` 核对远端分支与本地交接提交。
+- Result: 远端同名分支为 `b8b95293b7c34c9bdc03187ed1721cea2016ba4b`；本地 HEAD `fbf2adf` 包含该远端代码基线并额外包含 3 个仅交接状态文件提交；工作区 clean，本次未 push。
+- Status: Verified
+- Ref: `origin`; `FETCH_HEAD`; `git log`; `git status --short`
+
 ## Last Updated
-2026-09-07T10:25:00+08:00 · Codex · MSDS handoff session
+2026-09-07T10:28:00+08:00 · Codex · MSDS handoff session
