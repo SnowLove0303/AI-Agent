@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Draft English facts from an approved standardized Chinese model (v3.14.2).
+"""Draft English facts from an approved standardized Chinese model (v3.15).
 
 Business role: EN is a professional translation OF the standardized model,
 never of a rendered DOCX and never an independent derivation.  This module

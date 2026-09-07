@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mechanical source-fact extractor for the unified MSDS pipeline (v3.14.2).
+"""Mechanical source-fact extractor for the unified MSDS pipeline (v3.15).
 
 Business role: the overwrite core is *extract -> standardize (CN) -> render
 CN -> translate EN from the standardized model*.  This module does the first

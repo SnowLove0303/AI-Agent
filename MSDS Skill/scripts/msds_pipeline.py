@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Shared DOCX-first build pipeline for the unified MSDS skill (v3.14.2).
+"""Shared DOCX-first build pipeline for the unified MSDS skill (v3.15).
 
 Business role: one parameterized path replaces the per-model copied
 generators.  Input is an *approved* standardized model file::

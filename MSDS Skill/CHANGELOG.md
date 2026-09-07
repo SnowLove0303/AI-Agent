@@ -1,5 +1,10 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.15 — 2026-09-07
+- Published the template-slot contract and four-state source-presence policy from the PU-1001 replay: ordinary blank template slots are non-writable, Section 8.2 remains a controlled table exception, Section 9 suppresses pure missing rows and renumbers survivors, and Sections 11/12 reduce to source explanation rows when no valid endpoint exists.
+- Added source-fidelity regression coverage, independent package evidence, CN/EN and company-overlay parity checks, and DOCX-first eight-file release verification. PU-1001 replay completed with `RELEASE_PASS` and `100/100` package audit.
+- Preserved the active formal CN/EN template baselines and fixed template-owned version text `Version：V1.0`; no source or template files are modified by the overwrite path.
+
 ## v3.14.2 — 2026-09-04
 - Added the mechanical/agent-split parameterized workflow: `scripts/extract_source_facts.py` (positioned draft with provenance, coverage fingerprint, EN skeleton; S2/S11/translation stay needs-review), `scripts/msds_pipeline.py` (canonical DOCX-first flow with in-process gates including S9-leftover and S11-toxicology checks) and `scripts/build_eight.py` (one command: 4 DOCX + gates + 4 PDF + matrix report).
 - Hardened the CN compact pass to skip the locked S8.2 parent/header rows and fixed a variant-name key bug found by the pipeline smoke test. Legacy `_task_work` generators are frozen and keep proving prior behavior.

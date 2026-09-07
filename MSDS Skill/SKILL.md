@@ -3,7 +3,7 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS Word standardization skill that converts a source MSDS into synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, with professional SDS English, source-grounded facts, locked template geometry, structured Section 11 handling, continuous numbering, company overlays, and mandatory render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.14.3
+# Unified MSDS Eight-Deliverable Standardizer v3.15
 
 ## Mandatory v2.9 inheritance (release blocker)
 
@@ -420,7 +420,7 @@ page-by-page QA.
 - A score of 95/100 is necessary but not sufficient: `RELEASE_PASS` also
   requires zero B0/B1 blockers and complete evidence.
 
-## 20. Parameterized workflow v3.14.2 (mechanical/agent split)
+## 20. Parameterized workflow v3.15 (mechanical/agent split)
 
 The overwrite core is extract -> standardize (CN) -> render CN -> translate
 EN from the standardized model. Labor splits as follows:

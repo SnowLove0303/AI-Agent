@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""One-command eight-format build for the unified MSDS skill (v3.14.2).
+"""One-command eight-format build for the unified MSDS skill (v3.15).
 
 Business flow::
 
