@@ -4,6 +4,7 @@
 
 - 英文 TDS 输出统一使用专业章节标题，优化 `waterborne polyurethane dispersion`、产品特性、应用、储存及性能指标术语和句式；统一 `forced-air oven`、`MPa`、`mPa·s`、范围符号等技术写法。
 - 英文源文档提取兼容 `Product Description`、`Product Features` 等标准化标题。
+- 每次 DOCX 覆写生成独立的 `.overwrite.log.json` 执行日志，并在 generation record 中回链，记录模板、字段写入、产品特性布局、性能行写入、章节收尾和失败信息。
 
 ## 1.3.6 — 2026-09-07
 

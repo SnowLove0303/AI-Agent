@@ -32,8 +32,9 @@ def write_source_performance_rows(doc, rows, variant, lang):
         replace_cell(row.cells[1],row_value(item,'values',lang,'values') or NO_DATA[lang])
         replace_cell(row.cells[2],row_value(item,'unit_values',lang,'unit_values') or item.get('unit',''))
         replace_cell(row.cells[3],row_value(item,'test_method_values',lang,'test_method_values') or item.get('test_method',''))
-def write_variant(mapping, registry, variant_id, output):
+def _write_variant(mapping, registry, variant_id, output, event=None):
     variant=registry['variants'][variant_id]; lang=variant['language']; fields=semantic_fields(mapping); slots={x['field_id']:x for x in variant['slots']}
+    if event: event('mapping_loaded', language=lang, field_count=len(fields), slot_count=len(slots))
     sample_tokens=load(ROOT/'mapping'/'tds_mutation_whitelist.json')['sample_fact_tokens']
     extension_rows = mapping.get('performance_extra_rows', [])
     source_rows = semantic_rows(mapping)
@@ -44,6 +45,7 @@ def write_variant(mapping, registry, variant_id, output):
     feature_extension=variant.get('feature_extension',{})
     feature_count=len(feature_indices)
     def edit(doc):
+        if event: event('template_opened', paragraph_count=len(doc.paragraphs), table_count=len(doc.tables))
         for fid,slot in slots.items():
             if fid in hidden: continue
             fact=fields.get(fid,{}); loc=slot['locator']
@@ -55,6 +57,7 @@ def write_variant(mapping, registry, variant_id, output):
                 vals=feature_lines(fact.get('values',{}).get(lang)) if fid=='product.features' else ((fact.get('values',{}).get(lang) or '').splitlines() if fact.get('values',{}).get(lang) else [])
                 for i,pi in enumerate(loc['paragraph_indices']): replace_paragraph(doc.paragraphs[pi], vals[i] if i<len(vals) else NO_DATA[lang] if i==0 else '')
             else: replace_paragraph(doc.paragraphs[loc['paragraph_index']],value(fact,lang))
+        if event: event('semantic_fields_written', field_ids=sorted(slots))
         feature_fact=fields.get('product.features',{}); feature_values=feature_lines(feature_fact.get('values',{}).get(lang))
         if len(feature_values)>variant.get('feature_extension',{}).get('max_items',100): raise RuntimeError(f'too many product features for {variant_id}')
         if 'product.features' not in hidden:
@@ -66,6 +69,7 @@ def write_variant(mapping, registry, variant_id, output):
             if feature_head is not None and application_head is not None:
                 for p in doc.paragraphs[feature_head+1:application_head]:
                     if not p.text.strip(): clear_feature_empty_paragraph(p)
+            if event: event('feature_layout_normalized', item_count=len(feature_values), number_start_twips=400, text_start_twips=560, hanging_twips=160)
         if len(feature_values)>feature_count:
             item_src=doc.paragraphs[feature_extension.get('paragraph_template_index',feature_indices[-1])]._p
             anchor=item_src
@@ -80,6 +84,7 @@ def write_variant(mapping, registry, variant_id, output):
             for extra in extension_rows:
                 clone=deepcopy(table.rows[5]._tr); table._tbl.append(clone); row=table.rows[-1]
                 replace_cell(row.cells[0],extra.get('label_values',{}).get(lang) or NO_DATA[lang]); replace_cell(row.cells[1],value(extra,lang)); replace_cell(row.cells[2],extra.get('unit') or ''); replace_cell(row.cells[3],extra.get('test_method') or '')
+        if event: event('performance_rows_written', row_count=len(source_rows) if source_rows is not None else len(extension_rows), source_led=source_rows is not None)
         hidden_paras=[]
         if hidden:
             extra_count=0
@@ -104,13 +109,36 @@ def write_variant(mapping, registry, variant_id, output):
                     if p.text.strip()==old: replace_paragraph(p,new)
             for p in doc.paragraphs:
                 if p.text.strip()=='【Technical Data】': replace_paragraph(p,'Technical Data')
+        if event: event('sections_finalized', hidden_paragraph_count=len(hidden_paras), english_headings=lang=='en-US')
         edit.hidden_paras=sorted(hidden_paras)
     fresh_write(ROOT/variant['template'],output,edit)
+    if event: event('docx_written', output_bytes=output.stat().st_size)
     text='\n'.join(p.text for p in Document(str(output)).paragraphs)+'\n'+'\n'.join(c.text for t in Document(str(output)).tables for r in t.rows for c in r.cells)
     leaked=[x for x in sample_tokens if x.lower() in text.lower() and x not in (mapping.get('allowed_source_tokens') or [])]
-    record={'schema_version':'1.3.6','variant_id':variant_id,'template':variant['template'],'template_sha256':variant['template_sha256'],'output':str(output),'output_sha256':sha256(output),'generated_at':datetime.now(timezone.utc).isoformat(),'fresh_clone':True,'source_led_performance_rows':source_rows is not None,'performance_extra_rows':len(extension_rows),'feature_extra_items':max(0,len(feature_lines(fields.get('product.features',{}).get('values',{}).get(lang,'')))-len(variant.get('feature_format_contract',{}).get('paragraph_indices',[21,23]))),'hidden_fields':sorted(hidden_field_ids(mapping)),'hidden_paragraphs':getattr(edit,'hidden_paras',[]),'sample_fact_leaks':leaked,'normalization_model_status':mapping.get('normalized_model',{}).get('status','legacy-mapping'),'translation_source':mapping.get('normalized_model',{}).get('translation',{}).get('source','legacy-mapping'),'decision_ledger_entries':len(mapping.get('decision_ledger',mapping.get('normalized_model',{}).get('decision_ledger',[]))),'ready_for_user_proofreading':not leaked,'customer_ready':False}
+    record={'schema_version':'1.3.7','variant_id':variant_id,'template':variant['template'],'template_sha256':variant['template_sha256'],'output':str(output),'output_sha256':sha256(output),'generated_at':datetime.now(timezone.utc).isoformat(),'fresh_clone':True,'source_led_performance_rows':source_rows is not None,'performance_extra_rows':len(extension_rows),'feature_extra_items':max(0,len(feature_lines(fields.get('product.features',{}).get('values',{}).get(lang,'')))-len(variant.get('feature_format_contract',{}).get('paragraph_indices',[21,23]))),'hidden_fields':sorted(hidden_field_ids(mapping)),'hidden_paragraphs':getattr(edit,'hidden_paras',[]),'sample_fact_leaks':leaked,'normalization_model_status':mapping.get('normalized_model',{}).get('status','legacy-mapping'),'translation_source':mapping.get('normalized_model',{}).get('translation',{}).get('source','legacy-mapping'),'decision_ledger_entries':len(mapping.get('decision_ledger',mapping.get('normalized_model',{}).get('decision_ledger',[]))),'execution_log_file':output.name+'.overwrite.log.json','ready_for_user_proofreading':not leaked,'customer_ready':False}
     dump(output.with_suffix(output.suffix+'.generation.json'),record)
     if leaked: raise RuntimeError(f'sample facts leaked in {output.name}: {leaked}')
+
+def write_variant(mapping, registry, variant_id, output):
+    output=Path(output)
+    log_path=output.with_name(output.name+'.overwrite.log.json')
+    log={'schema_version':'1.0.0','status':'running','variant_id':variant_id,'output':str(output),'started_at':datetime.now(timezone.utc).isoformat(),'events':[]}
+    def event(name, **details):
+        log['events'].append({'at':datetime.now(timezone.utc).isoformat(),'event':name,**details})
+        dump(log_path,log)
+    dump(log_path,log)
+    event('overwrite_started')
+    try:
+        _write_variant(mapping, registry, variant_id, output, event)
+        event('leak_scan_passed')
+        log['status']='completed'; log['finished_at']=datetime.now(timezone.utc).isoformat(); log['output_sha256']=sha256(output)
+        dump(log_path,log)
+    except Exception as exc:
+        event('overwrite_failed', error_type=type(exc).__name__, error=str(exc))
+        log['status']='failed'; log['finished_at']=datetime.now(timezone.utc).isoformat()
+        dump(log_path,log)
+        raise
+
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--mapping',type=Path,required=True); ap.add_argument('--registry',type=Path,required=True); ap.add_argument('--output-dir',type=Path,required=True); ap.add_argument('--model',required=True); args=ap.parse_args()
     m=load(args.mapping); r=load(args.registry)

@@ -20,6 +20,13 @@ def test_all_four_variants_are_fresh_clones(tmp_path):
         output = tmp_path / f"TDS-DEMO_{variant_id}.docx"
         write_variant(mapping, registry, variant_id, output)
         assert output.is_file()
+        execution_log = output.with_name(output.name + ".overwrite.log.json")
+        assert execution_log.is_file()
+        log = json.loads(execution_log.read_text(encoding="utf-8"))
+        assert log["status"] == "completed"
+        assert [e["event"] for e in log["events"]][-1] == "leak_scan_passed"
+        generation = json.loads(output.with_suffix(output.suffix + ".generation.json").read_text(encoding="utf-8"))
+        assert generation["execution_log_file"] == execution_log.name
         doc = Document(str(output))
         assert len(doc.tables) == 1
         assert len(doc.tables[0].rows) == 6
