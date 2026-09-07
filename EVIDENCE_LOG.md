@@ -148,7 +148,7 @@ Each entry: `E-### | timestamp | action | result | status | ref`
 ### E-021
 - Time: 2026-09-07T10:25:00+08:00
 - Action: 复核实际 `git status --short` 后，使用 Feishu `str_replace` 修正线上交接页和本地交接文件中关于 TDS 工作区状态的过时描述。
-- Result: 工作区最终为 clean；线上页面保留 MSDS-only 交接边界，revision=6；不再把不存在的 TDS 未提交修改写成风险，且未修改 MSDS 代码、模板或产出规则。
+- Result: 工作区最终为 clean；线上页面保留 MSDS-only 交接边界，revision=7；不再把不存在的 TDS 未提交修改写成风险，且未修改 MSDS 代码、模板或产出规则。
 - Status: Verified
 - Ref: `https://xcnch7esppuf.feishu.cn/wiki/BCuhwr1GviyJubkYWcscvFIynaf`; `TASK_STATE.md`; `HANDOFF.md`
 

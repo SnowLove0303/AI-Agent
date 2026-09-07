@@ -12,7 +12,7 @@
 - Worktree: clean at final verification; TDS remains an independent Skill and is outside this MSDS handoff.
 - Runtime / entry point: `py "MSDS Skill/scripts/build_eight.py" --source SRC.docx --facts MODEL.json --out OUTPUT_DIR`
 - Feishu handoff: `https://xcnch7esppuf.feishu.cn/wiki/BCuhwr1GviyJubkYWcscvFIynaf`
-- Feishu title/revision at handoff: `MSDS 项目交接文档 v3.14.2`, revision `5`
+- Feishu title/revision at handoff: `MSDS 项目交接文档 v3.14.2`, revision `7`
 - State files: `TASK_STATE.md`, `HANDOFF.md`, `DECISIONS.md`, `EVIDENCE_LOG.md`
 
 ## Resume In <30 Seconds
