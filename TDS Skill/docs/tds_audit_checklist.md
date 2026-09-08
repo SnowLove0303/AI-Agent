@@ -14,3 +14,4 @@
 | PDF 派生 | 先完成 DOCX preflight，再由内置 WPS/Word-compatible `word2pdf` 一对一转换；无 LibreOffice fallback、无独立 PDF 制作；source/output hash 与转换标志一致 | `audit/pdf_conversion/*.conversion.json` + `audit/release_report.json` |
 | 视觉 QA | 每个 DOCX 至少渲染一页；检查截断、溢出、空白页、表格变形和公司标识 | rendered page images |
 | 客户交付 | 完成自动测试、ZIP 完整性和用户校对 | release report + package manifest |
+| 交付报告 | 每次构建后必须向用户报告输出根目录全路径 + `WORD/`/`PDF/` 八文件清单（路径+字节数）+ release report 路径与状态；构建命令尾部自动打印，不许省略 | `deliverables_root=`/`deliverable=`/`release_report=` 日志行 |
