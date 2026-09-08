@@ -58,9 +58,12 @@ def test_application_lines_are_clean_and_aligned(tmp_path):
     write_variant(mapping, registry, "TDS_CN_冠志模板", output)
     doc = Document(str(output))
     heading = next(i for i, p in enumerate(doc.paragraphs) if p.text == "【应用】")
-    paragraph = doc.paragraphs[heading + 2]
-    assert paragraph.text == "适用于高光泽涂层。\n与各种基材附着力优异。"
-    ind = paragraph._p.pPr.find("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}ind")
+    lines = [p.text for p in doc.paragraphs[heading + 1:heading + 4] if p.text.strip()]
+    assert lines[:2] == ["适用于高光泽涂层。", "与各种基材附着力优异。"]
+    assert all("\n" not in p.text and "\r" not in p.text for p in doc.paragraphs)
+    first, second = doc.paragraphs[heading + 2], doc.paragraphs[heading + 3]
+    assert first._p.pPr is not None and second._p.pPr is not None
+    ind = first._p.pPr.find("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}ind")
     attrs = ind.attrib
     assert attrs["{http://schemas.openxmlformats.org/wordprocessingml/2006/main}startChars"] == "200"
     assert "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}firstLineChars" not in attrs
@@ -327,3 +330,98 @@ def test_feature_extension_keeps_numbering_and_separator_rhythm(tmp_path):
         assert all(numbering_shape(p) is None for p in region if not p.text.strip())
         base = Document(str(ROOT / registry["variants"][variant_id]["template"]))
         assert audit_shape(base, doc, registry["variants"][variant_id], mapping)
+
+
+def test_title_uses_template_style_centered_without_sample_indent(tmp_path):
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
+    title = mapping["mapped_fields"]["product.title"]["values"]["zh-CN"]
+    output = tmp_path / "title.docx"
+    write_variant(mapping, registry, "TDS_CN_冠志模板", output)
+    doc = Document(str(output))
+    paragraph = next(p for p in doc.paragraphs if p.text == title)
+    pPr = paragraph._p.pPr
+    jc = pPr.find("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}jc")
+    assert jc is not None and jc.get("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val") == "center"
+    ind = pPr.find("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}ind")
+    assert ind is None or all(
+        ind.get("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}" + key) is None
+        for key in ("start", "startChars", "end", "endChars", "firstLine", "firstLineChars")
+    )
+    base = Document(str(ROOT / registry["variants"]["TDS_CN_冠志模板"]["template"]))
+    base_title = next(p for p in base.paragraphs if p.text.strip() == "水性环氧分散体EP-1704")
+    spacing = paragraph._p.pPr.find("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}spacing")
+    base_spacing = base_title._p.pPr.find("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}spacing")
+    assert spacing is not None and base_spacing is not None and spacing.attrib == base_spacing.attrib
+
+
+def _mapping_with_hidden_sections():
+    mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
+    for fid in ("product.supply_form", "product.application"):
+        mapping["mapped_fields"][fid]["values"] = {}
+        mapping["mapped_fields"][fid]["source_values"] = {}
+        mapping["mapped_fields"][fid]["sources"] = {}
+    mapping["normalized_model"] = {
+        "status": "approved",
+        "translation": {"source": "normalized_model"},
+        "fields": {
+            field_id: {"field_id": field_id, "normalized_values": dict(item.get("values", {}))}
+            for field_id, item in mapping["mapped_fields"].items()
+        },
+        "performance_rows": None,
+        "decision_ledger": [
+            {"field_id": "product.supply_form", "decision": "hide_no_source", "needs_judgment": False},
+            {"field_id": "product.application", "decision": "hide_no_source", "needs_judgment": False},
+        ],
+    }
+    return mapping
+
+
+def test_hidden_sections_remove_adjacent_blank_separators(tmp_path):
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    mapping = _mapping_with_hidden_sections()
+    output = tmp_path / "hidden.docx"
+    write_variant(mapping, registry, "TDS_CN_冠志模板", output)
+    doc = Document(str(output))
+    texts = [p.text for p in doc.paragraphs]
+    assert "【应用】" not in texts and "【供应形式】" not in texts
+    assert "Application" not in texts
+    head = next(i for i, p in enumerate(doc.paragraphs) if p.text.strip() == "【产品特性】")
+    storage = next(i for i, p in enumerate(doc.paragraphs) if p.text.strip() == "【储存】")
+    region = doc.paragraphs[head + 1:storage]
+    assert not any(not region[i].text.strip() and not region[i + 1].text.strip() for i in range(len(region) - 1))
+
+
+def test_multiline_storage_splits_into_template_paragraphs(tmp_path):
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
+    mapping["mapped_fields"]["product.storage"]["values"]["zh-CN"] = "密封储存。\n有效期6个月。"
+    output = tmp_path / "storage.docx"
+    write_variant(mapping, registry, "TDS_CN_冠志模板", output)
+    doc = Document(str(output))
+    assert all("\n" not in p.text and "\r" not in p.text for p in doc.paragraphs)
+    heading = next(i for i, p in enumerate(doc.paragraphs) if p.text.strip() == "【储存】")
+    lines = [p.text for p in doc.paragraphs[heading + 1:heading + 4] if p.text.strip()]
+    assert lines[:2] == ["密封储存。", "有效期6个月。"]
+    first = next(p for p in doc.paragraphs[heading + 1:] if p.text.strip() == "密封储存。")
+    second = next(p for p in doc.paragraphs[heading + 1:] if p.text.strip() == "有效期6个月。")
+    assert first._p.pPr is not None and second._p.pPr is not None
+    first_ind = first._p.pPr.find("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}ind")
+    second_ind = second._p.pPr.find("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}ind")
+    assert (first_ind is None and second_ind is None) or (
+        first_ind is not None and second_ind is not None and first_ind.attrib == second_ind.attrib
+    )
+
+
+def test_no_intra_paragraph_line_breaks_in_any_variant(tmp_path):
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
+    for variant_id in ("TDS_CN_冠志模板", "TDS_EN_冠志模板"):
+        output = tmp_path / f"breaks_{variant_id}.docx"
+        write_variant(mapping, registry, variant_id, output)
+        doc = Document(str(output))
+        assert all("\n" not in p.text and "\r" not in p.text for p in doc.paragraphs)
+        for table in doc.tables:
+            for row in table.rows:
+                for cell in row.cells:
+                    assert all("\n" not in p.text and "\r" not in p.text for p in cell.paragraphs)

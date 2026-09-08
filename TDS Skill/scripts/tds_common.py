@@ -199,3 +199,26 @@ def clear_feature_empty_paragraph(paragraph: Paragraph) -> None:
     pPr=paragraph._p.get_or_add_pPr()
     for tag in ('w:numPr','w:tabs','w:ind'):
         _remove_ppr_child(pPr,tag)
+
+def slot_paragraph_lines(text: str) -> list:
+    """Split a slot value into non-empty lines for template-paragraph writing. Blank lines never land on the page."""
+    return [line.strip() for line in (text or '').splitlines() if line.strip()]
+
+def hidden_block_indices(paragraphs, lang: str, slots: dict, hidden_ids) -> set|None:
+    """Template-authority hiding rule shared by overwrite and audit: a hidden section loses its heading, its body paragraphs and its own adjacent blank separators (one leading, one trailing). Returns None when a heading cannot be located (fail closed)."""
+    kill=set()
+    for fid in hidden_ids:
+        head=SECTION_HEADINGS[fid][lang]
+        hi=next((i for i,p in enumerate(paragraphs) if p.text.strip()==head),None)
+        if hi is None: return None
+        kill.add(hi)
+        loc=slots[fid]['locator']
+        idxs=loc['paragraph_indices'] if slots[fid]['kind']=='paragraph_list' else [loc['paragraph_index']]
+        for j in idxs: kill.add(j)
+        if hi-1>=0 and not paragraphs[hi-1].text.strip(): kill.add(hi-1)
+        body_max=max([hi]+list(idxs))
+        for i in range(hi+1,body_max):
+            if not paragraphs[i].text.strip(): kill.add(i)
+        nxt=body_max+1
+        if nxt<len(paragraphs) and not paragraphs[nxt].text.strip(): kill.add(nxt)
+    return kill
