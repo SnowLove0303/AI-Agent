@@ -138,3 +138,8 @@ tests/support/generate_pu2345_eight.py
 _task_work/generate_os9015_eight.py
 _task_work/generate_pu2345_eight.py
 docs/pdf_converter_adoption.md
+scripts/normalize_template_row_page_breaks.py
+scripts/section_overwrite_rules.py
+scripts/source_ingest.py
+tests/test_section_overwrite_rules.py
+tests/test_source_ingest.py
