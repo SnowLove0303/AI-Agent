@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Shared DOCX-first build pipeline for the unified MSDS skill (v3.18.0).
+"""Shared DOCX-first build pipeline for the unified MSDS skill (v3.18.1).
 
 Business role: one parameterized path replaces the per-model copied
 generators.  Input is an *approved* standardized model file::
@@ -393,11 +393,13 @@ def suppress_empty_s82_engineering_control(doc) -> dict:
 # ---------------------------------------------------------------- gates
 
 def gate_locked_labels(template_path: Path, docx_path: Path, *,
-                       template_document=None, output_document=None) -> list[str]:
+                       template_document=None, output_document=None,
+                       language: str = "cn") -> list[str]:
     template = template_document or Document(str(template_path))
     output = output_document or Document(str(docx_path))
     report = audit_whitelist.audit(template_path, docx_path,
-                                   template=template, output=output)
+                                   template=template, output=output,
+                                   language=language)
     return report.get("errors", []) if isinstance(report, dict) else []
 
 
@@ -554,7 +556,7 @@ def build_one(*, template_cn: Path, template_en: Path, template_en_source: Path,
         blockers: list[str] = []
         blockers.extend(f"locked-labels: {e}" for e in gate_locked_labels(
             template, staged_docx, template_document=template_document,
-            output_document=doc))
+            output_document=doc, language=language))
         blockers.extend(f"section2: {e}" for e in gate_section2(
             staged_docx, require_pictogram=with_pictogram, document=doc))
         blockers.extend(f"whitespace: {e}" for e in gate_whitespace(staged_docx, document=doc))

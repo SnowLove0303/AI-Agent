@@ -13,8 +13,11 @@ baseline is adopted:
 - sequence and label cell formatting, paragraph properties and run properties;
 - table count/order, row/column geometry, grid widths, merges, borders and row heights;
 - table-cross-page permission, table layout type, repeating-header settings and each surviving row's `cantSplit` setting;
-- paragraph properties and run properties in every surviving writable value
-  cell, not only in labels;
+- paragraph properties and cell/table properties in every surviving writable
+  value cell, not only in labels. EN non-bold body-value runs are the sole
+  character-format exception: they must use one approved Arial 12-point
+  `w:rPr` exemplar from the active EN template; EN labels and sublabels remain
+  individually locked;
 - the S8.2 top-level header row (`物质 / 依据 / 类型 / 数值`; EN `Substance /
   Basis / Type / Value`), its column order and the one-cell control-parameter
   parent row. Only source-grounded S8.2 data rows are writable; the two
@@ -65,8 +68,9 @@ The generator must fail if it attempts to:
 
 - write a normal row through the label/sequence cell;
 - rebuild label paragraphs/runs or globally normalize locked-cell formatting;
-- change paragraph/run formatting, table geometry, merges, widths, borders,
-  row heights or page fields;
+- change paragraph formatting, label/sublabel run formatting, table geometry,
+  merges, widths, borders, row heights or page fields. EN body-value run
+  character formatting may change only to the single approved exemplar;
 - globally normalize fonts, line spacing, paragraph spacing or indents;
 - add fields for missing data or turn source examples into product facts;
 - move the mucous-membrane result into `11.10 附加信息` after it has been
@@ -75,8 +79,9 @@ The generator must fail if it attempts to:
   not present in the verified source.
 
 `scripts/template_mutation_whitelist.py` is the single write boundary. The
-release audit compares locked-cell XML properties, writable-cell formatting
-anchors, label bodies and the cross-page contract with the fresh-cloned template.
+release audit compares locked-cell XML properties, writable-cell layout
+anchors, the approved EN body-value exemplar, label bodies and the cross-page
+contract with the fresh-cloned template.
 The formal templates allow tables and rows to span pages. Active formal
 templates must not contain row-level `cantSplit`; the audit fails if a template
 or output row blocks an internal page break. Repeating headers remain enabled

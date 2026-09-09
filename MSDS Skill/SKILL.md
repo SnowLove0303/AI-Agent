@@ -3,7 +3,7 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS standardization skill that discovers supported source files, binds source-grounded facts to synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, preserves locked templates, and releases four DOCX plus four PDF deliverables only after semantic and render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.18.0
+# Unified MSDS Eight-Deliverable Standardizer v3.18.1
 
 ## Mandatory v2.9 inheritance (release blocker)
 
@@ -391,6 +391,12 @@ it must not normalize EN to CN, add rows, or redesign labels/geometry.
 - The EN locked-label audit must be run with `--language en`; it permits only
   the documented EN paragraph-layout normalization while continuing to check
   the ordered label anchors, table/cell positions and run properties.
+- All inserted non-bold EN value text uses one approved Arial 12-point body
+  `w:rPr` exemplar selected from the active EN template. This is a character-
+  format rule only: destination paragraph properties, labels, sublabels,
+  table geometry, row heights, merges, borders and cross-page behavior remain
+  template-owned. A blank template value slot must not cause a new value run
+  to fall back to paragraph-level or mixed legacy formatting.
 - The EN footer intentionally uses two lines for the company name and the
   model-based MSDS identifier so a hyphenated model identifier cannot be split
   into a dangling `MSDS` token. This is a controlled footer policy, not a

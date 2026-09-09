@@ -1,5 +1,5 @@
 MSDS Unified Eight-Deliverable Standardizer Skill
-3.18.0
+3.18.1
 Template mutation whitelist and Feishu 17-section skeleton contract
 Unified deliverable evaluation, release blocker and evidence audit layer
 EN active baseline carries the Hand protection label correction
@@ -7,3 +7,4 @@ Active CN/EN template rows allow natural cross-page breaking
 Semantic S1/S8/S12 mapping and slash-only-line guards
 Executable S1-S16 overwrite-rule registry and cached release audits
 Source-bound mapping manifest and byte-pinned template release gate
+Unified Arial 12-point EN body-value format across populated and blank slots

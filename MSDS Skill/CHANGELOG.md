@@ -1,5 +1,13 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.18.1 — 2026-09-09
+- Unified inserted non-bold English value runs to one approved Arial 12-point
+  template exemplar, including originally blank Section 11.7 value slots;
+  paragraph geometry, labels, sublabels, table structure and cross-page
+  behavior remain template-owned.
+- Added regression coverage for populated and blank EN value cells so legacy
+  per-row font anchors cannot re-enter the production path.
+
 ## v3.18.0 — 2026-09-08
 - Added a source-bound S1-S16 mapping manifest contract. Extractor drafts now
   carry unique source candidates and an explicit review queue; formal builds

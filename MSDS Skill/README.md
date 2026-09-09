@@ -1,4 +1,4 @@
-# MSDS Skill 3.18.0
+# MSDS Skill 3.18.1
 
 `MSDS Skill` is the controlled MSDS/SDS standardization skill for producing synchronized Chinese and English deliverables for the Guanzhi and Guocai company profiles.
 
@@ -45,7 +45,7 @@ Read [`SKILL.md`](SKILL.md) for the operating contract. The reusable scripts, te
 
 ## Version
 
-Public release: `MSDS Skill 3.18.0`
+Public release: `MSDS Skill 3.18.1`
 
 Template baseline: user-supplied formal CN/EN templates, with CN SHA-256
 `3cb250303778b70ab0dbfedc4392ac628228d80146e6376f410157cb08993622` and EN

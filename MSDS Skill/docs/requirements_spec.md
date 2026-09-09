@@ -51,7 +51,11 @@ repeating-header settings with the fresh template. This prevents a long row
 such as Section 11.4 from leaving a large blank area after Section 11.3.
 
 ## Body text rule
-All non-bold inserted text uses the approved exemplar's character formatting. Paragraph geometry remains destination-specific.
+All non-bold inserted text uses the approved exemplar's character formatting.
+For EN output, one Arial 12-point `w:rPr` exemplar from the active EN
+template is applied to every inserted non-bold value run, including values
+written into originally blank template slots. Paragraph geometry remains
+destination-specific; labels, sublabels and table formatting remain locked.
 
 ## Omission rule
 Do not leave empty labels. Remove unsupported items at the smallest safe display unit while preserving neighboring supported items and table integrity.

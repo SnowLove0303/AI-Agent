@@ -20,7 +20,10 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Pt
 
-from template_mutation_whitelist import unique_cells as whitelist_unique_cells
+from template_mutation_whitelist import (
+    english_body_cells as whitelist_english_body_cells,
+    unique_cells as whitelist_unique_cells,
+)
 
 
 EN_BODY_FONT = "Arial"
@@ -31,6 +34,10 @@ EN_FOOTER_SIZE = Pt(7.5)
 
 def unique_cells(row):
     return whitelist_unique_cells(row)
+
+
+def english_body_cells(table_index, row_index, row):
+    return whitelist_english_body_cells(table_index, row_index, row)
 
 
 def _set_run_font(run, name: str, size: Pt | None = None) -> None:
@@ -70,16 +77,57 @@ def _replace_child(parent, tag, source):
         parent.insert(0, deepcopy(source))
 
 
+def _approved_body_rpr(reference_document):
+    """Return one maintained English body-value character-format exemplar.
+
+    The active EN template contains legacy sample values with inconsistent
+    character anchors.  A value's meaning must not determine its font, and a
+    blank template value has no run to copy.  Select one non-bold Arial body
+    run from the maintained template and use only its ``w:rPr`` for inserted
+    non-bold value text.  Paragraph properties remain destination-specific.
+    """
+    for table in reference_document.tables[:16]:
+        for row_index, row in enumerate(table.rows):
+            if row_index == 0:
+                continue
+            cells = unique_cells(row)
+            for cell_index, cell in enumerate(cells):
+                if len(cells) > 1 and cell_index == 0:
+                    continue
+                for paragraph in cell.paragraphs:
+                    for run in paragraph.runs:
+                        if not run.text.strip() or run.bold:
+                            continue
+                        r_pr = run._r.rPr
+                        if r_pr is None:
+                            continue
+                        r_fonts = r_pr.find(qn("w:rFonts"))
+                        size = r_pr.find(qn("w:sz"))
+                        if (r_fonts is not None
+                                and r_fonts.get(qn("w:hAnsi")) == EN_BODY_FONT
+                                and size is not None
+                                and size.get(qn("w:val")) == "24"):
+                            return deepcopy(r_pr)
+    raise RuntimeError("active EN template has no approved Arial 12pt body-value exemplar")
+
+
 def _anchor_label(text: str) -> str:
     text = re.sub(r"\t.*$", "", text or "").strip()
     return re.sub(r"^\s*\d+\.\d+\s*", "", text)
 
 
-def _reference_row(reference_table, output_table, output_row, output_index: int):
+def _reference_row(reference_table, output_table, table_index: int,
+                   output_row, output_index: int):
     """Find the fresh-template row by semantic label after allowed omissions."""
     output_cells = unique_cells(output_row)
     if not output_cells:
         return None
+    if table_index == 2 and output_index >= 4:
+        return reference_table.rows[min(output_index, len(reference_table.rows) - 1)] \
+            if len(reference_table.rows) > 4 else None
+    if table_index == 7 and output_index >= 14:
+        return reference_table.rows[min(output_index, len(reference_table.rows) - 1)] \
+            if len(reference_table.rows) > 14 else None
     cell_count = len(output_cells)
     label = _anchor_label(output_cells[0].text)
     if cell_count == 1:
@@ -110,22 +158,24 @@ def _reference_row(reference_table, output_table, output_row, output_index: int)
 
 
 def sync_en_template_text_format(document, template_path: str | Path, reference_document=None) -> None:
-    """Restore body paragraph/run properties from the maintained EN template.
+    """Restore EN layout and one body-value character format from the template.
 
     The document is already a fresh clone of ``template_path``.  This explicit
     pass is still required after text replacement because output helpers can
     create new runs and because row cloning can introduce a new physical row.
-    It copies only paragraph and run properties, never text, table geometry,
-    merges, widths or borders.  Extra cloned rows use the last template row as
-    their formatting anchor.
+    It copies paragraph properties from the destination template row and one
+    approved character-format exemplar to every non-bold value run.  It never
+    changes text, table geometry, merges, widths or borders.  Extra cloned rows
+    use the last template row as their paragraph-format anchor.
     """
     reference = reference_document or Document(str(template_path))
+    body_rpr = _approved_body_rpr(reference)
     for table_index, table in enumerate(document.tables[:16]):
         if table_index >= len(reference.tables):
             break
         reference_table = reference.tables[table_index]
         for row_index, row in enumerate(table.rows):
-            ref_row = _reference_row(reference_table, table, row, row_index)
+            ref_row = _reference_row(reference_table, table, table_index, row, row_index)
             if ref_row is None:
                 continue
             seen = set()
@@ -138,11 +188,10 @@ def sync_en_template_text_format(document, template_path: str | Path, reference_
                 seen.add(key)
                 if not ref_cells:
                     continue
-                # The first physical cell is the template-owned sequence /
-                # label cell.  It is intentionally excluded from this pass;
-                # only value and explicitly writable subvalue cells may have
-                # their properties synchronized.
-                if len(cells) > 1 and cell_index == 0:
+                body_cells = english_body_cells(table_index, row_index, row)
+                is_body_cell = any(hash(cell._tc) == hash(body_cell._tc)
+                                   for body_cell in body_cells)
+                if len(cells) > 1 and cell_index == 0 and not is_body_cell:
                     continue
                 ref_cell = ref_cells[min(cell_index, len(ref_cells) - 1)]
                 for paragraph_index, paragraph in enumerate(cell.paragraphs):
@@ -151,9 +200,17 @@ def sync_en_template_text_format(document, template_path: str | Path, reference_
                     else:
                         ref_paragraph = ref_cell.paragraphs[paragraph_index]
                     _replace_child(paragraph._p, qn("w:pPr"), ref_paragraph._p.pPr)
-                    if paragraph.runs:
-                        ref_rpr = ref_paragraph.runs[0]._r.rPr if ref_paragraph.runs else None
-                        _replace_child(paragraph.runs[0]._r, qn("w:rPr"), ref_rpr)
+                    for run_index, run in enumerate(paragraph.runs):
+                        if not run.text.strip():
+                            continue
+                        if is_body_cell and not run.bold:
+                            _replace_child(run._r, qn("w:rPr"), body_rpr)
+                            continue
+                        ref_runs = ref_paragraph.runs
+                        ref_run = ref_runs[min(run_index, len(ref_runs) - 1)] \
+                            if ref_runs else None
+                        ref_rpr = ref_run._r.rPr if ref_run is not None else None
+                        _replace_child(run._r, qn("w:rPr"), ref_rpr)
 
 
 def normalize_en_document(document, template_path: str | Path | None = None,

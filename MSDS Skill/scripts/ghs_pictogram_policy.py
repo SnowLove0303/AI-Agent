@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import io
 import zipfile
+from copy import deepcopy
 from pathlib import Path
 
 from docx.shared import Inches
@@ -33,10 +34,17 @@ def insert_source_pictogram(document, source_docx: str | Path, width_inches: flo
         paragraph = cell.add_paragraph()
     else:
         paragraph = cell.paragraphs[0]
+    saved_rpr = None
+    for existing in paragraph.runs:
+        if existing._r.rPr is not None:
+            saved_rpr = deepcopy(existing._r.rPr)
+            break
     for child in list(paragraph._p):
         if child.tag != "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}pPr":
             paragraph._p.remove(child)
     run = paragraph.add_run()
+    if saved_rpr is not None:
+        run._r.append(saved_rpr)
     run.add_picture(io.BytesIO(payload), width=Inches(width_inches))
     return {"source_image_name": name, "source_image_bytes": len(payload), "target_table": 1, "target_row": 4}
 

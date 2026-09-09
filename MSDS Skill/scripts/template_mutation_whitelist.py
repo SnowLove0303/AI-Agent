@@ -134,6 +134,33 @@ def unique_cells(row) -> list:
     return result
 
 
+def english_body_cells(table_index: int, row_index: int, row) -> list:
+    """Return the EN cells whose non-bold value runs use the body exemplar.
+
+    The first cell is normally a locked sequence/label cell.  S3 and S8.2
+    data rows are explicit all-value subtables; Section 11 keeps its middle
+    sublabel locked and its final cell as the value cell.
+    """
+    cells = unique_cells(row)
+    if not cells or row_index == 0:
+        return []
+    if table_index == 2:
+        if row_index in {2, 3}:
+            return []
+        if row_index >= 4:
+            return cells
+    if table_index == 7:
+        if row_index in {1, 12, 13}:
+            return []
+        if row_index >= 14:
+            return cells
+    if len(cells) == 1:
+        return cells
+    if table_index == 10 and len(cells) >= 3:
+        return cells[-1:]
+    return cells[1:]
+
+
 def _clear_paragraph_content(paragraph) -> None:
     for child in list(paragraph._p):
         if child.tag != qn("w:pPr"):
@@ -601,7 +628,34 @@ def audit_cross_page_contract(template, output) -> dict:
     return {"errors": errors, "tables": tables}
 
 
-def compare_format_anchors(template, output) -> list[str]:
+def _style_signature(element):
+    """Compare OOXML formatting without document-part namespace noise."""
+    if element is None:
+        return ()
+    return (
+        element.tag,
+        tuple(sorted((key, value) for key, value in element.attrib.items())),
+        tuple(_style_signature(child) for child in element),
+    )
+
+
+def _format_layout_anchor(cell) -> tuple[str, str]:
+    tc_pr = _without_text(cell._tc.tcPr)
+    paragraph = cell.paragraphs[0] if cell.paragraphs else None
+    p_pr = _without_text(paragraph._p.pPr) if paragraph is not None else ""
+    return tc_pr, p_pr
+
+
+def _value_run_rpr(run, paragraph):
+    if run._r.rPr is not None:
+        return run._r.rPr
+    if paragraph._p.pPr is not None:
+        return paragraph._p.pPr.find(qn("w:rPr"))
+    return None
+
+
+def compare_format_anchors(template, output, *, language: str = "cn",
+                           approved_en_body_rpr=None) -> list[str]:
     """Audit all surviving cells against the fresh template's format anchors.
 
     This is deliberately separate from the locked-label audit: the latter
@@ -629,18 +683,43 @@ def compare_format_anchors(template, output) -> list[str]:
                 continue
             output_cells = unique_cells(output_row)
             matched = False
+            body_cells = english_body_cells(table_index, output_index, output_row) \
+                if language == "en" else []
+            body_tc_ids = {hash(cell._tc) for cell in body_cells}
             for candidate in candidates:
                 candidate_cells = unique_cells(candidate)
                 if len(candidate_cells) != len(output_cells):
                     continue
                 if _without_text(output_row._tr.trPr) != _without_text(candidate._tr.trPr):
                     continue
-                if all(_format_anchor(expected_cell) == _format_anchor(actual_cell)
-                       for expected_cell, actual_cell in zip(candidate_cells, output_cells)):
+                cell_formats_match = True
+                for expected_cell, actual_cell in zip(candidate_cells, output_cells):
+                    if hash(actual_cell._tc) in body_tc_ids:
+                        if _format_layout_anchor(expected_cell) != _format_layout_anchor(actual_cell):
+                            cell_formats_match = False
+                            break
+                    elif _format_anchor(expected_cell) != _format_anchor(actual_cell):
+                        cell_formats_match = False
+                        break
+                if cell_formats_match:
                     matched = True
                     break
             if not matched:
                 errors.append(f"template format anchor changed: table {table_index} row {output_index}")
+                continue
+            if language == "en" and approved_en_body_rpr is not None:
+                for cell in body_cells:
+                    for paragraph in cell.paragraphs:
+                        for run in paragraph.runs:
+                            if run.text.strip() and not run.bold:
+                                actual_rpr = _value_run_rpr(run, paragraph)
+                                if (_style_signature(actual_rpr)
+                                        != _style_signature(approved_en_body_rpr)):
+                                    errors.append(
+                                        f"EN body value format is not the approved exemplar: "
+                                        f"table {table_index} row {output_index}"
+                                    )
+                                    break
 
     for section_index, (template_section, output_section) in enumerate(
         zip(template.sections, output.sections)
@@ -816,6 +895,7 @@ __all__ = [
     "MutationViolation",
     "LockedCellSnapshot",
     "unique_cells",
+    "english_body_cells",
     "set_value_cell_text",
     "set_sequence_prefix",
     "write_row_values",
