@@ -45,7 +45,11 @@ def collect(doc):
         sec=int(m.group(2)); item=int(m.group(3))
         # Label guard: numbered item must have content after prefix; H/P codes won't match.
         rest=text[m.end():].strip()
-        if not rest: continue
+        # A measured value such as ``7.0-9.0`` is not a numbered label.  The
+        # maintained structured endpoint sections retain their standard
+        # endpoint numbers after source-gated omission (for example 11.7 and
+        # 12.2), so continuity is checked there as ordered numbering.
+        if not rest or rest[0] in '-+<>=~' or rest[0].isdigit(): continue
         out.append((p,sec,item,text))
     return out
 
@@ -60,6 +64,18 @@ def audit(items):
     for _,sec,item,text in items: by[sec].append((item,text))
     problems=[]
     for sec, vals in sorted(by.items()):
+        if sec in {11, 12}:
+            last = None
+            closed = set()
+            for item, text in vals:
+                if item == last:
+                    continue
+                if last is not None:
+                    closed.add(last)
+                if item in closed:
+                    problems.append(f'Section {sec}: item {sec}.{item} appears again after a later item: {text}')
+                last = item
+            continue
         expected=1; last=None; closed=set()
         for item,text in vals:
             if item == last:

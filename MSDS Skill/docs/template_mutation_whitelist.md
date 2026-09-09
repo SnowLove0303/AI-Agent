@@ -12,6 +12,9 @@ baseline is adopted:
 - section titles, parent structure rows and fixed labels;
 - sequence and label cell formatting, paragraph properties and run properties;
 - table count/order, row/column geometry, grid widths, merges, borders and row heights;
+- table-cross-page permission, table layout type, repeating-header settings and each surviving row's `cantSplit` setting;
+- paragraph properties and run properties in every surviving writable value
+  cell, not only in labels;
 - the S8.2 top-level header row (`物质 / 依据 / 类型 / 数值`; EN `Substance /
   Basis / Type / Value`), its column order and the one-cell control-parameter
   parent row. Only source-grounded S8.2 data rows are writable; the two
@@ -25,10 +28,12 @@ only its approved source-grounded subvalue may be written.
 The runtime creates a slot registry from the fresh template clone before it
 clears values. Non-empty value objects are writable; blank value objects remain
 locked unless an explicit semantic input exception exists (for example the
-product-name and emergency-overview inputs). The blank Section 8
-`建议 / Recommendation` value is not an input slot. A skipped write to an
-intentionally blank slot is recorded in the source-presence audit, rather than
-silently changing the template.
+product-name and emergency-overview inputs). The formal Section 8 `建议 /
+Recommendation` value is not an input slot and remains blank. A source-absent blank slot remains blank and is
+recorded in the source-presence audit, rather than receiving invented text.
+The active CN baseline's known tabbed example suffix after `手部防护：` is
+removed with run-preserving text cleanup only; the cell geometry, paragraph
+properties and character-format anchors remain locked.
 
 ## Writable regions
 
@@ -60,7 +65,9 @@ The generator must fail if it attempts to:
 
 - write a normal row through the label/sequence cell;
 - rebuild label paragraphs/runs or globally normalize locked-cell formatting;
-- change table geometry, merges, widths, borders, row heights or page fields;
+- change paragraph/run formatting, table geometry, merges, widths, borders,
+  row heights or page fields;
+- globally normalize fonts, line spacing, paragraph spacing or indents;
 - add fields for missing data or turn source examples into product facts;
 - move the mucous-membrane result into `11.10 附加信息` after it has been
   classified into `11.3`;
@@ -68,7 +75,11 @@ The generator must fail if it attempts to:
   not present in the verified source.
 
 `scripts/template_mutation_whitelist.py` is the single write boundary. The
-release audit compares the output's locked-cell XML properties and label bodies
-with the fresh-cloned template. Row omission is allowed only for a dedicated
+release audit compares locked-cell XML properties, writable-cell formatting
+anchors, label bodies and the cross-page contract with the fresh-cloned template.
+The formal templates allow tables and rows to span pages. Active formal
+templates must not contain row-level `cantSplit`; the audit fails if a template
+or output row blocks an internal page break. Repeating headers remain enabled
+where present. Row omission is allowed only for a dedicated
 S2/S9 pure-missing item, a source-absent ordinary field, or the documented
 note-only Sections 11/12 policy; no arbitrary row deletion is accepted.

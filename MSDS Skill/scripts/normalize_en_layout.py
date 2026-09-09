@@ -12,6 +12,7 @@ from __future__ import annotations
 
 from copy import deepcopy
 from pathlib import Path
+import re
 
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx import Document
@@ -69,7 +70,46 @@ def _replace_child(parent, tag, source):
         parent.insert(0, deepcopy(source))
 
 
-def sync_en_template_text_format(document, template_path: str | Path) -> None:
+def _anchor_label(text: str) -> str:
+    text = re.sub(r"\t.*$", "", text or "").strip()
+    return re.sub(r"^\s*\d+\.\d+\s*", "", text)
+
+
+def _reference_row(reference_table, output_table, output_row, output_index: int):
+    """Find the fresh-template row by semantic label after allowed omissions."""
+    output_cells = unique_cells(output_row)
+    if not output_cells:
+        return None
+    cell_count = len(output_cells)
+    label = _anchor_label(output_cells[0].text)
+    if cell_count == 1:
+        output_one_cell_index = sum(
+            len(unique_cells(row)) == 1
+            for row in output_table.rows[:output_index + 1]
+        ) - 1
+        candidates = [row for row in reference_table.rows if len(unique_cells(row)) == 1]
+        if candidates:
+            return candidates[min(output_one_cell_index, len(candidates) - 1)]
+    candidates = [
+        row for row in reference_table.rows
+        if len(unique_cells(row)) == cell_count
+        and (cell_count == 1 or _anchor_label(unique_cells(row)[0].text) == label)
+    ]
+    if candidates:
+        occurrence = sum(
+            len(unique_cells(row)) == cell_count
+            and _anchor_label(unique_cells(row)[0].text) == label
+            for row in output_table.rows[:output_index + 1]
+        ) - 1
+        return candidates[min(occurrence, len(candidates) - 1)]
+    if output_index < len(reference_table.rows):
+        row = reference_table.rows[output_index]
+        if len(unique_cells(row)) == cell_count:
+            return row
+    return None
+
+
+def sync_en_template_text_format(document, template_path: str | Path, reference_document=None) -> None:
     """Restore body paragraph/run properties from the maintained EN template.
 
     The document is already a fresh clone of ``template_path``.  This explicit
@@ -79,13 +119,15 @@ def sync_en_template_text_format(document, template_path: str | Path) -> None:
     merges, widths or borders.  Extra cloned rows use the last template row as
     their formatting anchor.
     """
-    reference = Document(str(template_path))
+    reference = reference_document or Document(str(template_path))
     for table_index, table in enumerate(document.tables[:16]):
         if table_index >= len(reference.tables):
             break
         reference_table = reference.tables[table_index]
         for row_index, row in enumerate(table.rows):
-            ref_row = reference_table.rows[min(row_index, len(reference_table.rows) - 1)]
+            ref_row = _reference_row(reference_table, table, row, row_index)
+            if ref_row is None:
+                continue
             seen = set()
             cells = unique_cells(row)
             ref_cells = unique_cells(ref_row)
@@ -114,7 +156,8 @@ def sync_en_template_text_format(document, template_path: str | Path) -> None:
                         _replace_child(paragraph.runs[0]._r, qn("w:rPr"), ref_rpr)
 
 
-def normalize_en_document(document, template_path: str | Path | None = None) -> None:
+def normalize_en_document(document, template_path: str | Path | None = None,
+                          template_document=None) -> None:
     """Apply the controlled English output layout policy.
 
     When ``template_path`` is supplied, the maintained template is the
@@ -129,7 +172,7 @@ def normalize_en_document(document, template_path: str | Path | None = None) -> 
     Other section headings retain the generator's explicit section number.
     """
     if template_path is not None:
-        sync_en_template_text_format(document, template_path)
+        sync_en_template_text_format(document, template_path, template_document)
         return
 
     for table_index, table in enumerate(document.tables[:16]):

@@ -1,6 +1,6 @@
 {
   "source_filename": "template_reference_en.docx",
-  "source_sha256": "593EF5A004F641BFE71AD6629847F47FD48D0307FCED14DFA8A810E01CF823F7",
+  "source_sha256": "003ff6bac27bf3bc99f0426ea8ed596487b0399f30428c406227d8f7c1b3dd46",
   "tables": [
     {
       "table": 0,
@@ -801,7 +801,7 @@
       "rows": [
         {
           "row": 0,
-          "trPr_hash": "288c47b521af1920ebd9b50093b96693370b39e5a057e9ab57d0ed08fff6d1f8",
+          "trPr_hash": "324527a5139d6ae773d0eab9425d0e7ee02971aaab4a2447883391e14b7ab19c",
           "cell_count": 1,
           "cells": [
             {
@@ -4069,7 +4069,7 @@
       "rows": [
         {
           "row": 0,
-          "trPr_hash": "288c47b521af1920ebd9b50093b96693370b39e5a057e9ab57d0ed08fff6d1f8",
+          "trPr_hash": "324527a5139d6ae773d0eab9425d0e7ee02971aaab4a2447883391e14b7ab19c",
           "cell_count": 1,
           "cells": [
             {
@@ -4119,7 +4119,7 @@
         },
         {
           "row": 1,
-          "trPr_hash": "a25daedb59d963542b42e40a79b6bd9e0eb685bb4d5f10bbb332df273d1105de",
+          "trPr_hash": "c92154fbcdd5767e886966cde216fe377f06a233ddc99b32c7820c844effcc97",
           "cell_count": 2,
           "cells": [
             {
@@ -4284,7 +4284,7 @@
         },
         {
           "row": 2,
-          "trPr_hash": "d1d37a2d80b6f374c3c4c7735cd97d7a92ef716ebbac94bdb637f3817b60f648",
+          "trPr_hash": "eb0168c16aecad9e761ee202f44e5682ae329d1957b2425e2d54acafb191e0ed",
           "cell_count": 2,
           "cells": [
             {
@@ -5100,39 +5100,15 @@
               "tcW_type": "dxa",
               "gridSpan": "2",
               "vMerge": null,
-              "text": "Hand protection：\t喷涂过程中要求有呼吸防护设备。",
+              "text": "Hand protection：",
               "paragraphs": [
                 {
-                  "text": "Hand protection：\t喷涂过程中要求有呼吸防护设备。",
+                  "text": "Hand protection：",
                   "pPr_hash": "8c0331ddab684d51039ee7d88cf3b77ae05078d20f0ae5c0733baf2a80a6d581",
                   "runs": [
                     {
                       "text": "Hand protection：",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
-                      "bold": true,
-                      "italic": null,
-                      "underline": null,
-                      "font": {
-                        "name": null,
-                        "size_pt": 12.0,
-                        "color": null
-                      }
-                    },
-                    {
-                      "text": "\t",
-                      "rPr_hash": "64660e0e0acbab77746d3d1b35dd075c3f655c71de7a28ea55c06087dc46bcb9",
-                      "bold": true,
-                      "italic": null,
-                      "underline": null,
-                      "font": {
-                        "name": null,
-                        "size_pt": 12.0,
-                        "color": null
-                      }
-                    },
-                    {
-                      "text": "喷涂过程中要求有呼吸防护设备。",
-                      "rPr_hash": "26762978c0eb492537a4ee415332e11acd8c0d9f7bc41a2d938b6a2b8dcffb88",
                       "bold": true,
                       "italic": null,
                       "underline": null,
@@ -9403,7 +9379,7 @@
       "rows": [
         {
           "row": 0,
-          "trPr_hash": "288c47b521af1920ebd9b50093b96693370b39e5a057e9ab57d0ed08fff6d1f8",
+          "trPr_hash": "324527a5139d6ae773d0eab9425d0e7ee02971aaab4a2447883391e14b7ab19c",
           "cell_count": 1,
           "cells": [
             {
@@ -9453,7 +9429,7 @@
         },
         {
           "row": 1,
-          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
+          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
           "cell_count": 1,
           "cells": [
             {
@@ -9491,7 +9467,7 @@
         },
         {
           "row": 2,
-          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
+          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
           "cell_count": 1,
           "cells": [
             {
@@ -9529,7 +9505,7 @@
         },
         {
           "row": 3,
-          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
+          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
           "cell_count": 3,
           "cells": [
             {
@@ -9653,7 +9629,7 @@
         },
         {
           "row": 4,
-          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
+          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
           "cell_count": 3,
           "cells": [
             {
@@ -9801,7 +9777,7 @@
         },
         {
           "row": 5,
-          "trPr_hash": "2dcfe4fb25e0a8bc19e42e51eaf617b7d984d149ece87f467f86814ccd2005fa",
+          "trPr_hash": "cfe403358c5ca107d065fc51c1e68e0c851818f02da6b5223bdc481f2250ff17",
           "cell_count": 3,
           "cells": [
             {
@@ -9925,7 +9901,7 @@
         },
         {
           "row": 6,
-          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
+          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
           "cell_count": 2,
           "cells": [
             {
@@ -10018,7 +9994,7 @@
         },
         {
           "row": 7,
-          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
+          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
           "cell_count": 2,
           "cells": [
             {
@@ -10171,7 +10147,7 @@
         },
         {
           "row": 8,
-          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
+          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
           "cell_count": 2,
           "cells": [
             {
@@ -10312,7 +10288,7 @@
         },
         {
           "row": 9,
-          "trPr_hash": "ae2d23efbc1e81172f39bfb9e488bfdefb16091869fb4ad8d7440afe98f7315a",
+          "trPr_hash": "aa87dae810b4af9d0be81929fc57cad31507f3f8b4f3c09e841f61a04caaf988",
           "cell_count": 2,
           "cells": [
             {
@@ -10477,7 +10453,7 @@
         },
         {
           "row": 10,
-          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
+          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
           "cell_count": 2,
           "cells": [
             {
@@ -10570,7 +10546,7 @@
         },
         {
           "row": 11,
-          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
+          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
           "cell_count": 2,
           "cells": [
             {
@@ -10663,7 +10639,7 @@
         },
         {
           "row": 12,
-          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
+          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
           "cell_count": 3,
           "cells": [
             {
@@ -10786,7 +10762,7 @@
         },
         {
           "row": 13,
-          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
+          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
           "cell_count": 3,
           "cells": [
             {
@@ -10909,7 +10885,7 @@
         },
         {
           "row": 14,
-          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
+          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
           "cell_count": 3,
           "cells": [
             {
@@ -11032,7 +11008,7 @@
         },
         {
           "row": 15,
-          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
+          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
           "cell_count": 2,
           "cells": [
             {

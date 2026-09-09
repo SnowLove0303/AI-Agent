@@ -38,9 +38,9 @@ S82_MISSING = {
     "en": "No data available",
 }
 
-# Blank cells are not automatically writable.  These are the two intentional
-# blank inputs in the maintained template; Section 8's blank Recommendation
-# slot is deliberately absent from this set.
+# Blank cells are not automatically writable.  These are explicit semantic
+# input exceptions; the S8 recommendation is source-gated and is written only
+# when the source provides a non-empty recommendation.
 BLANK_VALUE_SLOTS = {(0, 1), (1, 1)}
 
 
@@ -90,6 +90,14 @@ class TemplateSlotRegistry:
                     continue
                 if table_index == 7 and row_index in {12, 13}:
                     continue
+                if (
+                    table_index == 10
+                    and len(cells) >= 3
+                    and cells[0].text.strip().startswith("11.7")
+                ):
+                    slots[table_index, row_index] = TemplateSlot(
+                        table_index, row_index, (len(cells) - 1,), "endpoint_value", True)
+                    continue
                 if len(cells) == 1:
                     slots[table_index, row_index] = TemplateSlot(
                         table_index, row_index, (0,), "note", True)
@@ -132,13 +140,34 @@ def _clear_paragraph_content(paragraph) -> None:
             paragraph._p.remove(child)
 
 
+def normalize_value_text(text: str) -> str:
+    """Remove synthetic slash separators before writing a value cell.
+
+    `` / `` is a legacy joiner, not source content.  It can wrap as a lone
+    slash in Word.  Preserve compact source slashes such as ``通风/排气`` and
+    ``有/无``; only the synthetic spaced separator becomes a semantic line
+    break.  Empty lines and a slash-only line are never customer-facing.
+    """
+    normalized = re.sub(r"[ \t\u3000]+[/／][ \t\u3000]+", "\n", str(text or ""))
+    normalized = re.sub(r"(?m)^[ \t]*[/／][ \t]*", "", normalized)
+    return "\n".join(
+        line.rstrip() for line in normalized.splitlines()
+        if line.strip() and line.strip() not in {"/", "／"}
+    )
+
+
 def _write_paragraph_content(paragraph, text: str) -> None:
     """Replace text while retaining the paragraph and first run properties."""
+    text = normalize_value_text(text)
     old_rpr = None
     for run in paragraph.runs:
         if run._r.rPr is not None:
             old_rpr = copy.deepcopy(run._r.rPr)
             break
+    if old_rpr is None and paragraph._p.pPr is not None:
+        template_rpr = paragraph._p.pPr.find(qn("w:rPr"))
+        if template_rpr is not None:
+            old_rpr = copy.deepcopy(template_rpr)
     _clear_paragraph_content(paragraph)
     run = paragraph._p.makeelement(qn("w:r"), {})
     if old_rpr is not None:
@@ -257,10 +286,20 @@ def write_row_values(row, values: Sequence[object], *, table_index: int | None =
     if len(cells) == 1:
         targets = registry.writable_cells(table_index, row_index, row) if registry else cells
         if targets:
-            set_value_cell_text(targets[0], "\n".join(values))
+            content = "\n".join(values[:-1]) if len(values) > 1 and not values[-1].strip() else "\n".join(values)
+            set_value_cell_text(targets[0], content)
         return
 
     payload = _payload_for_field_row(cells, values)
+    if (
+        table_index == 10
+        and len(cells) >= 3
+        and cells[0].text.strip().startswith("11.7")
+    ):
+        targets = registry.writable_cells(table_index, row_index, row) if registry else [cells[-1]]
+        if targets:
+            set_value_cell_text(targets[-1], values[-1] if values else "")
+        return None
     if registry is not None:
         targets = registry.writable_cells(table_index, row_index, row)
         if not targets:
@@ -284,12 +323,23 @@ def write_s82_top_rows(table, records: Iterable[Sequence[object]], language: str
     (physical row 13) belong to the template.  Data rows (physical row 14 on)
     are writable: extra rows are cloned from the existing styled data row, and
     the template example rows are cleared.  With no verified records the
-    second example row is removed and the single remaining data row carries
-    the exact missing-data placeholder in the value column, so besides the
-    header only one result row remains.
+    entire workplace-component block is removed; an empty source slot is not
+    customer-facing content and must not become a synthetic placeholder row.
     """
     if language not in S82_TOP_HEADERS:
         raise MutationViolation(f"unsupported S8.2 language: {language}")
+    normalized = [tuple(str(value) for value in record[:4]) for record in records]
+    if any(len(record) != 4 for record in normalized):
+        raise MutationViolation("each S8.2 record must contain substance/basis/type/value")
+    if not normalized:
+        while len(table.rows) > 12:
+            table._tbl.remove(table.rows[-1]._tr)
+        return {
+            "record_count": 0,
+            "row_count": 0,
+            "placeholder": False,
+            "hidden": True,
+        }
     if len(table.rows) < 16:
         raise MutationViolation("S8.2 formal layout requires 16 Section-8 rows")
     parent = unique_cells(table.rows[12])
@@ -300,11 +350,6 @@ def write_s82_top_rows(table, records: Iterable[Sequence[object]], language: str
         raise MutationViolation(
             f"S8.2 header mismatch: expected {S82_TOP_HEADERS[language]}, found {header}"
         )
-    normalized = [tuple(str(value) for value in record[:4]) for record in records]
-    if any(len(record) != 4 for record in normalized):
-        raise MutationViolation("each S8.2 record must contain substance/basis/type/value")
-    if not normalized:
-        normalized = [("", "", "", S82_MISSING[language])]
     while len(table.rows) < 14 + len(normalized):
         table._tbl.append(copy.deepcopy(table.rows[14]._tr))
     while len(table.rows) > 14 + len(normalized):
@@ -318,7 +363,7 @@ def write_s82_top_rows(table, records: Iterable[Sequence[object]], language: str
     return {
         "record_count": len(records),
         "row_count": len(normalized),
-        "placeholder": not bool(records),
+        "placeholder": False,
     }
 
 
@@ -389,6 +434,241 @@ def _cell_style_snapshot(cell) -> tuple[str, tuple[str, ...], tuple[tuple[str, .
     return tc_pr, p_props, r_props
 
 
+def _format_anchor(cell) -> tuple[str, str, str]:
+    """Return the immutable formatting anchor for a writable cell.
+
+    Value text may change and may use semantic line breaks, but the cell,
+    first paragraph and first run must retain the fresh template's format.
+    """
+    tc_pr = _without_text(cell._tc.tcPr)
+    paragraph = cell.paragraphs[0] if cell.paragraphs else None
+    p_pr = _without_text(paragraph._p.pPr) if paragraph is not None else ""
+    run = paragraph.runs[0] if paragraph is not None and paragraph.runs else None
+    if run is not None and run._r.rPr is not None:
+        r_pr = _without_text(run._r.rPr)
+    elif paragraph is not None and paragraph._p.pPr is not None:
+        r_pr = _without_text(paragraph._p.pPr.find(qn("w:rPr")))
+    else:
+        r_pr = ""
+    return tc_pr, p_pr, r_pr
+
+
+def _row_label(row) -> str:
+    cells = unique_cells(row)
+    return _canonical_locked_text(cells[0].text) if cells else ""
+
+
+def _canonical_locked_text(text: str) -> str:
+    """Compare stable labels while allowing approved source-faithful aliases."""
+    text = re.sub(r"\t.*$", "", text)
+    text = re.sub(r"^\s*\d+\.\d+\s*", "", text.strip())
+    text = re.sub(r"^<SEQ>\s*", "", text)
+    # The CN source heading is "标签要素" and the formal baseline uses the
+    # longer "GHS标签要素".  The source-faithful alias is intentionally
+    # limited to this Section 2 label and to the requested punctuation fix.
+    text = re.sub(r"^(?:GHS)?标签要素[：:]?$", "标签要素", text)
+    text = re.sub(r"^其他危害[：:]?$", "其他危害", text)
+    return text
+
+
+def _row_candidates(template_table, output_table, table_index, output_index, output_row):
+    output_cells = unique_cells(output_row)
+    if table_index == 2 and output_index >= 4:
+        reference_index = min(output_index, len(template_table.rows) - 1)
+        return [template_table.rows[reference_index]] if len(template_table.rows) > 4 else []
+    if table_index == 7 and output_index >= 14:
+        reference_index = min(output_index, len(template_table.rows) - 1)
+        return [template_table.rows[reference_index]] if len(template_table.rows) > 14 else []
+    if not output_cells:
+        return []
+    label = _row_label(output_row)
+    candidates = [
+        row for row in template_table.rows
+        if len(unique_cells(row)) == len(output_cells)
+        and (len(output_cells) == 1 or _row_label(row) == label)
+    ]
+    if not candidates and output_index < len(template_table.rows):
+        candidate = template_table.rows[output_index]
+        if len(unique_cells(candidate)) == len(output_cells):
+            candidates = [candidate]
+    return candidates
+
+
+def _row_paging_signature(row) -> tuple[bool, bool]:
+    """Return the Word row settings that control page crossing behavior."""
+    tr_pr = row._tr.trPr
+    if tr_pr is None:
+        return False, False
+    return (
+        tr_pr.find(qn("w:cantSplit")) is not None,
+        tr_pr.find(qn("w:tblHeader")) is not None,
+    )
+
+
+def audit_cross_page_contract(template, output) -> dict:
+    """Verify table spanning and surviving row page-crossing settings.
+
+    Word permits a table to continue on a later page by default.  ``w:cantSplit``
+    is a row-level instruction: it prevents that row from splitting internally
+    but does not prohibit the table from spanning pages.  The maintained formal
+    templates require every row to be breakable; output rows must preserve that
+    baseline after approved row omission.
+    """
+    errors: list[str] = []
+    tables: list[dict] = []
+    if len(template.tables) != len(output.tables):
+        return {"errors": [
+            f"table count changed for cross-page contract: {len(template.tables)} -> {len(output.tables)}"
+        ], "tables": []}
+    for table_index, (template_table, output_table) in enumerate(
+        zip(template.tables, output.tables), start=1
+    ):
+        template_pr = template_table._tbl.tblPr
+        output_pr = output_table._tbl.tblPr
+        template_layout = template_pr.find(qn("w:tblLayout")) if template_pr is not None else None
+        output_layout = output_pr.find(qn("w:tblLayout")) if output_pr is not None else None
+        template_layout_type = template_layout.get(qn("w:type")) if template_layout is not None else None
+        output_layout_type = output_layout.get(qn("w:type")) if output_layout is not None else None
+        template_table_blocked = bool(
+            template_pr is not None and template_pr.find(qn("w:cantSplit")) is not None
+        )
+        output_table_blocked = bool(
+            output_pr is not None and output_pr.find(qn("w:cantSplit")) is not None
+        )
+        if template_layout_type != output_layout_type:
+            errors.append(
+                f"table {table_index} layout changed: {template_layout_type} -> {output_layout_type}"
+            )
+        if template_table_blocked != output_table_blocked:
+            errors.append(f"table {table_index} cross-page permission changed")
+
+        template_rows = [_row_paging_signature(row) for row in template_table.rows]
+        output_rows = [_row_paging_signature(row) for row in output_table.rows]
+        for row_index, (cant_split, _) in enumerate(template_rows):
+            if cant_split:
+                errors.append(
+                    f"table {table_index} template row {row_index} blocks cross-page row breaking"
+                )
+        for row_index, (cant_split, _) in enumerate(output_rows):
+            if cant_split:
+                errors.append(
+                    f"table {table_index} output row {row_index} blocks cross-page row breaking"
+                )
+        checked = 0
+        for output_index, output_row in enumerate(output_table.rows):
+            output_cells = unique_cells(output_row)
+            # Several formal tables use consecutive one-cell rows.  Their
+            # labels are intentionally writable note slots, so label matching
+            # cannot distinguish them; approved omission keeps their physical
+            # positions stable and the row index is the safer anchor.
+            if (
+                len(output_cells) == 1
+                and output_index < len(template_table.rows)
+                and len(unique_cells(template_table.rows[output_index])) == 1
+            ):
+                candidates = [template_table.rows[output_index]]
+            else:
+                candidates = _row_candidates(
+                    template_table, output_table, table_index - 1, output_index, output_row
+                )
+            if not candidates:
+                errors.append(
+                    f"table {table_index} row {output_index} has no cross-page template anchor"
+                )
+                continue
+            expected_signature = _row_paging_signature(candidates[0])
+            actual_signature = _row_paging_signature(output_row)
+            if expected_signature != actual_signature:
+                errors.append(
+                    f"table {table_index} row {output_index} cross-page row settings changed: "
+                    f"{expected_signature} -> {actual_signature}"
+                )
+            checked += 1
+        tables.append({
+            "index": table_index,
+            "template_layout": template_layout_type,
+            "output_layout": output_layout_type,
+            "template_allows_cross_page": not template_table_blocked,
+            "output_allows_cross_page": not output_table_blocked,
+            "template_row_breakable": sum(not cant for cant, _ in template_rows),
+            "output_row_breakable": sum(not cant for cant, _ in output_rows),
+            "template_row_cant_split": sum(cant for cant, _ in template_rows),
+            "output_row_cant_split": sum(cant for cant, _ in output_rows),
+            "template_all_rows_breakable": not any(cant for cant, _ in template_rows),
+            "output_all_rows_breakable": not any(cant for cant, _ in output_rows),
+            "surviving_rows_checked": checked,
+        })
+    return {"errors": errors, "tables": tables}
+
+
+def compare_format_anchors(template, output) -> list[str]:
+    """Audit all surviving cells against the fresh template's format anchors.
+
+    This is deliberately separate from the locked-label audit: the latter
+    protects labels, while this audit prevents a writable value cell from
+    becoming a silently re-formatted paragraph. Approved row omissions and S3
+    or S8.2 styled-row cloning are handled by candidate matching.
+    """
+    errors: list[str] = []
+    if len(template.tables) != len(output.tables):
+        return [f"table count changed: {len(template.tables)} -> {len(output.tables)}"]
+    for table_index, (template_table, output_table) in enumerate(
+        zip(template.tables, output.tables)
+    ):
+        if _without_text(template_table._tbl.tblPr) != _without_text(output_table._tbl.tblPr):
+            errors.append(f"table properties changed: table {table_index}")
+        if _without_text(template_table._tbl.tblGrid) != _without_text(output_table._tbl.tblGrid):
+            errors.append(f"table grid changed: table {table_index}")
+    for table_index, output_table in enumerate(output.tables):
+        template_table = template.tables[table_index]
+        for output_index, output_row in enumerate(output_table.rows):
+            candidates = _row_candidates(template_table, output_table, table_index,
+                                          output_index, output_row)
+            if not candidates:
+                errors.append(f"no template format anchor: table {table_index} row {output_index}")
+                continue
+            output_cells = unique_cells(output_row)
+            matched = False
+            for candidate in candidates:
+                candidate_cells = unique_cells(candidate)
+                if len(candidate_cells) != len(output_cells):
+                    continue
+                if _without_text(output_row._tr.trPr) != _without_text(candidate._tr.trPr):
+                    continue
+                if all(_format_anchor(expected_cell) == _format_anchor(actual_cell)
+                       for expected_cell, actual_cell in zip(candidate_cells, output_cells)):
+                    matched = True
+                    break
+            if not matched:
+                errors.append(f"template format anchor changed: table {table_index} row {output_index}")
+
+    for section_index, (template_section, output_section) in enumerate(
+        zip(template.sections, output.sections)
+    ):
+        if _without_text(template_section._sectPr) != _without_text(output_section._sectPr):
+            errors.append(f"section properties changed: section {section_index}")
+        for role in ("header", "footer"):
+            template_tables = getattr(template_section, role).tables
+            output_tables = getattr(output_section, role).tables
+            if len(template_tables) != len(output_tables):
+                errors.append(f"{role} table count changed: section {section_index}")
+                continue
+            for table_index, output_table in enumerate(output_tables):
+                template_table = template_tables[table_index]
+                for row_index, output_row in enumerate(output_table.rows):
+                    if row_index >= len(template_table.rows):
+                        errors.append(f"{role} row added: section {section_index} table {table_index}")
+                        continue
+                    expected_cells = unique_cells(template_table.rows[row_index])
+                    actual_cells = unique_cells(output_row)
+                    if len(expected_cells) != len(actual_cells) or any(
+                        _format_anchor(expected) != _format_anchor(actual)
+                        for expected, actual in zip(expected_cells, actual_cells)
+                    ):
+                        errors.append(f"{role} format changed: section {section_index} table {table_index} row {row_index}")
+    return errors
+
+
 def locked_cell_snapshots(document) -> list[LockedCellSnapshot]:
     """Snapshot sequence/label cells and all locked table headers.
 
@@ -406,7 +686,7 @@ def locked_cell_snapshots(document) -> list[LockedCellSnapshot]:
             if not cells:
                 continue
             label = cells[0].text.strip()
-            logical = re.sub(r"^\s*\d+\.\d+\s*", "", label)
+            logical = _canonical_locked_text(label)
             logical = re.sub(r"\s+", " ", logical)
             occurrence[logical] = occurrence.get(logical, 0) + 1
             row_key = (logical, occurrence[logical])
@@ -479,6 +759,8 @@ def compare_locked_skeleton(template, output) -> list[str]:
         if expected_item.cell_role == "sequence_label":
             expected_text = re.sub(r"^\s*\d+\.\d+", "<SEQ>", expected_item.text)
             actual_text = re.sub(r"^\s*\d+\.\d+", "<SEQ>", actual_item.text)
+            expected_text = _canonical_locked_text(expected_text)
+            actual_text = _canonical_locked_text(actual_text)
             if expected_text != actual_text:
                 errors.append(f"locked label text changed: {key}")
     # The formal S8.2 header row is a locked top-level structure.  Its text is
@@ -544,4 +826,6 @@ __all__ = [
     "clear_value_cells",
     "locked_cell_snapshots",
     "compare_locked_skeleton",
+    "compare_format_anchors",
+    "audit_cross_page_contract",
 ]

@@ -83,6 +83,84 @@ def is_missing_section2_value(value: str) -> bool:
     return False
 
 
+def is_explicit_other_hazards_row(row) -> bool:
+    """Keep a source-backed ``2.3 Other hazards`` conclusion visible."""
+    text = " ".join(cell.text.strip() for cell in row.cells if cell.text.strip())
+    return bool(re.search(
+        r"(?:^|\s)2\.\d+\b.*(?:其他危险|其他危害|other hazards)",
+        text,
+        re.I,
+    ))
+
+
+def project_source_cn_headings(document, language: str = "zh") -> list[str]:
+    """Project the two approved source-faithful CN Section 2 headings.
+
+    The formal baseline is still the geometry/format authority.  These two
+    wording changes are the narrowly approved semantic projection from the
+    source heading: ``GHS标签要素`` -> ``标签要素：`` and
+    ``其他危害`` -> ``其他危害：``.  Run-level replacement preserves the
+    template's bold/paragraph formatting and does not rebuild label cells.
+    """
+    if language != "zh":
+        return []
+    table = document.tables[1]
+    changed = []
+    from template_mutation_whitelist import _replace_leading_pattern_in_runs
+    for row in list(table.rows)[1:]:
+        cells = []
+        seen = set()
+        for cell in row.cells:
+            key = hash(cell._tc)
+            if key not in seen:
+                seen.add(key)
+                cells.append(cell)
+        if not cells or not cells[0].paragraphs:
+            continue
+        paragraph = cells[0].paragraphs[0]
+        patterns = (
+            (r"^(\s*2\.\d+\s+)GHS标签要素[：:]?$", r"\1标签要素：", "标签要素："),
+            (r"^(\s*2\.\d+\s+)其他危害[：:]?$", r"\1其他危害：", "其他危害："),
+        )
+        for pattern, replacement, label in patterns:
+            if re.match(pattern, paragraph.text):
+                _replace_leading_pattern_in_runs(paragraph, pattern, replacement)
+                changed.append(label)
+                break
+    return changed
+
+
+def project_source_cn_facts(s2: dict) -> tuple[list[list[str]], dict[int, int]]:
+    """Project source S2 semantics into the fixed CN template slots.
+
+    The source numbers are semantic, not positional: source 2.1/2.2/2.3
+    correspond to template slots 2.2/2.3/2.10.  Blank template slots are
+    intentionally retained here so the shared suppression pass can remove
+    them and renumber only the surviving source-backed items.
+    """
+    def first(name: str) -> str:
+        values = s2.get(name) or []
+        return str(values[0]).strip() if values else ""
+
+    return ([
+        ["2.1 紧急情况概述", ""],
+        ["2.2 GHS危险性类别：", first("ghs_classes")],
+        ["2.3 GHS标签要素：", first("label_elements")],
+        [" GHS象形图", ""],
+        ["2.4 信号词：", str(s2.get("signal") or "").strip()],
+        ["2.5 危险性说明：", "\n".join(str(x).strip() for x in (s2.get("h_statements") or []) if str(x).strip())],
+        ["2.6 防范说明：", "\n".join(str(x).strip() for x in (s2.get("p_statements") or []) if str(x).strip())],
+        ["2.7 物理和化学危险：", ""],
+        ["2.8 健康危害", ""],
+        ["2.8 健康危害", ""],
+        ["2.8 健康危害", ""],
+        ["2.8 健康危害", ""],
+        ["2.8 健康危害", ""],
+        ["2.9 环境危害", ""],
+        ["2.10 其他危害：", str(s2.get("other_hazards") or "").strip()],
+    ], {2: 1, 3: 2, 10: 3})
+
+
 def _replace_prefix(paragraph, section: int, item: int, set_paragraph_text) -> None:
     current = paragraph.text
     updated = re.sub(rf"^(\s*){section}\.\d+(\b)", rf"\g<1>{section}.{item}\g<2>", current, count=1)
@@ -97,7 +175,8 @@ def _replace_prefix(paragraph, section: int, item: int, set_paragraph_text) -> N
         )
 
 
-def suppress_missing_section2_rows_and_renumber(document, set_paragraph_text):
+def suppress_missing_section2_rows_and_renumber(document, set_paragraph_text,
+                                                number_map: dict[int, int] | None = None):
     """Remove missing Section 2 rows and renumber unique visible items.
 
     Repeated child rows such as multiple ``2.8 Health hazards`` rows retain a
@@ -115,7 +194,11 @@ def suppress_missing_section2_rows_and_renumber(document, set_paragraph_text):
                 seen.add(key)
                 cells.append(cell)
         label = cells[0].text.strip() if cells else ""
-        if not row_has_visual_content(row) and (not _value_text(row) or is_missing_section2_value(_value_text(row))):
+        if (
+            not is_explicit_other_hazards_row(row)
+            and not row_has_visual_content(row)
+            and (not _value_text(row) or is_missing_section2_value(_value_text(row)))
+        ):
             # Keep an unnumbered non-data row only when it is the pictogram slot
             # and the picture is present.  Other empty rows are not customer-facing.
             removed_labels.append(label)
@@ -154,8 +237,8 @@ def suppress_missing_section2_rows_and_renumber(document, set_paragraph_text):
     rewritten_cells = set()
     for row, cells, label_cell_key, old in row_info:
         if old not in old_to_new:
-            old_to_new[old] = next_item
-            next_item += 1
+            old_to_new[old] = number_map.get(old, next_item) if number_map else next_item
+            next_item = max(next_item, old_to_new[old] + 1)
         if label_cell_key not in rewritten_cells:
             _replace_prefix(cells[0].paragraphs[0], 2, old_to_new[old], set_paragraph_text)
             rewritten_cells.add(label_cell_key)
@@ -172,7 +255,10 @@ def suppress_missing_section2_rows_and_renumber(document, set_paragraph_text):
 
 __all__ = [
     "format_label_elements",
+    "project_source_cn_facts",
+    "project_source_cn_headings",
     "row_has_visual_content",
     "is_missing_section2_value",
+    "is_explicit_other_hazards_row",
     "suppress_missing_section2_rows_and_renumber",
 ]

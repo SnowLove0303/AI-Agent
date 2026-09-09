@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def test_snapshot_pins_current_template_geometry_and_parts():
     snapshot = json.loads((ROOT / "tests/template_snapshot.json").read_text(encoding="utf-8"))
-    assert snapshot["source_sha256"] == "2e4f55086bb13de9caa9e933465fad55eb62efc785d595170bc65749a2de6cfc"
+    assert snapshot["source_sha256"] == "3cb250303778b70ab0dbfedc4392ac628228d80146e6376f410157cb08993622"
     assert len(snapshot["tables"]) == 16
     assert [t["row_count"] for t in snapshot["tables"]] == [10, 16, 6, 6, 5, 4, 3, 16, 24, 6, 18, 6, 3, 5, 9, 2]
     assert [t["column_count"] for t in snapshot["tables"]] == [2, 2, 3, 2, 2, 2, 2, 5, 2, 2, 4, 2, 2, 2, 1, 1]

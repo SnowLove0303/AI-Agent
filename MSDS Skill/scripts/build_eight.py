@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""One-command eight-format build for the unified MSDS skill (v3.15).
+"""One-command eight-format build for the unified MSDS skill (v3.18.0).
 
 Business flow::
 
-    source.docx --extract--> draft --review--> approved model JSON
+    source.[docx/doc/odt/rtf/xlsx/xls/txt] --extract--> draft --review--> approved model JSON
         --build_eight--> 4 DOCX + gates + 4 PDF + matrix-report.json
 
 The approved model JSON holds the *standardized* facts; ``en`` must be a
@@ -25,11 +25,15 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from msds_pipeline import ReleaseBlocked, build_matrix  # noqa: E402
+from source_ingest import SourceSelectionError, discover_source  # noqa: E402
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--source", required=True, type=Path)
+    source_group = parser.add_mutually_exclusive_group(required=True)
+    source_group.add_argument("--source", type=Path)
+    source_group.add_argument("--source-dir", type=Path,
+                              help="recursively discover exactly one supported source file")
     parser.add_argument("--facts", required=True, type=Path)
     parser.add_argument("--out", required=True, type=Path)
     parser.add_argument("--model", default=None)
@@ -37,14 +41,13 @@ def main() -> int:
     parser.add_argument("--no-pdf", action="store_true")
     parser.add_argument("--timeout", type=int, default=300)
     args = parser.parse_args()
-    if not args.source.is_file():
-        raise FileNotFoundError(args.source)
-    facts = json.loads(args.facts.read_text(encoding="utf-8"))
     try:
-        report = build_matrix(source=args.source, facts=facts, out_root=args.out,
+        selected = discover_source(args.source or args.source_dir, model=args.model)
+        facts = json.loads(args.facts.read_text(encoding="utf-8"))
+        report = build_matrix(source=selected.original_path, facts=facts, out_root=args.out,
                               model=args.model, revision=args.revision,
                               do_pdf=not args.no_pdf, timeout=args.timeout)
-    except ReleaseBlocked as blocked:
+    except (ReleaseBlocked, SourceSelectionError, FileNotFoundError, ValueError) as blocked:
         print(json.dumps({"outcome": "RELEASE_FAIL", "blocker": str(blocked)},
                          ensure_ascii=False, indent=2))
         return 1

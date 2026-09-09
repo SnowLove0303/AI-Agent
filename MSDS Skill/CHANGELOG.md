@@ -1,5 +1,73 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.18.0 — 2026-09-08
+- Added a source-bound S1-S16 mapping manifest contract. Extractor drafts now
+  carry unique source candidates and an explicit review queue; formal builds
+  fail closed until every section is reviewed and each candidate is mapped,
+  omitted with a reason, or marked not applicable with a reason.
+- Added byte-pinned CN/EN/EN-source template baseline gates before cloning,
+  making template mutation or substitution a pre-build blocker in addition
+  to the existing output geometry and mutation audits.
+- Unified Section 12 missing-data behavior with the source-presence contract:
+  source-backed explanatory notes remain, while `12.x` missing-data endpoint
+  rows are hidden instead of being emitted as placeholders.
+- Kept Section 11 source-backed missing wording under the source-presence
+  contract instead of applying an unrequested global S11 omission rule; the
+  explicit 11.7 behavior remains governed by its source-match rule.
+
+## v3.17.1 — 2026-09-08
+- Clarified and enforced the publication boundary: PDF is generated only by converting a final audited Word/DOCX master and is rejected as a source input; source-format compatibility applies to Word, spreadsheet and text inputs.
+
+## v3.17.0 — 2026-09-08
+- Added an executable S1-S16 overwrite-rule registry that declares each table's semantic writer, writable value scope, missing-data policy and allowed structural mutations; payloads are rejected before template writes when their shape or target table is unsafe.
+- Reused immutable template documents and the already-built output document across release audits, removing duplicate template/output parsing without relaxing locked-format, cross-page or PDF lineage gates.
+- Added regression coverage for the rule registry and recorded a measured single-matrix DOCX speed improvement from about 3.47s to 2.02s in the smoke path.
+
+## v3.16.0 — 2026-09-08
+- Added a source discovery/adapter boundary with explicit model-filtered directory selection, original-source SHA binding, generated/output-directory and formal-output reuse blocking, and temporary DOC/ODT/RTF conversion.
+- Added pre-clone facts gates for source provenance, all 16 sections, both language layers and canonical Section 2 semantic slots; positional payloads now fail closed before template mutation.
+- Added atomic eight-file matrix staging/promotion with exact DOCX/PDF evidence lineage checks; spreadsheet/text source formats remain blocked from guessed section extraction until a dedicated semantic adapter is approved.
+
+## v3.15.9 — 2026-09-08
+- Added a shared semantic Section 2 CN projector: source 2.1/2.2/2.3 are written to the template's 2.2/2.3/2.10 slots before missing-row suppression and renumbering, preventing positional mapping from cascading into the wrong visible item.
+- Enforced Section 1 identity placement in the shared build pipeline: `1.1 产品名称` remains blank and `中文名称` carries the source Chinese name plus model.
+- Fixed semantic Section 8 projection: source `8.1 控制参数` maps to template `8.2 工程控制`, source PPE rows map to template `8.1`, and `建议` values remain blank.
+- Restored source Section 12.1 ecology endpoints instead of consuming them in template-only note slots.
+- Replaced synthetic spaced-slash joins with semantic line breaks and made slash-only value lines release-blocking; added regression coverage.
+
+## v3.15.8 — 2026-09-08
+- Corrected the active CN and EN formal template baselines by removing row-level `w:cantSplit`, so long rows such as Section 11.4 can break naturally across pages instead of leaving a large blank area after Section 11.3.
+- Kept the byte-locked EN source record unchanged and added a release-blocking audit/test that rejects row-level cross-page blocking in active templates or outputs.
+
+## v3.15.7 — 2026-09-08
+- Added `--json` output to the template mutation audit so the cross-page contract is retained as machine-readable delivery evidence.
+
+## v3.15.6 — 2026-09-08
+- Added a release-blocking cross-page contract audit for all maintained formal templates and surviving output rows.
+- Confirmed the three active templates keep table spanning enabled while preserving intentional row-level `cantSplit` and repeating-header settings.
+
+## v3.15.5 — 2026-09-08
+- Projected verified CN Section 2 source headings as `2.2 标签要素：` and `2.3 其他危害：`, with narrowly scoped template-audit aliases for the formal baseline wording.
+- Added regression coverage for the source-faithful Section 2 label/punctuation rule; 11.7 value-slot format remains locked to the fresh template.
+- Preserved the source-backed Section 2 classification as 2.1, and made the legacy numbering audit ignore numeric property values while retaining canonical Section 11/12 endpoint numbers.
+
+## v3.15.4 — 2026-09-08
+- Replaced the product-specific dynamic runtime with the stable parameterized pipeline runtime and made final DOCX replacement atomic on the destination volume.
+- Added template format-anchor, table-grid, table-property and section-property audits so value writes cannot silently alter the formal Word layout; disabled the global CN compaction pass.
+- Preserved source-backed Section 2 other hazards, endpoint-specific missing-data behavior, Section 11.7 child matching, Section 12 note suppression and Section 15 no-trailing-blank-line behavior.
+- Removed the known CN formal-template tabbed illustrative suffix from `手部防护` at clone time without changing cell geometry or run formatting; PU-2411 replay passed 79 tests and independent render QA.
+- Made the Section 8 `建议` value a source-gated writable slot so a real source recommendation is retained while an absent value remains blank.
+
+## v3.15.3 — 2026-09-08
+- Kept blank-separated LLNA and in-vitro chromosome-aberration studies attached to their source endpoints, while keeping CMR detail lines inside the CMR block.
+- Allowed source-explicit Section 11.7 missing values to write into the template's blank endpoint-value slots; unmatched child endpoints remain hidden.
+- Aligned the Section 2 release audit with the explicit source-backed `其他危险：无适用资料` retention rule.
+
+## v3.15.2 — 2026-09-08
+- Preserved explicit source-backed `2.3 其他危险` rows through Section 2 missing-data suppression and continuous renumbering.
+- Normalized inline Section 8 glove-material/value rows, hid absent workplace-component control blocks, removed pure-missing Section 10 rows, source-unmatched Section 11.7 children, template-only Section 12 notes and trailing Section 15 blanks.
+- Split merged S11 source paragraphs into endpoint blocks so reproductive-toxicity children are matched by endpoint instead of by row position.
+
 ## v3.15.1 — 2026-09-07
 - Removed the accidental Chinese suffix (`喷涂过程中要求有呼吸防护设备。`) from the EN Hand protection label cell, preserving its bold run formatting; the unchanged source record `template_reference_en_source.docx` stays at `59445b62c6d33b25a2e04c05778d428656f1ce0cbe7c21212721b145468c4416`, the active baseline moves to `593EF5A004F641BFE71AD6629847F47FD48D0307FCED14DFA8A810E01CF823F7`.
 - Re-pinned the new active hash in SKILL.md, README.md, docs/template_baseline.md, tests/test_template_language_parity.py and tests/template_snapshot_en.json; added tests/template_snapshot_en_v3151.json and tests/template_geometry_en_v3151.json; v3.14 snapshots retained as rollback evidence.

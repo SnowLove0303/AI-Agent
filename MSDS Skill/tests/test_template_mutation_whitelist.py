@@ -5,12 +5,15 @@ from docx import Document
 from docx.oxml.ns import qn
 
 from template_mutation_whitelist import (
+    audit_cross_page_contract,
     MutationViolation,
+    compare_format_anchors,
     compare_locked_skeleton,
     set_sequence_prefix,
     write_s82_top_rows,
     write_row_values,
 )
+from template_runtime import sanitize_template_artifacts
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -61,6 +64,68 @@ def test_label_format_change_is_blocked():
     assert any("paragraph properties changed" in error for error in errors)
 
 
+def test_value_format_change_is_blocked():
+    template = Document(str(TEMPLATE))
+    output = Document(str(TEMPLATE))
+    value = output.tables[0].rows[1].cells[1].paragraphs[0]
+    value.paragraph_format.space_after = 123
+    errors = compare_format_anchors(template, output)
+    assert any("format anchor changed" in error for error in errors)
+
+
+def test_cross_page_contract_preserves_template_table_and_row_settings():
+    template = Document(str(TEMPLATE))
+    output = Document(str(TEMPLATE))
+    report = audit_cross_page_contract(template, output)
+    assert report["errors"] == []
+    assert len(report["tables"]) == 16
+    assert all(item["template_allows_cross_page"] for item in report["tables"])
+    assert all(item["output_allows_cross_page"] for item in report["tables"])
+    assert all(item["template_all_rows_breakable"] for item in report["tables"])
+    assert all(item["output_all_rows_breakable"] for item in report["tables"])
+
+
+def test_cross_page_contract_blocks_row_split_setting_drift():
+    template = Document(str(TEMPLATE))
+    output = Document(str(TEMPLATE))
+    tr_pr = output.tables[0].rows[1]._tr.get_or_add_trPr()
+    tr_pr.append(tr_pr.makeelement(qn("w:cantSplit"), {}))
+    report = audit_cross_page_contract(template, output)
+    assert any("cross-page row settings changed" in error for error in report["errors"])
+
+
+def test_blank_s117_value_inherits_template_body_run_format():
+    template = Document(str(TEMPLATE))
+    output = Document(str(TEMPLATE))
+    row = output.tables[10].rows[12]
+    write_row_values(
+        row,
+        ["11.7 生殖毒性：", "生育力", "无数据"],
+        table_index=10, row_index=12,
+    )
+    value_run = row.cells[-1].paragraphs[0].runs[0]
+    assert value_run._r.rPr is not None
+    assert value_run._r.rPr.find(qn("w:sz")).get(qn("w:val")) == "24"
+    assert not compare_format_anchors(template, output)
+
+
+def test_known_cn_template_example_suffix_is_removed_without_layout_drift():
+    template = Document(str(TEMPLATE))
+    output = Document(str(TEMPLATE))
+    sanitize_template_artifacts(output)
+    assert output.tables[7].rows[3].cells[0].text.strip() == "手部防护："
+    assert len(output.tables[7].rows) == len(template.tables[7].rows)
+    assert not compare_locked_skeleton(template, output)
+    assert not compare_format_anchors(template, output)
+
+
+def test_one_cell_write_does_not_append_an_empty_line():
+    output = Document(str(TEMPLATE))
+    row = output.tables[14].rows[1]
+    write_row_values(row, ["法规文本", ""], table_index=14, row_index=1)
+    assert row.cells[0].text == "法规文本"
+
+
 def test_sequence_renumber_is_content_only():
     template = Document(str(TEMPLATE))
     output = Document(str(TEMPLATE))
@@ -108,15 +173,13 @@ def test_s82_top_data_write_preserves_locked_header_and_parent_label():
     assert not compare_locked_skeleton(template, output)
 
 
-def test_s82_empty_records_keep_single_placeholder_row():
+def test_s82_empty_records_hide_workplace_component_block():
     template = Document(str(TEMPLATE))
     output = Document(str(TEMPLATE))
     table = output.tables[7]
     audit = write_s82_top_rows(table, [], "zh")
-    assert audit == {"record_count": 0, "row_count": 1, "placeholder": True}
-    assert _unique_texts(table.rows[13]) == ["物质", "依据", "类型", "数值"]
-    assert _unique_texts(table.rows[14]) == ["", "", "", "无数据"]
-    assert len(table.rows) == 15
+    assert audit == {"record_count": 0, "row_count": 0, "placeholder": False, "hidden": True}
+    assert len(table.rows) == 12
     assert not compare_locked_skeleton(template, output)
 
 

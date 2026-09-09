@@ -17,9 +17,9 @@ def unique_cells(row):
         if k not in seen: seen.add(k); out.append(c)
     return out
 
-def run(docx):
+def run(docx, document=None):
     """Audit one built DOCX; return the report dict. Import-safe core of main()."""
-    d = Document(docx); issues=[]; intentional_breaks=0; intentional_tabs=0
+    d = document or Document(docx); issues=[]; intentional_breaks=0; intentional_tabs=0
     for ti,t in enumerate(d.tables):
         for ri,row in enumerate(t.rows):
             trPr=row._tr.trPr
@@ -37,6 +37,10 @@ def run(docx):
                         if not p.text.strip():
                             issues.append({'type':'empty_paragraph_in_populated_cell','table':ti,'row':ri,'cell':ci,'paragraph':pi})
                 for pi,p in enumerate(ps):
+                    for line_no, line in enumerate(p.text.splitlines(), 1):
+                        if line.strip() in {"/", "／"}:
+                            issues.append({'type':'slash_only_line','table':ti,'row':ri,
+                                           'cell':ci,'paragraph':pi,'line':line_no})
                     locked = any(r.bold and r.text.strip() for r in p.runs)
                     for xi,r in enumerate(p.runs):
                         txt=r.text

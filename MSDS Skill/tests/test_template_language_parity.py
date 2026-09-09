@@ -38,11 +38,11 @@ def test_en_template_is_distinct_and_uses_english_section_labels():
     assert source.is_file()
     import hashlib
     import re
-    # v3.15.1: the source record stays byte-identical to the user-supplied
-    # formal template; the active baseline carries only the Hand protection
-    # label correction, so the two files intentionally differ now.
+    # The source record stays byte-identical to the user-supplied formal
+    # template; the active baseline carries the approved Hand protection label
+    # and row-break corrections, so the two files intentionally differ.
     assert hashlib.sha256(source.read_bytes()).hexdigest() == "59445b62c6d33b25a2e04c05778d428656f1ce0cbe7c21212721b145468c4416"
-    assert hashlib.sha256((ROOT / "examples" / "template_reference_en.docx").read_bytes()).hexdigest() == "593ef5a004f641bfe71ad6629847f47fd48d0307fced14dfa8a810e01cf823f7"
+    assert hashlib.sha256((ROOT / "examples" / "template_reference_en.docx").read_bytes()).hexdigest() == "003ff6bac27bf3bc99f0426ea8ed596487b0399f30428c406227d8f7c1b3dd46"
     assert "Identification" in en.tables[0].rows[0].cells[0].text
     assert "Chemical category" in en.tables[0].rows[2].cells[0].text
     assert "Chinese name:" not in "\n".join(cell.text for row in en.tables[0].rows for cell in row.cells)
@@ -71,7 +71,7 @@ def test_en_template_is_distinct_and_uses_english_section_labels():
 
 def test_en_snapshot_pins_the_supplied_template_hash_and_geometry():
     snapshot = json.loads((ROOT / "tests" / "template_snapshot_en.json").read_text(encoding="utf-8"))
-    assert snapshot["source_sha256"] == "593EF5A004F641BFE71AD6629847F47FD48D0307FCED14DFA8A810E01CF823F7"
+    assert snapshot["source_sha256"] == "003ff6bac27bf3bc99f0426ea8ed596487b0399f30428c406227d8f7c1b3dd46"
     import hashlib
     assert hashlib.sha256((ROOT / "examples" / "template_reference_en_source.docx").read_bytes()).hexdigest() == "59445b62c6d33b25a2e04c05778d428656f1ce0cbe7c21212721b145468c4416"
     assert [table["row_count"] for table in snapshot["tables"]] == EN_ROWS

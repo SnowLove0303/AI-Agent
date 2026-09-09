@@ -1,0 +1,99 @@
+"""Executable S1-S16 overwrite contract for the maintained templates."""
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+
+class SectionRuleViolation(ValueError):
+    """A semantic payload or active template violates a section contract."""
+
+
+@dataclass(frozen=True)
+class SectionRule:
+    section: int
+    template_table: int
+    source_rule: str
+    write_mode: str
+    value_scope: str
+    empty_policy: str
+    structural_policy: str
+
+
+SECTION_RULES = {
+    1: SectionRule(1, 1, "source identification", "field_rows", "value cells; identity overlay", "1.1 blank", "no row rebuild"),
+    2: SectionRule(2, 2, "semantic hazard slots", "semantic_slots", "value cells; approved numeric prefix only", "omit missing except source 2.3 other hazards", "omit whole rows then prefix-only renumber"),
+    3: SectionRule(3, 3, "name/CAS/content", "component_rows", "all three data cells", "source-only", "clone styled component rows only"),
+    4: SectionRule(4, 4, "first-aid endpoints", "field_rows", "value cells", "hide unsupported item", "no row rebuild"),
+    5: SectionRule(5, 5, "fire-fighting endpoints", "field_rows", "value cells", "hide unsupported item", "no row rebuild"),
+    6: SectionRule(6, 6, "accidental-release endpoints", "field_rows", "value cells", "hide unsupported item", "no row rebuild"),
+    7: SectionRule(7, 7, "handling/storage endpoints", "field_rows", "value cells", "hide unsupported item", "no row rebuild"),
+    8: SectionRule(8, 8, "PPE plus engineering controls by meaning", "dedicated_ppe_engineering", "PPE value cells; S8.2 four data columns", "suggestion blank; empty engineering row/block hidden", "dedicated S8 writers only"),
+    9: SectionRule(9, 9, "physical/chemical properties", "field_rows", "value cells", "omit missing-data row", "omit whole rows then prefix-only renumber"),
+    10: SectionRule(10, 10, "stability/reactivity endpoints", "field_rows", "value cells", "omit unsupported or missing item", "smallest safe row omission"),
+    11: SectionRule(11, 11, "toxicology notes/endpoints", "endpoint_notes", "note slots or endpoint value cells", "preserve explicit availability sentence; omit absent endpoints; 11.7 no-data only when source-present", "no invented endpoint or generic renumber"),
+    12: SectionRule(12, 12, "ecotoxicity/persistence/adverse effects", "endpoint_rows", "source-backed endpoint value cells", "template-only note rows hidden", "remove note rows only; retain mapped 12.1-12.3"),
+    13: SectionRule(13, 13, "disposal endpoints", "field_rows", "value cells", "source-only", "no row rebuild"),
+    14: SectionRule(14, 14, "transport endpoints", "field_rows", "value cells", "source-only", "no row rebuild"),
+    15: SectionRule(15, 15, "laws/regulations", "field_rows", "value cells", "empty legal rows hidden", "remove only empty row; preserve source order"),
+    16: SectionRule(16, 16, "disclaimer", "field_rows", "value cells", "source-only", "no row rebuild"),
+}
+
+
+def rule_for(section: int) -> SectionRule:
+    try:
+        return SECTION_RULES[section]
+    except KeyError as exc:
+        raise SectionRuleViolation(f"no overwrite rule registered for S{section}") from exc
+
+
+def _unique_cell_count(row) -> int:
+    return len({id(cell._tc) for cell in row.cells})
+
+
+def validate_section_template(document, language: str) -> None:
+    """Validate the physical table contract before any value is written."""
+    if language not in {"zh", "en"}:
+        raise SectionRuleViolation(f"unsupported language: {language}")
+    if len(document.tables) != 16:
+        raise SectionRuleViolation(f"template must contain 16 section tables, found {len(document.tables)}")
+    if set(SECTION_RULES) != set(range(1, 17)):
+        raise SectionRuleViolation("S1-S16 overwrite rule registry is incomplete")
+    for section, rule in SECTION_RULES.items():
+        if rule.template_table != section:
+            raise SectionRuleViolation(f"S{section} rule points to table {rule.template_table}")
+        if not document.tables[rule.template_table - 1].rows:
+            raise SectionRuleViolation(f"S{section} template table is empty")
+    s3 = document.tables[2]
+    if len(s3.rows) < 4 or _unique_cell_count(s3.rows[3]) != 3:
+        raise SectionRuleViolation("S3 requires a three-column component data row")
+    s8 = document.tables[7]
+    if len(s8.rows) < 16 or _unique_cell_count(s8.rows[12]) != 1:
+        raise SectionRuleViolation("S8 requires its one-cell engineering-control parent row")
+    expected_header = ("物质", "依据", "类型", "数值") if language == "zh" else ("Substance", "Basis", "Type", "Value")
+    header = tuple(cell.text.strip() for cell in {
+        id(cell._tc): cell for cell in s8.rows[13].cells
+    }.values())
+    if header != expected_header:
+        raise SectionRuleViolation(f"S8.2 header mismatch: expected {expected_header}, found {header}")
+
+
+def validate_section_payload(section: int, rows, table) -> None:
+    """Reject positional/scalar payloads before they reach a template row."""
+    rule = rule_for(section)
+    if not isinstance(rows, list):
+        raise SectionRuleViolation(f"S{rule.section} requires a list of semantic rows")
+    if section not in {3, 8} and len(rows) > len(table.rows) - 1:
+        raise SectionRuleViolation(
+            f"S{section} payload exceeds template capacity: {len(rows)} > {len(table.rows) - 1}"
+        )
+    for row_number, row in enumerate(rows, 1):
+        if not isinstance(row, (list, tuple)) or not row:
+            raise SectionRuleViolation(f"S{section} row {row_number} must be a non-empty list/tuple")
+    if section == 3 and any(len(row) != 3 for row in rows):
+        raise SectionRuleViolation("S3 every row must contain exactly name/CAS/content columns")
+    if section in {11, 12} and any(len(row) > 3 for row in rows):
+        raise SectionRuleViolation(f"S{section} rows may contain at most label/sublabel/value")
+
+
+__all__ = ["SECTION_RULES", "SectionRule", "SectionRuleViolation",
+           "rule_for", "validate_section_payload", "validate_section_template"]

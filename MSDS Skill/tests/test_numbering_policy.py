@@ -24,3 +24,14 @@ def test_gap_and_repeated_subrows(tmp_path):
     s11=[x for x in texts if x.startswith('11.')]
     assert s11[0].startswith('11.1') and s11[1].startswith('11.1')
     assert s11[2].startswith('11.2') and s11[3].startswith('11.3')
+
+def test_numeric_property_value_is_not_a_numbered_label(tmp_path):
+    p=tmp_path/'numeric.docx'; d=Document(); t=d.add_table(rows=1, cols=1)
+    t.rows[0].cells[0].text='7.0-9.0'; d.save(p)
+    assert collect(Document(p)) == []
+
+def test_structured_endpoint_numbers_may_have_source_defined_gaps():
+    d=Document(); t=d.add_table(rows=3, cols=1)
+    for row, value in zip(t.rows, ['11.4  致敏性：', '11.6  致癌性：', '11.7  生殖毒性：']):
+        row.cells[0].text=value
+    assert not audit(collect(d))

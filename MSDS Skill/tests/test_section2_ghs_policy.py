@@ -10,6 +10,8 @@ from ghs_pictogram_policy import insert_source_pictogram
 from section2_ghs_policy import (
     format_label_elements,
     is_missing_section2_value,
+    project_source_cn_facts,
+    project_source_cn_headings,
     suppress_missing_section2_rows_and_renumber,
 )
 
@@ -30,7 +32,7 @@ def test_label_elements_without_ingredients_leave_empty_value_for_suppression():
     table.rows[3].cells[-1].text = format_label_elements("zh", [])
     result = suppress_missing_section2_rows_and_renumber(document, lambda p, text: setattr(p, "text", text))
     labels = [row.cells[0].text.strip() for row in document.tables[1].rows[1:]]
-    assert not any("GHS标签要素" in label for label in labels)
+    assert not any("标签要素" in label for label in labels)
     assert result["removed_count"] >= 1
 
 
@@ -74,6 +76,34 @@ def test_section2_missing_rows_are_removed_and_unique_items_renumbered():
     assert not is_missing_section2_value("眼睛：无刺激")
 
 
+def test_section2_explicit_number_map_keeps_source_requested_numbers():
+    document = Document(ROOT / "examples" / "template_reference.docx")
+    table = document.tables[1]
+    for row in table.rows[1:]:
+        row.cells[-1].text = ""
+    table.rows[2].cells[-1].text = ""
+    table.rows[3].cells[-1].text = "根据GHS不属于危害化学品"
+    table.rows[15].cells[-1].text = "无适用资料。"
+    result = suppress_missing_section2_rows_and_renumber(
+        document, lambda p, text: setattr(p, "text", text), number_map={3: 2, 10: 3}
+    )
+    labels = [row.cells[0].text.strip() for row in document.tables[1].rows[1:]]
+    assert labels == ["2.2  GHS标签要素：", "2.3  其他危害"]
+    assert result["number_map"] == {"2.3": "2.2", "2.10": "2.3"}
+
+
+def test_source_cn_s2_projects_by_semantic_slot_not_list_position():
+    rows, number_map = project_source_cn_facts({
+        "ghs_classes": ["根据 GHS 不属于危害化学品"],
+        "label_elements": ["根据 GHS 不属于危害化学品"],
+        "other_hazards": "无适用资料。",
+    })
+    assert rows[1] == ["2.2 GHS危险性类别：", "根据 GHS 不属于危害化学品"]
+    assert rows[2] == ["2.3 GHS标签要素：", "根据 GHS 不属于危害化学品"]
+    assert rows[14] == ["2.10 其他危害：", "无适用资料。"]
+    assert number_map == {2: 1, 3: 2, 10: 3}
+
+
 def test_source_pictogram_is_inserted_as_picture(tmp_path):
     image_path = tmp_path / "source.png"
     # A tiny valid PNG keeps this regression test independent of Pillow.
@@ -88,3 +118,16 @@ def test_source_pictogram_is_inserted_as_picture(tmp_path):
     output = Document(ROOT / "examples" / "template_reference.docx")
     insert_source_pictogram(output, source)
     assert output.tables[1].rows[4].cells[-1]._tc.xpath(".//w:drawing")
+
+
+def test_cn_source_headings_are_projected_without_layout_drift():
+    template = Document(ROOT / "examples" / "template_reference.docx")
+    output = Document(ROOT / "examples" / "template_reference.docx")
+    changed = project_source_cn_headings(output)
+    labels = [row.cells[0].text.strip() for row in output.tables[1].rows[1:]]
+    assert changed == ["标签要素：", "其他危害："]
+    assert "2.3  标签要素：" in labels
+    assert "2.10  其他危害：" in labels
+    from template_mutation_whitelist import compare_format_anchors, compare_locked_skeleton
+    assert not compare_format_anchors(template, output)
+    assert not compare_locked_skeleton(template, output)

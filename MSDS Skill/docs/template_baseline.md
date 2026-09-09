@@ -5,7 +5,7 @@ The language-specific files below are the authoritative MSDS templates bundled w
 
 - CN: `examples/template_reference.docx`
 - EN source record: `examples/template_reference_en_source.docx` (byte-preserved copy of the user-supplied formal template)
-- EN active baseline: `examples/template_reference_en.docx` (byte-identical to the formal EN template)
+- EN active baseline: `examples/template_reference_en.docx` (formal EN template plus the approved hand-protection label and row-break corrections)
 - Previous v3.13 CN baseline: `examples/archive/template_reference_cn_v3.13_8.2_nested_child_table.docx` (rollback/audit only; not active)
 - Previous v3.13 EN baseline: `examples/archive/template_reference_en_v3.13_8.2_nested_child_table.docx` (rollback/audit only; not active)
 - Previous v3.11 EN baseline: `examples/archive/template_reference_en_v3.11_pre_field_update.docx` (rollback/audit only; not active)
@@ -16,11 +16,11 @@ The language-specific files below are the authoritative MSDS templates bundled w
 Pinned source filenames supplied by the user: `正式模板_MSDS_CN_冠志.docx` for CN and
 `正式模板_MSDS_EN_冠志.docx` for EN.
 
-CN SHA-256: `2e4f55086bb13de9caa9e933465fad55eb62efc785d595170bc65749a2de6cfc`
+CN SHA-256: `3cb250303778b70ab0dbfedc4392ac628228d80146e6376f410157cb08993622`
 
 EN source SHA-256: `59445b62c6d33b25a2e04c05778d428656f1ce0cbe7c21212721b145468c4416`
 
-EN active SHA-256: `593EF5A004F641BFE71AD6629847F47FD48D0307FCED14DFA8A810E01CF823F7` (formal template plus the v3.15.1 Hand protection label correction)
+EN active SHA-256: `003ff6bac27bf3bc99f0426ea8ed596487b0399f30428c406227d8f7c1b3dd46` (formal template plus the v3.15.1 Hand protection label correction and row-break baseline)
 
 ## Structural baseline
 - 16 tables / MSDS sections.
@@ -40,6 +40,7 @@ EN active SHA-256: `593EF5A004F641BFE71AD6629847F47FD48D0307FCED14DFA8A810E01CF8
 - Both language baselines have 16 tables and column counts `2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 1, 1`; their row capacities differ only where the supplied templates differ.
 - The EN source supplied by the user has nine rows in its first table and is used as-is. Its Section 11 sublabels are `Oral:`, `Inhalation:`, `Dermal:`, `Fertility:`, `Teratogenicity:` and `In vitro genotoxicity:`. `scripts/normalize_en_template.py` is retained only as a historical migration utility and must not run in the active v3.14 generation path.
 - Product-like text embedded in either template is example content only; it is never a source of product facts.
+- All rows in the active CN and EN formal templates are allowed to break across pages: no row-level `w:cantSplit` is present. Repeating section headers remain controlled by `w:tblHeader`. This is a template baseline property, not a post-generation layout patch.
 
 ## Replacement procedure
 When the user explicitly designates a new approved template as the new built-in baseline:

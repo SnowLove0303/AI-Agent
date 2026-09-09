@@ -12,23 +12,15 @@ wrapping its first character onto a separate line.
 This was a renderer-compatibility issue, not permission to remove facts,
 collapse Section 11 fields, rebuild tables, or independently author a PDF.
 
-## Controlled correction
+## Current policy
 
-After final CN content is written into the fresh template clone, run
-`scripts/compact_cn_layout.py`:
-
-- table-body runs are set to 10 pt;
-- table-body paragraphs use single line spacing and zero before/after spacing;
-- table grid widths, merges, row order and source facts are unchanged;
-- bold label paragraph properties remain locked to the template;
-- the footer revision-date paragraph's inherited oversized first-line and
-  character-based indent attributes are cleared for both language variants,
-  keeping `修订日期：2024/8/15` or `Revision date: 2024/8/15` on one line;
-- the Section 16 final information row is kept together to prevent a one-line
-  orphan at the end of the document.
-
-Table-body compaction is CN-only. Footer normalization is shared by CN and EN
-because the same inherited template defect affects both language variants.
+The historical compaction pass is retained only as regression evidence. It is
+not part of the active overwrite path. The current release rule is stricter:
+the fresh-cloned formal CN template remains authoritative for table-body and
+footer formatting, and any global font/spacing/indent normalization is a
+release blocker. Renderer differences must be handled by the approved native
+WPS/Word rendering path or by an explicitly approved template revision, never
+by silently changing the DOCX layout.
 
 ## Release evidence
 

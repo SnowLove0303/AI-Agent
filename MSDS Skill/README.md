@@ -1,4 +1,4 @@
-# MSDS Skill 3.15
+# MSDS Skill 3.18.0
 
 `MSDS Skill` is the controlled MSDS/SDS standardization skill for producing synchronized Chinese and English deliverables for the Guanzhi and Guocai company profiles.
 
@@ -24,6 +24,20 @@
 - A unified deliverable evaluation layer assigns a fixed 100-point quality
   score, applies B0/B1/B2 release blockers, and emits one evidence-complete
   audit report for every eight-file package.
+- Source discovery is explicit and hash-bound: DOCX/DOCM extract directly,
+  DOC/ODT/RTF use a temporary LibreOffice conversion, and XLS/XLSX/TXT source
+  files are discoverable but remain blocked from guessed 16-section extraction
+  until their semantic adapters are approved. PDF is output-only.
+- S1-S16 table behavior is declared in one executable overwrite-rule registry;
+  payload shape, table structure and allowed omission boundaries are checked
+  before writing values.
+- Matrix builds reuse immutable template documents and the saved in-memory DOCX
+  across audits; PDF conversion stays ordered for deterministic office output.
+- Active template files are byte-pinned before cloning; a changed or
+  unapproved template baseline blocks release.
+- Approved facts require a source-bound, reviewed S1-S16 mapping manifest with
+  an explicit disposition for every extracted candidate, so unresolved or
+  silently omitted source material cannot enter a formal build.
 
 ## Entrypoint
 
@@ -31,11 +45,11 @@ Read [`SKILL.md`](SKILL.md) for the operating contract. The reusable scripts, te
 
 ## Version
 
-Public release: `MSDS Skill 3.15.1`
+Public release: `MSDS Skill 3.18.0`
 
 Template baseline: user-supplied formal CN/EN templates, with CN SHA-256
-`2e4f55086bb13de9caa9e933465fad55eb62efc785d595170bc65749a2de6cfc` and EN
-active SHA-256 `593EF5A004F641BFE71AD6629847F47FD48D0307FCED14DFA8A810E01CF823F7`
+`3cb250303778b70ab0dbfedc4392ac628228d80146e6376f410157cb08993622` and EN
+active SHA-256 `003ff6bac27bf3bc99f0426ea8ed596487b0399f30428c406227d8f7c1b3dd46`
 (formal template plus the v3.15.1 Hand protection label correction; the
 unchanged source record `template_reference_en_source.docx` remains
 `59445b62c6d33b25a2e04c05778d428656f1ce0cbe7c21212721b145468c4416`).

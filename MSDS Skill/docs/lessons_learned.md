@@ -13,6 +13,11 @@
 10. Showing literal “无数据” values made the standardized document noisy and contradicted the desired display policy. Fix: classify missing-data placeholders before mapping and omit the entire item; do not write the placeholder.
 11. Multiple H/P statements in one continuous paragraph reduce readability and make Section 2 inconsistent. Fix: parse statement codes and insert semantic breaks so every complete H/EUH/P statement starts on its own line while preserving source order and keeping code+text together.
 
+12. A passing content audit does not prove Word layout preservation. Fix: the
+formal template is the only layout authority; do not invoke a CN compaction
+pass in the active pipeline, and compare formatting anchors for all surviving
+value cells plus header/footer cells before overwrite.
+
 
 ## Omission can create broken numbering
 Failure mode: correctly suppressing `无数据` rows but leaving original numeric prefixes produces visible gaps (for example `2.1, 2.2, 2.4`). This is structurally untidy and violates the approved output convention. Correct sequence: decide visibility first, delete unsupported items, then run a numeric-prefix-only renumber pass. Never renumber child labels or H/P statement lines.

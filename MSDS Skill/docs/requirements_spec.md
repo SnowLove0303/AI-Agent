@@ -1,7 +1,13 @@
 # Requirements Specification
 
 ## Functional objective
-Transform a non-standard MSDS/SDS Word document into the company's standard Word template while preserving the template's approved visual system.
+Transform one selected MSDS/SDS source into the company's standard Word template while preserving the template's approved visual system. The default release is one synchronized eight-file matrix: four DOCX masters and four PDF derivatives.
+
+## Source selection and format boundary
+- Resolve an explicit source file or use `scripts/source_ingest.py` to discover exactly one supported candidate under a directory.
+- Bind the approved facts JSON to the original source SHA-256. A temporary conversion path is never the source of truth.
+- The approved automatic section extractor covers DOCX/DOCM and legacy Word/ODT/RTF through a temporary DOCX adapter. XLS/XLSX and text sources may be discovered and provenance-recorded, but must not be guessed into the 16-section model until a dedicated semantic/coordinate adapter is approved. PDF is a publication-only derivative and is not a source input.
+- A formal `*_MSDS_(CN|EN)_(冠志|国彩)` output and any lock file are not valid inputs. Ambiguous directory discovery is a hard stop.
 
 ## Content authority
 1. Source MSDS = authority for product-specific facts.
@@ -12,21 +18,37 @@ Transform a non-standard MSDS/SDS Word document into the company's standard Word
 ## Display rule
 - Supported source value + safe target => display.
 - No supported value => do not display the item.
-- Missing-data placeholders such as “无数据”“无数据资料”“暂无数据”“无可用数据”“无适用资料” => **do not display the item**. Treat them the same as no supported value for final-display purposes.
+- Missing-data placeholders normally suppress the item. Endpoint-specific rules have priority: source-backed Section 2 `其他危险` keeps the explicit source wording `无适用资料。`; Section 11.7 keeps `无数据` only for an explicitly present missing endpoint; absent Section 11.7 children are hidden.
 - Exception for Section 11: a complete source sentence describing product-level toxicology-study availability, e.g. `该产品无可用的毒理学研究。`, must remain as an unnumbered explanatory line. This is not equivalent to a bare `无数据` placeholder.
 - “不适用” is not automatically a missing-data marker. If it is a substantive applicability conclusion from the source, it may remain.
 - Substantive negative conclusions such as “无刺激”“无危险反应”“非危险品”“无闪点” remain displayable because they communicate actual findings, not data absence.
 - Template sample value without source support => delete/replace; never retain.
 
 ## Label rule
-All bold labels are immutable, including:
+All bold labels are immutable, except for the two explicit source-faithful CN
+Section 2 aliases defined below, including:
 - numbered fields: `11.2 主要皮肤刺激性：`;
 - unnumbered fields: `呼吸系统防护：`;
 - section headings.
 Their original alignment is part of the template and must survive generation.
 
+For source CN Section 2, project the verified source headings as `2.2  标签要素：`
+and `2.3  其他危害：` after omission and renumbering. The baseline's
+`GHS标签要素` wording and missing colon on `其他危害` are recognized only as
+format-equivalent audit aliases; no other label rewrite is allowed.
+
 ## Layout rule
-Output must be compact. Do not increase page count/row height through empty paragraphs, tabs, hard wraps, trailing whitespace or regenerated formatting.
+The bundled formal template is the layout authority. Preserve its table/cell
+geometry, row heights, paragraph properties, run properties, header/footer and
+page fields. Remove only unsupported rows/blocks permitted by the source-
+presence policy; never globally normalize fonts, spacing, indents or page
+breaks to make the output look compact.
+
+All maintained formal templates allow both tables and rows to continue across
+pages. No active formal-template row may carry `cantSplit`; preserve the
+table-level behavior and compare each surviving row's `cantSplit` and
+repeating-header settings with the fresh template. This prevents a long row
+such as Section 11.4 from leaving a large blank area after Section 11.3.
 
 ## Body text rule
 All non-bold inserted text uses the approved exemplar's character formatting. Paragraph geometry remains destination-specific.
@@ -42,6 +64,28 @@ Do not leave empty labels. Remove unsupported items at the smallest safe display
 
 ## Acceptance
 A file is accepted only after automated audits and full-page rendered visual inspection.
+
+## Performance contract
+- Load each maintained CN/EN template once per matrix and reuse it as a
+  read-only audit/normalization reference.
+- Reuse the saved staged DOCX object across compatible in-process audits;
+  retain the saved DOCX as the only PDF conversion input.
+- Keep PDF conversion ordered for deterministic office-process behavior.
+- Any speed improvement must preserve the complete release-gate set and the
+  exact eight-file output contract.
+
+## Template and provenance hard gates
+
+- The active CN, EN and EN-source template files are byte-pinned. A changed
+  hash blocks the matrix before any template is cloned or output is written.
+- The approved facts file must contain a reviewed `source_mapping` bound to
+  the requested model and original-source SHA-256. It must cover S1-S16 with
+  unique source locators, source text, and an explicit `mapped`, `omitted` or
+  `not_applicable` decision; omitted/not-applicable decisions require a
+  reason. Unresolved or unreviewed items block release.
+- Mapping is semantic evidence, not permission to invent content. The source
+  remains authoritative for product facts; the standard template remains
+  authoritative for labels, slot order and formatting.
 
 
 ## Section 2 H/P line-wrapping rule
@@ -71,8 +115,10 @@ For the template fields “危险性说明” and “防范说明”:
 4. Preserve the remainder of each label exactly, including wording, punctuation, bold formatting, font, indentation, alignment and cell geometry.
 5. Unnumbered children do not consume a number and must remain attached to their parent.
 6. H/EUH/P statements do not consume `2.x` numbers. Multiple H/P lines remain inside the corresponding surviving parent item.
-7. Audit every section after renumbering for gaps, duplicates, wrong section prefixes and formatting drift.
+7. Audit ordinary sections after renumbering for gaps, duplicates, wrong section prefixes and formatting drift. Sections 11/12 retain standard source endpoint numbers after omission; audit them for order and duplicate re-entry instead of renumbering endpoints.
 8. Required operation order: semantic mapping -> suppress unsupported/missing-data items -> whitespace cleanup -> continuous renumber -> locked-format audit -> Section 2 H/P layout audit -> render/visual QA.
+
+Semantic slot mapping is mandatory. In Section 1, leave `1.1 产品名称` blank and put `中文名称 + 型号` in the existing `中文名称` value cell. In Section 8, map source `8.1 控制参数` to the template `8.2 工程控制` value and source PPE rows under the template `8.1 暴露控制` block; the fixed `建议` label has no output value. In Section 12, source `生态毒性` must populate template `12.1`, not either template-only leading explanation row. Synthetic spaced-slash separators are converted to semantic line breaks; a slash-only line blocks release.
 
 ## Product identity placement (mandatory)
 For the current Guanzhi template, product identity is not duplicated across all Section 1 fields. Apply this without waiting for user correction:

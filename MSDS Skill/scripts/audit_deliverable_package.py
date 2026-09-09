@@ -70,7 +70,7 @@ def run_audit(root: Path, model: str, *, template_cn: Path | None = None,
 
     # Scan all extracted OOXML text for customer-facing drafting/provenance
     # phrases and obvious maintained-template sample identity leakage.
-    banned = ["源文件未提供", "源文件记载", "按源文件列示", "无数据资料", "见2.4-2.6", "See 2.4-2.6", "source file not provided"]
+    banned = ["源文件未提供", "源文件记载", "按源文件列示", "见2.4-2.6", "See 2.4-2.6", "source file not provided"]
     sample_ids = ["PEA-4139"]
     text_hits = []
     try:

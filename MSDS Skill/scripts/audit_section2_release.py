@@ -8,7 +8,11 @@ from pathlib import Path
 
 from docx import Document
 
-from section2_ghs_policy import is_missing_section2_value, row_has_visual_content
+from section2_ghs_policy import (
+    is_explicit_other_hazards_row,
+    is_missing_section2_value,
+    row_has_visual_content,
+)
 
 
 def unique_cells(row):
@@ -22,9 +26,9 @@ def unique_cells(row):
     return out
 
 
-def run(docx, require_pictogram=False):
+def run(docx, require_pictogram=False, document=None):
     """Audit one built DOCX; return (errors, info). Import-safe core of main()."""
-    doc = Document(str(docx))
+    doc = document or Document(str(docx))
     table = doc.tables[1]
     errors = []
     all_text = "\n".join(cell.text for row in table.rows for cell in unique_cells(row))
@@ -41,7 +45,11 @@ def run(docx, require_pictogram=False):
         value = " ".join(cell.text.strip() for cell in cells[1:] if cell.text.strip())
         if "GHS象形图" in label or re.search(r"ghs\s+pictogram", label, flags=re.IGNORECASE):
             pictogram_present = pictogram_present or row_has_visual_content(row)
-        if not row_has_visual_content(row) and (not value or is_missing_section2_value(value)):
+        if (
+            not is_explicit_other_hazards_row(row)
+            and not row_has_visual_content(row)
+            and (not value or is_missing_section2_value(value))
+        ):
             errors.append(f"missing-data row remains: {label}")
         match = re.match(r"^\s*2\.(\d+)\b", label)
         if match:

@@ -5,6 +5,7 @@
 2. Locked-label audit.
 3. Whitespace/height audit.
 4. Structure dump for suspicious sections.
+5. Table cross-page contract audit against the fresh formal template.
 
 ## Visual checks — every page
 At 100% inspect:
@@ -12,12 +13,14 @@ At 100% inspect:
 - body font is consistent;
 - no large blank area under short values;
 - no blank label rows;
-- no visible bare missing-data placeholder rows such as “无数据”“无适用资料”; Section 11 may retain a complete source-level availability sentence such as `该产品无可用的毒理学研究。`;
+- no visible bare missing-data placeholder rows except the documented source-backed Section 2 `其他危险` wording and explicit Section 11.7 missing endpoints; Section 11 may retain a complete source-level availability sentence such as `该产品无可用的毒理学研究。`;
 - Section 2 multi-H/multi-P: one complete coded statement per line, source order preserved, no code separated from its statement;
 - no clipped or overlapping text;
 - tables remain within page margins;
 - header/footer product code/date are correct;
 - page breaks are reasonable.
+- tables may continue across pages as in the formal template; no artificial page break or table-level cross-page restriction is introduced;
+- surviving rows retain the template's row-splitting and repeating-header settings.
 
 ## Section 2 mandatory checks
 - If 2.5 contains ≥2 H/EUH statements, verify each starts on a new line.

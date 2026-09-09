@@ -5,6 +5,33 @@ Map by meaning, not by source row number or visual position. Preserve source qua
 
 After unsupported/missing-data items are removed, renumber surviving numbered items **within each section** continuously in visible order. Change only the numeric prefix; preserve label wording and formatting. Unnumbered children do not consume numbers.
 
+## Executable per-section table contract
+
+The generator must consult `scripts/section_overwrite_rules.py`; the following
+table is the human-readable copy of that registry. `Source` identifies the
+semantic authority, `write mode` identifies the only permitted writer shape,
+`empty value` defines visibility, and `structural mutation` defines the maximum
+allowed change to the maintained table.
+
+| Section/table | Source | Write mode | Empty value | Structural mutation |
+| --- | --- | --- | --- | --- |
+| S1 / table 1 | identification | field values plus identity overlay | 1.1 value blank | no row rebuild |
+| S2 / table 2 | hazard semantic slots | slot values; numeric prefix only | omit missing except source 2.3 other hazards | remove whole item, then prefix-only renumber |
+| S3 / table 3 | name/CAS/content | exactly three component data cells | source-only | clone styled component rows only |
+| S4 / table 4 | first-aid endpoints | value cells | hide unsupported item | no row rebuild |
+| S5 / table 5 | fire-fighting endpoints | value cells | hide unsupported item | no row rebuild |
+| S6 / table 6 | accidental-release endpoints | value cells | hide unsupported item | no row rebuild |
+| S7 / table 7 | handling/storage endpoints | value cells | hide unsupported item | no row rebuild |
+| S8 / table 8 | PPE and engineering controls by meaning | dedicated PPE writer; S8.2 four data columns | recommendation blank; empty engineering block hidden | dedicated writers only |
+| S9 / table 9 | physical/chemical properties | value cells | omit missing-data row | remove whole item, then prefix-only renumber |
+| S10 / table 10 | stability/reactivity endpoints | value cells | omit unsupported/missing item | smallest safe row omission |
+| S11 / table 11 | toxicology notes/endpoints | note slots or endpoint value cells | preserve explicit availability sentence; omit absent endpoints | no invented endpoint or generic renumber |
+| S12 / table 12 | ecology endpoints | source-backed 12.1–12.3 value cells | template-only notes hidden | remove note rows only |
+| S13 / table 13 | disposal endpoints | value cells | source-only | no row rebuild |
+| S14 / table 14 | transport endpoints | value cells | source-only | no row rebuild |
+| S15 / table 15 | laws/regulations | value cells | empty legal rows hidden | remove only empty row; preserve order |
+| S16 / table 16 | disclaimer | value cells | source-only | no row rebuild |
+
 ## Section 1 — Identification
 Use the current Guanzhi identity-placement contract:
 - header/title product-code position = source product model/code;
@@ -18,7 +45,11 @@ Example: source model `EP-1704`, Chinese name `水性环氧乳液` => final `中
 ## Section 2 — Hazard identification
 Only source-supported classification/label elements. Never inherit template GHS category, pictogram, signal word, H/P statement or environmental claim from a sample product.
 
-Missing-data suppression applies before writing: if a Section 2 field contains only “无数据/无适用资料/暂无数据/无可用数据”等, omit the whole template item. Do not display those placeholders.
+Missing-data suppression applies before writing by endpoint. Source-backed
+Section 2 `其他危险` is an explicit exception: retain its source wording,
+including `无适用资料。`, and include it in continuous numbering. For other
+Section 2 fields, pure missing placeholders suppress the whole item. Section
+11.7 and Sections 10/12/15 follow their dedicated rules in `SKILL.md`.
 
 ### Multi-H / Multi-P formatting
 - Hazard statements (`Hxxx`, `EUHxxx`): one complete coded statement per line when multiple statements exist.
@@ -31,6 +62,11 @@ Missing-data suppression applies before writing: if a Section 2 field contains o
 - Never insert arbitrary breaks inside a statement for visual alignment.
 - Prefer semantic line breaks within the existing destination paragraph when this best preserves template geometry; separate value paragraphs are also acceptable if paragraph spacing is zero and the label/layout remains untouched.
 
+### CN semantic slot projection
+- Do not pass source Section 2 rows directly to the template by list position.
+- Project source `2.1 GHS危险性类别`, `2.2 标签要素` and `2.3 其他危害` into the maintained template slots `2.2`, `2.3` and `2.10`, respectively.
+- Run source-missing suppression first, then apply the explicit `2.2→2.1`, `2.3→2.2`, `2.10→2.3` visible-number map. This keeps the final three-item sequence stable when all other sample-product rows are absent.
+
 ## Section 3 — Composition
 Use source chemical names, CAS and ranges exactly. Preserve “商业机密/N/A” when source says so. Do not infer a hidden ingredient.
 
@@ -39,12 +75,13 @@ Map by function. Remove extraction line-wrap artifacts. Keep prose compact. Do n
 
 ## Section 8 — Exposure controls/PPE
 High-risk fixed structure.
-- Source headings such as “控制参数”“暴露控制” are semantic context, not template labels.
+- Source `8.1 控制参数` exposure-limit/control-parameter text maps to the existing template `8.2 工程控制` row; source `8.2 暴露控制` PPE text maps to the template `8.1 暴露控制` block. Never copy these two source headings by row position.
 - Map respiratory protection -> existing respiratory label.
 - Map hand/glove information -> existing hand/glove labels.
 - Map eye/face -> existing eye label.
 - Map body protection -> existing body label.
-- If the source has exposure-limit text but the template has no safe corresponding item, omit it rather than relabeling “工程控制”.
+- The fixed `建议：` label has no customer-facing value in this workflow; leave its value blank even if the source contains a recommendation.
+- If the source has exposure-limit text but the template has no safe corresponding item, omit it rather than inventing a new label.
 - Never generate composite labels like `8.2 暴露控制 / 呼吸系统防护：`.
 
 ## Section 9 — Physical/chemical properties
@@ -64,7 +101,10 @@ Highest-risk section.
 - A short value such as `无刺激` must be a compact single content paragraph with no hidden blank paragraphs below it.
 
 ## Section 12 — Ecology
-Map ecotoxicity, persistence/degradability and other adverse effects independently. Remove hidden blank paragraphs after short values.
+Map ecotoxicity, persistence/degradability and other adverse effects independently. Source `生态毒性` goes to the existing `12.1` row; the template's explanatory rows are not endpoint slots and must be removed when the source has no matching explanation. Remove hidden blank paragraphs after short values.
+
+## Synthetic separators and line wrapping
+Source paragraph boundaries must be written as semantic line breaks. Do not join independent source clauses with a spaced slash (` / `), because Word can wrap it as a paragraph containing only `/`. Compact source expressions such as `通风/排气` remain verbatim. A slash-only line is forbidden and blocks release.
 
 ## Section 13 — Disposal
 Keep continuous prose compact. Do not make every sentence a separate paragraph unless the source/template explicitly requires it.

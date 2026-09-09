@@ -76,6 +76,7 @@ scripts/extract_source_facts.py
 scripts/draft_en_facts.py
 scripts/missing_data_policy.py
 scripts/msds_pipeline.py
+scripts/template_runtime.py
 scripts/build_eight.py
 tests/EP-1704_policy_expectations.md
 tests/README.md
