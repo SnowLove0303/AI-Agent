@@ -1,31 +1,18 @@
 from __future__ import annotations
-import argparse, json, re, zipfile
+import argparse, re
 from copy import deepcopy
 from datetime import datetime, timezone
 from pathlib import Path
 from docx import Document
-from docx.oxml import OxmlElement
-from docx.oxml.ns import qn
 from docx.text.paragraph import Paragraph
-from tds_common import OUTPUT_HEADINGS, ROOT, SECTION_HEADINGS, clear_feature_empty_paragraph, dump, ensure_feature_numbering, feature_layout_signature, fresh_write, hidden_block_indices, hidden_field_ids, load, norm, normalize_feature_list_paragraph, numbering_shape, replace_cell, replace_paragraph, sha256, slot_paragraph_lines
+from tds_common import OUTPUT_HEADINGS, ROOT, SECTION_HEADINGS, dump, fresh_write, hidden_block_indices, hidden_field_ids, load, replace_cell, replace_feature_paragraph, replace_paragraph, sha256
 
 NO_DATA={'zh-CN':'无数据','en-US':'No data available'}
 def feature_lines(text): return [re.sub(r'^\s*\d+[.、]\s*','',line) for line in (text or '').splitlines()]
-def application_text(text): return '\n'.join(re.sub(r'^\s*\d+[.、]\s*','',line).strip() for line in (text or '').splitlines() if line.strip())
-def normalize_application_layout(paragraph):
-    ppr=paragraph._p.get_or_add_pPr(); ind=ppr.find(qn('w:ind'))
-    if ind is None: ind=OxmlElement('w:ind'); ppr.append(ind)
-    ind.attrib.pop(qn('w:firstLine'),None); ind.attrib.pop(qn('w:firstLineChars'),None); ind.attrib.pop(qn('w:start'),None); ind.set(qn('w:startChars'),'200')
-def normalize_title_paragraph(paragraph):
-    """Title follows the template: keep its typeface and spacing, drop only the sample positioning indent, enforce centering."""
-    pPr=paragraph._p.get_or_add_pPr()
-    jc=pPr.find(qn('w:jc'))
-    if jc is None: jc=OxmlElement('w:jc'); pPr.append(jc)
-    jc.set(qn('w:val'),'center')
-    ind=pPr.find(qn('w:ind'))
-    if ind is not None:
-        for key in ('start','startChars','end','endChars','firstLine','firstLineChars','hanging','hangingChars'):
-            ind.attrib.pop(qn('w:'+key),None)
+def paragraph_lines(text, field_id):
+    lines=[line.strip() for line in (text or '').splitlines() if line.strip()]
+    if field_id=='product.application': lines=[re.sub(r'^\s*\d+[.、]\s*','',line).strip() for line in lines]
+    return lines
 def value(fact,lang): return fact.get('values',{}).get(lang) or NO_DATA[lang]
 def semantic_fields(mapping):
     model=mapping.get('normalized_model',{})
@@ -58,11 +45,10 @@ def _write_variant(mapping, registry, variant_id, output, event=None, generation
     if len(extension_rows)>variant.get('performance_extension',{}).get('max_rows',100): raise RuntimeError(f'too many additional performance rows for {variant_id}')
     if source_rows is not None and len(source_rows)>variant.get('performance_table',{}).get('max_source_rows',100): raise RuntimeError(f'too many source performance rows for {variant_id}')
     hidden=set(hidden_field_ids(mapping))
-    feature_indices=variant.get('feature_format_contract',{}).get('paragraph_indices',[21,23])
-    feature_extension=variant.get('feature_extension',{})
-    feature_count=len(feature_indices)
     def edit(doc):
         if event: event('template_opened', paragraph_count=len(doc.paragraphs), table_count=len(doc.tables))
+        paragraph_values={}
+        feature_values=[]
         for fid,slot in slots.items():
             if fid in hidden: continue
             fact=fields.get(fid,{}); loc=slot['locator']
@@ -71,65 +57,50 @@ def _write_variant(mapping, registry, variant_id, output, event=None, generation
                 row=doc.tables[loc['table_index']].rows[loc['row_index']]
                 replace_cell(row.cells[1],value(fact,lang)); replace_cell(row.cells[2],fact.get('unit') or ''); replace_cell(row.cells[3],fact.get('test_method') or '')
             elif slot['kind']=='paragraph_list':
-                vals=feature_lines(fact.get('values',{}).get(lang)) if fid=='product.features' else ((fact.get('values',{}).get(lang) or '').splitlines() if fact.get('values',{}).get(lang) else [])
-                for i,pi in enumerate(loc['paragraph_indices']): replace_paragraph(doc.paragraphs[pi], vals[i] if i<len(vals) else NO_DATA[lang] if i==0 else '')
+                vals=feature_lines(fact.get('values',{}).get(lang)) if fid=='product.features' else paragraph_lines(fact.get('values',{}).get(lang),fid)
+                if fid=='product.features': feature_values=vals
+                for i,pi in enumerate(loc['paragraph_indices']):
+                    text=vals[i] if i<len(vals) else NO_DATA[lang] if i==0 else ''
+                    replace_feature_paragraph(doc.paragraphs[pi], text) if fid=='product.features' else replace_paragraph(doc.paragraphs[pi], text)
             else:
-                text=application_text(fact.get('values',{}).get(lang)) if fid=='product.application' else value(fact,lang)
-                replace_paragraph(doc.paragraphs[loc['paragraph_index']],text)
-                if fid=='product.title': normalize_title_paragraph(doc.paragraphs[loc['paragraph_index']])
-                if fid=='product.title' and len(slot_paragraph_lines(value(fact,lang)))>1: raise RuntimeError(f'title must be a single line: {fid}')
-                if fid=='product.application': normalize_application_layout(doc.paragraphs[loc['paragraph_index']])
+                lines=paragraph_lines(fact.get('values',{}).get(lang),fid)
+                if fid=='product.title' and len(lines)>1: raise RuntimeError(f'title must be a single line: {fid}')
+                paragraph_values[fid]=lines or [value(fact,lang)]
+                replace_paragraph(doc.paragraphs[loc['paragraph_index']],paragraph_values[fid][0])
         if event: event('semantic_fields_written', field_ids=sorted(slots))
-        feature_fact=fields.get('product.features',{}); feature_values=feature_lines(feature_fact.get('values',{}).get(lang))
-        if len(feature_values)>variant.get('feature_extension',{}).get('max_items',100): raise RuntimeError(f'too many product features for {variant_id}')
         kill=set()
         if hidden:
             kill=hidden_block_indices(list(doc.paragraphs),lang,slots,hidden)
             if kill is None: raise RuntimeError('hidden section heading not found')
         removed=sorted(kill)
         if event and removed: event('sections_hidden', removed=removed)
-        feat_anchor_orig=feature_indices[-1]
-        feature_extra=max(0,len(feature_values)-feature_count) if 'product.features' not in hidden else 0
-        shifts=[]
-        def cur(orig):
-            return orig+sum(c for t,c in shifts if t<orig)
-        if 'product.features' not in hidden:
-            template_num_id=next(((numbering_shape(doc.paragraphs[i]) or {}).get('numId') for i in feature_indices if (numbering_shape(doc.paragraphs[i]) or {}).get('numId') not in (None,'0')),None)
-            for i in feature_indices:
-                if i < len(doc.paragraphs): normalize_feature_list_paragraph(doc.paragraphs[i],template_num_id)
-            feature_head=next((i for i,p in enumerate(doc.paragraphs) if p.text.strip()==SECTION_HEADINGS['product.features'][lang]),None)
-            application_head=next((i for i in range((feature_head or 0)+1,len(doc.paragraphs)) if doc.paragraphs[i].text.strip()==SECTION_HEADINGS['product.application'][lang]),None)
-            if feature_head is not None and application_head is not None:
-                for p in doc.paragraphs[feature_head+1:application_head]:
-                    if not p.text.strip(): clear_feature_empty_paragraph(p)
-            if event: event('feature_layout_normalized', item_count=len(feature_values), number_start_twips=400, text_start_twips=560, hanging_twips=160)
-        if len(feature_values)>feature_count:
-            anchor_orig=feature_extension.get('paragraph_template_index',feature_indices[-1])
-            item_src=doc.paragraphs[cur(anchor_orig)]._p
-            anchor=item_src
-            for text in feature_values[feature_count:]:
-                clone=deepcopy(item_src); anchor.addnext(clone); anchor=clone
-                replace_paragraph(Paragraph(clone,doc),text)
-                normalize_feature_list_paragraph(Paragraph(clone,doc),template_num_id)
-            shifts.append((anchor_orig,len(feature_values)-feature_count))
-            if event: event('feature_list_extended', added=len(feature_values)-feature_count)
-        expand_order=sorted(((slots[fid]['locator']['paragraph_index'],fid) for fid in slots if slots[fid]['kind']=='paragraph' and fid not in hidden and fid!='product.title'),key=lambda x: x[0])
-        for orig,fid in expand_order:
-            fact=fields.get(fid,{}); loc=slots[fid]['locator']
-            raw=application_text(fact.get('values',{}).get(lang)) if fid=='product.application' else (fact.get('values',{}).get(lang) or '')
-            lines=slot_paragraph_lines(raw)
-            if len(lines)<=1: continue
-            pos=cur(orig)
-            replace_paragraph(doc.paragraphs[pos],lines[0])
-            anchor=doc.paragraphs[pos]._p
-            for text in lines[1:]:
-                clone=deepcopy(doc.paragraphs[pos]._p); anchor.addnext(clone); anchor=clone
-                replace_paragraph(Paragraph(clone,doc),text)
-            shifts.append((orig,len(lines)-1))
-            if event: event('slot_paragraphs_expanded', field_id=fid, lines=len(lines))
         hidden_paras=[]
         for j in sorted(kill,reverse=True):
-            jj=cur(j); p=doc.paragraphs[jj]; p._p.getparent().remove(p._p); hidden_paras.append(jj)
+            p=doc.paragraphs[j]; p._p.getparent().remove(p._p); hidden_paras.append(j)
+        shifts=[]
+        def current_index(original):
+            return original-sum(1 for h in kill if h<original)+sum(count for anchor,count in shifts if anchor<original)
+        if 'product.features' not in hidden and len(feature_values)>len(slots['product.features']['locator']['paragraph_indices']):
+            extension=variant.get('feature_extension',{})
+            if not extension.get('allowed',False): raise RuntimeError(f'feature extension disabled by template policy: {variant_id}')
+            if len(feature_values)>extension.get('max_items',100): raise RuntimeError(f'too many product features for {variant_id}')
+            anchor_original=extension.get('paragraph_template_index',slots['product.features']['locator']['paragraph_indices'][-1])
+            template_paragraph=doc.paragraphs[current_index(anchor_original)]
+            anchor=template_paragraph._p
+            added=len(feature_values)-len(slots['product.features']['locator']['paragraph_indices'])
+            for text in feature_values[-added:]:
+                clone=deepcopy(template_paragraph._p); anchor.addnext(clone); anchor=clone
+                replace_feature_paragraph(Paragraph(clone,doc),text)
+            shifts.append((anchor_original,added))
+            if event: event('feature_list_extended', added=added, cloned_from=anchor_original)
+        for fid,lines in sorted(((fid,lines) for fid,lines in paragraph_values.items() if fid!='product.title' and fid not in hidden and len(lines)>1), key=lambda item: slots[item[0]]['locator']['paragraph_index']):
+            original=slots[fid]['locator']['paragraph_index']; pos=current_index(original)
+            template_paragraph=doc.paragraphs[pos]; anchor=template_paragraph._p
+            for text in lines[1:]:
+                clone=deepcopy(template_paragraph._p); anchor.addnext(clone); anchor=clone
+                replace_paragraph(Paragraph(clone,doc),text)
+            shifts.append((original,len(lines)-1))
+            if event: event('slot_paragraphs_expanded', field_id=fid, lines=len(lines), cloned_from=original)
         if source_rows is not None:
             write_source_performance_rows(doc, source_rows, variant, lang)
         else:
@@ -145,13 +116,20 @@ def _write_variant(mapping, registry, variant_id, output, event=None, generation
                     if p.text.strip()==old: replace_paragraph(p,new)
             for p in doc.paragraphs:
                 if p.text.strip()=='【Technical Data】': replace_paragraph(p,'Technical Data')
+        tail_trimmed=[]
+        if variant.get('tail_blank_trim',{}).get('allowed',False):
+            while doc.paragraphs and not doc.paragraphs[-1].text.strip():
+                p=doc.paragraphs[-1]; p._p.getparent().remove(p._p); tail_trimmed.append(p)
+        if event and tail_trimmed: event('tail_blank_paragraphs_trimmed', count=len(tail_trimmed))
         if event: event('sections_finalized', hidden_paragraph_count=len(hidden_paras), english_headings=lang=='en-US')
         edit.hidden_paras=sorted(hidden_paras)
+        edit.tail_blank_count=len(tail_trimmed)
     fresh_write(ROOT/variant['template'],output,edit)
     if event: event('docx_written', output_bytes=output.stat().st_size)
     text='\n'.join(p.text for p in Document(str(output)).paragraphs)+'\n'+'\n'.join(c.text for t in Document(str(output)).tables for r in t.rows for c in r.cells)
     leaked=[x for x in sample_tokens if x.lower() in text.lower() and x not in (mapping.get('allowed_source_tokens') or [])]
-    record={'schema_version':'1.3.11','variant_id':variant_id,'template':variant['template'],'template_sha256':variant['template_sha256'],'output':str(output),'output_sha256':sha256(output),'generated_at':datetime.now(timezone.utc).isoformat(),'fresh_clone':True,'source_led_performance_rows':source_rows is not None,'performance_extra_rows':len(extension_rows),'feature_extra_items':max(0,len(feature_lines(fields.get('product.features',{}).get('values',{}).get(lang,'')))-len(variant.get('feature_format_contract',{}).get('paragraph_indices',[21,23]))),'hidden_fields':sorted(hidden_field_ids(mapping)),'hidden_paragraphs':getattr(edit,'hidden_paras',[]),'sample_fact_leaks':leaked,'normalization_model_status':mapping.get('normalized_model',{}).get('status','legacy-mapping'),'translation_source':mapping.get('normalized_model',{}).get('translation',{}).get('source','legacy-mapping'),'decision_ledger_entries':len(mapping.get('decision_ledger',mapping.get('normalized_model',{}).get('decision_ledger',[]))),'execution_log_file':execution_log_file or output.name+'.overwrite.log.json','ready_for_user_proofreading':not leaked,'customer_ready':False}
+    feature_values=feature_lines(fields.get('product.features',{}).get('values',{}).get(lang,'')); feature_slots=len(variant.get('feature_format_contract',{}).get('paragraph_indices',[21,23]))
+    record={'schema_version':'1.3.15','variant_id':variant_id,'template':variant['template'],'template_sha256':variant['template_sha256'],'output':str(output),'output_sha256':sha256(output),'generated_at':datetime.now(timezone.utc).isoformat(),'fresh_clone':True,'source_led_performance_rows':source_rows is not None,'performance_extra_rows':len(extension_rows),'feature_extra_items':max(0,len(feature_values)-feature_slots),'hidden_fields':sorted(hidden_field_ids(mapping)),'hidden_paragraphs':getattr(edit,'hidden_paras',[]),'tail_blank_paragraphs_trimmed':getattr(edit,'tail_blank_count',0),'sample_fact_leaks':leaked,'normalization_model_status':mapping.get('normalized_model',{}).get('status','legacy-mapping'),'translation_source':mapping.get('normalized_model',{}).get('translation',{}).get('source','legacy-mapping'),'decision_ledger_entries':len(mapping.get('decision_ledger',mapping.get('normalized_model',{}).get('decision_ledger',[]))),'execution_log_file':execution_log_file or output.name+'.overwrite.log.json','ready_for_user_proofreading':not leaked,'customer_ready':False}
     dump(generation_path or output.with_suffix(output.suffix+'.generation.json'),record)
     if leaked: raise RuntimeError(f'sample facts leaked in {output.name}: {leaked}')
 

@@ -52,6 +52,10 @@ def replace_paragraph(p: Paragraph, text: str) -> None:
     runs[0].text=text
     for run in runs[1:]: run.text=''
 
+def replace_feature_paragraph(p: Paragraph, text: str) -> None:
+    """Use paragraph-level template formatting for CJK feature text."""
+    p.text=text
+
 def replace_cell(cell: _Cell, text: str) -> None:
     if not cell.paragraphs: cell.add_paragraph(text)
     else:
@@ -146,9 +150,9 @@ def hidden_field_ids(mapping):
         hidden.append(fid)
     return hidden
 FEATURE_NUM_ID='1'
-FEATURE_NUMBER_START=400
-FEATURE_TEXT_START=560
-FEATURE_HANGING=160
+FEATURE_NUMBER_START=480
+FEATURE_TEXT_START=840
+FEATURE_HANGING=360
 def ensure_feature_numbering(paragraph: Paragraph, num_id: str|None=None) -> bool:
     """Attach auto numbering at schema-valid pPr position. Returns True when added."""
     from docx.oxml import OxmlElement
@@ -180,25 +184,10 @@ def feature_layout_signature(paragraph: Paragraph) -> dict:
     }
 
 def normalize_feature_list_paragraph(paragraph: Paragraph, num_id: str|None=None) -> None:
-    """Use one compact hanging-list geometry for every product-feature item."""
-    ensure_feature_numbering(paragraph, num_id)
-    pPr=paragraph._p.get_or_add_pPr()
-    _remove_ppr_child(pPr,'w:tabs')
-    ind=pPr.find(qn('w:ind'))
-    if ind is None:
-        from docx.oxml import OxmlElement
-        ind=OxmlElement('w:ind')
-        pPr.append(ind)
-    for key in ('firstLineChars','firstLine','startChars','endChars','end'):
-        ind.attrib.pop(qn('w:'+key),None)
-    ind.set(qn('w:start'),str(FEATURE_TEXT_START))
-    ind.set(qn('w:hanging'),str(FEATURE_HANGING))
+    raise RuntimeError('template authority violation: feature paragraph formatting is immutable')
 
 def clear_feature_empty_paragraph(paragraph: Paragraph) -> None:
-    """Prevent blank feature separators from participating in list numbering/layout."""
-    pPr=paragraph._p.get_or_add_pPr()
-    for tag in ('w:numPr','w:tabs','w:ind'):
-        _remove_ppr_child(pPr,tag)
+    raise RuntimeError('template authority violation: blank paragraph formatting is immutable')
 
 def slot_paragraph_lines(text: str) -> list:
     """Split a slot value into non-empty lines for template-paragraph writing. Blank lines never land on the page."""

@@ -3,7 +3,7 @@ import argparse,re
 from pathlib import Path
 from docx import Document
 from tds_common import dump,sha256
-HEADINGS={'产品描述':'product.description','Characterization':'product.description','Product Description':'product.description','供应形式':'product.supply_form','Supply Form':'product.supply_form','产品特性':'product.features','Product features':'product.features','Product Features':'product.features','应用':'product.application','Application':'product.application','储存':'product.storage','Storage':'product.storage'}
+HEADINGS={'产品描述':'product.description','Characterization':'product.description','Product Description':'product.description','供应形式':'product.supply_form','Supply Form':'product.supply_form','产品特性':'product.features','Product features':'product.features','Product Features':'product.features','应用':'product.application','Application':'product.application','储存':'product.storage','包装储存':'product.storage','包装与储存':'product.storage','Storage':'product.storage'}
 SECTION_BREAKS={'性能指标','Technical Data'}
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('source',type=Path); ap.add_argument('--language',choices=['zh-CN','en-US'],required=True); ap.add_argument('--output',type=Path,required=True); a=ap.parse_args(); d=Document(str(a.source)); sections={}; current=None

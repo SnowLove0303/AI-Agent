@@ -2,12 +2,13 @@ from __future__ import annotations
 import argparse, hashlib, json, zipfile
 from pathlib import Path
 from docx import Document
-from docx.oxml.ns import qn
-from tds_common import OUTPUT_HEADINGS, ROOT, SECTION_HEADINGS, clear_feature_empty_paragraph, dump, feature_layout_signature, feature_spacing_signature, hidden_block_indices, hidden_field_ids, load, numbering_shape, package_inventory, sha256, doc_snapshot, slot_paragraph_lines
+from tds_common import OUTPUT_HEADINGS, ROOT, SECTION_HEADINGS, dump, hidden_block_indices, hidden_field_ids, load, package_inventory, sha256, doc_snapshot
 
 def shape(s):
     s=json.loads(json.dumps(s));
-    for p in s['paragraphs']: p['text']=''
+    for p in s['paragraphs']:
+        p['text']=''
+        if p['shape'].get('numbering'): p['shape']['runs']=[]
     for t in s['tables']:
         for row in t['rows']:
             for c in row['cells']: c['text']=''
@@ -32,38 +33,8 @@ def semantic_units(item,lang):
 def semantic_methods(item,lang):
     return (item.get('normalized_test_method_values',{}) if 'normalized_test_method_values' in item else item.get('test_method_values',{})).get(lang)
 def feature_contract_ok(base_doc, output_doc, variant, mapping=None):
-    hidden=hidden_field_ids(mapping) if mapping is not None else []
-    if 'product.features' in hidden: return True
-    indices=variant.get('feature_format_contract',{}).get('paragraph_indices',[21,23])
-    hide=hidden_paragraph_indices(base_doc, variant, mapping) if mapping is not None else set()
-    if hide is None: return False
-    out_indices=[i-sum(1 for h in hide if h<i) for i in indices]
-    base=[base_doc.paragraphs[i] for i in indices]; output=[output_doc.paragraphs[i] for i in out_indices]
-    nums=[numbering_shape(p) for p in output]
-    if any(n is None or n.get('ilvl')!='0' for n in nums): return False
-    if len({n.get('numId') for n in nums})!=1: return False
-    if feature_spacing_signature(base[0]) != feature_spacing_signature(base[1]) or feature_spacing_signature(output[0]) != feature_spacing_signature(output[1]): return False
-    contract=variant.get('feature_format_contract',{})
-    expected={'ind':{'start':str(contract.get('text_start_twips',560)),'hanging':str(contract.get('hanging_twips',160))},'tabs':[]}
-    if any(feature_layout_signature(p)!=expected for p in output): return False
-    head=OUTPUT_HEADINGS['product.features'][variant['language']]
-    hi=next((i for i,p in enumerate(output_doc.paragraphs) if p.text.strip()==head),None)
-    if hi is None: return False
-    ai=None
-    for follower in ('product.application','product.storage'):
-        if follower in (hidden or []): continue
-        name=OUTPUT_HEADINGS[follower][variant['language']]
-        ai=next((i for i in range(hi+1,len(output_doc.paragraphs)) if output_doc.paragraphs[i].text.strip()==name),None)
-        if ai is not None: break
-    if ai is None: ai=len(output_doc.paragraphs)
-    region=output_doc.paragraphs[hi+1:ai]
-    items=[p for p in region if p.text.strip()]
-    if len(items)<2 or any(numbering_shape(p) is None for p in items): return False
-    if any(not p.text.strip() and numbering_shape(p) is not None for p in region): return False
-    first_item=next(i for i,p in enumerate(region) if p.text.strip())
-    last_item=max(i for i,p in enumerate(region) if p.text.strip())
-    if any(not region[i].text.strip() for i in range(first_item,last_item+1)): return False
-    return True
+    """Use the same template-clone shape gate as the full geometry audit."""
+    return audit_shape(base_doc, output_doc, variant, mapping)
 def hidden_paragraph_indices(base_doc, variant, mapping):
     """Pristine-template paragraph indices removed by whole-section hiding. None when the heading cannot be located (fail closed). Uses the single template-authority rule shared with overwrite."""
     hidden=hidden_field_ids(mapping); lang=variant['language']
@@ -75,35 +46,32 @@ def audit_shape(base_doc, output_doc, variant, mapping):
     if left['sections'] != right['sections'] or left_table['grid_widths'] != right_table['grid_widths']: return False
     hide=hidden_paragraph_indices(base_doc, variant, mapping)
     if hide is None: return False
-    tloc=next((x['locator']['paragraph_index'] for x in variant['slots'] if x['field_id']=='product.title'),None)
-    if tloc is not None:
-        tpos=tloc-sum(1 for h in hide if h<tloc)
-        for snap in (left,right):
-            if tpos<len(snap['paragraphs']):
-                tsh=snap['paragraphs'][tpos].get('shape',{})
-                snap['paragraphs'][tpos]['shape']={**tsh,'alignment':None,'spacing':{**(tsh.get('spacing') or {}),'left_indent':None,'right_indent':None,'first_line_indent':None}}
-    left_paras=[p for i,p in enumerate(left['paragraphs']) if i not in hide]
     slots={x['field_id']:x for x in variant['slots']}
-    alang=variant['language']
-    afields=semantic_fields(mapping)
-    ahidden=set(hidden_field_ids(mapping))
-    slot_expansions=[]
+    fields=semantic_fields(mapping); lang=variant['language']; inserts={}
+    tail_trim=set()
+    if variant.get('tail_blank_trim',{}).get('allowed',False):
+        for i in range(len(base_doc.paragraphs)-1,-1,-1):
+            if base_doc.paragraphs[i].text.strip(): break
+            tail_trim.add(i)
+    if 'product.features' not in set(hidden_field_ids(mapping)):
+        feature_item=fields.get('product.features',{}) or {}
+        feature_values=(feature_item.get('normalized_values',feature_item.get('values',{})) or {}).get(lang,'') or ''
+        feature_count=len(variant.get('feature_format_contract',{}).get('paragraph_indices',[21,23]))
+        extra=max(0,len([x for x in feature_values.splitlines() if x.strip()])-feature_count)
+        anchor=variant.get('feature_extension',{}).get('paragraph_template_index',feature_count-1)
+        if extra: inserts[anchor]=inserts.get(anchor,0)+extra
     for fid,slot in slots.items():
-        if slot.get('kind')!='paragraph' or fid in ahidden or fid=='product.title': continue
-        orig=(slot.get('locator') or {}).get('paragraph_index')
-        if orig is None: continue
-        aitem=afields.get(fid,{}) or {}
-        avals=aitem.get('normalized_values',aitem.get('values',{}))
-        nlines=len(slot_paragraph_lines(avals.get(alang,'') or ''))
-        if nlines>1: slot_expansions.append((orig,nlines-1))
-    shift=0; insert_marks=[]
-    for orig,count in sorted(slot_expansions):
-        pos=orig-sum(1 for h in hide if h<orig)+shift
-        tpl=json.loads(json.dumps(left_paras[pos]))
-        for _ in range(count):
-            left_paras.insert(pos+1,tpl); shift+=1
-        insert_marks.append((orig-sum(1 for h in hide if h<orig),count))
-    def adj(x): return x+sum(c for b,c in insert_marks if b<x)
+        if slot.get('kind')!='paragraph' or fid=='product.title' or fid in set(hidden_field_ids(mapping)): continue
+        item=fields.get(fid,{}) or {}; values=item.get('normalized_values',item.get('values',{})) or {}
+        count=max(0,len([x for x in (values.get(lang,'') or '').splitlines() if x.strip()])-1)
+        if count:
+            original=slot['locator']['paragraph_index']; inserts[original]=inserts.get(original,0)+count
+    expected_paragraphs=[]
+    for original,paragraph in enumerate(left['paragraphs']):
+        if original in hide or original in tail_trim: continue
+        expected_paragraphs.append(paragraph)
+        for _ in range(inserts.get(original,0)): expected_paragraphs.append(json.loads(json.dumps(paragraph)))
+    if expected_paragraphs != right['paragraphs']: return False
     source_rows=semantic_rows(mapping)
     if source_rows is not None:
         start=variant.get('performance_table',{}).get('data_start_row_index',1)
@@ -118,57 +86,10 @@ def audit_shape(base_doc, output_doc, variant, mapping):
         rows=right_table['rows'][6:]
     for row in (rows if source_rows is None else []):
         if [c['shape'] for c in row['cells']] != [c['shape'] for c in left_table['rows'][5]['cells']]: return False
-    lang=variant['language']
-    chain_fields=['product.application','product.storage','product.features']
-    li=ri=None
-    for fid in chain_fields:
-        a=next((i for i,p in enumerate(base_doc.paragraphs) if p.text.strip()==SECTION_HEADINGS[fid][lang]),None)
-        b=next((i for i,p in enumerate(output_doc.paragraphs) if p.text.strip()==OUTPUT_HEADINGS[fid][lang]),None)
-        if a is not None and b is not None:
-            li=a-sum(1 for h in hide if h<a); ri=b; break
-    if li is None or ri is None: return False
-    hidden_here=set(hidden_field_ids(mapping))
-    if 'product.features' in hidden_here:
-        lstart=li; rstart=ri
-    else:
-        fa=next((i for i,p in enumerate(base_doc.paragraphs) if p.text.strip()==SECTION_HEADINGS['product.features'][lang]),None)
-        fb=next((i for i,p in enumerate(output_doc.paragraphs) if p.text.strip()==OUTPUT_HEADINGS['product.features'][lang]),None)
-        if fa is None or fb is None: return False
-        lstart=fa-sum(1 for h in hide if h<fa); rstart=fb
-    li=adj(li); lstart=adj(lstart)
-    if left_paras[:lstart]+left_paras[li:] != right['paragraphs'][:rstart]+right['paragraphs'][ri:]: return False
-    mid_left=left_paras[lstart:li]; mid_right=right['paragraphs'][rstart:ri]
-    if 'product.features' in hidden_here:
-        return mid_left==[] and mid_right==[]
-    feat_item=semantic_fields(mapping).get('product.features',{})
-    feat_vals=feat_item.get('normalized_values',feat_item.get('values',{}))
-    fvals=(feat_vals.get(lang,'') or '').splitlines()
-    feature_indices=variant.get('feature_format_contract',{}).get('paragraph_indices',[21,23])
-    extra_count=max(0,len(fvals)-len(feature_indices))
-    contract_last=feature_indices[-1]
-    split_at=contract_last-fa+1
-    def _no_num(p):
-        q=json.loads(json.dumps(p)); q.get('shape',{})['numbering']=None
-        if 'spacing' in q.get('shape',{}): q['shape']['spacing']['first_line_indent']=None
-        return q
-    anchor_shape=_no_num(left['paragraphs'][contract_last])
-    separator_index=variant.get('feature_extension',{}).get('separator_paragraph_index',contract_last+1)
-    sep_shape=_no_num(left['paragraphs'][separator_index])
-    expected_mid=[_no_num(p) for p in mid_left[:split_at]]+[anchor_shape]*extra_count+[_no_num(p) for p in mid_left[split_at:]]
-    if [_no_num(p) for p in mid_right] != expected_mid: return False
     return True
 def audit_layout(base_doc, output_doc, variant_id, variant, mapping):
-    """Template-authority layout checks: title centered without sample indent, no intra-paragraph line breaks, hidden blocks leave no stacked blanks."""
+    """Reject line-break characters that would turn one template slot into an unregistered layout change."""
     errs=[]
-    lang=variant['language']
-    slots={x['field_id']:x for x in variant['slots']}
-    ti=(slots.get('product.title',{}).get('locator') or {}).get('paragraph_index')
-    if ti is not None and ti<len(output_doc.paragraphs):
-        tp=output_doc.paragraphs[ti]; pPr=tp._p.pPr
-        jc=pPr.find(qn('w:jc')) if pPr is not None else None
-        if jc is None or jc.get(qn('w:val'))!='center': errs.append(f'title_not_centered:{variant_id}')
-        ind=pPr.find(qn('w:ind')) if pPr is not None else None
-        if ind is not None and any(ind.get(qn('w:'+k)) is not None for k in ('start','startChars','end','endChars','firstLine','firstLineChars')): errs.append(f'title_sample_indent_present:{variant_id}')
     for p in output_doc.paragraphs:
         if '\n' in p.text or '\r' in p.text: errs.append(f'intra_paragraph_line_break:{variant_id}'); break
     if not any(e.startswith('intra_paragraph_line_break') for e in errs):
@@ -181,22 +102,6 @@ def audit_layout(base_doc, output_doc, variant_id, variant, mapping):
                     if done: break
                 if done: break
             if done: break
-    kill=hidden_block_indices(list(base_doc.paragraphs),lang,slots,set(hidden_field_ids(mapping))) or set()
-    base_empty=sum(1 for p in base_doc.paragraphs if not p.text.strip())
-    out_empty=sum(1 for p in output_doc.paragraphs if not p.text.strip())
-    head_body=len(hidden_field_ids(mapping))
-    content_count=0
-    for fid in hidden_field_ids(mapping):
-        loc=slots[fid]['locator']
-        content_count+=len(loc['paragraph_indices']) if slots[fid]['kind']=='paragraph_list' else 1
-    sep_removed=len(kill)-head_body-content_count
-    feat_extra=0
-    if 'product.features' not in hidden_field_ids(mapping):
-        fitem=semantic_fields(mapping).get('product.features',{})
-        fvals=(fitem.get('normalized_values',fitem.get('values',{})) or {})
-        flavs=variant.get('feature_format_contract',{}).get('paragraph_indices',[21,23])
-        feat_extra=max(0,len(flavs)-len((fvals.get(lang,'') or '').splitlines()))
-    if out_empty != base_empty-sep_removed+feat_extra: errs.append(f'hidden_blank_separator_mismatch:{variant_id}')
     return errs
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--output-dir',type=Path,required=True); ap.add_argument('--registry',type=Path,required=True); ap.add_argument('--mapping',type=Path,required=True); ap.add_argument('--model',required=True); ap.add_argument('--report',type=Path,required=True); ap.add_argument('--docx-only',action='store_true'); ap.add_argument('--conversion-evidence-dir',type=Path); args=ap.parse_args()

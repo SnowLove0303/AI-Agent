@@ -3,7 +3,7 @@
   "variants": {
     "TDS_CN_冠志模板": {
       "file": "templates\\active\\TDS_CN_冠志模板.docx",
-      "sha256": "5d82729f130b3aa73807e87534955ef57b9bcf82cfd4e2984ae912ca2c62bec6",
+      "sha256": "7cef8f17332a54bc81ba1ae1b85b51208ffce9b4d3ff65bfa66b3902b5f42693",
       "source_file": "templates\\source\\TDS_CN_冠志模板.doc",
       "source_sha256": "5e360ec1a260bfee597b4ea802adec8fbf43492a033ddb57e4ef1188a880d599",
       "snapshot": {
@@ -1015,9 +1015,9 @@
                 "line_spacing_rule": "AT_LEAST (3)",
                 "space_before": "None",
                 "space_after": "None",
-                "left_indent": "None",
+                "left_indent": "533400",
                 "right_indent": "None",
-                "first_line_indent": "0"
+                "first_line_indent": "-228600"
               },
               "runs": [
                 {
@@ -1052,9 +1052,9 @@
                 "line_spacing_rule": "AT_LEAST (3)",
                 "space_before": "None",
                 "space_after": "None",
-                "left_indent": "None",
+                "left_indent": "533400",
                 "right_indent": "None",
-                "first_line_indent": "0"
+                "first_line_indent": "-228600"
               },
               "runs": [
                 {
@@ -2927,24 +2927,24 @@
         ]
       },
       "package_parts": {
-        "[Content_Types].xml": "549b4d26d851f7ab914ea0e4a5db6ac29f1b1fb9c2d1e5314da6797496f46cf6",
-        "_rels/.rels": "3823de16366678a094490aa4983c96c800dd02d98852331736bf558c1f6ebfcf",
+        "[Content_Types].xml": "aa094bb5acacd3b81192c83f122d67142df7453932528c2f95816f3266f25674",
+        "_rels/.rels": "3a4f328e01238c194036ab664bd88016600b8b751d1a0f3dab964ed0005e87fa",
         "docProps/app.xml": "2fbd2bc9bf527ed06ecec51c9c3756191275b55b410ab89564f7810feacaa3cb",
-        "docProps/core.xml": "2ae83fdd31063095e74f729b675577a6f7eb2c9766b20da7fe17372eaf545913",
+        "docProps/core.xml": "e798ae1327bf2d4b81e2b842dfc0e02ae1b6c1032688633399b2199fee25d245",
         "docProps/custom.xml": "edd6662280c75166b9603ec36ec9596ef41c33f0f9c1e62f3e3d10943d6dde02",
-        "word/_rels/document.xml.rels": "9ba575e6004d082a65c03ece1c3665c068f7e09662e0e36729e2d0456598ab16",
-        "word/document.xml": "92429f2b00a3cc77844191b055099f5dd0e478c0bd0a3247867edc4ef14a9a4f",
+        "word/_rels/document.xml.rels": "8f7768da495d8032fd2a1532135f7f45aa99ba8bd9312e2a7ed6717a146497af",
+        "word/document.xml": "636243358cf2997b9df31b3705a0f29ec15bafc5c264719a2f498035297caff6",
         "word/fontTable.xml": "c4189a4dc1dfbf7f7d90103b657f3c1d9fbc3e79585134f49f8bc008f44cd352",
         "word/media/image1.jpeg": "54731734d97aff5d6aa55653e3e9c5f1b7daa808e1ca12d284e307ee2e16244f",
-        "word/numbering.xml": "ef79893e66b077debecea640c9b912509b9c0b49e5969d99a9f03a800260e6e9",
-        "word/settings.xml": "0b8469bf159fa2d646009d3e8f4c25dc04110a72032ebd397bfe45d7e9183d23",
-        "word/styles.xml": "c699cb01d96437685c1c4d068957317fafa669cb4f2f77b3bbd2e8a6a1d87c43",
+        "word/numbering.xml": "8ce0d07e7b4808a995ce09c2fc13b0b89726f9a6e542c6ced90bda2504541072",
+        "word/settings.xml": "486d2dec02586595dfcc94c0c65b529ad01110f09d6421a28f0a8f0264b489cc",
+        "word/styles.xml": "52ce7797b33d79f1c1ba8b46c5efa719f2ce76be25e3a291901dbdb0a3a8bfbd",
         "word/theme/theme1.xml": "8c817dba7260b1c6e49fc7937dd857b5f42d834bc8c33769d788ea824cb2c29f"
       }
     },
     "TDS_CN_国彩模板": {
       "file": "templates\\active\\TDS_CN_国彩模板.docx",
-      "sha256": "f7f3b76316975388327ba7426362ed61067f2d523d22fec906234ec60d93b2bb",
+      "sha256": "f55ab34d88df215e0154b17fcfad8c29b35ffdacad5befea4fe57ca25bd65400",
       "source_file": "templates\\source\\TDS_CN_国彩模板.doc",
       "source_sha256": "26f6258d6a906db0ccbb76d25df5788ccd3700aad5fd502270803dddfcee02d0",
       "snapshot": {
@@ -3879,9 +3879,9 @@
                 "line_spacing_rule": "AT_LEAST (3)",
                 "space_before": "None",
                 "space_after": "None",
-                "left_indent": "None",
+                "left_indent": "533400",
                 "right_indent": "None",
-                "first_line_indent": "0"
+                "first_line_indent": "-228600"
               },
               "runs": [
                 {
@@ -3916,9 +3916,9 @@
                 "line_spacing_rule": "AT_LEAST (3)",
                 "space_before": "None",
                 "space_after": "None",
-                "left_indent": "None",
+                "left_indent": "533400",
                 "right_indent": "None",
-                "first_line_indent": "0"
+                "first_line_indent": "-228600"
               },
               "runs": [
                 {
@@ -5791,23 +5791,23 @@
         ]
       },
       "package_parts": {
-        "[Content_Types].xml": "549b4d26d851f7ab914ea0e4a5db6ac29f1b1fb9c2d1e5314da6797496f46cf6",
-        "_rels/.rels": "3823de16366678a094490aa4983c96c800dd02d98852331736bf558c1f6ebfcf",
+        "[Content_Types].xml": "403092a8524adad68ea6e6082d2e6af12ae124dd4752ff218ba32212a01ca1c6",
+        "_rels/.rels": "3a4f328e01238c194036ab664bd88016600b8b751d1a0f3dab964ed0005e87fa",
         "docProps/app.xml": "3025935d8f315fef3170c65ac3501de34dc93c10d254643347916be9e40239df",
-        "docProps/core.xml": "d436e5a0a3e0857750335258b7748e15b486a2867e201b404fb61020347fe402",
+        "docProps/core.xml": "dcd9dccf2ed644920027ba6db75399b473ca623ee05171fb5bf56c06a7ee39dc",
         "docProps/custom.xml": "d11d42e74aad9e9caff2ef73814865a2f42774a57e24c794ca9dc7eae72b7269",
-        "word/_rels/document.xml.rels": "9628f4383c413f84f89dc2e34f34faaec6570cf016485ba5a94dd55fee9f9998",
-        "word/document.xml": "efa6243c8cfd0de967207af69995d2e23c35cc57a6964b78f46a007a3fca621d",
+        "word/_rels/document.xml.rels": "89fbccd06166ee34d70982b3630c58a4b26fb9a1a129fd0b790b4fe973ed8bef",
+        "word/document.xml": "8a0a9505bb101a93828962a1171db9f8a343a2b80063fb5015f0a13db00c732c",
         "word/fontTable.xml": "03445edd66e9eff00a04eaa158befc64b57249b254c1d3f2b06205a2dba92e7a",
-        "word/numbering.xml": "ef79893e66b077debecea640c9b912509b9c0b49e5969d99a9f03a800260e6e9",
-        "word/settings.xml": "3ccaf006484b25ab36c95b899b037967608370d95f257c730c443c9ab3d7f1b1",
-        "word/styles.xml": "a8d28f0c6db939e5442a596db67d79b3c0a9032452a4f8b782a26d77d066caf7",
+        "word/numbering.xml": "8ce0d07e7b4808a995ce09c2fc13b0b89726f9a6e542c6ced90bda2504541072",
+        "word/settings.xml": "9afeff720bbfb0a87e91396d60db4dab51f8d45d07b138973025c12b34f47337",
+        "word/styles.xml": "a82eadaa0a24e5fa4b71a585d7ba43308b1118a5b5f71b259a2a7cbd368ea3e2",
         "word/theme/theme1.xml": "8c817dba7260b1c6e49fc7937dd857b5f42d834bc8c33769d788ea824cb2c29f"
       }
     },
     "TDS_EN_冠志模板": {
       "file": "templates\\active\\TDS_EN_冠志模板.docx",
-      "sha256": "73493add7fa58459c19b4699978c01d3a38ad2f84324cd52fae5c8c02a8228f8",
+      "sha256": "5cab6551aedb414144d488ad8b2f8e818a1211adbf9d93c10e61bce09a8a29cf",
       "source_file": "templates\\source\\TDS_EN_冠志模板.doc",
       "source_sha256": "bc6ddc1fcde87ae630f636583c9cc52216083d247602b8aa13fb97cfff4cc00e",
       "snapshot": {
@@ -6882,9 +6882,9 @@
                 "line_spacing_rule": "AT_LEAST (3)",
                 "space_before": "None",
                 "space_after": "None",
-                "left_indent": "None",
+                "left_indent": "533400",
                 "right_indent": "None",
-                "first_line_indent": "0"
+                "first_line_indent": "-228600"
               },
               "runs": [
                 {
@@ -6919,9 +6919,9 @@
                 "line_spacing_rule": "AT_LEAST (3)",
                 "space_before": "None",
                 "space_after": "None",
-                "left_indent": "None",
+                "left_indent": "533400",
                 "right_indent": "None",
-                "first_line_indent": "0"
+                "first_line_indent": "-228600"
               },
               "runs": [
                 {
@@ -8689,24 +8689,24 @@
         ]
       },
       "package_parts": {
-        "[Content_Types].xml": "549b4d26d851f7ab914ea0e4a5db6ac29f1b1fb9c2d1e5314da6797496f46cf6",
-        "_rels/.rels": "3823de16366678a094490aa4983c96c800dd02d98852331736bf558c1f6ebfcf",
+        "[Content_Types].xml": "aa094bb5acacd3b81192c83f122d67142df7453932528c2f95816f3266f25674",
+        "_rels/.rels": "3a4f328e01238c194036ab664bd88016600b8b751d1a0f3dab964ed0005e87fa",
         "docProps/app.xml": "2fbd2bc9bf527ed06ecec51c9c3756191275b55b410ab89564f7810feacaa3cb",
-        "docProps/core.xml": "b0cdde58ca0457eb1aca8d147c47254b23cdf7a4759cb32fb8d8b92050ebd3fd",
+        "docProps/core.xml": "4d42b21af6844e54effbd38d96899f0f229ec7a138dd65b81b619f60f7a6e9a0",
         "docProps/custom.xml": "edd6662280c75166b9603ec36ec9596ef41c33f0f9c1e62f3e3d10943d6dde02",
-        "word/_rels/document.xml.rels": "9ba575e6004d082a65c03ece1c3665c068f7e09662e0e36729e2d0456598ab16",
-        "word/document.xml": "e387faaa9e38829b4ffd72d9fb54ca8d86102d7e0994419d9c14216b7ac088c2",
+        "word/_rels/document.xml.rels": "8f7768da495d8032fd2a1532135f7f45aa99ba8bd9312e2a7ed6717a146497af",
+        "word/document.xml": "006b86047743fd538329bc7f772bc541bced343e2e8d28c4dfb9ae91ab72abe3",
         "word/fontTable.xml": "3bca2036b6e5403a6385f83761c8ed6f2032806ebb8e0042f70c08f9a43cff19",
         "word/media/image1.jpeg": "54731734d97aff5d6aa55653e3e9c5f1b7daa808e1ca12d284e307ee2e16244f",
-        "word/numbering.xml": "ef79893e66b077debecea640c9b912509b9c0b49e5969d99a9f03a800260e6e9",
-        "word/settings.xml": "0b8469bf159fa2d646009d3e8f4c25dc04110a72032ebd397bfe45d7e9183d23",
-        "word/styles.xml": "c699cb01d96437685c1c4d068957317fafa669cb4f2f77b3bbd2e8a6a1d87c43",
+        "word/numbering.xml": "8ce0d07e7b4808a995ce09c2fc13b0b89726f9a6e542c6ced90bda2504541072",
+        "word/settings.xml": "486d2dec02586595dfcc94c0c65b529ad01110f09d6421a28f0a8f0264b489cc",
+        "word/styles.xml": "52ce7797b33d79f1c1ba8b46c5efa719f2ce76be25e3a291901dbdb0a3a8bfbd",
         "word/theme/theme1.xml": "8c817dba7260b1c6e49fc7937dd857b5f42d834bc8c33769d788ea824cb2c29f"
       }
     },
     "TDS_EN_国彩模板": {
       "file": "templates\\active\\TDS_EN_国彩模板.docx",
-      "sha256": "3821e04158adf014c5671635ded31f9359c72070d6586a4f30c47215a8f1b137",
+      "sha256": "0a289335c6e7d0acdc4d8f9174b9bfdf05a3ae6afb29e1e37b5ee04a8d96560c",
       "source_file": "templates\\source\\TDS_EN_国彩模板.doc",
       "source_sha256": "02bcd29eb7a921a7fc31faf1577d35b808c76a7a784c58002b15fc64fa51f25b",
       "snapshot": {
@@ -9792,9 +9792,9 @@
                 "line_spacing_rule": "AT_LEAST (3)",
                 "space_before": "None",
                 "space_after": "None",
-                "left_indent": "None",
+                "left_indent": "533400",
                 "right_indent": "None",
-                "first_line_indent": "0"
+                "first_line_indent": "-228600"
               },
               "runs": [
                 {
@@ -9829,9 +9829,9 @@
                 "line_spacing_rule": "AT_LEAST (3)",
                 "space_before": "None",
                 "space_after": "None",
-                "left_indent": "None",
+                "left_indent": "533400",
                 "right_indent": "None",
-                "first_line_indent": "0"
+                "first_line_indent": "-228600"
               },
               "runs": [
                 {
@@ -11565,17 +11565,17 @@
         ]
       },
       "package_parts": {
-        "[Content_Types].xml": "549b4d26d851f7ab914ea0e4a5db6ac29f1b1fb9c2d1e5314da6797496f46cf6",
-        "_rels/.rels": "3823de16366678a094490aa4983c96c800dd02d98852331736bf558c1f6ebfcf",
+        "[Content_Types].xml": "403092a8524adad68ea6e6082d2e6af12ae124dd4752ff218ba32212a01ca1c6",
+        "_rels/.rels": "3a4f328e01238c194036ab664bd88016600b8b751d1a0f3dab964ed0005e87fa",
         "docProps/app.xml": "2fbd2bc9bf527ed06ecec51c9c3756191275b55b410ab89564f7810feacaa3cb",
-        "docProps/core.xml": "0b5823e6b37230d8ab9e1336f27c5486470074d6efc0817abda2db05ed256ad1",
+        "docProps/core.xml": "af3d3fa584e2febce95efd748b0d1a0acc3de24949f9e8216d98dc0fdf88341d",
         "docProps/custom.xml": "2e50a37f6b74ad11de644861227e20d94ad1ff2030f0c38b1ff464f3a25f1a73",
-        "word/_rels/document.xml.rels": "9628f4383c413f84f89dc2e34f34faaec6570cf016485ba5a94dd55fee9f9998",
-        "word/document.xml": "43d25ab0f1d4dbf41f1f6ce7d5031e5e3bd66f62b7433b26ca28cdd95cbfd551",
+        "word/_rels/document.xml.rels": "89fbccd06166ee34d70982b3630c58a4b26fb9a1a129fd0b790b4fe973ed8bef",
+        "word/document.xml": "6c728a1b54d6653cb581c4a1e633df605876a4b00198bca59e6311f9ef075d36",
         "word/fontTable.xml": "c9991a9c57b82deed99ada98bcf5007d9bcbfb291156963bcac36b0a14016431",
-        "word/numbering.xml": "2774ec95ea377d03f036c58eaf5eeba471b9584a871d4af37e8125443fab2183",
-        "word/settings.xml": "9033c91076506e0ff3077516965e8391b958b4dfc340e39a47d995ef38921c4d",
-        "word/styles.xml": "ff9c838835afb869056c2e0199be0ae2048753c9389760b2bf37631ccc0511d3",
+        "word/numbering.xml": "3584192f576e408273d64d6287f1270990c8473e42bbb0ba3b3033c11aeec052",
+        "word/settings.xml": "07bca53bce7f933748ca2bb4817c99ef2054865cf6feb1977a96b81a31c586e4",
+        "word/styles.xml": "b6296714301f165d5e5d2a1e03f44424bcbdfb3ba861ac0bcbcaaf4bd6877ee0",
         "word/theme/theme1.xml": "8c817dba7260b1c6e49fc7937dd857b5f42d834bc8c33769d788ea824cb2c29f"
       }
     }

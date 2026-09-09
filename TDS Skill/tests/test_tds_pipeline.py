@@ -3,6 +3,7 @@ from copy import deepcopy
 import json
 import subprocess
 import sys
+import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -10,7 +11,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from docx import Document
 from overwrite_tds import write_variant
 from audit_tds_eight import audit_shape
-from tds_common import feature_layout_signature, feature_spacing_signature, load, numbering_shape, package_inventory
+from tds_common import feature_spacing_signature, load, numbering_shape, package_inventory
 
 
 def test_all_four_variants_are_fresh_clones(tmp_path):
@@ -50,7 +51,7 @@ def test_variant_metadata_can_be_separated_from_word_output(tmp_path):
     assert generation["execution_log_file"] == "audit/execution_logs/" + output.name + ".overwrite.log.json"
 
 
-def test_application_lines_are_clean_and_aligned(tmp_path):
+def test_application_multiline_clones_template_body_style(tmp_path):
     registry = load(ROOT / "mapping" / "template_field_registry.json")
     mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
     mapping["mapped_fields"]["product.application"]["values"]["zh-CN"] = "适用于高光泽涂层。\n2.与各种基材附着力优异。"
@@ -61,12 +62,11 @@ def test_application_lines_are_clean_and_aligned(tmp_path):
     lines = [p.text for p in doc.paragraphs[heading + 1:heading + 4] if p.text.strip()]
     assert lines[:2] == ["适用于高光泽涂层。", "与各种基材附着力优异。"]
     assert all("\n" not in p.text and "\r" not in p.text for p in doc.paragraphs)
-    first, second = doc.paragraphs[heading + 2], doc.paragraphs[heading + 3]
-    assert first._p.pPr is not None and second._p.pPr is not None
-    ind = first._p.pPr.find("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}ind")
-    attrs = ind.attrib
-    assert attrs["{http://schemas.openxmlformats.org/wordprocessingml/2006/main}startChars"] == "200"
-    assert "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}firstLineChars" not in attrs
+    base = Document(str(ROOT / registry["variants"]["TDS_CN_冠志模板"]["template"]))
+    from tds_common import paragraph_shape
+    body = [p for p in doc.paragraphs[heading + 1:] if p.text.strip()]
+    assert paragraph_shape(body[0]) == paragraph_shape(base.paragraphs[26])
+    assert paragraph_shape(body[1]) == paragraph_shape(base.paragraphs[26])
 
 
 def test_language_specific_template_labels_and_grid_widths_are_registered():
@@ -97,16 +97,14 @@ def test_feature_slots_preserve_numbering_and_equal_spacing():
         assert len({n.get("numId") for n in numbers}) == 1
         assert feature_spacing_signature(feature_paragraphs[0]) == feature_spacing_signature(feature_paragraphs[1])
         assert variant["feature_format_contract"]["numbering"] == "enabled"
-        assert variant["feature_format_contract"]["number_start_twips"] == 400
-        assert variant["feature_format_contract"]["text_start_twips"] == 560
-        assert variant["feature_format_contract"]["hanging_twips"] == 160
+        assert variant["feature_format_contract"]["number_start_twips"] == 480
+        assert variant["feature_format_contract"]["text_start_twips"] == 840
+        assert variant["feature_format_contract"]["hanging_twips"] == 360
 
 
-def test_performance_and_feature_extensions_clone_template_styles(tmp_path):
+def test_performance_extensions_clone_template_row_style(tmp_path):
     registry = load(ROOT / "mapping" / "template_field_registry.json")
     mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
-    mapping["mapped_fields"]["product.features"]["values"]["zh-CN"] += "\n低气味。"
-    mapping["mapped_fields"]["product.features"]["values"]["en-US"] += "\nLow odor."
     mapping["performance_extra_rows"] = [{
         "field_id": "performance.extra.001",
         "label_values": {"zh-CN": "粒径", "en-US": "Particle size"},
@@ -120,14 +118,26 @@ def test_performance_and_feature_extensions_clone_template_styles(tmp_path):
         doc = Document(str(output))
         assert len(doc.tables[0].rows) == 7
         text = "\n".join(c.text for r in doc.tables[0].rows for c in r.cells)
-        paragraphs = "\n".join(p.text for p in doc.paragraphs)
         assert ("粒径" if registry["variants"][variant_id]["language"] == "zh-CN" else "Particle size") in text
-        assert ("低气味。" if registry["variants"][variant_id]["language"] == "zh-CN" else "Low odor.") in paragraphs
-        indices = registry["variants"][variant_id]["feature_format_contract"]["paragraph_indices"]
-        nums=[numbering_shape(doc.paragraphs[i]) for i in indices]
-        assert all(n is not None and n.get("ilvl")=="0" for n in nums) and len({n.get("numId") for n in nums})==1
         base = Document(str(ROOT / registry["variants"][variant_id]["template"]))
         assert audit_shape(base, doc, registry["variants"][variant_id], mapping)
+
+
+def test_feature_overflow_clones_template_item_style(tmp_path):
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
+    mapping["mapped_fields"]["product.features"]["values"]["zh-CN"] += "\n低气味。"
+    output = tmp_path / "feature-overflow.docx"
+    write_variant(mapping, registry, "TDS_CN_冠志模板", output)
+    doc = Document(str(output))
+    head = next(i for i, p in enumerate(doc.paragraphs) if p.text == "【产品特性】")
+    items = [p for p in doc.paragraphs[head + 1:] if p.text.strip()][:3]
+    assert [p.text for p in items] == ["储存稳定性良好；", "粘度稳定。", "低气味。"]
+    base = Document(str(ROOT / registry["variants"]["TDS_CN_冠志模板"]["template"]))
+    from tds_common import feature_layout_signature, numbering_shape
+    assert feature_layout_signature(items[2]) == feature_layout_signature(base.paragraphs[22])
+    assert numbering_shape(items[2]) == numbering_shape(base.paragraphs[22])
+    assert audit_shape(base, doc, registry["variants"]["TDS_CN_冠志模板"], mapping)
 
 
 def test_unknown_bilingual_metric_is_paired_by_source_order(tmp_path):
@@ -306,33 +316,22 @@ def test_empty_text_section_becomes_hide_candidate(tmp_path):
     assert decision["needs_judgment"] is True
 
 
-def test_feature_extension_keeps_numbering_and_separator_rhythm(tmp_path):
-    registry = load(ROOT / "mapping" / "template_field_registry.json")
-    mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
-    mapping["mapped_fields"]["product.features"]["values"]["zh-CN"] += "\n低气味。"
-    mapping["mapped_fields"]["product.features"]["values"]["en-US"] += "\nLow odor."
-    for variant_id in ("TDS_CN_冠志模板", "TDS_EN_冠志模板"):
-        output = tmp_path / f"rhythm_{variant_id}.docx"
-        write_variant(mapping, registry, variant_id, output)
-        doc = Document(str(output))
-        head = next(i for i,p in enumerate(doc.paragraphs) if p.text.strip() in ("【产品特性】", "【Product features】", "Product Features"))
-        next_head = next(i for i in range(head + 1, len(doc.paragraphs)) if doc.paragraphs[i].text.strip() in ("【应用】", "【Application】", "Application"))
-        region = doc.paragraphs[head + 1:next_head]
-        items = [p for p in region if p.text.strip()]
-        assert all(p.text.strip() for p in items)
-        assert any(not p.text.strip() for p in region)
-        nums = [numbering_shape(p) for p in items]
-        assert all(n is not None and n.get("ilvl") == "0" for n in nums) and len({n.get("numId") for n in nums}) == 1
-        assert feature_spacing_signature(items[0]) == feature_spacing_signature(items[1]) == feature_spacing_signature(items[2])
-        assert all(feature_layout_signature(p) == {'ind': {'start': '560', 'hanging': '160'}, 'tabs': []} for p in items)
-        first=next(i for i,p in enumerate(region) if p.text.strip()); last=max(i for i,p in enumerate(region) if p.text.strip())
-        assert all(region[i].text.strip() for i in range(first,last+1))
-        assert all(numbering_shape(p) is None for p in region if not p.text.strip())
-        base = Document(str(ROOT / registry["variants"][variant_id]["template"]))
-        assert audit_shape(base, doc, registry["variants"][variant_id], mapping)
+def test_packaging_storage_heading_starts_storage_section(tmp_path):
+    source = tmp_path / "source.docx"
+    doc = Document()
+    doc.add_paragraph("【产品特性】")
+    doc.add_paragraph("耐水。")
+    doc.add_paragraph("【包装储存】")
+    doc.add_paragraph("密封保存。")
+    doc.save(str(source))
+    output = tmp_path / "facts.json"
+    subprocess.run([sys.executable, str(ROOT / "scripts" / "extract_tds_source.py"), str(source), "--language", "zh-CN", "--output", str(output)], check=True)
+    result = json.loads(output.read_text(encoding="utf-8"))
+    assert result["sections"]["product.features"]["text"] == "耐水。"
+    assert result["sections"]["product.storage"]["text"] == "密封保存。"
 
 
-def test_title_uses_template_style_centered_without_sample_indent(tmp_path):
+def test_title_preserves_template_positioning_and_style(tmp_path):
     registry = load(ROOT / "mapping" / "template_field_registry.json")
     mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
     title = mapping["mapped_fields"]["product.title"]["values"]["zh-CN"]
@@ -340,19 +339,10 @@ def test_title_uses_template_style_centered_without_sample_indent(tmp_path):
     write_variant(mapping, registry, "TDS_CN_冠志模板", output)
     doc = Document(str(output))
     paragraph = next(p for p in doc.paragraphs if p.text == title)
-    pPr = paragraph._p.pPr
-    jc = pPr.find("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}jc")
-    assert jc is not None and jc.get("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val") == "center"
-    ind = pPr.find("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}ind")
-    assert ind is None or all(
-        ind.get("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}" + key) is None
-        for key in ("start", "startChars", "end", "endChars", "firstLine", "firstLineChars")
-    )
     base = Document(str(ROOT / registry["variants"]["TDS_CN_冠志模板"]["template"]))
     base_title = next(p for p in base.paragraphs if p.text.strip() == "水性环氧分散体EP-1704")
-    spacing = paragraph._p.pPr.find("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}spacing")
-    base_spacing = base_title._p.pPr.find("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}spacing")
-    assert spacing is not None and base_spacing is not None and spacing.attrib == base_spacing.attrib
+    from tds_common import paragraph_shape
+    assert paragraph_shape(paragraph) == paragraph_shape(base_title)
 
 
 def _mapping_with_hidden_sections():
@@ -392,25 +382,21 @@ def test_hidden_sections_remove_adjacent_blank_separators(tmp_path):
     assert not any(not region[i].text.strip() and not region[i + 1].text.strip() for i in range(len(region) - 1))
 
 
-def test_multiline_storage_splits_into_template_paragraphs(tmp_path):
+def test_multiline_storage_clones_template_body_style(tmp_path):
     registry = load(ROOT / "mapping" / "template_field_registry.json")
     mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
     mapping["mapped_fields"]["product.storage"]["values"]["zh-CN"] = "密封储存。\n有效期6个月。"
     output = tmp_path / "storage.docx"
     write_variant(mapping, registry, "TDS_CN_冠志模板", output)
     doc = Document(str(output))
-    assert all("\n" not in p.text and "\r" not in p.text for p in doc.paragraphs)
     heading = next(i for i, p in enumerate(doc.paragraphs) if p.text.strip() == "【储存】")
     lines = [p.text for p in doc.paragraphs[heading + 1:heading + 4] if p.text.strip()]
     assert lines[:2] == ["密封储存。", "有效期6个月。"]
-    first = next(p for p in doc.paragraphs[heading + 1:] if p.text.strip() == "密封储存。")
-    second = next(p for p in doc.paragraphs[heading + 1:] if p.text.strip() == "有效期6个月。")
-    assert first._p.pPr is not None and second._p.pPr is not None
-    first_ind = first._p.pPr.find("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}ind")
-    second_ind = second._p.pPr.find("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}ind")
-    assert (first_ind is None and second_ind is None) or (
-        first_ind is not None and second_ind is not None and first_ind.attrib == second_ind.attrib
-    )
+    base = Document(str(ROOT / registry["variants"]["TDS_CN_冠志模板"]["template"]))
+    from tds_common import paragraph_shape
+    body = [p for p in doc.paragraphs[heading + 1:] if p.text.strip()]
+    assert paragraph_shape(body[0]) == paragraph_shape(base.paragraphs[31])
+    assert paragraph_shape(body[1]) == paragraph_shape(base.paragraphs[31])
 
 
 def test_no_intra_paragraph_line_breaks_in_any_variant(tmp_path):
