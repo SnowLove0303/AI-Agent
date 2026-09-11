@@ -7,8 +7,11 @@ four states before it is projected into the template.
 from __future__ import annotations
 
 from enum import Enum
+import copy
 import re
 from typing import Iterable
+
+from docx.oxml.ns import qn
 
 from section2_hp_policy import is_missing_data_value
 
@@ -43,7 +46,34 @@ def row_state(values: Iterable[object], *, value_start: int = 1) -> SourceState:
     return SourceState.ABSENT
 
 
+def _promote_following_vertical_merges(row) -> None:
+    """Keep a surviving vMerge group valid when its restart row is removed."""
+    current_tr = row._tr
+    next_tr = current_tr.getnext()
+    if next_tr is None:
+        return
+    current_cells = current_tr.findall(qn("w:tc"))
+    next_cells = next_tr.findall(qn("w:tc"))
+    for current_cell, next_cell in zip(current_cells, next_cells):
+        current_pr = current_cell.find(qn("w:tcPr"))
+        next_pr = next_cell.find(qn("w:tcPr"))
+        current_merge = current_pr.find(qn("w:vMerge")) if current_pr is not None else None
+        next_merge = next_pr.find(qn("w:vMerge")) if next_pr is not None else None
+        if (
+            current_merge is not None
+            and current_merge.get(qn("w:val"), "restart") == "restart"
+            and next_merge is not None
+            and next_merge.get(qn("w:val")) == "continue"
+        ):
+            promoted = copy.deepcopy(current_cell)
+            promoted_pr = promoted.find(qn("w:tcPr"))
+            promoted_merge = promoted_pr.find(qn("w:vMerge"))
+            promoted_merge.set(qn("w:val"), "restart")
+            next_tr.replace(next_cell, promoted)
+
+
 def _remove_row(table, row) -> None:
+    _promote_following_vertical_merges(row)
     table._tbl.remove(row._tr)
 
 
@@ -61,12 +91,28 @@ def _source_backed_note(text: str, rows: Iterable[object]) -> bool:
 
 
 def _payload_cells(cells: list, section: int) -> list:
-    """Exclude S11.7's sub-endpoint label from its value test."""
+    """Return only actual value cells for source-presence evaluation.
+
+    Section 11 has two three-column families: the three acute-toxicity route
+    rows (11.1) and the three reproductive-toxicity child rows (11.7).  Their
+    middle cells are locked sublabels, not evidence.  Counting ``吸入：`` or
+    ``Dermal:`` as payload leaves an absent endpoint visible and was the cause
+    of the empty-row defect.
+    """
     if len(cells) == 1:
         return cells
-    if section == 11 and cells and re.match(r"^\s*11\.7\b", cells[0].text):
+    if section == 11 and cells and re.match(
+        r"^\s*11\.(?:1|7)\b", cells[0].text, re.I
+    ) and len(cells) >= 3:
         return cells[2:]
     return cells[1:]
+
+
+def _fact_row_state(row: object, section: int) -> SourceState:
+    """Classify a fact row without treating a locked sublabel as its value."""
+    values = list(row) if isinstance(row, (list, tuple)) else [row]
+    value_start = 2 if section == 11 and len(values) >= 3 else 1
+    return row_state(values, value_start=value_start)
 
 
 def apply_source_absence_policy(document, facts: dict, unique_cells) -> dict:
@@ -114,14 +160,25 @@ def apply_source_absence_policy(document, facts: dict, unique_cells) -> dict:
         key = f"s{section}"
         rows = facts.get(key) or []
         has_endpoint = any(
-            row_state(row) in (SourceState.SUPPORTED, SourceState.EXPLICIT_MISSING)
+            _fact_row_state(row, section) in (SourceState.SUPPORTED, SourceState.EXPLICIT_MISSING)
             and len(row) > 1
             for row in rows[1:]
         )
         table = document.tables[section - 1]
         if not has_endpoint:
-            for row in list(table.rows[2:]):
-                _remove_row(table, row)
+            # Keep only source-backed explanation notes.  A padded canonical
+            # skeleton can contain a blank first note slot; it must not leak
+            # into the customer-facing document.
+            for row in list(table.rows[1:]):
+                cells = unique_cells(row)
+                keep = (
+                    len(cells) == 1
+                    and _source_backed_note(cells[0].text, rows)
+                )
+                if not keep:
+                    _remove_row(table, row)
+                    label = cells[0].text.strip() if cells else "row"
+                    audit["source_absent_removed"].append(f"S{section}:{label}")
             audit["note_only"][key] = True
             continue
 

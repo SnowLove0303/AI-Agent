@@ -1,7 +1,9 @@
 import base64
 from pathlib import Path
 
+import pytest
 from docx import Document
+from docx.shared import Inches
 
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
@@ -153,8 +155,25 @@ def test_source_pictogram_is_inserted_as_picture(tmp_path):
     source_doc.save(source)
 
     output = Document(ROOT / "examples" / "template_reference.docx")
-    insert_source_pictogram(output, source)
+    audit = insert_source_pictogram(output, source)
     assert output.tables[1].rows[4].cells[-1]._tc.xpath(".//w:drawing")
+    assert audit["target_width_inches"] <= 1.0
+
+
+def test_source_pictogram_preserves_declared_physical_width(tmp_path):
+    image_path = tmp_path / "source.png"
+    image_path.write_bytes(base64.b64decode(
+        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII="
+    ))
+    source = tmp_path / "source-sized.docx"
+    source_doc = Document()
+    source_doc.add_paragraph().add_run().add_picture(str(image_path), width=Inches(0.89))
+    source_doc.save(source)
+
+    output = Document(ROOT / "examples" / "template_reference.docx")
+    audit = insert_source_pictogram(output, source)
+    assert audit["source_width_inches"] == pytest.approx(0.89, abs=0.002)
+    assert audit["target_width_inches"] == pytest.approx(0.89, abs=0.002)
 
 
 def test_cn_source_headings_are_projected_without_layout_drift():

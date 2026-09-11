@@ -3,7 +3,7 @@
 ## General
 Map by meaning, not by source row number or visual position. Preserve source qualifiers and uncertainty.
 
-After unsupported/missing-data items are removed, renumber surviving numbered items **within each section** continuously in visible order. Change only the numeric prefix; preserve label wording and formatting. Unnumbered children do not consume numbers.
+After unsupported/missing-data items are removed, renumber surviving numbered items **within each section** continuously in visible order. Change only the numeric prefix; preserve label wording and formatting. Unnumbered children do not consume numbers. For Section 9, use the maintained five-character numeric prefix slot (`9.1` followed by the template's separator spacing); do not preserve a stale single-space width from a removed `9.12` row.
 
 ## Executable per-section table contract
 
@@ -25,7 +25,7 @@ allowed change to the maintained table.
 | S8 / table 8 | PPE and engineering controls by meaning | dedicated PPE writer; S8.2 four data columns | recommendation blank; empty engineering block hidden | dedicated writers only |
 | S9 / table 9 | physical/chemical properties | value cells | omit missing-data row | remove whole item, then prefix-only renumber |
 | S10 / table 10 | stability/reactivity endpoints | value cells | omit unsupported/missing item | smallest safe row omission |
-| S11 / table 11 | toxicology notes/endpoints | note slots or endpoint value cells | preserve explicit availability sentence; omit absent endpoints | no invented endpoint or generic renumber |
+| S11 / table 11 | toxicology notes/endpoints | semantic endpoint-skeleton alignment, then value cells | preserve explicit availability sentence; omit absent endpoints | no invented endpoint or generic renumber; merge-safe omission only |
 | S12 / table 12 | ecology endpoints | source-backed 12.1–12.3 value cells | template-only notes hidden | remove note rows only |
 | S13 / table 13 | disposal endpoints | value cells | source-only | no row rebuild |
 | S14 / table 14 | transport endpoints | value cells | source-only | no row rebuild |
@@ -85,7 +85,7 @@ High-risk fixed structure.
 - Never generate composite labels like `8.2 暴露控制 / 呼吸系统防护：`.
 
 ## Section 9 — Physical/chemical properties
-Map property by property. **Properties whose source value is only a missing-data placeholder must disappear as whole dedicated rows before write.** Do not leave a blank visual slot. Then renumber the surviving visible Section 9 properties continuously in their original semantic order; change only the numeric prefix. Preserve substantive values such as `不适用` / `Not applicable`, measured values and source-supported `其他信息` / `Other information`. Existing “其他信息” may compactly hold source-only technical parameters such as MFFT/Tg/hydroxyl content when semantically appropriate.
+Map property by property. **Properties whose source value is only a missing-data placeholder must disappear as whole dedicated rows before write.** Do not leave a blank visual slot. Then renumber the surviving visible Section 9 properties continuously in their original semantic order; change only the numeric prefix. Preserve substantive values such as `不适用` / `Not applicable`, measured values and source-supported `其他信息` / `Other information`. `NCO含量` / `NCO content` is a dedicated independent property: when it appears inline in `其他信息`, split it before mapping so it cannot be lost in generic prose. Existing “其他信息” may compactly hold source-only technical parameters such as MFFT/Tg/hydroxyl content when semantically appropriate.
 
 ## Section 10 — Stability/reactivity
 Map only equivalent concepts. If source lacks “应避免条件/禁配物”, those items disappear rather than showing empty values.
@@ -97,6 +97,13 @@ Highest-risk section.
 - Map skin irritation, eye/mucosal irritation, sensitization, mutagenicity, carcinogenicity, reproductive toxicity, STOT and aspiration only when source supports each endpoint.
 - Preserve “类似产品的风险评估数据” as a qualifier; do not convert it into direct product-test evidence.
 - Unsupported endpoints disappear.
+- Never write the compacted source list by physical row position. First align it
+  to the template skeleton by endpoint and locked sublabel. The 11.1 middle
+  cells (`经口 / 吸入 / 经皮`) and 11.7 middle cells (fertility,
+  teratogenicity and in-vitro genotoxicity) are labels, not writable values.
+  Missing routes/children produce absent value slots and are removed only by
+  the merge-safe omission policy after alignment; the next endpoint must never
+  inherit the removed row's value.
 - **Section-level availability statement exception:** if the source states a complete product-level sentence such as `该产品无可用的毒理学研究。`, preserve that sentence beneath the Section 11 heading even when all endpoint rows are unsupported. Keep it unnumbered; do not map it into an endpoint and do not invent toxicology conclusions. A bare placeholder such as `无数据` is still omitted.
 - A short value such as `无刺激` must be a compact single content paragraph with no hidden blank paragraphs below it.
 

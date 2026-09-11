@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from extract_source_facts import extract  # noqa: E402
-from source_interpretation_contract import validate_source_interpretation  # noqa: E402
+from source_interpretation_contract import load_spec, validate_source_interpretation  # noqa: E402
 
 
 SOURCE = ROOT / "examples" / "regression_HPU-7660_source.docx"
@@ -24,7 +24,7 @@ def reviewed_facts():
             item["decision"] = "mapped"
     facts["output_traceability"] = {
         "spec_id": "MSDS-SOURCE-INTERPRETATION-001",
-        "spec_version": "1.0.0",
+        "spec_version": load_spec()["version"],
         "status": "reviewed",
         "source_sha256": facts["source_sha256"],
         "items": [
@@ -70,6 +70,13 @@ def test_unreadable_source_unit_blocks_even_when_mapping_is_reviewed():
     errors = validate_source_interpretation(facts, SOURCE, facts["model"])
     assert any("source_coverage status must be ready" in error for error in errors)
     assert any("unreadable" in error for error in errors)
+
+
+def test_nested_source_inventory_count_is_fail_closed():
+    facts = reviewed_facts()
+    facts["source_coverage"]["counts"]["nested_source_unit_count"] += 1
+    errors = validate_source_interpretation(facts, SOURCE, facts["model"])
+    assert any("nested_source_unit_count" in error for error in errors)
 
 
 def test_missing_fact_traceability_blocks_before_overwrite():

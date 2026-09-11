@@ -1,5 +1,28 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.23.0 — 2026-09-11
+
+- Added recursive source inventory and extraction for nested Section 8 tables;
+  verified `物质 / 依据 / 类型 / 数值` control-parameter records now reach the
+  dedicated S8.2 writer instead of being misclassified as absent.
+- Added a fail-closed Section 11 semantic aligner. Compressed or pre-omitted
+  facts are mapped by endpoint and sublabel to the fixed template skeleton;
+  unmatched endpoints block rather than shifting later toxicology values into
+  the wrong locked label. Section 11.1 route and 11.7 child sublabels are now
+  excluded from value-presence tests, and vertical merges are repaired safely
+  when an absent child row is removed.
+- Added deterministic Section 9 NCO-content splitting, five-character
+  sequence-prefix spacing during renumbering, and locked-skeleton tolerance for
+  the approved prefix spacing adjustment.
+- Reworked GHS pictogram sizing to preserve the source drawing's physical width
+  with a compact 0.9-inch fallback; removed the stale 3.25-inch enlargement.
+- Replaced the stale revision-date fallback with build-date stamping and
+  localized CN/EN formatting while preserving the formal footer's leading `P`
+  clipping guard.
+- Added regression coverage for all reported OS-9013 failure modes that are
+  handled by the MSDS skill. TDS-specific production code is outside this
+  package and is unchanged.
+
 ## v3.22.0 — 2026-09-11
 
 - Corrected the high-risk Section 2 semantic boundary: source `2.2 标签要素`

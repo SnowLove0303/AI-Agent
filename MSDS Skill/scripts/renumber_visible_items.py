@@ -92,13 +92,16 @@ def audit(items):
             last=item
     return problems
 
-def replace_prefix_in_runs(p, sec, new_item):
+def replace_prefix_in_runs(p, sec, new_item, *, prefix_width=None):
     # Modify only characters participating in the leading prefix, preserving run formatting.
     full=''.join(r.text or '' for r in p.runs)
     m=PREFIX.match(full)
     if not m: return False
     old_prefix=full[:m.end()]
-    new_prefix=f'{m.group(1)}{sec}.{new_item}{m.group(4)}'
+    separator = m.group(4)
+    if prefix_width is not None:
+        separator = ' ' * max(1, prefix_width - len(f'{sec}.{new_item}'))
+    new_prefix=f'{m.group(1)}{sec}.{new_item}{separator}'
     # Locate prefix across runs and replace it without rebuilding paragraph.
     remain=len(old_prefix); first=None
     for r in p.runs:
@@ -126,7 +129,9 @@ def renumber(doc):
             st['last_old'] = item
         new_item=st['new']
         if item!=new_item:
-            if replace_prefix_in_runs(p,sec,new_item):
+            if replace_prefix_in_runs(
+                p, sec, new_item, prefix_width=5 if sec == 9 else None
+            ):
                 changes.append((f'{sec}.{item}',f'{sec}.{new_item}',text))
     return changes
 

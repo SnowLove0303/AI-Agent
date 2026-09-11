@@ -93,7 +93,7 @@ class TemplateSlotRegistry:
                 if (
                     table_index == 10
                     and len(cells) >= 3
-                    and cells[0].text.strip().startswith("11.7")
+                    and re.match(r"^\s*11\.(?:1|7)\b", cells[0].text)
                 ):
                     slots[table_index, row_index] = TemplateSlot(
                         table_index, row_index, (len(cells) - 1,), "endpoint_value", True)
@@ -252,15 +252,28 @@ def set_value_cell_text(cell, text: str) -> None:
         paragraph._element.getparent().remove(paragraph._element)
 
 
-def set_sequence_prefix(cell, section: int, item: int) -> str:
-    """Change only an approved visible sequence prefix in an existing cell."""
+def set_sequence_prefix(cell, section: int, item: int,
+                        *, prefix_width: int | None = None) -> str:
+    """Change only an approved visible sequence prefix in an existing cell.
+
+    ``prefix_width`` is used by Section 9, whose maintained template reserves
+    five character positions for ``9.n`` plus separator spaces.  When a
+    two-digit source label is moved into a one-digit visible slot, its original
+    single separator must become two separators; otherwise the label column
+    develops a visible one-space zig-zag.  No non-prefix label text is touched.
+    """
     if not cell.paragraphs:
         return ""
     paragraph = cell.paragraphs[0]
     current = paragraph.text
-    pattern = rf"^(\s*){section}\.\d+(\b)"
+    pattern = rf"^([ \t]*){section}\.\d+([ \t]*)"
+    if prefix_width is None:
+        replacement = rf"\g<1>{section}.{item}\g<2>"
+    else:
+        separator_width = max(1, prefix_width - len(f"{section}.{item}"))
+        replacement = rf"\g<1>{section}.{item}{' ' * separator_width}"
     return _replace_leading_pattern_in_runs(
-        paragraph, pattern, rf"\g<1>{section}.{item}\g<2>"
+        paragraph, pattern, replacement
     )
 
 
@@ -335,7 +348,7 @@ def write_row_values(row, values: Sequence[object], *, table_index: int | None =
     if (
         table_index == 10
         and len(cells) >= 3
-        and cells[0].text.strip().startswith("11.7")
+        and re.match(r"^\s*11\.(?:1|7)\b", cells[0].text)
     ):
         targets = registry.writable_cells(table_index, row_index, row) if registry else [cells[-1]]
         if targets:
@@ -500,9 +513,12 @@ def _row_label(row) -> str:
 
 
 def _canonical_locked_text(text: str) -> str:
-    """Compare locked labels exactly, apart from numeric-prefix digits."""
+    """Compare locked labels apart from approved sequence digits/spaces."""
     text = str(text or "").strip()
-    return re.sub(r"^\s*\d+\.\d+", "<SEQ>", text)
+    # Sequence renumbering is the only approved label-cell mutation.  The
+    # separator spaces belong to that prefix too: S9 changes 9.12 + one space
+    # into 9.5 + two spaces to keep the label body aligned.
+    return re.sub(r"^\s*\d+\.\d+[ \t]*", "<SEQ> ", text)
 
 
 def _row_candidates(template_table, output_table, table_index, output_index, output_row):
@@ -847,10 +863,8 @@ def compare_locked_skeleton(template, output) -> list[str]:
         if expected_item.run_props != actual_item.run_props:
             errors.append(f"locked cell run properties changed: {key}")
         if expected_item.cell_role == "sequence_label":
-            expected_text = re.sub(r"^\s*\d+\.\d+", "<SEQ>", expected_item.text)
-            actual_text = re.sub(r"^\s*\d+\.\d+", "<SEQ>", actual_item.text)
-            expected_text = _canonical_locked_text(expected_text)
-            actual_text = _canonical_locked_text(actual_text)
+            expected_text = _canonical_locked_text(expected_item.text)
+            actual_text = _canonical_locked_text(actual_item.text)
             if expected_text != actual_text:
                 errors.append(f"locked label text changed: {key}")
     # The formal S8.2 header row is a locked top-level structure.  Its text is

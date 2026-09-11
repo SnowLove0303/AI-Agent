@@ -1,6 +1,6 @@
 {
   "spec_id": "MSDS-SOURCE-INTERPRETATION-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "active",
   "purpose": "Fail-closed source coverage, fact provenance, semantic mapping and output traceability contract.",
   "required_top_level_records": [
@@ -19,6 +19,13 @@
     "unreadable",
     "counts"
   ],
+  "source_unit_id_conventions": {
+    "nested_table_prefix": "SRC-NESTED-",
+    "nested_table_inventory_counts": [
+      "nested_table_count",
+      "nested_source_unit_count"
+    ]
+  },
   "required_fact_fields": [
     "fact_id",
     "source_section",
@@ -69,6 +76,10 @@
     "output value has no source fact or approved derivation",
     "empty/hide decision has no target slot and reason",
     "line-break policy is missing or uses fake spacing",
+    "nested source tables or nested control-parameter records were not inventoried",
+    "Section 11 facts were not aligned to the fixed endpoint skeleton before writing",
+    "Section 11 locked sublabels were treated as writable values",
+    "NCO content was left buried in generic Section 9 other information",
     "source hash in any evidence record does not match the original source"
   ]
 }

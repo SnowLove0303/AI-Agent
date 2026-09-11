@@ -20,7 +20,7 @@ from source_ingest import SourceSelection, source_adapter_cache_key
 
 SKILL_ROOT = Path(__file__).resolve().parent.parent
 VERSION_PATH = SKILL_ROOT / "VERSION.txt"
-PACKET_SCHEMA_VERSION = "3.22.0"
+PACKET_SCHEMA_VERSION = "3.23.0"
 
 
 def _sha256(path: Path) -> str:

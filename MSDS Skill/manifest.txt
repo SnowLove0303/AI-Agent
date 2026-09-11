@@ -59,6 +59,7 @@ scripts/ghs_pictogram_policy.py
 scripts/audit_section2_release.py
 scripts/audit_template_mutation_whitelist.py
 scripts/structured_toxicology_policy.py
+scripts/section11_alignment.py
 scripts/section11_alias_policy.py
 scripts/template_mutation_whitelist.py
 scripts/deliverable_audit_framework.py

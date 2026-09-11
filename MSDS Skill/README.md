@@ -1,4 +1,4 @@
-# MSDS Skill 3.22.0
+# MSDS Skill 3.23.0
 
 `MSDS Skill` is the controlled MSDS/SDS standardization skill for producing synchronized Chinese and English deliverables for the Guanzhi and Guocai company profiles.
 
@@ -54,7 +54,7 @@ Read [`SKILL.md`](SKILL.md) for the operating contract. The reusable scripts, te
 
 ## Version
 
-Public release: `MSDS Skill 3.22.0`
+Public release: `MSDS Skill 3.23.0`
 
 Template baseline: the current user-supplied formal CN/EN templates are adopted
 byte-for-byte. CN SHA-256 is
@@ -66,9 +66,14 @@ from the distributable package. Rollback evidence must be stored outside the
 active skill directory.
 
 The public release contains current Skill source and validation assets only.
-Version 3.22.0 adds strict Section 2 label-elements/signal-word separation on
-top of the 3.21.0 reusable source-evidence packet, persistent legacy-source
-conversion cache and a one-shot non-mutating facts preflight on top of the
+Version 3.23.0 adds nested-table source extraction, semantic Section 11
+endpoint-skeleton alignment, safe merged-row omission, five-character Section
+9 prefix spacing, source-backed NCO property splitting, source-sized pictogram
+insertion and current localized revision-date stamping with the template's `P`
+clipping guard. It preserves the v3.22.0 strict Section 2
+label-elements/signal-word separation on top of the 3.21.0 reusable
+source-evidence packet, persistent legacy-source conversion cache and a
+one-shot non-mutating facts preflight on top of the
 DOCX-first matrix scheduler, WPS converter preflight and cache, bounded PDF
 parallelism, progress checkpoints and an optional audited DOCX preview
 directory for slow Harness environments. Version 3.19.1 removed

@@ -2,7 +2,7 @@
 
 Status: `ACTIVE`
 Spec ID: `MSDS-AGENT-OVERWRITE-001`
-Version: `1.2.0`
+Version: `1.3.0`
 
 This OpenSpec is the execution-layer contract for the maintained MSDS skill. It
 does not replace the existing requirements documents. It makes their order and
@@ -23,6 +23,7 @@ Before inspecting a source for overwrite, the Agent must read the complete
 - [v2_9_inheritance_contract.md](../docs/v2_9_inheritance_contract.md)
 - [source_interpretation_contract.md](source_interpretation_contract.md)
 - [source_interpretation_contract.json](source_interpretation_contract.json)
+- [source_interpretation_playbook.md](../docs/source_interpretation_playbook.md)
 
 The JSON version of this contract is the machine-readable checklist consumed by
 `scripts/agent_execution_contract.py`.
@@ -63,15 +64,18 @@ The Agent must follow this order:
    record; unresolved mappings block.
 5. Decide whether each candidate value is supported, explicitly missing,
    not applicable or absent.
-6. Clone the pinned language-specific formal template.
-7. Write only approved source-grounded values into approved value cells.
-8. Hide empty/unsupported rows before numbering. Never leave a bare label row
+6. Align structured Section 11 facts to the complete template endpoint
+   skeleton by endpoint and locked sublabel. Do not delete or compact source
+   rows before this alignment; an unmapped endpoint blocks.
+7. Clone the pinned language-specific formal template.
+8. Write only approved source-grounded values into approved value cells.
+9. Hide empty/unsupported rows before numbering. Never leave a bare label row
    or a visible template example without source support.
-9. Reorder the remaining visible main items in semantic order and change only
+10. Reorder the remaining visible main items in semantic order and change only
    their numeric prefixes when the omission policy requires continuity.
-10. Run locked-label, bold-format, geometry, source-coverage, field-mapping,
+11. Run locked-label, bold-format, geometry, source-coverage, field-mapping,
     output-traceability and whitespace audits.
-11. Render and inspect every page before release.
+12. Render and inspect every page before release.
 
 ## Empty-value row rule
 
@@ -95,6 +99,19 @@ missing-data rules already defined by `requirements_spec.md`.
 - Sequence and label cells are not generic write targets.
 - Every surviving bold label must retain its template text and bold/run/
   paragraph/cell formatting.
+- Section 11.1 route sublabels and Section 11.7 child sublabels are locked
+  labels, not values. Only their final value cells participate in source
+  presence decisions. A compressed S11 list must be expanded to the template
+  skeleton before omission; positional writes from a shortened list are
+  forbidden.
+- Nested source tables are part of the source inventory. A workplace-component
+  control-parameter table hidden inside an S8 cell must be extracted and
+  reviewed before S8.2 can be judged absent.
+- A source-backed `NCO含量 / NCO content` is a separate Section 9 property
+  fact and target row; it must not be buried in an `Other information` value.
+- Preserve the formal footer's leading `P` clipping guard. A missing revision
+  date uses the build date and localized date formatting; a historical test
+  date must not be used as a default.
 - A source fact must be mapped to the correct semantic field before writing;
   positional coincidence is not evidence of a correct match.
 - Every extracted source fact must have a stable ID, precise source locator and

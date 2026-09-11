@@ -8,11 +8,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 from extract_source_facts import (
     Extraction,
+    _extract_docx,
     extract,
     extract_s11,
     extract_s12,
     extract_s2,
     extract_s8,
+    extract_s9,
     main,
     split_inline_protective_material,
 )
@@ -198,6 +200,59 @@ def test_s8_maps_control_parameters_to_engineering_and_blanks_recommendation():
     assert rows[2] == ["建议：", ""]
     assert rows[-1] == ["8.2 工程控制：", "根据EC指令2006/121/EG,无可用的接触限值信息"]
     assert control_parameters == []
+
+
+def test_s8_extracts_nested_control_parameter_records_and_coverage(tmp_path):
+    from docx import Document
+
+    document = Document()
+    for index in range(16):
+        table = document.add_table(rows=1, cols=2)
+        table.rows[0].cells[0].text = f"Section {index + 1}"
+        if index == 0:
+            row = table.add_row()
+            row.cells[0].text = "Product name"
+            row.cells[1].text = "TEST-1234"
+        if index == 7:
+            row = table.add_row()
+            row.cells[0].text = "工作场所组分控制参数"
+            nested = row.cells[0].add_table(rows=2, cols=4)
+            for cell, value in zip(nested.rows[0].cells, ("物质", "依据", "类型", "数值")):
+                cell.text = value
+            for cell, value in zip(
+                nested.rows[1].cells,
+                ("六亚甲基-1,6-二异氰酸酯", "CN OEL", "TWA", "0.03 mg/m3"),
+            ):
+                cell.text = value
+    source = tmp_path / "TEST-1234.docx"
+    document.save(source)
+
+    data = _extract_docx(source)
+    assert data["s8_control_parameters"]["zh"] == [[
+        "六亚甲基-1,6-二异氰酸酯", "CN OEL", "TWA", "0.03 mg/m3"
+    ]]
+    assert data["source_coverage"]["unmapped"] == []
+    assert data["source_coverage"]["counts"]["nested_table_count"] == 1
+    assert data["source_coverage"]["counts"]["nested_source_unit_count"] == 8
+    assert any(
+        unit["text"] == "0.03 mg/m3" and "nested_table" in unit["source_locator"]
+        for unit in data["source_coverage"]["source_units"]
+    )
+
+
+def test_s9_splits_inline_nco_content_into_a_dedicated_property_row():
+    from docx import Document
+
+    document = Document()
+    table = document.add_table(rows=1, cols=2)
+    row = table.add_row()
+    row.cells[0].text = "其他信息："
+    row.cells[1].text = "NCO含量：16.6±0.5%\n上述数据非产品指标，产品指标请参见产品技术信息表。"
+
+    rows = extract_s9(table, Extraction())
+    assert rows[0] == {"label": "NCO含量：", "value": "16.6±0.5%"}
+    assert rows[1]["label"] == "其他信息："
+    assert rows[1]["value"].startswith("上述数据非产品指标")
 
 
 def test_s12_keeps_source_121_and_suppresses_only_template_notes():

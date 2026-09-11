@@ -1,6 +1,6 @@
 {
   "spec_id": "MSDS-AGENT-OVERWRITE-001",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "status": "active",
   "purpose": "Fail-closed execution contract for source-grounded in-place MSDS template overwrite.",
   "read_before_action": [
@@ -14,7 +14,8 @@
     "docs/v2_9_inheritance_contract.md",
     "openspec/agent_overwrite_contract.md",
     "openspec/source_interpretation_contract.md",
-    "openspec/source_interpretation_contract.json"
+    "openspec/source_interpretation_contract.json",
+    "docs/source_interpretation_playbook.md"
   ],
   "operation_order": [
     "read_full_contract",
@@ -24,6 +25,7 @@
     "review_source_mapping",
     "review_output_traceability",
     "decide_source_presence",
+    "align_structured_endpoint_skeleton",
     "clone_pinned_template",
     "write_value_cells_only",
     "suppress_empty_or_unsupported_rows",
@@ -44,6 +46,11 @@
     "body_values_use_template_approved_format",
     "no_artificial_blank_lines_or_spacing",
     "source_read_completeness_verified",
+    "source_nested_tables_inventoried",
+    "s11_skeleton_aligned_before_write",
+    "s11_sublabels_are_not_values",
+    "nco_property_split_reviewed",
+    "revision_date_is_current_or_explicit",
     "fact_ledger_has_precise_provenance",
     "missing_source_is_distinguished_from_unreadable_source",
     "no_unmapped_fact_or_unsubstantiated_output",

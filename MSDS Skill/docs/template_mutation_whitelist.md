@@ -28,6 +28,12 @@ The first physical cell of a normal field row is treated as the sequence/label
 cell. In structured rows, the sublabel cell retains the template's formatting;
 only its approved source-grounded subvalue may be written.
 
+For Section 11.1 and 11.7 three-column rows, the middle sublabel cell is
+always locked template text. The runtime must align facts to the fixed Section
+11 endpoint skeleton before evaluating source presence or clearing rows; a
+source fact list may not be projected by physical list position. See
+`scripts/section11_alignment.py`.
+
 The runtime creates a slot registry from the fresh template clone before it
 clears values. Non-empty value objects are writable; blank value objects remain
 locked unless an explicit semantic input exception exists (for example the

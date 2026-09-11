@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mechanical source-fact extractor for the unified MSDS pipeline (v3.22.0).
+"""Mechanical source-fact extractor for the unified MSDS pipeline (v3.23.0).
 
 Business role: the overwrite core is *extract -> standardize (CN) -> render
 CN -> translate EN from the standardized model*.  This module does the first
@@ -89,6 +89,11 @@ PROTECTIVE_MATERIAL_RE = re.compile(
     r"^\s*(氟化橡胶\s*[–-]\s*FKM|丁基橡胶\s*[–-]\s*IIR|丁腈橡胶\s*[–-]\s*NBR)\s*[:：]\s*(.+?)\s*$",
     re.I,
 )
+NCO_INLINE_RE = re.compile(
+    r"(?P<label>NCO\s*含量|NCO\s*content)\s*[:：]\s*"
+    r"(?P<value>[^\r\n;；。]+%?)",
+    re.I,
+)
 
 
 def sha256(path: Path) -> str:
@@ -139,6 +144,47 @@ def row_texts(table, index) -> list[str]:
     # Paragraph boundaries are semantic source lines.  A spaced slash is only
     # a legacy joiner and can wrap as an illegal slash-only line in Word.
     return ["\n".join(cell_lines(cell)) for cell in unique_cells(table.rows[index])]
+
+
+def iter_nested_tables(table):
+    """Yield nested tables recursively, including tables inside table cells."""
+    for row in table.rows:
+        for cell in unique_cells(row):
+            for nested in cell.tables:
+                yield nested
+                yield from iter_nested_tables(nested)
+
+
+def _control_parameter_records(table, ext: Extraction) -> list[list[str]]:
+    """Extract verified four-column control rows from nested source tables."""
+    records = []
+    expected_headers = {
+        ("物质", "依据", "类型", "数值"),
+        ("substance", "basis", "type", "value"),
+    }
+    candidates = [table, *iter_nested_tables(table)]
+    for nested in candidates:
+        for row_index, row in enumerate(nested.rows):
+            cells = row_texts(nested, row_index)
+            header = tuple(_compact_header(value) for value in cells[:4])
+            if header not in expected_headers:
+                continue
+            for data_index in range(row_index + 1, len(nested.rows)):
+                values = [_clean(value) for value in row_texts(nested, data_index)[:4]]
+                if len(values) == 4 and any(values):
+                    if all(values):
+                        records.append(values)
+                    else:
+                        ext.flag(
+                            "s8",
+                            "control-parameter-incomplete",
+                            " / ".join(values)[:120],
+                        )
+    return records
+
+
+def _compact_header(value: object) -> str:
+    return re.sub(r"\s+", "", str(value or "")).casefold()
 
 
 class Extraction:
@@ -345,7 +391,7 @@ def extract_s8(table, ext: Extraction) -> tuple[list, list]:
             exposure_rows.append([label, value])
     rows = [["8.1 暴露控制：", ""]] + exposure_rows
     rows.append(["8.2 工程控制：", "\n".join(control_lines)])
-    return rows, []
+    return rows, _control_parameter_records(table, ext)
 
 
 def extract_s12(table, ext: Extraction) -> list:
@@ -417,7 +463,32 @@ def extract_s9(table, ext: Extraction) -> list:
         elif MISSING_HINT_RE.search(value):
             entry["omit"] = True
             ext.flag("s9", "ambiguous-missing-wording", f"{label}: {value[:60]}")
-        rows.append(entry)
+        matches = list(NCO_INLINE_RE.finditer(value))
+        if matches and not NCO_INLINE_RE.fullmatch(label.strip().rstrip("：:")):
+            # NCO content is a product property, not generic free-form
+            # information.  Split it into its own semantic row before an
+            # Agent can accidentally bury it in 9.24/Other information.
+            remainder = value
+            split_entries = []
+            for match in matches:
+                nco_value = match.group("value").strip()
+                if nco_value:
+                    split_entries.append({
+                        "label": "NCO含量：" if "含量" in match.group("label")
+                                 else "NCO content:",
+                        "value": nco_value,
+                    })
+                remainder = remainder.replace(match.group(0), "", 1)
+            remainder = re.sub(r"^[\s;；。]+|[\s;；。]+$", "", remainder)
+            if remainder:
+                entry["value"] = remainder
+                if is_missing_data_value(remainder):
+                    entry["omit"] = True
+                split_entries.append(entry)
+            ext.flag("s9", "nco-split", f"{label}: {value[:100]}")
+            rows.extend(split_entries)
+        else:
+            rows.append(entry)
     return rows
 
 
@@ -512,11 +583,19 @@ def extract_images(source: Path) -> list[dict]:
     return found
 
 
-def coverage_fingerprint(document, sections: dict) -> dict:
+def coverage_fingerprint(document, sections: dict,
+                          control_parameters: list | None = None) -> dict:
     """Prove no source character goes missing: every non-empty source line
     (whitespace-normalized) must appear in the extracted sections dump,
     except R0 section headings which are template structure by design."""
-    corpus = re.sub(r"\s+", " ", json.dumps(sections, ensure_ascii=False))
+    corpus = re.sub(
+        r"\s+",
+        " ",
+        json.dumps(
+            {"sections": sections, "control_parameters": control_parameters or []},
+            ensure_ascii=False,
+        ),
+    )
     def coverage_key(text: object) -> str:
         return re.sub(r"\s+", "", str(text or "")).replace("：", ":")
 
@@ -537,6 +616,10 @@ def coverage_fingerprint(document, sections: dict) -> dict:
             row_corpus.add(coverage_key("".join(
                 str(value) for row in section if isinstance(row, list) for value in row
             )))
+    for record in control_parameters or []:
+        for value in record:
+            row_corpus.add(coverage_key(value))
+        row_corpus.add(coverage_key("".join(str(value) for value in record)))
     skipped, unmapped = [], []
     source_units = []
     for ti, table in enumerate(document.tables):
@@ -576,6 +659,12 @@ def coverage_fingerprint(document, sections: dict) -> dict:
                             r"^(?:生态毒性|持久性和降解性|其他)(?:[：:]|$)", text
                         )
                     ) or (
+                        ti == 7 and re.match(
+                            r"^\s*(?:工作场所组分控制参数|control parameters for workplace components)\s*$",
+                            text,
+                            re.I,
+                        )
+                    ) or (
                         ti == 7 and any(
                             re.match(r"^\s*(?:建议|recommendation)\b", cell.text, re.I)
                             for cell in unique_cells(row)
@@ -586,6 +675,47 @@ def coverage_fingerprint(document, sections: dict) -> dict:
                     ):
                         unmapped.append({"table": ti, "row": ri, "cell": ci,
                                          "text": text[:80], "unit_id": unit_id})
+
+    for ti, table in enumerate(document.tables):
+        for nested_index, nested in enumerate(iter_nested_tables(table), start=1):
+            for nested_row_index, nested_row in enumerate(nested.rows, start=1):
+                for nested_cell_index, nested_cell in enumerate(
+                    unique_cells(nested_row), start=1
+                ):
+                    raw_lines = nested_cell.text.splitlines() or [nested_cell.text]
+                    locator = (
+                        f"s{ti + 1}.nested_table[{nested_index}]"
+                        f".row[{nested_row_index}].cell[{nested_cell_index}]"
+                    )
+                    for line_index, raw_line in enumerate(raw_lines, start=1):
+                        is_header = nested_row_index == 1
+                        text = re.sub(r"\s+", " ", raw_line).strip()
+                        if not text:
+                            continue
+                        unit_id = f"SRC-NESTED-{ti + 1:02d}-{nested_index:03d}-{nested_row_index:03d}-{nested_cell_index:02d}-{line_index:02d}"
+                        source_units.append({
+                            "unit_id": unit_id,
+                            "source_section": f"s{ti + 1}",
+                            "source_locator": f"{locator}.line[{line_index}]",
+                            "text": text,
+                            "processing_status": "reviewed_structural" if is_header else "extracted",
+                        })
+                        normalized_header = _compact_header(text)
+                        structural = is_header and normalized_header in {
+                            "物质", "依据", "类型", "数值", "substance", "basis", "type", "value",
+                        }
+                        if structural or text in corpus or coverage_key(text) in row_corpus:
+                            continue
+                        key = coverage_key(text)
+                        if not any(key in candidate for candidate in row_corpus):
+                            unmapped.append({
+                                "table": ti,
+                                "row": nested_row_index,
+                                "cell": nested_cell_index,
+                                "text": text[:80],
+                                "unit_id": unit_id,
+                                "reason": "nested table value is not represented in extracted facts",
+                            })
     for pi, paragraph in enumerate(document.paragraphs, start=1):
         text = re.sub(r"\s+", " ", paragraph.text).strip()
         if not text:
@@ -615,6 +745,13 @@ def coverage_fingerprint(document, sections: dict) -> dict:
         "counts": {
             "source_unit_count": len(source_units),
             "processed_unit_count": len(source_units) - len(unmapped),
+            "nested_table_count": sum(
+                1 for table in document.tables for _ in iter_nested_tables(table)
+            ),
+            "nested_source_unit_count": sum(
+                1 for unit in source_units
+                if str(unit.get("unit_id", "")).startswith("SRC-NESTED-")
+            ),
             "unmapped_count": len(unmapped),
             "unreadable_count": 0,
             "image_count": 0,
@@ -805,7 +942,7 @@ def _extract_docx(source: Path, *, original_source: Path | None = None,
     s3_data = [row for row in sections["s3"] if len(row) == 3 and row[0] not in ("产品类型：", "成分", "化学品名称")]
     source_hash = sha256(original)
     images = extract_images(source)
-    coverage = coverage_fingerprint(document, sections)
+    coverage = coverage_fingerprint(document, sections, s8_control_parameters)
     coverage["source_sha256"] = source_hash
     coverage["source_format"] = source_format
     for index, image in enumerate(images, start=1):

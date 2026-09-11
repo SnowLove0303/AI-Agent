@@ -35,3 +35,12 @@ def test_structured_endpoint_numbers_may_have_source_defined_gaps():
     for row, value in zip(t.rows, ['11.4  致敏性：', '11.6  致癌性：', '11.7  生殖毒性：']):
         row.cells[0].text=value
     assert not audit(collect(d))
+
+def test_section9_renumbering_preserves_a_five_character_prefix_slot():
+    d=Document(); t=d.add_table(rows=2, cols=1)
+    t.rows[0].cells[0].text='9.12  Density:'
+    t.rows[1].cells[0].text='9.13 Solubility in water:'
+    renumber(d)
+    labels=[row.cells[0].text for row in t.rows]
+    assert labels[0].startswith('9.1  Density:')
+    assert labels[1].startswith('9.2  Solubility in water:')

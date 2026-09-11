@@ -1,6 +1,7 @@
 from pathlib import Path
 import sys
 
+import pytest
 from docx import Document
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -11,7 +12,13 @@ from missing_data_policy import (  # noqa: E402
     apply_source_absence_policy,
     classify_source_value,
 )
-from msds_pipeline import suppress_empty_s82_engineering_control, write_header_footer  # noqa: E402
+from msds_pipeline import (  # noqa: E402
+    format_revision_date,
+    suppress_empty_s82_engineering_control,
+    write_body,
+    write_header_footer,
+)
+from section11_alignment import align_s11_rows  # noqa: E402
 from template_mutation_whitelist import (  # noqa: E402
     TemplateSlotRegistry,
     normalize_value_text,
@@ -141,6 +148,42 @@ def test_s11_non_11_7_source_missing_endpoint_is_preserved():
     assert any("11.6" in label for label in labels)
 
 
+def test_s11_compressed_facts_are_aligned_by_endpoint_before_rows_are_hidden():
+    document = Document(str(TEMPLATE))
+    facts = {f"s{section}": [] for section in range(1, 17)}
+    facts["s11"] = [
+        ["该产品无可用的毒理学研究。"],
+        ["11.1 急性毒性：", "经口：", "半数致死剂量（LD50）/大鼠：>2,000 mg/kg"],
+        ["11.2 主要皮肤刺激性：", "物种：兔子\n结果：轻微刺激"],
+        ["11.4 致敏性：", "物种：豚鼠\n结果：皮肤接触可能致敏"],
+        ["11.7 生殖毒性：", "致畸形", "无数据资料。"],
+        ["11.10 附加信息：", "眼睛接触可能造成刺激。"],
+    ]
+    facts["s8_control_parameters"] = {"zh": [], "en": []}
+
+    write_body(document, facts, "zh")
+    table = document.tables[10]
+    visible = []
+    for row in table.rows[1:]:
+        cells = unique_cells(row)
+        visible.append((cells[0].text, [cell.text for cell in cells[1:]]))
+
+    skin = next(item for item in visible if "11.2" in item[0])
+    sensitization = next(item for item in visible if "11.4" in item[0])
+    teratogenicity = next(item for item in visible if "11.7" in item[0] and "致畸形" in item[1][0])
+    assert "轻微刺激" in skin[1][0]
+    assert "皮肤接触可能致敏" in sensitization[1][0]
+    assert teratogenicity[1][-1] == "无数据资料。"
+    assert not any("吸入：" in label or "经皮：" in label for label, _ in visible)
+    assert all("\n\n" not in value for _, values in visible for value in values)
+
+
+def test_s11_alignment_rejects_unclassified_endpoint_instead_of_guessing():
+    document = Document(str(TEMPLATE))
+    with pytest.raises(ValueError, match="no matching template row"):
+        align_s11_rows([["11.99 未知毒理项目：", "错误归类"]], document.tables[10])
+
+
 def test_s12_template_only_explanation_is_removed():
     document = Document(str(TEMPLATE))
     table = document.tables[11]
@@ -207,3 +250,16 @@ def test_header_version_is_inherited_from_template():
         if "Version" in paragraph.text
     )
     assert version_after == version_before == "Version：V1.0"
+
+
+def test_revision_date_is_currently_formatted_and_template_p_guard_survives():
+    document = Document(str(TEMPLATE))
+    write_header_footer(document, "zh", "guanzhi", "PU-1001", "2026/9/11")
+    footer = document.sections[0].footer.tables[0].rows[0]
+    assert unique_cells(footer)[1].text.startswith("P修订日期：2026年9月11日")
+    assert format_revision_date("en", "2026年9月11日") == "September 11, 2026"
+
+    english = Document(str(ROOT / "examples" / "template_reference_en.docx"))
+    write_header_footer(english, "en", "guanzhi", "PU-1001", "2026年9月11日")
+    en_footer = english.sections[0].footer.tables[0].rows[0]
+    assert unique_cells(en_footer)[1].text.startswith("PRevision date: September 11, 2026")

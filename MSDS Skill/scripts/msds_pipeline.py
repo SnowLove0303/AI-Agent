@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Shared DOCX-first build pipeline for the unified MSDS skill (v3.22.0).
+"""Shared DOCX-first build pipeline for the unified MSDS skill (v3.23.0).
 
 Business role: one parameterized path replaces the per-model copied
 generators.  Input is an *approved* standardized model file::
@@ -36,7 +36,9 @@ import shutil
 import sys
 import tempfile
 import time
+from calendar import month_name
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import date, datetime
 from pathlib import Path
 
 from docx import Document
@@ -63,6 +65,7 @@ from section2_ghs_policy import (  # noqa: E402
 )
 from section2_hp_policy import is_missing_data_value  # noqa: E402
 from missing_data_policy import apply_source_absence_policy  # noqa: E402
+from section11_alignment import align_s11_rows  # noqa: E402
 from agent_execution_contract import validate_agent_execution_contract  # noqa: E402
 from source_interpretation_contract import validate_source_interpretation  # noqa: E402
 from product_identity_policy import audit_identity, expected_identity  # noqa: E402
@@ -90,7 +93,10 @@ import audit_openspec_overwrite as audit_openspec  # noqa: E402
 import audit_template_mutation_whitelist as audit_whitelist  # noqa: E402
 import audit_whitespace as audit_ws  # noqa: E402
 
-REVISION_DEFAULT = "2025/2/22"
+# A historical test date must never silently become customer-facing output.
+# When the caller does not provide a revision date, the runtime stamps the
+# build date and formats it per language in ``format_revision_date``.
+REVISION_DEFAULT = None
 RESIDUAL_IDS = ("PU-2345", "PEA-4139")
 
 # Guanzhi contact block, mirroring the approved formal template/supplier
@@ -369,7 +375,13 @@ def write_body(doc, facts: dict, language: str) -> dict:
         rows = base.project_rows_to_template(facts[f"s{sec}"], language, sec, table)
         if sec == 8:
             rows = suppress_s8_recommendation_value(rows, language)
-        if sec in (11, 12):
+        if sec == 11:
+            # Section 11 is a fixed endpoint skeleton.  Align by endpoint and
+            # child label before any value write so pre-omitted source rows can
+            # never shift later toxicity results into the wrong locked label.
+            rows = align_s11_rows(facts[f"s{sec}"], table)
+            policy_facts[f"s{sec}"] = rows
+        elif sec == 12:
             rows = align_note_section_rows(rows, table)
             policy_facts[f"s{sec}"] = rows
         validate_section_payload(sec, rows, table)
@@ -396,7 +408,47 @@ def write_body(doc, facts: dict, language: str) -> dict:
             "inserted_data_rows": inserted_data_rows, **absence}
 
 
-def write_header_footer(doc, language: str, brand: str, product: str, revision: str) -> None:
+def _parse_revision_date(value: object) -> date | None:
+    if isinstance(value, datetime):
+        return value.date()
+    if isinstance(value, date):
+        return value
+    text = str(value or "").strip()
+    if not text:
+        return None
+    match = re.search(
+        r"(\d{4})\s*(?:年|[-/.])\s*(\d{1,2})\s*(?:月|[-/.])\s*(\d{1,2})",
+        text,
+    )
+    if match:
+        try:
+            return date(int(match.group(1)), int(match.group(2)), int(match.group(3)))
+        except ValueError:
+            return None
+    for pattern in ("%B %d, %Y", "%b %d, %Y", "%Y/%m/%d", "%Y-%m-%d"):
+        try:
+            return datetime.strptime(text, pattern).date()
+        except ValueError:
+            continue
+    return None
+
+
+def format_revision_date(language: str, revision: object) -> str:
+    """Format an explicit or build-date revision without a stale fallback."""
+    parsed = _parse_revision_date(revision) or date.today()
+    if language == "en":
+        return f"{month_name[parsed.month]} {parsed.day}, {parsed.year}"
+    if language == "zh":
+        return f"{parsed.year}年{parsed.month}月{parsed.day}日"
+    raise ValueError(f"unsupported language: {language}")
+
+
+def _footer_protection_prefix(text: str) -> str:
+    """Preserve the formal template's sacrificial leading ``P`` guard."""
+    return "P" if str(text or "").lstrip().startswith("P") else ""
+
+
+def write_header_footer(doc, language: str, brand: str, product: str, revision: object) -> None:
     is_en = language == "en"
     company_name, _ = company(language, brand)
     for section in doc.sections:
@@ -413,8 +465,11 @@ def write_header_footer(doc, language: str, brand: str, product: str, revision: 
                 set_cell_text(cells[0],
                               f"{company_name}\n{product}-MSDS" if is_en else f"{company_name}  {product}-MSDS")
                 if len(cells) > 1:
+                    prefix = _footer_protection_prefix(cells[1].text)
+                    revision_text = format_revision_date(language, revision)
                     set_cell_text(cells[1],
-                                  f"Revision date: {revision}" if is_en else f"修订日期：{revision}")
+                                  prefix + (f"Revision date: {revision_text}" if is_en
+                                            else f"修订日期：{revision_text}"))
 
 
 def replace_residual_product_ids(doc, product: str) -> None:
@@ -453,9 +508,7 @@ def suppress_s9(doc) -> dict:
             continue
         paragraph = cells[0].paragraphs[0]
         current = paragraph.text
-        updated = re.sub(r"^(\s*)9\.\d+\b", rf"\g<1>9.{number}", current, count=1)
-        if updated != current:
-            set_sequence_prefix(cells[0], 9, number)
+        updated = set_sequence_prefix(cells[0], 9, number, prefix_width=5)
         labels.append(updated.strip())
     return {"removed_count": len(removed), "removed_labels": removed,
             "visible_count": len(labels), "visible_labels": labels}
@@ -765,7 +818,7 @@ def build_matrix(*, source: Path, facts: dict, out_root: Path,
                              "draft en with draft_en_facts.py and clear translation_review first")
     if facts.get("translation_review"):
         raise ReleaseBlocked(f"translation_review is not empty: {len(facts['translation_review'])} items")
-    revision = revision or facts.get("revision") or REVISION_DEFAULT
+    revision = revision or facts.get("revision") or date.today()
     selection = discover_source(Path(source), model=model)
     _notify_progress(
         progress_callback,

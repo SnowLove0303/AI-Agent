@@ -154,6 +154,15 @@ def test_extra_s9_source_row_uses_cloned_style_and_source_label_only_on_insert()
     assert row.cells[0].text == "9.24  New physical property:"
     assert row.cells[1].text == "source value"
     assert not compare_locked_skeleton(template, output)
+
+
+def test_section9_sequence_renumber_can_rebalance_prefix_spacing():
+    template = Document(str(TEMPLATE))
+    output = Document(str(TEMPLATE))
+    cell = output.tables[8].rows[12].cells[0]  # template 9.12 has one separator space
+    updated = set_sequence_prefix(cell, 9, 5, prefix_width=5)
+    assert updated.startswith("9.5  ")
+    assert not compare_locked_skeleton(template, output)
     assert not compare_format_anchors(template, output)
 
 

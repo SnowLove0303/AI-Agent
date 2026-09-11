@@ -2,7 +2,7 @@
 
 Status: `ACTIVE`
 Spec ID: `MSDS-SOURCE-INTERPRETATION-001`
-Version: `1.0.0`
+Version: `1.1.0`
 
 This contract prevents the Agent from treating an incomplete extraction or a
 semantic guess as an approved MSDS fact model. It is an evidence gate between
@@ -42,6 +42,16 @@ status.
 - every detected image/scan/table continuation has a review result;
 - the reported counts agree with the installed unit list.
 
+Nested tables are source units, not formatting noise. The reader must recurse
+through every table cell and inventory each nested table, its header cells and
+its data cells. A nested four-column control-parameter table in Section 8.2
+must be represented as complete records in `s8_control_parameters` before the
+source can be marked ready. Reading only `cell.text` from the outer table is
+not a complete read and cannot be used to justify an omitted engineering-
+control block. The coverage ledger should report both
+`nested_table_count` and `nested_source_unit_count`; these counts must agree
+with the nested source units whose IDs begin with `SRC-NESTED-`.
+
 `source_absent` means the source was read and the field was not present. It is
 not interchangeable with `source_unreadable`, `unmapped` or `mapping_ambiguous`.
 The latter states block the build; they must never be converted silently into
@@ -73,6 +83,21 @@ The following facts may not be invented: CAS/EC numbers, concentrations, GHS
 classes, H/EUH/P codes, toxicology/ecology results, exposure limits, transport
 classifications, regulatory conclusions, company legal names or unsupported
 test methods/species/qualifiers.
+
+Structured endpoints require skeleton alignment before rendering. Section 11
+must be aligned to the maintained physical rows by endpoint and locked
+sublabel, including the separate oral/inhalation/dermal rows under 11.1 and
+the fertility/teratogenicity/in-vitro-genotoxicity rows under 11.7. A compacted
+source list must never be written by physical list position. The middle cell
+in these three-column rows is a template sublabel, not a value; it must not be
+cleared, counted as source evidence or replaced by an acute-toxicity result.
+An absent route is an absent value for that route and its complete row may be
+suppressed only after semantic alignment and merge-safe row handling.
+
+Section 9 `NCO含量` / `NCO content` is an independent physical/chemical
+property. If it occurs inline in `其他信息`, it must be split into its own
+source-backed fact and dedicated property row before mapping. It may not be
+buried in generic other information or discarded during normalization.
 
 ## Mapping and取舍 rules
 

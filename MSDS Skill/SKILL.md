@@ -3,7 +3,7 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS standardization skill that discovers supported source files, binds source-grounded facts to synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, preserves locked templates, and releases four DOCX plus four PDF deliverables only after semantic and render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.22.0
+# Unified MSDS Eight-Deliverable Standardizer v3.23.0
 
 ## Mandatory v2.9 inheritance (release blocker)
 
@@ -110,7 +110,7 @@ Structural baseline:
 - Section 15 current 9-row geometry is locked.
 - Section 2 includes the uploaded template's revised hazard-label structure.
 - Section 8 includes the uploaded template's `Hand protection` and `8.2 Engineering controls` slots.
-- Section 8.2 uses the formal template's top-level four-column control-parameter rows: a one-cell `工作场所组分控制参数 / Control parameters for workplace components` parent row, one locked header row (CN `物质 / 依据 / 类型 / 数值`; EN `Substance / Basis / Type / Value`), then data rows. Only source-grounded data rows may be written or cloned; the parent row, header wording/topology and grid are locked. The two template example OEL rows are illustrative structure only and MUST be cleared. With verified source records they are replaced by source data rows; with no source records the complete workplace-component block is removed, including its parent/header/data rows. Never emit a synthetic `无数据` / `No data available` row for an absent workplace-parameter block.
+- Section 8.2 uses the formal template's top-level four-column control-parameter rows: a one-cell `工作场所组分控制参数 / Control parameters for workplace components` parent row, one locked header row (CN `物质 / 依据 / 类型 / 数值`; EN `Substance / Basis / Type / Value`), then data rows. Only source-grounded data rows may be written or cloned; the parent row, header wording/topology and grid are locked. The two template example OEL rows are illustrative structure only and MUST be cleared. With verified source records they are replaced by source data rows; with no source records the complete workplace-component block is removed, including its parent/header/data rows. Nested source tables are part of the source inventory and must be extracted before the block is judged absent. Never emit a synthetic `无数据` / `No data available` row for an absent workplace-parameter block.
 - Section 11 includes the uploaded template's structured rows through `11.10 Additional information`.
 - The v3.6.2 template geometry update changes only approved border styling: Section 8 internal PPE boundaries use dotted borders with the adjusted boundary edges around the first exposure-control rows; Section 11 uses dotted boundary edges around its introductory/reference-data transition row. No table count, row count, grid width, merge, paragraph-property or run-property baseline changed.
 - The complete structural snapshot, including paragraph/run properties and
@@ -131,7 +131,7 @@ This rule overrides every language/layout convenience rule. Each CN deliverable 
 
 The template owns: table count/order, row/column geometry, grid, merges, cell properties, borders, widths, section placement, label cells, paragraph properties, character-format anchors, and page-crossing behavior. All maintained formal templates permit their tables to continue across pages; each active baseline's row-level `cantSplit` settings are also template-owned and must be preserved exactly on surviving output rows. The source owns facts only. Agent mutation is restricted to writing or clearing label-associated value cells, deciding whether a value is source-absent/unsupported and therefore hidden, and requesting only necessary complete styled-row insertion or deletion under the section rule. Labels, sequence text, boldness, fonts, paragraph properties, cell properties, tables and page layout are never Agent-editable. The previous Section 2 label-alias path is retired; source headings select semantic slots but never rewrite template labels.
 
-The shared runtime builds a slot registry from the fresh clone before clearing values: a non-empty template value object is writable, an intentionally blank object is not writable unless the semantic contract explicitly marks it as an input slot, and Section 8.2 data rows are handled only by their dedicated writer. This prevents source data from leaking into blank template slots; the Section 8 `建议 / Recommendation` value is deliberately always blank in formal output. Any necessary company/header/footer overlay, pictogram insertion or post-omission numeric-prefix renumbering is runtime-controlled and is not an Agent permission.
+The shared runtime builds a slot registry from the fresh clone before clearing values: a non-empty template value object is writable, an intentionally blank object is not writable unless the semantic contract explicitly marks it as an input slot, and Section 8.2 data rows are handled only by their dedicated writer. Section 11.1 route sublabels and Section 11.7 child sublabels are locked and are never cleared as value cells. Before any Section 11 write, the runtime maps facts to the fixed endpoint skeleton by endpoint and sublabel, pads absent slots, and only then applies source-presence row omission. This prevents source data from leaking into blank template slots or shifting into a neighboring toxicology label. The Section 8 `建议 / Recommendation` value is deliberately always blank in formal output. Any necessary company/header/footer overlay, pictogram insertion or post-omission numeric-prefix renumbering is runtime-controlled and is not an Agent permission.
 
 Deletion of an unsupported item must use the smallest safe template boundary. It may remove a whole dedicated row when that row is exactly one item; otherwise it must suppress only the unsupported item without damaging supported siblings or merge/grid integrity. After suppression, all four variants MUST have the same semantic item-presence set.
 
@@ -142,7 +142,7 @@ Bold template labels and table geometry are locked: wording for the selected lan
 
 Allowed mutation exception: after an explicitly permitted whole-row omission, numeric prefixes may be changed to restore continuous visible section numbering. Only the numeric prefix is mutable. The complete executable boundary is defined in `docs/template_mutation_whitelist.md` and enforced by `scripts/template_mutation_whitelist.py` plus `scripts/audit_template_mutation_whitelist.py`.
 
-Avoid destructive APIs such as `paragraph.text = ...` or `cell.text = ...` on formatted template content when they would destroy runs. Preserve the template's table-cross-page contract: tables may span pages, and all surviving rows must retain the active template's exact row-level `cantSplit` and repeating-header settings. Never insert artificial page breaks to compensate for content.
+Avoid destructive APIs such as `paragraph.text = ...` or `cell.text = ...` on formatted template content when they would destroy runs. Preserve the template's table-cross-page contract: tables may span pages, and all surviving rows must retain the active template's exact row-level `cantSplit` and repeating-header settings. Never insert artificial page breaks to compensate for content. Preserve the formal footer's leading `P` clipping guard when stamping the revision date; if no date is provided, use the build date and format CN as `YYYY年M月D日` and EN as `Month D, YYYY`, never a stale test date.
 
 The executable per-section contract is maintained in
 `scripts/section_overwrite_rules.py`. Every S1-S16 table must use its declared
@@ -191,7 +191,7 @@ Never invent:
 
 For customer-facing MSDS output, a source-supported missing value normally uses `无数据` in Chinese or `No data available` in English. Do not add provenance commentary such as `源文件未提供` or `source file not provided`. Endpoint-specific rules below override this default: source-backed Section 2 `其他危险` preserves the source wording such as `无适用资料。`; Section 11.7 writes `无数据` only when the source explicitly has that endpoint with missing data; absent Section 11.7 children are hidden. This Section 11.7 child-field matching requirement must not be generalized into a blanket Section 11 omission rule: for every Section 11 endpoint, a source-backed explicit missing-data phrase remains the endpoint value, while only a source-absent or unmatched endpoint is hidden. The shared model distinguishes `SUPPORTED`, `EXPLICIT_MISSING`, `NOT_APPLICABLE`, and `ABSENT`; only an explicit endpoint state may produce a placeholder, while an absent template-only field is suppressed.
 
-Section 9 property exception: when a property value is only a missing-data placeholder, omit the entire dedicated property row before customer-facing write. Do not leave a blank row. Renumber the surviving visible Section 9 properties continuously in original semantic order. Preserve substantive values, including `不适用` / `Not applicable`, measured values and source-supported `其他信息` / `Other information`.
+Section 9 property exception: when a property value is only a missing-data placeholder, omit the entire dedicated property row before customer-facing write. Do not leave a blank row. Renumber the surviving visible Section 9 properties continuously in original semantic order. The runtime preserves the template's five-character `9.n` prefix slot, so a moved two-digit row receives two separator spaces when it becomes a one-digit item. A source-backed `NCO含量 / NCO content` is an independent Section 9 property row, never text buried in `其他信息 / Other information`. Preserve substantive values, including `不适用` / `Not applicable`, measured values and source-supported `其他信息` / `Other information`.
 
 Do not treat `不适用` or substantive negative conclusions as missing data. Keep conclusions such as `非危险品`, `无危险反应`, `初沸点以下无闪点`, or `未满足分类标准` when source-supported.
 
@@ -265,7 +265,7 @@ Map source semantics to existing PPE/control labels. Professional EN terms inclu
 
 Do not create composite labels that do not exist in the template. Preserve standards such as EN 374 exactly. When a source row is formatted as `氟化橡胶 –FKM:厚度...`, `丁基橡胶 –IIR:厚度...` or `丁腈橡胶 –NBR:厚度...`, split it into the existing material label cell and its value cell; never leave the value cell empty. Keep `8.2 工程控制` separate from the workplace-component control-parameter block. An absent workplace-component block is hidden, not rendered as `无数据`.
 
-The source `8.1 控制参数` exposure-limit/control-parameter statement maps to the existing template row `8.2 工程控制：`; the source `8.2 暴露控制` PPE rows map to the template's `8.1 暴露控制` block. This is semantic mapping, not positional copying. The template `建议：` row keeps its fixed label but its value stays blank. Synthetic spaced separators such as ` / ` become semantic line breaks before writing; compact source expressions such as `通风/排气` and `有/无` remain unchanged. A value line containing only `/` or `／` is a release blocker.
+The source `8.1 控制参数` exposure-limit/control-parameter statement maps to the existing template row `8.2 工程控制：`; the source `8.2 暴露控制` PPE rows map to the template's `8.1 暴露控制` block. This is semantic mapping, not positional copying. If the source stores `工作场所组分控制参数` in a nested table, extract the four columns `物质 / 依据 / 类型 / 数值` and map each verified record to the dedicated writer. The template `建议：` row keeps its fixed label but its value stays blank. Synthetic spaced separators such as ` / ` become semantic line breaks before writing; compact source expressions such as `通风/排气` and `有/无` remain unchanged. A value line containing only `/` or `／` is a release blocker.
 
 ## 11. Section 11: structured toxicology is highest priority
 **Never use punctuation-first splitting for Section 11.**
@@ -293,6 +293,14 @@ Rules:
 - Buehler and LLNA are separate studies.
 - Ames and in-vitro chromosome aberration are separate studies.
 - Do not merge oral/dermal/inhalation acute toxicity.
+- The runtime must align the approved facts to the template's complete physical
+  Section 11 skeleton before any row can be hidden. A pre-compacted list is not
+  a valid positional payload. `11.1` route rows and `11.7` child rows are matched
+  by their sublabels; an unmatched endpoint blocks instead of guessing.
+- For `11.1` and `11.7`, the middle sublabel is not a value. Only the final
+  value cell determines source presence. If the source never mentions an acute
+  route, its empty row is hidden; an explicit source missing phrase remains in
+  that route row.
 - Preserve source route order where the template supports it.
 - A simple conclusion such as `STOT assessment - single exposure: Based on available data, the classification criteria are not met.` may remain one field:value line; do not over-split it.
 - When the source explicitly supplies a missing endpoint value, retain that endpoint row and write the exact missing-data placeholder. When the source has no endpoint field at all, suppress the template-only row; if every endpoint in Section 11 or 12 is absent or explicitly missing, retain only the source explanation row.
@@ -303,7 +311,8 @@ Rules:
 - For acute dermal and acute inhalation conclusions, preserve the source's direct assessment wording; do not replace it with a missing-source explanation or an invented LD50/LC50.
 - Never output the labels `原发性皮肤刺激` or `Primary skin irritation` when the source provides the structured study result; use the structured study block instead.
 
-Use `scripts/structured_toxicology_policy.py` and the resource guide. Section 11 rules override `scripts/sentence_boundary_policy.py`.
+Use `scripts/structured_toxicology_policy.py`, `scripts/section11_alignment.py`
+and the resource guide. Section 11 rules override `scripts/sentence_boundary_policy.py`.
 
 ## 12. Ordinary line-break policy
 For ordinary body prose outside higher-priority structured sections, Chinese `。`, Chinese `；`, and ASCII `;` can be semantic boundaries. Keep punctuation on the preceding line. Do not auto-split ASCII period because of decimals, abbreviations, units, identifiers and URLs.

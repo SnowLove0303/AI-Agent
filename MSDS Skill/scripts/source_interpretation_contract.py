@@ -124,6 +124,20 @@ def _validate_source_coverage(coverage: object, source_hash: str) -> tuple[list[
         for key, expected in expected_counts.items():
             if counts.get(key) != expected:
                 _error(errors, f"source interpretation: source_coverage counts.{key} must be {expected}")
+        nested_prefix = load_spec().get("source_unit_id_conventions", {}).get(
+            "nested_table_prefix", "SRC-NESTED-"
+        )
+        nested_unit_count = sum(
+            1 for unit_id in unit_ids if str(unit_id).startswith(nested_prefix)
+        )
+        if not isinstance(counts.get("nested_table_count"), int) or counts["nested_table_count"] < 0:
+            _error(errors, "source interpretation: counts.nested_table_count must be a non-negative integer")
+        if counts.get("nested_source_unit_count") != nested_unit_count:
+            _error(
+                errors,
+                "source interpretation: counts.nested_source_unit_count must be "
+                f"{nested_unit_count}",
+            )
         image_count = counts.get("image_count")
         reviewed_image_count = counts.get("reviewed_image_count")
         if not isinstance(image_count, int) or not isinstance(reviewed_image_count, int):
