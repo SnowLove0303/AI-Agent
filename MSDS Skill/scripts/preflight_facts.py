@@ -35,6 +35,13 @@ def _write_json_atomic(path: Path, payload: dict) -> None:
 def run(source: Path, facts_path: Path, model: str | None = None) -> dict:
     """Return all blockers without loading a template or resolving WPS."""
     facts = json.loads(Path(facts_path).read_text(encoding="utf-8"))
+    if not isinstance(facts, dict):
+        return {
+            "status": "blocked",
+            "errors": ["facts JSON root must be an object"],
+            "template_clone_started": False,
+            "pdf_converter_started": False,
+        }
     resolved_model = model or facts.get("model") or ""
     if not resolved_model:
         return {
