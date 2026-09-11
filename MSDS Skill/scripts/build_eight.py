@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""One-command eight-format build for the unified MSDS skill (v3.18.1).
+"""One-command eight-format build for the unified MSDS skill (v3.20.0).
 
 Business flow::
 
@@ -8,18 +8,24 @@ Business flow::
 
 The approved model JSON holds the *standardized* facts; ``en`` must be a
 reviewed translation OF that model (see ``draft_en_facts.py``).  Any gate
-failure stops the whole release before any PDF is converted.
+failure stops the whole release before any PDF is converted. The four DOCX
+masters are completed first; PDFs are then converted as a bounded batch with
+visible progress checkpoints.
 
 Usage::
 
     python scripts/build_eight.py --source SRC.docx --facts MODEL.json
-        --out DIR [--model MODEL] [--revision DATE] [--no-pdf] [--timeout S]
+    --out DIR [--model MODEL] [--revision DATE] [--no-pdf] [--timeout S]
+    [--pdf-workers N] [--wpscli PATH] [--progress-file PATH]
+    [--docx-preview-dir DIR]
 """
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
+import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -40,19 +46,54 @@ def main() -> int:
     parser.add_argument("--revision", default=None)
     parser.add_argument("--no-pdf", action="store_true")
     parser.add_argument("--timeout", type=int, default=300)
+    parser.add_argument(
+        "--pdf-workers", type=int, default=2,
+        help="parallel PDF conversion workers; use 1 for conservative serial WPS conversion",
+    )
+    parser.add_argument(
+        "--wpscli", default=None,
+        help="explicit WPS CLI path; resolved once before DOCX construction when omitted",
+    )
+    parser.add_argument(
+        "--progress-file", type=Path, default=None,
+        help="optional JSON checkpoint file updated at each build milestone",
+    )
+    parser.add_argument(
+        "--docx-preview-dir", type=Path, default=None,
+        help="optional directory receiving the four audited DOCX before PDF conversion",
+    )
     args = parser.parse_args()
+
+    def publish_progress(event: dict) -> None:
+        payload = {"timestamp": time.time(), **event}
+        print("MSDS_PROGRESS " + json.dumps(payload, ensure_ascii=False), flush=True)
+        if args.progress_file is not None:
+            args.progress_file.parent.mkdir(parents=True, exist_ok=True)
+            temporary = args.progress_file.with_name(
+                args.progress_file.name + ".tmp"
+            )
+            temporary.write_text(
+                json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            os.replace(temporary, args.progress_file)
+
     try:
         selected = discover_source(args.source or args.source_dir, model=args.model)
         facts = json.loads(args.facts.read_text(encoding="utf-8"))
         report = build_matrix(source=selected.original_path, facts=facts, out_root=args.out,
                               model=args.model, revision=args.revision,
-                              do_pdf=not args.no_pdf, timeout=args.timeout)
-    except (ReleaseBlocked, SourceSelectionError, FileNotFoundError, ValueError) as blocked:
+                              do_pdf=not args.no_pdf, timeout=args.timeout,
+                              pdf_workers=args.pdf_workers, wpscli=args.wpscli,
+                              progress_callback=publish_progress,
+                              docx_preview_dir=args.docx_preview_dir)
+    except (ReleaseBlocked, SourceSelectionError, FileNotFoundError, ValueError, RuntimeError) as blocked:
         print(json.dumps({"outcome": "RELEASE_FAIL", "blocker": str(blocked)},
                          ensure_ascii=False, indent=2))
         return 1
     print(json.dumps({"outcome": "RELEASE_PASS", "product": report["product"],
                       "docx": report["docx_count"], "pdf": report["pdf_count"],
+                      "timing": report.get("timing"),
                       "out": str(args.out)}, ensure_ascii=False, indent=2))
     return 0
 

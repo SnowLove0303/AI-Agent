@@ -123,11 +123,12 @@ def test_source_pictogram_is_inserted_as_picture(tmp_path):
 def test_cn_source_headings_are_projected_without_layout_drift():
     template = Document(ROOT / "examples" / "template_reference.docx")
     output = Document(ROOT / "examples" / "template_reference.docx")
-    changed = project_source_cn_headings(output)
-    labels = [row.cells[0].text.strip() for row in output.tables[1].rows[1:]]
-    assert changed == ["标签要素：", "其他危害："]
-    assert "2.3  标签要素：" in labels
-    assert "2.10  其他危害：" in labels
-    from template_mutation_whitelist import compare_format_anchors, compare_locked_skeleton
-    assert not compare_format_anchors(template, output)
-    assert not compare_locked_skeleton(template, output)
+    try:
+        project_source_cn_headings(output)
+    except Exception as exc:
+        assert "locked Section 2 labels are immutable" in str(exc)
+    else:
+        raise AssertionError("legacy Section 2 label-rewrite path was not blocked")
+    assert [row.cells[0].text for row in output.tables[1].rows] == [
+        row.cells[0].text for row in template.tables[1].rows
+    ]

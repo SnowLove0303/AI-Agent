@@ -56,3 +56,12 @@ def test_renamed_generated_file_in_output_directory_cannot_be_reused(tmp_path):
     renamed.write_bytes(b"renamed generated output")
     with pytest.raises(SourceSelectionError, match="generated/output directory"):
         discover_source(renamed)
+
+
+def test_docx_preview_checkpoint_cannot_be_reused_as_source(tmp_path):
+    preview_dir = tmp_path / "_docx_preview"
+    preview_dir.mkdir()
+    preview = preview_dir / "reviewed_source.docx"
+    preview.write_bytes(b"audited DOCX checkpoint")
+    with pytest.raises(SourceSelectionError, match="generated/output directory"):
+        discover_source(preview)

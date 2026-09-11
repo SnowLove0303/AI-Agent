@@ -34,9 +34,17 @@ locked unless an explicit semantic input exception exists (for example the
 product-name and emergency-overview inputs). The formal Section 8 `建议 /
 Recommendation` value is not an input slot and remains blank. A source-absent blank slot remains blank and is
 recorded in the source-presence audit, rather than receiving invented text.
-The active CN baseline's known tabbed example suffix after `手部防护：` is
-removed with run-preserving text cleanup only; the cell geometry, paragraph
-properties and character-format anchors remain locked.
+The active CN/EN baseline label text is copied exactly. Any tab or other text
+present in a label in the approved template is template-owned and is not
+cleaned, shortened or normalized during overwrite.
+
+The empty-value rule is mandatory for every source-presence-controlled row:
+when no source value matches a template label, suppress the complete dedicated
+row before numbering. Never leave an empty value beside a surviving label.
+Only the explicit blank product-name, supplier-parent, Recommendation and
+structural/header slots are exempt; endpoint-specific exceptions remain those
+defined in `requirements_spec.md`. A row being suppressed is not permission to
+rewrite its label or formatting.
 
 ## Writable regions
 
@@ -52,15 +60,21 @@ Only the following operations are permitted:
    the parent table. With no verified records, remove the second example row
    and write the exact missing-data placeholder (`无数据` / `No data
    available`) into the value column of the single remaining data row.
-5. Insert a source-provided GHS pictogram into the existing pictogram value slot.
-6. Remove a complete dedicated S2/S9 row only when its value is a pure missing
-   data sentinel. After that operation, change only the numeric sequence prefix.
-7. Apply an approved semantic alias to an existing endpoint. For example,
-   `主要粘膜刺激性` maps to `11.3 主要眼睛刺激性`; the source value itself is
-   preserved and no additional conclusion is generated.
-8. In Sections 11 and 12, when no endpoint is supported, retain the source
+5. Suppress a complete dedicated row when its value is source-absent,
+   unsupported or a pure missing-data sentinel under the section policy. The
+   runtime may then renumber only numeric prefixes when that policy requires it.
+6. Insert a complete source-backed styled data row only for S3 components,
+   S8.2 control records, S9 properties or S15 regulations when existing
+   template capacity is insufficient. For a newly inserted S9 row only, the
+   source-backed field name may seed the new first cell while inheriting the
+   cloned label style; this is not permission to edit any existing label.
+7. In Sections 11 and 12, when no endpoint is supported, retain the source
    explanation row only. In other ordinary sections, suppress a source-absent
    template row but retain an explicitly sourced missing value.
+
+Pictogram insertion, company/header/footer overlay, endpoint alias routing and
+numeric-prefix renumbering are runtime-controlled operations, not Agent label
+or formatting permissions.
 
 ## Forbidden operations
 
@@ -82,9 +96,9 @@ The generator must fail if it attempts to:
 release audit compares locked-cell XML properties, writable-cell layout
 anchors, the approved EN body-value exemplar, label bodies and the cross-page
 contract with the fresh-cloned template.
-The formal templates allow tables and rows to span pages. Active formal
-templates must not contain row-level `cantSplit`; the audit fails if a template
-or output row blocks an internal page break. Repeating headers remain enabled
-where present. Row omission is allowed only for a dedicated
+The formal templates allow tables to span pages. Row-level `cantSplit` is
+template-owned and may be present when supplied by the active baseline; the
+audit fails when an output changes a surviving row's setting. Repeating headers
+remain enabled where present. Row omission is allowed only for a dedicated
 S2/S9 pure-missing item, a source-absent ordinary field, or the documented
 note-only Sections 11/12 policy; no arbitrary row deletion is accepted.

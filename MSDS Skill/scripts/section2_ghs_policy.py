@@ -94,40 +94,19 @@ def is_explicit_other_hazards_row(row) -> bool:
 
 
 def project_source_cn_headings(document, language: str = "zh") -> list[str]:
-    """Project the two approved source-faithful CN Section 2 headings.
+    """Reject the retired label-rewrite path.
 
-    The formal baseline is still the geometry/format authority.  These two
-    wording changes are the narrowly approved semantic projection from the
-    source heading: ``GHS标签要素`` -> ``标签要素：`` and
-    ``其他危害`` -> ``其他危害：``.  Run-level replacement preserves the
-    template's bold/paragraph formatting and does not rebuild label cells.
+    Labels are template-owned. The source heading is used only to select the
+    existing semantic slot; it must never be copied into the locked label
+    cell. Keeping this function as an explicit guard prevents legacy callers
+    from silently reintroducing label mutations.
     """
-    if language != "zh":
-        return []
-    table = document.tables[1]
-    changed = []
-    from template_mutation_whitelist import _replace_leading_pattern_in_runs
-    for row in list(table.rows)[1:]:
-        cells = []
-        seen = set()
-        for cell in row.cells:
-            key = hash(cell._tc)
-            if key not in seen:
-                seen.add(key)
-                cells.append(cell)
-        if not cells or not cells[0].paragraphs:
-            continue
-        paragraph = cells[0].paragraphs[0]
-        patterns = (
-            (r"^(\s*2\.\d+\s+)GHS标签要素[：:]?$", r"\1标签要素：", "标签要素："),
-            (r"^(\s*2\.\d+\s+)其他危害[：:]?$", r"\1其他危害：", "其他危害："),
+    if language == "zh":
+        from template_mutation_whitelist import MutationViolation
+        raise MutationViolation(
+            "locked Section 2 labels are immutable; write the value cell only"
         )
-        for pattern, replacement, label in patterns:
-            if re.match(pattern, paragraph.text):
-                _replace_leading_pattern_in_runs(paragraph, pattern, replacement)
-                changed.append(label)
-                break
-    return changed
+    return []
 
 
 def project_source_cn_facts(s2: dict) -> tuple[list[list[str]], dict[int, int]]:
@@ -256,7 +235,6 @@ def suppress_missing_section2_rows_and_renumber(document, set_paragraph_text,
 __all__ = [
     "format_label_elements",
     "project_source_cn_facts",
-    "project_source_cn_headings",
     "row_has_visual_content",
     "is_missing_section2_value",
     "is_explicit_other_hazards_row",

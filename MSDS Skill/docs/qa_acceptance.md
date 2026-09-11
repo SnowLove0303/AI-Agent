@@ -6,6 +6,10 @@
 3. Whitespace/height audit.
 4. Structure dump for suspicious sections.
 5. Table cross-page contract audit against the fresh formal template.
+6. OpenSpec execution-record, empty-value-row and post-omission numbering audit.
+7. Agent mutation-boundary audit: only value-cell writes/clears, source-presence
+   decisions and necessary styled data-row changes are declared; labels, bold
+   runs and layout remain immutable.
 
 ## Visual checks — every page
 At 100% inspect:
@@ -46,6 +50,17 @@ A warning is not automatically a failure, but every warning must be resolved by 
 - Only the numeric prefix may differ from the baseline template due to this pass. Label wording and formatting must remain baseline-equivalent.
 - Child labels and H/P lines must not be counted as numbered siblings.
 - Any discontinuity is a release blocker.
+
+## Empty-value row gate
+
+- After source projection and before numbering, every unsupported or unmatched
+  ordinary label/value item is removed as a complete dedicated row.
+- A surviving ordinary label with an empty value is a release blocker except
+  for the explicit blank slots documented in the mutation whitelist.
+- Component and PPE rows are included in this check; clearing their value cells
+  without removing the row is a failure.
+- Row suppression must preserve sibling rows, merges, table geometry and label
+  formatting.
 
 
 ## Product identity gate

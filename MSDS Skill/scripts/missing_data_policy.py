@@ -79,12 +79,26 @@ def apply_source_absence_policy(document, facts: dict, unique_cells) -> dict:
     """
     audit = {"source_absent_removed": [], "note_only": {"s11": False, "s12": False}}
 
-    for section in (4, 5, 6, 7, 10, 13, 14, 15):
+    # S3 component rows and the ordinary S8 PPE rows are source-presence
+    # controlled too.  If they are not removed here, clearing a fresh clone
+    # leaves template labels with empty values or blank component rows.
+    for section in (1, 3, 4, 5, 6, 7, 8, 10, 13, 14, 15):
         rows = facts.get(f"s{section}") or []
         table = document.tables[section - 1]
         source_limit = 1 + len(rows)
         for index, row in reversed(list(enumerate(table.rows[1:], 1))):
             cells = unique_cells(row)
+            label = cells[0].text.strip() if cells else ""
+            # These are structural rows or explicit maintained blank-value
+            # exceptions, not missing customer-facing fields.
+            if section == 1 and index in {1, 5}:
+                continue
+            if section == 3 and index in {2, 3}:
+                continue
+            if section == 8 and index in {1, 12, 13}:
+                continue
+            if section == 8 and re.match(r"^\s*(?:建议|recommendation)\b", label, re.I):
+                continue
             absent = index >= source_limit
             if not absent:
                 payload = _payload_cells(cells, section)

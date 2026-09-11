@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mechanical source-fact extractor for the unified MSDS pipeline (v3.18.0).
+"""Mechanical source-fact extractor for the unified MSDS pipeline (v3.19.0).
 
 Business role: the overwrite core is *extract -> standardize (CN) -> render
 CN -> translate EN from the standardized model*.  This module does the first
@@ -25,6 +25,9 @@ Output JSON shape (sections mirror the generator fact shape)::
      "sections": {"s1": [[label, value], ...], ...},
      "review": [{"section": ..., "issue": ..., "detail": ...}],
      "source_mapping": {"status": "needs-review", "items": [...]},
+     "source_coverage": {"status": "ready", "source_units": [...]},
+     "fact_ledger": [{"fact_id": ..., "source_locator": ...}],
+     "output_traceability": {"status": "needs-review", "items": [...]},
      "images": [{"name": ..., "size": ...}]}
 
 Values use ``\\n``-joined logical lines; missing sentinels are kept verbatim
@@ -42,6 +45,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from section2_hp_policy import _CODE_RE, is_missing_data_value, split_coded_statements  # noqa: E402
+from agent_execution_contract import blank_execution_contract  # noqa: E402
+from source_interpretation_contract import blank_output_traceability  # noqa: E402
 from source_ingest import (  # noqa: E402
     discover_source,
     prepare_source,
@@ -469,15 +474,33 @@ def coverage_fingerprint(document, sections: dict) -> dict:
                 str(value) for row in section if isinstance(row, list) for value in row
             )))
     skipped, unmapped = [], []
+    source_units = []
     for ti, table in enumerate(document.tables):
         for ri, row in enumerate(table.rows):
             for ci, cell in enumerate(unique_cells(row)):
+                raw_lines = cell.text.splitlines() or [cell.text]
+                for li, raw_line in enumerate(raw_lines, start=1):
+                    unit_text = re.sub(r"\s+", " ", raw_line).strip()
+                    if not unit_text:
+                        continue
+                    unit_id = f"SRC-T{ti + 1:02d}-R{ri + 1:03d}-C{ci + 1:02d}-L{li:02d}"
+                    source_units.append({
+                        "unit_id": unit_id,
+                        "source_section": f"s{ti + 1}",
+                        "source_locator": (
+                            f"s{ti + 1}.table[{ti + 1}].row[{ri + 1}]"
+                            f".cell[{ci + 1}].line[{li}]"
+                        ),
+                        "text": unit_text,
+                        "processing_status": "reviewed_structural" if ri == 0 else "extracted",
+                    })
                 if ri == 0:
                     if cell.text.strip():
                         skipped.append({"table": ti, "row": ri})
                     continue
-                for line in cell.text.splitlines():
+                for li, line in enumerate(raw_lines, start=1):
                     text = re.sub(r"\s+", " ", line).strip()
+                    unit_id = f"SRC-T{ti + 1:02d}-R{ri + 1:03d}-C{ci + 1:02d}-L{li:02d}"
                     if re.match(r"^11\.1\s*毒理学效应$", text):
                         skipped.append({"table": ti, "row": ri, "structural": True})
                         continue
@@ -498,8 +521,42 @@ def coverage_fingerprint(document, sections: dict) -> dict:
                         key in candidate for candidate in row_corpus
                     ):
                         unmapped.append({"table": ti, "row": ri, "cell": ci,
-                                         "text": text[:80]})
-    return {"heading_skipped": skipped, "unmapped": unmapped}
+                                         "text": text[:80], "unit_id": unit_id})
+    for pi, paragraph in enumerate(document.paragraphs, start=1):
+        text = re.sub(r"\s+", " ", paragraph.text).strip()
+        if not text:
+            continue
+        unit_id = f"SRC-BODY-P{pi:03d}"
+        source_units.append({
+            "unit_id": unit_id,
+            "source_section": "document",
+            "source_locator": f"document.paragraph[{pi}]",
+            "text": text,
+            "processing_status": "extracted",
+        })
+        unmapped.append({
+            "table": None,
+            "row": None,
+            "cell": None,
+            "text": text[:80],
+            "unit_id": unit_id,
+            "reason": "top-level document paragraph is outside section extraction",
+        })
+    return {
+        "status": "ready" if not unmapped else "needs-review",
+        "heading_skipped": skipped,
+        "unmapped": unmapped,
+        "unreadable": [],
+        "source_units": source_units,
+        "counts": {
+            "source_unit_count": len(source_units),
+            "processed_unit_count": len(source_units) - len(unmapped),
+            "unmapped_count": len(unmapped),
+            "unreadable_count": 0,
+            "image_count": 0,
+            "reviewed_image_count": 0,
+        },
+    }
 
 
 def source_mapping_draft(sections: dict, control_parameters: list,
@@ -507,6 +564,33 @@ def source_mapping_draft(sections: dict, control_parameters: list,
                          model: str, source_hash: str) -> dict:
     """Emit provenance candidates that an agent must explicitly approve."""
     items = []
+    fact_ledger = []
+    source_units = coverage.get("source_units", []) if isinstance(coverage, dict) else []
+
+    def coverage_key(value: object) -> str:
+        return re.sub(r"\s+", "", str(value or "")).replace("：", ":")
+
+    def source_unit_ids(section: str, text: str) -> list[str]:
+        target = coverage_key(text)
+        if not target:
+            return []
+        matches = []
+        for unit in source_units:
+            if unit.get("source_section") != section:
+                continue
+            candidate = coverage_key(unit.get("text"))
+            if candidate and (candidate in target or target in candidate):
+                matches.append(str(unit.get("unit_id")))
+        return matches
+
+    def line_break_policy(section: str, text: str) -> str:
+        if section == "s11":
+            return "structured_field_lines"
+        if section == "s14":
+            return "transport_field_lines"
+        if "\n" in text:
+            return "preserve_logical_lines"
+        return "verbatim_single_line"
 
     def text_value(value: object) -> str:
         if isinstance(value, dict):
@@ -519,16 +603,41 @@ def source_mapping_draft(sections: dict, control_parameters: list,
         text = text_value(value)
         if not text:
             return
+        # This is a normalized destination-only heading emitted by the S8
+        # semantic adapter, not a source fact.  Keeping it out of the ledger
+        # prevents a structural label from masquerading as evidence.
+        if section == "s8" and text.rstrip("：:") in {"8.1 暴露控制", "8.2 工程控制"}:
+            return
+        target_slot = target_slot or locator
+        fact_id = f"FACT-{len(fact_ledger) + 1:04d}"
+        unit_ids = source_unit_ids(section, text)
         item = {
+            "fact_id": fact_id,
+            "source_kind": "fact",
             "source_locator": locator,
             "source_section": section,
             "source_text": text,
+            "normalized_value": text,
             "decision": "mapped",
             "target_section": section,
+            "target_slot": target_slot,
+            "source_unit_ids": unit_ids,
+            "evidence_type": "explicit",
+            "line_break_policy": line_break_policy(section, text),
+            "review_status": "pending",
         }
-        if target_slot:
-            item["target_slot"] = target_slot
         items.append(item)
+        fact_ledger.append({
+            "fact_id": fact_id,
+            "source_section": section,
+            "source_locator": locator,
+            "source_text": text,
+            "source_unit_ids": unit_ids,
+            "evidence_type": "explicit",
+            "normalized_value": text,
+            "mapping_status": "pending",
+            "line_break_policy": line_break_policy(section, text),
+        })
 
     for section_number in range(1, 17):
         section = f"s{section_number}"
@@ -537,18 +646,22 @@ def source_mapping_draft(sections: dict, control_parameters: list,
             for field, entries in value.items():
                 if isinstance(entries, list):
                     for index, entry in enumerate(entries, start=1):
-                        add(section, f"{section}.{field}[{index}]", entry)
+                        add(section, f"{section}.{field}[{index}]", entry,
+                            target_slot=f"{section}.{field}[{index}]")
                 elif isinstance(entries, str):
-                    add(section, f"{section}.{field}", entries)
+                    add(section, f"{section}.{field}", entries,
+                        target_slot=f"{section}.{field}")
         elif isinstance(value, list):
             for index, entry in enumerate(value, start=1):
-                add(section, f"{section}.row[{index}]", entry)
+                add(section, f"{section}.row[{index}]", entry,
+                    target_slot=f"{section}.row[{index}]")
         if section_number == 8:
             for index, entry in enumerate(control_parameters, start=1):
                 add(section, f"s8.control_parameters[{index}]", entry,
-                    target_slot="s8.2.engineering_control")
+                    target_slot=f"s8.2.engineering_control[{index}]")
         if not any(item["source_section"] == section for item in items):
             items.append({
+                "source_kind": "section_presence",
                 "source_locator": f"{section}.table",
                 "source_section": section,
                 "source_text": "(section present; no extracted value)",
@@ -565,6 +678,7 @@ def source_mapping_draft(sections: dict, control_parameters: list,
         "status": "needs-review",
         "unresolved": unresolved,
         "items": items,
+        "fact_ledger": fact_ledger,
     }
 
 
@@ -625,12 +739,33 @@ def _extract_docx(source: Path, *, original_source: Path | None = None,
         "s16": extract_pairs(get(15), ext, "s16") if get(15) is not None else [],
     }
     s3_data = [row for row in sections["s3"] if len(row) == 3 and row[0] not in ("产品类型：", "成分", "化学品名称")]
+    source_hash = sha256(original)
+    images = extract_images(source)
     coverage = coverage_fingerprint(document, sections)
+    coverage["source_sha256"] = source_hash
+    coverage["source_format"] = source_format
+    for index, image in enumerate(images, start=1):
+        coverage["source_units"].append({
+            "unit_id": f"SRC-IMG-{index:03d}",
+            "source_section": "s2",
+            "source_locator": f"word/media/{image['name']}",
+            "image_name": image["name"],
+            "processing_status": "reviewed",
+        })
+    coverage["counts"]["source_unit_count"] = len(coverage["source_units"])
+    coverage["counts"]["processed_unit_count"] = len(coverage["source_units"]) - len(coverage["unmapped"])
+    coverage["counts"]["image_count"] = len(images)
+    coverage["counts"]["reviewed_image_count"] = len(images)
+    if coverage["unmapped"]:
+        coverage["status"] = "needs-review"
     if coverage["unmapped"]:
         ext.flag("layout", "coverage-gap",
                  f"{len(coverage['unmapped'])} cells missing from draft; resolve before build")
     model = extract_model(get(0), original, ext) if get(0) is not None else ""
-    source_hash = sha256(original)
+    mapping_draft = source_mapping_draft(
+        sections, s8_control_parameters, ext.review, coverage, model, source_hash
+    )
+    fact_ledger = mapping_draft.pop("fact_ledger", [])
     return {
         "model": model,
         "source": str(original),
@@ -640,9 +775,12 @@ def _extract_docx(source: Path, *, original_source: Path | None = None,
         "sections": sections,
         "s8_control_parameters": {"zh": s8_control_parameters, "en": []},
         "review": ext.review,
-        "source_mapping": source_mapping_draft(
-            sections, s8_control_parameters, ext.review, coverage, model, source_hash),
-        "images": extract_images(source),
+        "source_mapping": mapping_draft,
+        "agent_execution": blank_execution_contract(),
+        "source_coverage": coverage,
+        "fact_ledger": fact_ledger,
+        "output_traceability": blank_output_traceability(source_hash),
+        "images": images,
         "coverage": coverage,
         "sections_en_skeleton": extract_en_skeleton(sections, s3_data),
     }

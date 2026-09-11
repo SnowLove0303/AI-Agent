@@ -1,5 +1,8 @@
 MSDS Unified Eight-Deliverable Standardizer Skill
-3.18.1
+3.20.0
+DOCX-first matrix batch and bounded parallel PDF conversion
+WPS converter preflight/version cache and Harness progress checkpoints
+Optional audited DOCX preview and DeepSeek Harness performance runbook
 Template mutation whitelist and Feishu 17-section skeleton contract
 Unified deliverable evaluation, release blocker and evidence audit layer
 EN active baseline carries the Hand protection label correction
@@ -8,3 +11,10 @@ Semantic S1/S8/S12 mapping and slash-only-line guards
 Executable S1-S16 overwrite-rule registry and cached release audits
 Source-bound mapping manifest and byte-pinned template release gate
 Unified Arial 12-point EN body-value format across populated and blank slots
+User-approved CN/EN templates re-internalized byte-for-byte with refreshed snapshots
+OpenSpec execution/read gate and fail-closed empty-value/format/ordering audit
+Agent mutation boundary narrowed to value cells, presence decisions and necessary styled rows
+Source coverage, fact ledger, reviewed mapping and output traceability are mandatory pre-clone gates
+Source interpretation distinguishes absent, unreadable, ambiguous and conflicting evidence
+Semantic line-break and evidence-preserving取舍 playbook added with regression tests
+Clean distributable: historical templates, stale output examples, generated caches and broken task-work fixtures removed

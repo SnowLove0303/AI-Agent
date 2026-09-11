@@ -1,0 +1,120 @@
+{
+  "spec_id": "MSDS-AGENT-OVERWRITE-001",
+  "version": "1.2.0",
+  "status": "active",
+  "purpose": "Fail-closed execution contract for source-grounded in-place MSDS template overwrite.",
+  "read_before_action": [
+    "SKILL.md",
+    "docs/requirements_spec.md",
+    "docs/locked_format_contract.md",
+    "docs/in_place_overwrite_contract.md",
+    "docs/template_mutation_whitelist.md",
+    "docs/qa_acceptance.md",
+    "docs/section_mapping_rules.md",
+    "docs/v2_9_inheritance_contract.md",
+    "openspec/agent_overwrite_contract.md",
+    "openspec/source_interpretation_contract.md",
+    "openspec/source_interpretation_contract.json"
+  ],
+  "operation_order": [
+    "read_full_contract",
+    "inspect_source_inventory",
+    "extract_source_facts",
+    "build_fact_ledger",
+    "review_source_mapping",
+    "review_output_traceability",
+    "decide_source_presence",
+    "clone_pinned_template",
+    "write_value_cells_only",
+    "suppress_empty_or_unsupported_rows",
+    "renumber_surviving_visible_items",
+    "audit_locked_labels_and_format",
+    "audit_field_mapping_and_whitespace",
+    "render_and_visual_qa"
+  ],
+  "required_acknowledgements": [
+    "source_is_fact_authority",
+    "template_is_structure_authority",
+    "field_mapping_reviewed",
+    "labels_and_sequence_are_protected",
+    "bold_label_format_is_protected",
+    "value_cells_only",
+    "empty_value_rows_hidden_before_renumbering",
+    "surviving_items_reordered_continuously",
+    "body_values_use_template_approved_format",
+    "no_artificial_blank_lines_or_spacing",
+    "source_read_completeness_verified",
+    "fact_ledger_has_precise_provenance",
+    "missing_source_is_distinguished_from_unreadable_source",
+    "no_unmapped_fact_or_unsubstantiated_output",
+    "ambiguity_and_conflict_block_overwrite",
+    "line_breaks_are_semantic_not_layout_hacks",
+    "all_release_gates_are_blocking"
+  ],
+  "execution_mode": {
+    "status": "reviewed",
+    "read_mode": "full",
+    "template_mode": "fresh_clone_in_place",
+    "value_write_boundary": "scripts/template_mutation_whitelist.py",
+    "source_interpretation_boundary": "scripts/source_interpretation_contract.py",
+    "empty_value_policy": "suppress_row_then_renumber",
+    "release_policy": "fail_closed"
+  },
+  "agent_mutation_boundary": {
+    "allowed_operations": [
+      "write_value_cell",
+      "clear_value_cell",
+      "suppress_empty_or_unsupported_whole_row",
+      "insert_source_backed_styled_data_row"
+    ],
+    "allowed_row_insert_sections": [3, 8, 9, 15],
+    "allowed_row_delete_sections": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+    "row_change_conditions": [
+      "the source contains a verified item that has no existing template data row",
+      "the source has no matching value or the value is unsupported/pure-missing under the section policy",
+      "the operation removes or clones a complete styled row without rebuilding the table"
+    ],
+    "forbidden_operations": [
+      "edit_locked_label_text",
+      "edit_locked_sequence_text_except_runtime_post_omission_prefix",
+      "edit_bold_or_run_format",
+      "edit_paragraph_or_cell_format",
+      "edit_table_geometry_merge_width_border_or_row_properties",
+      "edit_header_footer_or_page_fields",
+      "rebuild_or_reformat_the_document",
+      "invent_a_value_or_fill_a_blank_with_a_placeholder"
+    ]
+  },
+  "allowed_blank_value_slots": [
+    {
+      "table": 1,
+      "label": "1.1",
+      "reason": "Guanzhi product-name value is intentionally blank by the maintained company convention."
+    },
+    {
+      "table": 1,
+      "label": "1.3",
+      "reason": "Supplier-information parent row is structural; its child rows carry the values."
+    },
+    {
+      "table": 8,
+      "label": "Recommendation",
+      "reason": "The formal template keeps this fixed label but the value is deliberately blank."
+    },
+    {
+      "table": 3,
+      "row": 2,
+      "reason": "S3 component parent structure row."
+    }
+  ],
+  "release_blockers": [
+    "changed sequence or locked label text",
+    "lost bold label formatting or changed label run/paragraph/cell properties",
+    "source value written into the wrong template field",
+    "empty or unsupported value row left visible outside an explicit exception",
+    "numbering audited before omission or visible numbering left discontinuous",
+    "blank paragraphs, tabs, trailing spaces or artificial layout spacing",
+    "global formatting normalization or table reconstruction",
+    "any failed semantic, geometry, whitespace or render gate"
+  ]
+}

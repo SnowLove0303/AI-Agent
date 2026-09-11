@@ -1,6 +1,6 @@
 {
   "source_filename": "template_reference_en.docx",
-  "source_sha256": "003ff6bac27bf3bc99f0426ea8ed596487b0399f30428c406227d8f7c1b3dd46",
+  "source_sha256": "34a259eed50d2e78b4609c66453fa9baab610a623dcc7ee531db359b1a988497",
   "tables": [
     {
       "table": 0,
@@ -801,7 +801,7 @@
       "rows": [
         {
           "row": 0,
-          "trPr_hash": "324527a5139d6ae773d0eab9425d0e7ee02971aaab4a2447883391e14b7ab19c",
+          "trPr_hash": "288c47b521af1920ebd9b50093b96693370b39e5a057e9ab57d0ed08fff6d1f8",
           "cell_count": 1,
           "cells": [
             {
@@ -4069,7 +4069,7 @@
       "rows": [
         {
           "row": 0,
-          "trPr_hash": "324527a5139d6ae773d0eab9425d0e7ee02971aaab4a2447883391e14b7ab19c",
+          "trPr_hash": "288c47b521af1920ebd9b50093b96693370b39e5a057e9ab57d0ed08fff6d1f8",
           "cell_count": 1,
           "cells": [
             {
@@ -4119,7 +4119,7 @@
         },
         {
           "row": 1,
-          "trPr_hash": "c92154fbcdd5767e886966cde216fe377f06a233ddc99b32c7820c844effcc97",
+          "trPr_hash": "a25daedb59d963542b42e40a79b6bd9e0eb685bb4d5f10bbb332df273d1105de",
           "cell_count": 2,
           "cells": [
             {
@@ -4284,7 +4284,7 @@
         },
         {
           "row": 2,
-          "trPr_hash": "eb0168c16aecad9e761ee202f44e5682ae329d1957b2425e2d54acafb191e0ed",
+          "trPr_hash": "d1d37a2d80b6f374c3c4c7735cd97d7a92ef716ebbac94bdb637f3817b60f648",
           "cell_count": 2,
           "cells": [
             {
@@ -4926,7 +4926,7 @@
             {
               "cell": 0,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[1]/w:tc",
-              "tcPr_hash": "c84a63c04bd32bf5d94c982f15cf3d2f86729513b878bb9d2d2e0fcf1436a313",
+              "tcPr_hash": "deb4c1bc9379c9645758db1a35f679287c8f543a822ba4974535b7cec9f632a9",
               "tcW": "9860",
               "tcW_type": "dxa",
               "gridSpan": "5",
@@ -4976,7 +4976,7 @@
             {
               "cell": 0,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[2]/w:tc",
-              "tcPr_hash": "ed33248d83c9cd92f12c71b971e6de4ae9f5a0685993a84bb76df9151493fe69",
+              "tcPr_hash": "6d78839f1db8df99d7607b135cd5560dfb341e1459f442da02d789869a0dd18d",
               "tcW": "9860",
               "tcW_type": "dxa",
               "gridSpan": "5",
@@ -5026,7 +5026,7 @@
             {
               "cell": 0,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[3]/w:tc[1]",
-              "tcPr_hash": "4e1cbc28021c573763e1cdac4e47b32d3170324b2ba78fc22360ffd2a4631299",
+              "tcPr_hash": "0bd52d8b55fcf8a0f45e22982690f295e4b20e8654c089f8e169ec7c4081d2fe",
               "tcW": "3247",
               "tcW_type": "dxa",
               "gridSpan": "2",
@@ -5057,7 +5057,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[3]/w:tc[2]",
-              "tcPr_hash": "e7ddb90eec6d01251daa608f0091eda25b6c8989d830a78e57d678dafc5c99b5",
+              "tcPr_hash": "c1890a79543965b3ad637c0c1fc1ad04b8dc1e2d7216d5dceb1e679164be4d94",
               "tcW": "6613",
               "tcW_type": "dxa",
               "gridSpan": "3",
@@ -5100,15 +5100,39 @@
               "tcW_type": "dxa",
               "gridSpan": "2",
               "vMerge": null,
-              "text": "Hand protection：",
+              "text": "Hand protection：\t喷涂过程中要求有呼吸防护设备。",
               "paragraphs": [
                 {
-                  "text": "Hand protection：",
+                  "text": "Hand protection：\t喷涂过程中要求有呼吸防护设备。",
                   "pPr_hash": "8c0331ddab684d51039ee7d88cf3b77ae05078d20f0ae5c0733baf2a80a6d581",
                   "runs": [
                     {
                       "text": "Hand protection：",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
+                      "bold": true,
+                      "italic": null,
+                      "underline": null,
+                      "font": {
+                        "name": null,
+                        "size_pt": 12.0,
+                        "color": null
+                      }
+                    },
+                    {
+                      "text": "\t",
+                      "rPr_hash": "64660e0e0acbab77746d3d1b35dd075c3f655c71de7a28ea55c06087dc46bcb9",
+                      "bold": true,
+                      "italic": null,
+                      "underline": null,
+                      "font": {
+                        "name": null,
+                        "size_pt": 12.0,
+                        "color": null
+                      }
+                    },
+                    {
+                      "text": "喷涂过程中要求有呼吸防护设备。",
+                      "rPr_hash": "26762978c0eb492537a4ee415332e11acd8c0d9f7bc41a2d938b6a2b8dcffb88",
                       "bold": true,
                       "italic": null,
                       "underline": null,
@@ -5847,7 +5871,7 @@
             {
               "cell": 0,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[13]/w:tc",
-              "tcPr_hash": "8494d8571aab89589e25c1393e244cba882b2bc8042d801174ddd5c7288785af",
+              "tcPr_hash": "a472fa379e33bd0b947322937922f1787df06510dc02233fc14176b84b4c4e1a",
               "tcW": "9860",
               "tcW_type": "dxa",
               "gridSpan": "5",
@@ -5885,7 +5909,7 @@
             {
               "cell": 0,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[14]/w:tc[1]",
-              "tcPr_hash": "2663cf74c81cdb4917ab72183f960b6ee4c9d791e87ed6ce355f8b783cb3e4e8",
+              "tcPr_hash": "19fa22c8f1d89a54d2f09956129017a5e9f05d24652e573b03bfb0b483359e99",
               "tcW": "3076",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -5916,7 +5940,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[14]/w:tc[2]",
-              "tcPr_hash": "25876733f3b48b7d33a4bbda5712d613acfb2da77ca0df8efacd39a557b4e1ec",
+              "tcPr_hash": "e3340916e54b167a60502fa4972567651255c251c35886df4ea071ab128f06c2",
               "tcW": "1854",
               "tcW_type": "dxa",
               "gridSpan": "2",
@@ -5947,7 +5971,7 @@
             {
               "cell": 2,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[14]/w:tc[3]",
-              "tcPr_hash": "4c25367355e072432bdd4ce8fceaaa9bc8ad4f0eeed7a42687b47550993914fc",
+              "tcPr_hash": "61638bb9af25b0f82d1562692e30f9fac15f9e9466fa7179bf708ae5cb908f6b",
               "tcW": "2465",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -5978,7 +6002,7 @@
             {
               "cell": 3,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[14]/w:tc[4]",
-              "tcPr_hash": "4c25367355e072432bdd4ce8fceaaa9bc8ad4f0eeed7a42687b47550993914fc",
+              "tcPr_hash": "af1dc3f6dd3e5b24ed1a4e5894db93c7fc744e1d07f4e48c29a130d81c4fa972",
               "tcW": "2465",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -6016,7 +6040,7 @@
             {
               "cell": 0,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[15]/w:tc[1]",
-              "tcPr_hash": "614149e33da9b78b5648da4e0637fab316ee052aabb861d59dbecbe44b1a2698",
+              "tcPr_hash": "b81b23931f19e36f0c587b488c42e01190985c8d8883940e07f29bcd457f679d",
               "tcW": "3076",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -6095,7 +6119,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[15]/w:tc[2]",
-              "tcPr_hash": "44e3696dec4e7dc3d44c1d9eccac11ee74d4119f841138bc59644bff550c3637",
+              "tcPr_hash": "39c3747a33881bc90c95f8e53f43885ca23d8ee34bd06ef88004daf95d7de3b1",
               "tcW": "1854",
               "tcW_type": "dxa",
               "gridSpan": "2",
@@ -6150,7 +6174,7 @@
             {
               "cell": 2,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[15]/w:tc[3]",
-              "tcPr_hash": "ad8d784a303847d70a8ae4b0d15ecc28a319d8437fdbd9f8443a5409e60f54d4",
+              "tcPr_hash": "8242d9fe1755c560400512983066c92601399eef77cf820df0cab0af597792c4",
               "tcW": "2465",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -6181,7 +6205,7 @@
             {
               "cell": 3,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[15]/w:tc[4]",
-              "tcPr_hash": "ad8d784a303847d70a8ae4b0d15ecc28a319d8437fdbd9f8443a5409e60f54d4",
+              "tcPr_hash": "348e3d80072710725f9f9ccbed66b7830e17a76fce2ac6c86722b7e00db6e999",
               "tcW": "2465",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -6267,7 +6291,7 @@
             {
               "cell": 0,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[16]/w:tc[1]",
-              "tcPr_hash": "614149e33da9b78b5648da4e0637fab316ee052aabb861d59dbecbe44b1a2698",
+              "tcPr_hash": "26f5acde8d1050dc6760cddc2a52bc7d7f1faaff3114a91e65e7543df0799083",
               "tcW": "3076",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -6298,7 +6322,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[16]/w:tc[2]",
-              "tcPr_hash": "44e3696dec4e7dc3d44c1d9eccac11ee74d4119f841138bc59644bff550c3637",
+              "tcPr_hash": "5937f5fd240ddddc2e1013ef9dc37c73f27a57d8019f420cb0016f32c9b22815",
               "tcW": "1854",
               "tcW_type": "dxa",
               "gridSpan": "2",
@@ -6353,7 +6377,7 @@
             {
               "cell": 2,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[16]/w:tc[3]",
-              "tcPr_hash": "ad8d784a303847d70a8ae4b0d15ecc28a319d8437fdbd9f8443a5409e60f54d4",
+              "tcPr_hash": "d18a45a1af6824c915cb071d0a669c5b68568169b0c4a3799c9e1397fa95f312",
               "tcW": "2465",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -6384,7 +6408,7 @@
             {
               "cell": 3,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[16]/w:tc[4]",
-              "tcPr_hash": "ad8d784a303847d70a8ae4b0d15ecc28a319d8437fdbd9f8443a5409e60f54d4",
+              "tcPr_hash": "cad72cebddb1537ae729354488735824fba5d5948309979322425ee1e7748af8",
               "tcW": "2465",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -9379,7 +9403,7 @@
       "rows": [
         {
           "row": 0,
-          "trPr_hash": "324527a5139d6ae773d0eab9425d0e7ee02971aaab4a2447883391e14b7ab19c",
+          "trPr_hash": "288c47b521af1920ebd9b50093b96693370b39e5a057e9ab57d0ed08fff6d1f8",
           "cell_count": 1,
           "cells": [
             {
@@ -9429,7 +9453,7 @@
         },
         {
           "row": 1,
-          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
+          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
           "cell_count": 1,
           "cells": [
             {
@@ -9467,7 +9491,7 @@
         },
         {
           "row": 2,
-          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
+          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
           "cell_count": 1,
           "cells": [
             {
@@ -9505,7 +9529,7 @@
         },
         {
           "row": 3,
-          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
+          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
           "cell_count": 3,
           "cells": [
             {
@@ -9629,7 +9653,7 @@
         },
         {
           "row": 4,
-          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
+          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
           "cell_count": 3,
           "cells": [
             {
@@ -9777,7 +9801,7 @@
         },
         {
           "row": 5,
-          "trPr_hash": "cfe403358c5ca107d065fc51c1e68e0c851818f02da6b5223bdc481f2250ff17",
+          "trPr_hash": "2dcfe4fb25e0a8bc19e42e51eaf617b7d984d149ece87f467f86814ccd2005fa",
           "cell_count": 3,
           "cells": [
             {
@@ -9901,7 +9925,7 @@
         },
         {
           "row": 6,
-          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
+          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
           "cell_count": 2,
           "cells": [
             {
@@ -9994,7 +10018,7 @@
         },
         {
           "row": 7,
-          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
+          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
           "cell_count": 2,
           "cells": [
             {
@@ -10147,7 +10171,7 @@
         },
         {
           "row": 8,
-          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
+          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
           "cell_count": 2,
           "cells": [
             {
@@ -10288,7 +10312,7 @@
         },
         {
           "row": 9,
-          "trPr_hash": "aa87dae810b4af9d0be81929fc57cad31507f3f8b4f3c09e841f61a04caaf988",
+          "trPr_hash": "ae2d23efbc1e81172f39bfb9e488bfdefb16091869fb4ad8d7440afe98f7315a",
           "cell_count": 2,
           "cells": [
             {
@@ -10453,7 +10477,7 @@
         },
         {
           "row": 10,
-          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
+          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
           "cell_count": 2,
           "cells": [
             {
@@ -10546,7 +10570,7 @@
         },
         {
           "row": 11,
-          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
+          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
           "cell_count": 2,
           "cells": [
             {
@@ -10639,7 +10663,7 @@
         },
         {
           "row": 12,
-          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
+          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
           "cell_count": 3,
           "cells": [
             {
@@ -10762,7 +10786,7 @@
         },
         {
           "row": 13,
-          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
+          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
           "cell_count": 3,
           "cells": [
             {
@@ -10885,7 +10909,7 @@
         },
         {
           "row": 14,
-          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
+          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
           "cell_count": 3,
           "cells": [
             {
@@ -11008,7 +11032,7 @@
         },
         {
           "row": 15,
-          "trPr_hash": "599f3c00b60a470f4c1eebac3ca1b176c196ffe33d87d5dc968fdf39a6a63700",
+          "trPr_hash": "ee8ded053816318d38da31cd05c715a50793e97af7a22d6a32cf64385a98f935",
           "cell_count": 2,
           "cells": [
             {

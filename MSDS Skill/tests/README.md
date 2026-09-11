@@ -1,29 +1,34 @@
-# Regression Test
+# Current regression tests
 
-Use the packaged PA-4817 triplet only as a regression example:
-- `examples/template_reference.docx`
-- `examples/nonstandard_source_PA-4817.doc`
-- `examples/approved_PA-4817.docx`
-
-Expected behavior demonstrated by the approved file:
-- source-only PA-4817 facts;
-- unsupported template items omitted;
-- bold labels preserve template alignment/format;
-- Section 8/11 are mapped without structural relabeling;
-- non-bold text is consistent;
-- Sections 5.4, 6.1, 11.2, 12.2, 13, 14 are compact without hidden vertical blanks.
-
-Never copy PA-4817 product facts into another product.
-
-## v2.1 regression additions
-Run `python tests/test_section2_policy.py`.
-Also use `EP-1704_policy_expectations.md` to verify:
-- pure “无数据/无适用资料” fields are omitted entirely;
-- multiple P statements are one complete coded statement per line;
-- a single H statement is not artificially split.
+The package contains only current template baselines, source-reading fixtures,
+OpenSpec contracts and tests that exercise the active runtime. Historical
+approved output documents, rollback templates, generated caches and task-local
+`_task_work` generators are intentionally excluded.
 
 ## Template baseline
-`template_snapshot.json` is pinned to the bundled latest `examples/template_reference.docx`. Regenerate it after any intentional template replacement; a stale snapshot is a release failure.
+
+`template_snapshot.json` and `template_snapshot_en.json` are the only shipped
+template snapshots. They are pinned to the current formal CN/EN baselines:
+
+- `examples/template_reference.docx`
+- `examples/template_reference_en.docx`
+
+Regenerate the active snapshot only after an intentional user-approved template
+replacement. A stale or substituted snapshot is a release failure.
+
+## Source interpretation
+
+`test_source_interpretation_contract.py` verifies complete source coverage,
+stable fact provenance, explicit source-only decisions, traceability and hard
+blocking for unreadable or conflicting evidence. The source fixtures under
+`examples/regression_*_source.docx` are test inputs only; their product facts
+must never be copied into another product.
+
+## Release behavior
+
+Run the applicable tests with the bundled Python runtime after loading
+`python-docx`. The production entry point is `scripts/build_eight.py`; frozen
+task-local generators are not production inputs.
 
 - `test_numbering_policy.py`: verifies gaps created by omission are detected and surviving items are renumbered continuously.
 

@@ -1,0 +1,74 @@
+{
+  "spec_id": "MSDS-SOURCE-INTERPRETATION-001",
+  "version": "1.0.0",
+  "status": "active",
+  "purpose": "Fail-closed source coverage, fact provenance, semantic mapping and output traceability contract.",
+  "required_top_level_records": [
+    "source_coverage",
+    "fact_ledger",
+    "source_mapping",
+    "output_traceability"
+  ],
+  "source_coverage_statuses": ["ready", "needs-review", "blocked"],
+  "required_source_coverage_fields": [
+    "source_sha256",
+    "source_format",
+    "status",
+    "source_units",
+    "unmapped",
+    "unreadable",
+    "counts"
+  ],
+  "required_fact_fields": [
+    "fact_id",
+    "source_section",
+    "source_locator",
+    "source_text",
+    "normalized_value",
+    "source_unit_ids",
+    "evidence_type",
+    "mapping_status",
+    "line_break_policy"
+  ],
+  "evidence_types": ["explicit", "derived", "translated"],
+  "fact_mapping_statuses": [
+    "pending",
+    "mapped",
+    "omitted",
+    "not_applicable",
+    "source_only",
+    "duplicate",
+    "conflict",
+    "unresolved"
+  ],
+  "mapping_decisions": [
+    "mapped",
+    "omitted",
+    "not_applicable",
+    "source_only",
+    "duplicate",
+    "conflict",
+    "unresolved"
+  ],
+  "line_break_policies": [
+    "preserve_logical_lines",
+    "field_value_lines",
+    "structured_field_lines",
+    "transport_field_lines",
+    "verbatim_single_line",
+    "not_written"
+  ],
+  "traceability_statuses": ["reviewed", "needs-review", "blocked"],
+  "traceability_decisions": ["written", "hidden", "not_written", "merged"],
+  "release_blockers": [
+    "source coverage is not ready",
+    "source units are missing, duplicated or unreadable",
+    "fact ledger has no source locator or source text",
+    "source fact is not disposed by the reviewed mapping",
+    "ambiguous, conflicting or unresolved mapping remains",
+    "output value has no source fact or approved derivation",
+    "empty/hide decision has no target slot and reason",
+    "line-break policy is missing or uses fake spacing",
+    "source hash in any evidence record does not match the original source"
+  ]
+}

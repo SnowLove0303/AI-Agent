@@ -13,7 +13,7 @@ from template_mutation_whitelist import (
     write_s82_top_rows,
     write_row_values,
 )
-from template_runtime import sanitize_template_artifacts
+from template_runtime import ensure_source_data_rows, sanitize_template_artifacts
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -81,8 +81,8 @@ def test_cross_page_contract_preserves_template_table_and_row_settings():
     assert len(report["tables"]) == 16
     assert all(item["template_allows_cross_page"] for item in report["tables"])
     assert all(item["output_allows_cross_page"] for item in report["tables"])
-    assert all(item["template_all_rows_breakable"] for item in report["tables"])
-    assert all(item["output_all_rows_breakable"] for item in report["tables"])
+    assert all(item["template_row_cant_split"] == item["output_row_cant_split"] for item in report["tables"])
+    assert all(item["template_all_rows_breakable"] == item["output_all_rows_breakable"] for item in report["tables"])
 
 
 def test_cross_page_contract_blocks_row_split_setting_drift():
@@ -109,11 +109,12 @@ def test_blank_s117_value_inherits_template_body_run_format():
     assert not compare_format_anchors(template, output)
 
 
-def test_known_cn_template_example_suffix_is_removed_without_layout_drift():
+def test_template_label_artifacts_are_preserved_exactly():
     template = Document(str(TEMPLATE))
     output = Document(str(TEMPLATE))
+    original_label = template.tables[7].rows[3].cells[0].text
     sanitize_template_artifacts(output)
-    assert output.tables[7].rows[3].cells[0].text.strip() == "手部防护："
+    assert output.tables[7].rows[3].cells[0].text == original_label
     assert len(output.tables[7].rows) == len(template.tables[7].rows)
     assert not compare_locked_skeleton(template, output)
     assert not compare_format_anchors(template, output)
@@ -139,6 +140,35 @@ def test_s3_component_row_writes_all_three_data_cells():
     row = output.tables[2].rows[4]
     write_row_values(row, ["Component", "123-45-6", "10"], table_index=2, row_index=4)
     assert [cell.text for cell in row.cells] == ["Component", "123-45-6", "10"]
+
+
+def test_extra_s9_source_row_uses_cloned_style_and_source_label_only_on_insert():
+    template = Document(str(TEMPLATE))
+    output = Document(str(TEMPLATE))
+    ensure_source_data_rows(output, 9, 24)
+    row = output.tables[8].rows[24]
+    write_row_values(
+        row, ["9.24  New physical property:", "source value"],
+        table_index=8, row_index=24, inserted_data_row=True,
+    )
+    assert row.cells[0].text == "9.24  New physical property:"
+    assert row.cells[1].text == "source value"
+    assert not compare_locked_skeleton(template, output)
+    assert not compare_format_anchors(template, output)
+
+
+def test_extra_s15_regulation_row_uses_cloned_note_style():
+    template = Document(str(TEMPLATE))
+    output = Document(str(TEMPLATE))
+    ensure_source_data_rows(output, 15, 9)
+    row = output.tables[14].rows[9]
+    write_row_values(
+        row, ["Source-backed additional regulation"],
+        table_index=14, row_index=9, inserted_data_row=True,
+    )
+    assert row.cells[0].text == "Source-backed additional regulation"
+    assert not compare_locked_skeleton(template, output)
+    assert not compare_format_anchors(template, output)
 
 
 def test_s81_parent_node_is_not_a_writable_note_slot():

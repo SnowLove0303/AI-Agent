@@ -38,6 +38,16 @@ def test_extractor_detects_model_and_covers_every_cell():
     assert mapping["source_sha256"] == data["source_sha256"]
     assert mapping["unresolved"]
     assert all("['']" not in item["source_text"] for item in mapping["items"])
+    assert data["source_coverage"]["status"] == "ready"
+    assert data["source_coverage"]["unmapped"] == []
+    assert data["source_coverage"]["unreadable"] == []
+    assert data["source_coverage"]["counts"]["source_unit_count"] == len(
+        data["source_coverage"]["source_units"]
+    )
+    assert data["fact_ledger"]
+    assert len({item["fact_id"] for item in data["fact_ledger"]}) == len(data["fact_ledger"])
+    assert all(item["source_unit_ids"] for item in data["fact_ledger"])
+    assert data["output_traceability"]["status"] == "needs-review"
 
 
 def test_extractor_splits_components_and_flags_judgment_points():

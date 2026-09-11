@@ -37,24 +37,23 @@ def test_en_template_is_distinct_and_uses_english_section_labels():
     en = Document(ROOT / "examples" / "template_reference_en.docx")
     assert source.is_file()
     import hashlib
-    import re
-    # The source record stays byte-identical to the user-supplied formal
-    # template; the active baseline carries the approved Hand protection label
-    # and row-break corrections, so the two files intentionally differ.
-    assert hashlib.sha256(source.read_bytes()).hexdigest() == "59445b62c6d33b25a2e04c05778d428656f1ce0cbe7c21212721b145468c4416"
-    assert hashlib.sha256((ROOT / "examples" / "template_reference_en.docx").read_bytes()).hexdigest() == "003ff6bac27bf3bc99f0426ea8ed596487b0399f30428c406227d8f7c1b3dd46"
+    # The current release preserves the user-supplied EN template byte-for-byte as both
+    # the source record and the active baseline.
+    assert hashlib.sha256(source.read_bytes()).hexdigest() == "34a259eed50d2e78b4609c66453fa9baab610a623dcc7ee531db359b1a988497"
+    assert hashlib.sha256((ROOT / "examples" / "template_reference_en.docx").read_bytes()).hexdigest() == "34a259eed50d2e78b4609c66453fa9baab610a623dcc7ee531db359b1a988497"
+    assert source.read_bytes() == (ROOT / "examples" / "template_reference_en.docx").read_bytes()
     assert "Identification" in en.tables[0].rows[0].cells[0].text
     assert "Chemical category" in en.tables[0].rows[2].cells[0].text
     assert "Chinese name:" not in "\n".join(cell.text for row in en.tables[0].rows for cell in row.cells)
     assert "8.2" in "\n".join(cell.text for row in en.tables[7].rows for cell in row.cells)
     assert "11.10" in "\n".join(cell.text for row in en.tables[10].rows for cell in row.cells)
-    # v3.15.1: the accidental Chinese suffix was removed from the
-    # Hand-protection label cell (formatting retained); generation never
-    # rewrites label cells.
+    # The current release preserves the supplied Hand-protection label cell exactly in
+    # the active baseline; the runtime's documented clone-time sanitizer
+    # handles the illustrative suffix only when generating an output.
     hand_protection = en.tables[7].rows[3].cells[0].text
     assert hand_protection.startswith("Hand protection")
-    assert "喷涂过程中要求有呼吸防护设备。" not in hand_protection
-    assert not re.search(r"[一-鿿]", hand_protection)
+    assert "喷涂过程中要求有呼吸防护设备。" in hand_protection
+    assert "\t" in hand_protection
     assert en.tables[7].rows[12].cells[0].text == "Control parameters for workplace components"
     assert _unique_texts(en.tables[7].rows[13]) == ["Substance", "Basis", "Type", "Value"]
     assert _unique_texts(en.tables[7].rows[14]) == ["六亚甲基-1,6-二异氰酸酯", "CN OEL", "TWA", "0.03 mg/m3"]
@@ -71,9 +70,9 @@ def test_en_template_is_distinct_and_uses_english_section_labels():
 
 def test_en_snapshot_pins_the_supplied_template_hash_and_geometry():
     snapshot = json.loads((ROOT / "tests" / "template_snapshot_en.json").read_text(encoding="utf-8"))
-    assert snapshot["source_sha256"] == "003ff6bac27bf3bc99f0426ea8ed596487b0399f30428c406227d8f7c1b3dd46"
+    assert snapshot["source_sha256"] == "34a259eed50d2e78b4609c66453fa9baab610a623dcc7ee531db359b1a988497"
     import hashlib
-    assert hashlib.sha256((ROOT / "examples" / "template_reference_en_source.docx").read_bytes()).hexdigest() == "59445b62c6d33b25a2e04c05778d428656f1ce0cbe7c21212721b145468c4416"
+    assert hashlib.sha256((ROOT / "examples" / "template_reference_en_source.docx").read_bytes()).hexdigest() == "34a259eed50d2e78b4609c66453fa9baab610a623dcc7ee531db359b1a988497"
     assert [table["row_count"] for table in snapshot["tables"]] == EN_ROWS
     assert [table["column_count"] for table in snapshot["tables"]] == [2, 2, 3, 2, 2, 2, 2, 5, 2, 2, 4, 2, 2, 2, 1, 1]
     top_rows = snapshot["tables"][7]["rows"]
@@ -83,14 +82,18 @@ def test_en_snapshot_pins_the_supplied_template_hash_and_geometry():
 
 
 def test_generator_selects_language_specific_template():
-    import importlib.util
     import sys
 
-    task_root = next(path for path in (ROOT / "_task_work", ROOT.parent / "_task_work") if (path / "generate_pu2345_eight.py").exists())
-    sys.path.insert(0, str(task_root))
-    spec = importlib.util.spec_from_file_location("generate_pu2345_eight_parity_test", task_root / "generate_pu2345_eight.py")
-    generator = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(generator)
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import msds_pipeline
 
-    assert generator.template_for("zh") == ROOT / "examples" / "template_reference.docx"
-    assert generator.template_for("en") == ROOT / "examples" / "template_reference_en.docx"
+    assert msds_pipeline.template_for(
+        ROOT / "examples" / "template_reference.docx",
+        ROOT / "examples" / "template_reference_en.docx",
+        "zh",
+    ) == ROOT / "examples" / "template_reference.docx"
+    assert msds_pipeline.template_for(
+        ROOT / "examples" / "template_reference.docx",
+        ROOT / "examples" / "template_reference_en.docx",
+        "en",
+    ) == ROOT / "examples" / "template_reference_en.docx"

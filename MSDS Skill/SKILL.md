@@ -3,11 +3,57 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS standardization skill that discovers supported source files, binds source-grounded facts to synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, preserves locked templates, and releases four DOCX plus four PDF deliverables only after semantic and render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.18.1
+# Unified MSDS Eight-Deliverable Standardizer v3.20.0
 
 ## Mandatory v2.9 inheritance (release blocker)
 
 This unified skill is an additive superset of `MSDS_Word_Standardizer_Skill_v2.9`. **All v2.9 overwrite content, programs, requirements, fixtures, and QA behavior remain binding.** Read `docs/v2_9_inheritance_contract.md`. Before release, `scripts/audit_v29_inheritance.py` MUST pass against the canonical v2.9 ZIP. Section 11 structured-toxicology handling is an enhancement layer; it must not delete unrelated v2.9 behavior.
+
+## Mandatory OpenSpec agent execution gate (release blocker)
+
+Before any source inspection, semantic decision or DOCX mutation, read the
+complete `openspec/agent_overwrite_contract.md` and every file listed in its
+`read_before_action` list. The approved facts JSON MUST contain a reviewed
+`agent_execution` record with the active OpenSpec ID/version, full read-source
+list, every acknowledgement set to `true`, the exact prescribed operation
+order, the exact Agent mutation boundary and the declared
+fresh-clone/value-cell-only/fail-closed execution mode.
+`scripts/agent_execution_contract.py` validates this record before a template
+is cloned; a missing, partial or stale record blocks the build. This record is
+an execution gate, not a substitute for the DOCX audits.
+
+The machine-readable contract is `openspec/agent_overwrite_contract.json`.
+The final output gate is `scripts/audit_openspec_overwrite.py`, which combines
+the existing locked-skeleton/format/cross-page audits with hard checks for
+empty value rows, blank paragraphs, artificial spacing and post-omission
+numbering.
+
+## Mandatory source interpretation and traceability gate (release blocker)
+
+The Agent must not jump directly from source prose to a template value. Read
+`openspec/source_interpretation_contract.md` and use
+`docs/source_interpretation_playbook.md` for the complete source-reading,
+evidence, mapping,取舍 and overwrite procedure. Before a template is cloned,
+the approved facts JSON must contain all four records below:
+
+- `source_coverage`: source-unit inventory with the matching source hash,
+  counts, processed images/tables and empty `unmapped`/`unreadable` lists;
+- `fact_ledger`: a stable-ID record for every extracted fact with an exact
+  source locator, source text, source-unit IDs and evidence type;
+- `source_mapping`: a reviewed disposition for every fact and every S1-S16
+  section; and
+- `output_traceability`: a reviewed record connecting every written, merged,
+  hidden or not-written target to source facts, an approved derivation or an
+  explicit absence decision.
+
+`scripts/source_interpretation_contract.py` validates this gate. A source
+coverage gap, unreadable source region, unresolved/ambiguous/conflicting
+mapping, source fact without a disposition, or output value without evidence
+blocks the build before any template clone. `source_absent` is distinct from
+`source_unreadable`; only a reviewed absence/unsupported decision may trigger
+an empty-row action. Meaningful source line breaks must be preserved as Word
+line breaks inside existing value cells; blank paragraphs, tabs, repeated
+spaces and slash-only lines are forbidden.
 
 ## 0. Default deliverable
 Given one source MSDS/SDS, default to **eight synchronized deliverables**: four authoritative editable DOCX files plus four publication PDF files derived from those DOCX masters:
@@ -40,19 +86,19 @@ Hard rules:
 ## 2. Template authority
 The language-specific template baselines are authoritative:
 
-- CN: `examples/template_reference.docx`, the approved formal baseline with the row-break correction recorded in v3.15.8.
+- CN source record: `examples/template_reference_cn_source.docx`, an unchanged copy of the user-supplied formal `正式模板_MSDS_CN_冠志.docx`.
+- CN active baseline: `examples/template_reference.docx`, the current user-approved formal CN template installed byte-for-byte.
 - EN source record: `examples/template_reference_en_source.docx`, an unchanged copy of the user-supplied formal `正式模板_MSDS_EN_冠志.docx`.
-- EN active baseline: `examples/template_reference_en.docx`, the formal EN template plus the v3.15.1 Hand protection label correction and the v3.15.8 row-break correction.
-- The v3.13 CN/EN baselines (nested 8.2 child-table design) are retained at `examples/archive/template_reference_cn_v3.13_8.2_nested_child_table.docx` and `examples/archive/template_reference_en_v3.13_8.2_nested_child_table.docx` for rollback/audit only.
-- The previous v3.11 EN baseline is retained at `examples/archive/template_reference_en_v3.11_pre_field_update.docx` for rollback/audit only.
-- The previous v3.12 CN/EN baselines are retained at `examples/archive/template_reference_cn_v3.12_pre_8.2_child_table_update.docx` and `examples/archive/template_reference_en_v3.12_pre_8.2_child_table_update.docx` for rollback/audit only.
-- The former normalized EN baseline is retained separately at `examples/archive/template_reference_en_v3.10_normalized.docx` and is historical evidence only; it is not an active template.
+- EN active baseline: `examples/template_reference_en.docx`, the current user-approved formal EN template installed byte-for-byte.
+- Historical template copies are deliberately not shipped. Only the current
+  user-approved CN/EN baselines and their unchanged source records are part of
+  the active package; rollback copies belong outside the distributable skill.
 
 Pinned SHA-256:
 
-- CN: `3cb250303778b70ab0dbfedc4392ac628228d80146e6376f410157cb08993622`
-- EN source: `59445b62c6d33b25a2e04c05778d428656f1ce0cbe7c21212721b145468c4416`
-- EN active baseline: `003FF6BAC27BF3BC99F0426EA8ED596487B0399F30428C406227D8F7C1B3DD46`.
+- CN: `b6c52c3d6003d4314e578733c5066dc9541c70ee49957ab56c24dd749ade2d43`
+- EN source: `34a259eed50d2e78b4609c66453fa9baab610a623dcc7ee531db359b1a988497`
+- EN active baseline: `34a259eed50d2e78b4609c66453fa9baab610a623dcc7ee531db359b1a988497`.
 
 Structural baseline:
 - 16 tables
@@ -67,8 +113,15 @@ Structural baseline:
 - Section 8.2 uses the formal template's top-level four-column control-parameter rows: a one-cell `工作场所组分控制参数 / Control parameters for workplace components` parent row, one locked header row (CN `物质 / 依据 / 类型 / 数值`; EN `Substance / Basis / Type / Value`), then data rows. Only source-grounded data rows may be written or cloned; the parent row, header wording/topology and grid are locked. The two template example OEL rows are illustrative structure only and MUST be cleared. With verified source records they are replaced by source data rows; with no source records the complete workplace-component block is removed, including its parent/header/data rows. Never emit a synthetic `无数据` / `No data available` row for an absent workplace-parameter block.
 - Section 11 includes the uploaded template's structured rows through `11.10 Additional information`.
 - The v3.6.2 template geometry update changes only approved border styling: Section 8 internal PPE boundaries use dotted borders with the adjusted boundary edges around the first exposure-control rows; Section 11 uses dotted boundary edges around its introductory/reference-data transition row. No table count, row count, grid width, merge, paragraph-property or run-property baseline changed.
-- The complete structural snapshot, including paragraph/run properties and header/footer parts, is pinned in `tests/template_snapshot.json` and `tests/template_snapshot_en.json`; versioned v3.14 copies are retained in `tests/template_snapshot_v314.json`, `tests/template_snapshot_en_v314.json`, `tests/template_geometry_v314.json` and `tests/template_geometry_en_v314.json`.
+- The complete structural snapshot, including paragraph/run properties and
+  header/footer parts, is pinned only in `tests/template_snapshot.json` and
+  `tests/template_snapshot_en.json`. Historical versioned snapshots are not
+  shipped and must not be used as template authorities.
 - Section 3 component rule: every component occupies exactly one physical data row. Never pack multiple component names, CAS numbers or concentrations into one row separated by line breaks. If the source has more components than the template's initial slots, clone the existing styled component row in place and preserve its OOXML geometry.
+- Sections 9 and 15 may be expanded only when verified source rows exceed the
+  pinned template capacity. Clone the last styled data/note row in place and
+  write the source-backed new row through the dedicated insertion boundary;
+  never rebuild the table or alter any existing label.
 
 A newer user-approved template immediately supersedes this one. Do not restore geometry or paragraph formatting from older outputs. Text visible in the template (including PEA-4139, example ingredients, hazards, toxicology and ecology values, and the two 8.2 example OEL rows) is illustrative structure only and MUST NOT become product facts.
 
@@ -76,7 +129,9 @@ A newer user-approved template immediately supersedes this one. Do not restore g
 ## 2A. Highest-priority in-place overwrite contract
 This rule overrides every language/layout convenience rule. Each CN deliverable MUST be created by cloning `examples/template_reference.docx`; each EN deliverable MUST be created by cloning the independent `examples/template_reference_en.docx`; all four are then mutated in place. Never create an EN document from a blank document, from a rebuilt table set, or from a rendered CN output. Never add a CN-only row to the EN template merely to equalize section capacity.
 
-The template owns: table count/order, row/column geometry, grid, merges, cell properties, borders, widths, section placement, label cells, paragraph properties, character-format anchors, and page-crossing behavior. All maintained formal templates permit tables and rows to continue across pages; no active baseline row may carry `cantSplit`, and this must remain true after generation. The source owns facts only. The language layer may select an existing language-appropriate template label, but it may not generically rewrite, rebuild or normalize sequence/label cells. The only source-faithful CN Section 2 label exception is the verified source heading `标签要素` (the baseline says `GHS标签要素`) and the requested trailing colon on `其他危害`; the pipeline applies these two aliases by run-level replacement and the format audit canonicalizes only them. The shared runtime builds a slot registry from the fresh clone before clearing values: a non-empty template value object is writable, an intentionally blank object is not writable unless the semantic contract explicitly marks it as an input slot, and Section 8.2 data rows are handled only by their dedicated writer. This prevents source data from leaking into blank template slots; the Section 8 `建议 / Recommendation` value is deliberately always blank in formal output. The active CN baseline's known tabbed illustrative suffix on the `手部防护` label is removed at clone time by a run-preserving, geometry-neutral sanitizer; this is the only other label-text exception.
+The template owns: table count/order, row/column geometry, grid, merges, cell properties, borders, widths, section placement, label cells, paragraph properties, character-format anchors, and page-crossing behavior. All maintained formal templates permit their tables to continue across pages; each active baseline's row-level `cantSplit` settings are also template-owned and must be preserved exactly on surviving output rows. The source owns facts only. Agent mutation is restricted to writing or clearing label-associated value cells, deciding whether a value is source-absent/unsupported and therefore hidden, and requesting only necessary complete styled-row insertion or deletion under the section rule. Labels, sequence text, boldness, fonts, paragraph properties, cell properties, tables and page layout are never Agent-editable. The previous Section 2 label-alias path is retired; source headings select semantic slots but never rewrite template labels.
+
+The shared runtime builds a slot registry from the fresh clone before clearing values: a non-empty template value object is writable, an intentionally blank object is not writable unless the semantic contract explicitly marks it as an input slot, and Section 8.2 data rows are handled only by their dedicated writer. This prevents source data from leaking into blank template slots; the Section 8 `建议 / Recommendation` value is deliberately always blank in formal output. Any necessary company/header/footer overlay, pictogram insertion or post-omission numeric-prefix renumbering is runtime-controlled and is not an Agent permission.
 
 Deletion of an unsupported item must use the smallest safe template boundary. It may remove a whole dedicated row when that row is exactly one item; otherwise it must suppress only the unsupported item without damaging supported siblings or merge/grid integrity. After suppression, all four variants MUST have the same semantic item-presence set.
 
@@ -87,29 +142,34 @@ Bold template labels and table geometry are locked: wording for the selected lan
 
 Allowed mutation exception: after an explicitly permitted whole-row omission, numeric prefixes may be changed to restore continuous visible section numbering. Only the numeric prefix is mutable. The complete executable boundary is defined in `docs/template_mutation_whitelist.md` and enforced by `scripts/template_mutation_whitelist.py` plus `scripts/audit_template_mutation_whitelist.py`.
 
-Avoid destructive APIs such as `paragraph.text = ...` or `cell.text = ...` on formatted template content when they would destroy runs. Prefer run-level replacement and OOXML-safe operations. Preserve the template's table-cross-page contract: tables and all surviving rows may span pages, row-level `cantSplit` is forbidden in active baselines and outputs, and repeating-header settings must remain intact. Never insert artificial page breaks to compensate for content.
+Avoid destructive APIs such as `paragraph.text = ...` or `cell.text = ...` on formatted template content when they would destroy runs. Preserve the template's table-cross-page contract: tables may span pages, and all surviving rows must retain the active template's exact row-level `cantSplit` and repeating-header settings. Never insert artificial page breaks to compensate for content.
 
 The executable per-section contract is maintained in
 `scripts/section_overwrite_rules.py`. Every S1-S16 table must use its declared
 semantic writer, value scope, empty-value policy and structural-mutation
 boundary; an unregistered or positional payload is a release blocker.
 
+Do not infer a field match from row position alone. The approved source mapping
+must identify the target section and target slot for every mapped source item;
+an absent, duplicate or ambiguous target slot blocks the build before any value
+is written.
+
 For inserted non-bold Chinese body text, retain the approved body-character-format convention from the existing baseline. For English, preserve the same template geometry and use a compatible professional body-text run format; allow natural English wrapping rather than fake alignment.
 
-### 3A. Template mutation whitelist
+### 3A. Agent mutation whitelist
 
-The sequence column and label column are locked by default. Only the following
-mutations are allowed:
+The sequence column and label column are immutable. The Agent may request only
+the following semantic operations; the runtime performs them through the
+approved write boundary:
 
-- write source-grounded content to an existing field-value cell;
-- maintain an existing one-cell note slot as a whole semantic slot;
-- write only name/CAS/concentration to S3 component data rows, one component per row;
-- write only approved source-grounded data to the S8.2 top-level four-column data rows; with no verified records remove the complete workplace-component block, including parent/header/example rows;
-- insert an explicitly sourced GHS pictogram into the existing pictogram value slot;
-- remove a complete pure-missing-data row only under the S2/S9 omission policy;
-- change only the numeric prefix after that approved omission;
-- project only the two verified CN Section 2 source-heading aliases (`标签要素：` and `其他危害：`) by run-level replacement;
-- route a verified source endpoint alias to an existing standard endpoint without changing the source value.
+- write source-grounded content to an existing label-associated value cell;
+- clear a value cell when the source value is absent or unsupported;
+- suppress a complete empty/unsupported dedicated row before numbering;
+- insert a complete source-backed styled data row only where the section rule permits it (S3 components, S8.2 control records, S9 properties or S15 regulations).
+
+The Agent must not directly insert pictograms, rewrite aliases, renumber labels,
+edit headers/footers or apply company overlays. Those are deterministic
+runtime-controlled operations and remain independently audited.
 
 Any mutation to locked cell formatting, an unapproved locked label's wording, table geometry,
 merge topology, grid width, borders, row height, header/footer structure or
@@ -193,7 +253,7 @@ If the source contains H/EUH/P codes, keep each complete coded statement on its 
 Section 2 is customer-facing and must be self-contained:
 
 - If the source DOCX contains a GHS pictogram image, extract and insert that image into the cloned template's existing GHS pictogram cell. Preserve the image as an image; do not replace it with `无数据`, `None`, alt text or a textual description. If no image is supplied, resolve a pictogram only from explicit verified GHS classifications and record the resolution in the audit; never infer from vague prose.
-- The CN Section 2 source heading `2.2 标签要素` is projected as `2.2  标签要素：`; the source-backed other-hazards heading is projected as `2.3  其他危害：` after omission and renumbering. The English baseline keeps its approved English label. The `GHS label elements` value cell must contain explicit, line-separated label tips. For example: `必须列在标签上的有害成分：` followed by `亲水脂肪族聚异氰酸酯` on the next line. The English equivalent is `Hazardous ingredients required to be listed on the label:` followed by the ingredient on the next line. With no verified label ingredients the value stays empty and the existing missing-row suppression removes the whole row; never leave the bare heading.
+- CN source Section 2 headings select the existing fixed CN semantic slots without rewriting their labels. The English baseline keeps its approved English label. The `GHS label elements` value cell must contain explicit, line-separated label tips. For example: `必须列在标签上的有害成分：` followed by `亲水脂肪族聚异氰酸酯` on the next line. The English equivalent is `Hazardous ingredients required to be listed on the label:` followed by the ingredient on the next line. With no verified label ingredients the value stays empty and the existing missing-row suppression removes the whole row; never leave the bare heading.
 - Never output `见2.4-2.6`, `See 2.4-2.6`, or any customer-facing cross-reference. Signal word, hazard statements and precautionary statements remain directly visible in their own rows.
 - After Section 2 values and pictograms are written, remove a whole dedicated row whose value is only `无数据` / `No data available`, including `眼睛：无数据` / `Eyes: No data available`, and renumber surviving unique `2.x` items in original order. Keep substantive negatives such as `无刺激`, `不适用` and `无危险反应`; repeated child rows retain one shared number. The unnumbered pictogram row remains when an image is present.
 - `2.3 其他危险` is a source-backed endpoint. If the source explicitly contains it with `无适用资料` (or an equivalent explicit conclusion), keep the row and include it in continuous numbering; only an absent source endpoint is hidden.
@@ -238,7 +298,7 @@ Rules:
 - When the source explicitly supplies a missing endpoint value, retain that endpoint row and write the exact missing-data placeholder. When the source has no endpoint field at all, suppress the template-only row; if every endpoint in Section 11 or 12 is absent or explicitly missing, retain only the source explanation row.
 - Section 11.7 is an exact endpoint projection: `生育力`, `致畸形` and `体外遗传毒性` may only be populated from their matching source fields. An explicit source phrase such as `无数据资料` is retained for the matching endpoint; an unmatched or blank child row is hidden. Do not move `体外遗传毒性` study data into a blank reproductive-toxicity child row.
 - Section 11 is source-field projection, not a reasoning step. Write only endpoint values, species, results, classifications, methods or evidence qualifiers explicitly present in the verified source/semantic payload. Do not add a method, species, classification, “similar product” qualifier, overall assessment or additional-information conclusion merely because a neighboring field exists in the template.
-- The verified alias policy maps source `主要粘膜刺激性` to the existing standard endpoint `11.3 主要眼睛刺激性`; this is controlled field classification, not a new label or an inference. Preserve the source result/value exactly and do not duplicate it into `11.10 附加信息`.
+- The verified source field `主要粘膜刺激性` is classified into the existing semantic endpoint slot `11.3 主要眼睛刺激性`; this changes neither the locked label nor the source result/value, and the value must not be duplicated into `11.10 附加信息`.
 - For study results, use direct source-grounded field lines in the value cell, such as material/substance, species, result, classification, method/guideline and the supported evidence qualifier `对类似产品的研究` / `Study of a similar product`.
 - For acute dermal and acute inhalation conclusions, preserve the source's direct assessment wording; do not replace it with a missing-source explanation or an invented LD50/LC50.
 - Never output the labels `原发性皮肤刺激` or `Primary skin irritation` when the source provides the structured study result; use the structured study block instead.
@@ -294,12 +354,14 @@ Use `scripts/output_matrix.py` and `scripts/four_variant_policy.py`.
 The QA commands are mandatory gates, not advisory checks. A non-zero exit status from any applicable audit blocks release.
 Before delivery run, as applicable:
 - missing-data suppression audit
+- OpenSpec execution-record and empty-value-row audit
 - Section 9 whole-row omission and continuous-renumbering audit
 - continuous numbering audit
 - locked-label/geometry audit
 - whitespace audit
 - Section 2 H/P layout audit
 - Section 11 structured-field/study audit
+- source coverage, fact-ledger and output-traceability audit
 - English terminology audit
 - CN/EN semantic parity check for all factual values
 - Guanzhi/Guocai whitelist-only difference check
@@ -356,8 +418,8 @@ The bundled formal CN template is the sole Word layout authority. After
 content is written, preserve its table geometry, row heights, cell properties,
 paragraph properties, run properties, header/footer structure and page fields.
 
-- Do not run `compact_cn_layout.py`, `compact_cn_document()` or any global
-  font/spacing/indent normalization in the active overwrite pipeline.
+- Do not run any global font/spacing/indent normalization in the active
+  overwrite pipeline.
 - Empty or unsupported content is handled only by the documented source-
   presence policy and the smallest allowed whole-row/block suppression; do
   not compensate by changing neighboring row heights, paragraph spacing or
@@ -443,7 +505,7 @@ EN from the standardized model. Labor splits as follows:
   `scripts/extract_source_facts.py` for a positioned draft (every candidate
   carries table/row/cell provenance; unmapped cells block the build).
 - Agent judgment (never scripted in batch): source-fact verification, S2
-  classification, S11 endpoint mapping and aliases, H/P wording, EN
+  classification, S11 endpoint slot mapping (including source aliases), H/P wording, EN
   professional translation (qualifiers and evidence levels preserved),
   sensitization study separation, missing-vs-`不适用`, company overlay,
   cross-language parity, visual QA. Record each call as an `AGENT_DECISION`
@@ -457,12 +519,17 @@ One command replaces the per-model copied generators for new models:
 
 The approved facts file holds the standardized `zh` model, the reviewed EN
 translation of that same model (`translation_review` must be empty),
-`source_sha256`, `s8_control_parameters`, and a reviewed `source_mapping`.
+`source_sha256`, `s8_control_parameters`, a reviewed `source_mapping`, a
+`source_coverage` record, a complete `fact_ledger`, a reviewed
+`output_traceability` record, and a reviewed `agent_execution` record whose
+`agent_mutation_boundary` exactly matches the active OpenSpec.
 `source_mapping` must bind the same model and original-source SHA, cover all
 S1-S16 sections, list unique source locators and source text, and explicitly
-dispose each candidate as `mapped`, `omitted` (with a reason), or
-`not_applicable` (with a reason). `status=needs-review`, any unresolved item,
-an unclassified target, or a missing section blocks the build. This is the
+dispose each fact as `mapped`, `omitted`, `not_applicable`, `source_only` or
+`duplicate`, with a reason where applicable. `conflict` and `unresolved` are
+blocking decisions. `status=needs-review`, any unresolved item,
+an unclassified target, a fact without source provenance, an output target
+without traceability, or a missing section blocks the build. This is the
 anti-omission/anti-invention evidence contract; it does not authorize an
 agent to invent facts. Any gate failure raises `ReleaseBlocked` before a
 formal output is promoted. Legacy `_task_work`
@@ -509,7 +576,45 @@ generators are frozen regression vehicles and are not production entry points.
 - After each staged DOCX is saved, the in-memory document is reused across the
   content, whitespace, numbering and cross-page checks; the saved file remains
   the conversion input and final evidence source.
-- DOCX variants may share read-only template state; PDF conversion remains
-  ordered so office-process locks and page layout stay deterministic.
+- DOCX variants may share read-only template state; PDF conversion is a
+  bounded parallel batch by default (`--pdf-workers 2`). Use
+  `--pdf-workers 1` for a conservative serial WPS environment. Each PDF
+  remains one-to-one with its final audited DOCX and is independently gated.
 - Performance work must remove duplicate parsing or redundant computation while
   preserving every release gate. A faster run with fewer audits is invalid.
+
+## 20C. DeepSeek Harness performance profile
+
+The production entry point is one invocation of `scripts/build_eight.py` for
+one reviewed facts model. The Agent must not manually open, translate, render
+or independently rebuild four documents; that multiplies context and parsing
+work and makes a Harness run appear stalled.
+
+- Source selection, facts validation and template loading happen once. The
+  pipeline then builds all four audited DOCX masters first, so the Harness can
+  observe a complete intermediate checkpoint before PDF conversion begins.
+- The WPS converter is resolved and version-checked once before DOCX work.
+  Missing or unusable WPS CLI fails fast. LibreOffice, `soffice.exe`,
+  ReportLab and any PDF-only authoring fallback remain forbidden.
+- PDFs are converted in one bounded batch. The default is two workers; use
+  `--pdf-workers 1` when WPS or the host office process is unstable. Do not
+  increase the worker count merely to hide a slow or blocked converter.
+- Progress is emitted as `MSDS_PROGRESS` JSON lines. Add `--progress-file` for
+  a durable last-event checkpoint. Add `--docx-preview-dir` when the Harness
+  needs the four audited DOCX files before the PDF batch finishes. Preview
+  files are diagnostic checkpoints and are never the formal release output.
+- `--no-pdf` is a fast DOCX-only diagnostic/smoke mode. It must not be used to
+  claim the default eight-file release.
+
+Recommended Harness invocation:
+
+```text
+python scripts/build_eight.py --source SRC.docx --facts MODEL.json --out OUT \
+  --pdf-workers 2 --progress-file OUT/matrix-progress.json \
+  --docx-preview-dir OUT/_docx_preview
+```
+
+The performance profile changes scheduling and observability only. It never
+weakens source interpretation, Agent mutation limits, template geometry,
+empty-value hiding, numbering, semantic, or render gates; formal promotion
+still requires four DOCX plus four corresponding PDFs.

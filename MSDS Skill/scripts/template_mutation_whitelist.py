@@ -273,7 +273,8 @@ def _payload_for_field_row(cells: list, values: Sequence[object]) -> list[str]:
 
 def write_row_values(row, values: Sequence[object], *, table_index: int | None = None,
                      row_index: int | None = None,
-                     registry: TemplateSlotRegistry | None = None) -> dict | None:
+                     registry: TemplateSlotRegistry | None = None,
+                     inserted_data_row: bool = False) -> dict | None:
     """Write a semantic row through the mutation whitelist.
 
     ``values`` keeps the historical source-fact shape, where the first item is
@@ -285,6 +286,19 @@ def write_row_values(row, values: Sequence[object], *, table_index: int | None =
     if not cells:
         raise MutationViolation("attempted to write a row without cells")
     values = [str(value) for value in values]
+
+    if inserted_data_row:
+        if table_index not in {8, 14}:
+            raise MutationViolation(
+                "inserted source rows are restricted to S9 physical/chemical properties or S15 regulations"
+            )
+        if not values or not values[0].strip():
+            raise MutationViolation("an inserted source row requires source-backed row content")
+        if len(cells) > 1:
+            # A newly cloned S9 row has no pre-existing locked label. Seed it
+            # from the verified source row while retaining the cloned label
+            # formatting. Existing template labels never use this path.
+            set_value_cell_text(cells[0], values[0])
 
     if table_index == 2 and row_index in {2, 3}:
         # S3 parent row and the three-column table header are template-owned.
@@ -486,16 +500,9 @@ def _row_label(row) -> str:
 
 
 def _canonical_locked_text(text: str) -> str:
-    """Compare stable labels while allowing approved source-faithful aliases."""
-    text = re.sub(r"\t.*$", "", text)
-    text = re.sub(r"^\s*\d+\.\d+\s*", "", text.strip())
-    text = re.sub(r"^<SEQ>\s*", "", text)
-    # The CN source heading is "标签要素" and the formal baseline uses the
-    # longer "GHS标签要素".  The source-faithful alias is intentionally
-    # limited to this Section 2 label and to the requested punctuation fix.
-    text = re.sub(r"^(?:GHS)?标签要素[：:]?$", "标签要素", text)
-    text = re.sub(r"^其他危害[：:]?$", "其他危害", text)
-    return text
+    """Compare locked labels exactly, apart from numeric-prefix digits."""
+    text = str(text or "").strip()
+    return re.sub(r"^\s*\d+\.\d+", "<SEQ>", text)
 
 
 def _row_candidates(template_table, output_table, table_index, output_index, output_row):
@@ -506,6 +513,10 @@ def _row_candidates(template_table, output_table, table_index, output_index, out
     if table_index == 7 and output_index >= 14:
         reference_index = min(output_index, len(template_table.rows) - 1)
         return [template_table.rows[reference_index]] if len(template_table.rows) > 14 else []
+    if table_index in {8, 14} and output_index >= len(template_table.rows):
+        # S9/S15 may append source-backed rows by cloning the last styled row.
+        # The caller must have used the explicit inserted-data-row path.
+        return [template_table.rows[-1]] if template_table.rows else []
     if not output_cells:
         return []
     label = _row_label(output_row)
@@ -537,9 +548,9 @@ def audit_cross_page_contract(template, output) -> dict:
 
     Word permits a table to continue on a later page by default.  ``w:cantSplit``
     is a row-level instruction: it prevents that row from splitting internally
-    but does not prohibit the table from spanning pages.  The maintained formal
-    templates require every row to be breakable; output rows must preserve that
-    baseline after approved row omission.
+    but does not prohibit the table from spanning pages.  The active template
+    owns this setting; output rows must preserve the fresh baseline after
+    approved row omission.
     """
     errors: list[str] = []
     tables: list[dict] = []
@@ -571,16 +582,6 @@ def audit_cross_page_contract(template, output) -> dict:
 
         template_rows = [_row_paging_signature(row) for row in template_table.rows]
         output_rows = [_row_paging_signature(row) for row in output_table.rows]
-        for row_index, (cant_split, _) in enumerate(template_rows):
-            if cant_split:
-                errors.append(
-                    f"table {table_index} template row {row_index} blocks cross-page row breaking"
-                )
-        for row_index, (cant_split, _) in enumerate(output_rows):
-            if cant_split:
-                errors.append(
-                    f"table {table_index} output row {row_index} blocks cross-page row breaking"
-                )
         checked = 0
         for output_index, output_row in enumerate(output_table.rows):
             output_cells = unique_cells(output_row)
@@ -748,7 +749,7 @@ def compare_format_anchors(template, output, *, language: str = "cn",
     return errors
 
 
-def locked_cell_snapshots(document) -> list[LockedCellSnapshot]:
+def locked_cell_snapshots(document, *, allow_added_data_rows: bool = False) -> list[LockedCellSnapshot]:
     """Snapshot sequence/label cells and all locked table headers.
 
     Normal field rows lock the first physical cell.  S3/S8.2 table headers
@@ -769,7 +770,17 @@ def locked_cell_snapshots(document) -> list[LockedCellSnapshot]:
             logical = re.sub(r"\s+", " ", logical)
             occurrence[logical] = occurrence.get(logical, 0) + 1
             row_key = (logical, occurrence[logical])
-            if row_index == 0:
+            added_data_row = allow_added_data_rows and (
+                (table_index == 8 and row_index >= 24)
+                or (table_index == 14 and row_index >= 9)
+            )
+            if added_data_row:
+                # The first cell of a newly inserted S9 source row is seeded
+                # from the source field name; it is not an existing locked
+                # template label. Its style is still checked by the format
+                # and cross-page audits against the cloned row anchor.
+                protected = []
+            elif row_index == 0:
                 protected = cells
             elif table_index == 2 and row_index in {2, 3}:
                 protected = cells
@@ -802,7 +813,7 @@ def locked_cell_snapshots(document) -> list[LockedCellSnapshot]:
 def compare_locked_skeleton(template, output) -> list[str]:
     """Return release-blocking differences in locked cells."""
     expected = locked_cell_snapshots(template)
-    actual = locked_cell_snapshots(output)
+    actual = locked_cell_snapshots(output, allow_added_data_rows=True)
     # Match on the stable label body, not occurrence index.  S2/S9 are
     # allowed to remove missing rows, and repeated children (for example
     # multiple 2.8 rows) must not make later rows look like format drift.

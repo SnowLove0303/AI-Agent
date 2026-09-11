@@ -91,30 +91,15 @@ def set_cell_text(cell, text: str) -> None:
 
 
 def sanitize_template_artifacts(doc: Document) -> None:
-    """Remove only the formal template's tabbed S8 hand-label example text."""
-    if len(doc.tables) <= 7 or len(doc.tables[7].rows) <= 3:
-        return
-    cells = unique_cells(doc.tables[7].rows[3])
-    if not cells or not cells[0].paragraphs:
-        return
-    paragraph = cells[0].paragraphs[0]
-    cut = paragraph.text.find("\t")
-    if cut < 0:
-        return
-    cursor = 0
-    for run in paragraph.runs:
-        text = run.text or ""
-        end = cursor + len(text)
-        if cursor >= cut:
-            run.text = ""
-        elif end > cut:
-            run.text = text[:cut - cursor]
-        cursor = end
+    """Deprecated no-op: cloned template labels are immutable."""
+    return None
 
 
-def set_row(row, values, *, table_index=None, row_index=None, registry=None):
+def set_row(row, values, *, table_index=None, row_index=None, registry=None,
+            inserted_data_row=False):
     return write_row_values(row, values, table_index=table_index,
-                            row_index=row_index, registry=registry)
+                            row_index=row_index, registry=registry,
+                            inserted_data_row=inserted_data_row)
 
 
 def ensure_s3_component_rows(doc: Document, component_count: int) -> None:
@@ -124,10 +109,20 @@ def ensure_s3_component_rows(doc: Document, component_count: int) -> None:
         table._tbl.append(copy.deepcopy(table.rows[-1]._tr))
 
 
+def ensure_source_data_rows(doc: Document, section: int, source_row_count: int) -> None:
+    """Clone only the last styled data row for approved expandable sections."""
+    if section not in {9, 15}:
+        raise ValueError(f"source-row insertion is not allowed for S{section}")
+    table = doc.tables[section - 1]
+    required_rows = 1 + source_row_count
+    while len(table.rows) < required_rows:
+        table._tbl.append(copy.deepcopy(table.rows[-1]._tr))
+
+
 __all__ = [
     "CN_GUANZHI", "CN_GUANZHI_ADDR", "CN_GUOCAI", "CN_GUOCAI_ADDR",
     "EN_GUANZHI", "EN_GUANZHI_ADDR", "EN_GUOCAI", "EN_GUOCAI_ADDR",
-    "ensure_s3_component_rows", "project_rows_to_template", "set_cell_text",
+    "ensure_s3_component_rows", "ensure_source_data_rows", "project_rows_to_template", "set_cell_text",
     "set_paragraph_text", "set_row", "template_geometry", "unique_cells",
     "sanitize_template_artifacts", "validate_template_capacity",
 ]

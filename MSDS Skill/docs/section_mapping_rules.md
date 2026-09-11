@@ -64,7 +64,7 @@ Section 2 fields, pure missing placeholders suppress the whole item. Section
 
 ### CN semantic slot projection
 - Do not pass source Section 2 rows directly to the template by list position.
-- Project source `2.1 GHS危险性类别`, `2.2 标签要素` and `2.3 其他危害` into the maintained template slots `2.2`, `2.3` and `2.10`, respectively.
+- Bind source `2.1 GHS危险性类别`, `2.2 标签要素` and `2.3 其他危害` to the maintained template semantic slots `2.2`, `2.3` and `2.10`, respectively; never rewrite the template's locked label text.
 - Run source-missing suppression first, then apply the explicit `2.2→2.1`, `2.3→2.2`, `2.10→2.3` visible-number map. This keeps the final three-item sequence stable when all other sample-product rows are absent.
 
 ## Section 3 — Composition

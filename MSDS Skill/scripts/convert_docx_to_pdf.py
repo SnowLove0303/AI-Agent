@@ -21,6 +21,7 @@ import subprocess
 import sys
 import tempfile
 import time
+from functools import lru_cache
 
 
 def sha256(path: Path) -> str:
@@ -31,9 +32,10 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def _registry_wps_paths() -> list[str]:
+@lru_cache(maxsize=1)
+def _registry_wps_paths() -> tuple[str, ...]:
     if os.name != "nt":
-        return []
+        return ()
     try:
         import winreg
 
@@ -52,11 +54,12 @@ def _registry_wps_paths() -> list[str]:
                     paths.extend((str(office_dir / "kwpsconvert.exe"), str(office_dir / "wpscli.exe")))
             except (FileNotFoundError, OSError):
                 continue
-        return paths
+        return tuple(paths)
     except (ImportError, OSError):  # pragma: no cover - non-Windows fallback
-        return []
+        return ()
 
 
+@lru_cache(maxsize=8)
 def find_wpscli(explicit: str | None = None) -> str:
     candidates = []
     if explicit:
@@ -75,6 +78,7 @@ def find_wpscli(explicit: str | None = None) -> str:
     )
 
 
+@lru_cache(maxsize=8)
 def version(wpscli: str) -> str:
     try:
         result = subprocess.run(
@@ -102,7 +106,69 @@ def count_pdf_pages(path: Path) -> int | None:
         return len(matches) or None
 
 
-def convert(input_path: Path, output_path: Path, timeout: int = 300, wpscli: str | None = None) -> dict:
+def preflight(template_path: Path, timeout: int = 30,
+              wpscli: str | None = None,
+              converter_version: str | None = None) -> dict:
+    """Verify one temporary DOCX->PDF conversion before matrix construction.
+
+    WPS can report a healthy ``--version`` result while the interactive office
+    session is not authenticated.  A short, disposable template conversion
+    catches that state before four customer variants are built and avoids four
+    serial timeout windows in a Harness run.
+    """
+    template_path = template_path.resolve()
+    if not template_path.is_file():
+        raise FileNotFoundError(template_path)
+    if template_path.suffix.lower() != ".docx":
+        raise ValueError(f"preflight input must be .docx: {template_path}")
+    if timeout < 1:
+        raise ValueError("preflight timeout must be at least 1 second")
+    executable = find_wpscli(wpscli)
+    with tempfile.TemporaryDirectory(prefix="msds_wps_preflight_") as temporary:
+        generated = Path(temporary) / "preflight.pdf"
+        command = [
+            executable,
+            "word2pdf",
+            str(template_path),
+            "--output",
+            str(generated),
+            "--json",
+        ]
+        flags = getattr(subprocess, "CREATE_NO_WINDOW", 0) if os.name == "nt" else 0
+        try:
+            result = subprocess.run(
+                command,
+                check=False,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                timeout=timeout,
+                creationflags=flags,
+            )
+        except subprocess.TimeoutExpired as exc:
+            raise RuntimeError(
+                f"WPS converter preflight timed out after {timeout}s; "
+                "check WPS login/session state"
+            ) from exc
+        if result.returncode != 0 or not generated.is_file() or generated.stat().st_size == 0:
+            diagnostics = "\n".join(x for x in (result.stdout, result.stderr) if x)
+            raise RuntimeError(
+                f"WPS converter preflight failed (returncode={result.returncode}).\n"
+                f"{diagnostics}"
+            )
+    return {
+        "converter": "wpscli-word2pdf",
+        "converter_executable": str(executable),
+        "converter_version": converter_version or version(executable),
+        "template_path": str(template_path),
+        "passed": True,
+    }
+
+
+def convert(input_path: Path, output_path: Path, timeout: int = 300,
+            wpscli: str | None = None,
+            converter_version: str | None = None) -> dict:
     input_path = input_path.resolve()
     output_path = output_path.resolve()
     if not input_path.is_file():
@@ -159,7 +225,7 @@ def convert(input_path: Path, output_path: Path, timeout: int = 300, wpscli: str
     evidence = {
         "converter": "wpscli-word2pdf",
         "converter_executable": str(executable),
-        "converter_version": version(executable),
+        "converter_version": converter_version or version(executable),
         "source_docx": str(input_path),
         "source_sha256": source_hash,
         "output_pdf": str(output_path),

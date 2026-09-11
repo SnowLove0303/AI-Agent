@@ -34,9 +34,11 @@ DIRECT_DOCX_FORMATS = {"docx", "docm"}
 CONVERTIBLE_WORD_FORMATS = {"doc", "odt", "rtf"}
 DISCOVERY_EXCLUDED_DIRS = {
     ".git", ".agents", ".codex", "_task_work", "artifacts", "output",
-    "outputs", "覆写产出",
+    "outputs", "覆写产出", "_docx_preview",
 }
-GENERATED_OUTPUT_DIRS = {"_task_work", "artifacts", "output", "outputs", "覆写产出"}
+GENERATED_OUTPUT_DIRS = {
+    "_task_work", "artifacts", "output", "outputs", "覆写产出", "_docx_preview",
+}
 
 
 class SourceSelectionError(ValueError):

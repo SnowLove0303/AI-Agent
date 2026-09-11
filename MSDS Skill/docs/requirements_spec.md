@@ -25,17 +25,16 @@ Transform one selected MSDS/SDS source into the company's standard Word template
 - Template sample value without source support => delete/replace; never retain.
 
 ## Label rule
-All bold labels are immutable, except for the two explicit source-faithful CN
-Section 2 aliases defined below, including:
+All labels and bold label runs are immutable, including:
 - numbered fields: `11.2 主要皮肤刺激性：`;
 - unnumbered fields: `呼吸系统防护：`;
 - section headings.
 Their original alignment is part of the template and must survive generation.
 
-For source CN Section 2, project the verified source headings as `2.2  标签要素：`
-and `2.3  其他危害：` after omission and renumbering. The baseline's
-`GHS标签要素` wording and missing colon on `其他危害` are recognized only as
-format-equivalent audit aliases; no other label rewrite is allowed.
+For source CN Section 2, bind the verified source headings to the existing
+template semantic slots. The baseline's CN labels, punctuation and bold
+formatting remain unchanged; source headings are never copied into locked
+label cells. Only the corresponding value cells may be written or suppressed.
 
 ## Layout rule
 The bundled formal template is the layout authority. Preserve its table/cell
@@ -44,11 +43,12 @@ page fields. Remove only unsupported rows/blocks permitted by the source-
 presence policy; never globally normalize fonts, spacing, indents or page
 breaks to make the output look compact.
 
-All maintained formal templates allow both tables and rows to continue across
-pages. No active formal-template row may carry `cantSplit`; preserve the
-table-level behavior and compare each surviving row's `cantSplit` and
-repeating-header settings with the fresh template. This prevents a long row
-such as Section 11.4 from leaving a large blank area after Section 11.3.
+All maintained formal templates allow their tables to continue across pages.
+The row-level `cantSplit` setting is template-owned: preserve whatever setting
+the active baseline supplies on every surviving row, and compare it together
+with table-level behavior and repeating-header settings against the fresh
+template. This prevents generation from silently changing the page behavior of
+the newly approved baseline.
 
 ## Body text rule
 All non-bold inserted text uses the approved exemplar's character formatting.
@@ -59,6 +59,22 @@ destination-specific; labels, sublabels and table formatting remain locked.
 
 ## Omission rule
 Do not leave empty labels. Remove unsupported items at the smallest safe display unit while preserving neighboring supported items and table integrity.
+
+### Empty-value row suppression (mandatory)
+
+When a source MSDS has no value that semantically matches a template label, the
+complete dedicated label/value row is hidden before numbering. An empty value
+cell is not customer-facing content and must not be left beside a visible
+label. The only surviving blank value cells are the explicit company or
+template-structure exceptions already listed in the locked-format and mutation
+whitelist contracts. This rule applies to ordinary fields, component rows and
+PPE rows; Section 2, Section 9, Section 11/12 and Section 8.2 keep their
+endpoint-specific policies.
+
+Row suppression is not label mutation. The label object is either preserved as
+part of a surviving row or removed with its complete dedicated row. After all
+suppression is complete, surviving numbered items are scanned in visible
+semantic order and only their numeric prefixes may be made continuous.
 
 ## High-risk sections
 - Section 8: PPE/control hierarchy must remain template-defined.
@@ -74,7 +90,8 @@ A file is accepted only after automated audits and full-page rendered visual ins
   read-only audit/normalization reference.
 - Reuse the saved staged DOCX object across compatible in-process audits;
   retain the saved DOCX as the only PDF conversion input.
-- Keep PDF conversion ordered for deterministic office-process behavior.
+- Use bounded PDF batch conversion for throughput; `--pdf-workers 1` remains
+  available for conservative serial office-process behavior.
 - Any speed improvement must preserve the complete release-gate set and the
   exact eight-file output contract.
 
