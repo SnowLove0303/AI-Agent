@@ -1,4 +1,4 @@
-# MSDS Skill 3.20.0
+# MSDS Skill 3.21.0
 
 `MSDS Skill` is the controlled MSDS/SDS standardization skill for producing synchronized Chinese and English deliverables for the Guanzhi and Guocai company profiles.
 
@@ -25,7 +25,7 @@
   score, applies B0/B1/B2 release blockers, and emits one evidence-complete
   audit report for every eight-file package.
 - Source discovery is explicit and hash-bound: DOCX/DOCM extract directly,
-  DOC/ODT/RTF use a temporary LibreOffice conversion, and XLS/XLSX/TXT source
+  DOC/ODT/RTF use a source-hash-bound LibreOffice conversion cache, and XLS/XLSX/TXT source
   files are discoverable but remain blocked from guessed 16-section extraction
   until their semantic adapters are approved. PDF is output-only.
 - S1-S16 table behavior is declared in one executable overwrite-rule registry;
@@ -54,7 +54,7 @@ Read [`SKILL.md`](SKILL.md) for the operating contract. The reusable scripts, te
 
 ## Version
 
-Public release: `MSDS Skill 3.20.0`
+Public release: `MSDS Skill 3.21.0`
 
 Template baseline: the current user-supplied formal CN/EN templates are adopted
 byte-for-byte. CN SHA-256 is
@@ -66,9 +66,11 @@ from the distributable package. Rollback evidence must be stored outside the
 active skill directory.
 
 The public release contains current Skill source and validation assets only.
-Version 3.20.0 adds a DOCX-first matrix scheduler, WPS converter preflight and
-cache, bounded PDF parallelism, progress checkpoints and an optional audited
-DOCX preview directory for slow Harness environments. Version 3.19.1 removed
+Version 3.21.0 adds a reusable source-evidence packet, persistent legacy-source
+conversion cache and a one-shot non-mutating facts preflight on top of the
+DOCX-first matrix scheduler, WPS converter preflight and cache, bounded PDF
+parallelism, progress checkpoints and an optional audited DOCX preview
+directory for slow Harness environments. Version 3.19.1 removed
 historical templates, stale regression
 outputs, generated caches and broken `_task_work`-dependent tests. Source
 interpretation remains fail closed: the Agent must
@@ -122,3 +124,18 @@ The command must return `ready` before `scripts/build_eight.py` may clone or
 mutate a template. A draft from `scripts/extract_source_facts.py` is expected
 to return `blocked` until the Agent completes the evidence, mapping and output
 traceability records.
+
+For repeated Harness runs, prepare the source evidence once and reuse it:
+
+```powershell
+python scripts/prepare_evidence_packet.py --source SRC.docx --model MODEL `
+  --out OUT/evidence-packet.json --cache-dir OUT/.msds_cache
+```
+
+The packet is review-required and is not approved facts. After the Agent
+finishes the review, run the all-errors preflight before the production build:
+
+```powershell
+python scripts/build_eight.py --source SRC.docx --facts MODEL.json `
+  --model MODEL --preflight-only --preflight-report OUT/preflight.json
+```

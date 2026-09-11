@@ -3,7 +3,7 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS standardization skill that discovers supported source files, binds source-grounded facts to synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, preserves locked templates, and releases four DOCX plus four PDF deliverables only after semantic and render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.20.0
+# Unified MSDS Eight-Deliverable Standardizer v3.21.0
 
 ## Mandatory v2.9 inheritance (release blocker)
 
@@ -546,7 +546,10 @@ generators are frozen regression vehicles and are not production entry points.
   when a generated file is renamed.
 - The source registry currently recognizes `.docx`, `.docm`, `.doc`, `.odt`,
   `.rtf`, `.xlsx`, `.xls` and `.txt`. Direct section extraction is approved
-  for DOCX/DOCM; DOC/ODT/RTF use a temporary LibreOffice DOCX adapter.
+  for DOCX/DOCM; DOC/ODT/RTF use a LibreOffice DOCX adapter whose result may
+  be reused from a source-hash-bound persistent cache. The original source is
+  still the only formal provenance source; cached conversions never become
+  formal sources.
   Spreadsheet/text sources are provenance-aware but do not guess a 16-section
   model: `extract_source_facts.py` blocks until a dedicated coordinate/semantic
   adapter is approved. PDF is publication-only and is never a source input. A
@@ -583,6 +586,41 @@ generators are frozen regression vehicles and are not production entry points.
 - Performance work must remove duplicate parsing or redundant computation while
   preserving every release gate. A faster run with fewer audits is invalid.
 
+## 20D. Reusable evidence packet and one-shot preflight
+
+Before asking the Agent to complete the semantic review, run the mechanical
+source stage once:
+
+```powershell
+python scripts/prepare_evidence_packet.py --source SRC.docx --model MODEL `
+  --out OUT/evidence-packet.json --cache-dir OUT/.msds_cache
+```
+
+The command creates a source-hash-bound packet containing the source-unit
+inventory, fact-ledger scaffold, extraction review queue and the exact next
+OpenSpec stage. A matching packet is reused on the next invocation; a legacy
+`.doc/.odt/.rtf` conversion is reused from the same cache. The packet is
+always `needs-review` with `build_allowed: false`. The Agent must copy its
+`facts_draft` into the approved model and complete mapping, traceability and
+the full execution acknowledgement before building.
+
+Run the cheap facts gate before any template or PDF work:
+
+```powershell
+python scripts/build_eight.py --source SRC.docx --facts MODEL.json `
+  --model MODEL --preflight-only --preflight-report OUT/preflight.json
+```
+
+The preflight lists all current blockers together. Only after it returns
+`PREFLIGHT_PASS` should the Agent run the production command. This avoids
+spending time on repeated partial builds while retaining the same fail-closed
+checks used by `build_matrix`.
+
+The recursive release audit requires one canonical copy of each final file.
+If a stale `WORD/`, `PDF/` or deployment subtree creates duplicate basenames,
+the audit reports the duplicate slot and skips the expensive DOCX text scan;
+remove the stale copy before rerunning the audit.
+
 ## 20C. DeepSeek Harness performance profile
 
 The production entry point is one invocation of `scripts/build_eight.py` for
@@ -594,8 +632,10 @@ work and makes a Harness run appear stalled.
   pipeline then builds all four audited DOCX masters first, so the Harness can
   observe a complete intermediate checkpoint before PDF conversion begins.
 - The WPS converter is resolved and version-checked once before DOCX work.
-  Missing or unusable WPS CLI fails fast. LibreOffice, `soffice.exe`,
-  ReportLab and any PDF-only authoring fallback remain forbidden.
+  Missing or unusable WPS CLI fails fast. The approved LibreOffice adapter is
+  allowed only for legacy source conversion; LibreOffice/`soffice.exe`,
+  ReportLab and any PDF-only authoring fallback must never author or replace
+  the WPS-derived PDFs.
 - PDFs are converted in one bounded batch. The default is two workers; use
   `--pdf-workers 1` when WPS or the host office process is unstable. Do not
   increase the worker count merely to hide a slow or blocked converter.

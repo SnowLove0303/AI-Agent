@@ -43,3 +43,21 @@ def test_report_serialization_is_machine_and_human_readable(tmp_path):
     write_reports(result, tmp_path / "audit.json", tmp_path / "audit.txt")
     assert json.loads((tmp_path / "audit.json").read_text(encoding="utf-8"))["outcome"] == result["outcome"]
     assert "Outcome:" in (tmp_path / "audit.txt").read_text(encoding="utf-8")
+
+
+def test_incomplete_duplicate_matrix_short_circuits_expensive_docx_scan(tmp_path, monkeypatch):
+    _package(tmp_path)
+    original = next(tmp_path.rglob("TEST-1_MSDS_CN_Guanzhi.docx"))
+    duplicate = tmp_path / "stale-copy" / original.name
+    duplicate.parent.mkdir()
+    duplicate.write_bytes(b"stale")
+
+    def fail_if_opened(_path):
+        raise AssertionError("incomplete matrix should short-circuit DOCX text scanning")
+
+    monkeypatch.setattr("audit_deliverable_package._docx_text", fail_if_opened)
+    result = run_audit(tmp_path, "TEST-1")
+    assert result["package"]["complete"] is False
+    assert result["outcome"] == "RELEASE_FAIL"
+    src_record = next(record for record in result["records"] if record["rule_id"] == "SRC-002")
+    assert src_record["status"] == "NOT_CHECKED"

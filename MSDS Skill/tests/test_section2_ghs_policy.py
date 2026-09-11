@@ -10,6 +10,7 @@ from ghs_pictogram_policy import insert_source_pictogram
 from section2_ghs_policy import (
     format_label_elements,
     is_missing_section2_value,
+    is_explicit_other_hazards_row,
     project_source_cn_facts,
     project_source_cn_headings,
     suppress_missing_section2_rows_and_renumber,
@@ -90,6 +91,23 @@ def test_section2_explicit_number_map_keeps_source_requested_numbers():
     labels = [row.cells[0].text.strip() for row in document.tables[1].rows[1:]]
     assert labels == ["2.2  GHS标签要素：", "2.3  其他危害"]
     assert result["number_map"] == {"2.3": "2.2", "2.10": "2.3"}
+
+
+def test_blank_other_hazards_exception_is_suppressed_but_explicit_missing_is_kept():
+    document = Document(ROOT / "examples" / "template_reference.docx")
+    table = document.tables[1]
+    other_row = table.rows[15]
+    other_row.cells[-1].text = ""
+    assert not is_explicit_other_hazards_row(other_row)
+    result = suppress_missing_section2_rows_and_renumber(
+        document, lambda p, text: setattr(p, "text", text), number_map={3: 2, 10: 3}
+    )
+    assert "2.10  其他危害" in result["removed_labels"] or "2.10 其他危害" in result["removed_labels"]
+
+    explicit = Document(ROOT / "examples" / "template_reference.docx")
+    explicit_row = explicit.tables[1].rows[15]
+    explicit_row.cells[-1].text = "无适用资料。"
+    assert is_explicit_other_hazards_row(explicit_row)
 
 
 def test_source_cn_s2_projects_by_semantic_slot_not_list_position():

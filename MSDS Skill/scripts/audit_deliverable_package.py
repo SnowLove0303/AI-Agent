@@ -73,17 +73,31 @@ def run_audit(root: Path, model: str, *, template_cn: Path | None = None,
     banned = ["源文件未提供", "源文件记载", "按源文件列示", "见2.4-2.6", "See 2.4-2.6", "source file not provided"]
     sample_ids = ["PEA-4139"]
     text_hits = []
-    try:
-        for p in [Path(x) for x in paths if x.lower().endswith(".docx")]:
-            text = _docx_text(p)
-            for needle in banned + sample_ids:
-                if needle in text:
-                    text_hits.append(f"{p.name}: {needle}")
-    except Exception as exc:
-        text_hits.append(f"text scan error: {exc}")
-    records.append(evidence("SRC-002", "FAIL" if text_hits else "PASS", method="DOCX text scan",
-                            observed=text_hits, evidence_paths=[str(root)],
-                            message="Forbidden drafting/example text found: " + "; ".join(text_hits) if text_hits else "No forbidden drafting or PEA example text found"))
+    if package["complete"]:
+        try:
+            for p in [Path(x) for x in paths if x.lower().endswith(".docx")]:
+                text = _docx_text(p)
+                for needle in banned + sample_ids:
+                    if needle in text:
+                        text_hits.append(f"{p.name}: {needle}")
+        except Exception as exc:
+            text_hits.append(f"text scan error: {exc}")
+        records.append(evidence(
+            "SRC-002", "FAIL" if text_hits else "PASS", method="DOCX text scan",
+            observed=text_hits, evidence_paths=[str(root)],
+            message=("Forbidden drafting/example text found: " + "; ".join(text_hits)
+                     if text_hits else "No forbidden drafting or PEA example text found"),
+        ))
+    else:
+        # Duplicate/missing matrix slots already block release.  Do not open
+        # every candidate DOCX in an incomplete tree: a deployment folder
+        # containing stale copies used to spend minutes in a needless scan
+        # after the decisive duplicate error was already known.
+        records.append(evidence(
+            "SRC-002", "NOT_CHECKED", method="DOCX text scan short-circuit",
+            observed={"skipped": "incomplete matrix"}, evidence_paths=[str(root)],
+            message="Skipped DOCX text scan because matrix discovery is incomplete",
+        ))
 
     for rid, label in (("DOCX-001", "DOCX structural/visual QA"), ("DOCX-002", "DOCX readability QA")):
         ok = formal

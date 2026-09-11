@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mechanical source-fact extractor for the unified MSDS pipeline (v3.19.0).
+"""Mechanical source-fact extractor for the unified MSDS pipeline (v3.21.0).
 
 Business role: the overwrite core is *extract -> standardize (CN) -> render
 CN -> translate EN from the standardized model*.  This module does the first
@@ -67,7 +67,7 @@ SIGNAL_RE = re.compile(r"信号词\s*[：:]\s*(.*)")
 CATEGORY_RE = re.compile(r"(类别\s*\S*|\(H\d+[a-zA-Z]*\))")
 MISSING_HINT_RE = re.compile(r"(无适用资料|无数据资料|暂无|未提供|不详)")
 OTHER_HAZARDS_RE = re.compile(
-    r"^\s*2\.3\s*(?:其他危险|其他危害|other hazards)\s*[:：]?\s*(.*)$",
+    r"^\s*(?:(?:2\.(?:3|10))\s*)?(?:其他危险|其他危害|other hazards)\s*[:：]?\s*(.*)$",
     re.I,
 )
 PROTECTIVE_MATERIAL_RE = re.compile(
@@ -786,10 +786,10 @@ def _extract_docx(source: Path, *, original_source: Path | None = None,
     }
 
 
-def extract(source: Path) -> dict:
+def extract(source: Path, *, cache_dir: Path | None = None) -> dict:
     """Extract one supported source through its approved format adapter."""
     selection = discover_source(Path(source))
-    with prepare_source(selection) as prepared:
+    with prepare_source(selection, cache_dir=cache_dir) as prepared:
         extraction_path = require_section_extraction(prepared)
         return _extract_docx(
             extraction_path,
@@ -804,9 +804,13 @@ def main() -> None:
     parser.add_argument("source")
     parser.add_argument("--model", default=None)
     parser.add_argument("--out", required=True)
+    parser.add_argument(
+        "--cache-dir", type=Path, default=None,
+        help="persistent cache for legacy Word conversion results; keyed by source hash",
+    )
     args = parser.parse_args()
     selected = discover_source(Path(args.source), model=args.model)
-    data = extract(selected.original_path)
+    data = extract(selected.original_path, cache_dir=args.cache_dir)
     if args.model and data.get("model") != args.model:
         raise SourceSelectionError(
             f"extracted model {data.get('model')!r} does not match requested {args.model!r}"

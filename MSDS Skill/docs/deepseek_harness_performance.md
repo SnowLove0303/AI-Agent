@@ -1,5 +1,26 @@
 # DeepSeek Harness performance runbook
 
+## What changed in 3.21.0
+
+The source/evidence stage is now resumable. `prepare_evidence_packet.py`
+extracts a source once into a hash-bound packet containing source coverage,
+fact-ledger entries and the review queue. Legacy Word conversion results are
+also persisted under `.msds_cache` and invalidated automatically when source
+bytes or the adapter contract changes. The packet is never approved by
+itself; it remains `needs-review` until the Agent completes the OpenSpec
+review.
+
+Use the non-mutating preflight before the production command:
+
+```text
+python scripts/build_eight.py --source SRC.docx --facts MODEL.json \
+  --model MODEL --preflight-only --preflight-report OUT/preflight.json
+```
+
+It reports all facts/OpenSpec blockers in one pass and does not clone a
+template, resolve WPS or start PDF conversion. Fix the complete list, rerun
+until `PREFLIGHT_PASS`, then run the production build once.
+
 ## What changed in 3.20.0
 
 The former matrix loop completed one language/company DOCX, converted its PDF,
@@ -49,6 +70,12 @@ field edit.
   `OUT/_docx_preview`; this directory is excluded from source discovery.
 - `--no-pdf`: diagnostic DOCX-only mode. It is useful for isolating semantic
   or template work, but it is not an eight-file release.
+
+The release audit also short-circuits its DOCX text scan when recursive matrix
+discovery already finds a missing or duplicate slot. Keep only one canonical
+copy of each of the eight final files under the package root; stale `WORD/`,
+`PDF/` or copied deployment subtrees will fail immediately with the duplicate
+slot error instead of consuming minutes in a redundant scan.
 
 ## Failure interpretation
 

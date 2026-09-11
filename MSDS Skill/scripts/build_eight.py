@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""One-command eight-format build for the unified MSDS skill (v3.20.0).
+"""One-command eight-format build for the unified MSDS skill (v3.21.0).
 
 Business flow::
 
@@ -17,7 +17,7 @@ Usage::
     python scripts/build_eight.py --source SRC.docx --facts MODEL.json
     --out DIR [--model MODEL] [--revision DATE] [--no-pdf] [--timeout S]
     [--pdf-workers N] [--wpscli PATH] [--progress-file PATH]
-    [--docx-preview-dir DIR]
+    [--docx-preview-dir DIR] [--preflight-only] [--preflight-report PATH]
 """
 from __future__ import annotations
 
@@ -31,6 +31,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from msds_pipeline import ReleaseBlocked, build_matrix  # noqa: E402
+from preflight_facts import run as run_preflight  # noqa: E402
 from source_ingest import SourceSelectionError, discover_source  # noqa: E402
 
 
@@ -41,7 +42,7 @@ def main() -> int:
     source_group.add_argument("--source-dir", type=Path,
                               help="recursively discover exactly one supported source file")
     parser.add_argument("--facts", required=True, type=Path)
-    parser.add_argument("--out", required=True, type=Path)
+    parser.add_argument("--out", required=False, type=Path)
     parser.add_argument("--model", default=None)
     parser.add_argument("--revision", default=None)
     parser.add_argument("--no-pdf", action="store_true")
@@ -62,7 +63,17 @@ def main() -> int:
         "--docx-preview-dir", type=Path, default=None,
         help="optional directory receiving the four audited DOCX before PDF conversion",
     )
+    parser.add_argument(
+        "--preflight-only", action="store_true",
+        help="report every facts/OpenSpec blocker without cloning templates or starting WPS",
+    )
+    parser.add_argument(
+        "--preflight-report", type=Path, default=None,
+        help="optional JSON path for the non-mutating preflight report",
+    )
     args = parser.parse_args()
+    if not args.preflight_only and args.out is None:
+        parser.error("--out is required unless --preflight-only is used")
 
     def publish_progress(event: dict) -> None:
         payload = {"timestamp": time.time(), **event}
@@ -81,6 +92,22 @@ def main() -> int:
     try:
         selected = discover_source(args.source or args.source_dir, model=args.model)
         facts = json.loads(args.facts.read_text(encoding="utf-8"))
+        if args.preflight_only:
+            result = run_preflight(selected.original_path, args.facts, args.model)
+            if args.preflight_report is not None:
+                args.preflight_report.parent.mkdir(parents=True, exist_ok=True)
+                temporary = args.preflight_report.with_name(
+                    args.preflight_report.name + ".tmp"
+                )
+                temporary.write_text(
+                    json.dumps(result, ensure_ascii=False, indent=2) + "\n",
+                    encoding="utf-8",
+                )
+                os.replace(temporary, args.preflight_report)
+            outcome = "PREFLIGHT_PASS" if result.get("status") == "ready" else "PREFLIGHT_BLOCKED"
+            print(json.dumps({"outcome": outcome, **result},
+                             ensure_ascii=False, indent=2))
+            return 0 if result.get("status") == "ready" else 1
         report = build_matrix(source=selected.original_path, facts=facts, out_root=args.out,
                               model=args.model, revision=args.revision,
                               do_pdf=not args.no_pdf, timeout=args.timeout,

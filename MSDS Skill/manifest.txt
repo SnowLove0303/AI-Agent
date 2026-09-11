@@ -65,6 +65,9 @@ scripts/deliverable_audit_framework.py
 scripts/audit_deliverable_package.py
 scripts/convert_docx_to_pdf.py
 scripts/extract_source_facts.py
+scripts/evidence_packet.py
+scripts/prepare_evidence_packet.py
+scripts/preflight_facts.py
 scripts/draft_en_facts.py
 scripts/missing_data_policy.py
 scripts/msds_pipeline.py
@@ -97,6 +100,7 @@ tests/test_en_layout_policy.py
 tests/test_pdf_converter_policy.py
 tests/test_section11_alias_policy.py
 tests/test_extract_source_facts.py
+tests/test_evidence_packet.py
 tests/test_msds_contract_policy.py
 tests/template_snapshot_en.json
 docs/pdf_converter_adoption.md

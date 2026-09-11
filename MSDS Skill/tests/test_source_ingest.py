@@ -65,3 +65,37 @@ def test_docx_preview_checkpoint_cannot_be_reused_as_source(tmp_path):
     preview.write_bytes(b"audited DOCX checkpoint")
     with pytest.raises(SourceSelectionError, match="generated/output directory"):
         discover_source(preview)
+
+
+def test_legacy_word_conversion_is_reused_by_source_hash(tmp_path, monkeypatch):
+    import source_ingest
+    from docx import Document
+
+    source = tmp_path / "legacy.doc"
+    source.write_bytes(b"legacy-source-v1")
+    cache = tmp_path / ".msds_cache"
+    calls = []
+
+    def fake_run(command, **kwargs):
+        calls.append(command)
+        out_dir = Path(command[5])
+        converted = out_dir / "legacy.docx"
+        Document().save(converted)
+        return type("Result", (), {"returncode": 0, "stdout": "", "stderr": ""})()
+
+    monkeypatch.setattr(source_ingest, "_find_soffice", lambda: "soffice.com")
+    monkeypatch.setattr(source_ingest.subprocess, "run", fake_run)
+    selected = discover_source(source)
+    with prepare_source(selected, cache_dir=cache) as prepared:
+        assert prepared.adapter == "libreoffice-docx-cache"
+        assert prepared.extraction_path.is_file()
+    with prepare_source(selected, cache_dir=cache) as prepared:
+        assert prepared.adapter == "libreoffice-docx-cache"
+        assert prepared.extraction_path.is_file()
+    assert len(calls) == 1
+
+    source.write_bytes(b"legacy-source-v2")
+    changed = discover_source(source)
+    with prepare_source(changed, cache_dir=cache) as prepared:
+        assert prepared.extraction_path.is_file()
+    assert len(calls) == 2

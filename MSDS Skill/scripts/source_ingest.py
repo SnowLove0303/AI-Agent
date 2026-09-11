@@ -14,6 +14,7 @@ import re
 import shutil
 import subprocess
 import tempfile
+import zipfile
 from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path
@@ -34,11 +35,17 @@ DIRECT_DOCX_FORMATS = {"docx", "docm"}
 CONVERTIBLE_WORD_FORMATS = {"doc", "odt", "rtf"}
 DISCOVERY_EXCLUDED_DIRS = {
     ".git", ".agents", ".codex", "_task_work", "artifacts", "output",
-    "outputs", "覆写产出", "_docx_preview",
+    "outputs", "覆写产出", "_docx_preview", ".msds_cache",
 }
 GENERATED_OUTPUT_DIRS = {
     "_task_work", "artifacts", "output", "outputs", "覆写产出", "_docx_preview",
+    ".msds_cache",
 }
+
+# The adapter result is content-addressed by the original source.  Bumping
+# this value invalidates old converted files if the conversion contract ever
+# changes, without requiring a user to manually clear a cache directory.
+SOURCE_ADAPTER_CACHE_VERSION = "1"
 
 
 class SourceSelectionError(ValueError):
@@ -166,8 +173,56 @@ def _find_soffice() -> str:
     )
 
 
+def source_adapter_cache_key(selection: SourceSelection) -> str:
+    """Return the stable key for a converted legacy Word source.
+
+    The original bytes, source format and adapter version are all part of the
+    key.  A converted DOCX is therefore never reused for a changed source,
+    even when the source keeps the same filename.
+    """
+    payload = "|".join((
+        SOURCE_ADAPTER_CACHE_VERSION,
+        selection.source_format,
+        selection.source_sha256,
+    ))
+    return hashlib.sha256(payload.encode("ascii")).hexdigest()
+
+
+def _valid_cached_docx(path: Path) -> bool:
+    """Reject a partial or non-DOCX cache entry before it reaches extraction."""
+    return path.is_file() and path.stat().st_size > 0 and zipfile.is_zipfile(path)
+
+
+def _cached_conversion_path(selection: SourceSelection, cache_dir: Path) -> Path:
+    root = Path(cache_dir).expanduser().resolve() / "source-adapters"
+    root.mkdir(parents=True, exist_ok=True)
+    return root / f"{source_adapter_cache_key(selection)}.docx"
+
+
+def _cache_converted_docx(converted: Path, target: Path) -> Path:
+    """Publish one converted DOCX atomically so parallel harness runs are safe."""
+    if _valid_cached_docx(target):
+        return target
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            prefix=f".{target.stem}.", suffix=".tmp", dir=target.parent,
+            delete=False,
+        ) as handle:
+            temporary = Path(handle.name)
+        shutil.copyfile(converted, temporary)
+        if not _valid_cached_docx(temporary):
+            raise SourceFormatBlocked("LibreOffice produced an invalid DOCX cache entry")
+        os.replace(temporary, target)
+        return target
+    finally:
+        if temporary is not None and temporary.exists():
+            temporary.unlink()
+
+
 @contextmanager
-def prepare_source(selection_or_path: SourceSelection | Path):
+def prepare_source(selection_or_path: SourceSelection | Path,
+                   cache_dir: Path | None = None):
     """Prepare a source for the next stage without creating a formal copy."""
     selection = (selection_or_path if isinstance(selection_or_path, SourceSelection)
                  else discover_source(Path(selection_or_path)))
@@ -175,6 +230,11 @@ def prepare_source(selection_or_path: SourceSelection | Path):
         yield PreparedSource(selection, selection.original_path, "direct-docx", True)
         return
     if selection.source_format in CONVERTIBLE_WORD_FORMATS:
+        cached = (_cached_conversion_path(selection, cache_dir)
+                  if cache_dir is not None else None)
+        if cached is not None and _valid_cached_docx(cached):
+            yield PreparedSource(selection, cached, "libreoffice-docx-cache", True)
+            return
         with tempfile.TemporaryDirectory(prefix="msds_source_adapter_") as temp_dir:
             result = subprocess.run(
                 [_find_soffice(), "--headless", "--convert-to", "docx",
@@ -189,7 +249,12 @@ def prepare_source(selection_or_path: SourceSelection | Path):
                     f"{selection.source_format} to temporary DOCX conversion failed"
                     + (f": {detail}" if detail else "")
                 )
-            yield PreparedSource(selection, converted, "libreoffice-docx", True)
+            extraction_path = (
+                _cache_converted_docx(converted, cached)
+                if cached is not None else converted
+            )
+            adapter = "libreoffice-docx-cache" if cached is not None else "libreoffice-docx"
+            yield PreparedSource(selection, extraction_path, adapter, True)
         return
     # These source formats are discoverable and can be used with a separately
     # approved, source-hash-bound facts model, but are not guessed into the
@@ -212,6 +277,7 @@ __all__ = [
     "GENERATED_OUTPUT_DIRS",
     "OUTPUT_ONLY_FORMATS",
     "SourceFormatBlocked", "SourceSelection", "SourceSelectionError",
-    "SUPPORTED_FORMATS", "discover_source", "prepare_source",
+    "SUPPORTED_FORMATS", "SOURCE_ADAPTER_CACHE_VERSION", "discover_source",
+    "prepare_source", "source_adapter_cache_key",
     "require_section_extraction", "sha256",
 ]

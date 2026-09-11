@@ -94,6 +94,15 @@ A file is accepted only after automated audits and full-page rendered visual ins
   available for conservative serial office-process behavior.
 - Any speed improvement must preserve the complete release-gate set and the
   exact eight-file output contract.
+- Prepare source coverage, fact-ledger scaffolding and the review queue once
+  with `scripts/prepare_evidence_packet.py`; reuse is allowed only when the
+  packet key matches the original source SHA-256, adapter/schema and active
+  source-interpretation contract.
+- Legacy `.doc/.odt/.rtf` conversion may use the same source-hash-bound
+  persistent cache. A cache hit is an extraction optimization only and never
+  changes original-source provenance or approval status.
+- Run `scripts/preflight_facts.py` or `build_eight.py --preflight-only` to
+  collect all facts/OpenSpec blockers before template cloning or PDF work.
 
 ## Template and provenance hard gates
 

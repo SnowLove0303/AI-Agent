@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Shared DOCX-first build pipeline for the unified MSDS skill (v3.20.0).
+"""Shared DOCX-first build pipeline for the unified MSDS skill (v3.21.0).
 
 Business role: one parameterized path replaces the per-model copied
 generators.  Input is an *approved* standardized model file::
@@ -146,9 +146,24 @@ def validate_template_baselines(template_cn: Path, template_en: Path,
     return actual
 
 
-def validate_approved_facts(facts: dict, source: Path, model: str) -> None:
-    """Fail before cloning templates when the facts contract is unsafe."""
+def approved_facts_errors(facts: dict, source: Path, model: str) -> list[str]:
+    """Collect every facts blocker before cloning templates.
+
+    Keeping this as a list-producing function lets the Harness run a cheap
+    preflight and fix all contract errors in one review cycle.  The production
+    builder still raises one release-blocking exception when the list is not
+    empty, so this does not weaken any gate.
+    """
     errors = []
+    if not facts.get("zh") or not facts.get("en"):
+        errors.append(
+            "approved zh+en facts are both required; draft en with draft_en_facts.py "
+            "and clear translation_review first"
+        )
+    if facts.get("translation_review"):
+        errors.append(
+            f"translation_review is not empty: {len(facts['translation_review'])} items"
+        )
     errors.extend(validate_agent_execution_contract(facts))
     if facts.get("model") != model:
         errors.append(f"facts model {facts.get('model')!r} does not match {model!r}")
@@ -182,6 +197,12 @@ def validate_approved_facts(facts: dict, source: Path, model: str) -> None:
             for index, word in required_words:
                 if index >= len(labels) or word not in labels[index]:
                     errors.append(f"zh Section 2 slot {index + 1} must be {word}")
+    return errors
+
+
+def validate_approved_facts(facts: dict, source: Path, model: str) -> None:
+    """Fail before cloning templates when the facts contract is unsafe."""
+    errors = approved_facts_errors(facts, source, model)
     if errors:
         raise ReleaseBlocked("facts contract: " + "; ".join(errors))
 

@@ -107,6 +107,25 @@ def test_s2_keeps_category_value_and_source_other_hazards():
     assert data["other_hazards"] == "无适用资料。"
 
 
+def test_s2_recognizes_unnumbered_other_hazards_line_without_inventing_value():
+    from docx import Document
+
+    document = Document()
+    table = document.add_table(rows=1, cols=1)
+    for text in ("2.1 物质或混合物的分类", "其他危险：无适用资料。"):
+        row = table.add_row()
+        row.cells[0].text = text
+    data = extract_s2(table, Extraction())
+    assert data["other_hazards"] == "无适用资料。"
+
+    empty_document = Document()
+    empty_table = empty_document.add_table(rows=1, cols=1)
+    row = empty_table.add_row()
+    row.cells[0].text = "其他危害："
+    empty_data = extract_s2(empty_table, Extraction())
+    assert empty_data["other_hazards"] == ""
+
+
 def test_s11_splits_combined_preamble_before_endpoint_mapping():
     from docx import Document
 

@@ -32,4 +32,8 @@ task-local generators are not production inputs.
 
 - `test_numbering_policy.py`: verifies gaps created by omission are detected and surviving items are renumbered continuously.
 
+- `test_evidence_packet.py`: verifies the review-required evidence packet is
+  reusable and that the cheap preflight reports blockers without starting
+  template or PDF work.
+
 - `test_company_profile_policy.py`: validates Guocai profile literals, output naming, footer construction, and company-identity leakage checks.

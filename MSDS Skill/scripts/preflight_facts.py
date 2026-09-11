@@ -1,0 +1,85 @@
+#!/usr/bin/env python3
+"""Cheap, non-mutating facts preflight for Harness review loops."""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import tempfile
+from pathlib import Path
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from msds_pipeline import approved_facts_errors  # noqa: E402
+from source_ingest import SourceSelectionError, discover_source  # noqa: E402
+
+
+def _write_json_atomic(path: Path, payload: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            prefix=f".{path.name}.", suffix=".tmp", dir=path.parent,
+            mode="w", encoding="utf-8", delete=False,
+        ) as handle:
+            temporary = Path(handle.name)
+            json.dump(payload, handle, ensure_ascii=False, indent=2)
+            handle.write("\n")
+        os.replace(temporary, path)
+    finally:
+        if temporary is not None and temporary.exists():
+            temporary.unlink()
+
+
+def run(source: Path, facts_path: Path, model: str | None = None) -> dict:
+    """Return all blockers without loading a template or resolving WPS."""
+    facts = json.loads(Path(facts_path).read_text(encoding="utf-8"))
+    resolved_model = model or facts.get("model") or ""
+    if not resolved_model:
+        return {
+            "status": "blocked",
+            "errors": ["model is required (argument or facts['model'])"],
+        }
+    selected = discover_source(Path(source), model=resolved_model)
+    errors = approved_facts_errors(facts, selected.original_path, resolved_model)
+    return {
+        "status": "ready" if not errors else "blocked",
+        "errors": errors,
+        "model": resolved_model,
+        "source": str(selected.original_path),
+        "source_format": selected.source_format,
+        "source_sha256": selected.source_sha256,
+        "facts": str(Path(facts_path).resolve()),
+        "template_clone_started": False,
+        "pdf_converter_started": False,
+        "next_action": "build_eight" if not errors else "fix every listed blocker, then rerun preflight",
+    }
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description=(
+            "Validate all source/facts/OpenSpec blockers before DOCX cloning. "
+            "This command never writes a template or starts PDF conversion."
+        )
+    )
+    source_group = parser.add_mutually_exclusive_group(required=True)
+    source_group.add_argument("--source", type=Path)
+    source_group.add_argument("--source-dir", type=Path)
+    parser.add_argument("--facts", required=True, type=Path)
+    parser.add_argument("--model", default=None)
+    parser.add_argument("--out", type=Path, default=None)
+    args = parser.parse_args()
+    try:
+        result = run(args.source or args.source_dir, args.facts, args.model)
+    except (OSError, json.JSONDecodeError, SourceSelectionError, ValueError, RuntimeError) as blocked:
+        result = {"status": "blocked", "errors": [str(blocked)]}
+    if args.out is not None:
+        _write_json_atomic(args.out, result)
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+    return 0 if result.get("status") == "ready" else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -84,13 +84,44 @@ def is_missing_section2_value(value: str) -> bool:
 
 
 def is_explicit_other_hazards_row(row) -> bool:
-    """Keep a source-backed ``2.3 Other hazards`` conclusion visible."""
-    text = " ".join(cell.text.strip() for cell in row.cells if cell.text.strip())
-    return bool(re.search(
-        r"(?:^|\s)2\.\d+\b.*(?:其他危险|其他危害|other hazards)",
+    """Keep only a source-backed ``Other hazards`` conclusion visible.
+
+    The template label itself is not evidence.  Older callers treated the
+    presence of ``2.10 其他危害`` as an exception and consequently retained a
+    blank row forever.  The exception now requires a non-empty value after the
+    label, including the valid explicit conclusion ``无适用资料。``.
+    """
+    cells = []
+    seen = set()
+    for cell in row.cells:
+        key = hash(cell._tc)
+        if key not in seen:
+            seen.add(key)
+            cells.append(cell)
+    text = " ".join(cell.text.strip() for cell in cells if cell.text.strip())
+    if not re.search(
+        r"(?:^|\s)(?:2\.\d+\s*)?(?:其他危险|其他危害|other hazards)\b",
         text,
         re.I,
-    ))
+    ):
+        return False
+    if len(cells) > 1:
+        value = " ".join(cell.text.strip() for cell in cells[1:] if cell.text.strip())
+        # Be defensive when a source value was written into the label cell by
+        # a legacy intermediate model: recover only text after the label.
+        if not value:
+            match = re.search(
+                r"(?:其他危险|其他危害|other hazards)\s*[:：]\s*(.+)$",
+                cells[0].text.strip(), re.I,
+            )
+            value = match.group(1).strip() if match else ""
+    else:
+        match = re.search(
+            r"(?:其他危险|其他危害|other hazards)\s*[:：]?\s*(.*)$",
+            cells[0].text.strip(), re.I,
+        )
+        value = match.group(1).strip() if match else ""
+    return bool(value)
 
 
 def project_source_cn_headings(document, language: str = "zh") -> list[str]:
