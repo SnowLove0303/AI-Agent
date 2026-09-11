@@ -3,7 +3,7 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS standardization skill that discovers supported source files, binds source-grounded facts to synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, preserves locked templates, and releases four DOCX plus four PDF deliverables only after semantic and render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.21.0
+# Unified MSDS Eight-Deliverable Standardizer v3.22.0
 
 ## Mandatory v2.9 inheritance (release blocker)
 
@@ -253,7 +253,7 @@ If the source contains H/EUH/P codes, keep each complete coded statement on its 
 Section 2 is customer-facing and must be self-contained:
 
 - If the source DOCX contains a GHS pictogram image, extract and insert that image into the cloned template's existing GHS pictogram cell. Preserve the image as an image; do not replace it with `无数据`, `None`, alt text or a textual description. If no image is supplied, resolve a pictogram only from explicit verified GHS classifications and record the resolution in the audit; never infer from vague prose.
-- CN source Section 2 headings select the existing fixed CN semantic slots without rewriting their labels. The English baseline keeps its approved English label. The `GHS label elements` value cell must contain explicit, line-separated label tips. For example: `必须列在标签上的有害成分：` followed by `亲水脂肪族聚异氰酸酯` on the next line. The English equivalent is `Hazardous ingredients required to be listed on the label:` followed by the ingredient on the next line. With no verified label ingredients the value stays empty and the existing missing-row suppression removes the whole row; never leave the bare heading.
+- CN source Section 2 headings select the existing fixed CN semantic slots without rewriting their labels. The English baseline keeps its approved English label. The source `2.2 标签要素` maps to the maintained template's `2.3 GHS标签要素` slot; it is not the signal-word slot. Its value must contain the verified label-ingredient explanation as explicit, line-separated text, for example `必须列在标签上的有害成分：` followed by `基于HDI的亲水脂肪族聚异氰酸酯` on the next line. The English equivalent is `Hazardous ingredients required to be listed on the label:` followed by the ingredient on the next line. The template `2.4 信号词` slot accepts only the source signal word `危险` / `警告` or `Danger` / `Warning`; label-ingredient prose must never be placed there. With no verified label ingredients the label-elements value stays empty and the existing missing-row suppression removes the whole row; never leave the bare heading.
 - Never output `见2.4-2.6`, `See 2.4-2.6`, or any customer-facing cross-reference. Signal word, hazard statements and precautionary statements remain directly visible in their own rows.
 - After Section 2 values and pictograms are written, remove a whole dedicated row whose value is only `无数据` / `No data available`, including `眼睛：无数据` / `Eyes: No data available`, and renumber surviving unique `2.x` items in original order. Keep substantive negatives such as `无刺激`, `不适用` and `无危险反应`; repeated child rows retain one shared number. The unnumbered pictogram row remains when an image is present.
 - `2.3 其他危险` is a source-backed endpoint. If the source explicitly contains it with `无适用资料` (or an equivalent explicit conclusion), keep the row and include it in continuous numbering; only an absent source endpoint is hidden.

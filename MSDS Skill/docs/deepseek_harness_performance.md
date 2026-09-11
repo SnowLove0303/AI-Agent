@@ -1,5 +1,15 @@
 # DeepSeek Harness performance runbook
 
+## What changed in 3.22.0
+
+The Section 2 semantic boundary is now enforced before template cloning. Source
+`2.2 标签要素` is treated as the label-ingredient explanation and maps to the
+template `2.3 GHS标签要素` value cell. The template `2.4 信号词` value is
+restricted to the exact source signal word `危险` / `警告` or `Danger` /
+`Warning`. A label-ingredient explanation in the signal-word slot blocks the
+run with an actionable error instead of producing a plausible but incorrect
+MSDS.
+
 ## What changed in 3.21.0
 
 The source/evidence stage is now resumable. `prepare_evidence_packet.py`

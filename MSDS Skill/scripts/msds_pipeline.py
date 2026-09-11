@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Shared DOCX-first build pipeline for the unified MSDS skill (v3.21.0).
+"""Shared DOCX-first build pipeline for the unified MSDS skill (v3.22.0).
 
 Business role: one parameterized path replaces the per-model copied
 generators.  Input is an *approved* standardized model file::
@@ -57,6 +57,7 @@ from normalize_en_layout import normalize_en_document  # noqa: E402
 from output_matrix import output_names  # noqa: E402
 from section2_ghs_policy import (  # noqa: E402
     is_missing_section2_value,
+    validate_s2_semantics,
     row_has_visual_content,
     suppress_missing_section2_rows_and_renumber,
 )
@@ -197,6 +198,7 @@ def approved_facts_errors(facts: dict, source: Path, model: str) -> list[str]:
             for index, word in required_words:
                 if index >= len(labels) or word not in labels[index]:
                     errors.append(f"zh Section 2 slot {index + 1} must be {word}")
+        errors.extend(validate_s2_semantics(s2, language))
     return errors
 
 

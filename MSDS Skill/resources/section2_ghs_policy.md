@@ -18,6 +18,8 @@ Hazardous ingredients required to be listed on the label:
 Hydrophilic aliphatic polyisocyanate
 ```
 
+The source heading `2.2 标签要素` selects the maintained template's `2.3 GHS标签要素` value slot. It is not a signal-word field. Keep the label-ingredient explanation in this slot, and keep the separate `2.4 信号词` value limited to the explicit source signal word `危险` / `警告` or `Danger` / `Warning`. Never move `必须列在标签上的有害成分` or its ingredient into the signal-word slot.
+
 Do not write `见2.4-2.6`, `See 2.4-2.6`, or any other customer-facing cross-reference. Signal word, hazard statements and precautionary statements remain in their own visible rows.
 
 ## Pictograms

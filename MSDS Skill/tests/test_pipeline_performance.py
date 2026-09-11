@@ -1,4 +1,4 @@
-"""Regression tests for the 3.21.0 Harness performance controls."""
+"""Regression tests for the 3.22.0 Harness performance controls."""
 
 import inspect
 from pathlib import Path

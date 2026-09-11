@@ -126,6 +126,43 @@ def test_s2_recognizes_unnumbered_other_hazards_line_without_inventing_value():
     assert empty_data["other_hazards"] == ""
 
 
+def test_s2_keeps_label_ingredient_explanation_out_of_signal_word():
+    from docx import Document
+
+    document = Document()
+    table = document.add_table(rows=1, cols=1)
+    for text in (
+        "2.2 标签要素",
+        "必须列在标签上的有害成分：",
+        "基于HDI的亲水脂肪族聚异氰酸酯",
+        "信号词：警告",
+    ):
+        row = table.add_row()
+        row.cells[0].text = text
+    data = extract_s2(table, Extraction())
+    assert data["label_ingredients"] == ["基于HDI的亲水脂肪族聚异氰酸酯"]
+    assert data["signal"] == "警告"
+    assert "基于HDI的亲水脂肪族聚异氰酸酯" not in data["other"]
+
+
+def test_s2_does_not_treat_english_label_elements_heading_as_ingredient():
+    from docx import Document
+
+    document = Document()
+    table = document.add_table(rows=1, cols=1)
+    for text in (
+        "2.2 Label Elements",
+        "Hazardous ingredients required to be listed on the label:",
+        "HDI-based hydrophilic aliphatic polyisocyanate",
+        "Signal Word: Warning",
+    ):
+        row = table.add_row()
+        row.cells[0].text = text
+    data = extract_s2(table, Extraction())
+    assert data["label_ingredients"] == ["HDI-based hydrophilic aliphatic polyisocyanate"]
+    assert data["signal"] == "Warning"
+
+
 def test_s11_splits_combined_preamble_before_endpoint_mapping():
     from docx import Document
 

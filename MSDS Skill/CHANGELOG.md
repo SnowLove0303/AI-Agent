@@ -1,5 +1,20 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.22.0 — 2026-09-11
+
+- Corrected the high-risk Section 2 semantic boundary: source `2.2 标签要素`
+  is mapped to the template `2.3 GHS标签要素` value slot and must preserve
+  the explicit label-ingredient explanation, such as `必须列在标签上的有害
+  成分：` followed by the source ingredient on a semantic new line.
+- Added controlled signal-word validation. The template `2.4 信号词` value
+  accepts only the explicit `危险` / `警告` or `Danger` / `Warning`; label-
+  ingredient prose in that slot blocks release before template cloning.
+- Narrowed source label parsing so structural `GHS Label Elements` headings
+  are not mistaken for label-ingredient facts, and fixed continuation-line
+  consumption so the ingredient is not duplicated into the generic S2 queue.
+- Added Chinese and English regression coverage for correct extraction,
+  reclassification and release-blocking slot swaps.
+
 ## v3.21.0 — 2026-09-11
 
 - Added `prepare_evidence_packet.py`, which extracts source coverage, the

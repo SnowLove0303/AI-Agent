@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mechanical source-fact extractor for the unified MSDS pipeline (v3.21.0).
+"""Mechanical source-fact extractor for the unified MSDS pipeline (v3.22.0).
 
 Business role: the overwrite core is *extract -> standardize (CN) -> render
 CN -> translate EN from the standardized model*.  This module does the first
@@ -62,8 +62,23 @@ except ImportError:  # pragma: no cover
 
 MODEL_RE = re.compile(r"\b([A-Z]{1,4}-\d{3,4}[A-Z0-9]*)\b")
 CAS_RE = re.compile(r"\b\d{2,7}-\d{2}-\d\b")
-LABEL_INGREDIENT_RE = re.compile(r"(列在标签上|有害成分|label)")
-SIGNAL_RE = re.compile(r"信号词\s*[：:]\s*(.*)")
+# Do not use a broad ``label`` match here: ``GHS Label Elements`` is a
+# structural heading, not the label-ingredient value.  A broad match was the
+# source of a subtle misclassification path in which the following value was
+# detached from the label-elements field and later treated as another S2
+# value.
+LABEL_INGREDIENT_RE = re.compile(
+    r"(?:必须列在标签上的有害成分|标签上(?:列出的|要求列出的)?有害成分|"
+    r"hazardous ingredients required to be listed on the label|"
+    r"ingredients required to be listed on the label)",
+    re.I,
+)
+LABEL_ELEMENT_HEADING_RE = re.compile(
+    r"^\s*(?:2\.2\s*)?(?:GHS\s*)?(?:标签要素|label elements)\s*[:：]?\s*$",
+    re.I,
+)
+SIGNAL_RE = re.compile(r"(?:信号词|signal\s+word)\s*[：:]\s*(.*)", re.I)
+SIGNAL_WORD_RE = re.compile(r"^(?:危险|警告|danger|warning)$", re.I)
 CATEGORY_RE = re.compile(r"(类别\s*\S*|\(H\d+[a-zA-Z]*\))")
 MISSING_HINT_RE = re.compile(r"(无适用资料|无数据资料|暂无|未提供|不详)")
 OTHER_HAZARDS_RE = re.compile(
@@ -96,6 +111,19 @@ def unique_cells(row):
 
 def _clean(text: str) -> str:
     return re.sub(r"[\t\u3000]+", " ", text or "").strip()
+
+
+def is_signal_word(value: str) -> bool:
+    """Accept only the controlled signal-word vocabulary, never free prose."""
+    candidate = re.sub(r"[\s。；;.!！]+$", "", (value or "").strip())
+    return bool(SIGNAL_WORD_RE.fullmatch(candidate))
+
+
+def _label_ingredient_tail(line: str) -> str:
+    match = LABEL_INGREDIENT_RE.search(line or "")
+    if not match:
+        return ""
+    return line[match.end():].strip(" \t:：-–—")
 
 
 def cell_lines(cell) -> list[str]:
@@ -158,11 +186,17 @@ def extract_s2(table, ext: Extraction) -> dict:
            "signal": "", "label_ingredients": [], "other_hazards": None,
            "other": [], "raw_lines": lines}
     skip_next = False
+    pending_signal = False
     subsection = ""
     for index, line in enumerate(lines):
         if skip_next:
             skip_next = False
             continue
+        if pending_signal:
+            pending_signal = False
+            if is_signal_word(line):
+                out["signal"] = line.strip()
+                continue
         subsection_match = re.match(r"^2\.(\d+)\b", line)
         if subsection_match:
             subsection = subsection_match.group(1)
@@ -170,9 +204,15 @@ def extract_s2(table, ext: Extraction) -> dict:
         if other_hazards:
             out["other_hazards"] = other_hazards.group(1).strip()
             continue
+        if LABEL_ELEMENT_HEADING_RE.match(line):
+            # This is a structural heading.  The value for the maintained
+            # label-elements slot is sourced from the explicit
+            # ``必须列在标签上的有害成分`` line below, not from this heading.
+            continue
         if re.match(r"^GHS\s*[-－]?\s*象形图\s*$", line, re.I):
             if index + 1 < len(lines) and not re.match(r"^\d+\.\d+\b", lines[index + 1]):
-                if subsection == "2":
+                if subsection == "2" and not LABEL_INGREDIENT_RE.search(lines[index + 1]) \
+                        and not SIGNAL_RE.search(lines[index + 1]):
                     out["label_elements"].append(lines[index + 1])
                     skip_next = True
             continue
@@ -185,17 +225,41 @@ def extract_s2(table, ext: Extraction) -> dict:
             continue
         signal = SIGNAL_RE.search(line)
         if signal:
-            out["signal"] = signal.group(1).strip()
+            candidate = signal.group(1).strip()
+            if is_signal_word(candidate):
+                out["signal"] = candidate
+            elif candidate:
+                # A malformed/flattened source sometimes places the label
+                # ingredient heading after the signal marker.  Reclassify it
+                # only when the explicit marker proves the meaning; otherwise
+                # keep it in the review queue instead of guessing.
+                if LABEL_INGREDIENT_RE.search(candidate):
+                    tail = _label_ingredient_tail(candidate)
+                    if tail:
+                        out["label_ingredients"].append(tail)
+                    elif index + 1 < len(lines):
+                        follower = lines[index + 1]
+                        if not re.match(r"^\d+\.\d+\b", follower) and not SIGNAL_RE.search(follower):
+                            out["label_ingredients"].append(follower)
+                            skip_next = True
+                    ext.flag("s2", "signal-label-ingredient-reclassified", line[:100])
+                else:
+                    ext.flag("s2", "signal-word-invalid", candidate[:100])
+                    out["other"].append(line)
+            else:
+                pending_signal = True
             continue
         if LABEL_INGREDIENT_RE.search(line):
-            ingredient = re.split(r"[:：]", line, maxsplit=1)
-            tail = ingredient[1].strip() if len(ingredient) > 1 else ""
+            tail = _label_ingredient_tail(line)
             if not tail and index + 1 < len(lines):
                 # Required output pattern keeps the ingredient on the next
                 # line; accept it only when the next line carries no code.
                 follower = lines[index + 1]
-                if not _CODE_RE.search(follower):
+                if (not _CODE_RE.search(follower)
+                        and not SIGNAL_RE.search(follower)
+                        and not re.match(r"^\d+\.\d+\b", follower)):
                     tail = follower
+                    skip_next = True
             if tail:
                 out["label_ingredients"].append(tail)
             else:

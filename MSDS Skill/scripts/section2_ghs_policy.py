@@ -83,6 +83,64 @@ def is_missing_section2_value(value: str) -> bool:
     return False
 
 
+_LABEL_INGREDIENT_VALUE_RE = re.compile(
+    r"(?:必须列在标签上的有害成分|标签上(?:列出的|要求列出的)?有害成分|"
+    r"hazardous ingredients required to be listed on the label|"
+    r"ingredients required to be listed on the label)",
+    re.I,
+)
+_SIGNAL_WORD_RE = re.compile(r"^(?:危险|警告|danger|warning)$", re.I)
+
+
+def is_signal_word_value(value: str) -> bool:
+    """Return whether a semantic S2 value is exactly a signal word."""
+    candidate = re.sub(r"[\s。；;.!！]+$", "", (value or "").strip())
+    return bool(_SIGNAL_WORD_RE.fullmatch(candidate))
+
+
+def looks_like_label_ingredient_value(value: str) -> bool:
+    """Recognize the explicit label-ingredient explanation marker."""
+    return bool(_LABEL_INGREDIENT_VALUE_RE.search((value or "").strip()))
+
+
+def validate_s2_semantics(rows, language: str = "zh") -> list[str]:
+    """Block the two high-risk S2 slot swaps before any template is cloned.
+
+    The maintained template's source-semantic mapping is:
+    source 2.2 label elements -> template 2.3 GHS Label Elements, while the
+    template's 2.4 Signal Word is a separate slot.  A label-ingredient
+    explanation must never be written into the signal-word slot, and a signal
+    word alone is not a valid label-elements explanation.
+    """
+    errors: list[str] = []
+    if not isinstance(rows, list) or len(rows) < 5:
+        return errors
+
+    def value_at(index: int) -> str:
+        row = rows[index]
+        if not isinstance(row, (list, tuple)) or len(row) < 2:
+            return ""
+        return str(row[1] or "").strip()
+
+    label_value = value_at(2)
+    signal_value = value_at(4)
+    if is_signal_word_value(label_value):
+        errors.append(
+            f"{language} Section 2 label-elements slot contains only a signal word; "
+            "write the source label-ingredient explanation instead"
+        )
+    if looks_like_label_ingredient_value(signal_value):
+        errors.append(
+            f"{language} Section 2 signal-word slot contains label-ingredient prose; "
+            "move it to the label-elements slot"
+        )
+    if signal_value and not is_signal_word_value(signal_value):
+        errors.append(
+            f"{language} Section 2 signal-word slot must be exactly 危险/警告 or Danger/Warning"
+        )
+    return errors
+
+
 def is_explicit_other_hazards_row(row) -> bool:
     """Keep only a source-backed ``Other hazards`` conclusion visible.
 
@@ -269,5 +327,8 @@ __all__ = [
     "row_has_visual_content",
     "is_missing_section2_value",
     "is_explicit_other_hazards_row",
+    "is_signal_word_value",
+    "looks_like_label_ingredient_value",
+    "validate_s2_semantics",
     "suppress_missing_section2_rows_and_renumber",
 ]

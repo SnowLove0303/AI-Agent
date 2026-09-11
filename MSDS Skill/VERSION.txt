@@ -1,6 +1,6 @@
 MSDS Unified Eight-Deliverable Standardizer Skill
-3.21.0
-Reusable source-evidence packet, persistent legacy-source cache and one-shot facts preflight
+3.22.0
+Section 2 label-element/signal-word semantic separation and release-blocking validation
 DOCX-first matrix batch and bounded parallel PDF conversion
 WPS converter preflight/version cache and Harness progress checkpoints
 Optional audited DOCX preview and DeepSeek Harness performance runbook

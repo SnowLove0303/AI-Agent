@@ -11,6 +11,7 @@ from section2_ghs_policy import (
     format_label_elements,
     is_missing_section2_value,
     is_explicit_other_hazards_row,
+    validate_s2_semantics,
     project_source_cn_facts,
     project_source_cn_headings,
     suppress_missing_section2_rows_and_renumber,
@@ -120,6 +121,24 @@ def test_source_cn_s2_projects_by_semantic_slot_not_list_position():
     assert rows[2] == ["2.3 GHS标签要素：", "根据 GHS 不属于危害化学品"]
     assert rows[14] == ["2.10 其他危害：", "无适用资料。"]
     assert number_map == {2: 1, 3: 2, 10: 3}
+
+
+def test_s2_semantic_contract_separates_label_ingredients_and_signal_word():
+    rows = [
+        ["2.1 紧急情况概述", ""],
+        ["2.2 GHS危险性类别：", "类别 3"],
+        ["2.3 GHS标签要素：", "必须列在标签上的有害成分：\n基于HDI的亲水脂肪族聚异氰酸酯"],
+        [" GHS象形图", ""],
+        ["2.4 信号词：", "警告"],
+    ]
+    assert validate_s2_semantics(rows, "zh") == []
+
+    misplaced = [list(row) for row in rows]
+    misplaced[2][1] = "警告"
+    misplaced[4][1] = "必须列在标签上的有害成分：\n基于HDI的亲水脂肪族聚异氰酸酯"
+    errors = validate_s2_semantics(misplaced, "zh")
+    assert any("label-elements slot contains only a signal word" in error for error in errors)
+    assert any("signal-word slot contains label-ingredient prose" in error for error in errors)
 
 
 def test_source_pictogram_is_inserted_as_picture(tmp_path):

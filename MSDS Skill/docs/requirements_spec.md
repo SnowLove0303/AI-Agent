@@ -35,6 +35,11 @@ For source CN Section 2, bind the verified source headings to the existing
 template semantic slots. The baseline's CN labels, punctuation and bold
 formatting remain unchanged; source headings are never copied into locked
 label cells. Only the corresponding value cells may be written or suppressed.
+The source `2.2 标签要素` is the label-ingredient explanation slot, normally
+containing `必须列在标签上的有害成分：` and the source ingredient on a
+separate logical line. It is not the `2.4 信号词` slot; signal word is a
+separate exact value (`危险`/`警告` or `Danger`/`Warning`). Label-ingredient
+prose in the signal-word slot is a release blocker.
 
 ## Layout rule
 The bundled formal template is the layout authority. Preserve its table/cell
