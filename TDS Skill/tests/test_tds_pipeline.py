@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from docx import Document
+from docx.oxml.ns import qn
 from overwrite_tds import write_variant
 from audit_tds_eight import audit_shape
 from tds_common import feature_spacing_signature, load, numbering_shape, package_inventory, paragraph_shape
@@ -65,8 +66,9 @@ def test_application_multiline_clones_template_body_style(tmp_path):
     base = Document(str(ROOT / registry["variants"]["TDS_CN_冠志模板"]["template"]))
     from tds_common import paragraph_shape
     body = [p for p in doc.paragraphs[heading + 1:] if p.text.strip()]
-    assert paragraph_shape(body[0]) == paragraph_shape(base.paragraphs[26])
-    assert paragraph_shape(body[1]) == paragraph_shape(base.paragraphs[26])
+    app_index = next(item["locator"]["paragraph_index"] for item in registry["variants"]["TDS_CN_冠志模板"]["slots"] if item["field_id"] == "product.application")
+    assert paragraph_shape(body[0]) == paragraph_shape(base.paragraphs[app_index])
+    assert paragraph_shape(body[1]) == paragraph_shape(base.paragraphs[app_index])
 
 
 def test_language_specific_template_labels_and_grid_widths_are_registered():
@@ -84,6 +86,39 @@ def test_language_specific_template_labels_and_grid_widths_are_registered():
         "Viscosity (25°C)",
     ]
     assert registry["variants"]["TDS_EN_冠志模板"]["template_sha256"] != "4d602128bd397235e76e48d39a9a02b7862b840063734bc89b67661271d0a216"
+
+
+def test_english_templates_use_clean_western_font_inheritance():
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    for variant_id in ("TDS_EN_冠志模板", "TDS_EN_国彩模板"):
+        doc = Document(str(ROOT / registry["variants"][variant_id]["template"]))
+        paragraphs = list(doc.paragraphs[9:])
+        for paragraph in paragraphs:
+            ppr = paragraph._p.pPr
+            ind = ppr.find(qn("w:ind")) if ppr is not None else None
+            assert ind is None or qn("w:firstLineChars") not in ind.attrib
+            assert ind is None or qn("w:firstLine") not in ind.attrib
+            for run in paragraph.runs:
+                rpr = run._r.rPr
+                rfonts = rpr.find(qn("w:rFonts")) if rpr is not None else None
+                assert rfonts is not None
+                assert rfonts.get(qn("w:ascii")) == "Times New Roman"
+                assert rfonts.get(qn("w:hAnsi")) == "Times New Roman"
+                assert rfonts.get(qn("w:cs")) == "Times New Roman"
+                assert rfonts.get(qn("w:eastAsia")) is None
+                assert rfonts.get(qn("w:hint")) is None
+        for table in doc.tables:
+            for row in table.rows:
+                for cell in row.cells:
+                    for paragraph in cell.paragraphs:
+                        for run in paragraph.runs:
+                            rpr = run._r.rPr
+                            rfonts = rpr.find(qn("w:rFonts")) if rpr is not None else None
+                            assert rfonts is not None
+                            assert rfonts.get(qn("w:ascii")) == "Times New Roman"
+                            assert rfonts.get(qn("w:hAnsi")) == "Times New Roman"
+                            assert rfonts.get(qn("w:eastAsia")) is None
+                            assert rfonts.get(qn("w:hint")) is None
 
 
 def test_feature_slots_preserve_numbering_and_equal_spacing():
@@ -135,8 +170,9 @@ def test_feature_overflow_clones_template_item_style(tmp_path):
     assert [p.text for p in items] == ["储存稳定性良好；", "粘度稳定。", "低气味。"]
     base = Document(str(ROOT / registry["variants"]["TDS_CN_冠志模板"]["template"]))
     from tds_common import feature_layout_signature, numbering_shape
-    assert feature_layout_signature(items[2]) == feature_layout_signature(base.paragraphs[22])
-    assert numbering_shape(items[2]) == numbering_shape(base.paragraphs[22])
+    anchor = registry["variants"]["TDS_CN_冠志模板"]["feature_extension"]["paragraph_template_index"]
+    assert feature_layout_signature(items[2]) == feature_layout_signature(base.paragraphs[anchor])
+    assert numbering_shape(items[2]) == numbering_shape(base.paragraphs[anchor])
     assert audit_shape(base, doc, registry["variants"]["TDS_CN_冠志模板"], mapping)
 
 
@@ -354,7 +390,8 @@ def test_title_preserves_template_positioning_and_style(tmp_path):
     doc = Document(str(output))
     paragraph = next(p for p in doc.paragraphs if p.text == title)
     base = Document(str(ROOT / registry["variants"]["TDS_CN_冠志模板"]["template"]))
-    base_title = next(p for p in base.paragraphs if p.text.strip() == "水性环氧分散体EP-1704")
+    title_index = next(item["locator"]["paragraph_index"] for item in registry["variants"]["TDS_CN_冠志模板"]["slots"] if item["field_id"] == "product.title")
+    base_title = base.paragraphs[title_index]
     from tds_common import paragraph_shape
     assert paragraph_shape(paragraph) == paragraph_shape(base_title)
 
@@ -409,8 +446,9 @@ def test_multiline_storage_clones_template_body_style(tmp_path):
     base = Document(str(ROOT / registry["variants"]["TDS_CN_冠志模板"]["template"]))
     from tds_common import paragraph_shape
     body = [p for p in doc.paragraphs[heading + 1:] if p.text.strip()]
-    assert paragraph_shape(body[0]) == paragraph_shape(base.paragraphs[31])
-    assert paragraph_shape(body[1]) == paragraph_shape(base.paragraphs[31])
+    storage_index = next(item["locator"]["paragraph_index"] for item in registry["variants"]["TDS_CN_冠志模板"]["slots"] if item["field_id"] == "product.storage")
+    assert paragraph_shape(body[0]) == paragraph_shape(base.paragraphs[storage_index])
+    assert paragraph_shape(body[1]) == paragraph_shape(base.paragraphs[storage_index])
 
 
 def test_no_intra_paragraph_line_breaks_in_any_variant(tmp_path):
