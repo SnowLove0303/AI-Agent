@@ -1,5 +1,27 @@
 # DeepSeek Harness performance runbook
 
+## What changed in 3.24.0
+
+V3.24 makes the business flow explicit:
+
+1. **Full source extraction:** inventory all source paragraphs, tables,
+   nested tables and images and bind the evidence to the original source hash.
+2. **Constrained information normalization:** review semantic mapping,
+   omission/取舍, derivations and CN/EN traceability before touching a DOCX.
+3. **Fixed-structure template overwrite:** clone the pinned template, resolve
+   the complete S1-S16 semantic write plan, then write only approved value
+   cells. S11/S12 alignment and S9/S15 capacity are decided before XML rows
+   move.
+4. **Post-overwrite fine-tuning:** suppress empty/unsupported rows, insert only
+   authorized source-backed styled rows and repair visible numeric prefixes;
+   then run every release gate.
+
+`matrix-report.json` now records low-overhead stage events and aggregate
+durations. The diagnostics include expected/actual/diff/hint information for
+locked-format failures, so a Harness can repair the actual mismatch instead of
+repeating a blind full run. These controls are observability and planning
+improvements; they do not skip final QA or authorize label/format changes.
+
 ## What changed in 3.22.0
 
 The Section 2 semantic boundary is now enforced before template cloning. Source

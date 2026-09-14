@@ -1,5 +1,27 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.24.0 — 2026-09-14
+
+- Added the active `MSDS-EFFICIENCY-001` OpenSpec. The business workflow is
+  now explicit and ordered as full source extraction, constrained information
+  normalization, fixed-template overwrite and post-overwrite fine-tuning.
+- Added a semantic `SectionWritePlan`: all S1-S16 payloads, Section 11/12
+  alignment and S9/S15 insertion capacity are resolved before value cells are
+  cleared or XML rows are changed. This removes stale physical-index decisions
+  from the overwrite hot path while preserving the exact mutation whitelist.
+- Separated the runtime's post-overwrite fine-tuning entry point for source
+  absence, Section 2/9 omission and numbering, and the Section 8.2 empty-block
+  policy. The default `write_body` API remains backwards-compatible.
+- Added bounded expected/actual/diff/hint diagnostics to locked-label,
+  locked-format and EN body-format blockers, making Harness repair loops
+  actionable without weakening fail-closed behavior.
+- Added low-overhead stage telemetry to matrix reports for the business stages,
+  DOCX checkpoints, release audits and PDF batch conversion. Existing
+  `--preflight-only`, `--no-pdf` and audited DOCX preview controls remain
+  diagnostic checkpoints and cannot replace final QA.
+- Explicitly prohibited whole-table rebuilds, blanket soft-hide strategies,
+  knowledge-base auto-fill and fixed-duration performance promises.
+
 ## v3.23.0 — 2026-09-11
 
 - Added recursive source inventory and extraction for nested Section 8 tables;

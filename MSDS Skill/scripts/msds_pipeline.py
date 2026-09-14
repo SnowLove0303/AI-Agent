@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Shared DOCX-first build pipeline for the unified MSDS skill (v3.23.0).
+"""Shared DOCX-first build pipeline for the unified MSDS skill (v3.24.0).
 
 Business role: one parameterized path replaces the per-model copied
 generators.  Input is an *approved* standardized model file::
@@ -38,6 +38,8 @@ import tempfile
 import time
 from calendar import month_name
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from contextlib import nullcontext
+from dataclasses import dataclass
 from datetime import date, datetime
 from pathlib import Path
 
@@ -74,6 +76,7 @@ from section_overwrite_rules import (  # noqa: E402
     validate_section_template,
 )
 from source_ingest import discover_source, prepare_source  # noqa: E402
+from efficiency_contract import StageTimer  # noqa: E402
 from structured_toxicology_policy import (  # noqa: E402
     audit_field_value_integrity,
     audit_study_separation,
@@ -119,6 +122,21 @@ def _notify_progress(callback, event: str, **details) -> None:
         return
     payload = {"event": event, **details}
     callback(payload)
+
+
+def _timed(timer: StageTimer | None, name: str, **details):
+    """Use the stage recorder when enabled without burdening direct callers."""
+    return timer.stage(name, **details) if timer is not None else nullcontext()
+
+
+def _notify_last_stage(callback, timer: StageTimer, name: str, **details) -> None:
+    """Publish a completed stage without making progress a second timer."""
+    if callback is None:
+        return
+    events = [event for event in timer.snapshot()["events"] if event["stage"] == name]
+    if events:
+        _notify_progress(callback, "stage_completed", stage=name,
+                         seconds=events[-1]["seconds"], **details)
 
 
 def company_tel(language: str, brand: str) -> str:
@@ -352,38 +370,101 @@ def suppress_s8_recommendation_value(rows, language: str) -> list:
     return output
 
 
-def write_body(doc, facts: dict, language: str) -> dict:
-    registry = TemplateSlotRegistry.from_document(doc)
-    clear_value_cells(doc, registry=registry)
-    skipped_slots = []
-    inserted_data_rows = []
+@dataclass(frozen=True)
+class SectionWritePlan:
+    """Semantic payload prepared before any value or row mutation."""
+
+    section: int
+    rows: list
+    inserted_data_rows: int = 0
+    semantic_mode: str = "field_rows"
+
+    def as_dict(self) -> dict:
+        return {
+            "section": self.section,
+            "row_count": len(self.rows),
+            "inserted_data_rows": self.inserted_data_rows,
+            "semantic_mode": self.semantic_mode,
+        }
+
+
+def plan_body_write(doc, facts: dict, language: str) -> tuple[list[SectionWritePlan], dict]:
+    """Resolve all section payloads before clearing cells or changing rows.
+
+    This is the boundary between constrained semantic normalization and the
+    fixed-template overwrite.  In particular, S11/S12 are aligned against the
+    untouched skeleton and S9/S15 capacity is calculated before the registry
+    is rebuilt.  The plan contains no DOCX mutation instructions beyond the
+    explicitly authorized insertion count.
+    """
+    plans: list[SectionWritePlan] = []
     policy_facts = dict(facts)
     baseline_row_counts = base.template_geometry(language)["rows"]
     for sec in range(1, 17):
         table = doc.tables[sec - 1]
+        source_rows = facts.get(f"s{sec}") or []
+        inserted_count = 0
         if sec in {9, 15}:
-            source_row_count = len(facts[f"s{sec}"])
-            if source_row_count > baseline_row_counts[sec - 1] - 1:
-                base.ensure_source_data_rows(doc, sec, source_row_count)
-                inserted_data_rows.append({
-                    "section": sec,
-                    "count": source_row_count - (baseline_row_counts[sec - 1] - 1),
-                })
-                # The registry is built before clearing; newly cloned rows are
-                # explicitly authorized only through the insertion path below.
-                registry = TemplateSlotRegistry.from_document(doc)
-        rows = base.project_rows_to_template(facts[f"s{sec}"], language, sec, table)
+            inserted_count = max(
+                0, len(source_rows) - (baseline_row_counts[sec - 1] - 1)
+            )
+        rows = base.project_rows_to_template(source_rows, language, sec, table)
+        semantic_mode = "field_rows"
         if sec == 8:
             rows = suppress_s8_recommendation_value(rows, language)
+            semantic_mode = "dedicated_ppe_engineering"
         if sec == 11:
-            # Section 11 is a fixed endpoint skeleton.  Align by endpoint and
-            # child label before any value write so pre-omitted source rows can
-            # never shift later toxicity results into the wrong locked label.
-            rows = align_s11_rows(facts[f"s{sec}"], table)
+            rows = align_s11_rows(source_rows, table)
             policy_facts[f"s{sec}"] = rows
+            semantic_mode = "endpoint_notes"
         elif sec == 12:
             rows = align_note_section_rows(rows, table)
             policy_facts[f"s{sec}"] = rows
+            semantic_mode = "endpoint_rows"
+        # Capacity is intentionally checked after the planned row insertion;
+        # shape/semantic checks still run now to fail before any XML mutation.
+        validate_section_payload(sec, rows, table, check_capacity=False)
+        plans.append(SectionWritePlan(sec, rows, inserted_count, semantic_mode))
+    return plans, policy_facts
+
+
+def apply_post_overwrite_fine_tuning(doc, policy_facts: dict) -> dict:
+    """Apply only the bounded row/prefix policies after fixed value writes."""
+    absence = apply_source_absence_policy(doc, policy_facts, unique_cells)
+    s2_policy = suppress_missing_section2_rows_and_renumber(
+        doc, set_paragraph_text, number_map=policy_facts.get("s2_number_map")
+    )
+    s9_policy = suppress_s9(doc)
+    s8_policy = suppress_empty_s82_engineering_control(doc)
+    return {
+        "source_presence_policy": absence,
+        "section2_policy": s2_policy,
+        "section9_policy": s9_policy,
+        "section8_policy": s8_policy,
+    }
+
+
+def write_body(doc, facts: dict, language: str, *, apply_fine_tuning: bool = True) -> dict:
+    """Write a precomputed plan; optionally preserve the legacy one-call API."""
+    plans, policy_facts = plan_body_write(doc, facts, language)
+    inserted_data_rows = []
+    for plan in plans:
+        if plan.inserted_data_rows:
+            base.ensure_source_data_rows(doc, plan.section, len(plan.rows))
+            inserted_data_rows.append({
+                "section": plan.section,
+                "count": plan.inserted_data_rows,
+            })
+    # The registry is intentionally built only after all authorized insertions
+    # are complete, then all value cells are cleared in one controlled pass.
+    registry = TemplateSlotRegistry.from_document(doc)
+    clear_value_cells(doc, registry=registry)
+    skipped_slots = []
+    baseline_row_counts = base.template_geometry(language)["rows"]
+    for plan in plans:
+        sec = plan.section
+        table = doc.tables[sec - 1]
+        rows = plan.rows
         validate_section_payload(sec, rows, table)
         for row_index, values in enumerate(rows, 1):
             if row_index >= len(table.rows):
@@ -403,9 +484,15 @@ def write_body(doc, facts: dict, language: str) -> dict:
         (facts.get("s8_control_parameters") or {}).get(language, []),
         language,
     )
-    absence = apply_source_absence_policy(doc, policy_facts, unique_cells)
-    return {"skipped_blank_template_slots": skipped_slots,
-            "inserted_data_rows": inserted_data_rows, **absence}
+    result = {"skipped_blank_template_slots": skipped_slots,
+              "inserted_data_rows": inserted_data_rows,
+              "semantic_write_plan": [plan.as_dict() for plan in plans],
+              "_policy_facts": policy_facts}
+    if apply_fine_tuning:
+        fine_tuning = apply_post_overwrite_fine_tuning(doc, policy_facts)
+        result.pop("_policy_facts", None)
+        result.update(fine_tuning["source_presence_policy"])
+    return result
 
 
 def _parse_revision_date(value: object) -> date | None:
@@ -636,7 +723,8 @@ def build_one(*, template_cn: Path, template_en: Path, template_en_source: Path,
               with_pictogram: bool, source_media: Path | None = None,
               template_document=None, source_sha256: str | None = None,
               template_sha256: str | None = None,
-              template_en_source_sha256: str | None = None) -> dict:
+              template_en_source_sha256: str | None = None,
+              timing_recorder: StageTimer | None = None) -> dict:
     template = template_for(template_cn, template_en, language)
     expected_template_hash = PINNED_TEMPLATE_SHA256[language]
     actual_template_hash = template_sha256 or sha256(template)
@@ -658,66 +746,74 @@ def build_one(*, template_cn: Path, template_en: Path, template_en_source: Path,
     stage_root.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix=f".{out_docx.stem}.", dir=stage_root) as temp_dir:
         staged_docx = Path(temp_dir) / out_docx.name
-        shutil.copy2(template, staged_docx)
-        doc = Document(str(staged_docx))
-        base.validate_template_capacity(doc, language)
-        validate_section_template(doc, language)
-        lang_facts = {key: (list(value) if isinstance(value, list) else value)
-                      for key, value in facts[language].items()}
-        s1 = [list(row) for row in lang_facts["s1"]]
-        # Company identity/contacts are overlay-controlled.  The Guanzhi address
-        # remains source-authoritative so a source spelling such as 掬泉 is not
-        # silently replaced by a stale profile literal.
-        company_name, company_addr = company(language, brand)
-        if language == "zh" and len(s1) > 1:
-            identity = expected_identity(s1[1][1] if len(s1[1]) > 1 else "", product)
-            s1[0][1] = identity.product_name_value
-            s1[1][1] = identity.chinese_name_value
-        if brand == "guanzhi" and len(s1) > 6:
-            source_address = s1[6][1] if len(s1[6]) > 1 else ""
-            if str(source_address).strip():
-                company_addr = str(source_address)
-        tel = company_tel(language, brand)
-        fax = company_fax(language, brand)
-        supplier_rows = [[None, company_name], [None, company_addr], [None, tel], [None, fax]]
-        for offset, (_, value) in enumerate(supplier_rows):
-            if len(s1) > 5 + offset and len(s1[5 + offset]) > 1:
-                s1[5 + offset][1] = value
-        lang_facts["s1"] = s1
-        lang_facts["s8_control_parameters"] = (facts.get("s8_control_parameters") or {}).get(language, [])
-        base.ensure_s3_component_rows(doc, component_count=len(lang_facts["s3"]) - 3)
-        body_audit = write_body(doc, lang_facts, language)
-        if language == "en":
-            normalize_en_document(doc, template_path=template_en,
-                                  template_document=template_document)
-        pictogram_audit = insert_source_pictogram(doc, source_media or source) if with_pictogram else {
-            "source_image_name": None, "skipped": "source has no embedded image"}
-        s2_policy = suppress_missing_section2_rows_and_renumber(
-            doc, set_paragraph_text, number_map=facts.get("s2_number_map")
-        )
-        s9_policy = suppress_s9(doc)
-        s8_policy = suppress_empty_s82_engineering_control(doc)
-        write_header_footer(doc, language, brand, product, revision)
-        replace_residual_product_ids(doc, product)
-        doc.save(staged_docx)
+        with _timed(timing_recorder, "fixed_structure_template_overwrite",
+                    language=language, brand=brand):
+            shutil.copy2(template, staged_docx)
+            doc = Document(str(staged_docx))
+            base.validate_template_capacity(doc, language)
+            validate_section_template(doc, language)
+            lang_facts = {key: (list(value) if isinstance(value, list) else value)
+                          for key, value in facts[language].items()}
+            s1 = [list(row) for row in lang_facts["s1"]]
+            # Company identity/contacts are overlay-controlled.  The Guanzhi address
+            # remains source-authoritative so a source spelling such as 掬泉 is not
+            # silently replaced by a stale profile literal.
+            company_name, company_addr = company(language, brand)
+            if language == "zh" and len(s1) > 1:
+                identity = expected_identity(s1[1][1] if len(s1[1]) > 1 else "", product)
+                s1[0][1] = identity.product_name_value
+                s1[1][1] = identity.chinese_name_value
+            if brand == "guanzhi" and len(s1) > 6:
+                source_address = s1[6][1] if len(s1[6]) > 1 else ""
+                if str(source_address).strip():
+                    company_addr = str(source_address)
+            tel = company_tel(language, brand)
+            fax = company_fax(language, brand)
+            supplier_rows = [[None, company_name], [None, company_addr], [None, tel], [None, fax]]
+            for offset, (_, value) in enumerate(supplier_rows):
+                if len(s1) > 5 + offset and len(s1[5 + offset]) > 1:
+                    s1[5 + offset][1] = value
+            lang_facts["s1"] = s1
+            lang_facts["s8_control_parameters"] = (facts.get("s8_control_parameters") or {}).get(language, [])
+            base.ensure_s3_component_rows(doc, component_count=len(lang_facts["s3"]) - 3)
+            body_audit = write_body(doc, lang_facts, language, apply_fine_tuning=False)
+            policy_facts = body_audit.pop("_policy_facts")
+            if language == "en":
+                normalize_en_document(doc, template_path=template_en,
+                                      template_document=template_document)
+            pictogram_audit = insert_source_pictogram(doc, source_media or source) if with_pictogram else {
+                "source_image_name": None, "skipped": "source has no embedded image"}
+            write_header_footer(doc, language, brand, product, revision)
+            replace_residual_product_ids(doc, product)
+
+        with _timed(timing_recorder, "post_overwrite_fine_tuning",
+                    language=language, brand=brand):
+            fine_tuning = apply_post_overwrite_fine_tuning(doc, policy_facts)
+            body_audit.update(fine_tuning["source_presence_policy"])
+        s2_policy = fine_tuning["section2_policy"]
+        s9_policy = fine_tuning["section9_policy"]
+        s8_policy = fine_tuning["section8_policy"]
+        with _timed(timing_recorder, "docx_save", language=language, brand=brand):
+            doc.save(staged_docx)
 
         blockers: list[str] = []
-        blockers.extend(f"locked-labels: {e}" for e in gate_locked_labels(
-            template, staged_docx, template_document=template_document,
-            output_document=doc, language=language))
-        blockers.extend(f"section2: {e}" for e in gate_section2(
-            staged_docx, require_pictogram=with_pictogram, document=doc))
-        blockers.extend(f"whitespace: {e}" for e in gate_whitespace(staged_docx, document=doc))
-        blockers.extend(f"s9: {e}" for e in gate_s9_leftover(staged_docx, document=doc))
-        blockers.extend(f"s11: {e}" for e in gate_s11_toxicology(staged_docx, document=doc))
-        blockers.extend(gate_product_identity(staged_docx, language, product, document=doc))
-        blockers.extend(f"s8: {e}" for e in gate_s8_recommendation(staged_docx, document=doc))
-        blockers.extend(f"openspec: {e}" for e in gate_openspec_overwrite(
-            template, staged_docx, language=language,
-            template_document=template_document, output_document=doc,
-        ))
-        if language == "en":
-            blockers.extend(f"terminology: {e}" for e in gate_terminology(staged_docx))
+        with _timed(timing_recorder, "release_audit", language=language, brand=brand):
+            blockers.extend(f"locked-labels: {e}" for e in gate_locked_labels(
+                template, staged_docx, template_document=template_document,
+                output_document=doc, language=language))
+            blockers.extend(f"section2: {e}" for e in gate_section2(
+                staged_docx, require_pictogram=with_pictogram, document=doc))
+            blockers.extend(f"whitespace: {e}" for e in gate_whitespace(staged_docx, document=doc))
+            blockers.extend(f"s9: {e}" for e in gate_s9_leftover(staged_docx, document=doc))
+            blockers.extend(f"s11: {e}" for e in gate_s11_toxicology(staged_docx, document=doc))
+            blockers.extend(gate_product_identity(staged_docx, language, product, document=doc))
+            blockers.extend(f"s8: {e}" for e in gate_s8_recommendation(staged_docx, document=doc))
+            blockers.extend(f"openspec: {e}" for e in gate_openspec_overwrite(
+                template, staged_docx, language=language,
+                template_document=template_document, output_document=doc,
+            ))
+            if language == "en":
+                blockers.extend(f"terminology: {e}" for e in gate_terminology(staged_docx))
         if blockers:
             raise ReleaseBlocked(f"{language}/{brand}: " + "; ".join(blockers[:8]))
 
@@ -813,13 +909,18 @@ def build_matrix(*, source: Path, facts: dict, out_root: Path,
         raise ValueError("model is required (argument or facts['model'])")
     if do_pdf and pdf_workers < 1:
         raise ValueError("pdf_workers must be at least 1")
+    timing_recorder = StageTimer()
+    total_started = time.perf_counter()
     if not facts.get("zh") or not facts.get("en"):
         raise ReleaseBlocked("approved zh+en facts are both required; "
                              "draft en with draft_en_facts.py and clear translation_review first")
     if facts.get("translation_review"):
         raise ReleaseBlocked(f"translation_review is not empty: {len(facts['translation_review'])} items")
     revision = revision or facts.get("revision") or date.today()
-    selection = discover_source(Path(source), model=model)
+    with _timed(timing_recorder, "extract_all_source_information", model=model):
+        selection = discover_source(Path(source), model=model)
+    _notify_last_stage(progress_callback, timing_recorder,
+                       "extract_all_source_information", model=model)
     _notify_progress(
         progress_callback,
         "source_selected",
@@ -828,7 +929,10 @@ def build_matrix(*, source: Path, facts: dict, out_root: Path,
         source_format=selection.source_format,
         source_sha256=selection.source_sha256,
     )
-    validate_approved_facts(facts, selection.original_path, model)
+    with _timed(timing_recorder, "constrained_information_normalization", model=model):
+        validate_approved_facts(facts, selection.original_path, model)
+    _notify_last_stage(progress_callback, timing_recorder,
+                       "constrained_information_normalization", model=model)
     _notify_progress(progress_callback, "facts_validated", model=model)
     out_root.parent.mkdir(parents=True, exist_ok=True)
     names = output_names(model)
@@ -840,21 +944,26 @@ def build_matrix(*, source: Path, facts: dict, out_root: Path,
         "en": SKILL_ROOT / "examples" / "template_reference_en.docx",
         "en_source": SKILL_ROOT / "examples" / "template_reference_en_source.docx",
     }
-    template_hashes = validate_template_baselines(
-        template_paths["zh"], template_paths["en"], template_paths["en_source"])
-    template_documents = {
-        language: Document(str(template_paths[language])) for language in ("zh", "en")
-    }
-    for language, template_document in template_documents.items():
-        validate_section_template(template_document, language)
+    with _timed(timing_recorder, "fixed_structure_template_overwrite",
+                phase="template_preparation"):
+        template_hashes = validate_template_baselines(
+            template_paths["zh"], template_paths["en"], template_paths["en_source"])
+        template_documents = {
+            language: Document(str(template_paths[language])) for language in ("zh", "en")
+        }
+        for language, template_document in template_documents.items():
+            validate_section_template(template_document, language)
+    _notify_last_stage(progress_callback, timing_recorder,
+                       "fixed_structure_template_overwrite", phase="template_preparation")
     template_en_source_sha256 = template_hashes["en_source"]
     converter_executable = None
     converter_version_text = None
     if do_pdf:
         # Resolve the converter before any DOCX work. A missing or unavailable
         # WPS CLI must fail in seconds rather than after a long partial run.
-        converter_executable = find_wpscli(wpscli)
-        converter_version_text = converter_version(converter_executable)
+        with _timed(timing_recorder, "pdf_converter_preflight"):
+            converter_executable = find_wpscli(wpscli)
+            converter_version_text = converter_version(converter_executable)
         preflight_timeout = min(max(timeout, 1), 30)
         _notify_progress(
             progress_callback,
@@ -886,10 +995,16 @@ def build_matrix(*, source: Path, facts: dict, out_root: Path,
     )
     records = []
     timing = {"variants": [], "docx_seconds": 0.0, "pdf_seconds": 0.0}
-    total_started = time.perf_counter()
     with tempfile.TemporaryDirectory(prefix=f".{model}_matrix_", dir=out_root.parent) as stage_dir:
         stage_root = Path(stage_dir)
+        source_prepare_started = time.perf_counter()
         with prepare_source(selection) as prepared:
+            timing_recorder.add(
+                "extract_all_source_information",
+                time.perf_counter() - source_prepare_started,
+                adapter=prepared.adapter,
+                source_format=selection.source_format,
+            )
             with_pictogram = source_has_images(prepared.extraction_path)
             for variant_index, (language, brand) in enumerate(variants):
                 out_docx = stage_root / name_map[(language, brand)]
@@ -913,7 +1028,8 @@ def build_matrix(*, source: Path, facts: dict, out_root: Path,
                     template_document=template_documents[language],
                     source_sha256=selection.source_sha256,
                     template_sha256=template_hashes[language],
-                    template_en_source_sha256=template_en_source_sha256)
+                    template_en_source_sha256=template_en_source_sha256,
+                    timing_recorder=timing_recorder)
                 docx_seconds = time.perf_counter() - variant_started
                 timing["docx_seconds"] += docx_seconds
                 timing_item = {"language": language, "brand": brand,
@@ -929,10 +1045,13 @@ def build_matrix(*, source: Path, facts: dict, out_root: Path,
                     language=language,
                     brand=brand,
                     seconds=timing_item["docx_seconds"],
+                    workflow_stages=["fixed_structure_template_overwrite",
+                                     "post_overwrite_fine_tuning", "release_audit"],
                     staged_path=str(out_docx),
                 )
 
             if docx_preview_dir is not None:
+                preview_started = time.perf_counter()
                 preview_root = Path(docx_preview_dir).resolve()
                 if preview_root == Path(out_root).resolve():
                     raise ValueError("docx_preview_dir must differ from out_root")
@@ -942,6 +1061,9 @@ def build_matrix(*, source: Path, facts: dict, out_root: Path,
                     preview = preview_root / staged.name
                     shutil.copy2(staged, preview)
                     record["docx_preview_path"] = str(preview)
+                timing_recorder.add("docx_preview_checkpoint",
+                                    time.perf_counter() - preview_started,
+                                    count=len(records))
                 _notify_progress(
                     progress_callback,
                     "docx_preview_ready",
@@ -971,6 +1093,7 @@ def build_matrix(*, source: Path, facts: dict, out_root: Path,
                     )
                     return index, out_pdf, evidence, time.perf_counter() - pdf_started
 
+                pdf_batch_started = time.perf_counter()
                 with ThreadPoolExecutor(max_workers=workers,
                                         thread_name_prefix="msds-pdf") as executor:
                     futures = {
@@ -993,6 +1116,9 @@ def build_matrix(*, source: Path, facts: dict, out_root: Path,
                             brand=records[index]["brand"],
                             seconds=timing_item["pdf_seconds"],
                         )
+                timing_recorder.add("pdf_conversion_batch",
+                                    time.perf_counter() - pdf_batch_started,
+                                    workers=workers, count=len(records))
         gate_output_matrix(stage_root, model, records, do_pdf)
         out_root.mkdir(parents=True, exist_ok=True)
         expected_docx = set(output_names(model))
@@ -1011,6 +1137,10 @@ def build_matrix(*, source: Path, facts: dict, out_root: Path,
                 record["pdf_path"] = str(final_pdf)
                 record["pdf_evidence"]["source_docx"] = str(final_docx)
                 record["pdf_evidence"]["output_pdf"] = str(final_pdf)
+    stage_snapshot = timing_recorder.snapshot()
+    timing["stage_events"] = stage_snapshot["events"]
+    timing["stage_totals"] = stage_snapshot["totals"]
+    timing["stage_total_seconds"] = stage_snapshot["total_seconds"]
     timing["total_seconds"] = round(time.perf_counter() - total_started, 3)
     report = {
         "product": model,

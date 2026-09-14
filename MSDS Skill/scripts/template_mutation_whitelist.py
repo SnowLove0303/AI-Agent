@@ -25,6 +25,8 @@ from typing import Callable, Iterable, Sequence
 
 from docx.oxml.ns import qn
 
+from diagnostics import format_diagnostic
+
 
 S82_TOP_HEADERS = {
     "zh": ("物质", "依据", "类型", "数值"),
@@ -696,7 +698,17 @@ def compare_format_anchors(template, output, *, language: str = "cn",
             candidates = _row_candidates(template_table, output_table, table_index,
                                           output_index, output_row)
             if not candidates:
-                errors.append(f"no template format anchor: table {table_index} row {output_index}")
+                actual_anchor = tuple(_format_anchor(cell) for cell in unique_cells(output_row))
+                errors.append(
+                    f"no template format anchor: table {table_index} row {output_index}; "
+                    + format_diagnostic(
+                        "FORMAT_ANCHOR_MISSING",
+                        location=f"table={table_index + 1} row={output_index + 1}",
+                        expected="a matching fresh-template row anchor",
+                        actual=actual_anchor,
+                        hint="preserve the cloned row and use only an authorized row policy",
+                    )
+                )
                 continue
             output_cells = unique_cells(output_row)
             matched = False
@@ -722,7 +734,21 @@ def compare_format_anchors(template, output, *, language: str = "cn",
                     matched = True
                     break
             if not matched:
-                errors.append(f"template format anchor changed: table {table_index} row {output_index}")
+                expected_anchor = tuple(
+                    tuple(_format_anchor(cell) for cell in unique_cells(candidate))
+                    for candidate in candidates[:1]
+                )
+                actual_anchor = tuple(_format_anchor(cell) for cell in output_cells)
+                errors.append(
+                    f"template format anchor changed: table {table_index} row {output_index}; "
+                    + format_diagnostic(
+                        "FORMAT_MISMATCH",
+                        location=f"table={table_index + 1} row={output_index + 1}",
+                        expected=expected_anchor,
+                        actual=actual_anchor,
+                        hint="compare tcPr/pPr/rPr with the fresh template; do not reformat the output",
+                    )
+                )
                 continue
             if language == "en" and approved_en_body_rpr is not None:
                 for cell in body_cells:
@@ -734,7 +760,14 @@ def compare_format_anchors(template, output, *, language: str = "cn",
                                         != _style_signature(approved_en_body_rpr)):
                                     errors.append(
                                         f"EN body value format is not the approved exemplar: "
-                                        f"table {table_index} row {output_index}"
+                                        f"table {table_index} row {output_index}; "
+                                        + format_diagnostic(
+                                            "EN_BODY_FORMAT_MISMATCH",
+                                            location=f"table={table_index + 1} row={output_index + 1}",
+                                            expected=_style_signature(approved_en_body_rpr),
+                                            actual=_style_signature(actual_rpr),
+                                            hint="retain the approved EN body exemplar run properties",
+                                        )
                                     )
                                     break
 
@@ -857,16 +890,44 @@ def compare_locked_skeleton(template, output) -> list[str]:
             candidates[0],
         )
         if expected_item.tc_pr != actual_item.tc_pr:
-            errors.append(f"locked cell tcPr changed: {key}")
+            errors.append(
+                f"locked cell tcPr changed: {key}; "
+                + format_diagnostic(
+                    "LOCKED_TCPR_MISMATCH", location=f"table={key[0] + 1} key={key[1:]}",
+                    expected=expected_item.tc_pr, actual=actual_item.tc_pr,
+                    hint="restore the locked cell properties from a fresh template clone",
+                )
+            )
         if expected_item.paragraph_props != actual_item.paragraph_props:
-            errors.append(f"locked cell paragraph properties changed: {key}")
+            errors.append(
+                f"locked cell paragraph properties changed: {key}; "
+                + format_diagnostic(
+                    "LOCKED_PPR_MISMATCH", location=f"table={key[0] + 1} key={key[1:]}",
+                    expected=expected_item.paragraph_props, actual=actual_item.paragraph_props,
+                    hint="restore locked label paragraph properties; only value text may change",
+                )
+            )
         if expected_item.run_props != actual_item.run_props:
-            errors.append(f"locked cell run properties changed: {key}")
+            errors.append(
+                f"locked cell run properties changed: {key}; "
+                + format_diagnostic(
+                    "LOCKED_RPR_MISMATCH", location=f"table={key[0] + 1} key={key[1:]}",
+                    expected=expected_item.run_props, actual=actual_item.run_props,
+                    hint="restore bold/font/run properties from the fresh template",
+                )
+            )
         if expected_item.cell_role == "sequence_label":
             expected_text = _canonical_locked_text(expected_item.text)
             actual_text = _canonical_locked_text(actual_item.text)
             if expected_text != actual_text:
-                errors.append(f"locked label text changed: {key}")
+                errors.append(
+                    f"locked label text changed: {key}; "
+                    + format_diagnostic(
+                        "LOCKED_LABEL_MISMATCH", location=f"table={key[0] + 1} key={key[1:]}",
+                        expected=expected_text, actual=actual_text,
+                        hint="write only the associated value cell; never rewrite a template label",
+                    )
+                )
     # The formal S8.2 header row is a locked top-level structure.  Its text is
     # checked explicitly here because data-row writes share the same table;
     # formatting is covered by locked_cell_snapshots above.  Nested child

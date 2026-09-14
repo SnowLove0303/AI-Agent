@@ -1,0 +1,90 @@
+{
+  "spec_id": "MSDS-EFFICIENCY-001",
+  "version": "1.0.0",
+  "status": "active",
+  "purpose": "Make the four-stage MSDS overwrite workflow explicit and optimize repeated work without weakening source, template or release gates.",
+  "business_stages": [
+    {
+      "id": "extract_all_source_information",
+      "sequence": 1,
+      "authority": "source",
+      "mutation": "forbidden",
+      "required_output": "complete source inventory, readable source units, source hash and candidate fact ledger"
+    },
+    {
+      "id": "constrained_information_normalization",
+      "sequence": 2,
+      "authority": "source_plus_contract",
+      "mutation": "forbidden",
+      "required_output": "normalized CN/EN semantic layers, reviewed field mapping, explicit disposition and traceability"
+    },
+    {
+      "id": "fixed_structure_template_overwrite",
+      "sequence": 3,
+      "authority": "pinned_template",
+      "mutation": "value_cells_and_authorized_styled_rows_only",
+      "required_output": "fresh-clone DOCX with fixed template labels, sequence, geometry and approved value writes"
+    },
+    {
+      "id": "post_overwrite_fine_tuning",
+      "sequence": 4,
+      "authority": "runtime_policy",
+      "mutation": "authorized_row_suppression_insertion_and_prefix_only_renumbering",
+      "required_output": "audited DOCX with unsupported/empty rows hidden and visible numbering/order repaired"
+    }
+  ],
+  "target_points": [
+    {
+      "id": "EFF-01",
+      "name": "full_source_packet_reuse",
+      "goal": "Extract every source unit once, bind reusable evidence to the original source hash and reuse only a matching packet.",
+      "acceptance": ["nested tables and non-table content are inventoried", "cache key includes source bytes and extractor contract", "cache miss or mismatch performs a fresh extraction"]
+    },
+    {
+      "id": "EFF-02",
+      "name": "semantic_write_planning",
+      "goal": "Resolve section-to-row payloads before clearing cells or changing table rows.",
+      "acceptance": ["S11/S12 alignment is planned by semantic endpoint", "S9/S15 insertion capacity is planned before registry rebuild", "fixed writes consume the reviewed plan rather than a shifting physical list"]
+    },
+    {
+      "id": "EFF-03",
+      "name": "planned_post_overwrite_mutations",
+      "goal": "Make row suppression, insertion and prefix-only renumbering a visible post-overwrite plan.",
+      "acceptance": ["structural changes are restricted to the active mutation boundary", "empty or unsupported rows are suppressed before numbering", "no whole-table rebuild or global soft-hide is introduced"]
+    },
+    {
+      "id": "EFF-04",
+      "name": "diagnostic_gate_diffs",
+      "goal": "Make contract failures actionable by reporting location, expected signature, actual signature, diff and remediation hint.",
+      "acceptance": ["format and locked-skeleton failures contain structured diagnostic fields", "messages stay bounded and machine-readable enough for Harness logs", "diagnostics never downgrade a blocker to a warning"]
+    },
+    {
+      "id": "EFF-05",
+      "name": "stage_timing_and_fast_feedback",
+      "goal": "Record low-overhead timing for the four stages and keep preflight/DOCX-only checkpoints available for iteration.",
+      "acceptance": ["timing is emitted in matrix-report.json and progress events", "preflight-only and no-pdf remain cheap diagnostic modes", "fast checks never replace final DOCX/PDF/render QA"]
+    },
+    {
+      "id": "EFF-06",
+      "name": "evidence_safe_reuse",
+      "goal": "Reuse product or ontology knowledge only as a reviewed candidate validator, never as an automatic source substitute.",
+      "acceptance": ["unsupported facts are not auto-filled", "derived values retain provenance and disposition", "conflicting or ambiguous candidates block release"]
+    }
+  ],
+  "non_goals": [
+    "Do not change locked labels, sequence wording, boldness, typography, geometry, merges, headers or footers.",
+    "Do not auto-fill blanks from a knowledge base, product memory or model confidence.",
+    "Do not use wholesale w:hidden soft-hiding, global template sanitization or table reconstruction in production.",
+    "Do not skip final semantic, locked-format, whitespace, geometry, source-traceability or render gates.",
+    "Do not promise a fixed wall-clock duration before collecting comparable stage telemetry."
+  ],
+  "release_blockers": [
+    "business stages are executed out of order",
+    "source extraction is incomplete or source evidence is reused across a hash mismatch",
+    "semantic normalization is mixed into physical template writes without a reviewed mapping",
+    "fixed template structure is changed outside the active mutation boundary",
+    "post-overwrite row mutation leaves empty rows, blank paragraphs or discontinuous visible numbering",
+    "diagnostic improvements hide or downgrade a failed gate",
+    "timing or fast feedback controls are used to bypass final release QA"
+  ]
+}

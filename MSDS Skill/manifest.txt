@@ -73,6 +73,8 @@ scripts/draft_en_facts.py
 scripts/missing_data_policy.py
 scripts/msds_pipeline.py
 scripts/source_ingest.py
+scripts/efficiency_contract.py
+scripts/diagnostics.py
 scripts/template_runtime.py
 scripts/build_eight.py
 tests/README.md
@@ -111,6 +113,8 @@ scripts/agent_execution_contract.py
 scripts/audit_openspec_overwrite.py
 openspec/source_interpretation_contract.json
 openspec/source_interpretation_contract.md
+openspec/efficiency_contract.json
+openspec/efficiency_contract.md
 scripts/source_interpretation_contract.py
 docs/source_interpretation_playbook.md
 docs/deepseek_harness_performance.md
@@ -118,3 +122,4 @@ tests/test_source_interpretation_contract.py
 tests/test_section_overwrite_rules.py
 tests/test_source_ingest.py
 tests/test_pipeline_performance.py
+tests/test_efficiency_contract.py

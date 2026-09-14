@@ -2,7 +2,7 @@
 
 Status: `ACTIVE`
 Spec ID: `MSDS-AGENT-OVERWRITE-001`
-Version: `1.3.0`
+Version: `1.4.0`
 
 This OpenSpec is the execution-layer contract for the maintained MSDS skill. It
 does not replace the existing requirements documents. It makes their order and
@@ -24,6 +24,8 @@ Before inspecting a source for overwrite, the Agent must read the complete
 - [source_interpretation_contract.md](source_interpretation_contract.md)
 - [source_interpretation_contract.json](source_interpretation_contract.json)
 - [source_interpretation_playbook.md](../docs/source_interpretation_playbook.md)
+- [efficiency_contract.md](efficiency_contract.md)
+- [efficiency_contract.json](efficiency_contract.json)
 
 The JSON version of this contract is the machine-readable checklist consumed by
 `scripts/agent_execution_contract.py`.
@@ -53,29 +55,39 @@ these actions separately and still preserve the pinned template skeleton.
 
 ## Mandatory execution order
 
-The Agent must follow this order:
+The Agent must follow this order. The four business stages in
+[efficiency_contract.md](efficiency_contract.md) are the controlling workflow;
+the detailed actions below may not be reordered across those stage boundaries:
 
 1. Read the complete contract and record the required acknowledgements.
-2. Inventory the complete source and verify every source unit is readable or
+2. **全量抽取源文件信息:** inventory the complete source and verify every source unit is readable or
    explicitly reviewed as structural content.
 3. Extract source facts with source locators, source-unit IDs and the original
    source hash; build the fact ledger before semantic classification.
-4. Review every source-to-template field mapping and every output traceability
+4. **基于约束的信息归纳:** review every source-to-template field mapping and every output traceability
    record; unresolved mappings block.
 5. Decide whether each candidate value is supported, explicitly missing,
    not applicable or absent.
 6. Align structured Section 11 facts to the complete template endpoint
    skeleton by endpoint and locked sublabel. Do not delete or compact source
    rows before this alignment; an unmapped endpoint blocks.
-7. Clone the pinned language-specific formal template.
-8. Write only approved source-grounded values into approved value cells.
-9. Hide empty/unsupported rows before numbering. Never leave a bare label row
+7. **基于固定结构的模板覆写:** clone the pinned language-specific formal
+   template, make the semantic/write plan, and write only approved
+   source-grounded values into approved value cells.
+8. **微调:** after fixed writes, hide empty/unsupported rows before numbering.
+   Never leave a bare label row
    or a visible template example without source support.
 10. Reorder the remaining visible main items in semantic order and change only
    their numeric prefixes when the omission policy requires continuity.
 11. Run locked-label, bold-format, geometry, source-coverage, field-mapping,
     output-traceability and whitespace audits.
 12. Render and inspect every page before release.
+
+Before any value cell is cleared or any XML row is inserted/removed, the
+runtime must have a reviewed semantic write/mutation plan. Stage timing and
+fast-check output are diagnostic evidence only; they cannot replace the final
+semantic, locked-format, whitespace, geometry, source-traceability or render
+gates.
 
 ## Empty-value row rule
 

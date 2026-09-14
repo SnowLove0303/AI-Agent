@@ -1,6 +1,6 @@
 MSDS Unified Eight-Deliverable Standardizer Skill
-3.23.0
-Source extraction completeness, semantic Section 11 alignment and protected template rendering
+3.24.0
+Four-stage overwrite workflow, semantic write planning, actionable diagnostics and stage telemetry
 DOCX-first matrix batch and bounded parallel PDF conversion
 WPS converter preflight/version cache and Harness progress checkpoints
 Optional audited DOCX preview and DeepSeek Harness performance runbook

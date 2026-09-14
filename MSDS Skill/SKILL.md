@@ -3,7 +3,7 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS standardization skill that discovers supported source files, binds source-grounded facts to synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, preserves locked templates, and releases four DOCX plus four PDF deliverables only after semantic and render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.23.0
+# Unified MSDS Eight-Deliverable Standardizer v3.24.0
 
 ## Mandatory v2.9 inheritance (release blocker)
 
@@ -73,7 +73,26 @@ This package remains an additive superset of the Chinese v2.9 overwrite core. Ma
 ## 1. Architecture: one truth, two language layers, two company overlays
 Use this pipeline:
 
-`source facts -> normalized semantic model -> omission/mapping -> CN/EN language layer -> Guanzhi/Guocai company overlay -> DOCX -> audits -> render QA`
+`全量抽取源文件信息 -> 基于约束的信息归纳 -> 基于固定结构的模板覆写 -> 微调（不显示/重排序等） -> audits -> render QA`
+
+The four stages are a hard business contract, not merely an implementation
+description. The active machine-readable and explanatory rules are in
+[`openspec/efficiency_contract.json`](openspec/efficiency_contract.json) and
+[`openspec/efficiency_contract.md`](openspec/efficiency_contract.md):
+
+1. Extract every source unit, nested table and image into a source-bound
+   inventory and fact ledger. Do not mutate a template.
+2. Normalize, map, take/omit and derive only under the source and section
+   contracts. Review provenance and CN/EN traceability before any DOCX write.
+3. Clone the pinned template, resolve a semantic write plan, and overwrite
+   approved value cells while preserving all template-owned labels, sequence,
+   boldness, formatting and geometry.
+4. Apply only authorized empty-row suppression, source-backed styled-row
+   insertion, merge repair and prefix-only renumbering; then run all audits.
+
+`scripts/efficiency_contract.py` validates this contract and records low-cost
+stage timings. A fast checkpoint or timing record is diagnostic evidence only;
+it cannot replace the final release gates.
 
 Hard rules:
 - **Source MSDS controls product facts.**
@@ -209,7 +228,15 @@ Do not make the English product name chemically narrower than the Chinese source
 
 ## 6. Continuous numbering
 Processing order is mandatory:
-`source extraction -> normalized semantic model -> fresh formal-template clone -> semantic mapping -> missing/unsupported suppression -> continuous renumber/order -> approved value-cell writes -> template format-anchor audit -> geometry/semantic audits -> render QA`
+`全量抽取源文件信息 -> 基于约束的信息归纳 -> 基于固定结构的模板覆写 -> 微调（不显示/重排序等） -> template/semantic audits -> render QA`
+
+Semantic mapping,取舍, CN/EN projection and traceability belong to the second
+stage. The fixed-template stage first resolves the complete semantic write plan
+and then writes approved value cells. Empty-row suppression, authorized row
+insertion and prefix-only renumbering belong to the fourth stage, after fixed
+writes and before the final audits. This order is also enforced by
+`openspec/efficiency_contract.json`; a fast checkpoint must never replace a
+final release gate.
 
 Every ordinary section's visible main numbered items must be continuous `N.1, N.2, N.3...` after omission. Unnumbered child rows and H/P lines do not consume main numbers. Sections 11 and 12 retain their standard source-defined endpoint numbers after source-gated omission; their audit requires ordered, non-reappearing endpoint numbers rather than renumbering a canonical endpoint such as 11.7. Adjacent repeated numbers are allowed for subrows belonging to one main item, especially Section 11 acute-toxicity routes.
 
@@ -654,6 +681,11 @@ work and makes a Harness run appear stalled.
   files are diagnostic checkpoints and are never the formal release output.
 - `--no-pdf` is a fast DOCX-only diagnostic/smoke mode. It must not be used to
   claim the default eight-file release.
+- V3.24 writes `timing.stage_events` and `timing.stage_totals` into
+  `matrix-report.json`, covering source/semantic preparation, fixed-template
+  writes, post-overwrite fine-tuning, release audits and PDF conversion. Use
+  these observations to locate a bottleneck; do not turn the rough historical
+  percentages into a time guarantee.
 
 Recommended Harness invocation:
 

@@ -10,6 +10,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from efficiency_contract import validate_efficiency_spec
+
 
 SKILL_ROOT = Path(__file__).resolve().parent.parent
 SPEC_PATH = SKILL_ROOT / "openspec" / "agent_overwrite_contract.json"
@@ -39,6 +41,7 @@ def validate_spec_installation() -> list[str]:
     for relative in spec.get("read_before_action", []):
         if not (SKILL_ROOT / relative).is_file():
             errors.append(f"required normative source is missing: {relative}")
+    errors.extend(f"efficiency OpenSpec: {error}" for error in validate_efficiency_spec())
     return errors
 
 

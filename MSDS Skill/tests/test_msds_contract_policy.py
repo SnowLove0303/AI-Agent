@@ -13,7 +13,9 @@ from missing_data_policy import (  # noqa: E402
     classify_source_value,
 )
 from msds_pipeline import (  # noqa: E402
+    apply_post_overwrite_fine_tuning,
     format_revision_date,
+    plan_body_write,
     suppress_empty_s82_engineering_control,
     write_body,
     write_header_footer,
@@ -176,6 +178,29 @@ def test_s11_compressed_facts_are_aligned_by_endpoint_before_rows_are_hidden():
     assert teratogenicity[1][-1] == "无数据资料。"
     assert not any("吸入：" in label or "经皮：" in label for label, _ in visible)
     assert all("\n\n" not in value for _, values in visible for value in values)
+
+
+def test_write_plan_is_resolved_before_row_mutation():
+    document = Document(str(TEMPLATE))
+    facts = {f"s{section}": [] for section in range(1, 17)}
+    facts["s9"] = [[f"9.{index}", f"value-{index}"] for index in range(1, 25)]
+    facts["s11"] = [["该产品无可用的毒理学研究。"]]
+    plans, policy_facts = plan_body_write(document, facts, "zh")
+    assert len(document.tables[8].rows) == 24
+    s9 = next(plan for plan in plans if plan.section == 9)
+    assert s9.inserted_data_rows == 1
+    assert s9.semantic_mode == "field_rows"
+    assert len(policy_facts["s11"]) == len(next(plan for plan in plans if plan.section == 11).rows)
+    assert len(policy_facts["s11"]) > len(facts["s11"])
+
+
+def test_post_overwrite_fine_tuning_is_explicit_and_bounded():
+    document = Document(str(TEMPLATE))
+    facts = {f"s{section}": [] for section in range(1, 17)}
+    facts["s11"] = [["该产品无可用的毒理学研究。"]]
+    result = apply_post_overwrite_fine_tuning(document, facts)
+    assert result["source_presence_policy"]["note_only"]["s11"] is True
+    assert result["section2_policy"]["removed_count"] >= 1
 
 
 def test_s11_alignment_rejects_unclassified_endpoint_instead_of_guessing():

@@ -1,4 +1,4 @@
-# MSDS Skill 3.23.0
+# MSDS Skill 3.24.0
 
 `MSDS Skill` is the controlled MSDS/SDS standardization skill for producing synchronized Chinese and English deliverables for the Guanzhi and Guocai company profiles.
 
@@ -47,6 +47,11 @@
 - Source interpretation,取舍 and semantic line-break rules are documented in
   `docs/source_interpretation_playbook.md` and enforced by
   `scripts/source_interpretation_contract.py`.
+- V3.24 fixes the business-stage boundary: the runtime fully extracts source
+  information first, performs constrained semantic normalization second,
+  overwrites a fixed cloned template third, and performs only bounded
+  hide/insert/renumber fine-tuning last. The active contract is
+  `openspec/efficiency_contract.md`.
 
 ## Entrypoint
 
@@ -54,7 +59,7 @@ Read [`SKILL.md`](SKILL.md) for the operating contract. The reusable scripts, te
 
 ## Version
 
-Public release: `MSDS Skill 3.23.0`
+Public release: `MSDS Skill 3.24.0`
 
 Template baseline: the current user-supplied formal CN/EN templates are adopted
 byte-for-byte. CN SHA-256 is
@@ -66,7 +71,9 @@ from the distributable package. Rollback evidence must be stored outside the
 active skill directory.
 
 The public release contains current Skill source and validation assets only.
-Version 3.23.0 adds nested-table source extraction, semantic Section 11
+Version 3.24.0 adds the four-stage overwrite contract, precomputed semantic
+write plans, actionable expected/actual/diff/hint diagnostics and stage
+telemetry. Version 3.23.0 adds nested-table source extraction, semantic Section 11
 endpoint-skeleton alignment, safe merged-row omission, five-character Section
 9 prefix spacing, source-backed NCO property splitting, source-sized pictogram
 insertion and current localized revision-date stamping with the template's `P`
@@ -86,7 +93,9 @@ exact: only label-value cells, empty/hide decisions and necessary styled
 data-row changes are allowed; labels, sequence, bold formatting and document
 layout are immutable.
 Customer-specific generated files, temporary runs, rendered QA images and
-interpreter caches are not part of the release.
+interpreter caches are not part of the release. Stage timings are observational
+and are not a fixed SLA; fast feedback never bypasses final semantic, format,
+geometry, whitespace, source or render gates.
 
 ## DeepSeek Harness run
 

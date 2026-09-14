@@ -77,12 +77,12 @@ def validate_section_template(document, language: str) -> None:
         raise SectionRuleViolation(f"S8.2 header mismatch: expected {expected_header}, found {header}")
 
 
-def validate_section_payload(section: int, rows, table) -> None:
+def validate_section_payload(section: int, rows, table, *, check_capacity: bool = True) -> None:
     """Reject positional/scalar payloads before they reach a template row."""
     rule = rule_for(section)
     if not isinstance(rows, list):
         raise SectionRuleViolation(f"S{rule.section} requires a list of semantic rows")
-    if section not in {3, 8} and len(rows) > len(table.rows) - 1:
+    if check_capacity and section not in {3, 8} and len(rows) > len(table.rows) - 1:
         raise SectionRuleViolation(
             f"S{section} payload exceeds template capacity: {len(rows)} > {len(table.rows) - 1}"
         )
