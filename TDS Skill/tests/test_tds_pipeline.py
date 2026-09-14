@@ -11,7 +11,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from docx import Document
 from overwrite_tds import write_variant
 from audit_tds_eight import audit_shape
-from tds_common import feature_spacing_signature, load, numbering_shape, package_inventory
+from tds_common import feature_spacing_signature, load, numbering_shape, package_inventory, paragraph_shape
 
 
 def test_all_four_variants_are_fresh_clones(tmp_path):
@@ -138,6 +138,20 @@ def test_feature_overflow_clones_template_item_style(tmp_path):
     assert feature_layout_signature(items[2]) == feature_layout_signature(base.paragraphs[22])
     assert numbering_shape(items[2]) == numbering_shape(base.paragraphs[22])
     assert audit_shape(base, doc, registry["variants"]["TDS_CN_冠志模板"], mapping)
+
+
+def test_text_replacement_preserves_template_run_shapes(tmp_path):
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
+    mapping["mapped_fields"]["product.features"]["values"]["zh-CN"] += "\n低气味。"
+    for variant_id in ("TDS_CN_冠志模板", "TDS_EN_冠志模板"):
+        output = tmp_path / f"run-shape-{variant_id}.docx"
+        write_variant(mapping, registry, variant_id, output)
+        doc = Document(str(output))
+        base = Document(str(ROOT / registry["variants"][variant_id]["template"]))
+        indices = registry["variants"][variant_id]["feature_format_contract"]["paragraph_indices"]
+        assert [paragraph_shape(doc.paragraphs[i]) for i in indices] == [paragraph_shape(base.paragraphs[i]) for i in indices]
+        assert audit_shape(base, doc, registry["variants"][variant_id], mapping)
 
 
 def test_unknown_bilingual_metric_is_paired_by_source_order(tmp_path):

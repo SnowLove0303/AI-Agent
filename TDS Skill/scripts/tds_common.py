@@ -46,15 +46,27 @@ def iter_cell_paragraphs(cell: _Cell):
             for row in block.rows:
                 for nested in row.cells: yield from iter_cell_paragraphs(nested)
 
+def _text_anchor_run(runs):
+    """Choose the template run carrying the longest original text.
+
+    The run is a formatting anchor only; all existing runs remain in place so
+    replacement changes text nodes, not the template's run structure.
+    """
+    return max(runs, key=lambda run: len(run.text or ''), default=None)
+
 def replace_paragraph(p: Paragraph, text: str) -> None:
+    """Replace text while preserving every template paragraph/run property."""
     runs=list(p.runs)
-    if not runs: p.add_run(text); return
-    runs[0].text=text
-    for run in runs[1:]: run.text=''
+    target=_text_anchor_run(runs)
+    if target is None:
+        p.add_run(text)
+        return
+    for run in runs:
+        run.text=text if run is target else ''
 
 def replace_feature_paragraph(p: Paragraph, text: str) -> None:
-    """Use paragraph-level template formatting for CJK feature text."""
-    p.text=text
+    """Replace feature text without rebuilding or restyling the paragraph."""
+    replace_paragraph(p, text)
 
 def replace_cell(cell: _Cell, text: str) -> None:
     if not cell.paragraphs: cell.add_paragraph(text)

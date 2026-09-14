@@ -8,7 +8,6 @@ def shape(s):
     s=json.loads(json.dumps(s));
     for p in s['paragraphs']:
         p['text']=''
-        if p['shape'].get('numbering'): p['shape']['runs']=[]
     for t in s['tables']:
         for row in t['rows']:
             for c in row['cells']: c['text']=''
@@ -183,9 +182,9 @@ def main():
                     semantic_methods(source_row,v['language']) or source_row.get('test_method','') or ''
                 ])
             if actual!=expected: errors.append(f'performance_source_parity:{vid}')
-    pdfs=[] if args.docx_only else sorted(pdf_dir.glob('*.pdf'))
+    pdfs=[] if args.docx_only else [p for p in pdf_dir.glob('*.pdf') if '_TDS_' in p.name]
     if not args.docx_only and len(pdfs)!=4: errors.append(f'pdf_count:{len(pdfs)}')
-    docxs=sorted(docx_dir.glob('*.docx'))
+    docxs=[p for p in docx_dir.glob('*.docx') if '_TDS_' in p.name]
     if len(docxs)!=4: errors.append(f'docx_count:{len(docxs)}')
     report={'schema_version':'1.2.0','status':'DOCX_PREFLIGHT_PASS' if args.docx_only and not errors else 'RELEASE_PASS' if not errors else 'RELEASE_FAIL','release_blocker':bool(errors),'docx_count':len(docxs),'pdf_count':len(pdfs),'docx_only':args.docx_only,'errors':sorted(set(errors)),'warnings':sorted(set(warnings)),'normalization_model_status':model.get('status','legacy-mapping'),'translation_source':model.get('translation',{}).get('source','legacy-mapping'),'variants':results,'customer_ready':False,'ready_for_user_proofreading':not errors and not warnings}
     dump(args.report,report); print(f"status={report['status']} errors={len(errors)}")
