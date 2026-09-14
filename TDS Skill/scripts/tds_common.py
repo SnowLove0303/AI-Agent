@@ -71,7 +71,9 @@ def replace_feature_paragraph(p: Paragraph, text: str) -> None:
 def replace_cell(cell: _Cell, text: str) -> None:
     if not cell.paragraphs: cell.add_paragraph(text)
     else:
-        replace_paragraph(cell.paragraphs[0],text)
+        paragraph=cell.paragraphs[0]
+        if text or paragraph.runs:
+            replace_paragraph(paragraph,text)
         for p in cell.paragraphs[1:]: replace_paragraph(p,'')
 
 def xml_attrs(element):
@@ -209,8 +211,9 @@ def hidden_block_indices(paragraphs, lang: str, slots: dict, hidden_ids) -> set|
     """Template-authority hiding rule shared by overwrite and audit: a hidden section loses its heading, its body paragraphs and its own adjacent blank separators (one leading, one trailing). Returns None when a heading cannot be located (fail closed)."""
     kill=set()
     for fid in hidden_ids:
-        head=SECTION_HEADINGS[fid][lang]
-        hi=next((i for i,p in enumerate(paragraphs) if p.text.strip()==head),None)
+        heads={SECTION_HEADINGS[fid][lang]}
+        if lang=='en-US': heads.add(OUTPUT_HEADINGS[fid][lang])
+        hi=next((i for i,p in enumerate(paragraphs) if p.text.strip() in heads),None)
         if hi is None: return None
         kill.add(hi)
         loc=slots[fid]['locator']

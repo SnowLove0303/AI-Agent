@@ -273,7 +273,7 @@
     },
     "TDS_EN_冠志模板": {
       "template": "templates\\active\\TDS_EN_冠志模板.docx",
-      "template_sha256": "5cab6551aedb414144d488ad8b2f8e818a1211adbf9d93c10e61bce09a8a29cf",
+      "template_sha256": "b1c4a677ceb1c364a9f0c79c824b4721ffe10ae330bcc7069538b67f63872f33",
       "language": "en-US",
       "company": "guanzhi",
       "slots": [
@@ -303,8 +303,10 @@
           "kind": "paragraph_list",
           "locator": {
             "paragraph_indices": [
+              20,
               21,
-              22
+              22,
+              23
             ]
           }
         },
@@ -383,15 +385,17 @@
       },
       "feature_extension": {
         "allowed": true,
-        "paragraph_template_index": 22,
+        "paragraph_template_index": 23,
         "separator_paragraph_index": 23,
-        "insert_after_paragraph_index": 22,
+        "insert_after_paragraph_index": 23,
         "max_items": 100
       },
       "feature_format_contract": {
         "paragraph_indices": [
+          20,
           21,
-          22
+          22,
+          23
         ],
         "numbering": "enabled",
         "number_start_twips": 480,
@@ -408,7 +412,7 @@
     },
     "TDS_EN_国彩模板": {
       "template": "templates\\active\\TDS_EN_国彩模板.docx",
-      "template_sha256": "0a289335c6e7d0acdc4d8f9174b9bfdf05a3ae6afb29e1e37b5ee04a8d96560c",
+      "template_sha256": "6cc205a9e90d544f7488523f2217765280dfc5f6865494dcdc78eede057e67b6",
       "language": "en-US",
       "company": "guocai",
       "slots": [
@@ -438,8 +442,10 @@
           "kind": "paragraph_list",
           "locator": {
             "paragraph_indices": [
+              20,
               21,
-              22
+              22,
+              23
             ]
           }
         },
@@ -518,15 +524,17 @@
       },
       "feature_extension": {
         "allowed": true,
-        "paragraph_template_index": 22,
+        "paragraph_template_index": 23,
         "separator_paragraph_index": 23,
-        "insert_after_paragraph_index": 22,
+        "insert_after_paragraph_index": 23,
         "max_items": 100
       },
       "feature_format_contract": {
         "paragraph_indices": [
+          20,
           21,
-          22
+          22,
+          23
         ],
         "numbering": "enabled",
         "number_start_twips": 480,
