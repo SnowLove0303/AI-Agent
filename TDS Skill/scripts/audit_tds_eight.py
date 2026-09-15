@@ -2,7 +2,7 @@ from __future__ import annotations
 import argparse, hashlib, json, re, subprocess, zipfile
 from pathlib import Path
 from docx import Document
-from tds_common import OUTPUT_HEADINGS, PERFORMANCE_TOPOLOGIES, ROOT, SECTION_HEADINGS, dump, hidden_block_indices, hidden_field_ids, load, package_inventory, performance_topology, sha256, doc_snapshot
+from tds_common import OUTPUT_HEADINGS, PERFORMANCE_TOPOLOGIES, ROOT, SECTION_HEADINGS, apply_vertical_budget_snapshot, body_blank_count, dump, hidden_block_indices, hidden_field_ids, load, package_inventory, performance_topology, sha256, doc_snapshot, trim_body_blank_snapshot
 
 def shape(s):
     s=json.loads(json.dumps(s));
@@ -50,7 +50,8 @@ def topology_template(table, variant, topology):
     return table
 
 def audit_shape(base_doc, output_doc, variant, mapping):
-    left, right = shape(doc_snapshot(base_doc)), shape(doc_snapshot(output_doc))
+    base_snapshot=doc_snapshot(base_doc); output_snapshot=doc_snapshot(output_doc)
+    left, right = shape(base_snapshot), shape(output_snapshot)
     left_table, right_table = left['tables'][0], right['tables'][0]
     topology=performance_topology(mapping,variant); spec=variant.get('performance_table',{}); widths=spec.get('topology_widths',{}).get(topology)
     if topology not in PERFORMANCE_TOPOLOGIES or topology not in spec.get('allowed_topologies',[]) or not widths: return False
@@ -79,12 +80,40 @@ def audit_shape(base_doc, output_doc, variant, mapping):
         count=max(0,len([x for x in (values.get(lang,'') or '').splitlines() if x.strip()])-1)
         if count:
             original=slot['locator']['paragraph_index']; inserts[original]=inserts.get(original,0)+count
+    expected_slot_texts={}
+    for fid,slot in slots.items():
+        if fid in set(hidden_field_ids(mapping)): continue
+        item=fields.get(fid,{}) or {}; values=item.get('normalized_values',item.get('values',{})) or {}
+        if slot.get('kind')=='paragraph':
+            expected_slot_texts[slot['locator']['paragraph_index']]='__value__'
+        elif slot.get('kind')=='paragraph_list':
+            lines=[x.strip() for x in (values.get(lang,'') or '').splitlines() if x.strip()]
+            for index,original in enumerate(slot['locator']['paragraph_indices']):
+                expected_slot_texts[original]=lines[index] if index<len(lines) else '__value__' if index==0 else ''
     expected_paragraphs=[]
-    for original,paragraph in enumerate(left['paragraphs']):
+    for original,paragraph in enumerate(base_snapshot['paragraphs']):
         if original in hide or original in tail_trim: continue
-        expected_paragraphs.append(paragraph)
-        for _ in range(inserts.get(original,0)): expected_paragraphs.append(json.loads(json.dumps(paragraph)))
-    if expected_paragraphs != right['paragraphs']: return False
+        template_paragraph=json.loads(json.dumps(paragraph))
+        if original in expected_slot_texts: template_paragraph['text']=expected_slot_texts[original]
+        expected_paragraphs.append(template_paragraph)
+        for _ in range(inserts.get(original,0)): expected_paragraphs.append(json.loads(json.dumps(template_paragraph)))
+    expected_snapshot=json.loads(json.dumps(base_snapshot)); expected_snapshot['paragraphs']=expected_paragraphs
+    expected_snapshot['paragraphs']=trim_body_blank_snapshot(expected_snapshot['paragraphs'],variant)
+    output_snapshot['paragraphs']=trim_body_blank_snapshot(output_snapshot['paragraphs'],variant)
+    total_items=0
+    fields=semantic_fields(mapping)
+    feature_item=fields.get('product.features',{}) or {}
+    feature_values=(feature_item.get('normalized_values',feature_item.get('values',{})) or {}).get(variant['language'],'') or ''
+    total_items+=len([x for x in feature_values.splitlines() if x.strip()])
+    for fid,slot in slots.items():
+        if slot.get('kind')=='paragraph' and fid!='product.title' and fid not in set(hidden_field_ids(mapping)):
+            values=(fields.get(fid,{}) or {}).get('normalized_values',(fields.get(fid,{}) or {}).get('values',{})) or {}
+            total_items+=len([x for x in (values.get(variant['language'],'') or '').splitlines() if x.strip()])
+    apply_vertical_budget_snapshot(expected_snapshot['paragraphs'],variant,total_items)
+    apply_vertical_budget_snapshot(output_snapshot['paragraphs'],variant,total_items)
+    expected=shape(expected_snapshot)
+    right=shape(output_snapshot)
+    if expected['paragraphs'] != right['paragraphs']: return False
     source_rows=semantic_rows(mapping)
     if source_rows is not None:
         start=variant.get('performance_table',{}).get('data_start_row_index',1)
@@ -121,11 +150,17 @@ def pdf_page_count(path: Path) -> int:
     try:
         from pypdf import PdfReader
         return len(PdfReader(str(path)).pages)
-    except ImportError:
+    except Exception:
+        data=path.read_bytes()
+        count=len(re.findall(rb'/Type\s*/Page\b',data))
+        if count: return count
+    try:
         result=subprocess.run(['pdfinfo',str(path)],capture_output=True,text=True,encoding='utf-8',errors='replace',check=False)
         match=re.search(r'^Pages:\s*(\d+)$',result.stdout,re.MULTILINE)
         if result.returncode or not match: raise RuntimeError('no PDF page-count reader available')
         return int(match.group(1))
+    except FileNotFoundError as exc:
+        raise RuntimeError('no PDF page-count reader available: install pypdf or provide pdfinfo') from exc
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--output-dir',type=Path,required=True); ap.add_argument('--registry',type=Path,required=True); ap.add_argument('--mapping',type=Path,required=True); ap.add_argument('--model',required=True); ap.add_argument('--report',type=Path,required=True); ap.add_argument('--docx-only',action='store_true'); ap.add_argument('--conversion-evidence-dir',type=Path); args=ap.parse_args()
     docx_dir=args.output_dir/'WORD' if (args.output_dir/'WORD').is_dir() else args.output_dir
@@ -170,6 +205,10 @@ def main():
         if not feature_ok: errors.append(f'feature_format_contract_changed:{vid}')
         layout_errs=audit_layout(base,product,vid,v,mapping)
         errors.extend(layout_errs)
+        if v.get('body_blank_trim',{}).get('allowed',False):
+            blank_count=body_blank_count(product,v)
+            if blank_count>int(v['body_blank_trim'].get('max_body_blank_paragraphs',4)):
+                errors.append(f'body_blank_count_exceeded:{vid}:{blank_count}>{v["body_blank_trim"].get("max_body_blank_paragraphs",4)}')
         parts0=package_inventory(ROOT/v['template']); parts1=package_inventory(out)
         for part,h in parts0.items():
             if part!='word/document.xml' and parts1.get(part)!=h: errors.append(f'package_part_changed:{vid}:{part}')

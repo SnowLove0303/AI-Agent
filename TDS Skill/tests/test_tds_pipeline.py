@@ -11,8 +11,8 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from docx import Document
 from docx.oxml.ns import qn
 from overwrite_tds import write_variant
-from audit_tds_eight import audit_shape
-from tds_common import feature_spacing_signature, load, numbering_shape, package_inventory, paragraph_shape
+from audit_tds_eight import audit_shape, pdf_page_count
+from tds_common import body_blank_count, feature_spacing_signature, load, numbering_shape, package_inventory, paragraph_shape
 
 
 def test_all_four_variants_are_fresh_clones(tmp_path):
@@ -212,7 +212,12 @@ def test_text_replacement_preserves_template_run_shapes(tmp_path):
         doc = Document(str(output))
         base = Document(str(ROOT / registry["variants"][variant_id]["template"]))
         indices = registry["variants"][variant_id]["feature_format_contract"]["paragraph_indices"]
-        assert [paragraph_shape(doc.paragraphs[i]) for i in indices] == [paragraph_shape(base.paragraphs[i]) for i in indices]
+        head = next(i for i, p in enumerate(doc.paragraphs) if p.text.strip() == ("【产品特性】" if registry["variants"][variant_id]["language"] == "zh-CN" else "Product Features"))
+        next_heading = "【应用】" if registry["variants"][variant_id]["language"] == "zh-CN" else "Application"
+        end = next(i for i in range(head + 1, len(doc.paragraphs)) if doc.paragraphs[i].text.strip() == next_heading)
+        items = [p for p in doc.paragraphs[head + 1:end] if p.text.strip()]
+        expected_indices = indices + ([registry["variants"][variant_id]["feature_extension"]["paragraph_template_index"]] if registry["variants"][variant_id]["language"] == "zh-CN" else [])
+        assert [paragraph_shape(p) for p in items] == [paragraph_shape(base.paragraphs[i]) for i in expected_indices]
         assert audit_shape(base, doc, registry["variants"][variant_id], mapping)
 
 
@@ -489,3 +494,58 @@ def test_no_intra_paragraph_line_breaks_in_any_variant(tmp_path):
             for row in table.rows:
                 for cell in row.cells:
                     assert all("\n" not in p.text and "\r" not in p.text for p in cell.paragraphs)
+
+
+def test_body_blank_trim_removes_placeholder_rows_and_keeps_compact_section_gaps(tmp_path):
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
+    for variant_id, variant in registry["variants"].items():
+        output = tmp_path / f"body-blank-{variant_id}.docx"
+        write_variant(mapping, registry, variant_id, output)
+        doc = Document(str(output))
+        assert body_blank_count(doc, variant) <= 4
+        start = next(i for i, p in enumerate(doc.paragraphs) if p.text.strip() in {"【产品描述】", "Product Description"})
+        for paragraph in doc.paragraphs[start:]:
+            if not paragraph.text.strip():
+                spacing = paragraph._p.pPr.find(qn("w:spacing"))
+                assert spacing is not None and spacing.get(qn("w:line")) == "120"
+        generation = json.loads(output.with_suffix(output.suffix + ".generation.json").read_text(encoding="utf-8"))
+        assert generation["body_blank_paragraph_count"] <= 4
+        assert audit_shape(Document(str(ROOT / variant["template"])), doc, variant, mapping)
+
+
+def test_english_vertical_budget_preserves_template_indent(tmp_path):
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
+    values = mapping["mapped_fields"]
+    values["product.description"]["values"]["en-US"] = "Description line one.\nDescription line two."
+    values["product.supply_form"]["values"]["en-US"] = "Supply line one.\nSupply line two."
+    values["product.features"]["values"]["en-US"] = "Feature one.\nFeature two.\nFeature three.\nFeature four.\nFeature five."
+    values["product.application"]["values"]["en-US"] = "Application line one.\nApplication line two.\nApplication line three.\nApplication line four.\nApplication line five."
+    values["product.storage"]["values"]["en-US"] = "Storage line one.\nStorage line two.\nStorage line three."
+    variant = registry["variants"]["TDS_EN_冠志模板"]
+    output = tmp_path / "english-budget.docx"
+    write_variant(mapping, registry, "TDS_EN_冠志模板", output)
+    doc = Document(str(output))
+    headings = {"Product Description", "Supply Form", "Product Features", "Application", "Storage"}
+    body_start = next(i for i, p in enumerate(doc.paragraphs) if p.text.strip() == "Product Description")
+    body = [p for p in doc.paragraphs[body_start:] if p.text.strip() and p.text.strip() not in headings]
+    assert body
+    for paragraph in body:
+        spacing = paragraph._p.pPr.find(qn("w:spacing"))
+        assert spacing is not None and spacing.get(qn("w:line")) == "260" and spacing.get(qn("w:after")) == "40"
+    ind = body[0]._p.pPr.find(qn("w:ind"))
+    assert ind is not None and ind.get(qn("w:firstLineChars")) == "200" and ind.get(qn("w:firstLine")) == "480"
+    feature = next(p for p in body if p.text == "Feature one.")
+    feature_ind = feature._p.pPr.find(qn("w:ind"))
+    assert feature_ind is not None and feature_ind.get(qn("w:left")) == "840" and feature_ind.get(qn("w:hanging")) == "360"
+    generation = json.loads(output.with_suffix(output.suffix + ".generation.json").read_text(encoding="utf-8"))
+    assert generation["english_vertical_budget_applied"] is True
+    assert audit_shape(Document(str(ROOT / variant["template"])), doc, variant, mapping)
+
+
+def test_pdf_page_count_uses_pure_python_fallback_when_pypdf_is_unavailable(tmp_path, monkeypatch):
+    pdf = tmp_path / "fallback.pdf"
+    pdf.write_bytes(b"%PDF-1.4\n1 0 obj << /Type /Page >>\n2 0 obj << /Type /Page >>\n")
+    monkeypatch.setitem(sys.modules, "pypdf", None)
+    assert pdf_page_count(pdf) == 2

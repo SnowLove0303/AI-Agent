@@ -7,6 +7,7 @@ from typing import Iterable
 from docx.document import Document as DocumentObject
 from docx.table import _Cell, Table
 from docx.text.paragraph import Paragraph
+from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -259,3 +260,99 @@ def hidden_block_indices(paragraphs, lang: str, slots: dict, hidden_ids) -> set|
         nxt=body_max+1
         if nxt<len(paragraphs) and not paragraphs[nxt].text.strip(): kill.add(nxt)
     return kill
+
+def body_heading_texts(variant: dict) -> set[str]:
+    lang=variant['language']
+    return {SECTION_HEADINGS[field][lang] for field in HIDEABLE_FIELDS} | {OUTPUT_HEADINGS[field][lang] for field in HIDEABLE_FIELDS}
+
+def _compact_blank_paragraph(paragraph, line_twips: int) -> None:
+    pPr=paragraph._p.get_or_add_pPr()
+    spacing=pPr.find(qn('w:spacing'))
+    if spacing is None:
+        spacing=OxmlElement('w:spacing'); pPr.append(spacing)
+    spacing.set(qn('w:line'),str(line_twips)); spacing.set(qn('w:lineRule'),'exact')
+
+def _compact_blank_snapshot(paragraph: dict, line_twips: int) -> None:
+    spacing=paragraph.setdefault('shape',{}).setdefault('spacing',{})
+    xml=dict(spacing.get('xml') or {})
+    xml['line']=str(line_twips); xml['lineRule']='exact'
+    spacing['xml']=xml
+    spacing['line_spacing']=str(int(line_twips)*635)
+    spacing['line_spacing_rule']='EXACTLY (4)'
+
+def trim_body_blank_paragraphs(doc, variant: dict) -> int:
+    """Remove template body placeholders while retaining one compact section gap."""
+    policy=variant.get('body_blank_trim',{})
+    if not policy.get('allowed',False): return 0
+    paragraphs=list(doc.paragraphs); headings=body_heading_texts(variant)
+    start=next((i for i,p in enumerate(paragraphs) if p.text.strip() in headings),None)
+    if start is None: return 0
+    removed=0; kept_gap=False
+    for i in range(len(paragraphs)-1,start-1,-1):
+        if paragraphs[i].text.strip():
+            kept_gap=False
+            continue
+        previous=next((paragraphs[j].text.strip() for j in range(i-1,start-1,-1) if paragraphs[j].text.strip()),'')
+        following=next((paragraphs[j].text.strip() for j in range(i+1,len(paragraphs)) if paragraphs[j].text.strip()),'')
+        keep=bool(following in headings and (previous or i == start)) and not kept_gap
+        if keep:
+            _compact_blank_paragraph(paragraphs[i],int(policy.get('compact_line_twips',120)))
+            kept_gap=True
+        else:
+            paragraphs[i]._p.getparent().remove(paragraphs[i]._p); removed+=1
+    return removed
+
+def trim_body_blank_snapshot(paragraphs: list[dict], variant: dict) -> list[dict]:
+    """Mirror trim_body_blank_paragraphs for geometry audit snapshots."""
+    policy=variant.get('body_blank_trim',{})
+    if not policy.get('allowed',False): return paragraphs
+    headings=body_heading_texts(variant)
+    start=next((i for i,p in enumerate(paragraphs) if p.get('text','').strip() in headings),None)
+    if start is None: return paragraphs
+    kept=[]; kept_gap=False
+    for i,p in enumerate(paragraphs):
+        if i<start or p.get('text','').strip():
+            kept.append(p); kept_gap=False if p.get('text','').strip() else kept_gap
+            continue
+        previous=next((paragraphs[j].get('text','').strip() for j in range(i-1,start-1,-1) if paragraphs[j].get('text','').strip()),'')
+        following=next((paragraphs[j].get('text','').strip() for j in range(i+1,len(paragraphs)) if paragraphs[j].get('text','').strip()),'')
+        keep=bool(following in headings and (previous or i == start)) and not kept_gap
+        if keep:
+            _compact_blank_snapshot(p,int(policy.get('compact_line_twips',120))); kept.append(p); kept_gap=True
+    return kept
+
+def body_blank_count(doc, variant: dict) -> int:
+    headings=body_heading_texts(variant); start=next((i for i,p in enumerate(doc.paragraphs) if p.text.strip() in headings),None)
+    return 0 if start is None else sum(1 for p in doc.paragraphs[start:] if not p.text.strip())
+
+def vertical_budget_enabled(variant: dict, total_items: int) -> bool:
+    policy=variant.get('english_vertical_budget',{})
+    return variant.get('language')=='en-US' and policy.get('allowed',False) and total_items>int(policy.get('threshold_total_items',16))
+
+def apply_vertical_budget(doc, variant: dict, total_items: int) -> bool:
+    if not vertical_budget_enabled(variant,total_items): return False
+    policy=variant['english_vertical_budget']; headings=body_heading_texts(variant); start=next((i for i,p in enumerate(doc.paragraphs) if p.text.strip() in headings),None)
+    if start is None: return False
+    for paragraph in doc.paragraphs[start:]:
+        if paragraph.text.strip() and paragraph.text.strip() not in headings:
+            pPr=paragraph._p.get_or_add_pPr(); spacing=pPr.find(qn('w:spacing'))
+            if spacing is None:
+                spacing=OxmlElement('w:spacing'); pPr.append(spacing)
+            spacing.set(qn('w:line'),str(policy.get('line_twips',260)))
+            spacing.set(qn('w:lineRule'),'exact')
+            spacing.set(qn('w:after'),str(policy.get('after_twips',40)))
+    return True
+
+def apply_vertical_budget_snapshot(paragraphs: list[dict], variant: dict, total_items: int) -> None:
+    if not vertical_budget_enabled(variant,total_items): return
+    policy=variant['english_vertical_budget']; headings=body_heading_texts(variant); start=next((i for i,p in enumerate(paragraphs) if p.get('text','').strip() in headings),None)
+    if start is None: return
+    for paragraph in paragraphs[start:]:
+        text=paragraph.get('text','').strip()
+        if text and text not in headings:
+            spacing=paragraph.setdefault('shape',{}).setdefault('spacing',{})
+            line_twips=int(policy.get('line_twips',260)); after_twips=int(policy.get('after_twips',40))
+            spacing['xml']={'line':str(line_twips),'lineRule':'exact','after':str(after_twips)}
+            spacing['line_spacing']=str(line_twips*635)
+            spacing['line_spacing_rule']='EXACTLY (4)'
+            spacing['space_after']=str(after_twips*635)

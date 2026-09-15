@@ -142,6 +142,17 @@
       },
       "tail_blank_trim": {
         "allowed": true
+      },
+      "body_blank_trim": {
+        "allowed": true,
+        "max_body_blank_paragraphs": 4,
+        "compact_line_twips": 120
+      },
+      "english_vertical_budget": {
+        "allowed": false,
+        "threshold_total_items": 16,
+        "line_twips": 260,
+        "after_twips": 40
       }
     },
     "TDS_CN_国彩模板": {
@@ -285,6 +296,17 @@
       },
       "tail_blank_trim": {
         "allowed": true
+      },
+      "body_blank_trim": {
+        "allowed": true,
+        "max_body_blank_paragraphs": 4,
+        "compact_line_twips": 120
+      },
+      "english_vertical_budget": {
+        "allowed": false,
+        "threshold_total_items": 16,
+        "line_twips": 260,
+        "after_twips": 40
       }
     },
     "TDS_EN_冠志模板": {
@@ -428,6 +450,17 @@
       },
       "tail_blank_trim": {
         "allowed": true
+      },
+      "body_blank_trim": {
+        "allowed": true,
+        "max_body_blank_paragraphs": 4,
+        "compact_line_twips": 120
+      },
+      "english_vertical_budget": {
+        "allowed": true,
+        "threshold_total_items": 16,
+        "line_twips": 260,
+        "after_twips": 40
       }
     },
     "TDS_EN_国彩模板": {
@@ -571,6 +604,17 @@
       },
       "tail_blank_trim": {
         "allowed": true
+      },
+      "body_blank_trim": {
+        "allowed": true,
+        "max_body_blank_paragraphs": 4,
+        "compact_line_twips": 120
+      },
+      "english_vertical_budget": {
+        "allowed": true,
+        "threshold_total_items": 16,
+        "line_twips": 260,
+        "after_twips": 40
       }
     }
   }
