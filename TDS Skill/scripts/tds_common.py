@@ -25,6 +25,39 @@ def dump(path: Path, value: object) -> None:
 def load(path: Path) -> dict: return json.loads(path.read_text(encoding='utf-8'))
 def norm(s: str) -> str: return re.sub(r'\s+','', (s or '').strip()).replace('（','(').replace('）',')').replace('：',':')
 
+PERFORMANCE_TOPOLOGIES = {'2-col': 2, '3-col': 3, '4-col': 4}
+
+def _localized_value(item: dict, keys: tuple[str, ...], lang: str|None) -> str:
+    for key in keys:
+        value = item.get(key, '')
+        if isinstance(value, dict): value = value.get(lang or '', '')
+        if value: return str(value).strip()
+    return ''
+
+def infer_performance_topology(rows=None, fields=None, lang: str|None=None) -> str:
+    """Choose the narrowest table topology that preserves source data."""
+    rows_provided = rows is not None
+    rows = rows or []
+    fields = fields or {}
+    has_unit = any(_localized_value(row, ('normalized_unit_values','unit_values','unit'), lang) for row in rows)
+    has_method = any(_localized_value(row, ('normalized_test_method_values','test_method_values','test_method'), lang) for row in rows)
+    if not rows_provided and not has_unit and not has_method:
+        has_unit = any(_localized_value(item, ('unit',), lang) for item in fields.values() if isinstance(item, dict))
+        has_method = any(_localized_value(item, ('test_method',), lang) for item in fields.values() if isinstance(item, dict))
+    return '4-col' if has_method else '3-col' if has_unit else '2-col'
+
+def performance_topology(mapping: dict, variant: dict) -> str:
+    lang = variant['language']
+    model = mapping.get('normalized_model') or {}
+    for source in (mapping.get('performance_table_topology'), model.get('performance_table_topology')):
+        if isinstance(source, dict) and source.get(lang) in PERFORMANCE_TOPOLOGIES:
+            return source[lang]
+    rows = model.get('performance_rows')
+    if rows is None: rows = mapping.get('performance_rows')
+    if rows is None: rows = mapping.get('performance_extra_rows')
+    topology = infer_performance_topology(rows, mapping.get('mapped_fields'), lang)
+    return topology if topology in variant.get('performance_table', {}).get('allowed_topologies', ['4-col']) else variant.get('performance_table', {}).get('default_topology', '4-col')
+
 def iter_blocks(parent: DocumentObject|_Cell):
     elm=parent.element.body if isinstance(parent,DocumentObject) else parent._tc
     for child in elm.iterchildren():

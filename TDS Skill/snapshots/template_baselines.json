@@ -4370,7 +4370,7 @@
     },
     "TDS_EN_冠志模板": {
       "file": "templates\\active\\TDS_EN_冠志模板.docx",
-      "sha256": "18de8c9b88e664c4b95841d934bfe1512ba8e49e2b89f79aa7c6ce6a93a488dc",
+      "sha256": "476615298f199dd744a3899466a6389e1f1ddda29ec1006f027c4120596b5d11",
       "source_file": "templates\\source\\TDS_EN_冠志模板.doc",
       "source_sha256": "7d177b7685223d821745122b358b5e58ee0a1b4c893f985d4a6a32099fa9cb3d",
       "snapshot": {
@@ -4845,7 +4845,7 @@
             "text": "PU-1001 is an aliphatic anionic waterborne polyurethane dispersion with strong adhesion, used to improve interlayer adhesion.",
             "shape": {
               "style": "Normal",
-              "alignment": null,
+              "alignment": "JUSTIFY (3)",
               "numbering": null,
               "spacing": {
                 "xml": {
@@ -4858,7 +4858,7 @@
                 "space_after": "None",
                 "left_indent": "0",
                 "right_indent": "0",
-                "first_line_indent": "None"
+                "first_line_indent": "304800"
               },
               "runs": [
                 {
@@ -4947,7 +4947,7 @@
             "text": "Approx. 22% solids aqueous dispersion.",
             "shape": {
               "style": "Normal",
-              "alignment": null,
+              "alignment": "JUSTIFY (3)",
               "numbering": null,
               "spacing": {
                 "xml": {
@@ -4960,7 +4960,7 @@
                 "space_after": "None",
                 "left_indent": "0",
                 "right_indent": "0",
-                "first_line_indent": "None"
+                "first_line_indent": "304800"
               },
               "runs": [
                 {
@@ -5129,9 +5129,9 @@
                 "line_spacing_rule": "MULTIPLE (5)",
                 "space_before": "None",
                 "space_after": "None",
-                "left_indent": "0",
+                "left_indent": "533400",
                 "right_indent": "0",
-                "first_line_indent": "None"
+                "first_line_indent": "-228600"
               },
               "runs": [
                 {
@@ -5166,9 +5166,9 @@
                 "line_spacing_rule": "MULTIPLE (5)",
                 "space_before": "None",
                 "space_after": "None",
-                "left_indent": "0",
+                "left_indent": "533400",
                 "right_indent": "0",
-                "first_line_indent": "None"
+                "first_line_indent": "-228600"
               },
               "runs": [
                 {
@@ -5245,7 +5245,7 @@
             "text": "PU-1001 forms a very soft film with strong adhesion, suitable for use alone as a tie coat or blended with other materials to improve interlayer adhesion and physical properties without increasing coating stiffness.",
             "shape": {
               "style": "Normal",
-              "alignment": null,
+              "alignment": "JUSTIFY (3)",
               "numbering": null,
               "spacing": {
                 "xml": {
@@ -5258,7 +5258,7 @@
                 "space_after": "None",
                 "left_indent": "0",
                 "right_indent": "0",
-                "first_line_indent": "None"
+                "first_line_indent": "304800"
               },
               "runs": [
                 {
@@ -5357,7 +5357,7 @@
             "text": "Store in a ventilated, dry area at 5-35°C; protect from freezing. Shelf life is 6 months from shipment. Products older than 6 months should be re-evaluated before use.",
             "shape": {
               "style": "Normal",
-              "alignment": null,
+              "alignment": "JUSTIFY (3)",
               "numbering": null,
               "spacing": {
                 "xml": {
@@ -5370,7 +5370,7 @@
                 "space_after": "None",
                 "left_indent": "0",
                 "right_indent": "0",
-                "first_line_indent": "None"
+                "first_line_indent": "304800"
               },
               "runs": [
                 {
@@ -6515,7 +6515,7 @@
         "docProps/core.xml": "9e6b336ce58fc8e3713f0e71b10e1dd055cea60a92ce74cb42b85b855ba9a3ee",
         "docProps/custom.xml": "9e7a390311d992d628a6901db3ec80a5d4ebaa2f172489f4ef969337563a9e7f",
         "word/_rels/document.xml.rels": "4acc2bd217f64b12832cab176f9c5cb183204c0b567b712b7807f04d30f5fafb",
-        "word/document.xml": "8f6e2554a4ab5b88717ba52ff2c7044f38cdf5e7702624d7363863af22d03d62",
+        "word/document.xml": "679780e7c55170df01100bf9d80587a1f29fbfbbc4bb2785ae7f1f7fbc881409",
         "word/fontTable.xml": "58544c6a00c62f58311eb091580f01559d099d5ffeb12ddee07f6d02154fd14a",
         "word/media/image1.jpeg": "54731734d97aff5d6aa55653e3e9c5f1b7daa808e1ca12d284e307ee2e16244f",
         "word/numbering.xml": "bc6ae41dd429ebd291287edf4ebabc8fbb79e94eee4dabc23c6fdd825a645484",
@@ -6526,7 +6526,7 @@
     },
     "TDS_EN_国彩模板": {
       "file": "templates\\active\\TDS_EN_国彩模板.docx",
-      "sha256": "d4ce2b04b89a3ba28df5ee97c62c2f7e6cc165a776b13d7e265478d146e380f3",
+      "sha256": "144e332f2fe29bce95b27446f23d8355e346c97653e539eebcd4d09ca6f2f411",
       "source_file": "templates\\source\\TDS_EN_国彩模板.doc",
       "source_sha256": "df365acc5b827f4a598e358f2c47dd80190c1aa47598edbfb0944337339d3fe8",
       "snapshot": {
@@ -6978,7 +6978,7 @@
             "text": "PU-1001 is an aliphatic anionic waterborne polyurethane dispersion with strong adhesion, used to improve interlayer adhesion.",
             "shape": {
               "style": "Normal",
-              "alignment": null,
+              "alignment": "JUSTIFY (3)",
               "numbering": null,
               "spacing": {
                 "xml": {
@@ -6991,7 +6991,7 @@
                 "space_after": "None",
                 "left_indent": "0",
                 "right_indent": "0",
-                "first_line_indent": "None"
+                "first_line_indent": "304800"
               },
               "runs": [
                 {
@@ -7080,7 +7080,7 @@
             "text": "Approx. 22% solids aqueous dispersion.",
             "shape": {
               "style": "Normal",
-              "alignment": null,
+              "alignment": "JUSTIFY (3)",
               "numbering": null,
               "spacing": {
                 "xml": {
@@ -7093,7 +7093,7 @@
                 "space_after": "None",
                 "left_indent": "0",
                 "right_indent": "0",
-                "first_line_indent": "None"
+                "first_line_indent": "304800"
               },
               "runs": [
                 {
@@ -7262,9 +7262,9 @@
                 "line_spacing_rule": "MULTIPLE (5)",
                 "space_before": "None",
                 "space_after": "None",
-                "left_indent": "0",
+                "left_indent": "533400",
                 "right_indent": "0",
-                "first_line_indent": "None"
+                "first_line_indent": "-228600"
               },
               "runs": [
                 {
@@ -7299,9 +7299,9 @@
                 "line_spacing_rule": "MULTIPLE (5)",
                 "space_before": "None",
                 "space_after": "None",
-                "left_indent": "0",
+                "left_indent": "533400",
                 "right_indent": "0",
-                "first_line_indent": "None"
+                "first_line_indent": "-228600"
               },
               "runs": [
                 {
@@ -7378,7 +7378,7 @@
             "text": "PU-1001 forms a very soft film with strong adhesion, suitable for use alone as a tie coat or blended with other materials to improve interlayer adhesion and physical properties without increasing coating stiffness.",
             "shape": {
               "style": "Normal",
-              "alignment": null,
+              "alignment": "JUSTIFY (3)",
               "numbering": null,
               "spacing": {
                 "xml": {
@@ -7391,7 +7391,7 @@
                 "space_after": "None",
                 "left_indent": "0",
                 "right_indent": "0",
-                "first_line_indent": "None"
+                "first_line_indent": "304800"
               },
               "runs": [
                 {
@@ -7490,7 +7490,7 @@
             "text": "Store in a ventilated, dry area at 5-35°C; protect from freezing. Shelf life is 6 months from shipment. Products older than 6 months should be re-evaluated before use.",
             "shape": {
               "style": "Normal",
-              "alignment": null,
+              "alignment": "JUSTIFY (3)",
               "numbering": null,
               "spacing": {
                 "xml": {
@@ -7503,7 +7503,7 @@
                 "space_after": "None",
                 "left_indent": "0",
                 "right_indent": "0",
-                "first_line_indent": "None"
+                "first_line_indent": "304800"
               },
               "runs": [
                 {
@@ -8648,7 +8648,7 @@
         "docProps/core.xml": "751702037723925bfbdea720dd9ad06ea3f26fa8f98fb3ad46647b6834c66fa3",
         "docProps/custom.xml": "0a23f70b4c0e916ef3c1eb0036e2f7ec04e9d3ad470b25332041201a5b44d55b",
         "word/_rels/document.xml.rels": "8ec1c00209856d3e712f2290580e91a8892d384c5ad0646a566c7170d81851f2",
-        "word/document.xml": "b6a27007e46f08ef4063beaf84325b03cc1f1d5915e14494d94ef9460a5285d7",
+        "word/document.xml": "b6356e7ae3884b0d5be5082cf1cbd32122412b2c2979e441e72a92525c8248d0",
         "word/fontTable.xml": "31497392e8d75dbb0bd3852ddfbcde1b48a22030161d8ffaba58ff7c1143ffe7",
         "word/numbering.xml": "bc6ae41dd429ebd291287edf4ebabc8fbb79e94eee4dabc23c6fdd825a645484",
         "word/settings.xml": "f02ef92b7dfd2252d565d1693466e7f8a836bfaf71e890c6b3e167fca772f8c1",

@@ -1,8 +1,8 @@
 from __future__ import annotations
-import argparse, hashlib, json, zipfile
+import argparse, hashlib, json, re, subprocess, zipfile
 from pathlib import Path
 from docx import Document
-from tds_common import OUTPUT_HEADINGS, ROOT, SECTION_HEADINGS, dump, hidden_block_indices, hidden_field_ids, load, package_inventory, sha256, doc_snapshot
+from tds_common import OUTPUT_HEADINGS, PERFORMANCE_TOPOLOGIES, ROOT, SECTION_HEADINGS, dump, hidden_block_indices, hidden_field_ids, load, package_inventory, performance_topology, sha256, doc_snapshot
 
 def shape(s):
     s=json.loads(json.dumps(s));
@@ -39,10 +39,24 @@ def hidden_paragraph_indices(base_doc, variant, mapping):
     hidden=hidden_field_ids(mapping); lang=variant['language']
     slots={x['field_id']:x for x in variant['slots']}
     return hidden_block_indices(list(base_doc.paragraphs),lang,slots,hidden)
+
+def topology_template(table, variant, topology):
+    spec=variant.get('performance_table',{}); widths=spec.get('topology_widths',{}).get(topology)
+    if not widths or len(widths) != PERFORMANCE_TOPOLOGIES[topology]: return None
+    target=len(widths); table=json.loads(json.dumps(table)); table['column_count']=target; table['grid_widths']=[str(width) for width in widths]
+    for row in table['rows']:
+        row['cells']=row['cells'][:target]
+        for index,cell in enumerate(row['cells']): cell['shape']['props']['width']=str(widths[index])
+    return table
+
 def audit_shape(base_doc, output_doc, variant, mapping):
     left, right = shape(doc_snapshot(base_doc)), shape(doc_snapshot(output_doc))
     left_table, right_table = left['tables'][0], right['tables'][0]
-    if left['sections'] != right['sections'] or left_table['grid_widths'] != right_table['grid_widths']: return False
+    topology=performance_topology(mapping,variant); spec=variant.get('performance_table',{}); widths=spec.get('topology_widths',{}).get(topology)
+    if topology not in PERFORMANCE_TOPOLOGIES or topology not in spec.get('allowed_topologies',[]) or not widths: return False
+    if left['sections'] != right['sections'] or right_table['column_count'] != PERFORMANCE_TOPOLOGIES[topology] or right_table['grid_widths'] != [str(width) for width in widths]: return False
+    template_table=topology_template(left_table,variant,topology)
+    if template_table is None: return False
     hide=hidden_paragraph_indices(base_doc, variant, mapping)
     if hide is None: return False
     slots={x['field_id']:x for x in variant['slots']}
@@ -74,17 +88,17 @@ def audit_shape(base_doc, output_doc, variant, mapping):
     source_rows=semantic_rows(mapping)
     if source_rows is not None:
         start=variant.get('performance_table',{}).get('data_start_row_index',1)
-        if right_table['rows'][:start] != left_table['rows'][:start]: return False
+        if right_table['rows'][:start] != template_table['rows'][:start]: return False
         for i,row in enumerate(right_table['rows'][start:]):
-            expected=left_table['rows'][start+min(i,len(left_table['rows'])-start-1)]
+            expected=template_table['rows'][start+min(i,len(template_table['rows'])-start-1)]
             if row != expected: return False
     else:
-        if left_table['rows'][:6] != right_table['rows'][:6]: return False
+        if template_table['rows'][:6] != right_table['rows'][:6]: return False
         extras=mapping.get('performance_extra_rows',[])
         if len(right_table['rows']) != 6+len(extras): return False
         rows=right_table['rows'][6:]
     for row in (rows if source_rows is None else []):
-        if [c['shape'] for c in row['cells']] != [c['shape'] for c in left_table['rows'][5]['cells']]: return False
+        if [c['shape'] for c in row['cells']] != [c['shape'] for c in template_table['rows'][5]['cells']]: return False
     return True
 def audit_layout(base_doc, output_doc, variant_id, variant, mapping):
     """Reject line-break characters that would turn one template slot into an unregistered layout change."""
@@ -102,6 +116,16 @@ def audit_layout(base_doc, output_doc, variant_id, variant, mapping):
                 if done: break
             if done: break
     return errs
+
+def pdf_page_count(path: Path) -> int:
+    try:
+        from pypdf import PdfReader
+        return len(PdfReader(str(path)).pages)
+    except ImportError:
+        result=subprocess.run(['pdfinfo',str(path)],capture_output=True,text=True,encoding='utf-8',errors='replace',check=False)
+        match=re.search(r'^Pages:\s*(\d+)$',result.stdout,re.MULTILINE)
+        if result.returncode or not match: raise RuntimeError('no PDF page-count reader available')
+        return int(match.group(1))
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--output-dir',type=Path,required=True); ap.add_argument('--registry',type=Path,required=True); ap.add_argument('--mapping',type=Path,required=True); ap.add_argument('--model',required=True); ap.add_argument('--report',type=Path,required=True); ap.add_argument('--docx-only',action='store_true'); ap.add_argument('--conversion-evidence-dir',type=Path); args=ap.parse_args()
     docx_dir=args.output_dir/'WORD' if (args.output_dir/'WORD').is_dir() else args.output_dir
@@ -153,8 +177,15 @@ def main():
         leaks=[x for x in load(ROOT/'mapping'/'tds_mutation_whitelist.json')['sample_fact_tokens'] if x.lower() in text.lower() and x not in (mapping.get('allowed_source_tokens') or [])]
         if leaks: errors.append(f'sample_fact_leak:{vid}:{leaks}')
         pdf=pdf_dir/f'{out.stem}.pdf'
+        page_count=None
         if not args.docx_only:
             if not pdf.is_file(): errors.append(f'missing_pdf:{pdf.name}')
+            elif v.get('page_contract',{}).get('max_pages'):
+                try:
+                    page_count=pdf_page_count(pdf)
+                    if page_count>v['page_contract']['max_pages']: errors.append(f'page_count_exceeded:{vid}:{page_count}>{v["page_contract"]["max_pages"]}')
+                except Exception as exc:
+                    errors.append(f'page_count_unavailable:{vid}:{type(exc).__name__}')
             if args.conversion_evidence_dir is None: errors.append('missing_conversion_evidence_dir')
             else:
                 evidence_path=args.conversion_evidence_dir/f'{out.stem}.conversion.json'
@@ -169,18 +200,19 @@ def main():
                     if evidence.get('source_is_final_docx') is not True: errors.append(f'conversion_not_final_docx:{vid}')
                     if evidence.get('independent_pdf_authoring') is not False: errors.append(f'independent_pdf_authoring:{vid}')
             if pdf.stem!=out.stem: errors.append(f'pdf_pair_name_mismatch:{vid}')
-        results.append({'variant_id':vid,'docx':str(out),'docx_sha256':sha256(out),'pdf':None if args.docx_only else str(pdf),'pdf_sha256':None if args.docx_only or not pdf.is_file() else sha256(pdf),'conversion_evidence':None if args.docx_only else str(args.conversion_evidence_dir/f'{out.stem}.conversion.json') if args.conversion_evidence_dir else None,'pdf_derived_name_match':None if args.docx_only else pdf.stem==out.stem,'geometry':'pass' if geometry_ok else 'fail','feature_format':'pass' if feature_ok else 'fail'})
+        results.append({'variant_id':vid,'docx':str(out),'docx_sha256':sha256(out),'pdf':None if args.docx_only else str(pdf),'pdf_sha256':None if args.docx_only or not pdf.is_file() else sha256(pdf),'page_count':page_count,'conversion_evidence':None if args.docx_only else str(args.conversion_evidence_dir/f'{out.stem}.conversion.json') if args.conversion_evidence_dir else None,'pdf_derived_name_match':None if args.docx_only else pdf.stem==out.stem,'geometry':'pass' if geometry_ok else 'fail','feature_format':'pass' if feature_ok else 'fail'})
         if semantic_rows(mapping) is not None:
             start=v.get('performance_table',{}).get('data_start_row_index',1)
             actual=[[c.text for c in row.cells] for row in product.tables[0].rows[start:]]
             expected=[]
             for source_row in semantic_rows(mapping):
-                expected.append([
+                row_values=[
                     semantic_labels(source_row,v['language']) or ('无数据' if v['language']=='zh-CN' else 'No data available'),
-                    semantic_values(source_row,v['language']) or ('无数据' if v['language']=='zh-CN' else 'No data available'),
-                    semantic_units(source_row,v['language']) or source_row.get('unit','') or '',
-                    semantic_methods(source_row,v['language']) or source_row.get('test_method','') or ''
-                ])
+                    semantic_values(source_row,v['language']) or ('无数据' if v['language']=='zh-CN' else 'No data available')]
+                topology=performance_topology(mapping,v)
+                if topology in ('3-col','4-col'): row_values.append(semantic_units(source_row,v['language']) or source_row.get('unit','') or '')
+                if topology=='4-col': row_values.append(semantic_methods(source_row,v['language']) or source_row.get('test_method','') or '')
+                expected.append(row_values)
             if actual!=expected: errors.append(f'performance_source_parity:{vid}')
     pdfs=[] if args.docx_only else [p for p in pdf_dir.glob('*.pdf') if '_TDS_' in p.name]
     if not args.docx_only and len(pdfs)!=4: errors.append(f'pdf_count:{len(pdfs)}')

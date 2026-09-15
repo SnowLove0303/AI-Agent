@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from tds_common import dump, load, norm
+from tds_common import dump, infer_performance_topology, load, norm
 
 
 # These are candidate signals only. The decision ledger records whether the
@@ -112,7 +112,7 @@ def text_decisions(fields: dict) -> list[dict]:
     return out
 
 
-def normalized_model(fields: dict, performance_rows: list[dict], decisions: list[dict]) -> dict:
+def normalized_model(fields: dict, performance_rows: list[dict], decisions: list[dict], table_topology: dict) -> dict:
     return {
         "schema_version": "1.3.0",
         "status": "candidate",
@@ -140,6 +140,7 @@ def normalized_model(fields: dict, performance_rows: list[dict], decisions: list
             }
             for item in performance_rows
         ],
+        "performance_table_topology": table_topology,
         "decision_ledger": decisions,
         "translation": {
             "source": "normalized_model",
@@ -270,9 +271,10 @@ def main() -> None:
     for field_id in required:
         fields.setdefault(field_id, field(field_id))
 
+    table_topology = {language: infer_performance_topology(rows, fields, language) for language, rows in source_rows_by_lang.items()}
     decisions = [source_row_decision(item) for item in performance_rows]
     decisions.extend(text_decisions(fields))
-    model = normalized_model(fields, performance_rows, decisions)
+    model = normalized_model(fields, performance_rows, decisions, table_topology)
     dump(
         args.output,
         {
@@ -281,6 +283,7 @@ def main() -> None:
             "mapped_fields": fields,
             "normalized_model": model,
             "performance_rows": performance_rows,
+            "performance_table_topology": table_topology,
             "performance_extra_rows": extra_rows,
             "decision_ledger": decisions,
             "blockers": blockers,

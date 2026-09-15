@@ -102,8 +102,16 @@
         "header_row_index": 0,
         "data_start_row_index": 1,
         "source_led": true,
-        "max_source_rows": 100
+        "max_source_rows": 100,
+        "allowed_topologies": ["2-col", "3-col", "4-col"],
+        "default_topology": "4-col",
+        "topology_widths": {
+          "2-col": [3398, 5098],
+          "3-col": [2242, 5003, 1251],
+          "4-col": [2242, 2037, 1023, 3194]
+        }
       },
+      "page_contract": {"max_pages": 1},
       "performance_extension": {
         "allowed": true,
         "row_template_index": 5,
@@ -237,8 +245,16 @@
         "header_row_index": 0,
         "data_start_row_index": 1,
         "source_led": true,
-        "max_source_rows": 100
+        "max_source_rows": 100,
+        "allowed_topologies": ["2-col", "3-col", "4-col"],
+        "default_topology": "4-col",
+        "topology_widths": {
+          "2-col": [3398, 5098],
+          "3-col": [2242, 5003, 1251],
+          "4-col": [2242, 2037, 1023, 3194]
+        }
       },
+      "page_contract": {"max_pages": 1},
       "performance_extension": {
         "allowed": true,
         "row_template_index": 5,
@@ -273,7 +289,7 @@
     },
     "TDS_EN_冠志模板": {
       "template": "templates\\active\\TDS_EN_冠志模板.docx",
-      "template_sha256": "18de8c9b88e664c4b95841d934bfe1512ba8e49e2b89f79aa7c6ce6a93a488dc",
+      "template_sha256": "476615298f199dd744a3899466a6389e1f1ddda29ec1006f027c4120596b5d11",
       "language": "en-US",
       "company": "guanzhi",
       "slots": [
@@ -372,8 +388,16 @@
         "header_row_index": 0,
         "data_start_row_index": 1,
         "source_led": true,
-        "max_source_rows": 100
+        "max_source_rows": 100,
+        "allowed_topologies": ["2-col", "3-col", "4-col"],
+        "default_topology": "4-col",
+        "topology_widths": {
+          "2-col": [3442, 5162],
+          "3-col": [2999, 4484, 1121],
+          "4-col": [2999, 2025, 816, 2764]
+        }
       },
+      "page_contract": {"max_pages": 1},
       "performance_extension": {
         "allowed": true,
         "row_template_index": 5,
@@ -408,7 +432,7 @@
     },
     "TDS_EN_国彩模板": {
       "template": "templates\\active\\TDS_EN_国彩模板.docx",
-      "template_sha256": "d4ce2b04b89a3ba28df5ee97c62c2f7e6cc165a776b13d7e265478d146e380f3",
+      "template_sha256": "144e332f2fe29bce95b27446f23d8355e346c97653e539eebcd4d09ca6f2f411",
       "language": "en-US",
       "company": "guocai",
       "slots": [
@@ -507,8 +531,16 @@
         "header_row_index": 0,
         "data_start_row_index": 1,
         "source_led": true,
-        "max_source_rows": 100
+        "max_source_rows": 100,
+        "allowed_topologies": ["2-col", "3-col", "4-col"],
+        "default_topology": "4-col",
+        "topology_widths": {
+          "2-col": [3442, 5162],
+          "3-col": [2999, 4484, 1121],
+          "4-col": [2999, 2025, 816, 2764]
+        }
       },
+      "page_contract": {"max_pages": 1},
       "performance_extension": {
         "allowed": true,
         "row_template_index": 5,

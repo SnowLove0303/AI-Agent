@@ -92,12 +92,22 @@ def test_english_templates_use_clean_western_font_inheritance():
     registry = load(ROOT / "mapping" / "template_field_registry.json")
     for variant_id in ("TDS_EN_冠志模板", "TDS_EN_国彩模板"):
         doc = Document(str(ROOT / registry["variants"][variant_id]["template"]))
+        slots = {item["field_id"]: item for item in registry["variants"][variant_id]["slots"]}
+        body_indices = [slots[field_id]["locator"]["paragraph_index"] for field_id in ("product.description", "product.supply_form", "product.application", "product.storage")]
         paragraphs = list(doc.paragraphs[9:])
-        for paragraph in paragraphs:
+        for index, paragraph in enumerate(paragraphs, 9):
             ppr = paragraph._p.pPr
             ind = ppr.find(qn("w:ind")) if ppr is not None else None
-            assert ind is None or qn("w:firstLineChars") not in ind.attrib
-            assert ind is None or qn("w:firstLine") not in ind.attrib
+            if index in body_indices:
+                assert ind is not None
+                assert ind.get(qn("w:firstLineChars")) == "200"
+                assert ind.get(qn("w:firstLine")) == "480"
+            if index in slots["product.features"]["locator"]["paragraph_indices"]:
+                assert ind is not None
+                assert ind.get(qn("w:left")) == "840"
+                assert ind.get(qn("w:hanging")) == "360"
+                assert ind.get(qn("w:firstLineChars")) is None
+                assert ind.get(qn("w:firstLine")) is None
             for run in paragraph.runs:
                 rpr = run._r.rPr
                 rfonts = rpr.find(qn("w:rFonts")) if rpr is not None else None
@@ -119,6 +129,22 @@ def test_english_templates_use_clean_western_font_inheritance():
                             assert rfonts.get(qn("w:hAnsi")) == "Times New Roman"
                             assert rfonts.get(qn("w:eastAsia")) is None
                             assert rfonts.get(qn("w:hint")) is None
+
+
+def test_source_two_column_topology_prunes_unused_template_columns(tmp_path):
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
+    mapping["performance_rows"] = [
+        {"label_values": {"zh-CN": "外观", "en-US": "Appearance"}, "values": {"zh-CN": "乳白色液体", "en-US": "Milky liquid"}, "unit_values": {"zh-CN": "", "en-US": ""}, "test_method_values": {"zh-CN": "", "en-US": ""}},
+        {"label_values": {"zh-CN": "粘度", "en-US": "Viscosity"}, "values": {"zh-CN": "<5000", "en-US": "<5000"}, "unit_values": {"zh-CN": "", "en-US": ""}, "test_method_values": {"zh-CN": "", "en-US": ""}},
+    ]
+    for variant_id, variant in registry["variants"].items():
+        output = tmp_path / f"two-col-{variant_id}.docx"
+        write_variant(mapping, registry, variant_id, output)
+        doc = Document(str(output))
+        assert len(doc.tables[0].columns) == 2
+        assert [cell.text for cell in doc.tables[0].rows[1].cells] == ["外观" if variant["language"] == "zh-CN" else "Appearance", "乳白色液体" if variant["language"] == "zh-CN" else "Milky liquid"]
+        assert audit_shape(Document(str(ROOT / variant["template"])), doc, variant, mapping)
 
 
 def test_feature_slots_preserve_numbering_and_equal_spacing():
