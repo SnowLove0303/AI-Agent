@@ -26,6 +26,152 @@ def dump(path: Path, value: object) -> None:
 def load(path: Path) -> dict: return json.loads(path.read_text(encoding='utf-8'))
 def norm(s: str) -> str: return re.sub(r'\s+','', (s or '').strip()).replace('（','(').replace('）',')').replace('：',':')
 
+def text_sha256(value: str|None) -> str:
+    return hashlib.sha256((value or '').encode('utf-8')).hexdigest()
+
+def source_text_lines(value: str|None, field_id: str) -> list[str]:
+    """Return the exact source lines after only registered presentation splits."""
+    lines=[line.strip() for line in (value or '').splitlines() if line.strip()]
+    if field_id in {'product.features','product.application'}:
+        lines=[re.sub(r'^\s*\d+[.、]\s*','',line).strip() for line in lines]
+    return lines
+
+def _runtime_field(item: dict, lang: str) -> dict:
+    """Use frozen source text for CN; use approved normalized text for EN."""
+    if lang == 'zh-CN' and 'source_values' in item:
+        return {**item, 'values': item.get('source_values', {})}
+    if 'normalized_values' in item:
+        return {**item, 'values': item.get('normalized_values', {})}
+    return item
+
+def source_value(item: dict, lang: str) -> str|None:
+    values=item.get('source_values') if lang == 'zh-CN' and 'source_values' in item else item.get('normalized_values', item.get('values', {}))
+    if not isinstance(values, dict) or lang not in values:
+        return None
+    return values.get(lang)
+
+def source_fidelity_contract(fields: dict, performance_rows: list[dict], fact_paths: list[Path]) -> dict:
+    field_hashes={}
+    for field_id,item in fields.items():
+        values=item.get('source_values',{}) or {}
+        if values:
+            field_hashes[field_id]={lang:text_sha256(value) for lang,value in values.items()}
+    row_hashes={}
+    for row in performance_rows:
+        row_hashes[row['field_id']]={}
+        for lang in set((row.get('source_label_values') or {})) | set((row.get('source_values') or {})):
+            row_hashes[row['field_id']][lang]={
+                'label':text_sha256((row.get('source_label_values') or {}).get(lang)),
+                'value':text_sha256((row.get('source_values') or {}).get(lang)),
+                'unit':text_sha256((row.get('source_unit_values') or {}).get(lang)),
+                'test_method':text_sha256((row.get('source_test_method_values') or {}).get(lang)),
+            }
+    return {
+        'schema_version':'1.0.0',
+        'strict_language':'zh-CN',
+        'source_facts_sha256':{str(path.resolve()):sha256(path) for path in fact_paths},
+        'field_sha256':field_hashes,
+        'performance_row_sha256':row_hashes,
+    }
+
+def source_fidelity_errors(mapping: dict, strict_language: str='zh-CN') -> list[str]:
+    """Fail closed when a normalized value or its evidence hash diverges from source."""
+    errors=[]; model=mapping.get('normalized_model') or {}
+    fields=model.get('fields') or mapping.get('mapped_fields') or {}
+    contract=mapping.get('source_fidelity') or {}
+    for path_text,expected in (contract.get('source_facts_sha256') or {}).items():
+        path=Path(path_text)
+        if not path.is_file(): errors.append(f'source_facts_missing:{path}'); continue
+        if sha256(path)!=expected: errors.append(f'source_facts_hash_mismatch:{path}')
+    raw_fields=mapping.get('mapped_fields') or {}
+    for field_id,item in fields.items():
+        if not isinstance(item,dict): continue
+        raw_item=raw_fields.get(field_id,{}) if model.get('fields') else item
+        source_values=item.get('source_values') if 'source_values' in item else raw_item.get('source_values',raw_item.get('values',{}))
+        normalized_values=item.get('normalized_values',item.get('values',{}))
+        if not isinstance(source_values,dict) or strict_language not in source_values: continue
+        source=source_values.get(strict_language)
+        normalized=normalized_values.get(strict_language) if isinstance(normalized_values,dict) else None
+        if normalized != source: errors.append(f'field_mutation:{strict_language}:{field_id}')
+        expected_hash=(contract.get('field_sha256') or {}).get(field_id,{}).get(strict_language)
+        if expected_hash and text_sha256(source)!=expected_hash: errors.append(f'field_hash_mismatch:{strict_language}:{field_id}')
+    rows=model.get('performance_rows') if 'performance_rows' in model else mapping.get('performance_rows')
+    raw_rows=mapping.get('performance_rows') or []
+    for index,row in enumerate(rows or []):
+        if not isinstance(row,dict): continue
+        field_id=row.get('field_id','unknown')
+        raw_row=raw_rows[index] if index<len(raw_rows) else row
+        has_source_evidence=any(key in row for key in ('source_label_values','source_values','source_unit_values','source_test_method_values'))
+        sources={
+            'label':(row.get('source_label_values') if 'source_label_values' in row else raw_row.get('label_values',{})).get(strict_language),
+            'value':(row.get('source_values') if 'source_values' in row else raw_row.get('values',{})).get(strict_language),
+            'unit':(row.get('source_unit_values') if 'source_unit_values' in row else raw_row.get('unit_values',{})).get(strict_language),
+            'test_method':(row.get('source_test_method_values') if 'source_test_method_values' in row else raw_row.get('test_method_values',{})).get(strict_language),
+        }
+        normalized={
+            'label':(row.get('normalized_label_values') or row.get('label_values') or {}).get(strict_language),
+            'value':(row.get('normalized_values') or row.get('values') or {}).get(strict_language),
+            'unit':(row.get('normalized_unit_values') or row.get('unit_values') or {}).get(strict_language),
+            'test_method':(row.get('normalized_test_method_values') or row.get('test_method_values') or {}).get(strict_language),
+        }
+        if model.get('performance_rows') is not None and not has_source_evidence and not raw_rows:
+            errors.append(f'missing_source_evidence:{strict_language}:{field_id}')
+        if any(sources[key] is not None and normalized[key] != sources[key] for key in sources):
+            errors.append(f'performance_row_mutation:{strict_language}:{field_id}')
+        expected_row=(contract.get('performance_row_sha256') or {}).get(field_id,{}).get(strict_language,{})
+        for key,value in sources.items():
+            if expected_row.get(key) and text_sha256(value)!=expected_row[key]:
+                errors.append(f'performance_row_hash_mismatch:{strict_language}:{field_id}:{key}')
+    return errors
+
+def _source_field_item(mapping: dict, field_id: str) -> dict:
+    model=mapping.get('normalized_model') or {}
+    return (model.get('fields') or {}).get(field_id) or (mapping.get('mapped_fields') or {}).get(field_id) or {}
+
+def _source_row_component(row: dict, component: str, lang: str) -> str:
+    source_key=f'source_{component}_values'
+    fallback_key={'label':'label_values','value':'values','unit':'unit_values','test_method':'test_method_values'}[component]
+    values=row.get(source_key) if source_key in row else row.get(fallback_key,{})
+    return (values or {}).get(lang,'')
+
+def source_output_fidelity_errors(doc, mapping: dict, registry: dict, variant_id: str) -> list[str]:
+    """Compare generated CN text to source text after only allowed list splitting."""
+    variant=registry['variants'][variant_id]
+    if variant.get('language')!='zh-CN': return []
+    errors=[]; hidden=set(hidden_field_ids(mapping)); headings=body_heading_texts(variant) | {'【性能指标】','Technical Data'}
+    fields=mapping.get('normalized_model',{}).get('fields') or mapping.get('mapped_fields',{}) or {}
+    slots={item['field_id']:item for item in variant.get('slots',[])}
+    title_slot=slots.get('product.title',{}).get('locator',{}).get('paragraph_index')
+    title_item=_source_field_item(mapping,'product.title')
+    expected_title=(source_value(title_item,'zh-CN') or '').strip()
+    if title_slot is None or title_slot>=len(doc.paragraphs):
+        errors.append('title_output_slot_missing')
+    elif doc.paragraphs[title_slot].text.strip()!=expected_title:
+        errors.append('field_output_mismatch:zh-CN:product.title')
+    for field_id in ('product.description','product.supply_form','product.features','product.application','product.storage'):
+        if field_id in hidden: continue
+        heading=SECTION_HEADINGS[field_id]['zh-CN']; hi=next((i for i,p in enumerate(doc.paragraphs) if p.text.strip()==heading),None)
+        if hi is None:
+            errors.append(f'section_heading_missing:{field_id}'); continue
+        end=next((i for i in range(hi+1,len(doc.paragraphs)) if doc.paragraphs[i].text.strip() in headings),len(doc.paragraphs))
+        actual=[p.text.strip() for p in doc.paragraphs[hi+1:end] if p.text.strip()]
+        item=fields.get(field_id) or {}
+        raw=source_value(item,'zh-CN')
+        expected=source_text_lines(raw,field_id) or ['无数据']
+        if actual!=expected: errors.append(f'field_output_mismatch:zh-CN:{field_id}')
+    rows=(mapping.get('normalized_model',{}).get('performance_rows') if 'performance_rows' in mapping.get('normalized_model',{}) else mapping.get('performance_rows'))
+    if rows is not None and doc.tables:
+        start=variant.get('performance_table',{}).get('data_start_row_index',1); topology=performance_topology(mapping,variant)
+        expected=[]
+        for row in rows:
+            values=[_source_row_component(row,'label','zh-CN') or '无数据',_source_row_component(row,'value','zh-CN') or '无数据']
+            if topology in ('3-col','4-col'): values.append(_source_row_component(row,'unit','zh-CN'))
+            if topology=='4-col': values.append(_source_row_component(row,'test_method','zh-CN'))
+            expected.append(values)
+        actual=[[cell.text for cell in row.cells[:len(expected[0])]] for row in doc.tables[0].rows[start:]] if expected else []
+        if actual!=expected: errors.append('performance_output_mismatch:zh-CN')
+    return errors
+
 PERFORMANCE_TOPOLOGIES = {'2-col': 2, '3-col': 3, '4-col': 4}
 
 def _localized_value(item: dict, keys: tuple[str, ...], lang: str|None) -> str:
@@ -134,6 +280,65 @@ def paragraph_shape(paragraph: Paragraph) -> dict:
 def feature_spacing_signature(paragraph: Paragraph) -> dict:
     shape=paragraph_shape(paragraph)
     return {'spacing':shape['spacing'],'run_spacing':[{k:r[k] for k in ('character_spacing','kerning','position')} for r in shape['runs']]}
+
+def typography_spacing_contract(variant: dict) -> dict:
+    return variant.get('standard_typography',{})
+
+def _spacing_contract_values(paragraph: Paragraph) -> dict:
+    pPr=paragraph._p.pPr
+    spacing=pPr.find(qn('w:spacing')) if pPr is not None else None
+    attrs=xml_attrs(spacing) or {}
+    return {key:attrs.get(key, '0' if key in {'before','after'} else None) for key in ('before','after','line','lineRule')}
+
+def typography_contract_errors(doc, variant: dict) -> list[str]:
+    """Validate the spacing contract without asserting or changing fonts, indents or numbering."""
+    contract=typography_spacing_contract(variant)
+    if not contract: return ['standard_typography_missing']
+    errors=[]
+    lang=variant.get('language','zh-CN')
+    title_spec=contract.get('product_title')
+    if title_spec:
+        title_slot=next((item for item in variant.get('slots',[]) if item.get('field_id')=='product.title'),None)
+        title_index=(title_slot or {}).get('locator',{}).get('paragraph_index')
+        if title_index is None or title_index>=len(doc.paragraphs):
+            errors.append('title_alignment_missing')
+        else:
+            paragraph=doc.paragraphs[title_index]
+            ppr=paragraph._p.pPr
+            alignment=xml_attrs(ppr.find(qn('w:jc')) if ppr is not None else None) or {}
+            if alignment.get('val')!=title_spec.get('alignment'):
+                errors.append(f'title_alignment:{alignment.get("val")}!={title_spec.get("alignment")}')
+            indent=xml_attrs(ppr.find(qn('w:ind')) if ppr is not None else None) or {}
+            left_indent=indent.get('left')
+            if left_indent not in (None,str(title_spec.get('left_indent_twips'))):
+                errors.append(f'title_left_indent:{left_indent}!={title_spec.get("left_indent_twips")}')
+    headings={SECTION_HEADINGS[field][lang] for field in HIDEABLE_FIELDS} | {OUTPUT_HEADINGS[field][lang] for field in HIDEABLE_FIELDS}
+    heading_paragraphs=[p for p in doc.paragraphs if p.text.strip() in headings]
+    heading_spec=contract.get('section_heading',{})
+    for index,p in enumerate(heading_paragraphs):
+        expected={'before':str(heading_spec.get('first_before_twips' if index==0 else 'before_twips')),'after':str(heading_spec.get('after_twips'))}
+        actual=_spacing_contract_values(p)
+        for key,value in expected.items():
+            if actual.get(key)!=value: errors.append(f'heading_spacing:{index}:{key}:{actual.get(key)}!={value}')
+    feature_spec=contract.get('feature_items',{})
+    indices=variant.get('feature_format_contract',{}).get('paragraph_indices',[])
+    for index in indices:
+        if index>=len(doc.paragraphs): errors.append(f'feature_spacing_missing:{index}'); continue
+        actual=_spacing_contract_values(doc.paragraphs[index])
+        for key,config_key in (('before','before_twips'),('after','after_twips'),('line','line_twips'),('lineRule','line_rule')):
+            expected=str(feature_spec.get(config_key))
+            if actual.get(key)!=expected: errors.append(f'feature_spacing:{index}:{key}:{actual.get(key)}!={expected}')
+    body_spec=contract.get('body_paragraphs',{})
+    slots={x.get('field_id'):x for x in variant.get('slots',[])}
+    for field_id in ('product.description','product.supply_form','product.application','product.storage'):
+        locator=(slots.get(field_id) or {}).get('locator',{})
+        index=locator.get('paragraph_index')
+        if index is None or index>=len(doc.paragraphs): errors.append(f'body_spacing_missing:{field_id}'); continue
+        actual=_spacing_contract_values(doc.paragraphs[index])
+        for key,config_key in (('before','before_twips'),('after','after_twips'),('line','line_twips'),('lineRule','line_rule')):
+            expected=str(body_spec.get(config_key))
+            if actual.get(key)!=expected: errors.append(f'body_spacing:{field_id}:{key}:{actual.get(key)}!={expected}')
+    return errors
 
 def cell_shape(cell: _Cell) -> dict:
     p=cell._tc.tcPr; span=p.gridSpan.get(qn('w:val')) if p is not None and p.gridSpan is not None else None; vm=p.vMerge.get(qn('w:val')) if p is not None and p.vMerge is not None else None; w=p.tcW.get(qn('w:w')) if p is not None and p.tcW is not None else None
@@ -281,20 +486,21 @@ def _compact_blank_snapshot(paragraph: dict, line_twips: int) -> None:
     spacing['line_spacing_rule']='EXACTLY (4)'
 
 def trim_body_blank_paragraphs(doc, variant: dict) -> int:
-    """Remove template body placeholders while retaining one compact section gap."""
+    """Remove body placeholders according to the registered section-gap policy."""
     policy=variant.get('body_blank_trim',{})
     if not policy.get('allowed',False): return 0
     paragraphs=list(doc.paragraphs); headings=body_heading_texts(variant)
     start=next((i for i,p in enumerate(paragraphs) if p.text.strip() in headings),None)
     if start is None: return 0
     removed=0; kept_gap=False
+    separator_limit=int(policy.get('separator_paragraphs',policy.get('max_body_blank_paragraphs',0)))
     for i in range(len(paragraphs)-1,start-1,-1):
         if paragraphs[i].text.strip():
             kept_gap=False
             continue
         previous=next((paragraphs[j].text.strip() for j in range(i-1,start-1,-1) if paragraphs[j].text.strip()),'')
         following=next((paragraphs[j].text.strip() for j in range(i+1,len(paragraphs)) if paragraphs[j].text.strip()),'')
-        keep=bool(following in headings and (previous or i == start)) and not kept_gap
+        keep=separator_limit>0 and bool(following in headings and (previous or i == start)) and not kept_gap
         if keep:
             _compact_blank_paragraph(paragraphs[i],int(policy.get('compact_line_twips',120)))
             kept_gap=True
@@ -310,13 +516,14 @@ def trim_body_blank_snapshot(paragraphs: list[dict], variant: dict) -> list[dict
     start=next((i for i,p in enumerate(paragraphs) if p.get('text','').strip() in headings),None)
     if start is None: return paragraphs
     kept=[]; kept_gap=False
+    separator_limit=int(policy.get('separator_paragraphs',policy.get('max_body_blank_paragraphs',0)))
     for i,p in enumerate(paragraphs):
         if i<start or p.get('text','').strip():
             kept.append(p); kept_gap=False if p.get('text','').strip() else kept_gap
             continue
         previous=next((paragraphs[j].get('text','').strip() for j in range(i-1,start-1,-1) if paragraphs[j].get('text','').strip()),'')
         following=next((paragraphs[j].get('text','').strip() for j in range(i+1,len(paragraphs)) if paragraphs[j].get('text','').strip()),'')
-        keep=bool(following in headings and (previous or i == start)) and not kept_gap
+        keep=separator_limit>0 and bool(following in headings and (previous or i == start)) and not kept_gap
         if keep:
             _compact_blank_snapshot(p,int(policy.get('compact_line_twips',120))); kept.append(p); kept_gap=True
     return kept
@@ -325,34 +532,115 @@ def body_blank_count(doc, variant: dict) -> int:
     headings=body_heading_texts(variant); start=next((i for i,p in enumerate(doc.paragraphs) if p.text.strip() in headings),None)
     return 0 if start is None else sum(1 for p in doc.paragraphs[start:] if not p.text.strip())
 
+def inter_section_gap_errors(doc, variant: dict) -> list[str]:
+    """Check that section transitions have no unregistered blank separator."""
+    policy=variant.get('inter_section_spacing',{})
+    if not policy: return []
+    headings=body_heading_texts(variant)
+    start=next((i for i,p in enumerate(doc.paragraphs) if p.text.strip() in headings),None)
+    if start is None: return ['section_heading_start_missing']
+    errors=[]; expected=str(policy.get('heading_before_twips',160))
+    for i in range(start+1,len(doc.paragraphs)):
+        if doc.paragraphs[i].text.strip() not in headings: continue
+        j=i-1
+        while j>=start and not doc.paragraphs[j].text.strip():
+            errors.append(f'blank_separator_before_heading:{i}'); j-=1
+        ppr=doc.paragraphs[i]._p.pPr; spacing=ppr.find(qn('w:spacing')) if ppr is not None else None
+        actual=(xml_attrs(spacing) or {}).get('before')
+        if actual!=expected: errors.append(f'heading_before:{i}:{actual}!={expected}')
+    return errors
+
+def vertical_budget_profile(variant: dict, total_items: int) -> dict|None:
+    policy = variant.get('vertical_budget', variant.get('english_vertical_budget', {}))
+    if not bool(policy.get('allowed', False)):
+        return None
+    threshold = int(policy.get('threshold_total_items', 16))
+    if total_items < threshold:
+        return None
+    levels = policy.get('levels') or [
+        {'name': 'level-2', 'max_total_items': None, 'heading_before_twips': 80,
+         'heading_after_twips': 40, 'item_after_twips': 20, 'line_twips': 260,
+         'line_rule': 'exact'}
+    ]
+    for level in levels:
+        maximum = level.get('max_total_items')
+        if maximum is None or total_items <= int(maximum):
+            return level
+    return levels[-1]
+
 def vertical_budget_enabled(variant: dict, total_items: int) -> bool:
-    policy=variant.get('english_vertical_budget',{})
-    return variant.get('language')=='en-US' and policy.get('allowed',False) and total_items>int(policy.get('threshold_total_items',16))
+    policy = variant.get('vertical_budget', variant.get('english_vertical_budget', {}))
+    threshold = int(policy.get('threshold_total_items', 12))
+    return bool(policy.get('allowed', False)) and total_items >= threshold
+
+def vertical_budget_level(variant: dict, total_items: int) -> int:
+    if not vertical_budget_enabled(variant, total_items):
+        return 0
+    return 1
 
 def apply_vertical_budget(doc, variant: dict, total_items: int) -> bool:
-    if not vertical_budget_enabled(variant,total_items): return False
-    policy=variant['english_vertical_budget']; headings=body_heading_texts(variant); start=next((i for i,p in enumerate(doc.paragraphs) if p.text.strip() in headings),None)
-    if start is None: return False
+    lvl = vertical_budget_level(variant, total_items)
+    if lvl == 0:
+        return False
+    headings = body_heading_texts(variant)
+    start = next((i for i, p in enumerate(doc.paragraphs) if p.text.strip() in headings), None)
+    if start is None:
+        return False
+    first_h = True
     for paragraph in doc.paragraphs[start:]:
-        if paragraph.text.strip() and paragraph.text.strip() not in headings:
-            pPr=paragraph._p.get_or_add_pPr(); spacing=pPr.find(qn('w:spacing'))
-            if spacing is None:
-                spacing=OxmlElement('w:spacing'); pPr.append(spacing)
-            spacing.set(qn('w:line'),str(policy.get('line_twips',260)))
-            spacing.set(qn('w:lineRule'),'exact')
-            spacing.set(qn('w:after'),str(policy.get('after_twips',40)))
+        text = paragraph.text.strip()
+        if not text:
+            continue
+        pPr = paragraph._p.get_or_add_pPr()
+        spacing = pPr.find(qn('w:spacing'))
+        if spacing is None:
+            spacing = OxmlElement('w:spacing')
+            pPr.append(spacing)
+        if text in headings:
+            before = '60' if first_h else '80'
+            after = '40'
+            spacing.set(qn('w:before'), before)
+            spacing.set(qn('w:after'), after)
+            first_h = False
+        else:
+            line = '280' if lvl == 1 else '260'
+            after = '30' if lvl == 1 else '20'
+            spacing.set(qn('w:line'), line)
+            spacing.set(qn('w:lineRule'), 'exact')
+            spacing.set(qn('w:after'), after)
     return True
 
 def apply_vertical_budget_snapshot(paragraphs: list[dict], variant: dict, total_items: int) -> None:
-    if not vertical_budget_enabled(variant,total_items): return
-    policy=variant['english_vertical_budget']; headings=body_heading_texts(variant); start=next((i for i,p in enumerate(paragraphs) if p.get('text','').strip() in headings),None)
-    if start is None: return
+    lvl = vertical_budget_level(variant, total_items)
+    if lvl == 0:
+        return
+    headings = body_heading_texts(variant)
+    start = next((i for i, p in enumerate(paragraphs) if p.get('text', '').strip() in headings), None)
+    if start is None:
+        return
+    first_h = True
     for paragraph in paragraphs[start:]:
-        text=paragraph.get('text','').strip()
-        if text and text not in headings:
-            spacing=paragraph.setdefault('shape',{}).setdefault('spacing',{})
-            line_twips=int(policy.get('line_twips',260)); after_twips=int(policy.get('after_twips',40))
-            spacing['xml']={'line':str(line_twips),'lineRule':'exact','after':str(after_twips)}
-            spacing['line_spacing']=str(line_twips*635)
-            spacing['line_spacing_rule']='EXACTLY (4)'
-            spacing['space_after']=str(after_twips*635)
+        text = paragraph.get('text', '').strip()
+        if not text:
+            continue
+        spacing = paragraph.setdefault('shape', {}).setdefault('spacing', {})
+        xml = dict(spacing.get('xml') or {})
+        if text in headings:
+            before = '60' if first_h else '80'
+            after = '40'
+            xml['before'] = before
+            xml['after'] = after
+            spacing['xml'] = xml
+            spacing['space_before'] = str(int(before) * 635)
+            spacing['space_after'] = str(int(after) * 635)
+            first_h = False
+        else:
+            line = '280' if lvl == 1 else '260'
+            after = '30' if lvl == 1 else '20'
+            xml['line'] = line
+            xml['lineRule'] = 'exact'
+            xml['after'] = after
+            spacing['xml'] = xml
+            spacing['line_spacing'] = str(int(line) * 635)
+            spacing['line_spacing_rule'] = 'EXACTLY (4)'
+            spacing['space_after'] = str(int(after) * 635)

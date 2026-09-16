@@ -2,17 +2,20 @@ from __future__ import annotations
 import argparse, hashlib, json, re, subprocess, zipfile
 from pathlib import Path
 from docx import Document
-from tds_common import OUTPUT_HEADINGS, PERFORMANCE_TOPOLOGIES, ROOT, SECTION_HEADINGS, apply_vertical_budget_snapshot, body_blank_count, dump, hidden_block_indices, hidden_field_ids, load, package_inventory, performance_topology, sha256, doc_snapshot, trim_body_blank_snapshot
+from tds_common import OUTPUT_HEADINGS, PERFORMANCE_TOPOLOGIES, ROOT, SECTION_HEADINGS, apply_vertical_budget_snapshot, body_blank_count, dump, hidden_block_indices, hidden_field_ids, inter_section_gap_errors, load, package_inventory, performance_topology, sha256, doc_snapshot, source_fidelity_errors, source_output_fidelity_errors, trim_body_blank_snapshot, typography_contract_errors
 
 def shape(s):
     s=json.loads(json.dumps(s));
     for p in s['paragraphs']:
         p['text']=''
+        p['shape']['runs']=[run for run in p['shape']['runs'] if any(run.get(key) is not None for key in ('bold','italic','underline','font','size_pt','color','character_spacing','kerning','position'))]
     for t in s['tables']:
         for row in t['rows']:
-            for c in row['cells']: c['text']=''
             for c in row['cells']:
-                for p in c.get('shape',{}).get('paragraphs',[]): p['text']=''
+                c['text']=''
+                for p in c.get('shape',{}).get('paragraphs',[]):
+                    p['text']=''
+                    p['runs']=[run for run in p['runs'] if any(run.get(key) is not None for key in ('bold','italic','underline','font','size_pt','color','character_spacing','kerning','position'))]
     for sec in s['sections']:
         for p in sec['header']+sec['footer']: p['text']=''
     return s
@@ -166,6 +169,7 @@ def main():
     docx_dir=args.output_dir/'WORD' if (args.output_dir/'WORD').is_dir() else args.output_dir
     pdf_dir=args.output_dir/'PDF' if (args.output_dir/'PDF').is_dir() else args.output_dir
     reg=load(args.registry); mapping=load(args.mapping); results=[]; errors=[]; warnings=[]
+    errors.extend(f'source_fidelity_mapping:{item}' for item in source_fidelity_errors(mapping))
     fields=semantic_fields(mapping)
     model=mapping.get('normalized_model',{})
     decisions=mapping.get('decision_ledger',model.get('decision_ledger',[]))
@@ -199,16 +203,20 @@ def main():
         out=docx_dir/f'{args.model}_{stem}.docx'
         if not out.is_file(): errors.append(f'missing_docx:{out.name}'); continue
         base=Document(str(ROOT/v['template'])); product=Document(str(out));
+        errors.extend(f'typography_contract:{vid}:{item}' for item in typography_contract_errors(base,v))
         geometry_ok=audit_shape(base,product,v,mapping)
         if not geometry_ok: errors.append(f'geometry_changed:{vid}')
         feature_ok=feature_contract_ok(base,product,v,mapping)
         if not feature_ok: errors.append(f'feature_format_contract_changed:{vid}')
         layout_errs=audit_layout(base,product,vid,v,mapping)
         errors.extend(layout_errs)
+        errors.extend(f'source_fidelity_output:{vid}:{item}' for item in source_output_fidelity_errors(product,mapping,reg,vid))
         if v.get('body_blank_trim',{}).get('allowed',False):
             blank_count=body_blank_count(product,v)
-            if blank_count>int(v['body_blank_trim'].get('max_body_blank_paragraphs',4)):
-                errors.append(f'body_blank_count_exceeded:{vid}:{blank_count}>{v["body_blank_trim"].get("max_body_blank_paragraphs",4)}')
+            expected_blank_count=int(v['body_blank_trim'].get('max_body_blank_paragraphs',v['body_blank_trim'].get('separator_paragraphs',0)))
+            if blank_count!=expected_blank_count:
+                errors.append(f'body_blank_count_mismatch:{vid}:{blank_count}!={expected_blank_count}')
+        errors.extend(f'inter_section_gap:{vid}:{item}' for item in inter_section_gap_errors(product,v))
         parts0=package_inventory(ROOT/v['template']); parts1=package_inventory(out)
         for part,h in parts0.items():
             if part!='word/document.xml' and parts1.get(part)!=h: errors.append(f'package_part_changed:{vid}:{part}')

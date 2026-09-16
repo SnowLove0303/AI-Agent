@@ -3,7 +3,7 @@
   "variants": {
     "TDS_CN_冠志模板": {
       "file": "templates\\active\\TDS_CN_冠志模板.docx",
-      "sha256": "e4491b4e0620a98eb87d020e6463770a2ddeb21e71bbe31235d048e94d879ce3",
+      "sha256": "8bd49db386c6078ffa5355c101ba3a54457bd5007702f40d421ac2a79e2f2871",
       "source_file": "templates\\source\\TDS_CN_冠志模板.doc",
       "source_sha256": "5e360ec1a260bfee597b4ea802adec8fbf43492a033ddb57e4ef1188a880d599",
       "snapshot": {
@@ -388,7 +388,7 @@
             "text": "脂肪族接着聚氨酯树脂 PU-1001",
             "shape": {
               "style": "Normal",
-              "alignment": null,
+              "alignment": "CENTER (1)",
               "numbering": null,
               "spacing": {
                 "xml": {
@@ -399,7 +399,7 @@
                 "line_spacing_rule": "AT_LEAST (3)",
                 "space_before": "None",
                 "space_after": "None",
-                "left_indent": "1917700",
+                "left_indent": "None",
                 "right_indent": "0",
                 "first_line_indent": "None"
               },
@@ -449,12 +449,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "100",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "63500",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -504,13 +506,15 @@
               "numbering": null,
               "spacing": {
                 "xml": {
-                  "line": "324",
-                  "lineRule": "auto"
+                  "line": "300",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "1.35",
+                "line_spacing": "1.25",
                 "line_spacing_rule": "MULTIPLE (5)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "0",
                 "right_indent": "0",
                 "first_line_indent": "None"
@@ -539,12 +543,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "160",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "101600",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -594,13 +600,15 @@
               "numbering": null,
               "spacing": {
                 "xml": {
-                  "line": "324",
-                  "lineRule": "auto"
+                  "line": "300",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "1.35",
+                "line_spacing": "1.25",
                 "line_spacing_rule": "MULTIPLE (5)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "0",
                 "right_indent": "0",
                 "first_line_indent": "None"
@@ -629,12 +637,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "160",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "101600",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -707,12 +717,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "160",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "101600",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -768,13 +780,15 @@
               },
               "spacing": {
                 "xml": {
-                  "line": "0",
-                  "lineRule": "atLeast"
+                  "line": "280",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "0",
-                "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "line_spacing": "1.1666666666666667",
+                "line_spacing_rule": "MULTIPLE (5)",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "533400",
                 "right_indent": "None",
                 "first_line_indent": "-228600"
@@ -805,13 +819,15 @@
               },
               "spacing": {
                 "xml": {
-                  "line": "0",
-                  "lineRule": "atLeast"
+                  "line": "280",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "0",
-                "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "line_spacing": "1.1666666666666667",
+                "line_spacing_rule": "MULTIPLE (5)",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "533400",
                 "right_indent": "None",
                 "first_line_indent": "-228600"
@@ -865,12 +881,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "160",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "101600",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -920,13 +938,15 @@
               "numbering": null,
               "spacing": {
                 "xml": {
-                  "line": "0",
-                  "lineRule": "atLeast"
+                  "line": "300",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "0",
-                "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "line_spacing": "1.25",
+                "line_spacing_rule": "MULTIPLE (5)",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "0",
                 "right_indent": "0",
                 "first_line_indent": "None"
@@ -977,12 +997,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "160",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "101600",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -1032,13 +1054,15 @@
               "numbering": null,
               "spacing": {
                 "xml": {
-                  "line": "324",
-                  "lineRule": "auto"
+                  "line": "300",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "1.35",
+                "line_spacing": "1.25",
                 "line_spacing_rule": "MULTIPLE (5)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "0",
                 "right_indent": "0",
                 "first_line_indent": "None"
@@ -2226,7 +2250,7 @@
         "docProps/core.xml": "2a3e5a26a1c20f076f2428ccd5620506bd9d84c65c13123f24fb123daf5a57a0",
         "docProps/custom.xml": "ba275e2e6ea92ae3bcb03405cba1df27537fbc83b2652d9e377ace211d1e2070",
         "word/_rels/document.xml.rels": "4acc2bd217f64b12832cab176f9c5cb183204c0b567b712b7807f04d30f5fafb",
-        "word/document.xml": "939e9a16c593f34311664752a7937c0b1fda42da082f23b09a0dd1067467aa64",
+        "word/document.xml": "80cbc1068c02f947eb084f10675ba4e539c76b658814d20694297d1f9640d65b",
         "word/fontTable.xml": "260be67a003c2e4e25239e69fc29cf4c3ee483ff86c0d9f27d3f351e6281de4d",
         "word/media/image1.jpeg": "54731734d97aff5d6aa55653e3e9c5f1b7daa808e1ca12d284e307ee2e16244f",
         "word/numbering.xml": "cf175df93e688a2423b60f7fdc40fcc6862fd226d6df6e51e8bf2c5ad8333365",
@@ -2237,7 +2261,7 @@
     },
     "TDS_CN_国彩模板": {
       "file": "templates\\active\\TDS_CN_国彩模板.docx",
-      "sha256": "3ab4c0353a5e450deabd6cf4bb867d445f3b0bd1b128a99385558ccaea1a8924",
+      "sha256": "2bf8a7acbad9eb73969bde9d62c5bf1cad862ea88c02fed7fb0ec14562660e6e",
       "source_file": "templates\\source\\TDS_CN_国彩模板.doc",
       "source_sha256": "26f6258d6a906db0ccbb76d25df5788ccd3700aad5fd502270803dddfcee02d0",
       "snapshot": {
@@ -2544,7 +2568,7 @@
             "text": "脂肪族接着聚氨酯树脂 PU-1001",
             "shape": {
               "style": "Normal",
-              "alignment": null,
+              "alignment": "CENTER (1)",
               "numbering": null,
               "spacing": {
                 "xml": {
@@ -2555,7 +2579,7 @@
                 "line_spacing_rule": "AT_LEAST (3)",
                 "space_before": "None",
                 "space_after": "None",
-                "left_indent": "1917700",
+                "left_indent": "None",
                 "right_indent": "0",
                 "first_line_indent": "None"
               },
@@ -2605,12 +2629,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "100",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "63500",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -2660,13 +2686,15 @@
               "numbering": null,
               "spacing": {
                 "xml": {
-                  "line": "324",
-                  "lineRule": "auto"
+                  "line": "300",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "1.35",
+                "line_spacing": "1.25",
                 "line_spacing_rule": "MULTIPLE (5)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "0",
                 "right_indent": "0",
                 "first_line_indent": "None"
@@ -2695,12 +2723,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "160",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "101600",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -2750,13 +2780,15 @@
               "numbering": null,
               "spacing": {
                 "xml": {
-                  "line": "324",
-                  "lineRule": "auto"
+                  "line": "300",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "1.35",
+                "line_spacing": "1.25",
                 "line_spacing_rule": "MULTIPLE (5)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "0",
                 "right_indent": "0",
                 "first_line_indent": "None"
@@ -2785,12 +2817,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "160",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "101600",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -2863,12 +2897,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "160",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "101600",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -2924,13 +2960,15 @@
               },
               "spacing": {
                 "xml": {
-                  "line": "0",
-                  "lineRule": "atLeast"
+                  "line": "280",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "0",
-                "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "line_spacing": "1.1666666666666667",
+                "line_spacing_rule": "MULTIPLE (5)",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "533400",
                 "right_indent": "None",
                 "first_line_indent": "-228600"
@@ -2961,13 +2999,15 @@
               },
               "spacing": {
                 "xml": {
-                  "line": "0",
-                  "lineRule": "atLeast"
+                  "line": "280",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "0",
-                "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "line_spacing": "1.1666666666666667",
+                "line_spacing_rule": "MULTIPLE (5)",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "533400",
                 "right_indent": "None",
                 "first_line_indent": "-228600"
@@ -3021,12 +3061,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "160",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "101600",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -3076,13 +3118,15 @@
               "numbering": null,
               "spacing": {
                 "xml": {
-                  "line": "0",
-                  "lineRule": "atLeast"
+                  "line": "300",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "0",
-                "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "line_spacing": "1.25",
+                "line_spacing_rule": "MULTIPLE (5)",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "0",
                 "right_indent": "0",
                 "first_line_indent": "None"
@@ -3133,12 +3177,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "160",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "101600",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -3188,13 +3234,15 @@
               "numbering": null,
               "spacing": {
                 "xml": {
-                  "line": "324",
-                  "lineRule": "auto"
+                  "line": "300",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "1.35",
+                "line_spacing": "1.25",
                 "line_spacing_rule": "MULTIPLE (5)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "0",
                 "right_indent": "0",
                 "first_line_indent": "None"
@@ -4360,7 +4408,7 @@
         "docProps/core.xml": "8085e3ff688ff1f931afa775ab1eec7a36b354b7fd0abbb66e11d93a1baafff1",
         "docProps/custom.xml": "704bb56c52f636fb71fa35837becba57a298b49ea75a04cd0124d573dacaa98f",
         "word/_rels/document.xml.rels": "8ec1c00209856d3e712f2290580e91a8892d384c5ad0646a566c7170d81851f2",
-        "word/document.xml": "cf5938420fca56a57a4513848c06b655b8f73f0de1d1bd35435a6d8f373a1a12",
+        "word/document.xml": "4ebbcf50388da8511f1da1f1c94709849624f700df22f059b1b7dbc13ba6eebc",
         "word/fontTable.xml": "f9e30c1f4b9aac50113f193c70bdbfd43b240541616b6dde370ac59398024225",
         "word/numbering.xml": "cf175df93e688a2423b60f7fdc40fcc6862fd226d6df6e51e8bf2c5ad8333365",
         "word/settings.xml": "dd2315f0b215f053b051c9f641d1cb7e495b43eb80314c7e29752eccc9e6b9dc",
@@ -4370,7 +4418,7 @@
     },
     "TDS_EN_冠志模板": {
       "file": "templates\\active\\TDS_EN_冠志模板.docx",
-      "sha256": "476615298f199dd744a3899466a6389e1f1ddda29ec1006f027c4120596b5d11",
+      "sha256": "2165efbe143be1238e5680c2850cf9adf5938de9cbb0a552d0b32b8cf373e537",
       "source_file": "templates\\source\\TDS_EN_冠志模板.doc",
       "source_sha256": "7d177b7685223d821745122b358b5e58ee0a1b4c893f985d4a6a32099fa9cb3d",
       "snapshot": {
@@ -4794,12 +4842,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "100",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "63500",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -4849,13 +4899,15 @@
               "numbering": null,
               "spacing": {
                 "xml": {
-                  "line": "324",
-                  "lineRule": "auto"
+                  "line": "300",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "1.35",
+                "line_spacing": "1.25",
                 "line_spacing_rule": "MULTIPLE (5)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "0",
                 "right_indent": "0",
                 "first_line_indent": "304800"
@@ -4884,12 +4936,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "160",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "101600",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -4951,13 +5005,15 @@
               "numbering": null,
               "spacing": {
                 "xml": {
-                  "line": "324",
-                  "lineRule": "auto"
+                  "line": "300",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "1.35",
+                "line_spacing": "1.25",
                 "line_spacing_rule": "MULTIPLE (5)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "0",
                 "right_indent": "0",
                 "first_line_indent": "304800"
@@ -4986,12 +5042,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "160",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "101600",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -5064,12 +5122,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "160",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "101600",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -5122,13 +5182,15 @@
               },
               "spacing": {
                 "xml": {
-                  "line": "324",
-                  "lineRule": "auto"
+                  "line": "280",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "1.35",
+                "line_spacing": "1.1666666666666667",
                 "line_spacing_rule": "MULTIPLE (5)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "533400",
                 "right_indent": "0",
                 "first_line_indent": "-228600"
@@ -5159,13 +5221,15 @@
               },
               "spacing": {
                 "xml": {
-                  "line": "324",
-                  "lineRule": "auto"
+                  "line": "280",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "1.35",
+                "line_spacing": "1.1666666666666667",
                 "line_spacing_rule": "MULTIPLE (5)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "533400",
                 "right_indent": "0",
                 "first_line_indent": "-228600"
@@ -5194,12 +5258,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "160",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "101600",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -5249,13 +5315,15 @@
               "numbering": null,
               "spacing": {
                 "xml": {
-                  "line": "324",
-                  "lineRule": "auto"
+                  "line": "300",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "1.35",
+                "line_spacing": "1.25",
                 "line_spacing_rule": "MULTIPLE (5)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "0",
                 "right_indent": "0",
                 "first_line_indent": "304800"
@@ -5306,12 +5374,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "160",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "101600",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -5361,13 +5431,15 @@
               "numbering": null,
               "spacing": {
                 "xml": {
-                  "line": "324",
-                  "lineRule": "auto"
+                  "line": "300",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "1.35",
+                "line_spacing": "1.25",
                 "line_spacing_rule": "MULTIPLE (5)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "0",
                 "right_indent": "0",
                 "first_line_indent": "304800"
@@ -6515,7 +6587,7 @@
         "docProps/core.xml": "9e6b336ce58fc8e3713f0e71b10e1dd055cea60a92ce74cb42b85b855ba9a3ee",
         "docProps/custom.xml": "9e7a390311d992d628a6901db3ec80a5d4ebaa2f172489f4ef969337563a9e7f",
         "word/_rels/document.xml.rels": "4acc2bd217f64b12832cab176f9c5cb183204c0b567b712b7807f04d30f5fafb",
-        "word/document.xml": "679780e7c55170df01100bf9d80587a1f29fbfbbc4bb2785ae7f1f7fbc881409",
+        "word/document.xml": "c337f2613177c9dd7be7392a5c5a881b3566e1a119c699b5eebeb246ac0a460c",
         "word/fontTable.xml": "58544c6a00c62f58311eb091580f01559d099d5ffeb12ddee07f6d02154fd14a",
         "word/media/image1.jpeg": "54731734d97aff5d6aa55653e3e9c5f1b7daa808e1ca12d284e307ee2e16244f",
         "word/numbering.xml": "bc6ae41dd429ebd291287edf4ebabc8fbb79e94eee4dabc23c6fdd825a645484",
@@ -6526,7 +6598,7 @@
     },
     "TDS_EN_国彩模板": {
       "file": "templates\\active\\TDS_EN_国彩模板.docx",
-      "sha256": "144e332f2fe29bce95b27446f23d8355e346c97653e539eebcd4d09ca6f2f411",
+      "sha256": "6ff73b00e917881f52477f139c034b4e2b4cfeef89880e7e95c96a36e275510f",
       "source_file": "templates\\source\\TDS_EN_国彩模板.doc",
       "source_sha256": "df365acc5b827f4a598e358f2c47dd80190c1aa47598edbfb0944337339d3fe8",
       "snapshot": {
@@ -6927,12 +6999,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "100",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "63500",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -6982,13 +7056,15 @@
               "numbering": null,
               "spacing": {
                 "xml": {
-                  "line": "324",
-                  "lineRule": "auto"
+                  "line": "300",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "1.35",
+                "line_spacing": "1.25",
                 "line_spacing_rule": "MULTIPLE (5)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "0",
                 "right_indent": "0",
                 "first_line_indent": "304800"
@@ -7017,12 +7093,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "160",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "101600",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -7084,13 +7162,15 @@
               "numbering": null,
               "spacing": {
                 "xml": {
-                  "line": "324",
-                  "lineRule": "auto"
+                  "line": "300",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "1.35",
+                "line_spacing": "1.25",
                 "line_spacing_rule": "MULTIPLE (5)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "0",
                 "right_indent": "0",
                 "first_line_indent": "304800"
@@ -7119,12 +7199,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "160",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "101600",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -7197,12 +7279,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "160",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "101600",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -7255,13 +7339,15 @@
               },
               "spacing": {
                 "xml": {
-                  "line": "324",
-                  "lineRule": "auto"
+                  "line": "280",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "1.35",
+                "line_spacing": "1.1666666666666667",
                 "line_spacing_rule": "MULTIPLE (5)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "533400",
                 "right_indent": "0",
                 "first_line_indent": "-228600"
@@ -7292,13 +7378,15 @@
               },
               "spacing": {
                 "xml": {
-                  "line": "324",
-                  "lineRule": "auto"
+                  "line": "280",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "1.35",
+                "line_spacing": "1.1666666666666667",
                 "line_spacing_rule": "MULTIPLE (5)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "533400",
                 "right_indent": "0",
                 "first_line_indent": "-228600"
@@ -7327,12 +7415,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "160",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "101600",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -7382,13 +7472,15 @@
               "numbering": null,
               "spacing": {
                 "xml": {
-                  "line": "324",
-                  "lineRule": "auto"
+                  "line": "300",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "1.35",
+                "line_spacing": "1.25",
                 "line_spacing_rule": "MULTIPLE (5)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "0",
                 "right_indent": "0",
                 "first_line_indent": "304800"
@@ -7439,12 +7531,14 @@
               "spacing": {
                 "xml": {
                   "line": "0",
-                  "lineRule": "atLeast"
+                  "lineRule": "atLeast",
+                  "before": "160",
+                  "after": "80"
                 },
                 "line_spacing": "0",
                 "line_spacing_rule": "AT_LEAST (3)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "101600",
+                "space_after": "50800",
                 "left_indent": "None",
                 "right_indent": "None",
                 "first_line_indent": "None"
@@ -7494,13 +7588,15 @@
               "numbering": null,
               "spacing": {
                 "xml": {
-                  "line": "324",
-                  "lineRule": "auto"
+                  "line": "300",
+                  "lineRule": "auto",
+                  "before": "0",
+                  "after": "60"
                 },
-                "line_spacing": "1.35",
+                "line_spacing": "1.25",
                 "line_spacing_rule": "MULTIPLE (5)",
-                "space_before": "None",
-                "space_after": "None",
+                "space_before": "0",
+                "space_after": "38100",
                 "left_indent": "0",
                 "right_indent": "0",
                 "first_line_indent": "304800"
@@ -8648,7 +8744,7 @@
         "docProps/core.xml": "751702037723925bfbdea720dd9ad06ea3f26fa8f98fb3ad46647b6834c66fa3",
         "docProps/custom.xml": "0a23f70b4c0e916ef3c1eb0036e2f7ec04e9d3ad470b25332041201a5b44d55b",
         "word/_rels/document.xml.rels": "8ec1c00209856d3e712f2290580e91a8892d384c5ad0646a566c7170d81851f2",
-        "word/document.xml": "b6356e7ae3884b0d5be5082cf1cbd32122412b2c2979e441e72a92525c8248d0",
+        "word/document.xml": "8e29745e4efc5a87391102148fc21a547a8b0eab4723c36956235fa2a52f2cf6",
         "word/fontTable.xml": "31497392e8d75dbb0bd3852ddfbcde1b48a22030161d8ffaba58ff7c1143ffe7",
         "word/numbering.xml": "bc6ae41dd429ebd291287edf4ebabc8fbb79e94eee4dabc23c6fdd825a645484",
         "word/settings.xml": "f02ef92b7dfd2252d565d1693466e7f8a836bfaf71e890c6b3e167fca772f8c1",

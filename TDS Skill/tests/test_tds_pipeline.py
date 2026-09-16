@@ -9,10 +9,11 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from docx import Document
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
 from overwrite_tds import write_variant
 from audit_tds_eight import audit_shape, pdf_page_count
-from tds_common import body_blank_count, feature_spacing_signature, load, numbering_shape, package_inventory, paragraph_shape
+from tds_common import body_blank_count, feature_spacing_signature, inter_section_gap_errors, load, numbering_shape, package_inventory, paragraph_shape, source_fidelity_errors, source_output_fidelity_errors, text_sha256, typography_contract_errors
 
 
 def test_all_four_variants_are_fresh_clones(tmp_path):
@@ -163,6 +164,35 @@ def test_feature_slots_preserve_numbering_and_equal_spacing():
         assert variant["feature_format_contract"]["hanging_twips"] == 360
 
 
+def test_active_templates_match_standard_typography_contract():
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    for variant in registry["variants"].values():
+        assert typography_contract_errors(Document(str(ROOT / variant["template"])), variant) == []
+
+
+def test_cn_title_is_natively_centered_without_left_indent():
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    for variant_id in ("TDS_CN_冠志模板", "TDS_CN_国彩模板"):
+        variant = registry["variants"][variant_id]
+        doc = Document(str(ROOT / variant["template"]))
+        title_index = next(item["locator"]["paragraph_index"] for item in variant["slots"] if item["field_id"] == "product.title")
+        title = doc.paragraphs[title_index]
+        assert title.alignment == WD_ALIGN_PARAGRAPH.CENTER
+        assert title.paragraph_format.left_indent in (None, 0)
+        assert typography_contract_errors(doc, variant) == []
+
+
+def test_inter_section_gaps_have_no_local_blank_separator(tmp_path):
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
+    for variant_id, variant in registry["variants"].items():
+        output = tmp_path / f"section-gaps-{variant_id}.docx"
+        write_variant(mapping, registry, variant_id, output)
+        doc = Document(str(output))
+        assert body_blank_count(doc, variant) == 0
+        assert inter_section_gap_errors(doc, variant) == []
+
+
 def test_performance_extensions_clone_template_row_style(tmp_path):
     registry = load(ROOT / "mapping" / "template_field_registry.json")
     mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
@@ -283,7 +313,36 @@ def test_mapping_keeps_evidence_separate_from_normalized_model(tmp_path):
     assert decision["provenance"]["zh-CN"] == ["table[0].row[4]"]
 
 
-def test_overwrite_reads_normalized_values_not_raw_values(tmp_path):
+def test_mapping_records_verbatim_source_hashes(tmp_path):
+    facts = tmp_path / "cn.json"
+    facts.write_text(json.dumps({
+        "language": "zh-CN",
+        "title": {"text": "PU-1001"},
+        "sections": {"product.description": {"text": "成膜非常柔软。", "locations": [3]}},
+        "performance_rows": [{"item": "外观", "value": "蓝光透明液体", "unit": "", "test_method": "目测", "source_column_count": 4, "source_location": "table[0].row[1]"}]
+    }, ensure_ascii=False), encoding="utf-8")
+    output = tmp_path / "mapping.json"
+    subprocess.run([sys.executable, str(ROOT / "scripts" / "map_tds_fields.py"), "--cn", str(facts), "--registry", str(ROOT / "mapping" / "template_field_registry.json"), "--output", str(output)], check=True)
+    result = json.loads(output.read_text(encoding="utf-8"))
+    assert result["source_fidelity"]["field_sha256"]["product.description"]["zh-CN"] == text_sha256("成膜非常柔软。")
+    assert result["source_fidelity"]["performance_row_sha256"]["performance.row.001"]["zh-CN"]["value"] == text_sha256("蓝光透明液体")
+    assert source_fidelity_errors(result) == []
+
+
+def test_generated_cn_output_gate_detects_text_mutation(tmp_path):
+    registry = load(ROOT / "mapping" / "template_field_registry.json")
+    mapping = load(ROOT / "tests" / "fixtures" / "valid_mapping.json")
+    output = tmp_path / "fidelity.docx"
+    write_variant(mapping, registry, "TDS_CN_冠志模板", output)
+    doc = Document(str(output))
+    paragraph = next(p for p in doc.paragraphs if p.text == "用于水性涂层的聚氨酯分散体。")
+    paragraph.runs[0].text = "用于水性涂层的聚氨酯树脂。"
+    doc.save(str(output))
+    errors = source_output_fidelity_errors(Document(str(output)), mapping, registry, "TDS_CN_冠志模板")
+    assert "field_output_mismatch:zh-CN:product.description" in errors
+
+
+def test_overwrite_blocks_cn_normalized_values_that_change_source(tmp_path):
     registry = load(ROOT / "mapping" / "template_field_registry.json")
     mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
     mapping["schema_version"] = "1.3.0"
@@ -306,9 +365,9 @@ def test_overwrite_reads_normalized_values_not_raw_values(tmp_path):
         ],
     }
     output = tmp_path / "normalized.docx"
-    write_variant(mapping, registry, "TDS_CN_冠志模板", output)
-    rows = [[cell.text for cell in row.cells] for row in Document(str(output)).tables[0].rows]
-    assert rows[1] == ["标准化外观", "标准化液体", "", "标准化方法"]
+    with pytest.raises(RuntimeError, match="source fidelity contract"):
+        write_variant(mapping, registry, "TDS_CN_冠志模板", output)
+    assert not output.exists()
 
 
 def test_numbered_features_do_not_duplicate_template_numbering(tmp_path):
@@ -496,21 +555,18 @@ def test_no_intra_paragraph_line_breaks_in_any_variant(tmp_path):
                     assert all("\n" not in p.text and "\r" not in p.text for p in cell.paragraphs)
 
 
-def test_body_blank_trim_removes_placeholder_rows_and_keeps_compact_section_gaps(tmp_path):
+def test_body_blank_trim_removes_placeholder_rows_and_section_gaps(tmp_path):
     registry = load(ROOT / "mapping" / "template_field_registry.json")
     mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
     for variant_id, variant in registry["variants"].items():
         output = tmp_path / f"body-blank-{variant_id}.docx"
         write_variant(mapping, registry, variant_id, output)
         doc = Document(str(output))
-        assert body_blank_count(doc, variant) <= 4
+        assert body_blank_count(doc, variant) == 0
         start = next(i for i, p in enumerate(doc.paragraphs) if p.text.strip() in {"【产品描述】", "Product Description"})
-        for paragraph in doc.paragraphs[start:]:
-            if not paragraph.text.strip():
-                spacing = paragraph._p.pPr.find(qn("w:spacing"))
-                assert spacing is not None and spacing.get(qn("w:line")) == "120"
+        assert all(paragraph.text.strip() for paragraph in doc.paragraphs[start:])
         generation = json.loads(output.with_suffix(output.suffix + ".generation.json").read_text(encoding="utf-8"))
-        assert generation["body_blank_paragraph_count"] <= 4
+        assert generation["body_blank_paragraph_count"] == 0
         assert audit_shape(Document(str(ROOT / variant["template"])), doc, variant, mapping)
 
 
@@ -531,15 +587,16 @@ def test_english_vertical_budget_preserves_template_indent(tmp_path):
     body_start = next(i for i, p in enumerate(doc.paragraphs) if p.text.strip() == "Product Description")
     body = [p for p in doc.paragraphs[body_start:] if p.text.strip() and p.text.strip() not in headings]
     assert body
+    generation = json.loads(output.with_suffix(output.suffix + ".generation.json").read_text(encoding="utf-8"))
+    expected = {1: ("280", "30"), 2: ("260", "20")} [generation["english_vertical_budget_level"]]
     for paragraph in body:
         spacing = paragraph._p.pPr.find(qn("w:spacing"))
-        assert spacing is not None and spacing.get(qn("w:line")) == "260" and spacing.get(qn("w:after")) == "40"
+        assert spacing is not None and spacing.get(qn("w:line")) == expected[0] and spacing.get(qn("w:after")) == expected[1]
     ind = body[0]._p.pPr.find(qn("w:ind"))
     assert ind is not None and ind.get(qn("w:firstLineChars")) == "200" and ind.get(qn("w:firstLine")) == "480"
     feature = next(p for p in body if p.text == "Feature one.")
     feature_ind = feature._p.pPr.find(qn("w:ind"))
     assert feature_ind is not None and feature_ind.get(qn("w:left")) == "840" and feature_ind.get(qn("w:hanging")) == "360"
-    generation = json.loads(output.with_suffix(output.suffix + ".generation.json").read_text(encoding="utf-8"))
     assert generation["english_vertical_budget_applied"] is True
     assert audit_shape(Document(str(ROOT / variant["template"])), doc, variant, mapping)
 

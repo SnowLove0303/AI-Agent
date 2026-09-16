@@ -2,7 +2,7 @@
 name: tds-four-variant-eight-deliverable-standardizer
 description: Extract, normalize, professionally translate, and overwrite TDS content into CN/EN × Guanzhi/Guocai templates, producing four DOCX and four DOCX-derived PDF deliverables with auditable judgment evidence.
 metadata:
-  version: 1.3.20
+  version: 1.3.24
   short-description: TDS Skill — evidence-led normalization, agent judgment, four refreshed templates, eight auditable files
 ---
 
@@ -19,13 +19,14 @@ metadata:
 ```
 
 - 原始抽取结果是不可丢失的证据；`source_values`、原文标签、限定条件、原始位置和原始文件 hash 必须保留。
-- 标准化结果是面向输出的统一 semantic model；字段要记录 provenance、判断理由、置信度和是否需要人工/Agent 判断。`normalized_values` 才是最终覆写输入。
+- 标准化结果是面向输出的统一 semantic model；字段要记录 provenance、判断理由、置信度和是否需要人工/Agent 判断。英文使用 `normalized_values`；中文必须直接继承带哈希证据的 `source_values`，两者不一致时 fail closed。
 - 英文输出必须从标准化模型进行专业技术翻译，不得把中文模板示例、另一产品事实或未经判断的逐字替换当作翻译。已有英文源文件可以作为目标语言证据和校验材料，但不改变“标准化模型 → 英文呈现”的来源链。
 - 模板、强标注框架、检索要求、覆写要求和白名单是硬约束；别名表、历史案例、段落位置和模板示例只是候选线索，不是无条件规则。
 - 模板严格性门禁：每个字段只能写入 active 模板已注册的值槽；任何标题居中、缩进/间距重置、编号/制表位重写或非模板形状的重排都属于越权格式修改，禁止自动执行。正文中间空段只允许按 registry 的 `body_blank_trim` 规则收束，英文正文空间预算只允许按 registry 的 `english_vertical_budget` 规则触发；这两项均不得改动字体、字号、首行缩进、编号、制表位或表格框架。槽位容量不足时，只能按 registry 的扩展规则深拷贝对应模板段落/表格行的完整格式，再写入新增值；不得为了“排好看”修改模板框架。
 - 文本覆写只允许修改现有 Run 的文字节点；禁止使用 `p.text = ...`、强制注入字体/字号、把多 Run 内容粗暴倒入固定 Run 后丢弃其余格式，或用任何格式归一化函数重建段落。每个模块必须从对应模板的原始文字 Run 中选择格式锚点，保留全部 `pPr`/`rPr`/Run 节点结构；新增内容只能深拷贝对应模板单元后替换文字。
 - active 模板本身的版式就是唯一权威。若模板示例标题看起来偏右，Skill 不得擅自删除模板缩进或强制居中；应保留原模板版式并把“模板基线需人工修订”作为独立问题提出。只有用户另行确认模板变更，才能更新 active 模板与 registry。
 - 具体抽取边界、归类、合并/拆分、单位与限定条件保留方式、术语选择和英文句法由 Agent 根据上下文、源证据和目标变体判断。若存在会改变客户含义的多种解释，保留原始证据并标记 `needs_judgment`；未解决前不得发布。
+- 中文内容忠实度门禁：映射记录源事实文件、文本字段和性能行 SHA-256；覆写前校验中文源值与标准化值一致并直接写入源值，生成后逐字段、逐章节行、逐性能行回读 DOCX。发现词序、术语、数值、单位、测试条件或免责声明变化时，阻断 DOCX 后的 PDF 转换和交付包发布；仅允许登记的列表序号剥离、外层空白收束和段落拆分。
 
 执行源文件、翻译或覆写任务前，读取 `references/agent_judgment_protocol.md`。它规定判断顺序和证据格式，不替代 Agent 对具体内容的专业判断。
 

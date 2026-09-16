@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from tds_common import dump, infer_performance_topology, load, norm
+from tds_common import dump, infer_performance_topology, load, norm, source_fidelity_contract
 
 
 # These are candidate signals only. The decision ledger records whether the
@@ -275,6 +275,7 @@ def main() -> None:
     decisions = [source_row_decision(item) for item in performance_rows]
     decisions.extend(text_decisions(fields))
     model = normalized_model(fields, performance_rows, decisions, table_topology)
+    fidelity = source_fidelity_contract(fields, performance_rows, paths)
     dump(
         args.output,
         {
@@ -286,6 +287,7 @@ def main() -> None:
             "performance_table_topology": table_topology,
             "performance_extra_rows": extra_rows,
             "decision_ledger": decisions,
+            "source_fidelity": fidelity,
             "blockers": blockers,
             "status": "blocked" if blockers else "ready",
         },
