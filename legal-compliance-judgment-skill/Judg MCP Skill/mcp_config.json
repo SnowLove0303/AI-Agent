@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "substance-compliance-mcp": {
+      "command": "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+      "args": [
+        "C:\\Users\\Administrator\\.gemini\\config\\mcp-servers\\substance-compliance-mcp\\server.py"
+      ]
+    }
+  }
+}
