@@ -22,4 +22,4 @@
 
 - [x] 4.1 Run OpenSpec validation and review the diff for scope; verify only the new skill folder and this change are staged.
 - [x] 4.2 Run the full targeted test command and a clean CLI smoke test; verify the generated report matrix is readable and deterministic.
-- [ ] 4.3 Commit the isolated change on the repository's current `main` line and push only the new commit to `origin/main`; verify remote HEAD equals the pushed commit and report the commit hash.
+- [x] 4.3 Commit the isolated change on the repository's current `main` line and push only the new commit to `origin/main`; verify remote HEAD equals the pushed commit and report the commit hash.
