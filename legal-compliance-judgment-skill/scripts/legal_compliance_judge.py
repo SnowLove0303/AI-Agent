@@ -7,6 +7,7 @@ import argparse
 import csv
 import hashlib
 import json
+import os
 import re
 import sys
 from datetime import datetime, timezone
@@ -19,7 +20,7 @@ NA = "不适用"
 EVIDENCE = "需补证"
 
 DEFAULT_DATA_ROOT = r"F:\APP Location\Guanzhi Tong\法律法规物质清单"
-SCRIPT_VERSION = "1.1.0"
+SCRIPT_VERSION = "1.2.0"
 
 DEFAULT_STANDARDS = [
     "REACH SVHC 253项", "REACH Annex XVII", "RoHS", "HSF 001", "BSBL",
@@ -292,19 +293,31 @@ def measurement_for(component: dict[str, Any], facts: dict[str, Any]) -> Any:
     return component.get("concentration")
 
 
-def evaluate_standard(standard: str, facts: dict[str, Any], rows: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
+def evaluate_standard(
+    standard: str,
+    facts: dict[str, Any],
+    rows: dict[str, list[dict[str, Any]]],
+    uncertainty_allowed: bool = False,
+    explicit_standard: bool = False,
+) -> dict[str, Any]:
     applicable, reason = applies(standard, facts)
     result: dict[str, Any] = {"standard": standard, "status": None, "applicable": applicable, "scope_reason": reason, "matches": [], "evidence": [], "evidence_details": []}
     if not applicable:
         result["status"] = NA
         return result
     if standard in OPAQUE_STANDARDS:
-        result["status"] = EVIDENCE
-        result["evidence"] = ["需要该客户/企业标准的现行限值、适用范围和测试方法"]
+        result["status"] = EVIDENCE if (uncertainty_allowed or explicit_standard) else PASS
+        detail = "需要该客户/企业标准的现行限值、适用范围和测试方法"
+        result["evidence_details"] = [{"rule_path": "opaque-standard/no-structured-source", "reason": detail}]
+        if result["status"] == EVIDENCE:
+            result["evidence"] = [detail]
         return result
     if standard not in rows:
-        result["status"] = EVIDENCE
-        result["evidence"] = ["适用范围已确定，但当前数据包没有该标准的结构化限值规则"]
+        detail = "适用范围已确定，但当前完整资料包没有该标准的结构化限值规则"
+        result["status"] = EVIDENCE if (uncertainty_allowed or explicit_standard) else PASS
+        result["evidence_details"] = [{"rule_path": "complete-facts/no-structured-source", "reason": detail}]
+        if result["status"] == EVIDENCE:
+            result["evidence"] = [detail]
         return result
     for component in facts.get("components", []):
         for row in rows[standard]:
@@ -342,21 +355,45 @@ def evaluate_standard(standard: str, facts: dict[str, Any], rows: dict[str, list
         elif measured_quantity["value"] > limit_quantity["value"]:
             result["status"] = FAIL
             return result
-    result["status"] = EVIDENCE if unresolved else PASS
+    result["status"] = EVIDENCE if unresolved and uncertainty_allowed else PASS
     if unresolved:
-        result["evidence"] = [detail["reason"] for detail in result["evidence_details"] if detail.get("reason")]
+        if uncertainty_allowed:
+            result["evidence"] = [detail["reason"] for detail in result["evidence_details"] if detail.get("reason")]
+        else:
+            result["evidence_details"] = [
+                *result["evidence_details"],
+                {"rule_path": "strict-closed-world/resolved-as-pass", "reason": "完整资料模式：未提供可比较的额外检测值或换算条件，按未超过限值处理"},
+            ]
     return result
 
 
-def judge(facts: dict[str, Any], standards: list[str], data_root: str | Path, db_path: str | Path | None = None, selection: list[dict[str, Any]] | None = None, mode: str = "explicit") -> dict[str, Any]:
+def judge(
+    facts: dict[str, Any],
+    standards: list[str],
+    data_root: str | Path,
+    db_path: str | Path | None = None,
+    selection: list[dict[str, Any]] | None = None,
+    mode: str = "explicit",
+    allow_uncertainty: bool | None = None,
+) -> dict[str, Any]:
     if facts.get("assume_complete") is not True:
         raise ValueError("闭世界模式要求 facts.assume_complete=true")
+    uncertainty_allowed = bool(facts.get("allow_uncertainty", False)) if allow_uncertainty is None else allow_uncertainty
     if db_path:
         from legal_compliance_db import load_rows_from_db
         rows, sources, root = load_rows_from_db(db_path, standards)
     else:
         rows, sources, root = load_rows(data_root, standards)
-    results = [evaluate_standard(standard, facts, rows) for standard in standards]
+    results = [
+        evaluate_standard(
+            standard,
+            facts,
+            rows,
+            uncertainty_allowed=uncertainty_allowed,
+            explicit_standard=mode == "explicit",
+        )
+        for standard in standards
+    ]
     counts = {status: sum(result["status"] == status for result in results) for status in (PASS, FAIL, NA, EVIDENCE)}
     return {
         "report_schema": "legal-compliance-judgment/1.0",
@@ -364,7 +401,8 @@ def judge(facts: dict[str, Any], standards: list[str], data_root: str | Path, db
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "product_name": facts.get("product_name", "未命名产品"),
         "mode": mode,
-        "assumptions": ["MSDS/TDS 提供的配方、CAS/EC、含量和用途事实完整且确定", "未列入完整事实的物质在本次闭世界判断中视为不存在"],
+        "uncertainty_mode": "explicit_uncertainty" if uncertainty_allowed else "strict_closed_world",
+        "assumptions": ["MSDS/TDS 及用户提供资料是完整、确定且唯一的信息源", "未列入完整事实的物质在本次闭世界判断中视为不存在，不要求补充该物质报告", "没有可比较检测值的命中规则在严格闭世界模式下按未超过限值处理"],
         "facts": facts,
         "data_root": str(root),
         "database_path": str(db_path) if db_path else "",
@@ -376,7 +414,7 @@ def judge(facts: dict[str, Any], standards: list[str], data_root: str | Path, db
 
 
 def markdown(report: dict[str, Any]) -> str:
-    lines = [f"# 法律法规合格性检查报告：{report['product_name']}", "", f"- 生成时间：{report['generated_at']}", f"- 数据根目录：`{report['data_root']}`", f"- 法规知识库：`{report.get('database_path', '未使用数据库')}`", f"- 判断运行 ID：`{report.get('run_id', '未持久化')}`", "- 判断模式：完整事实、闭世界", "", "## 输入事实与假设", "", "```json", json.dumps(report["facts"], ensure_ascii=False, indent=2), "```", ""]
+    lines = [f"# 法律法规合格性检查报告：{report['product_name']}", "", f"- 生成时间：{report['generated_at']}", f"- 数据根目录：`{report['data_root']}`", f"- 法规知识库：`{report.get('database_path', '未使用数据库')}`", f"- 判断运行 ID：`{report.get('run_id', '未持久化')}`", f"- 判断模式：{report.get('mode', 'explicit')}", f"- 不确定性策略：{report.get('uncertainty_mode', 'strict_closed_world')}", "", "## 输入事实与假设", "", "```json", json.dumps(report["facts"], ensure_ascii=False, indent=2), "```", ""]
     lines += ["## 逐项判断", "", "| 法律法规/标准 | 结果 | 适用性理由 | 命中物质/匹配键 | 检测值/限值/单位 | 源行/方法 | 证据 |", "|---|---|---|---|---|---|---|"]
     for result in report["results"]:
         matches = "; ".join(f"{item['component'].get('name', '')} [{item.get('match_key', '')}]" for item in result["matches"]) or "—"
@@ -404,10 +442,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--catalog", default=None, help="法规目录 JSON 路径，默认使用技能 references/regulation_catalog.json")
     parser.add_argument("--data-root", default=None, help="法规数据根目录")
     parser.add_argument("--format", choices=("json", "markdown"), default="json")
-    parser.add_argument("--output", required=True, help="输出文件")
+    parser.add_argument("--allow-uncertainty", action="store_true", help="显式允许需补证结果；默认严格闭世界")
+    parser.add_argument("--output", required=False, help="可选 JSON/Markdown 中间文件")
+    parser.add_argument("--output-pdf", required=True, help="强制输出的书面 PDF 报告")
     args = parser.parse_args(argv)
     facts = json.loads(Path(args.facts).read_text(encoding="utf-8"))
-    data_root = args.data_root or __import__("os").environ.get("GUANZHI_TONG_LEGAL_DATA_ROOT", DEFAULT_DATA_ROOT)
+    data_root = args.data_root or os.environ.get("GUANZHI_TONG_LEGAL_DATA_ROOT", DEFAULT_DATA_ROOT)
     selection: list[dict[str, Any]] = []
     mode = "explicit"
     if args.init_db or args.refresh_db:
@@ -428,12 +468,26 @@ def main(argv: list[str] | None = None) -> int:
             standards = json.loads(standards_path.read_text(encoding="utf-8"))
         else:
             standards = [item.strip() for item in args.standards.split(",") if item.strip()]
-    report = judge(facts, standards, data_root, db_path=args.db, selection=selection, mode=mode)
+    report = judge(
+        facts,
+        standards,
+        data_root,
+        db_path=args.db,
+        selection=selection,
+        mode=mode,
+        allow_uncertainty=args.allow_uncertainty or None,
+    )
+    report["pdf_path"] = str(Path(args.output_pdf))
     if args.db:
         from legal_compliance_db import record_run
         report["run_id"] = record_run(args.db, facts, selection, report, mode)
-    output = markdown(report) if args.format == "markdown" else json.dumps(report, ensure_ascii=False, indent=2)
-    Path(args.output).write_text(output + ("" if output.endswith("\n") else "\n"), encoding="utf-8")
+    from legal_compliance_pdf import write_pdf_report
+    write_pdf_report(report, args.output_pdf)
+    if args.output:
+        output = markdown(report) if args.format == "markdown" else json.dumps(report, ensure_ascii=False, indent=2)
+        output_path = Path(args.output)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(output + ("" if output.endswith("\n") else "\n"), encoding="utf-8")
     return 0
 
 

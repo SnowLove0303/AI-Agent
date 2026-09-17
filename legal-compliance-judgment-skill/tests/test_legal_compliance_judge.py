@@ -1,5 +1,6 @@
 import csv
 import json
+import shutil
 import tempfile
 import unittest
 from pathlib import Path
@@ -7,6 +8,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).parents[1] / "scripts"))
 from legal_compliance_judge import EVIDENCE, FAIL, NA, PASS, component_match, judge  # noqa: E402
+from legal_compliance_pdf import verify_pdf, write_pdf_report  # noqa: E402
 
 
 FILES = {
@@ -79,8 +81,26 @@ class LegalComplianceJudgeTests(unittest.TestCase):
     def test_incompatible_units_require_evidence(self):
         facts = self.facts(final_use=["electronic coating"], substrates=["electronic"], components=[{"name": "lead", "cas": "7439-92-1", "concentration": "1 mg/L"}])
         report = judge(facts, ["RoHS"], self.root)
-        self.assertEqual(report["results"][0]["status"], EVIDENCE)
-        self.assertIn("不可直接换算", report["results"][0]["evidence"][0])
+        self.assertEqual(report["results"][0]["status"], PASS)
+        self.assertEqual(report["results"][0]["evidence_details"][-1]["rule_path"], "strict-closed-world/resolved-as-pass")
+        uncertain = judge(facts, ["RoHS"], self.root, allow_uncertainty=True)
+        self.assertEqual(uncertain["results"][0]["status"], EVIDENCE)
+        self.assertIn("不可直接换算", uncertain["results"][0]["evidence"][0])
+
+    def test_missing_measurement_is_not_a_request_for_another_report(self):
+        facts = self.facts(final_use=["electronic coating"], substrates=["electronic"], components=[{"name": "lead", "cas": "7439-92-1"}])
+        report = judge(facts, ["RoHS"], self.root)
+        self.assertEqual(report["results"][0]["status"], PASS)
+        self.assertEqual(report["uncertainty_mode"], "strict_closed_world")
+
+    def test_pdf_is_written_and_verified(self):
+        if not shutil.which("soffice"):
+            self.skipTest("LibreOffice soffice unavailable")
+        report = judge(self.facts(), ["REACH SVHC 253项"], self.root)
+        output = Path(self.temp.name) / "report.pdf"
+        info = write_pdf_report(report, output)
+        self.assertEqual(info["pages"], verify_pdf(output)["pages"])
+        self.assertGreater(info["bytes"], 0)
 
     def test_limit_exceedance_is_nonconforming(self):
         facts = self.facts(final_use=["toy coating"], components=[{"name": "benzo[a]pyrene", "cas": "50-32-8", "concentration": "0.3 mg/kg"}])
