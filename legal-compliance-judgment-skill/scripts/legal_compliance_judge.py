@@ -348,10 +348,14 @@ def evaluate_standard(standard: str, facts: dict[str, Any], rows: dict[str, list
     return result
 
 
-def judge(facts: dict[str, Any], standards: list[str], data_root: str | Path) -> dict[str, Any]:
+def judge(facts: dict[str, Any], standards: list[str], data_root: str | Path, db_path: str | Path | None = None, selection: list[dict[str, Any]] | None = None, mode: str = "explicit") -> dict[str, Any]:
     if facts.get("assume_complete") is not True:
         raise ValueError("闭世界模式要求 facts.assume_complete=true")
-    rows, sources, root = load_rows(data_root, standards)
+    if db_path:
+        from legal_compliance_db import load_rows_from_db
+        rows, sources, root = load_rows_from_db(db_path, standards)
+    else:
+        rows, sources, root = load_rows(data_root, standards)
     results = [evaluate_standard(standard, facts, rows) for standard in standards]
     counts = {status: sum(result["status"] == status for result in results) for status in (PASS, FAIL, NA, EVIDENCE)}
     return {
@@ -359,17 +363,20 @@ def judge(facts: dict[str, Any], standards: list[str], data_root: str | Path) ->
         "script_version": SCRIPT_VERSION,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "product_name": facts.get("product_name", "未命名产品"),
+        "mode": mode,
         "assumptions": ["MSDS/TDS 提供的配方、CAS/EC、含量和用途事实完整且确定", "未列入完整事实的物质在本次闭世界判断中视为不存在"],
         "facts": facts,
         "data_root": str(root),
+        "database_path": str(db_path) if db_path else "",
         "sources": sources,
+        "selection": selection or [],
         "results": results,
         "counts": counts,
     }
 
 
 def markdown(report: dict[str, Any]) -> str:
-    lines = [f"# 法律法规合格性检查报告：{report['product_name']}", "", f"- 生成时间：{report['generated_at']}", f"- 数据根目录：`{report['data_root']}`", "- 判断模式：完整事实、闭世界", "", "## 输入事实与假设", "", "```json", json.dumps(report["facts"], ensure_ascii=False, indent=2), "```", ""]
+    lines = [f"# 法律法规合格性检查报告：{report['product_name']}", "", f"- 生成时间：{report['generated_at']}", f"- 数据根目录：`{report['data_root']}`", f"- 法规知识库：`{report.get('database_path', '未使用数据库')}`", f"- 判断运行 ID：`{report.get('run_id', '未持久化')}`", "- 判断模式：完整事实、闭世界", "", "## 输入事实与假设", "", "```json", json.dumps(report["facts"], ensure_ascii=False, indent=2), "```", ""]
     lines += ["## 逐项判断", "", "| 法律法规/标准 | 结果 | 适用性理由 | 命中物质/匹配键 | 检测值/限值/单位 | 源行/方法 | 证据 |", "|---|---|---|---|---|---|---|"]
     for result in report["results"]:
         matches = "; ".join(f"{item['component'].get('name', '')} [{item.get('match_key', '')}]" for item in result["matches"]) or "—"
@@ -378,6 +385,9 @@ def markdown(report: dict[str, Any]) -> str:
         evidence = "; ".join(result["evidence"]) or "—"
         reason = result["scope_reason"].replace("|", "\\|")
         lines.append(f"| {result['standard']} | {result['status']} | {reason} | {matches} | {rule_values} | {source_values} | {evidence} |")
+    lines += ["", "## 法规选择", ""]
+    for candidate in report.get("selection", []):
+        lines.append(f"- `{candidate.get('name')}`：{'适用' if candidate.get('applicable') else '不适用'}；{candidate.get('reason', '')}")
     lines += ["", "## 汇总", "", json.dumps(report["counts"], ensure_ascii=False, indent=2), "", "## 数据源", ""]
     for source in report["sources"]:
         lines.append(f"- `{source.get('standard')}`: `{source.get('file', source.get('directory'))}`，行数/文件数 `{source.get('rows', source.get('files', '—'))}`，SHA-256 `{source.get('sha256', '目录登记')}`")
@@ -387,19 +397,41 @@ def markdown(report: dict[str, Any]) -> str:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--facts", required=True, help="完整事实 JSON 文件")
-    parser.add_argument("--standards", required=True, help="标准 JSON 数组文件，或逗号分隔标准名")
+    parser.add_argument("--standards", required=False, help="标准 JSON 数组文件、逗号分隔标准名，或 auto；省略时使用 --db 自动选择")
+    parser.add_argument("--db", default=None, help="法规知识库 SQLite 路径；配合 auto 使用")
+    parser.add_argument("--init-db", action="store_true", help="在判断前从目录和外部法规数据初始化/重建数据库")
+    parser.add_argument("--refresh-db", action="store_true", help="在判断前刷新外部法规派生规则")
+    parser.add_argument("--catalog", default=None, help="法规目录 JSON 路径，默认使用技能 references/regulation_catalog.json")
     parser.add_argument("--data-root", default=None, help="法规数据根目录")
     parser.add_argument("--format", choices=("json", "markdown"), default="json")
     parser.add_argument("--output", required=True, help="输出文件")
     args = parser.parse_args(argv)
     facts = json.loads(Path(args.facts).read_text(encoding="utf-8"))
-    standards_path = Path(args.standards)
-    if standards_path.is_file():
-        standards = json.loads(standards_path.read_text(encoding="utf-8"))
-    else:
-        standards = [item.strip() for item in args.standards.split(",") if item.strip()]
     data_root = args.data_root or __import__("os").environ.get("GUANZHI_TONG_LEGAL_DATA_ROOT", DEFAULT_DATA_ROOT)
-    report = judge(facts, standards, data_root)
+    selection: list[dict[str, Any]] = []
+    mode = "explicit"
+    if args.init_db or args.refresh_db:
+        if not args.db:
+            raise ValueError("--init-db/--refresh-db 必须同时提供 --db")
+        from legal_compliance_db import build_database
+        build_database(args.db, data_root, args.catalog) if args.catalog else build_database(args.db, data_root)
+    if not args.standards or args.standards.strip().casefold() == "auto":
+        if not args.db:
+            raise ValueError("省略 --standards 或使用 auto 时必须提供已初始化的 --db")
+        from legal_compliance_db import select_regulations
+        selection = select_regulations(args.db, facts)
+        standards = [item["name"] for item in selection if item["applicable"]]
+        mode = "condition-driven"
+    else:
+        standards_path = Path(args.standards)
+        if standards_path.is_file():
+            standards = json.loads(standards_path.read_text(encoding="utf-8"))
+        else:
+            standards = [item.strip() for item in args.standards.split(",") if item.strip()]
+    report = judge(facts, standards, data_root, db_path=args.db, selection=selection, mode=mode)
+    if args.db:
+        from legal_compliance_db import record_run
+        report["run_id"] = record_run(args.db, facts, selection, report, mode)
     output = markdown(report) if args.format == "markdown" else json.dumps(report, ensure_ascii=False, indent=2)
     Path(args.output).write_text(output + ("" if output.endswith("\n") else "\n"), encoding="utf-8")
     return 0
