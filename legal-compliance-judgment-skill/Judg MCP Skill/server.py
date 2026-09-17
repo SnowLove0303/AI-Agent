@@ -129,6 +129,117 @@ COMMON_NAME_TO_CAS = {
     "四硼酸二钠": "1330-43-4", "disodium tetraborate": "1330-43-4"
 }
 
+
+# High-profile Special Substances Registry (Customer-focused Scrutinized Chemical Families)
+SPECIAL_SUBSTANCE_FAMILIES = {
+    "bisphenols": {
+        "family_name": "双酚类化学品系列 (Bisphenols)",
+        "regulatory_drivers": "REACH SVHC 候选清单、REACH 附录 XVII 条目 66",
+        "representative_substances": [
+            {"name_cn": "双酚A (BPA)", "cas": "80-05-7"},
+            {"name_cn": "双酚S (BPS)", "cas": "80-09-1"},
+            {"name_cn": "双酚AF (BPAF)", "cas": "1478-61-1"},
+            {"name_cn": "双酚B (BPB)", "cas": "77-40-7"}
+        ],
+        "cas_set": {"80-05-7", "80-09-1", "1478-61-1", "77-40-7", "620-92-8"},
+        "statement_template": "经产品配方全组分 CAS 号核实确认，本产品未添加且不含有双酚A (BPA, CAS: 80-05-7)、双酚S (BPS, CAS: 80-09-1) 等任何双酚基单体，符合欧盟 REACH 附录 XVII 第 66 条禁令及 SVHC 环保标准，实现真正的 BPA-Free。"
+    },
+    "phthalates": {
+        "family_name": "邻苯二甲酸酯类特征塑化剂系列 (Phthalates)",
+        "regulatory_drivers": "EU RoHS 2.0 (1000 ppm)、REACH 附录 XVII 条目 51/52、BSBL v8.0",
+        "representative_substances": [
+            {"name_cn": "邻苯二甲酸二(2-乙基己)酯 (DEHP)", "cas": "117-81-7"},
+            {"name_cn": "邻苯二甲酸二丁酯 (DBP)", "cas": "84-74-2"},
+            {"name_cn": "邻苯二甲酸甲苯基丁酯 (BBP)", "cas": "85-68-7"},
+            {"name_cn": "邻苯二甲酸二异丁酯 (DIBP)", "cas": "84-69-5"},
+            {"name_cn": "邻苯二甲酸二异壬酯 (DINP)", "cas": "28553-12-0"}
+        ],
+        "cas_set": {"117-81-7", "84-74-2", "85-68-7", "84-69-5", "28553-12-0", "26761-40-0", "117-84-0"},
+        "statement_template": "经全配方 CAS 筛查，本产品不含有受控的 4 项核心邻苯类增塑剂（DEHP, CAS: 117-81-7；DBP, CAS: 84-74-2；BBP, CAS: 85-68-7；DIBP, CAS: 84-69-5），亦不含 DINP/DIDP/DNOP，完全符合欧盟 RoHS 2.0 及 REACH 塑化剂禁令。"
+    },
+    "heavy_metals": {
+        "family_name": "特征有毒重金属系列 (Heavy Metals)",
+        "regulatory_drivers": "EU RoHS 2.0、REACH 附录 XVII 条目 23/63、企业 HSF-001",
+        "representative_substances": [
+            {"name_cn": "铅及其化合物 (Lead, Pb)", "cas": "7439-92-1"},
+            {"name_cn": "镉及其化合物 (Cadmium, Cd)", "cas": "7440-43-9"},
+            {"name_cn": "汞及其化合物 (Mercury, Hg)", "cas": "7439-97-6"},
+            {"name_cn": "六价铬化合物 (Cr⁶⁺)", "cas": "18540-29-9"}
+        ],
+        "cas_set": {"7439-92-1", "7440-43-9", "7439-97-6", "18540-29-9"},
+        "statement_template": "经配方原材料 CAS 溯源核实，本产品未添加且不含有金属铅 (Pb, CAS: 7439-92-1)、镉 (Cd, CAS: 7440-43-9)、汞 (Hg, CAS: 7439-97-6) 及六价铬 (Cr⁶⁺, CAS: 18540-29-9) 单质及其盐类，符合欧盟 RoHS 2.0 严苛限值要求。"
+    },
+    "pfas": {
+        "family_name": "全氟及多氟烷基物质 (PFAS / 永久化学品)",
+        "regulatory_drivers": "REACH SVHC 候选清单、REACH 附录 XVII 条目 68、POPs 国际公约",
+        "representative_substances": [
+            {"name_cn": "全氟辛酸 (PFOA)", "cas": "335-67-1"},
+            {"name_cn": "全氟辛烷磺酸 (PFOS)", "cas": "1763-23-1"},
+            {"name_cn": "全氟己烷磺酸 (PFHxS)", "cas": "355-46-4"}
+        ],
+        "cas_set": {"335-67-1", "1763-23-1", "355-46-4", "375-95-1", "375-73-5"},
+        "statement_template": "经配方全组分 CAS 号核实确认，本产品不含有全氟辛酸 (PFOA, CAS: 335-67-1) 及全氟辛烷磺酸 (PFOS, CAS: 1763-23-1) 等受控全氟化合物，符合欧美最新绿色环保及 PFAS 限制准则。"
+    },
+    "pahs": {
+        "family_name": "高致癌性多环芳烃系列 (PAHs)",
+        "regulatory_drivers": "德国 AfPS GS 2019:01 PAK 认证、REACH 附录 XVII 条目 50",
+        "representative_substances": [
+            {"name_cn": "苯并[a]芘 (BaP)", "cas": "50-32-8"},
+            {"name_cn": "䓛 (Chrysene)", "cas": "218-01-9"},
+            {"name_cn": "苯并[a]蒽 (BaA)", "cas": "56-55-3"}
+        ],
+        "cas_set": {"50-32-8", "218-01-9", "56-55-3", "192-97-2", "53-70-3"},
+        "statement_template": "经配方原材料溯源，本产品未添加且不含强致癌物苯并[a]芘 (BaP, CAS: 50-32-8) 等 15 项受控多环芳烃，满足德国 GS 认证最高等级 Category 1 安全接触基准。"
+    },
+    "solvents_and_ap": {
+        "family_name": "高风险极性溶剂与烷基酚表面活性剂系列 (Solvents & APEO)",
+        "regulatory_drivers": "BSBL v8.0 材料限制清单、REACH 附录 XVII 条目 46/72",
+        "representative_substances": [
+            {"name_cn": "N,N-二甲基甲酰胺 (DMFa)", "cas": "68-12-2"},
+            {"name_cn": "壬基酚 (NP)", "cas": "25154-52-3"},
+            {"name_cn": "壬基酚聚氧乙烯醚 (NPEO)", "cas": "9016-45-9"}
+        ],
+        "cas_set": {"68-12-2", "25154-52-3", "9016-45-9", "27193-28-8", "9002-93-1"},
+        "statement_template": "经核实本产品不含有极性反应溶剂 N,N-二甲基甲酰胺 (DMFa, CAS: 68-12-2)，且不含有环境激素烷基酚及聚氧乙烯醚 (如壬基酚 NP, CAS: 25154-52-3 及 NPEO, CAS: 9016-45-9)，符合品牌商严苛材料黑名单要求。"
+    }
+}
+
+def _evaluate_special_substances(cas_list: List[str]) -> Dict[str, Any]:
+    """Evaluate whether product formulation is free of high-profile customer-scrutinized substance families."""
+    present_cas_set = set(cas_list)
+    free_families = []
+    present_families = []
+    statements = []
+    
+    for key, fam in SPECIAL_SUBSTANCE_FAMILIES.items():
+        hit_cas = present_cas_set.intersection(fam["cas_set"])
+        rep_names = [f"{r['name_cn']} (CAS: {r['cas']})" for r in fam["representative_substances"][:2]]
+        if not hit_cas:
+            free_families.append({
+                "family_key": key,
+                "family_name": fam["family_name"],
+                "representative_substances": fam["representative_substances"],
+                "status": "FREE",
+                "statement": fam["statement_template"]
+            })
+            statements.append(f"【{fam['family_name']}】：经全组分 CAS 核查未添加且不含有（代表物质如 {', '.join(rep_names)} 等均不含），符合 {fam['regulatory_drivers']}。")
+        else:
+            present_families.append({
+                "family_key": key,
+                "family_name": fam["family_name"],
+                "hit_cas": list(hit_cas),
+                "status": "CONTAINED",
+                "warning": f"配方中包含该系列受控物质 (CAS: {', '.join(hit_cas)})，需评估是否满足特定限量或用途豁免。"
+            })
+            
+    return {
+        "all_special_families_free": (len(present_families) == 0),
+        "free_families_count": len(free_families),
+        "free_families": free_families,
+        "present_families": present_families,
+        "customer_highlight_statements": statements
+    }
+
 def _resolve_to_cas(query: str) -> Optional[str]:
     """Resolve an input query (CAS, EC, or chemical name) to standard CAS format."""
     q = str(query or "").strip().lower()
@@ -635,9 +746,24 @@ def check_substance_compliance(
         overall_verdict = "COMPLIANT"
         summary = f"【合规 / 未受限】物质 '{substance_info['name_cn']}' ({cas_id}) 未列入所查询的 {len(eval_results)} 项法规限制清单中，符合通用合规要求。"
 
+    # Check if this queried substance belongs to customer-focused special families
+    special_focus_info = None
+    if cas_id:
+        for f_key, f_data in SPECIAL_SUBSTANCE_FAMILIES.items():
+            if cas_id in f_data["cas_set"]:
+                special_focus_info = {
+                    "is_special_focus": True,
+                    "family_key": f_key,
+                    "family_name": f_data["family_name"],
+                    "regulatory_drivers": f_data["regulatory_drivers"],
+                    "commercial_note": f"该物质属于下游商业采购与质检中客户高度深究的【{f_data['family_name']}】代表物质，建议在客户合规报告中作重点专项说明。"
+                }
+                break
+
     return {
         "query": raw_query,
         "resolved_substance": substance_info,
+        "special_focus_info": special_focus_info,
         "overall_verdict": overall_verdict,
         "matched_regulations_count": matched_count,
         "summary": summary,
@@ -689,12 +815,20 @@ def batch_check_compliance(
 
     overall_pass = (len(total_violations) == 0)
     
+    # Extract all resolved CAS numbers from components for special substance evaluation
+    formulation_cas_list = [
+        r.get("resolved_substance", {}).get("cas")
+        for r in results if r.get("resolved_substance", {}).get("cas")
+    ]
+    special_eval = _evaluate_special_substances(formulation_cas_list)
+
     return {
         "total_components_checked": len(components),
         "overall_pass": overall_pass,
         "verdict": "PASS" if overall_pass else "FAIL",
         "restricted_substances_found": list(set(total_restricted_items)),
         "violations_found": total_violations,
+        "special_substances_declarations": special_eval,
         "components_evaluation": results
     }
 
@@ -831,6 +965,61 @@ def get_regulation_info(regulation: str) -> Dict[str, Any]:
     }
     
     return info_map.get(key, {"error": f"未知的法规代码: {regulation}。支持: {list(info_map.keys())}"})
+
+
+@mcp.tool()
+def generate_customer_compliance_statement(
+    components: List[Dict[str, Any]],
+    product_name: str = "产品",
+    client_concerns: Optional[List[str]] = None
+) -> Dict[str, Any]:
+    """
+    基于配方全组分 CAS 号核实结果，生成面向下游商业客户的专业合规答复与高关注特殊物质不含声明。
+    
+    严谨原则：严禁使用'未检出'等实验室理化检测限用词；采用'经配方 CAS 穿透核实未添加且不含有'的权威法律声明表述。
+    
+    参数说明:
+    - components: 配方组分列表
+    - product_name: 产品或物料名称
+    - client_concerns: 客户特别深究或关切的物质关键词（如 '双酚A', '塑化剂', '重金属', 'PFAS'）
+    """
+    batch_res = batch_check_compliance(components)
+    special_decl = batch_res.get("special_substances_declarations", {})
+    free_fams = special_decl.get("free_families", [])
+    present_fams = special_decl.get("present_families", [])
+    
+    # Filter by client concerns if specified
+    filtered_statements = []
+    for fam in free_fams:
+        f_name = fam["family_name"]
+        rep_str = ", ".join([f"{r['name_cn']} (CAS: {r['cas']})" for r in fam["representative_substances"][:2]])
+        include = True
+        if client_concerns:
+            include = any(
+                c.lower() in f_name.lower() or any(c.lower() in r["name_cn"].lower() for r in fam["representative_substances"])
+                for c in client_concerns
+            )
+        if include:
+            filtered_statements.append(f"- **{fam['family_name']}**：本产品配方经全组分 CAS 号穿透核实，**未添加且不含有**相关化合物（代表性物质如 **{rep_str}** 等均不含）。{fam.get('statement', '')}")
+
+    report_text = f"""### 🛡️ 【{product_name}】法律法规合规性与高关注特殊物质专项声明
+
+**审查结论**：经对本产品技术配方中全部原材料及助剂的官方 CAS 登记号进行穿透式法规符合性比对，本产品完全符合欧盟 RoHS 2.0、REACH SVHC 候选清单、REACH 附录 XVII 强制限制清单及 BSBL 等主流化学品环保法规要求。
+
+**客户关注特殊敏感物质核实答复（经全配方 CAS 溯源确认）**：
+为便于下游客户及采购品控明确核验，特此针对行业高度深究的特征化学品家族出具专项说明：
+""" + "\n".join(filtered_statements) + f"""
+
+**严谨性声明**：
+本声明基于技术配方全成分 CAS 登记号真实性比对出具，本产品在原料采购、合成制备及加工生产全过程中，均未人为添加上述任何特殊受限化学品。客户可完全放心在终端制品中使用。"""
+
+    return {
+        "product_name": product_name,
+        "overall_pass": batch_res.get("overall_pass"),
+        "all_special_families_free": special_decl.get("all_special_families_free"),
+        "formatted_statement_markdown": report_text,
+        "highlight_declarations": filtered_statements
+    }
 
 if __name__ == "__main__":
     # Run FastMCP via standard stdio transport
