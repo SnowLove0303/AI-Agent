@@ -21,9 +21,9 @@
 
 ## 3. 逐项判断
 
-| 法律法规/标准 | 结果 | 适用性理由 | 命中物质/检测值 | 限值/单位/方法 | 证据 |
-|---|---|---|---|---|---|
-| {{standard}} | {{status}} | {{scope_reason}} | {{matches}} | {{limits}} | {{evidence}} |
+| 法律法规/标准 | 结果 | 适用性理由 | 命中物质/匹配键 | 检测值/限值/单位 | 源文件/行号/方法 | 证据 |
+|---|---|---|---|---|---|---|
+| {{standard}} | {{status}} | {{scope_reason}} | {{matches}} | {{measurements_and_limits}} | {{source_row_and_method}} | {{evidence}} |
 
 ## 4. 汇总
 

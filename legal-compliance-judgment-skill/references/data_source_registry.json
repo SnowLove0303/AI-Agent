@@ -6,27 +6,33 @@
   "families": {
     "REACH SVHC 253项": {
       "kind": "csv",
-      "files": ["01_REACH_SVHC_01_物质全量清单(含组成员_545条).csv"]
+      "files": ["01_REACH_SVHC_01_物质全量清单(含组成员_545条).csv"],
+      "metadata": "01_REACH_SVHC_04_版本与元数据.csv"
     },
     "REACH Annex XVII": {
       "kind": "csv",
-      "files": ["02_REACH_附录XVII_02_受限物质明细与组成员(1868条).csv"]
+      "files": ["02_REACH_附录XVII_02_受限物质明细与组成员(1868条).csv"],
+      "metadata": "02_REACH_附录XVII_03_版本与元数据.csv"
     },
     "RoHS": {
       "kind": "csv",
-      "files": ["03_EU_RoHS_01_受限物质清单(160条_含已补全类别CAS).csv"]
+      "files": ["03_EU_RoHS_01_受限物质清单(160条_含已补全类别CAS).csv"],
+      "metadata": "03_EU_RoHS_02_版本与元数据.csv"
     },
     "HSF 001": {
       "kind": "csv",
-      "files": ["04_HSF-001_01_有害物质清单(172条_含已补全CAS).csv"]
+      "files": ["04_HSF-001_01_有害物质清单(172条_含已补全CAS).csv"],
+      "metadata": "04_HSF-001_02_版本与元数据.csv"
     },
     "BSBL": {
       "kind": "csv",
-      "files": ["05_BSBL_01_受限物质总表(1726条_已修复日期并全量补全CAS).csv"]
+      "files": ["05_BSBL_01_受限物质总表(1726条_已修复日期并全量补全CAS).csv"],
+      "metadata": "05_BSBL_03_版本与元数据.csv"
     },
     "AfPS GS 2019:01 PAK": {
       "kind": "csv",
-      "files": ["06_AfPS_GS_2019_01_PAK_01_限值清单(15单项+2合计).csv"]
+      "files": ["06_AfPS_GS_2019_01_PAK_01_限值清单(15单项+2合计).csv"],
+      "metadata": "06_AfPS_GS_2019_01_PAK_03_法规来源与说明.csv"
     }
   },
   "toy_sources": {

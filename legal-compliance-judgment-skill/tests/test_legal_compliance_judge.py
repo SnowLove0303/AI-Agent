@@ -37,6 +37,7 @@ class LegalComplianceJudgeTests(unittest.TestCase):
                 writer = csv.DictWriter(handle, fieldnames=headers)
                 writer.writeheader()
                 writer.writerow(row)
+        (csv_root / "01_REACH_SVHC_04_版本与元数据.csv").write_text("字段,字段值\n版本,fixture-2026\n", encoding="utf-8-sig")
         (root / "欧盟玩具").mkdir()
         self.root = root
 
@@ -64,6 +65,22 @@ class LegalComplianceJudgeTests(unittest.TestCase):
         facts = self.facts(components=[{"name": "benzo[a]pyrene", "cas": "50-32-8", "concentration": "0.1 mg/kg"}])
         report = judge(facts, ["REACH SVHC 253项"], self.root)
         self.assertEqual(report["results"][0]["matches"][0]["component"]["cas"], "50-32-8")
+        match = report["results"][0]["matches"][0]
+        self.assertEqual(match["match_key"], "CAS:50-32-8")
+        self.assertEqual(match["rule_evidence"]["source_row"], 2)
+        self.assertEqual(report["sources"][0]["version"], "fixture-2026")
+
+    def test_percentage_and_ppm_are_compared(self):
+        facts = self.facts(final_use=["electronic coating"], substrates=["electronic"] , components=[{"name": "lead", "cas": "7439-92-1", "concentration": "0.05%"}])
+        report = judge(facts, ["RoHS"], self.root)
+        self.assertEqual(report["results"][0]["status"], PASS)
+        self.assertEqual(report["results"][0]["matches"][0]["measured_normalized"]["value"], 500)
+
+    def test_incompatible_units_require_evidence(self):
+        facts = self.facts(final_use=["electronic coating"], substrates=["electronic"], components=[{"name": "lead", "cas": "7439-92-1", "concentration": "1 mg/L"}])
+        report = judge(facts, ["RoHS"], self.root)
+        self.assertEqual(report["results"][0]["status"], EVIDENCE)
+        self.assertIn("不可直接换算", report["results"][0]["evidence"][0])
 
     def test_limit_exceedance_is_nonconforming(self):
         facts = self.facts(final_use=["toy coating"], components=[{"name": "benzo[a]pyrene", "cas": "50-32-8", "concentration": "0.3 mg/kg"}])
