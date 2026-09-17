@@ -1,0 +1,23 @@
+{
+  "skill_name": "legal-compliance-judgment",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "根据完整的 PU-1002 MSDS/TDS，检查 REACH SVHC、REACH Annex XVII、RoHS、HSF 001、BSBL、AfPS GS 2019:01 PAK，并按产品为皮革/塑料涂层而非玩具、电子或包装输出逐项结果。",
+      "expected_output": "使用闭世界假设；逐项给出四种固定结果之一，并为 RoHS、玩具和包装范围给出不适用理由，为六类物质清单保留数据文件、行号、命中物质和限值证据。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "组件 CAS 50-32-8 命中 AfPS GS 2019:01 PAK，输入成品迁移量 0.3 mg/kg，Category 1 限值 0.2 mg/kg，给出结果。",
+      "expected_output": "适用时判定为不符合，并展示命中 CAS、测量值、限值、单位和源 CSV。",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "客户要求 Mattel RMS2901，但当前资料只有 MSDS/TDS，没有该客户标准限值和测试方法。",
+      "expected_output": "判定为需补证，明确缺少现行客户标准、适用范围和测试方法，不得把缺证写成符合。",
+      "files": []
+    }
+  ]
+}
