@@ -2,7 +2,7 @@ from __future__ import annotations
 import argparse, hashlib, json, re, subprocess, zipfile
 from pathlib import Path
 from docx import Document
-from tds_common import OUTPUT_HEADINGS, PERFORMANCE_TOPOLOGIES, ROOT, SECTION_HEADINGS, apply_vertical_budget_snapshot, body_blank_count, dump, hidden_block_indices, hidden_field_ids, inter_section_gap_errors, load, package_inventory, performance_topology, sha256, doc_snapshot, source_fidelity_errors, source_output_fidelity_errors, trim_body_blank_snapshot, typography_contract_errors
+from tds_common import split_body_paragraphs, OUTPUT_HEADINGS, PERFORMANCE_TOPOLOGIES, ROOT, SECTION_HEADINGS, apply_vertical_budget_snapshot, body_blank_count, dump, hidden_block_indices, hidden_field_ids, inter_section_gap_errors, load, package_inventory, performance_topology, sha256, doc_snapshot, source_fidelity_errors, source_output_fidelity_errors, trim_body_blank_snapshot, typography_contract_errors
 
 def shape(s):
     s=json.loads(json.dumps(s));
@@ -80,7 +80,7 @@ def audit_shape(base_doc, output_doc, variant, mapping):
     for fid,slot in slots.items():
         if slot.get('kind')!='paragraph' or fid=='product.title' or fid in set(hidden_field_ids(mapping)): continue
         item=fields.get(fid,{}) or {}; values=item.get('normalized_values',item.get('values',{})) or {}
-        count=max(0,len([x for x in (values.get(lang,'') or '').splitlines() if x.strip()])-1)
+        count=max(0,len(split_body_paragraphs(values.get(lang,'') or ''))-1)
         if count:
             original=slot['locator']['paragraph_index']; inserts[original]=inserts.get(original,0)+count
     expected_slot_texts={}

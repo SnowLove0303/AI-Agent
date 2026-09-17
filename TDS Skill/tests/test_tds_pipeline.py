@@ -56,13 +56,13 @@ def test_variant_metadata_can_be_separated_from_word_output(tmp_path):
 def test_application_multiline_clones_template_body_style(tmp_path):
     registry = load(ROOT / "mapping" / "template_field_registry.json")
     mapping = deepcopy(load(ROOT / "tests" / "fixtures" / "valid_mapping.json"))
-    mapping["mapped_fields"]["product.application"]["values"]["zh-CN"] = "适用于高光泽涂层。\n2.与各种基材附着力优异。"
+    mapping["mapped_fields"]["product.application"]["values"]["zh-CN"] = "1.适用于高光泽涂层。\n2.与各种基材附着力优异。"
     output = tmp_path / "application.docx"
     write_variant(mapping, registry, "TDS_CN_冠志模板", output)
     doc = Document(str(output))
     heading = next(i for i, p in enumerate(doc.paragraphs) if p.text == "【应用】")
     lines = [p.text for p in doc.paragraphs[heading + 1:heading + 4] if p.text.strip()]
-    assert lines[:2] == ["适用于高光泽涂层。", "与各种基材附着力优异。"]
+    assert lines[:2] == ["1.适用于高光泽涂层。", "2.与各种基材附着力优异。"]
     assert all("\n" not in p.text and "\r" not in p.text for p in doc.paragraphs)
     base = Document(str(ROOT / registry["variants"]["TDS_CN_冠志模板"]["template"]))
     from tds_common import paragraph_shape

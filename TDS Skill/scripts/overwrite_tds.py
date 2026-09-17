@@ -7,14 +7,14 @@ from docx import Document
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.text.paragraph import Paragraph
-from tds_common import OUTPUT_HEADINGS, PERFORMANCE_TOPOLOGIES, ROOT, SECTION_HEADINGS, apply_vertical_budget, body_blank_count, dump, fresh_write, hidden_block_indices, hidden_field_ids, load, performance_topology, replace_cell, replace_feature_paragraph, replace_paragraph, sha256, source_fidelity_errors, source_output_fidelity_errors, trim_body_blank_paragraphs, vertical_budget_level
+from tds_common import OUTPUT_HEADINGS, PERFORMANCE_TOPOLOGIES, ROOT, SECTION_HEADINGS, apply_vertical_budget, body_blank_count, dump, fresh_write, hidden_block_indices, hidden_field_ids, load, performance_topology, replace_cell, replace_feature_paragraph, replace_paragraph, sha256, source_fidelity_errors, source_output_fidelity_errors, trim_body_blank_paragraphs, vertical_budget_level, split_body_paragraphs
 
 NO_DATA={'zh-CN':'无数据','en-US':'No data available'}
 def feature_lines(text): return [re.sub(r'^\s*\d+[.、]\s*','',line) for line in (text or '').splitlines()]
 def paragraph_lines(text, field_id):
-    lines=[line.strip() for line in (text or '').splitlines() if line.strip()]
-    if field_id=='product.application': lines=[re.sub(r'^\s*\d+[.、]\s*','',line).strip() for line in lines]
-    return lines
+    if field_id == 'product.features': return feature_lines(text)
+    return split_body_paragraphs(text)
+
 def value(fact,lang): return fact.get('values',{}).get(lang) or NO_DATA[lang]
 def semantic_fields(mapping, lang=None):
     model=mapping.get('normalized_model',{})

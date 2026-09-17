@@ -29,12 +29,57 @@ def norm(s: str) -> str: return re.sub(r'\s+','', (s or '').strip()).replace('�
 def text_sha256(value: str|None) -> str:
     return hashlib.sha256((value or '').encode('utf-8')).hexdigest()
 
+def split_body_paragraphs(text: str) -> list[str]:
+    raw = (text or '').strip()
+    if not raw: return []
+    if re.search(r'(?:^|\n)\s*\d+[.、]', raw):
+        chunks = re.split(r'(?=(?:^|\n)\s*\d+[.、])', raw)
+        res = []
+        for c in chunks:
+            c_strip = c.strip()
+            if not c_strip: continue
+            lines = [l.strip() for l in c_strip.splitlines() if l.strip()]
+            merged = []
+            for l in lines:
+                if not merged:
+                    merged.append(l)
+                else:
+                    prev = merged[-1]
+                    if re.search(r'[\u4e00-\u9fff]$', prev):
+                        merged[-1] = prev + l
+                    elif re.search(r'[\u4e00-\u9fff\u3000-\u303f\uff01-\uff5e]$', prev):
+                        merged[-1] = prev + l
+                    else:
+                        merged[-1] = prev + ' ' + l
+            res.append(''.join(merged) if re.search(r'[\u4e00-\u9fff]', c_strip) else ' '.join(merged))
+        return res
+
+    raw_lines = [l.strip() for l in raw.splitlines() if l.strip()]
+    if not raw_lines: return []
+    res = []
+    for l in raw_lines:
+        if not res:
+            res.append(l)
+        else:
+            prev = res[-1]
+            if re.search(r'[。！？.!?]$', prev):
+                res.append(l)
+            else:
+                if re.search(r'[\u4e00-\u9fff]$', prev):
+                    res[-1] = prev + l
+                else:
+                    res[-1] = prev + ' ' + l
+    return res
+
+def application_lines(value: str|None) -> list[str]:
+    return split_body_paragraphs(value)
+
 def source_text_lines(value: str|None, field_id: str) -> list[str]:
     """Return the exact source lines after only registered presentation splits."""
-    lines=[line.strip() for line in (value or '').splitlines() if line.strip()]
-    if field_id in {'product.features','product.application'}:
-        lines=[re.sub(r'^\s*\d+[.、]\s*','',line).strip() for line in lines]
-    return lines
+    if field_id == 'product.features':
+        lines=[line.strip() for line in (value or '').splitlines() if line.strip()]
+        return [re.sub(r'^\s*\d+[.、]\s*','',line).strip() for line in lines]
+    return split_body_paragraphs(value)
 
 def _runtime_field(item: dict, lang: str) -> dict:
     """Use frozen source text for CN; use approved normalized text for EN."""
@@ -129,10 +174,10 @@ def _source_field_item(mapping: dict, field_id: str) -> dict:
     return (model.get('fields') or {}).get(field_id) or (mapping.get('mapped_fields') or {}).get(field_id) or {}
 
 def _source_row_component(row: dict, component: str, lang: str) -> str:
-    source_key=f'source_{component}_values'
-    fallback_key={'label':'label_values','value':'values','unit':'unit_values','test_method':'test_method_values'}[component]
-    values=row.get(source_key) if source_key in row else row.get(fallback_key,{})
-    return (values or {}).get(lang,'')
+    source_key = 'source_values' if component == 'value' else f'source_{component}_values'
+    fallback_key = {'label': 'label_values', 'value': 'values', 'unit': 'unit_values', 'test_method': 'test_method_values'}[component]
+    values = row.get(source_key) if source_key in row else row.get(fallback_key, {})
+    return (values or {}).get(lang, '')
 
 def source_output_fidelity_errors(doc, mapping: dict, registry: dict, variant_id: str) -> list[str]:
     """Compare generated CN text to source text after only allowed list splitting."""
