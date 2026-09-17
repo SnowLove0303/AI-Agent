@@ -6,4 +6,4 @@
 - [x] Update PDF/report/skill wording and expose source status.
 - [x] Add tests for broad baseline selection and composition-only boundary.
 - [x] Run tests, real baseline replay, and OpenSpec validation.
-- [ ] Push the focused change.
+- [x] Push the focused change.
