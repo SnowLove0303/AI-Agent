@@ -6,7 +6,7 @@ from pathlib import Path
 import sys
 
 sys.path.insert(0, str(Path(__file__).parents[1] / "scripts"))
-from legal_compliance_db import add_feedback, approve_feedback, build_database, open_db, register_regulation, select_regulations  # noqa: E402
+from legal_compliance_db import add_feedback, approve_feedback, build_database, open_db, register_regulation, select_composition_baseline_regulations, select_regulations  # noqa: E402
 
 
 SOURCE_FILES = [
@@ -49,7 +49,7 @@ class LegalComplianceDatabaseTests(unittest.TestCase):
         try:
             regulation_count = connection.execute("SELECT COUNT(*) FROM regulations").fetchone()[0]
             restriction_count = connection.execute("SELECT COUNT(*) FROM restriction_rules").fetchone()[0]
-            self.assertEqual(regulation_count, 40)
+            self.assertEqual(regulation_count, 42)
             self.assertEqual(restriction_count, 7)
         finally:
             connection.close()
@@ -60,6 +60,16 @@ class LegalComplianceDatabaseTests(unittest.TestCase):
         self.assertFalse(selected["RoHS"]["applicable"])
         self.assertTrue(selected["HSF 001"]["applicable"])
         self.assertFalse(selected["Mattel RMS2901"]["applicable"])
+
+    def test_composition_baseline_ignores_market_and_use_filters(self):
+        selected = select_composition_baseline_regulations(self.db)
+        names = [item["name"] for item in selected]
+        self.assertEqual(names, [
+            "REACH SVHC 253项", "REACH Annex XVII", "REACH Annex XIV", "EU POPs 2019/1021",
+            "RoHS", "HSF 001", "BSBL", "91/338/EC",
+        ])
+        self.assertTrue(all(item["applicable"] for item in selected))
+        self.assertEqual({item["source_status"] for item in selected}, {"source-backed", "catalog-only"})
 
     def test_new_regulation_can_be_registered_without_code_change(self):
         register_regulation(self.db, {"id": "new-reg", "name": "NEW-REG-001", "aliases": ["NEW"], "jurisdiction": ["CN"], "scope_mode": "coating", "source_key": "new-source", "conditions": []}, {"title": "New source", "kind": "official", "uri": "https://example.invalid/new"})

@@ -394,6 +394,11 @@ def judge(
         )
         for standard in standards
     ]
+    selection_by_name = {item.get("name"): item for item in selection or []}
+    for result in results:
+        selected = selection_by_name.get(result["standard"], {})
+        result["screening_tier"] = selected.get("screening_tier", "explicit-standard")
+        result["source_status"] = selected.get("source_status", "source-backed" if result["standard"] in rows else "unregistered")
     counts = {status: sum(result["status"] == status for result in results) for status in (PASS, FAIL, NA, EVIDENCE)}
     return {
         "report_schema": "legal-compliance-judgment/1.0",
@@ -402,7 +407,7 @@ def judge(
         "product_name": facts.get("product_name", "未命名产品"),
         "mode": mode,
         "uncertainty_mode": "explicit_uncertainty" if uncertainty_allowed else "strict_closed_world",
-        "assumptions": ["MSDS/TDS 及用户提供资料是完整、确定且唯一的信息源", "未列入完整事实的物质在本次闭世界判断中视为不存在，不要求补充该物质报告", "没有可比较检测值的命中规则在严格闭世界模式下按未超过限值处理"],
+        "assumptions": ["MSDS/TDS 及用户提供资料只作为物质名称、CAS/EC、浓度和测量事实来源，不审查 MSDS 文件本身", "未列入完整事实的物质在本次闭世界判断中视为不存在，不要求补充该物质报告", "本报告不判断包装、最终产品、迁移/均质材料、市场、用途或客户准入", "没有可比较检测值的命中规则在严格闭世界模式下按未超过限值处理"],
         "facts": facts,
         "data_root": str(root),
         "database_path": str(db_path) if db_path else "",
@@ -415,14 +420,14 @@ def judge(
 
 def markdown(report: dict[str, Any]) -> str:
     lines = [f"# 法律法规合格性检查报告：{report['product_name']}", "", f"- 生成时间：{report['generated_at']}", f"- 数据根目录：`{report['data_root']}`", f"- 法规知识库：`{report.get('database_path', '未使用数据库')}`", f"- 判断运行 ID：`{report.get('run_id', '未持久化')}`", f"- 判断模式：{report.get('mode', 'explicit')}", f"- 不确定性策略：{report.get('uncertainty_mode', 'strict_closed_world')}", "", "## 输入事实与假设", "", "```json", json.dumps(report["facts"], ensure_ascii=False, indent=2), "```", ""]
-    lines += ["## 逐项判断", "", "| 法律法规/标准 | 结果 | 适用性理由 | 命中物质/匹配键 | 检测值/限值/单位 | 源行/方法 | 证据 |", "|---|---|---|---|---|---|---|"]
+    lines += ["## 逐项判断", "", "| 法律法规/标准 | 结果 | 筛查层/数据状态 | 适用性理由 | 命中物质/匹配键 | 检测值/限值/单位 | 源行/方法 | 证据 |", "|---|---|---|---|---|---|---|---|"]
     for result in report["results"]:
         matches = "; ".join(f"{item['component'].get('name', '')} [{item.get('match_key', '')}]" for item in result["matches"]) or "—"
         rule_values = "; ".join(f"{item.get('measured', '—')} / {item.get('limit', '—')} / {item.get('rule_evidence', {}).get('unit', '—')}" for item in result["matches"]) or "—"
         source_values = "; ".join(f"{item.get('rule_evidence', {}).get('source_row', '—')} / {item.get('rule_evidence', {}).get('test_method', '—')}" for item in result["matches"]) or "—"
         evidence = "; ".join(result["evidence"]) or "—"
         reason = result["scope_reason"].replace("|", "\\|")
-        lines.append(f"| {result['standard']} | {result['status']} | {reason} | {matches} | {rule_values} | {source_values} | {evidence} |")
+        lines.append(f"| {result['standard']} | {result['status']} | {result.get('screening_tier', 'explicit-standard')} / {result.get('source_status', 'source-backed')} | {reason} | {matches} | {rule_values} | {source_values} | {evidence} |")
     lines += ["", "## 法规选择", ""]
     for candidate in report.get("selection", []):
         lines.append(f"- `{candidate.get('name')}`：{'适用' if candidate.get('applicable') else '不适用'}；{candidate.get('reason', '')}")
@@ -435,7 +440,7 @@ def markdown(report: dict[str, Any]) -> str:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--facts", required=True, help="完整事实 JSON 文件")
-    parser.add_argument("--standards", required=False, help="标准 JSON 数组文件、逗号分隔标准名，或 auto；省略时使用 --db 自动选择")
+    parser.add_argument("--standards", required=False, help="标准 JSON 数组文件、逗号分隔标准名、auto（物质成分基础层）或 condition-auto（条件单扩展层）")
     parser.add_argument("--db", default=None, help="法规知识库 SQLite 路径；配合 auto 使用")
     parser.add_argument("--init-db", action="store_true", help="在判断前从目录和外部法规数据初始化/重建数据库")
     parser.add_argument("--refresh-db", action="store_true", help="在判断前刷新外部法规派生规则")
@@ -455,9 +460,17 @@ def main(argv: list[str] | None = None) -> int:
             raise ValueError("--init-db/--refresh-db 必须同时提供 --db")
         from legal_compliance_db import build_database
         build_database(args.db, data_root, args.catalog) if args.catalog else build_database(args.db, data_root)
-    if not args.standards or args.standards.strip().casefold() == "auto":
+    standards_mode = args.standards.strip().casefold() if args.standards else "auto"
+    if standards_mode in {"auto", "composition-auto"}:
         if not args.db:
             raise ValueError("省略 --standards 或使用 auto 时必须提供已初始化的 --db")
+        from legal_compliance_db import select_composition_baseline_regulations
+        selection = select_composition_baseline_regulations(args.db)
+        standards = [item["name"] for item in selection if item["applicable"]]
+        mode = "composition-only"
+    elif standards_mode == "condition-auto":
+        if not args.db:
+            raise ValueError("使用 condition-auto 时必须提供已初始化的 --db")
         from legal_compliance_db import select_regulations
         selection = select_regulations(args.db, facts)
         standards = [item["name"] for item in selection if item["applicable"]]

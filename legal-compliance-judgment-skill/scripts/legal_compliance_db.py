@@ -19,6 +19,17 @@ DEFAULT_DATA_ROOT = r"F:\APP Location\Guanzhi Tong\法律法规物质清单"
 DEFAULT_CATALOG = Path(__file__).resolve().parents[1] / "references" / "regulation_catalog.json"
 DB_SCHEMA_VERSION = "1.0"
 
+COMPOSITION_BASELINE_STANDARDS = [
+    "REACH SVHC 253项",
+    "REACH Annex XVII",
+    "REACH Annex XIV",
+    "EU POPs 2019/1021",
+    "RoHS",
+    "HSF 001",
+    "BSBL",
+    "91/338/EC",
+]
+
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS regulations (
@@ -378,6 +389,41 @@ def select_regulations(db_path: str | Path, facts: dict[str, Any]) -> list[dict[
             else:
                 applicable, reason = _mode_match(row["scope_mode"], facts, row["name"])
             selected.append({"regulation_id": row["regulation_id"], "name": row["name"], "applicable": applicable, "reason": reason, "scope_mode": row["scope_mode"], "source_key": row["source_key"]})
+        return selected
+    finally:
+        connection.close()
+
+
+def select_composition_baseline_regulations(db_path: str | Path) -> list[dict[str, Any]]:
+    """Select the broad substance screen without condition-sheet filtering."""
+    connection = open_db(db_path)
+    try:
+        selected: list[dict[str, Any]] = []
+        for name in COMPOSITION_BASELINE_STANDARDS:
+            row = connection.execute("SELECT * FROM regulations WHERE name=? AND enabled=1", (name,)).fetchone()
+            if not row:
+                selected.append({
+                    "name": name,
+                    "applicable": True,
+                    "baseline": True,
+                    "screening_tier": "composition-baseline",
+                    "source_status": "unregistered",
+                    "reason": "基础物质筛查固定纳入；当前数据库尚未登记法规条目",
+                })
+                continue
+            rule_count = connection.execute("SELECT COUNT(*) FROM restriction_rules WHERE regulation_id=?", (row["regulation_id"],)).fetchone()[0]
+            selected.append({
+                "regulation_id": row["regulation_id"],
+                "name": row["name"],
+                "applicable": True,
+                "baseline": True,
+                "screening_tier": "composition-baseline",
+                "source_status": "source-backed" if rule_count else "catalog-only",
+                "reason": "基础物质成分筛查：不使用销售市场、用途、环境、包装或客户条件",
+                "scope_mode": row["scope_mode"],
+                "source_key": row["source_key"],
+                "restriction_row_count": rule_count,
+            })
         return selected
     finally:
         connection.close()

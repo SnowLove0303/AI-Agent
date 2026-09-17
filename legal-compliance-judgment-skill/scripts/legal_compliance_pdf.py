@@ -86,12 +86,14 @@ def _render_docx(report: dict[str, Any], path: Path) -> None:
     status_codes = {"符合（基于完整资料假设）": "PASS", "不符合": "FAIL", "不适用": "NA", "需补证": "EVIDENCE"}
     document.add_paragraph("Result status codes: " + ", ".join(status_codes.get(str(result.get("status")), "UNKNOWN") for result in report.get("results", [])))
     document.add_paragraph("完整资料约束：输入资料视为完整、确定且唯一的信息源；未提及物质视为不存在，不要求补充该物质报告。")
+    document.add_paragraph("本报告范围：仅依据 MSDS/TDS 提取的物质名称、CAS/EC、浓度和测量事实进行物质成分筛查；不审查 MSDS 文件本身、包装、最终产品、迁移/均质材料、市场、用途或客户准入。")
 
     document.add_heading("一、输入事实", level=1)
     facts = report.get("facts", {})
     _add_table(document, ["字段", "内容"], [[key, _text(value, 1000)] for key, value in facts.items()])
 
-    document.add_heading("二、条件驱动法规覆盖", level=1)
+    coverage_title = "二、基础物质成分法规覆盖" if report.get("mode") == "composition-only" else "二、条件驱动法规覆盖"
+    document.add_heading(coverage_title, level=1)
     selection_rows = [
         [item.get("name"), "适用" if item.get("applicable") else "不适用", item.get("reason"), item.get("source_key", "—")]
         for item in report.get("selection", [])
@@ -104,8 +106,8 @@ def _render_docx(report: dict[str, Any], path: Path) -> None:
         matches = "; ".join(f"{item.get('component', {}).get('name', '—')}[{item.get('match_key', '—')}]" for item in result.get("matches", [])) or "—"
         values = "; ".join(f"{item.get('measured', '—')} / {item.get('limit', '—')} / {item.get('rule_evidence', {}).get('unit', '—')}" for item in result.get("matches", [])) or "—"
         evidence = "; ".join(result.get("evidence", [])) or "; ".join(d.get("reason", "") for d in result.get("evidence_details", []) if d.get("reason")) or "—"
-        result_rows.append([result.get("standard"), result.get("status"), "是" if result.get("applicable") else "否", result.get("scope_reason"), matches, values, evidence])
-    _add_table(document, ["法规/标准", "结果", "适用", "适用性理由", "命中物质/匹配键", "测量值/限值/单位", "证据与闭世界处理"], result_rows or [["—"] * 7])
+        result_rows.append([result.get("standard"), result.get("status"), result.get("screening_tier", "explicit-standard"), result.get("source_status", "source-backed"), result.get("scope_reason"), matches, values, evidence])
+    _add_table(document, ["法规/标准", "结果", "筛查层", "数据状态", "范围说明", "命中物质/匹配键", "测量值/限值/单位", "证据与闭世界处理"], result_rows or [["—"] * 8])
 
     document.add_heading("四、汇总与数据追溯", level=1)
     counts = report.get("counts", {})

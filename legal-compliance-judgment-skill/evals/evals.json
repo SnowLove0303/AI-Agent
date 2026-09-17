@@ -3,8 +3,8 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "根据完整的 PU-1002 MSDS/TDS，检查 REACH SVHC、REACH Annex XVII、RoHS、HSF 001、BSBL、AfPS GS 2019:01 PAK，并按产品为皮革/塑料涂层而非玩具、电子或包装输出逐项结果。",
-      "expected_output": "使用严格完整资料闭世界假设；逐项给出符合、不符合或不适用，并为 RoHS、玩具和包装范围给出不适用理由，为六类物质清单保留数据文件、行号、命中物质和限值证据，同时生成并校验 PDF。",
+      "prompt": "根据完整的 PU-1002 MSDS/TDS 和物质成分，只做物质成分基础筛查，检查 REACH SVHC、REACH Annex XVII、REACH Annex XIV 触发项、EU POPs、RoHS、HSF 001、BSBL 和 91/338/EC。",
+      "expected_output": "不依赖销售市场、用途、包装或客户条件；使用严格完整资料闭世界假设，逐项输出符合或不符合，保留数据状态、源文件、行号、命中物质和限值证据，并生成和校验 PDF。",
       "files": []
     },
     {

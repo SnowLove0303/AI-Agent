@@ -10,11 +10,15 @@
     "bsbl": {"title": "BSBL legal-regulatory substance restriction list", "kind": "local_csv", "csv": "05_BSBL_01_受限物质总表(1726条_已修复日期并全量补全CAS).csv", "metadata": "05_BSBL_03_版本与元数据.csv", "uri": "", "notes": "Internal source reference is carried by the companion metadata CSV."},
     "afps": {"title": "AfPS GS 2019:01 PAK", "kind": "local_csv", "csv": "06_AfPS_GS_2019_01_PAK_01_限值清单(15单项+2合计).csv", "metadata": "06_AfPS_GS_2019_01_PAK_03_法规来源与说明.csv", "uri": "", "notes": "Local source package includes category applicability and source notes."},
     "eu_toy": {"title": "EU Toy Safety Directive and chemical source set", "kind": "local_directory", "directory": "欧盟玩具", "uri": "https://eur-lex.europa.eu/eli/dir/2009/48/oj"},
-    "catalog_only": {"title": "Catalog entry awaiting structured source", "kind": "catalog", "uri": "", "notes": "The regulation is selectable by scope, but a source text or structured restriction list must be registered before a compliance pass can be claimed."}
+    "catalog_only": {"title": "Catalog entry awaiting structured source", "kind": "catalog", "uri": "", "notes": "The regulation is selectable by scope, but a source text or structured restriction list must be registered before a compliance pass can be claimed."},
+    "reach_annex_xiv": {"title": "REACH Annex XIV authorisation list", "kind": "official_reference", "uri": "https://echa.europa.eu/authorisation-list", "notes": "Composition-level authorisation trigger screen; use-specific authorisation conclusions are out of scope."},
+    "eu_pops": {"title": "EU POPs Regulation 2019/1021", "kind": "official_reference", "uri": "https://eur-lex.europa.eu/eli/reg/2019/1021/oj", "notes": "Composition-level POPs trigger screen; local structured substance rows must be registered before source-backed conclusions."}
   },
   "regulations": [
     {"id":"reach-svhc","name":"REACH SVHC 253项","aliases":["REACH SVHC","SVHC"],"jurisdiction":["EU","EEA"],"scope_mode":"direct-material","source_key":"reach_svhc"},
     {"id":"reach-annex-xvii","name":"REACH Annex XVII","aliases":["REACH 附录 XVII","Annex XVII"],"jurisdiction":["EU","EEA"],"scope_mode":"direct-material","source_key":"reach_annex"},
+    {"id":"reach-annex-xiv","name":"REACH Annex XIV","aliases":["REACH 附录 XIV","Authorisation List"],"jurisdiction":["EU","EEA"],"scope_mode":"direct-material","source_key":"reach_annex_xiv"},
+    {"id":"eu-pops-2019-1021","name":"EU POPs 2019/1021","aliases":["POPs","EU POPs"],"jurisdiction":["EU","EEA"],"scope_mode":"direct-material","source_key":"eu_pops"},
     {"id":"eu-rohs","name":"RoHS","aliases":["EU RoHS","2011/65/EU"],"jurisdiction":["EU","EEA"],"scope_mode":"eee-only","source_key":"rohs"},
     {"id":"hsf-001","name":"HSF 001","aliases":["HSF"],"jurisdiction":["GLOBAL"],"scope_mode":"direct-material","source_key":"hsf"},
     {"id":"bsbl","name":"BSBL","aliases":[],"jurisdiction":["GLOBAL"],"scope_mode":"direct-material","source_key":"bsbl"},
