@@ -113,6 +113,32 @@ cache owner. The evidence command reports `EVIDENCE_PACKET_READY` or
 and cache root in its timing evidence. A packet remains `needs-review` with
 `build_allowed: false` and cannot be supplied as the approved facts JSON.
 
+## Single resumable workflow
+
+Use the coordinator below for slow or repeated Harness runs:
+
+```text
+python scripts/run_efficiency_workflow.py --source SRC.docx \
+  --model MODEL --workspace OUT
+```
+
+This prepares or reuses the source-evidence packet and stops at an explicit
+`awaiting_review` checkpoint. After the Agent has produced the reviewed facts
+model, resume with:
+
+```text
+python scripts/run_efficiency_workflow.py --source SRC.docx \
+  --model MODEL --workspace OUT --facts MODEL.json --pdf-workers 2
+```
+
+The second call reuses the same cache, writes one preflight report, and starts
+the formal matrix builder only after the preflight passes. The state file is
+`OUT/workflow-state.json`; a blocked preflight is a normal fail-closed
+checkpoint, not a reason to start a partial build. This removes the repeated
+manual sequence that was responsible for much of the PU-1003 end-to-end wait:
+product-specific fact generators, repeated source preparation, partial builds
+followed by repair, and a second deployment copy.
+
 ## What changed in 3.20.0
 
 The former matrix loop completed one language/company DOCX, converted its PDF,

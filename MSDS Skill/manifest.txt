@@ -81,6 +81,7 @@ scripts/source_ingest.py
 scripts/efficiency_contract.py
 scripts/audit_context.py
 scripts/benchmark_efficiency.py
+scripts/run_efficiency_workflow.py
 scripts/family_profile.py
 scripts/diagnostics.py
 scripts/template_runtime.py
@@ -133,6 +134,7 @@ tests/test_source_ingest.py
 tests/test_pipeline_performance.py
 tests/test_audit_context.py
 tests/test_benchmark_efficiency.py
+tests/test_run_efficiency_workflow.py
 tests/test_efficiency_contract.py
 tests/test_v325_regressions.py
 tests/test_section2_fact_router.py

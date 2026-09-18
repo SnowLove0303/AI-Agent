@@ -1,5 +1,6 @@
 MSDS Unified Eight-Deliverable Standardizer Skill
-3.26.0
+3.26.1
+Resumable single-entry efficiency workflow with evidence, review, preflight and formal-build checkpoints
 Source-hash-bound cache reuse, reviewed family candidates and shared read-only audit context
 Additive machine/review/wait telemetry, non-publishing benchmark harness and bounded WPS worker evidence
 Four-stage overwrite workflow, semantic write planning, actionable diagnostics and stage telemetry

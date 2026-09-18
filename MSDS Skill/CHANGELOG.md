@@ -1,5 +1,18 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.26.1 — 2026-09-18
+
+- Added `scripts/run_efficiency_workflow.py` as the single resumable Harness
+  entrypoint: source evidence extraction and cache reuse happen once, then the
+  workflow pauses for reviewed facts before preflight and formal matrix build.
+- Added persisted `workflow-state.json`, `evidence-packet.json`, and
+  `preflight.json` checkpoints so interrupted runs resume without repeating
+  extraction or semantic preparation.
+- Kept the reviewed-facts gate, source-grounding gates, locked-template rules,
+  and formal-output blocking behavior unchanged. The workflow never approves
+  facts, bypasses preflight, or mutates a template.
+- Added focused tests and Harness performance guidance for the new entrypoint.
+
 ## v3.26.0 — 2026-09-17
 
 - Added an explicit source/cache root to the formal build path. Legacy source

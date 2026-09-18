@@ -755,6 +755,44 @@ If a stale `WORD/`, `PDF/` or deployment subtree creates duplicate basenames,
 the audit reports the duplicate slot and skips the expensive DOCX text scan;
 remove the stale copy before rerunning the audit.
 
+## 20E. Resumable efficiency workflow (mandatory Harness entrypoint)
+
+For repeated or slow Harness runs, use the single resumable coordinator instead
+of writing a product-specific `build_*_facts.py`, manually invoking four
+document writers, or copying a completed matrix into a second deployment tree:
+
+```powershell
+python scripts/run_efficiency_workflow.py `
+  --source SRC.docx --model MODEL --workspace OUT
+```
+
+The first invocation performs source selection, evidence extraction and
+source/cache reuse, then stops with `awaiting_review`. It writes:
+
+- `OUT/evidence-packet.json` — mechanical, source-hash-bound evidence;
+- `OUT/workflow-state.json` — resumable stage checkpoint;
+- `OUT/.msds_cache/` — legacy conversion and packet cache.
+
+After the Agent completes the reviewed facts JSON, resume the same workflow
+with `--facts MODEL.json`. The coordinator writes `OUT/preflight.json` and
+will not clone a template or start PDF conversion unless the complete facts
+preflight passes. Only then does it invoke the formal four-DOCX/four-PDF
+matrix builder once, under `OUT/output/MODEL/WORD` and `OUT/output/MODEL/PDF`.
+
+```powershell
+python scripts/run_efficiency_workflow.py `
+  --source SRC.docx --model MODEL --workspace OUT `
+  --facts MODEL.json --pdf-workers 2
+```
+
+The workflow is a scheduling and checkpoint boundary, not an approval
+shortcut. A packet remains `build_allowed: false`; a cached conversion never
+supplies facts; a blocked preflight prevents all template/PDF work; and the
+four business stages, locked template rules and final-file audits remain
+unchanged. If the run stops at `preflight_blocked`, fix the complete reported
+list and rerun with the same workspace so extraction and cache work are not
+repeated.
+
 ## 20C. DeepSeek Harness performance profile
 
 The production entry point is one invocation of `scripts/build_eight.py` for

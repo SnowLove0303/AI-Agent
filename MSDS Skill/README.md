@@ -143,6 +143,14 @@ The matrix report's additive telemetry distinguishes measured machine time
 from explicitly supplied Agent/manual review and human wait time, records
 source-cache decisions, bounded PDF scheduling and final artifact hashes.
 
+For a resumable Harness run, use `scripts/run_efficiency_workflow.py` as the
+single entrypoint. The first call prepares or reuses `evidence-packet.json`
+and stops at the required review checkpoint. A second call with the reviewed
+`--facts` JSON runs the non-mutating preflight and invokes the formal matrix
+builder only after `PREFLIGHT_PASS`. This avoids repeated product-specific
+fact builders, duplicate extraction, partial template builds and manual
+deployment copies while preserving every approval and release gate.
+
 ## DeepSeek Harness run
 
 Run the production entry point once for the reviewed facts model:
