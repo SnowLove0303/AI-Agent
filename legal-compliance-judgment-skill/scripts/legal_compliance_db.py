@@ -22,12 +22,10 @@ DB_SCHEMA_VERSION = "1.0"
 COMPOSITION_BASELINE_STANDARDS = [
     "REACH SVHC 253项",
     "REACH Annex XVII",
-    "REACH Annex XIV",
-    "EU POPs 2019/1021",
     "RoHS",
     "HSF 001",
     "BSBL",
-    "91/338/EC",
+    "AfPS GS 2019:01 PAK",
 ]
 
 SCHEMA = """

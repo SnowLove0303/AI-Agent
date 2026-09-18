@@ -1,24 +1,49 @@
 ---
 name: legal-compliance-judgment
-description: "仅根据完整且确定的 MSDS/TDS 物质成分事实，对 REACH、POPs、RoHS、HSF、BSBL 等物质限制清单做可追溯基础筛查并生成 PDF 报告；特殊用途法规作为后续扩展，不审查 MSDS 文件本身、包装或市场准入。"
-compatibility: "Python 3.10+；法规数据根目录默认为 F:\\APP Location\\Guanzhi Tong\\法律法规物质清单，可用 --data-root 或 GUANZHI_TONG_LEGAL_DATA_ROOT 覆盖。"
+description: "严格按照《检测报告模板》格式出具法规检测报告（DOCX与校验合格PDF），固定只做六项核心法规与受限物质清单（REACH SVHC 253项、REACH Annex XVII、RoHS、HSF 001、BSBL、AfPS GS 2019:01 PAK），未经要求的其他法规不做；自动使用红黄绿状态高亮、物质明细、总结与双酚/邻苯特殊说明。"
+compatibility: "Python 3.10+；法规数据根目录默认为 F:\\APP Location\\Guanzhi Tong\\法律法规物质清单；检测报告模板位于 F:\\APP Location\\Guanzhi Tong\\Skill\\法律法规判断\\检测报告模板。"
 ---
 
 # 法律法规判断技能
 
-本技能只把 MSDS/TDS 和物质成分信息作为输入事实，不审查 MSDS 文件排版、标签或内容质量。资料边界是强制的“完整信息源”契约：资料未提到的物质视为不存在，不要求用户补充该物质报告，也不因为缺少市场、用途、包装或客户信息而停在不确定。默认先运行“物质成分基础筛查”，条件单仅作为后续特殊用途扩展参考。
+本技能专门针对 MSDS/TDS 物质成分事实出具专业合规检测报告。**严格按照官方《检测报告模板》排版输出（包括 DOCX 和由其转换校验的 PDF），并且严格聚焦于核心六项法规与受限清单，绝不堆砌冗余未要求的法规或无关分析。**
 
-## 工作方式
+## 核心六项检测清单（固定做这六项，其余不要求不做）
 
-1. 从 MSDS/TDS 提取物质字段：物质名称、CAS/EC、配方浓度以及资料中明确提供的测量事实。销售市场、最终用途、包装和客户标准不属于基础筛查必需输入。
-2. 初始化或刷新知识库：`scripts/legal_compliance_db.py refresh --db legal_compliance.db --data-root <root>`；技能目录中的 `legal_compliance.db` 是由当前法规资料生成的可刷新基线。
-3. 将事实写成 JSON，使用 `--standards auto --db <path>`，先运行固定的物质成分基础层；如确实需要条件单扩展，再显式使用 `--standards condition-auto` 或指定标准列表。
-4. 基础层固定检查 REACH SVHC、REACH Annex XVII、REACH Annex XIV 触发筛查、EU POPs 2019/1021 触发筛查、RoHS 物质筛查、HSF 001、BSBL 和 91/338/EC，不使用市场、用途、包装或客户条件排除它们。
-5. 对选中的法规逐项输出 `符合（基于完整成分资料）`、`不符合` 或 `不适用`。严格模式下，缺少可比较检测值、限值文本不可解析或单位不可换算时仍按完整资料假设完成判断，并在证据栏记录闭世界处理，不向用户索要新的物质报告。
-6. 只有用户明确开启 `--allow-uncertainty`、在 facts 中设置 `allow_uncertainty: true`，或在固定法规模式中明确点名一个没有可执行来源的客户标准时，才允许输出 `需补证`。
-7. 每次判断必须生成并校验书面 PDF；JSON/Markdown 只是可选中间文件，不能替代 PDF，也不能只用口头摘要交付。报告必须包含命中的物质、匹配键、检测值、限值/单位、源文件及行号、数据状态、知识库运行 ID 和闭世界假设。
+| 序号 / 监管体系 | 法规/标准全称与说明 | 权威源 CSV 数据文件 |
+| :--- | :--- | :--- |
+| **REACH SVHC 253项** | 欧盟REACH法规—高度关注物质候选清单（SVHC） | `01_REACH_SVHC_01_物质全量清单(含组成员_545条).csv` |
+| **REACH Annex XVII** | 欧盟REACH法规附件XVII—限制物质清单 | `02_REACH_附录XVII_02_受限物质明细与组成员(1868条).csv` |
+| **RoHS** | 欧盟《关于限制在电气电子设备中使用某些有害物质的指令》 | `03_EU_RoHS_01_受限物质清单(160条_含已补全类别CAS).csv` |
+| **HSF 001** | HSF（Hazardous Substance Free）有害物质无害化/无有害物质管理要求 | `04_HSF-001_01_有害物质清单(172条_含已补全CAS).csv` |
+| **BSBL** | bluesign® SYSTEM BLACK LIMITS（bluesign体系黑色限值清单） | `05_BSBL_01_受限物质总表(1726条_已修复日期并全量补全CAS).csv` |
+| **AfPS GS 2019:01 PAK** | 德国产品安全委员会GS认证—多环芳烃（PAHs）测试与评估规范 | `06_AfPS_GS_2019_01_PAK_01_限值清单(15单项+2合计).csv` |
 
-## 示例
+## 模板与排版规范
+
+报告必须全部改用 `F:\APP Location\Guanzhi Tong\Skill\法律法规判断\检测报告模板` 规范：
+
+1. **基本信息**：
+   - 受检型号：[产品名称/型号]
+   - 检测日期：YYYY/MM/DD
+2. **检测项目**：
+   - 表格形式列明上述六项法规体系及其全称。
+3. **检测结果（六个独立表格）**：
+   - 对应六项法规逐一生成明细表格。
+   - **表头高亮**：
+     - `检测通过`：底色浅绿 `#E3F2D9`，文字绿色 `#00B050`
+     - `警告`：底色浅黄 `#FEF2CB`，文字橙色 `#C65F10`
+     - `不符`：底色浅红 `#F9DBDF`，文字红色 `#FF0000`
+   - **物质明细行**：列出受检物料的所有组分（序号、物质名称、CAS编号、含量%、限值/判定说明）。
+     - 未受限组分一律标为 `无限值`（绿色高亮）；
+     - 受限/超标组分清晰标明限值或特定要求（如 `500mg/kg`、`1000ppm(0.1%)` 等）。
+4. **总结**：
+   - 总结 CAS 对照粗检结论，语言简明有力，直接点名通过项与不符/警告项，不撰写与成分无关的冗长法律评论。
+5. **特殊说明**：
+   - 双酚类化学品系列：未添加且不含有；
+   - 特殊邻苯二甲酸酯类增塑剂：未添加且不含有。
+
+## 运行方式与示例
 
 ```powershell
 python scripts/legal_compliance_judge.py `
@@ -27,32 +52,8 @@ python scripts/legal_compliance_judge.py `
   --db legal_compliance.db `
   --data-root "F:\APP Location\Guanzhi Tong\法律法规物质清单" `
   --format markdown `
-  --output PU-1002_法律法规合格性检查报告.md `
-  --output-pdf PU-1002_法律法规合格性检查报告.pdf
+  --output "PU-3011_法律法规检测报告.md" `
+  --output-pdf "PU-3011_法律法规检测报告.pdf"
 ```
 
-若不需要中间 Markdown，可省略 `--format` 和 `--output`，但 `--output-pdf` 始终必填。PDF 由临时 DOCX 经 LibreOffice 转换后，再由脚本检查页数和可提取文本；转换或校验失败即返回失败，不会把未生成的 PDF 宣称为交付物。
-
-首次使用先构建数据库：
-
-```powershell
-python scripts/legal_compliance_db.py init `
-  --db legal_compliance.db `
-  --data-root "F:\APP Location\Guanzhi Tong\法律法规物质清单"
-```
-
-数据库保存法规身份、别名、适用条件、参考源、版本、外部 CSV 派生限制规则、每次判断运行和人工反馈。法规目录位于 `references/regulation_catalog.json`；初始目录只是种子，可新增法规而不修改判断器代码。数据库中的限制规则是可重建缓存，外部法规目录仍是权威源；刷新后报告中的源文件哈希和版本随之更新。
-
-`facts.json` 至少应包含 `product_name`、`components` 和 `assume_complete: true`。`target_market`、`final_use`、`environment`、`substrates`、`special_requirements` 在基础物质成分筛查中不是必填项。每个配方组分应尽量包含 `name`、`cas`、`ec`、`concentration`；如资料中有物质测量数据，放入 `measurements`。
-
-## 数据边界
-
-数据只从外部规范目录读取，不复制到技能仓库：
-
-- `法律法规物质限制清单_CSV导出`：REACH SVHC、REACH Annex XVII、RoHS、HSF 001、BSBL、AfPS GS 2019:01 PAK。
-- `欧盟玩具`：2009/48/EC、玩具化学修订及解释指南的来源登记。当前 PU 原料未声明玩具用途时，玩具法规为 `不适用`；声明玩具用途但尚无结构化限值时，严格模式按完整资料边界完成结果并记录处理路径；仅在用户开启不确定性或明确要求证据审查时才为 `需补证`。
-
-法规名称、适用范围和参考源集中在数据库目录中。`auto` 只运行物质成分基础层；玩具、建筑、包装、BPR 和客户标准等特殊项目需使用 `condition-auto` 或显式标准列表，且不影响基础层报告。对于 Annex XIV 和 EU POPs，当前本地知识库登记了官方参考源；如果尚无结构化本地物质行，报告会标明 `catalog-only`，不会要求用户提供新的 MSDS/TDS。
-
-脚本会先统一可比较的 `%`、`ppm`、`mg/kg` 数值，再应用限值；配方百分比不会与迁移量或面积限值直接比较。严格模式下真正不兼容的量纲会记录为闭世界处理并完成 `符合/不符合` 判定；只有显式不确定性模式才保留 `需补证`。本技能的结论是物质成分筛查，不等同于最终产品、包装或市场准入结论。
-
+脚本将基于官方 DOCX 模板自动生成格式一致的 DOCX 文件，并通过 LibreOffice 无头模式自动导出强校验 PDF 交付件。

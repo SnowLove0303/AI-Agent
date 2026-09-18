@@ -65,11 +65,10 @@ class LegalComplianceDatabaseTests(unittest.TestCase):
         selected = select_composition_baseline_regulations(self.db)
         names = [item["name"] for item in selected]
         self.assertEqual(names, [
-            "REACH SVHC 253项", "REACH Annex XVII", "REACH Annex XIV", "EU POPs 2019/1021",
-            "RoHS", "HSF 001", "BSBL", "91/338/EC",
+            "REACH SVHC 253项", "REACH Annex XVII", "RoHS", "HSF 001", "BSBL", "AfPS GS 2019:01 PAK",
         ])
         self.assertTrue(all(item["applicable"] for item in selected))
-        self.assertEqual({item["source_status"] for item in selected}, {"source-backed", "catalog-only"})
+        self.assertEqual({item["source_status"] for item in selected}, {"source-backed"})
 
     def test_new_regulation_can_be_registered_without_code_change(self):
         register_regulation(self.db, {"id": "new-reg", "name": "NEW-REG-001", "aliases": ["NEW"], "jurisdiction": ["CN"], "scope_mode": "coating", "source_key": "new-source", "conditions": []}, {"title": "New source", "kind": "official", "uri": "https://example.invalid/new"})

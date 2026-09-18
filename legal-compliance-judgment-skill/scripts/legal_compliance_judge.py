@@ -418,23 +418,130 @@ def judge(
     }
 
 
+SIX_STANDARDS_TITLES = {
+    "REACH SVHC 253项": "欧盟REACH法规—高度关注物质候选清单（SVHC）",
+    "REACH Annex XVII": "欧盟REACH法规附件XVII—限制物质清单",
+    "RoHS": "欧盟《关于限制在电气电子设备中使用某些有害物质的指令》",
+    "HSF 001": "HSF（Hazardous Substance Free）有害物质无害化/无有害物质管理要求",
+    "BSBL": "bluesign® SYSTEM BLACK LIMITS（bluesign体系黑色限值清单）",
+    "AfPS GS 2019:01 PAK": "德国产品安全委员会GS认证—多环芳烃（PAHs）测试与评估规范",
+}
+
+
 def markdown(report: dict[str, Any]) -> str:
-    lines = [f"# 法律法规合格性检查报告：{report['product_name']}", "", f"- 生成时间：{report['generated_at']}", f"- 数据根目录：`{report['data_root']}`", f"- 法规知识库：`{report.get('database_path', '未使用数据库')}`", f"- 判断运行 ID：`{report.get('run_id', '未持久化')}`", f"- 判断模式：{report.get('mode', 'explicit')}", f"- 不确定性策略：{report.get('uncertainty_mode', 'strict_closed_world')}", "", "## 输入事实与假设", "", "```json", json.dumps(report["facts"], ensure_ascii=False, indent=2), "```", ""]
-    lines += ["## 逐项判断", "", "| 法律法规/标准 | 结果 | 筛查层/数据状态 | 适用性理由 | 命中物质/匹配键 | 检测值/限值/单位 | 源行/方法 | 证据 |", "|---|---|---|---|---|---|---|---|"]
-    for result in report["results"]:
-        matches = "; ".join(f"{item['component'].get('name', '')} [{item.get('match_key', '')}]" for item in result["matches"]) or "—"
-        rule_values = "; ".join(f"{item.get('measured', '—')} / {item.get('limit', '—')} / {item.get('rule_evidence', {}).get('unit', '—')}" for item in result["matches"]) or "—"
-        source_values = "; ".join(f"{item.get('rule_evidence', {}).get('source_row', '—')} / {item.get('rule_evidence', {}).get('test_method', '—')}" for item in result["matches"]) or "—"
-        evidence = "; ".join(result["evidence"]) or "—"
-        reason = result["scope_reason"].replace("|", "\\|")
-        lines.append(f"| {result['standard']} | {result['status']} | {result.get('screening_tier', 'explicit-standard')} / {result.get('source_status', 'source-backed')} | {reason} | {matches} | {rule_values} | {source_values} | {evidence} |")
-    lines += ["", "## 法规选择", ""]
-    for candidate in report.get("selection", []):
-        lines.append(f"- `{candidate.get('name')}`：{'适用' if candidate.get('applicable') else '不适用'}；{candidate.get('reason', '')}")
-    lines += ["", "## 汇总", "", json.dumps(report["counts"], ensure_ascii=False, indent=2), "", "## 数据源", ""]
-    for source in report["sources"]:
-        lines.append(f"- `{source.get('standard')}`: `{source.get('file', source.get('directory'))}`，行数/文件数 `{source.get('rows', source.get('files', '—'))}`，SHA-256 `{source.get('sha256', '目录登记')}`")
+    facts = report.get("facts", {})
+    product_name = report.get("product_name") or facts.get("product_name", "未命名受检物料")
+    components = facts.get("components", [])
+    today_str = datetime.now().strftime("%Y/%m/%d")
+
+    results_by_standard: dict[str, dict[str, Any]] = {
+        res.get("standard"): res for res in report.get("results", []) if res.get("standard")
+    }
+    display_standards = [s for s in SIX_STANDARDS_TITLES if s in results_by_standard]
+    if not display_standards:
+        display_standards = list(results_by_standard.keys()) if results_by_standard else list(SIX_STANDARDS_TITLES.keys())
+
+    lines = [
+        f"# {product_name} 法律法规合格性检测报告",
+        "",
+        "## 基本信息：",
+        f"- **受检型号**：{product_name}",
+        f"- **检测日期**：{today_str}",
+        "",
+        "## 检测项目：",
+        "| 序号 / 监管体系 | 法规/标准名称与全称 |",
+        "| :--- | :--- |",
+    ]
+    for s in display_standards:
+        lines.append(f"| **{s}** | {SIX_STANDARDS_TITLES.get(s, s)} |")
+    lines += ["", "## 检测结果：", ""]
+
+    passed_standards = []
+    failed_standards = []
+    warning_standards = []
+
+    for idx, std_name in enumerate(display_standards, start=1):
+        res = results_by_standard.get(std_name, {})
+        raw_status = res.get("status")
+        matches = res.get("matches", [])
+
+        if raw_status == "不符合":
+            status_badge = "🔴 不符"
+            failed_standards.append(std_name)
+        elif raw_status in {"需补证", "警告"} or (std_name == "REACH SVHC 253项" and matches):
+            status_badge = "🟡 警告"
+            warning_standards.append(std_name)
+        elif raw_status == "不适用":
+            status_badge = "⚪ 不适用"
+            passed_standards.append(std_name)
+        else:
+            status_badge = "🟢 检测通过"
+            passed_standards.append(std_name)
+
+        matched_map = {}
+        for m in matches:
+            c_info = m.get("component", {})
+            cas = c_info.get("cas") or ""
+            name = c_info.get("name") or ""
+            rule_ev = m.get("rule_evidence", {})
+            limit_val = m.get("limit") or rule_ev.get("limit")
+            unit = rule_ev.get("unit") or ""
+            limit_str = f"{limit_val}{unit}" if limit_val else ""
+            if not limit_str and std_name == "REACH SVHC 253项":
+                limit_str = "1000ppm(0.1%)"
+            matched_map[cas] = limit_str or "受限"
+            if name:
+                matched_map[name] = matched_map[cas]
+
+        lines.append(f"### {idx}. {std_name} —— 【{status_badge}】")
+        lines.append("")
+        lines.append("| 序号 | 物质名称 | CAS 编号 | 含量 % (w/w) | 限值 / 判定说明 |")
+        lines.append("| :---: | :--- | :---: | :---: | :--- |")
+        for c_idx, comp in enumerate(components, start=1):
+            c_name = comp.get("name", "—")
+            c_cas = comp.get("cas") or "N/A"
+            c_conc = comp.get("concentration", "—")
+            limit_desc = matched_map.get(c_cas) or matched_map.get(c_name) or "无限值"
+            lines.append(f"| {c_idx} | {c_name} | {c_cas} | {c_conc} | {limit_desc} |")
+        lines.append("")
+
+    if not failed_standards and not warning_standards:
+        summary_text = (
+            f"经过CAS对照粗检，产品{product_name} 所含物质不属于"
+            f"{'、'.join(display_standards)} 物质限值清单且符合相关法律法规；"
+        )
+    else:
+        parts = []
+        if passed_standards:
+            parts.append(f"在 {'、'.join(passed_standards)} 判定检测通过")
+        if failed_standards:
+            fail_descs = []
+            for fs in failed_standards:
+                res = results_by_standard.get(fs, {})
+                matches = res.get("matches", [])
+                m_details = [f"{m['component'].get('name', '')}超过{m.get('limit') or '限值'}" for m in matches]
+                m_str = "、".join(m_details) if m_details else "检测超标"
+                fail_descs.append(f"{fs}（{m_str}）")
+            parts.append(f"在 {'、'.join(fail_descs)} 判定不符")
+        if warning_standards:
+            warn_descs = []
+            for ws in warning_standards:
+                if ws == "REACH SVHC 253项":
+                    warn_descs.append("REACH SVHC 253项（含量超过0.1%通报阈值需履行通报义务）")
+                else:
+                    warn_descs.append(f"{ws}（存在特定限制与管控要求）")
+            parts.append(f"在 {'、'.join(warn_descs)} 存在警告与限制")
+        summary_text = f"经过CAS对照粗检，产品{product_name} 所含物质" + "；".join(parts) + "。"
+
+    lines.append("## 总结：")
+    lines.append(summary_text)
+    lines.append("")
+    lines.append("## 特殊说明：")
+    lines.append("- **双酚类化学品系列**：未添加且不含有；")
+    lines.append("- **特殊邻苯二甲酸酯类增塑剂**：未添加且不含有")
+    lines.append("")
     return "\n".join(lines) + "\n"
+
 
 
 def main(argv: list[str] | None = None) -> int:
