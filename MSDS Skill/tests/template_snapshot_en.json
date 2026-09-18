@@ -1,6 +1,6 @@
 {
   "source_filename": "template_reference_en.docx",
-  "source_sha256": "34a259eed50d2e78b4609c66453fa9baab610a623dcc7ee531db359b1a988497",
+  "source_sha256": "49a279aa8c7a50f38ee6929ca2f030cf13b01ee0d1e476d790a2352a316bfa2b",
   "tables": [
     {
       "table": 0,
@@ -37,14 +37,14 @@
               "tcW_type": "dxa",
               "gridSpan": "2",
               "vMerge": null,
-              "text": "Identification",
+              "text": "Identification of the substance/mixture and of the company/undertaking",
               "paragraphs": [
                 {
-                  "text": "Identification",
+                  "text": "Identification of the substance/mixture and of the company/undertaking",
                   "pPr_hash": "841876e356eb3a0a3ee855f323c49e23d9ee680056f62e49745ab140b636f4b7",
                   "runs": [
                     {
-                      "text": "Identification",
+                      "text": "Identification of the substance/mixture and of the company/undertaking",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -75,10 +75,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "1.1  Product name：",
+              "text": "1.1  Product name: ",
               "paragraphs": [
                 {
-                  "text": "1.1  Product name：",
+                  "text": "1.1  Product name: ",
                   "pPr_hash": "067e2f542cedde6898e63a24ea6d5449d1c71493ec84528e62bc968aa7e2ca52",
                   "runs": [
                     {
@@ -130,7 +130,7 @@
                       }
                     },
                     {
-                      "text": "name：",
+                      "text": "name: ",
                       "rPr_hash": "24452b3d4af1681aea5e96fda0bf171f3182253ee373cb3b926b1aad84366a82",
                       "bold": true,
                       "italic": null,
@@ -179,10 +179,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "Chemical category：",
+              "text": "Chemical category: ",
               "paragraphs": [
                 {
-                  "text": "Chemical category：",
+                  "text": "Chemical category: ",
                   "pPr_hash": "a08c7176906ab4e5edd1763ef9445015b55eeddd08d858e0e45c5ce06d6f34fd",
                   "runs": [
                     {
@@ -198,7 +198,7 @@
                       }
                     },
                     {
-                      "text": "：",
+                      "text": ": ",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -260,10 +260,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "1.2  Product use suggestions and restrictions：",
+              "text": "1.2  Product use suggestions and restrictions: ",
               "paragraphs": [
                 {
-                  "text": "1.2  Product use suggestions and restrictions：",
+                  "text": "1.2  Product use suggestions and restrictions: ",
                   "pPr_hash": "9e0c501bc366cd99aba8304fd46884a24d255bc414f933682b673ccb3233518a",
                   "runs": [
                     {
@@ -315,7 +315,7 @@
                       }
                     },
                     {
-                      "text": "：",
+                      "text": ": ",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -469,10 +469,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "Name of supplier：",
+              "text": "Name of supplier: ",
               "paragraphs": [
                 {
-                  "text": "Name of supplier：",
+                  "text": "Name of supplier: ",
                   "pPr_hash": "b736062ec23dfa07109be425cfebef7403a7f6e7b59b0ea90ca4ca85198ec504",
                   "runs": [
                     {
@@ -488,7 +488,7 @@
                       }
                     },
                     {
-                      "text": "：",
+                      "text": ": ",
                       "rPr_hash": "24452b3d4af1681aea5e96fda0bf171f3182253ee373cb3b926b1aad84366a82",
                       "bold": true,
                       "italic": null,
@@ -619,10 +619,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "Tel：",
+              "text": "Tel: ",
               "paragraphs": [
                 {
-                  "text": "Tel：",
+                  "text": "Tel: ",
                   "pPr_hash": "0e0886f2b636176d33a1da2903db7cc9fb833606d6833739cf8b38f40252f241",
                   "runs": [
                     {
@@ -638,7 +638,7 @@
                       }
                     },
                     {
-                      "text": "：",
+                      "text": ": ",
                       "rPr_hash": "24452b3d4af1681aea5e96fda0bf171f3182253ee373cb3b926b1aad84366a82",
                       "bold": true,
                       "italic": null,
@@ -700,10 +700,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "Fax：",
+              "text": "Fax: ",
               "paragraphs": [
                 {
-                  "text": "Fax：",
+                  "text": "Fax: ",
                   "pPr_hash": "0e0886f2b636176d33a1da2903db7cc9fb833606d6833739cf8b38f40252f241",
                   "runs": [
                     {
@@ -719,7 +719,7 @@
                       }
                     },
                     {
-                      "text": "：",
+                      "text": ": ",
                       "rPr_hash": "24452b3d4af1681aea5e96fda0bf171f3182253ee373cb3b926b1aad84366a82",
                       "bold": true,
                       "italic": null,
@@ -978,7 +978,7 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "2.2  GHS Hazard\nClassification：",
+              "text": "2.2  GHS Hazard\nClassification: ",
               "paragraphs": [
                 {
                   "text": "2.2  GHS Hazard",
@@ -1035,11 +1035,11 @@
                   ]
                 },
                 {
-                  "text": "Classification：",
+                  "text": "Classification: ",
                   "pPr_hash": "648c1083492043d64c7c2d862edd8231fabc09332cf211dbd685d4cbebc559f9",
                   "runs": [
                     {
-                      "text": "Classification：",
+                      "text": "Classification: ",
                       "rPr_hash": "24452b3d4af1681aea5e96fda0bf171f3182253ee373cb3b926b1aad84366a82",
                       "bold": true,
                       "italic": null,
@@ -1101,10 +1101,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "2.3  GHS Label Elements：",
+              "text": "2.3  GHS Label Elements: ",
               "paragraphs": [
                 {
-                  "text": "2.3  GHS Label Elements：",
+                  "text": "2.3  GHS Label Elements: ",
                   "pPr_hash": "23d485e3a74f7c5693b42fae39e07573e85d2172700cc576e42d93563c3fd84a",
                   "runs": [
                     {
@@ -1144,7 +1144,7 @@
                       }
                     },
                     {
-                      "text": "GHS Label Elements：",
+                      "text": "GHS Label Elements: ",
                       "rPr_hash": "24452b3d4af1681aea5e96fda0bf171f3182253ee373cb3b926b1aad84366a82",
                       "bold": true,
                       "italic": null,
@@ -1206,14 +1206,14 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "GHS Pictograms：",
+              "text": "GHS Pictograms: ",
               "paragraphs": [
                 {
-                  "text": "GHS Pictograms：",
+                  "text": "GHS Pictograms: ",
                   "pPr_hash": "648c1083492043d64c7c2d862edd8231fabc09332cf211dbd685d4cbebc559f9",
                   "runs": [
                     {
-                      "text": "GHS Pictograms：",
+                      "text": "GHS Pictograms: ",
                       "rPr_hash": "24452b3d4af1681aea5e96fda0bf171f3182253ee373cb3b926b1aad84366a82",
                       "bold": true,
                       "italic": null,
@@ -1275,10 +1275,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "2.4  Signal Word：",
+              "text": "2.4  Signal Word: ",
               "paragraphs": [
                 {
-                  "text": "2.4  Signal Word：",
+                  "text": "2.4  Signal Word: ",
                   "pPr_hash": "23d485e3a74f7c5693b42fae39e07573e85d2172700cc576e42d93563c3fd84a",
                   "runs": [
                     {
@@ -1318,7 +1318,7 @@
                       }
                     },
                     {
-                      "text": "Signal Word：",
+                      "text": "Signal Word: ",
                       "rPr_hash": "24452b3d4af1681aea5e96fda0bf171f3182253ee373cb3b926b1aad84366a82",
                       "bold": true,
                       "italic": null,
@@ -1380,10 +1380,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "2.5  Hazard Statements：",
+              "text": "2.5  Hazard Statements: ",
               "paragraphs": [
                 {
-                  "text": "2.5  Hazard Statements：",
+                  "text": "2.5  Hazard Statements: ",
                   "pPr_hash": "23d485e3a74f7c5693b42fae39e07573e85d2172700cc576e42d93563c3fd84a",
                   "runs": [
                     {
@@ -1423,7 +1423,7 @@
                       }
                     },
                     {
-                      "text": "Hazard Statements：",
+                      "text": "Hazard Statements: ",
                       "rPr_hash": "24452b3d4af1681aea5e96fda0bf171f3182253ee373cb3b926b1aad84366a82",
                       "bold": true,
                       "italic": null,
@@ -1485,10 +1485,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "2.6  Precautionary Statements：",
+              "text": "2.6  Precautionary Statements: ",
               "paragraphs": [
                 {
-                  "text": "2.6  Precautionary Statements：",
+                  "text": "2.6  Precautionary Statements: ",
                   "pPr_hash": "8a735ad3b01aad727190ed7f74ca4e7f702b7cab5ee86c10c43fa7277caca15c",
                   "runs": [
                     {
@@ -1528,7 +1528,7 @@
                       }
                     },
                     {
-                      "text": "Precautionary Statements：",
+                      "text": "Precautionary Statements: ",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -1608,10 +1608,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "2.7  Physical and Chemical Hazards：",
+              "text": "2.7  Physical and Chemical Hazards: ",
               "paragraphs": [
                 {
-                  "text": "2.7  Physical and Chemical Hazards：",
+                  "text": "2.7  Physical and Chemical Hazards: ",
                   "pPr_hash": "8a735ad3b01aad727190ed7f74ca4e7f702b7cab5ee86c10c43fa7277caca15c",
                   "runs": [
                     {
@@ -1639,7 +1639,7 @@
                       }
                     },
                     {
-                      "text": "Physical and Chemical Hazards：",
+                      "text": "Physical and Chemical Hazards: ",
                       "rPr_hash": "24452b3d4af1681aea5e96fda0bf171f3182253ee373cb3b926b1aad84366a82",
                       "bold": true,
                       "italic": null,
@@ -1744,16 +1744,16 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "吸入：",
+              "text": "Inhalation:",
               "paragraphs": [
                 {
-                  "text": "吸入：",
+                  "text": "Inhalation:",
                   "pPr_hash": "a25676cdbd689bd96e7710846037fc006ab4bb1d0c0fbb2bd974c68dc73dacc1",
                   "runs": [
                     {
-                      "text": "吸入：",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
-                      "bold": null,
+                      "text": "Inhalation:",
+                      "rPr_hash": "d627a3d2f73903533fc972d29c48b660e9d035cbefa6fce19140ef80cb9f1573",
+                      "bold": true,
                       "italic": null,
                       "underline": null,
                       "font": {
@@ -1825,16 +1825,16 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "食入：",
+              "text": "Ingestion:",
               "paragraphs": [
                 {
-                  "text": "食入：",
+                  "text": "Ingestion:",
                   "pPr_hash": "0c1f44d569621ac0a58f128540b81f4561bfcc5839ed739be821e8c5fa2c4b63",
                   "runs": [
                     {
-                      "text": "食入：",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
-                      "bold": null,
+                      "text": "Ingestion:",
+                      "rPr_hash": "d627a3d2f73903533fc972d29c48b660e9d035cbefa6fce19140ef80cb9f1573",
+                      "bold": true,
                       "italic": null,
                       "underline": null,
                       "font": {
@@ -1906,16 +1906,16 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "皮肤：",
+              "text": "Skin:",
               "paragraphs": [
                 {
-                  "text": "皮肤：",
+                  "text": "Skin:",
                   "pPr_hash": "0c1f44d569621ac0a58f128540b81f4561bfcc5839ed739be821e8c5fa2c4b63",
                   "runs": [
                     {
-                      "text": "皮肤：",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
-                      "bold": null,
+                      "text": "Skin:",
+                      "rPr_hash": "d627a3d2f73903533fc972d29c48b660e9d035cbefa6fce19140ef80cb9f1573",
+                      "bold": true,
                       "italic": null,
                       "underline": null,
                       "font": {
@@ -1987,16 +1987,16 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "眼睛：",
+              "text": "Eyes:",
               "paragraphs": [
                 {
-                  "text": "眼睛：",
+                  "text": "Eyes:",
                   "pPr_hash": "0c1f44d569621ac0a58f128540b81f4561bfcc5839ed739be821e8c5fa2c4b63",
                   "runs": [
                     {
-                      "text": "眼睛：",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
-                      "bold": null,
+                      "text": "Eyes:",
+                      "rPr_hash": "d627a3d2f73903533fc972d29c48b660e9d035cbefa6fce19140ef80cb9f1573",
+                      "bold": true,
                       "italic": null,
                       "underline": null,
                       "font": {
@@ -2068,16 +2068,16 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "症状和体征：",
+              "text": "Signs and symptoms:",
               "paragraphs": [
                 {
-                  "text": "症状和体征：",
+                  "text": "Signs and symptoms:",
                   "pPr_hash": "0c1f44d569621ac0a58f128540b81f4561bfcc5839ed739be821e8c5fa2c4b63",
                   "runs": [
                     {
-                      "text": "症状和体征：",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
-                      "bold": null,
+                      "text": "Signs and symptoms:",
+                      "rPr_hash": "d627a3d2f73903533fc972d29c48b660e9d035cbefa6fce19140ef80cb9f1573",
+                      "bold": true,
                       "italic": null,
                       "underline": null,
                       "font": {
@@ -2352,10 +2352,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "3.1  Product type：",
+              "text": "3.1  Product type: ",
               "paragraphs": [
                 {
-                  "text": "3.1  Product type：",
+                  "text": "3.1  Product type: ",
                   "pPr_hash": "aaa06582a605670af82847609075bc8d0a4c4b3b3f527a50a2a19db4212fc4d1",
                   "runs": [
                     {
@@ -2371,7 +2371,7 @@
                       }
                     },
                     {
-                      "text": "Product type：",
+                      "text": "Product type: ",
                       "rPr_hash": "24452b3d4af1681aea5e96fda0bf171f3182253ee373cb3b926b1aad84366a82",
                       "bold": true,
                       "italic": null,
@@ -2890,10 +2890,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "4.1  General measures：",
+              "text": "4.1  General measures: ",
               "paragraphs": [
                 {
-                  "text": "4.1  General measures：",
+                  "text": "4.1  General measures: ",
                   "pPr_hash": "e8d4ca0763a3bd93dd3b9a8110792e0da2bdd287a9162e3008aa951b0966fa0c",
                   "runs": [
                     {
@@ -2909,7 +2909,7 @@
                       }
                     },
                     {
-                      "text": "General measures：",
+                      "text": "General measures: ",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
                       "bold": true,
                       "italic": null,
@@ -2971,10 +2971,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "4.2  Ingestion：",
+              "text": "4.2  Ingestion: ",
               "paragraphs": [
                 {
-                  "text": "4.2  Ingestion：",
+                  "text": "4.2  Ingestion: ",
                   "pPr_hash": "e8d4ca0763a3bd93dd3b9a8110792e0da2bdd287a9162e3008aa951b0966fa0c",
                   "runs": [
                     {
@@ -3002,7 +3002,7 @@
                       }
                     },
                     {
-                      "text": "Ingestion：",
+                      "text": "Ingestion: ",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
                       "bold": true,
                       "italic": null,
@@ -3076,10 +3076,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "4.3  Eye contact：",
+              "text": "4.3  Eye contact: ",
               "paragraphs": [
                 {
-                  "text": "4.3  Eye contact：",
+                  "text": "4.3  Eye contact: ",
                   "pPr_hash": "e8d4ca0763a3bd93dd3b9a8110792e0da2bdd287a9162e3008aa951b0966fa0c",
                   "runs": [
                     {
@@ -3107,7 +3107,7 @@
                       }
                     },
                     {
-                      "text": "Eye contact：",
+                      "text": "Eye contact: ",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
                       "bold": true,
                       "italic": null,
@@ -3169,10 +3169,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "4.4  Skin contact：",
+              "text": "4.4  Skin contact: ",
               "paragraphs": [
                 {
-                  "text": "4.4  Skin contact：",
+                  "text": "4.4  Skin contact: ",
                   "pPr_hash": "e8d4ca0763a3bd93dd3b9a8110792e0da2bdd287a9162e3008aa951b0966fa0c",
                   "runs": [
                     {
@@ -3200,7 +3200,7 @@
                       }
                     },
                     {
-                      "text": "Skin contact：",
+                      "text": "Skin contact: ",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
                       "bold": true,
                       "italic": null,
@@ -3262,10 +3262,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "4.5  Inhalation：",
+              "text": "4.5  Inhalation: ",
               "paragraphs": [
                 {
-                  "text": "4.5  Inhalation：",
+                  "text": "4.5  Inhalation: ",
                   "pPr_hash": "84a9f4e225680c2687064dd1ec67ca02c576ca7c6d45dc18bcef4b5c85d73ce6",
                   "runs": [
                     {
@@ -3293,7 +3293,7 @@
                       }
                     },
                     {
-                      "text": "Inhalation：",
+                      "text": "Inhalation: ",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
                       "bold": true,
                       "italic": null,
@@ -3425,7 +3425,7 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "5.1  Suitable extinguishing\nagents：",
+              "text": "5.1  Suitable extinguishing\nagents: ",
               "paragraphs": [
                 {
                   "text": "5.1  Suitable extinguishing",
@@ -3482,11 +3482,11 @@
                   ]
                 },
                 {
-                  "text": "agents：",
+                  "text": "agents: ",
                   "pPr_hash": "87b497a4cce97a12f11557bc13674220817d3750dd43806d5c001518daa60814",
                   "runs": [
                     {
-                      "text": "agents：",
+                      "text": "agents: ",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
                       "bold": true,
                       "italic": null,
@@ -3644,7 +3644,7 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "5.2  Unsuitable extinguishing\nagents：",
+              "text": "5.2  Unsuitable extinguishing\nagents: ",
               "paragraphs": [
                 {
                   "text": "5.2  Unsuitable extinguishing",
@@ -3689,11 +3689,11 @@
                   ]
                 },
                 {
-                  "text": "agents：",
+                  "text": "agents: ",
                   "pPr_hash": "87b497a4cce97a12f11557bc13674220817d3750dd43806d5c001518daa60814",
                   "runs": [
                     {
-                      "text": "agents：",
+                      "text": "agents: ",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
                       "bold": true,
                       "italic": null,
@@ -3767,7 +3767,7 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "5.3  Special hazards of\nsubstances or mixtures：",
+              "text": "5.3  Special hazards of\nsubstances or mixtures: ",
               "paragraphs": [
                 {
                   "text": "5.3  Special hazards of",
@@ -3824,11 +3824,11 @@
                   ]
                 },
                 {
-                  "text": "substances or mixtures：",
+                  "text": "substances or mixtures: ",
                   "pPr_hash": "55a0ca383ebb292ac4751e728a37a1f7e7a8f3c484fb1a41ab0c9b8c5da55550",
                   "runs": [
                     {
-                      "text": "substances or mixtures：",
+                      "text": "substances or mixtures: ",
                       "rPr_hash": "b0b0a2c25b2f3dd5bd63a7f09bbfea87cb7e0de7537baf155a9d0bf867725217",
                       "bold": true,
                       "italic": null,
@@ -3932,7 +3932,7 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "5.4  Firefighting precautions\nprotective equipment：",
+              "text": "5.4  Firefighting precautions\nprotective equipment: ",
               "paragraphs": [
                 {
                   "text": "5.4  Firefighting precautions",
@@ -3977,11 +3977,11 @@
                   ]
                 },
                 {
-                  "text": "protective equipment：",
+                  "text": "protective equipment: ",
                   "pPr_hash": "87b497a4cce97a12f11557bc13674220817d3750dd43806d5c001518daa60814",
                   "runs": [
                     {
-                      "text": "protective equipment：",
+                      "text": "protective equipment: ",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
                       "bold": true,
                       "italic": null,
@@ -4080,10 +4080,10 @@
               "tcW_type": "dxa",
               "gridSpan": "2",
               "vMerge": null,
-              "text": "6.Measures for accidental leakage",
+              "text": "6. Accidental release measures",
               "paragraphs": [
                 {
-                  "text": "6.Measures for accidental leakage",
+                  "text": "6. Accidental release measures",
                   "pPr_hash": "dd9dbb7a3aace0386009e361fc0dfd12d18e30a954c562970c1a1dea4dd0a5cd",
                   "runs": [
                     {
@@ -4099,7 +4099,7 @@
                       }
                     },
                     {
-                      "text": "Measures for accidental leakage",
+                      "text": " Accidental release measures",
                       "rPr_hash": "64660e0e0acbab77746d3d1b35dd075c3f655c71de7a28ea55c06087dc46bcb9",
                       "bold": true,
                       "italic": null,
@@ -4130,10 +4130,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "6.1  Firefighting precautions\nprotective equipment：",
+              "text": "6.1  Personal precautions, protective equipment and\nemergency procedures:",
               "paragraphs": [
                 {
-                  "text": "6.1  Firefighting precautions",
+                  "text": "6.1  Personal precautions, protective equipment and",
                   "pPr_hash": "f2bbca9f13a1c6bbfe1b37bc8f9d5d8c4994640599d39b25e743b09e129ff99f",
                   "runs": [
                     {
@@ -4173,7 +4173,7 @@
                       }
                     },
                     {
-                      "text": "Firefighting precautions",
+                      "text": "Personal precautions, protective equipment and",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
                       "bold": true,
                       "italic": null,
@@ -4187,11 +4187,11 @@
                   ]
                 },
                 {
-                  "text": "protective equipment：",
+                  "text": "emergency procedures:",
                   "pPr_hash": "87b497a4cce97a12f11557bc13674220817d3750dd43806d5c001518daa60814",
                   "runs": [
                     {
-                      "text": "protective equipment：",
+                      "text": "emergency procedures:",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
                       "bold": true,
                       "italic": null,
@@ -4295,7 +4295,7 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "6.2  Environmental\nprecautions：",
+              "text": "6.2  Environmental\nprecautions: ",
               "paragraphs": [
                 {
                   "text": "6.2  Environmental",
@@ -4340,11 +4340,11 @@
                   ]
                 },
                 {
-                  "text": "precautions：",
+                  "text": "precautions: ",
                   "pPr_hash": "5432f5f52f39bf6ee027f3ea1978317ad3ba6b38002e9f4f7758750d3f018754",
                   "runs": [
                     {
-                      "text": "precautions：",
+                      "text": "precautions: ",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
                       "bold": true,
                       "italic": null,
@@ -4418,10 +4418,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "6.3  Methods and material for containment and cleaning up：",
+              "text": "6.3  Methods and material for containment and cleaning up: ",
               "paragraphs": [
                 {
-                  "text": "6.3  Methods and material for containment and cleaning up：",
+                  "text": "6.3  Methods and material for containment and cleaning up: ",
                   "pPr_hash": "04e7d1c17677ce250a84b667c1bb8ee477aa32b4971ce4b7cd80ec167bc0b9dc",
                   "runs": [
                     {
@@ -4473,7 +4473,7 @@
                       }
                     },
                     {
-                      "text": "containment and cleaning up：",
+                      "text": "containment and cleaning up: ",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
                       "bold": true,
                       "italic": null,
@@ -4553,10 +4553,10 @@
               "tcW_type": "dxa",
               "gridSpan": "2",
               "vMerge": null,
-              "text": "7.Operation and storage",
+              "text": "7. Handling and storage",
               "paragraphs": [
                 {
-                  "text": "7.Operation and storage",
+                  "text": "7. Handling and storage",
                   "pPr_hash": "dd9dbb7a3aace0386009e361fc0dfd12d18e30a954c562970c1a1dea4dd0a5cd",
                   "runs": [
                     {
@@ -4572,7 +4572,7 @@
                       }
                     },
                     {
-                      "text": "Operation and storage",
+                      "text": " Handling and storage",
                       "rPr_hash": "64660e0e0acbab77746d3d1b35dd075c3f655c71de7a28ea55c06087dc46bcb9",
                       "bold": true,
                       "italic": null,
@@ -4603,10 +4603,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "7.1  Precautions for safe handling：",
+              "text": "7.1  Precautions for safe handling: ",
               "paragraphs": [
                 {
-                  "text": "7.1  Precautions for safe handling：",
+                  "text": "7.1  Precautions for safe handling: ",
                   "pPr_hash": "73e06cff54937a052fe965116bca5656839d98aee7f7be274a010aa90799b7b7",
                   "runs": [
                     {
@@ -4646,7 +4646,7 @@
                       }
                     },
                     {
-                      "text": "Precautions for safe handling：",
+                      "text": "Precautions for safe handling: ",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
                       "bold": true,
                       "italic": null,
@@ -4732,10 +4732,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "7.2  Conditions for safe storage：",
+              "text": "7.2  Conditions for safe storage: ",
               "paragraphs": [
                 {
-                  "text": "7.2  Conditions for safe storage：",
+                  "text": "7.2  Conditions for safe storage: ",
                   "pPr_hash": "73e06cff54937a052fe965116bca5656839d98aee7f7be274a010aa90799b7b7",
                   "runs": [
                     {
@@ -4775,7 +4775,7 @@
                       }
                     },
                     {
-                      "text": "Conditions for safe storage：",
+                      "text": "Conditions for safe storage: ",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
                       "bold": true,
                       "italic": null,
@@ -4981,10 +4981,10 @@
               "tcW_type": "dxa",
               "gridSpan": "5",
               "vMerge": null,
-              "text": "8.1  Exposure controls：",
+              "text": "8.1  Exposure controls: ",
               "paragraphs": [
                 {
-                  "text": "8.1  Exposure controls：",
+                  "text": "8.1  Exposure controls: ",
                   "pPr_hash": "4e918d2061a962ba88f29d9fda6cafce65a3bd9b9b203a198f40604f398e8fc5",
                   "runs": [
                     {
@@ -5000,7 +5000,7 @@
                       }
                     },
                     {
-                      "text": "Exposure controls：",
+                      "text": "Exposure controls: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -5031,14 +5031,14 @@
               "tcW_type": "dxa",
               "gridSpan": "2",
               "vMerge": null,
-              "text": "Respiratory protection：",
+              "text": "Respiratory protection: ",
               "paragraphs": [
                 {
-                  "text": "Respiratory protection：",
+                  "text": "Respiratory protection: ",
                   "pPr_hash": "e8096bdf3e996fa19d28f5bc99ab56bd64c136d6af85df4c3b68c5c0f8023b80",
                   "runs": [
                     {
-                      "text": "Respiratory protection：",
+                      "text": "Respiratory protection: ",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
                       "bold": true,
                       "italic": null,
@@ -5100,14 +5100,14 @@
               "tcW_type": "dxa",
               "gridSpan": "2",
               "vMerge": null,
-              "text": "Hand protection：\t喷涂过程中要求有呼吸防护设备。",
+              "text": "Hand protection:",
               "paragraphs": [
                 {
-                  "text": "Hand protection：\t喷涂过程中要求有呼吸防护设备。",
+                  "text": "Hand protection:",
                   "pPr_hash": "8c0331ddab684d51039ee7d88cf3b77ae05078d20f0ae5c0733baf2a80a6d581",
                   "runs": [
                     {
-                      "text": "Hand protection：",
+                      "text": "Hand protection:",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
                       "bold": true,
                       "italic": null,
@@ -5119,7 +5119,7 @@
                       }
                     },
                     {
-                      "text": "\t",
+                      "text": "",
                       "rPr_hash": "64660e0e0acbab77746d3d1b35dd075c3f655c71de7a28ea55c06087dc46bcb9",
                       "bold": true,
                       "italic": null,
@@ -5131,7 +5131,7 @@
                       }
                     },
                     {
-                      "text": "喷涂过程中要求有呼吸防护设备。",
+                      "text": "",
                       "rPr_hash": "26762978c0eb492537a4ee415332e11acd8c0d9f7bc41a2d938b6a2b8dcffb88",
                       "bold": true,
                       "italic": null,
@@ -5193,14 +5193,14 @@
               "tcW_type": "dxa",
               "gridSpan": "2",
               "vMerge": null,
-              "text": "Suitable material for protective gloves：",
+              "text": "Suitable material for protective gloves: ",
               "paragraphs": [
                 {
-                  "text": "Suitable material for protective gloves：",
+                  "text": "Suitable material for protective gloves: ",
                   "pPr_hash": "e0f1ad0c2a01ebe2e56169f89b8639575e953b8c3f6dfae5e8aaf4de61e72990",
                   "runs": [
                     {
-                      "text": "Suitable material for protective gloves：",
+                      "text": "Suitable material for protective gloves: ",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
                       "bold": true,
                       "italic": null,
@@ -5367,14 +5367,14 @@
               "tcW_type": "dxa",
               "gridSpan": "2",
               "vMerge": null,
-              "text": "Butyl rubber – IIR：",
+              "text": "Butyl rubber – IIR: ",
               "paragraphs": [
                 {
-                  "text": "Butyl rubber – IIR：",
+                  "text": "Butyl rubber – IIR: ",
                   "pPr_hash": "a398c12b7309cdf2a9411b6052fe1bc97499c4d2c494f77f9b982ed638cd6292",
                   "runs": [
                     {
-                      "text": "Butyl rubber – IIR：",
+                      "text": "Butyl rubber – IIR: ",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
                       "bold": true,
                       "italic": null,
@@ -5472,14 +5472,14 @@
               "tcW_type": "dxa",
               "gridSpan": "2",
               "vMerge": null,
-              "text": "Nitrile rubber – NBR：",
+              "text": "Nitrile rubber – NBR: ",
               "paragraphs": [
                 {
-                  "text": "Nitrile rubber – NBR：",
+                  "text": "Nitrile rubber – NBR: ",
                   "pPr_hash": "a398c12b7309cdf2a9411b6052fe1bc97499c4d2c494f77f9b982ed638cd6292",
                   "runs": [
                     {
-                      "text": "Nitrile rubber – NBR：",
+                      "text": "Nitrile rubber – NBR: ",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
                       "bold": true,
                       "italic": null,
@@ -5633,14 +5633,14 @@
               "tcW_type": "dxa",
               "gridSpan": "2",
               "vMerge": null,
-              "text": "Eye protection：",
+              "text": "Eye protection: ",
               "paragraphs": [
                 {
-                  "text": "Eye protection：",
+                  "text": "Eye protection: ",
                   "pPr_hash": "e8096bdf3e996fa19d28f5bc99ab56bd64c136d6af85df4c3b68c5c0f8023b80",
                   "runs": [
                     {
-                      "text": "Eye protection：",
+                      "text": "Eye protection: ",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
                       "bold": true,
                       "italic": null,
@@ -5726,14 +5726,14 @@
               "tcW_type": "dxa",
               "gridSpan": "2",
               "vMerge": null,
-              "text": "Body protection：",
+              "text": "Body protection: ",
               "paragraphs": [
                 {
-                  "text": "Body protection：",
+                  "text": "Body protection: ",
                   "pPr_hash": "e8096bdf3e996fa19d28f5bc99ab56bd64c136d6af85df4c3b68c5c0f8023b80",
                   "runs": [
                     {
-                      "text": "Body protection：",
+                      "text": "Body protection: ",
                       "rPr_hash": "0c7deec8c20df6b9dcb30832ed7a5370fd194a2be4e2f3802109f0a0ef924cd1",
                       "bold": true,
                       "italic": null,
@@ -5795,10 +5795,10 @@
               "tcW_type": "dxa",
               "gridSpan": "2",
               "vMerge": null,
-              "text": "8.2  Engineering controls：",
+              "text": "8.2  Engineering controls: ",
               "paragraphs": [
                 {
-                  "text": "8.2  Engineering controls：",
+                  "text": "8.2  Engineering controls: ",
                   "pPr_hash": "544219676b99dfd88de54e991e5a60e4a6207f953a392ee764e72f73b3d206f4",
                   "runs": [
                     {
@@ -5814,7 +5814,7 @@
                       }
                     },
                     {
-                      "text": "Engineering controls：",
+                      "text": "Engineering controls: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -6576,10 +6576,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "9.1  Appearance：",
+              "text": "9.1  Appearance: ",
               "paragraphs": [
                 {
-                  "text": "9.1  Appearance：",
+                  "text": "9.1  Appearance: ",
                   "pPr_hash": "131ce25d1dbb5166c22db979e2323e794e911c40989ab56367ff1abca7724179",
                   "runs": [
                     {
@@ -6607,7 +6607,7 @@
                       }
                     },
                     {
-                      "text": "Appearance：",
+                      "text": "Appearance: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -6673,10 +6673,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "9.2  Odour threshold：      ",
+              "text": "9.2  Odour threshold:       ",
               "paragraphs": [
                 {
-                  "text": "9.2  Odour threshold：      ",
+                  "text": "9.2  Odour threshold:       ",
                   "pPr_hash": "131ce25d1dbb5166c22db979e2323e794e911c40989ab56367ff1abca7724179",
                   "runs": [
                     {
@@ -6704,7 +6704,7 @@
                       }
                     },
                     {
-                      "text": "Odour threshold：    ",
+                      "text": "Odour threshold:     ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -6778,10 +6778,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "9.3  pH value：",
+              "text": "9.3  pH value: ",
               "paragraphs": [
                 {
-                  "text": "9.3  pH value：",
+                  "text": "9.3  pH value: ",
                   "pPr_hash": "131ce25d1dbb5166c22db979e2323e794e911c40989ab56367ff1abca7724179",
                   "runs": [
                     {
@@ -6809,7 +6809,7 @@
                       }
                     },
                     {
-                      "text": "pH value：",
+                      "text": "pH value: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -6871,10 +6871,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "9.4  Ionicity：",
+              "text": "9.4  Ionicity: ",
               "paragraphs": [
                 {
-                  "text": "9.4  Ionicity：",
+                  "text": "9.4  Ionicity: ",
                   "pPr_hash": "131ce25d1dbb5166c22db979e2323e794e911c40989ab56367ff1abca7724179",
                   "runs": [
                     {
@@ -6902,7 +6902,7 @@
                       }
                     },
                     {
-                      "text": "Ionicity：",
+                      "text": "Ionicity: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -6968,10 +6968,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "9.5  Initial boiling point：",
+              "text": "9.5  Initial boiling point: ",
               "paragraphs": [
                 {
-                  "text": "9.5  Initial boiling point：",
+                  "text": "9.5  Initial boiling point: ",
                   "pPr_hash": "131ce25d1dbb5166c22db979e2323e794e911c40989ab56367ff1abca7724179",
                   "runs": [
                     {
@@ -6999,7 +6999,7 @@
                       }
                     },
                     {
-                      "text": "Initial boiling point：",
+                      "text": "Initial boiling point: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -7061,10 +7061,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "9.6  Flash point：    ",
+              "text": "9.6  Flash point:     ",
               "paragraphs": [
                 {
-                  "text": "9.6  Flash point：    ",
+                  "text": "9.6  Flash point:     ",
                   "pPr_hash": "131ce25d1dbb5166c22db979e2323e794e911c40989ab56367ff1abca7724179",
                   "runs": [
                     {
@@ -7092,7 +7092,7 @@
                       }
                     },
                     {
-                      "text": "Flash point：   ",
+                      "text": "Flash point:    ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -7166,10 +7166,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "9.7  Evaporation rate：     ",
+              "text": "9.7  Evaporation rate:      ",
               "paragraphs": [
                 {
-                  "text": "9.7  Evaporation rate：     ",
+                  "text": "9.7  Evaporation rate:      ",
                   "pPr_hash": "131ce25d1dbb5166c22db979e2323e794e911c40989ab56367ff1abca7724179",
                   "runs": [
                     {
@@ -7197,7 +7197,7 @@
                       }
                     },
                     {
-                      "text": "Evaporation rate：    ",
+                      "text": "Evaporation rate:     ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -7271,10 +7271,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "9.8  Flammability：",
+              "text": "9.8  Flammability: ",
               "paragraphs": [
                 {
-                  "text": "9.8  Flammability：",
+                  "text": "9.8  Flammability: ",
                   "pPr_hash": "131ce25d1dbb5166c22db979e2323e794e911c40989ab56367ff1abca7724179",
                   "runs": [
                     {
@@ -7314,7 +7314,7 @@
                       }
                     },
                     {
-                      "text": "Flammability：",
+                      "text": "Flammability: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -7376,10 +7376,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "9.9  Heat of combustion：      ",
+              "text": "9.9  Heat of combustion:       ",
               "paragraphs": [
                 {
-                  "text": "9.9  Heat of combustion：      ",
+                  "text": "9.9  Heat of combustion:       ",
                   "pPr_hash": "131ce25d1dbb5166c22db979e2323e794e911c40989ab56367ff1abca7724179",
                   "runs": [
                     {
@@ -7395,7 +7395,7 @@
                       }
                     },
                     {
-                      "text": "Heat of combustion：      ",
+                      "text": "Heat of combustion:       ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -7457,7 +7457,7 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "9.10 Saturated vapour\npressure：",
+              "text": "9.10 Saturated vapour\npressure: ",
               "paragraphs": [
                 {
                   "text": "9.10 Saturated vapour",
@@ -7502,11 +7502,11 @@
                   ]
                 },
                 {
-                  "text": "pressure：",
+                  "text": "pressure: ",
                   "pPr_hash": "fde2ad49808590da4db94a751f1da8a4cb40d9b3b25e281f65cf02844818996d",
                   "runs": [
                     {
-                      "text": "pressure：",
+                      "text": "pressure: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -7568,10 +7568,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "9.11 Relative vapour density：",
+              "text": "9.11 Relative vapour density: ",
               "paragraphs": [
                 {
-                  "text": "9.11 Relative vapour density：",
+                  "text": "9.11 Relative vapour density: ",
                   "pPr_hash": "131ce25d1dbb5166c22db979e2323e794e911c40989ab56367ff1abca7724179",
                   "runs": [
                     {
@@ -7599,7 +7599,7 @@
                       }
                     },
                     {
-                      "text": "Relative vapour density：",
+                      "text": "Relative vapour density: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -7661,10 +7661,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "9.12 Density：   ",
+              "text": "9.12 Density:    ",
               "paragraphs": [
                 {
-                  "text": "9.12 Density：   ",
+                  "text": "9.12 Density:    ",
                   "pPr_hash": "131ce25d1dbb5166c22db979e2323e794e911c40989ab56367ff1abca7724179",
                   "runs": [
                     {
@@ -7692,7 +7692,7 @@
                       }
                     },
                     {
-                      "text": "Density：   ",
+                      "text": "Density:    ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -7754,10 +7754,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "9.13 Solubility in water：",
+              "text": "9.13 Solubility in water: ",
               "paragraphs": [
                 {
-                  "text": "9.13 Solubility in water：",
+                  "text": "9.13 Solubility in water: ",
                   "pPr_hash": "131ce25d1dbb5166c22db979e2323e794e911c40989ab56367ff1abca7724179",
                   "runs": [
                     {
@@ -7785,7 +7785,7 @@
                       }
                     },
                     {
-                      "text": "Solubility in water：",
+                      "text": "Solubility in water: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -7847,10 +7847,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "9.14 Surface tension：  ",
+              "text": "9.14 Surface tension:   ",
               "paragraphs": [
                 {
-                  "text": "9.14 Surface tension：  ",
+                  "text": "9.14 Surface tension:   ",
                   "pPr_hash": "131ce25d1dbb5166c22db979e2323e794e911c40989ab56367ff1abca7724179",
                   "runs": [
                     {
@@ -7878,7 +7878,7 @@
                       }
                     },
                     {
-                      "text": "Surface tension：  ",
+                      "text": "Surface tension:   ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -7940,7 +7940,7 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "9.15 log Pow (n-octanol/water\npartition coefficient)：",
+              "text": "9.15 log Pow (n-octanol/water\npartition coefficient): ",
               "paragraphs": [
                 {
                   "text": "9.15 log Pow (n-octanol/water",
@@ -7985,11 +7985,11 @@
                   ]
                 },
                 {
-                  "text": "partition coefficient)：",
+                  "text": "partition coefficient): ",
                   "pPr_hash": "5dfca131097ca23d2628988ac1e930d8a653c61ccb82407564164463875d47d5",
                   "runs": [
                     {
-                      "text": "partition coefficient)：",
+                      "text": "partition coefficient): ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -8051,7 +8051,7 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "9.16 Auto-ignition\ntemperature：",
+              "text": "9.16 Auto-ignition\ntemperature: ",
               "paragraphs": [
                 {
                   "text": "9.16 Auto-ignition",
@@ -8096,11 +8096,11 @@
                   ]
                 },
                 {
-                  "text": "temperature：",
+                  "text": "temperature: ",
                   "pPr_hash": "5dfca131097ca23d2628988ac1e930d8a653c61ccb82407564164463875d47d5",
                   "runs": [
                     {
-                      "text": "temperature：",
+                      "text": "temperature: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -8162,10 +8162,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "9.17 Ignition temperature：",
+              "text": "9.17 Ignition temperature: ",
               "paragraphs": [
                 {
-                  "text": "9.17 Ignition temperature：",
+                  "text": "9.17 Ignition temperature: ",
                   "pPr_hash": "131ce25d1dbb5166c22db979e2323e794e911c40989ab56367ff1abca7724179",
                   "runs": [
                     {
@@ -8193,7 +8193,7 @@
                       }
                     },
                     {
-                      "text": "Ignition temperature：",
+                      "text": "Ignition temperature: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -8255,7 +8255,7 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "9.18 Decomposition\ntemperature：",
+              "text": "9.18 Decomposition\ntemperature: ",
               "paragraphs": [
                 {
                   "text": "9.18 Decomposition",
@@ -8300,11 +8300,11 @@
                   ]
                 },
                 {
-                  "text": "temperature：",
+                  "text": "temperature: ",
                   "pPr_hash": "5dfca131097ca23d2628988ac1e930d8a653c61ccb82407564164463875d47d5",
                   "runs": [
                     {
-                      "text": "temperature：",
+                      "text": "temperature: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -8366,10 +8366,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "9.19 Dynamic viscosity：",
+              "text": "9.19 Dynamic viscosity: ",
               "paragraphs": [
                 {
-                  "text": "9.19 Dynamic viscosity：",
+                  "text": "9.19 Dynamic viscosity: ",
                   "pPr_hash": "131ce25d1dbb5166c22db979e2323e794e911c40989ab56367ff1abca7724179",
                   "runs": [
                     {
@@ -8397,7 +8397,7 @@
                       }
                     },
                     {
-                      "text": "Dynamic viscosity：",
+                      "text": "Dynamic viscosity: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -8459,10 +8459,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "9.20 Explosive properties：",
+              "text": "9.20 Explosive properties: ",
               "paragraphs": [
                 {
-                  "text": "9.20 Explosive properties：",
+                  "text": "9.20 Explosive properties: ",
                   "pPr_hash": "131ce25d1dbb5166c22db979e2323e794e911c40989ab56367ff1abca7724179",
                   "runs": [
                     {
@@ -8490,7 +8490,7 @@
                       }
                     },
                     {
-                      "text": "Explosive properties：",
+                      "text": "Explosive properties: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -8552,10 +8552,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "9.21 Dust explosion class：",
+              "text": "9.21 Dust explosion class: ",
               "paragraphs": [
                 {
-                  "text": "9.21 Dust explosion class：",
+                  "text": "9.21 Dust explosion class: ",
                   "pPr_hash": "131ce25d1dbb5166c22db979e2323e794e911c40989ab56367ff1abca7724179",
                   "runs": [
                     {
@@ -8583,7 +8583,7 @@
                       }
                     },
                     {
-                      "text": "Dust explosion class：",
+                      "text": "Dust explosion class: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -8645,10 +8645,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "9.22 Solid content：",
+              "text": "9.22 Solid content: ",
               "paragraphs": [
                 {
-                  "text": "9.22 Solid content：",
+                  "text": "9.22 Solid content: ",
                   "pPr_hash": "131ce25d1dbb5166c22db979e2323e794e911c40989ab56367ff1abca7724179",
                   "runs": [
                     {
@@ -8676,7 +8676,7 @@
                       }
                     },
                     {
-                      "text": "Solid content：",
+                      "text": "Solid content: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -8738,10 +8738,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "9.24 Other information：",
+              "text": "9.24 Other information: ",
               "paragraphs": [
                 {
-                  "text": "9.24 Other information：",
+                  "text": "9.24 Other information: ",
                   "pPr_hash": "131ce25d1dbb5166c22db979e2323e794e911c40989ab56367ff1abca7724179",
                   "runs": [
                     {
@@ -8769,7 +8769,7 @@
                       }
                     },
                     {
-                      "text": "Other information：",
+                      "text": "Other information: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -8902,10 +8902,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "10.1 Chemical stability：",
+              "text": "10.1 Chemical stability: ",
               "paragraphs": [
                 {
-                  "text": "10.1 Chemical stability：",
+                  "text": "10.1 Chemical stability: ",
                   "pPr_hash": "cf2e8777fc4f8d8b05dbec1f12f7aa4f4ab4b4d2b1595aa7daf40f115252a049",
                   "runs": [
                     {
@@ -8933,7 +8933,7 @@
                       }
                     },
                     {
-                      "text": "Chemical stability：",
+                      "text": "Chemical stability: ",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -8995,10 +8995,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "10.2 Hazardous decomposition products：",
+              "text": "10.2 Hazardous decomposition products: ",
               "paragraphs": [
                 {
-                  "text": "10.2 Hazardous decomposition products：",
+                  "text": "10.2 Hazardous decomposition products: ",
                   "pPr_hash": "d151d6cf5a739892cd8569a367b64581066ba6ed9f617c250bf815c3904f847a",
                   "runs": [
                     {
@@ -9026,7 +9026,7 @@
                       }
                     },
                     {
-                      "text": "Hazardous decomposition products：",
+                      "text": "Hazardous decomposition products: ",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -9088,10 +9088,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "10.3 Possible hazardous reactions：",
+              "text": "10.3 Possible hazardous reactions: ",
               "paragraphs": [
                 {
-                  "text": "10.3 Possible hazardous reactions：",
+                  "text": "10.3 Possible hazardous reactions: ",
                   "pPr_hash": "d151d6cf5a739892cd8569a367b64581066ba6ed9f617c250bf815c3904f847a",
                   "runs": [
                     {
@@ -9119,7 +9119,7 @@
                       }
                     },
                     {
-                      "text": "Possible hazardous reactions：",
+                      "text": "Possible hazardous reactions: ",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -9181,10 +9181,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "10.4 Conditions to avoid：",
+              "text": "10.4 Conditions to avoid: ",
               "paragraphs": [
                 {
-                  "text": "10.4 Conditions to avoid：",
+                  "text": "10.4 Conditions to avoid: ",
                   "pPr_hash": "866d29fe5d93e822255f01866d77152018b174bad54cc98a307fc6de9acf8f51",
                   "runs": [
                     {
@@ -9224,7 +9224,7 @@
                       }
                     },
                     {
-                      "text": "：",
+                      "text": ": ",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -9286,10 +9286,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "10.5 Incompatible materials：",
+              "text": "10.5 Incompatible materials: ",
               "paragraphs": [
                 {
-                  "text": "10.5 Incompatible materials：",
+                  "text": "10.5 Incompatible materials: ",
                   "pPr_hash": "c31ded12cbf9bb09b2def8f1f83fbf0afaaa1c4c2ca599ef7ea8268928a91dc0",
                   "runs": [
                     {
@@ -9317,7 +9317,7 @@
                       }
                     },
                     {
-                      "text": "Incompatible materials：",
+                      "text": "Incompatible materials: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -9414,10 +9414,10 @@
               "tcW_type": "dxa",
               "gridSpan": "4",
               "vMerge": null,
-              "text": "11.Toxicity information",
+              "text": "11. Toxicological information",
               "paragraphs": [
                 {
-                  "text": "11.Toxicity information",
+                  "text": "11. Toxicological information",
                   "pPr_hash": "dd9dbb7a3aace0386009e361fc0dfd12d18e30a954c562970c1a1dea4dd0a5cd",
                   "runs": [
                     {
@@ -9433,7 +9433,7 @@
                       }
                     },
                     {
-                      "text": "Toxicity information",
+                      "text": " Toxicological information",
                       "rPr_hash": "64660e0e0acbab77746d3d1b35dd075c3f655c71de7a28ea55c06087dc46bcb9",
                       "bold": true,
                       "italic": null,
@@ -9540,10 +9540,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": "restart",
-              "text": "11.1 Acute toxicity：",
+              "text": "11.1 Acute toxicity: ",
               "paragraphs": [
                 {
-                  "text": "11.1 Acute toxicity：",
+                  "text": "11.1 Acute toxicity: ",
                   "pPr_hash": "75f8f723762d17ba9cdcdf044bc9378545665aa5cdbd9d23dc7bc2924eae1c90",
                   "runs": [
                     {
@@ -9571,7 +9571,7 @@
                       }
                     },
                     {
-                      "text": "Acute toxicity：",
+                      "text": "Acute toxicity: ",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -9664,10 +9664,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": "restart",
-              "text": "11.1 Acute toxicity：",
+              "text": "11.1 Acute toxicity: ",
               "paragraphs": [
                 {
-                  "text": "11.1 Acute toxicity：",
+                  "text": "11.1 Acute toxicity: ",
                   "pPr_hash": "75f8f723762d17ba9cdcdf044bc9378545665aa5cdbd9d23dc7bc2924eae1c90",
                   "runs": [
                     {
@@ -9695,7 +9695,7 @@
                       }
                     },
                     {
-                      "text": "Acute toxicity：",
+                      "text": "Acute toxicity: ",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -9812,10 +9812,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": "restart",
-              "text": "11.1 Acute toxicity：",
+              "text": "11.1 Acute toxicity: ",
               "paragraphs": [
                 {
-                  "text": "11.1 Acute toxicity：",
+                  "text": "11.1 Acute toxicity: ",
                   "pPr_hash": "75f8f723762d17ba9cdcdf044bc9378545665aa5cdbd9d23dc7bc2924eae1c90",
                   "runs": [
                     {
@@ -9843,7 +9843,7 @@
                       }
                     },
                     {
-                      "text": "Acute toxicity：",
+                      "text": "Acute toxicity: ",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -9936,10 +9936,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": "restart",
-              "text": "11.1 Acute toxicity：",
+              "text": "11.1 Acute toxicity: ",
               "paragraphs": [
                 {
-                  "text": "11.1 Acute toxicity：",
+                  "text": "11.1 Acute toxicity: ",
                   "pPr_hash": "75f8f723762d17ba9cdcdf044bc9378545665aa5cdbd9d23dc7bc2924eae1c90",
                   "runs": [
                     {
@@ -9967,7 +9967,7 @@
                       }
                     },
                     {
-                      "text": "Acute toxicity：",
+                      "text": "Acute toxicity: ",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -10029,10 +10029,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "11.2 Primary skin irritation：",
+              "text": "11.2 Primary skin irritation: ",
               "paragraphs": [
                 {
-                  "text": "11.2 Primary skin irritation：",
+                  "text": "11.2 Primary skin irritation: ",
                   "pPr_hash": "75f8f723762d17ba9cdcdf044bc9378545665aa5cdbd9d23dc7bc2924eae1c90",
                   "runs": [
                     {
@@ -10060,7 +10060,7 @@
                       }
                     },
                     {
-                      "text": "Primary skin irritation：",
+                      "text": "Primary skin irritation: ",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -10182,10 +10182,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "11.3 Primary eye irritation：",
+              "text": "11.3 Primary eye irritation: ",
               "paragraphs": [
                 {
-                  "text": "11.3 Primary eye irritation：",
+                  "text": "11.3 Primary eye irritation: ",
                   "pPr_hash": "75f8f723762d17ba9cdcdf044bc9378545665aa5cdbd9d23dc7bc2924eae1c90",
                   "runs": [
                     {
@@ -10213,7 +10213,7 @@
                       }
                     },
                     {
-                      "text": "Primary eye irritation：",
+                      "text": "Primary eye irritation: ",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -10323,10 +10323,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "11.4 Sensitization：",
+              "text": "11.4 Sensitization: ",
               "paragraphs": [
                 {
-                  "text": "11.4 Sensitization：",
+                  "text": "11.4 Sensitization: ",
                   "pPr_hash": "75f8f723762d17ba9cdcdf044bc9378545665aa5cdbd9d23dc7bc2924eae1c90",
                   "runs": [
                     {
@@ -10354,7 +10354,7 @@
                       }
                     },
                     {
-                      "text": "Sensitization：",
+                      "text": "Sensitization: ",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -10488,10 +10488,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "11.5 Mutagenicity：",
+              "text": "11.5 Mutagenicity: ",
               "paragraphs": [
                 {
-                  "text": "11.5 Mutagenicity：",
+                  "text": "11.5 Mutagenicity: ",
                   "pPr_hash": "75f8f723762d17ba9cdcdf044bc9378545665aa5cdbd9d23dc7bc2924eae1c90",
                   "runs": [
                     {
@@ -10519,7 +10519,7 @@
                       }
                     },
                     {
-                      "text": "Mutagenicity：",
+                      "text": "Mutagenicity: ",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -10581,10 +10581,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "11.6 Carcinogenicity：",
+              "text": "11.6 Carcinogenicity: ",
               "paragraphs": [
                 {
-                  "text": "11.6 Carcinogenicity：",
+                  "text": "11.6 Carcinogenicity: ",
                   "pPr_hash": "a2faef49d006e72c692a933fd88bc3593c01d016a76e40de6390e582c6ebdd26",
                   "runs": [
                     {
@@ -10612,7 +10612,7 @@
                       }
                     },
                     {
-                      "text": "Carcinogenicity：",
+                      "text": "Carcinogenicity: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -10674,10 +10674,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": "restart",
-              "text": "11.7 Reproductive toxicity：",
+              "text": "11.7 Reproductive toxicity: ",
               "paragraphs": [
                 {
-                  "text": "11.7 Reproductive toxicity：",
+                  "text": "11.7 Reproductive toxicity: ",
                   "pPr_hash": "a2faef49d006e72c692a933fd88bc3593c01d016a76e40de6390e582c6ebdd26",
                   "runs": [
                     {
@@ -10705,7 +10705,7 @@
                       }
                     },
                     {
-                      "text": "Reproductive toxicity：",
+                      "text": "Reproductive toxicity: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -10729,10 +10729,10 @@
               "tcW_type": "dxa",
               "gridSpan": "2",
               "vMerge": null,
-              "text": "Fertility：",
+              "text": "Fertility: ",
               "paragraphs": [
                 {
-                  "text": "Fertility：",
+                  "text": "Fertility: ",
                   "pPr_hash": "a31bc8aca99e85a79933e0a2ccb95a4d45034cd05e00f1af0715b66d475d0cff",
                   "runs": [
                     {
@@ -10748,7 +10748,7 @@
                       }
                     },
                     {
-                      "text": "：",
+                      "text": ": ",
                       "rPr_hash": "53ffb5900d3fb6fab42a3c245351614876d946351ec2d8b0c27eb54ebf1e5bee",
                       "bold": true,
                       "italic": null,
@@ -10797,10 +10797,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": "restart",
-              "text": "11.7 Reproductive toxicity：",
+              "text": "11.7 Reproductive toxicity: ",
               "paragraphs": [
                 {
-                  "text": "11.7 Reproductive toxicity：",
+                  "text": "11.7 Reproductive toxicity: ",
                   "pPr_hash": "a2faef49d006e72c692a933fd88bc3593c01d016a76e40de6390e582c6ebdd26",
                   "runs": [
                     {
@@ -10828,7 +10828,7 @@
                       }
                     },
                     {
-                      "text": "Reproductive toxicity：",
+                      "text": "Reproductive toxicity: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -10852,10 +10852,10 @@
               "tcW_type": "dxa",
               "gridSpan": "2",
               "vMerge": null,
-              "text": "Teratogenicity：",
+              "text": "Teratogenicity: ",
               "paragraphs": [
                 {
-                  "text": "Teratogenicity：",
+                  "text": "Teratogenicity: ",
                   "pPr_hash": "821b6b8e659608a3fa3c8c24b9e859254b65943fc045c1c48e97f460d00256bc",
                   "runs": [
                     {
@@ -10871,7 +10871,7 @@
                       }
                     },
                     {
-                      "text": "：",
+                      "text": ": ",
                       "rPr_hash": "53ffb5900d3fb6fab42a3c245351614876d946351ec2d8b0c27eb54ebf1e5bee",
                       "bold": true,
                       "italic": null,
@@ -10920,10 +10920,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": "restart",
-              "text": "11.7 Reproductive toxicity：",
+              "text": "11.7 Reproductive toxicity: ",
               "paragraphs": [
                 {
-                  "text": "11.7 Reproductive toxicity：",
+                  "text": "11.7 Reproductive toxicity: ",
                   "pPr_hash": "a2faef49d006e72c692a933fd88bc3593c01d016a76e40de6390e582c6ebdd26",
                   "runs": [
                     {
@@ -10951,7 +10951,7 @@
                       }
                     },
                     {
-                      "text": "Reproductive toxicity：",
+                      "text": "Reproductive toxicity: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -10975,10 +10975,10 @@
               "tcW_type": "dxa",
               "gridSpan": "2",
               "vMerge": null,
-              "text": "In vitro genotoxicity：",
+              "text": "In vitro genotoxicity: ",
               "paragraphs": [
                 {
-                  "text": "In vitro genotoxicity：",
+                  "text": "In vitro genotoxicity: ",
                   "pPr_hash": "f97946aa478e8482b37d8c729d72729e4abb3af3e25e6cec470cfd7ae15e6c79",
                   "runs": [
                     {
@@ -10994,7 +10994,7 @@
                       }
                     },
                     {
-                      "text": "：",
+                      "text": ": ",
                       "rPr_hash": "53ffb5900d3fb6fab42a3c245351614876d946351ec2d8b0c27eb54ebf1e5bee",
                       "bold": true,
                       "italic": null,
@@ -11043,7 +11043,7 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "11.8 Specific target organ\ntoxicity (single/repeated\nexposure)：",
+              "text": "11.8 Specific target organ\ntoxicity (single/repeated\nexposure): ",
               "paragraphs": [
                 {
                   "text": "11.8 Specific target organ",
@@ -11106,11 +11106,11 @@
                   ]
                 },
                 {
-                  "text": "exposure)：",
+                  "text": "exposure): ",
                   "pPr_hash": "b008ae324a77d14945e9c59561f130184e9ba8a48f1c3f2ef6db9cf348ba4847",
                   "runs": [
                     {
-                      "text": "exposure)：",
+                      "text": "exposure): ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -11172,10 +11172,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "11.9 Aspiration hazard：",
+              "text": "11.9 Aspiration hazard: ",
               "paragraphs": [
                 {
-                  "text": "11.9 Aspiration hazard：",
+                  "text": "11.9 Aspiration hazard: ",
                   "pPr_hash": "3cb8c1daccb1d8642ff33762d7f1fc8afc114bfe70d4850170e4fc7e76291cfc",
                   "runs": [
                     {
@@ -11203,7 +11203,7 @@
                       }
                     },
                     {
-                      "text": "Aspiration hazard：",
+                      "text": "Aspiration hazard: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -11265,10 +11265,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "11.10 Additional information：",
+              "text": "11.10 Additional information: ",
               "paragraphs": [
                 {
-                  "text": "11.10 Additional information：",
+                  "text": "11.10 Additional information: ",
                   "pPr_hash": "3cb8c1daccb1d8642ff33762d7f1fc8afc114bfe70d4850170e4fc7e76291cfc",
                   "runs": [
                     {
@@ -11284,7 +11284,7 @@
                       }
                     },
                     {
-                      "text": "Additional information：",
+                      "text": "Additional information: ",
                       "rPr_hash": "39378b2cade1e56afc3adda7fa7d26be784e2b7bad407c24462f8343bdb13fef",
                       "bold": true,
                       "italic": null,
@@ -11547,10 +11547,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "12.1 Ecotoxicity：",
+              "text": "12.1 Ecotoxicity: ",
               "paragraphs": [
                 {
-                  "text": "12.1 Ecotoxicity：",
+                  "text": "12.1 Ecotoxicity: ",
                   "pPr_hash": "052d1149636f3f3088431e4278f5c6711febddbad728ecc4a5bd330d45637f85",
                   "runs": [
                     {
@@ -11578,7 +11578,7 @@
                       }
                     },
                     {
-                      "text": "Ecotoxicity：",
+                      "text": "Ecotoxicity: ",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -11694,7 +11694,7 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "12.2 Persistence and\ndegradability：",
+              "text": "12.2 Persistence and\ndegradability: ",
               "paragraphs": [
                 {
                   "text": "12.2 Persistence and",
@@ -11739,11 +11739,11 @@
                   ]
                 },
                 {
-                  "text": "degradability：",
+                  "text": "degradability: ",
                   "pPr_hash": "33aeb631f03ab0fdbd036c936c5c47052461699e37827dfc68e650955203d68e",
                   "runs": [
                     {
-                      "text": "degradability：",
+                      "text": "degradability: ",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -11835,10 +11835,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "12.3 Other adverse effects：",
+              "text": "12.3 Other adverse effects: ",
               "paragraphs": [
                 {
-                  "text": "12.3 Other adverse effects：",
+                  "text": "12.3 Other adverse effects: ",
                   "pPr_hash": "3a876ebd849d21f20838689be898d6dec20c31d7fd5d960efa4ee3f904deaef3",
                   "runs": [
                     {
@@ -11866,7 +11866,7 @@
                       }
                     },
                     {
-                      "text": "Other adverse effects：",
+                      "text": "Other adverse effects: ",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -12076,14 +12076,14 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "Disposal methods：",
+              "text": "Disposal methods: ",
               "paragraphs": [
                 {
-                  "text": "Disposal methods：",
+                  "text": "Disposal methods: ",
                   "pPr_hash": "12e93f5be9f9e6e5c4dbddf9c49454467a84b6b80f02bbe5e9856665255fb4ef",
                   "runs": [
                     {
-                      "text": "Disposal methods：",
+                      "text": "Disposal methods: ",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -12267,10 +12267,10 @@
               "tcW_type": "dxa",
               "gridSpan": "2",
               "vMerge": null,
-              "text": "14.Transportation information",
+              "text": "14. Transport information",
               "paragraphs": [
                 {
-                  "text": "14.Transportation information",
+                  "text": "14. Transport information",
                   "pPr_hash": "dd9dbb7a3aace0386009e361fc0dfd12d18e30a954c562970c1a1dea4dd0a5cd",
                   "runs": [
                     {
@@ -12286,7 +12286,7 @@
                       }
                     },
                     {
-                      "text": "Transportation information",
+                      "text": " Transport information",
                       "rPr_hash": "64660e0e0acbab77746d3d1b35dd075c3f655c71de7a28ea55c06087dc46bcb9",
                       "bold": true,
                       "italic": null,
@@ -12317,10 +12317,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "14.1 Road and rail transport：",
+              "text": "14.1 Road and rail transport: ",
               "paragraphs": [
                 {
-                  "text": "14.1 Road and rail transport：",
+                  "text": "14.1 Road and rail transport: ",
                   "pPr_hash": "d06095ad3735eee32c3580d825933f6bea4c5c56e98aebd42971dfda2337a738",
                   "runs": [
                     {
@@ -12348,7 +12348,7 @@
                       }
                     },
                     {
-                      "text": "Road and rail transport：",
+                      "text": "Road and rail transport: ",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -12410,10 +12410,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "14.2 Maritime transport：",
+              "text": "14.2 Maritime transport: ",
               "paragraphs": [
                 {
-                  "text": "14.2 Maritime transport：",
+                  "text": "14.2 Maritime transport: ",
                   "pPr_hash": "d06095ad3735eee32c3580d825933f6bea4c5c56e98aebd42971dfda2337a738",
                   "runs": [
                     {
@@ -12441,7 +12441,7 @@
                       }
                     },
                     {
-                      "text": "Maritime transport：",
+                      "text": "Maritime transport: ",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -12503,10 +12503,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "14.3 Air transport：",
+              "text": "14.3 Air transport: ",
               "paragraphs": [
                 {
-                  "text": "14.3 Air transport：",
+                  "text": "14.3 Air transport: ",
                   "pPr_hash": "d06095ad3735eee32c3580d825933f6bea4c5c56e98aebd42971dfda2337a738",
                   "runs": [
                     {
@@ -12534,7 +12534,7 @@
                       }
                     },
                     {
-                      "text": "Air transport：",
+                      "text": "Air transport: ",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -12596,10 +12596,10 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "14.4 Special precautions for user：",
+              "text": "14.4 Special precautions for user: ",
               "paragraphs": [
                 {
-                  "text": "14.4 Special precautions for user：",
+                  "text": "14.4 Special precautions for user: ",
                   "pPr_hash": "d06095ad3735eee32c3580d825933f6bea4c5c56e98aebd42971dfda2337a738",
                   "runs": [
                     {
@@ -12627,7 +12627,7 @@
                       }
                     },
                     {
-                      "text": "Special precautions for user：",
+                      "text": "Special precautions for user: ",
                       "rPr_hash": "5c52edb4f99246bd2a366bd36b26f27d3175d18152106a87c4cbbafc3de6038b",
                       "bold": true,
                       "italic": null,
@@ -12920,14 +12920,14 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "Other provisions：",
+              "text": "Other provisions: ",
               "paragraphs": [
                 {
-                  "text": "Other provisions：",
+                  "text": "Other provisions: ",
                   "pPr_hash": "25ab89fcb1d6e7c10d173e0799e6c7247e40531c74aa80b4a095a8d07052bb02",
                   "runs": [
                     {
-                      "text": "Other provisions：",
+                      "text": "Other provisions: ",
                       "rPr_hash": "de05b028387bdc6876306206b20447fc76a16e78964539fe8df63489e5c2a58e",
                       "bold": true,
                       "italic": null,
@@ -12958,14 +12958,14 @@
               "tcW_type": "dxa",
               "gridSpan": null,
               "vMerge": null,
-              "text": "Complies with the following regulations：",
+              "text": "Complies with the following regulations: ",
               "paragraphs": [
                 {
-                  "text": "Complies with the following regulations：",
+                  "text": "Complies with the following regulations: ",
                   "pPr_hash": "25ab89fcb1d6e7c10d173e0799e6c7247e40531c74aa80b4a095a8d07052bb02",
                   "runs": [
                     {
-                      "text": "Complies with the following regulations：",
+                      "text": "Complies with the following regulations: ",
                       "rPr_hash": "de05b028387bdc6876306206b20447fc76a16e78964539fe8df63489e5c2a58e",
                       "bold": true,
                       "italic": null,
@@ -13345,11 +13345,11 @@
       "header": {
         "paragraphs": [
           {
-            "text": " 物料安全数据表",
+            "text": " SAFETY DATA SHEET",
             "pPr_hash": "5906afe2cc9d562761762601a7ee01b333690659fcbec6f6318712b39f4b2635",
             "runs": [
               {
-                "text": " ",
+                "text": " SAFETY DATA SHEET",
                 "rPr_hash": "3def24dec57fee668f6c039093c6be545ca176c0f340b1a7aa332bb91aa4341b",
                 "bold": true,
                 "italic": null,
@@ -13359,40 +13359,16 @@
                   "size_pt": 18.0,
                   "color": null
                 }
-              },
-              {
-                "text": "物料安全数据表",
-                "rPr_hash": "38ab3e85ab8625a97f2e3248441bb08a87af6b45b3bc4b25c20b55adc0c380c9",
-                "bold": true,
-                "italic": null,
-                "underline": null,
-                "font": {
-                  "name": null,
-                  "size_pt": 22.0,
-                  "color": null
-                }
               }
             ]
           },
           {
-            "text": "Version：V1.0",
+            "text": "Version: 1.0",
             "pPr_hash": "f4c68f209a2952548bee0938bab0568ff265e4ebc9dab19945a240ab909cb258",
             "runs": [
               {
-                "text": "Version：V1.",
+                "text": "Version: 1.0",
                 "rPr_hash": "cd119b14d815558c9250b1c58335afe76c1e86ec4be88c87c68302180e1a7d87",
-                "bold": null,
-                "italic": null,
-                "underline": null,
-                "font": {
-                  "name": "Arial",
-                  "size_pt": 9.0,
-                  "color": null
-                }
-              },
-              {
-                "text": "0",
-                "rPr_hash": "68f4b273c726a556e580cd655fae8a48650a4405c3dfb4c0096a1897968ec42b",
                 "bold": null,
                 "italic": null,
                 "underline": null,
@@ -13465,7 +13441,7 @@
             ]
           }
         ],
-        "part_xml_hash": "e20cb27014d2559481c77ebd069d91cbca5f536473bd2577e5005b9a263e238b"
+        "part_xml_hash": "c03f20f38a1e9cb34d2002ebc61c4e83cd94be8e6b78922fc3d63fcd18b292d5"
       },
       "footer": {
         "paragraphs": [

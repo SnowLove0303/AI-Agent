@@ -82,7 +82,13 @@ from layout_preservation_policy import (  # noqa: E402
     audit_s114_vertical_alignment,
     audit_s82,
 )
-from product_identity_policy import audit_identity, expected_identity  # noqa: E402
+from product_identity_policy import (  # noqa: E402
+    audit_english_identity,
+    audit_identity,
+    english_product_name_errors,
+    expected_english_product_name,
+    expected_identity,
+)
 from section_overwrite_rules import (  # noqa: E402
     sanitize_section_payload,
     validate_section_payload,
@@ -130,7 +136,7 @@ GUOCAI_TEL = "86-763-2811205"
 GUOCAI_FAX = "86-763-2811024"
 PINNED_TEMPLATE_SHA256 = {
     "zh": "b6c52c3d6003d4314e578733c5066dc9541c70ee49957ab56c24dd749ade2d43",
-    "en": "34a259eed50d2e78b4609c66453fa9baab610a623dcc7ee531db359b1a988497",
+    "en": "49a279aa8c7a50f38ee6929ca2f030cf13b01ee0d1e476d790a2352a316bfa2b",
     "en_source": "34a259eed50d2e78b4609c66453fa9baab610a623dcc7ee531db359b1a988497",
 }
 SECTION_KEYS = {f"s{i}" for i in range(1, 17)}
@@ -224,6 +230,16 @@ def approved_facts_errors(facts: dict, source: Path, model: str,
         facts, source, model, prepared_source=prepared_source
     ))
     errors.extend(audit_section2_fact_router(facts).get("errors", []))
+    en_layer = facts.get("en") if isinstance(facts.get("en"), dict) else {}
+    en_s1 = en_layer.get("s1") if isinstance(en_layer, dict) else None
+    reviewed_en_name = ""
+    if isinstance(en_s1, list) and en_s1:
+        first_row = en_s1[0]
+        if isinstance(first_row, dict):
+            reviewed_en_name = str(first_row.get("value") or "")
+        elif isinstance(first_row, (list, tuple)) and len(first_row) > 1:
+            reviewed_en_name = str(first_row[1] or "")
+    errors.extend(english_product_name_errors(reviewed_en_name, model))
     required = {f"s{i}" for i in range(1, 17)}
     for language in ("zh", "en"):
         layer = facts.get(language)
@@ -737,10 +753,18 @@ def gate_s114_vertical_alignment(template_document, output_document) -> list[str
 
 def gate_product_identity(docx_path: Path, language: str, product: str,
                           document=None) -> list[str]:
-    if language != "zh":
-        return []
     doc = document or Document(str(docx_path))
     rows = doc.tables[0].rows
+    if language == "en":
+        if len(rows) < 2:
+            return ["Section 1 is missing the English product-name row"]
+        cells = unique_cells(rows[1])
+        product_value = cells[1].text if len(cells) > 1 else ""
+        return [f"identity: {error}" for error in audit_english_identity(
+            product_name_value=product_value, model=product,
+        )]
+    if language != "zh":
+        return [f"unsupported identity language: {language}"]
     if len(rows) < 3:
         return ["Section 1 is missing the product/chinese-name rows"]
     cells = unique_cells(rows[1])
@@ -823,6 +847,11 @@ def build_one(*, template_cn: Path, template_en: Path, template_en_source: Path,
                 identity = expected_identity(s1[1][1] if len(s1[1]) > 1 else "", product)
                 s1[0][1] = identity.product_name_value
                 s1[1][1] = identity.chinese_name_value
+            elif language == "en" and s1 and len(s1[0]) > 1:
+                # The professional English name is a reviewed fact.  Runtime
+                # may normalize its whitespace and append the reviewed model,
+                # but it may not derive a name from the model or touch labels.
+                s1[0][1] = expected_english_product_name(s1[0][1], product)
             if brand == "guanzhi" and len(s1) > 6:
                 source_address = s1[6][1] if len(s1[6]) > 1 else ""
                 if str(source_address).strip():

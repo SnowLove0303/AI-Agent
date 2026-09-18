@@ -6,7 +6,7 @@ The language-specific files below are the authoritative MSDS templates bundled w
 - CN: `examples/template_reference.docx`
 - CN source record: `examples/template_reference_cn_source.docx` (byte-preserved copy of the user-supplied formal template)
 - EN source record: `examples/template_reference_en_source.docx` (byte-preserved copy of the user-supplied formal template)
-- EN active baseline: `examples/template_reference_en.docx` (current user-supplied formal template, byte-for-byte)
+- EN active baseline: `examples/template_reference_en.docx` (reviewed maintainer remediation of the preserved user-supplied formal template; geometry and locked structure unchanged)
 Historical rollback copies are not shipped in the active skill package.
 
 Pinned source filenames supplied by the user: `正式模板_MSDS_CN_冠志.docx` for CN and
@@ -16,7 +16,7 @@ CN SHA-256: `b6c52c3d6003d4314e578733c5066dc9541c70ee49957ab56c24dd749ade2d43`
 
 EN source SHA-256: `34a259eed50d2e78b4609c66453fa9baab610a623dcc7ee531db359b1a988497`
 
-EN active SHA-256: `34a259eed50d2e78b4609c66453fa9baab610a623dcc7ee531db359b1a988497` (current user-supplied formal template)
+EN active SHA-256: `49a279aa8c7a50f38ee6929ca2f030cf13b01ee0d1e476d790a2352a316bfa2b` (reviewed active baseline)
 
 ## Structural baseline
 - 16 tables / MSDS sections.
@@ -34,7 +34,7 @@ EN active SHA-256: `34a259eed50d2e78b4609c66453fa9baab610a623dcc7ee531db359b1a98
 - v3.6.2 audit finding: table count, row counts, column/grid widths, merges, paragraph properties and character properties are unchanged from v3.6.1; only the approved Section 8/11 cell-border geometry and a non-visible footer table-property extension changed.
 - `tests/template_snapshot.json` and `tests/template_snapshot_en.json` record the active CN/EN table/cell merges, grid and cell widths, paragraph/run properties, and header/footer parts. Historical versioned snapshots are not shipped and are never template authorities.
 - Both language baselines have 16 tables and column counts `2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 1, 1`; their row capacities differ only where the supplied templates differ.
-- The current CN and EN source records supplied by the user are used as-is. The EN source has nine rows in its first table and its Section 11 sublabels are `Oral:`, `Inhalation:`, `Dermal:`, `Fertility:`, `Teratogenicity:` and `In vitro genotoxicity:`.
+- The current CN and EN source records supplied by the user are preserved as-is. The EN source has nine rows in its first table and its Section 11 sublabels are `Oral:`, `Inhalation:`, `Dermal:`, `Fertility:`, `Teratogenicity:` and `In vitro genotoxicity:`. The active EN remediation also maintains English bold health-hazard route prefixes and ordinary Arial 12 pt value prototypes without changing geometry.
 - Product-like text embedded in either template is example content only; it is never a source of product facts.
 - The active CN and EN formal templates allow their tables to span pages. Their row-level `w:cantSplit` settings are retained as supplied by the current baseline (including the intentional settings in Sections 2, 6 and 11), and repeating section headers remain controlled by `w:tblHeader`. These are template baseline properties, not post-generation layout patches.
 

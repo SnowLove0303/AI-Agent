@@ -1,4 +1,4 @@
-# MSDS Skill 3.26.0
+# MSDS Skill 3.26.2
 
 `MSDS Skill` is the controlled MSDS/SDS standardization skill for producing synchronized Chinese and English deliverables for the Guanzhi and Guocai company profiles.
 
@@ -11,6 +11,11 @@ The pre-clone router rejects synthesized Section 2.1 emergency overviews and
 cross-target fact duplication. Output-only S8.2 topology and S11.4 vertical
 alignment audits block structural drift while keeping the formal templates
 byte-pinned.
+
+V3.26.2 adds a reviewed English product-name gate, active English-template
+remediation, Arial 12 pt value prototypes, bold health-hazard route prefixes,
+and fail-closed English value typography checks. TDS production remains
+outside this repository and is recorded as an external follow-up.
 
 V3.26.0 adds source/cache reuse, a read-only shared audit context and
 non-publishing efficiency telemetry/benchmarking. It keeps WPS conversion
@@ -28,8 +33,9 @@ turn cache hits or benchmark checkpoints into approval or release gates.
 - Section 9 omission of pure missing-data rows followed by continuous renumbering.
 - Source-grounded facts only; example values embedded in the template are not product facts.
 - Locked template geometry, labels, paragraph/run formatting and header/footer conventions.
-- Bold labels/runs, non-bold composite route prefixes and structured middle
-  sublabels are all template-owned locks; S3 remains three physical columns
+- Bold labels/runs, bold EN health-hazard route prefixes, CN route prefixes
+  and structured middle sublabels are all template-owned locks; S3 remains
+  three physical columns
   and S8.2 remains four physical columns. Only declared final value cells,
   source-gated hide decisions and necessary styled row insertions are writable.
 - Section 8.2 uses the formal template's top-level four-column control-parameter rows (`物质 / 依据 / 类型 / 数值`; EN `Substance / Basis / Type / Value`) with source-grounded data-row projection; with no verified records the complete workplace-component block is hidden and no synthetic missing-data row is emitted.
@@ -81,13 +87,15 @@ Read [`SKILL.md`](SKILL.md) for the operating contract. The reusable scripts, te
 
 ## Version
 
-Public release: `MSDS Skill 3.26.0`
+Public release: `MSDS Skill 3.26.2`
 
 Template baseline: the current user-supplied formal CN/EN templates are adopted
-byte-for-byte. CN SHA-256 is
+byte-for-byte for the CN source and as a reviewed maintainer remediation for
+the EN active baseline. CN SHA-256 is
 `b6c52c3d6003d4314e578733c5066dc9541c70ee49957ab56c24dd749ade2d43`. EN source
-and active SHA-256 are both
-`34a259eed50d2e78b4609c66453fa9baab610a623dcc7ee531db359b1a988497`.
+SHA-256 is `34a259eed50d2e78b4609c66453fa9baab610a623dcc7ee531db359b1a988497`;
+EN active SHA-256 is
+`49a279aa8c7a50f38ee6929ca2f030cf13b01ee0d1e476d790a2352a316bfa2b`.
 Historical template copies and versioned snapshots are intentionally excluded
 from the distributable package. Rollback evidence must be stored outside the
 active skill directory.

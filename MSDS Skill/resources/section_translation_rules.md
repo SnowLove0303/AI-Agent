@@ -16,3 +16,17 @@
 - S14: preserve transport mode and source regulatory acronyms; do not infer UN number/class/packing group.
 - S15: translate listed regulations/titles conservatively; preserve Chinese standard identifiers such as GB/T and GB.
 - S16: translate disclaimer faithfully without expanding legal effect.
+
+## V3.26.2 English MSDS hard rules
+
+- Section 1.1 `Product name` must use the reviewed professional English name
+  from the approved facts layer and append the model with one ASCII space;
+  never derive a name from the model or a template example.
+- Section 2 health-hazard route prefixes use the maintained English forms
+  `Inhalation:`, `Ingestion:`, `Skin:`, `Eyes:` and `Signs and symptoms:`.
+  The prefix is locked bold Arial 12 pt; only its source-grounded description
+  tail is writable regular Arial 12 pt.
+- English MSDS value text must preserve approved XML value prototypes: Arial
+  12 pt, no bare `cell.text`, no default `add_run()`, no 10.5 pt fallback and
+  no unintended bold. The TDS EN Times New Roman 12 pt rule is recorded as an
+  external follow-up because this repository contains no TDS production mapper.

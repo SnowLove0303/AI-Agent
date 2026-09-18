@@ -13,6 +13,7 @@ from deliverable_audit_framework import (
     RULES, discover_package, evidence, load_json, score_and_decide,
     write_reports,
 )
+from audit_english_terminology import run as audit_english_terminology
 
 
 def _paths(package: dict) -> list[str]:
@@ -80,6 +81,11 @@ def run_audit(root: Path, model: str, *, template_cn: Path | None = None,
                 for needle in banned + sample_ids:
                     if needle in text:
                         text_hits.append(f"{p.name}: {needle}")
+                if "_MSDS_EN_" in p.name:
+                    text_hits.extend(
+                        f"{p.name}: ENGLISH_TERMINOLOGY {issue}"
+                        for issue in audit_english_terminology(p)
+                    )
         except Exception as exc:
             text_hits.append(f"text scan error: {exc}")
         records.append(evidence(

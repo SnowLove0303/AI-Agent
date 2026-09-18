@@ -54,6 +54,7 @@ scripts/snapshot_template.py
 scripts/snapshot_template_geometry.py
 scripts/audit_template_geometry.py
 scripts/normalize_en_layout.py
+scripts/remediate_en_template.py
 scripts/section2_ghs_policy.py
 scripts/ghs_pictogram_policy.py
 scripts/audit_section2_release.py
@@ -109,6 +110,7 @@ tests/test_deliverable_audit_framework.py
 tests/test_deliverable_audit_package.py
 tests/test_deliverable_audit_coverage.py
 tests/test_en_layout_policy.py
+tests/test_english_terminology_audit.py
 tests/test_pdf_converter_policy.py
 tests/test_section11_alias_policy.py
 tests/test_extract_source_facts.py

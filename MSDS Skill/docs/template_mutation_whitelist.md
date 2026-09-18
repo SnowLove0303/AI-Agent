@@ -32,8 +32,9 @@ rule applies even when a sublabel is not bold.
 Section 2.8 is a composite exception to the simple “second cell is value”
 shape. In the maintained two-column CN/EN templates, the second cell already
 contains a template-owned route prefix (`吸入：`, `食入：`, `皮肤：`, `眼睛：`,
-or `症状和体征：`; the runtime also recognizes the exact maintained English
-equivalent). The prefix remains in its original run tree. The runtime writes
+or `症状和体征：`; EN uses the exact maintained English equivalent). The EN
+prefix is a bold Arial 12 pt run. The prefix remains in its original run tree.
+The runtime writes
 only a value tail after a semantic line break, and clearing the slot restores
 the prefix-only cell. If a separately maintained three-column S2.8 layout is
 encountered, the middle route cell is locked and only the final cell is
@@ -48,8 +49,10 @@ source fact list may not be projected by physical list position. See
 The physical topology is part of the same lock: Section 3 data rows remain
 three physical cells, Section 8.2 data rows remain four physical cells, and
 their `gridSpan`, `vMerge`, table grid and row boundaries are not editable.
-Bold labels/runs are hard locks, and non-bold route prefixes or sublabels are
-also hard locks because ownership is semantic, not inferred from boldness.
+Bold labels/runs are hard locks, and route prefixes or sublabels are also hard
+locks because ownership is semantic, not inferred from boldness. In particular,
+the EN health-hazard prefix is bold while its writable description tail is
+regular Arial 12 pt.
 
 The runtime creates a slot registry from the fresh template clone before it
 clears values. Non-empty value objects are writable; blank value objects remain

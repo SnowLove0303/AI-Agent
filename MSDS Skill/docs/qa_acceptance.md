@@ -69,7 +69,7 @@ A warning is not automatically a failure, but every warning must be resolved by 
 
 ## Product identity gate
 - Header/title model is correct.
-- `1.1 产品名称` value is blank.
+- CN `1.1 产品名称` value is blank; EN `1.1 Product name` contains the reviewed professional English name plus the model suffix in the existing value cell.
 - `中文名称` is exactly `中文产品名称 + 单个半角空格 + 型号`.
 - Footer/MSDS identifier uses the same model.
 - Model is not duplicated or misplaced.

@@ -30,7 +30,10 @@ from template_mutation_whitelist import (
 
 
 EN_BODY_FONT = "Arial"
-EN_BODY_SIZE = Pt(10.5)
+# MSDS EN ordinary values and value tails are maintained at Arial 12 pt.
+# This constant is also used by the compatibility/no-template path; keeping it
+# here prevents a caller from silently reintroducing the 10.5 pt patch style.
+EN_BODY_SIZE = Pt(12)
 EN_SUBLABEL_SIZE = Pt(9)
 EN_FOOTER_SIZE = Pt(7.5)
 

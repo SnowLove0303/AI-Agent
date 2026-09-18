@@ -172,13 +172,13 @@ For the template fields “危险性说明” and “防范说明”:
 7. Audit ordinary sections after renumbering for gaps, duplicates, wrong section prefixes and formatting drift. Sections 11/12 retain standard source endpoint numbers after omission; audit them for order and duplicate re-entry instead of renumbering endpoints.
 8. Required operation order: semantic mapping -> suppress unsupported/missing-data items -> whitespace cleanup -> continuous renumber -> locked-format audit -> Section 2 H/P layout audit -> render/visual QA.
 
-Semantic slot mapping is mandatory. In Section 1, leave `1.1 产品名称` blank and put `中文名称 + 型号` in the existing `中文名称` value cell. In Section 8, map source `8.1 控制参数` to the template `8.2 工程控制` value and source PPE rows under the template `8.1 暴露控制` block; the fixed `建议` label is immutable, while its non-bold value cell is populated only when a substantive source recommendation is reviewed. In Section 12, source `生态毒性` must populate template `12.1`, not either template-only leading explanation row. Synthetic spaced-slash separators are converted to semantic line breaks; a slash-only line blocks release.
+Semantic slot mapping is mandatory. In Section 1, leave the CN `1.1 产品名称` value blank and put `中文名称 + 型号` in the existing `中文名称` value cell; for EN, put the reviewed professional English product name plus the model suffix in the existing `1.1 Product name` value cell. The EN name must be source-traceable and cannot be inferred from the model, template example or unreviewed dictionary. In Section 8, map source `8.1 控制参数` to the template `8.2 工程控制` value and source PPE rows under the template `8.1 暴露控制` block; the fixed `建议` label is immutable, while its non-bold value cell is populated only when a substantive source recommendation is reviewed. In Section 12, source `生态毒性` must populate template `12.1`, not either template-only leading explanation row. Synthetic spaced-slash separators are converted to semantic line breaks; a slash-only line blocks release.
 
 ## Product identity placement (mandatory)
 For the current Guanzhi template, product identity is not duplicated across all Section 1 fields. Apply this without waiting for user correction:
 1. Header/title model position: display the product model/code.
-2. `1.1 产品名称：` value: leave blank by company convention. Do not place the model here.
-3. `中文名称：` value: `source Chinese product name + one ASCII space + product model`. Example: `水性环氧乳液 EP-1704`.
+2. CN `1.1 产品名称：` value: leave blank by company convention. Do not place the model here.
+3. CN `中文名称：` value: `source Chinese product name + one ASCII space + product model`. Example: `水性环氧乳液 EP-1704`. EN `1.1 Product name:` value must be `reviewed professional English product name + one ASCII space + product model`.
 4. Footer/MSDS identifier: use the product model according to template convention, e.g. `EP-1704-MSDS`.
 5. Validate that the model occurs exactly where intended and is not duplicated in the Chinese-name value.
 6. This is a proactive QA requirement: an Agent must detect and correct a wrong placement before delivery, not after user feedback.

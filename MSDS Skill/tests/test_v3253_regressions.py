@@ -234,7 +234,7 @@ def test_section2_sanitizer_keeps_sparse_slots_until_semantic_omission():
     ("filename", "heading1", "heading2"),
     [
         ("template_reference.docx", "\u5176\u5b83\u7684\u89c4\u5b9a\uff1a", "\u7b26\u5408\u4e0b\u5217\u6cd5\u89c4\u8981\u6c42\uff1a"),
-        ("template_reference_en.docx", "Other provisions\uff1a", "Complies with the following regulations\uff1a"),
+        ("template_reference_en.docx", "Other provisions: ", "Complies with the following regulations: "),
     ],
 )
 def test_section15_bold_headings_are_locked_not_one_cell_values(filename, heading1, heading2):

@@ -1,5 +1,21 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.26.2 — 2026-09-18
+
+- Added a fail-closed English product identity contract: the reviewed English
+  product name must populate the existing EN Section 1.1 value cell and retain
+  the model suffix; blank, model-only, Chinese or untraceable names block
+  preflight and the rendered identity gate.
+- Promoted the maintained EN template to a reviewed active baseline while
+  preserving the supplied source record and all table geometry. Corrected the
+  English header, canonical Section 6.1 wording, hand-protection contamination,
+  punctuation and health-hazard route prefixes.
+- Fixed the EN value typography path to use Arial 12 pt. Health-hazard prefixes
+  are locked bold Arial 12 pt and their descriptions are regular Arial 12 pt;
+  direct unstyled or 10.5 pt value writes are release-blocked.
+- Added regression coverage and recorded the external TDS EN Times New Roman
+  12 pt requirement without adding a TDS production mapper to this repository.
+
 ## v3.26.1 — 2026-09-18
 
 - Added `scripts/run_efficiency_workflow.py` as the single resumable Harness

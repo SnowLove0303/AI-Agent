@@ -15,7 +15,7 @@ allowed change to the maintained table.
 
 | Section/table | Source | Write mode | Empty value | Structural mutation |
 | --- | --- | --- | --- | --- |
-| S1 / table 1 | identification | field values plus identity overlay | 1.1 value blank | no row rebuild |
+| S1 / table 1 | identification | field values plus identity overlay | CN 1.1 blank; EN 1.1 reviewed English name required | no row rebuild |
 | S2 / table 2 | hazard semantic slots | slot values; numeric prefix only | omit missing except source 2.3 other hazards | remove whole item, then prefix-only renumber |
 | S3 / table 3 | name/CAS/content | exactly three component data cells | source-only | clone styled component rows only |
 | S4 / table 4 | first-aid endpoints | value cells | hide unsupported item | no row rebuild |
@@ -35,12 +35,13 @@ allowed change to the maintained table.
 ## Section 1 — Identification
 Use the current Guanzhi identity-placement contract:
 - header/title product-code position = source product model/code;
-- `1.1 产品名称：` value = blank (do not write the model/code here);
+- CN `1.1 产品名称：` value = blank (do not write the model/code here);
 - `中文名称：` value = `source Chinese product name + one ASCII space + source model/code`;
+- EN `1.1 Product name:` value = reviewed professional English product name + one ASCII space + source model/code; the English name must already exist in the reviewed EN facts/traceability layer;
 - classification, recommended use/restriction and supplier details map normally;
 - footer/MSDS identifier uses the correct model according to template convention.
 
-Example: source model `EP-1704`, Chinese name `水性环氧乳液` => final `中文名称` value `水性环氧乳液 EP-1704`, while the `产品名称` value remains blank. This must be checked automatically before release.
+Example: source model `EP-1704`, Chinese name `水性环氧乳液` and reviewed English name `Waterborne epoxy emulsion` => CN `中文名称` is `水性环氧乳液 EP-1704`, CN `产品名称` remains blank, and EN `Product name` is `Waterborne epoxy emulsion EP-1704`. Missing, model-only or untraceable EN names block release.
 
 ## Section 2 — Hazard identification
 Only source-supported classification/label elements. Never inherit template GHS category, pictogram, signal word, H/P statement or environmental claim from a sample product.

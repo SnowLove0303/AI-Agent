@@ -14,7 +14,8 @@ Preserve:
 - row layout unless the complete item is intentionally omitted.
 
 The Section 2.8 route prefix is template-owned content inside the current
-two-column value cell. Section 11.1/11.7 middle sublabels are template-owned
+two-column value cell. CN keeps the maintained Chinese prefix; EN keeps the
+maintained English equivalent as a bold Arial 12 pt run. Section 11.1/11.7 middle sublabels are template-owned
 content inside three-column rows. Section 3's three-cell rows and Section
 8.2's four-cell rows are physical topology, not formatting suggestions.
 
@@ -26,12 +27,13 @@ content inside three-column rows. Section 3's three-cell rows and Section
 - remove non-semantic whitespace artifacts from value areas;
 - normalize non-bold value character formatting to approved exemplar.
 
-All writable values are non-bold by contract. Their other character
+All writable value tails are non-bold by contract. Their other character
 properties inherit from the destination value anchor. Removing or explicitly
 disabling bold on a value run is the only permitted character-format
-exception; no bold value may be emitted even if a legacy value placeholder or
-paragraph mark in the template is bold. Template-bold labels, sequence cells,
-headers, sublabels and composite prefixes remain immutable.
+exception; no writable value tail may be emitted bold even if a legacy value
+placeholder or paragraph mark in the template is bold. Template-bold labels,
+sequence cells, headers, sublabels and composite route prefixes remain
+immutable. The bold EN route prefix is not a writable value tail.
 
 ## Forbidden
 - relabel/renumber/reorder surviving labels;

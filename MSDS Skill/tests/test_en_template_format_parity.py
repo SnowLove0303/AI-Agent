@@ -7,7 +7,7 @@ from lxml import etree
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from normalize_en_layout import _approved_body_rpr, sync_en_template_text_format
+from normalize_en_layout import EN_BODY_SIZE, _approved_body_rpr, sync_en_template_text_format
 from template_mutation_whitelist import (
     TemplateSlotRegistry,
     clear_value_cells,
@@ -79,7 +79,14 @@ def test_en_s28_normalization_preserves_prefix_and_normalizes_value_tail():
     )
     sync_en_template_text_format(document, template)
     cell = unique_cells(row)[1]
-    assert cell.text == "吸入：\nsource-backed health hazard"
+    assert cell.text == "Inhalation:\nsource-backed health hazard"
     assert _xml(cell.paragraphs[0].runs[0]._r.rPr) == prefix_rpr
     assert _xml(cell.paragraphs[0].runs[-1]._r.rPr) == _xml(_approved_body_rpr(Document(str(template))))
+    assert cell.paragraphs[0].runs[0].bold is True
+    assert cell.paragraphs[0].runs[0].font.size.pt == 12
+    assert cell.paragraphs[0].runs[-1].bold is not True
+    assert cell.paragraphs[0].runs[-1].font.size.pt == 12
     assert compare_format_anchors(Document(str(template)), document, language="en") == []
+
+def test_en_compatibility_layout_constant_is_not_the_legacy_10_5_pt_style():
+    assert EN_BODY_SIZE.pt == 12
