@@ -3,7 +3,7 @@
   "variants": {
     "TDS_CN_冠志模板": {
       "template": "templates\\active\\TDS_CN_冠志模板.docx",
-      "template_sha256": "7cef8f17332a54bc81ba1ae1b85b51208ffce9b4d3ff65bfa66b3902b5f42693",
+      "template_sha256": "8bd49db386c6078ffa5355c101ba3a54457bd5007702f40d421ac2a79e2f2871",
       "language": "zh-CN",
       "company": "guanzhi",
       "slots": [
@@ -33,8 +33,8 @@
           "kind": "paragraph_list",
           "locator": {
             "paragraph_indices": [
-              21,
-              22
+              20,
+              21
             ]
           }
         },
@@ -42,14 +42,14 @@
           "field_id": "product.application",
           "kind": "paragraph",
           "locator": {
-            "paragraph_index": 26
+            "paragraph_index": 25
           }
         },
         {
           "field_id": "product.storage",
           "kind": "paragraph",
           "locator": {
-            "paragraph_index": 31
+            "paragraph_index": 29
           }
         },
         {
@@ -102,7 +102,33 @@
         "header_row_index": 0,
         "data_start_row_index": 1,
         "source_led": true,
-        "max_source_rows": 100
+        "max_source_rows": 100,
+        "allowed_topologies": [
+          "2-col",
+          "3-col",
+          "4-col"
+        ],
+        "default_topology": "4-col",
+        "topology_widths": {
+          "2-col": [
+            3398,
+            5098
+          ],
+          "3-col": [
+            2242,
+            5003,
+            1251
+          ],
+          "4-col": [
+            2242,
+            2037,
+            1023,
+            3194
+          ]
+        }
+      },
+      "page_contract": {
+        "max_pages": 1
       },
       "performance_extension": {
         "allowed": true,
@@ -113,15 +139,15 @@
       },
       "feature_extension": {
         "allowed": true,
-        "paragraph_template_index": 22,
-        "separator_paragraph_index": 23,
-        "insert_after_paragraph_index": 22,
+        "paragraph_template_index": 21,
+        "separator_paragraph_index": 22,
+        "insert_after_paragraph_index": 21,
         "max_items": 100
       },
       "feature_format_contract": {
         "paragraph_indices": [
-          21,
-          22
+          20,
+          21
         ],
         "numbering": "enabled",
         "number_start_twips": 480,
@@ -134,11 +160,52 @@
       },
       "tail_blank_trim": {
         "allowed": true
+      },
+      "body_blank_trim": {
+        "allowed": true,
+        "max_body_blank_paragraphs": 0,
+        "separator_paragraphs": 0,
+        "compact_line_twips": 120
+      },
+      "inter_section_spacing": {
+        "separator_paragraphs": 0,
+        "heading_before_twips": 160,
+        "content_after_twips": 60,
+        "tolerance_twips": 0
+      },
+      "english_vertical_budget": {
+        "allowed": false,
+        "threshold_total_items": 16,
+        "line_twips": 260,
+        "after_twips": 40
+      },
+      "standard_typography": {
+        "section_heading": {
+          "first_before_twips": 100,
+          "before_twips": 160,
+          "after_twips": 80
+        },
+        "feature_items": {
+          "before_twips": 0,
+          "after_twips": 60,
+          "line_twips": 280,
+          "line_rule": "auto"
+        },
+        "body_paragraphs": {
+          "before_twips": 0,
+          "after_twips": 60,
+          "line_twips": 300,
+          "line_rule": "auto"
+        },
+        "product_title": {
+          "alignment": "center",
+          "left_indent_twips": 0
+        }
       }
     },
     "TDS_CN_国彩模板": {
       "template": "templates\\active\\TDS_CN_国彩模板.docx",
-      "template_sha256": "f55ab34d88df215e0154b17fcfad8c29b35ffdacad5befea4fe57ca25bd65400",
+      "template_sha256": "2bf8a7acbad9eb73969bde9d62c5bf1cad862ea88c02fed7fb0ec14562660e6e",
       "language": "zh-CN",
       "company": "guocai",
       "slots": [
@@ -168,8 +235,8 @@
           "kind": "paragraph_list",
           "locator": {
             "paragraph_indices": [
-              21,
-              22
+              20,
+              21
             ]
           }
         },
@@ -177,14 +244,14 @@
           "field_id": "product.application",
           "kind": "paragraph",
           "locator": {
-            "paragraph_index": 26
+            "paragraph_index": 25
           }
         },
         {
           "field_id": "product.storage",
           "kind": "paragraph",
           "locator": {
-            "paragraph_index": 31
+            "paragraph_index": 29
           }
         },
         {
@@ -237,7 +304,33 @@
         "header_row_index": 0,
         "data_start_row_index": 1,
         "source_led": true,
-        "max_source_rows": 100
+        "max_source_rows": 100,
+        "allowed_topologies": [
+          "2-col",
+          "3-col",
+          "4-col"
+        ],
+        "default_topology": "4-col",
+        "topology_widths": {
+          "2-col": [
+            3398,
+            5098
+          ],
+          "3-col": [
+            2242,
+            5003,
+            1251
+          ],
+          "4-col": [
+            2242,
+            2037,
+            1023,
+            3194
+          ]
+        }
+      },
+      "page_contract": {
+        "max_pages": 1
       },
       "performance_extension": {
         "allowed": true,
@@ -248,15 +341,15 @@
       },
       "feature_extension": {
         "allowed": true,
-        "paragraph_template_index": 22,
-        "separator_paragraph_index": 23,
-        "insert_after_paragraph_index": 22,
+        "paragraph_template_index": 21,
+        "separator_paragraph_index": 22,
+        "insert_after_paragraph_index": 21,
         "max_items": 100
       },
       "feature_format_contract": {
         "paragraph_indices": [
-          21,
-          22
+          20,
+          21
         ],
         "numbering": "enabled",
         "number_start_twips": 480,
@@ -269,11 +362,52 @@
       },
       "tail_blank_trim": {
         "allowed": true
+      },
+      "body_blank_trim": {
+        "allowed": true,
+        "max_body_blank_paragraphs": 0,
+        "separator_paragraphs": 0,
+        "compact_line_twips": 120
+      },
+      "inter_section_spacing": {
+        "separator_paragraphs": 0,
+        "heading_before_twips": 160,
+        "content_after_twips": 60,
+        "tolerance_twips": 0
+      },
+      "english_vertical_budget": {
+        "allowed": false,
+        "threshold_total_items": 16,
+        "line_twips": 260,
+        "after_twips": 40
+      },
+      "standard_typography": {
+        "section_heading": {
+          "first_before_twips": 100,
+          "before_twips": 160,
+          "after_twips": 80
+        },
+        "feature_items": {
+          "before_twips": 0,
+          "after_twips": 60,
+          "line_twips": 280,
+          "line_rule": "auto"
+        },
+        "body_paragraphs": {
+          "before_twips": 0,
+          "after_twips": 60,
+          "line_twips": 300,
+          "line_rule": "auto"
+        },
+        "product_title": {
+          "alignment": "center",
+          "left_indent_twips": 0
+        }
       }
     },
     "TDS_EN_冠志模板": {
       "template": "templates\\active\\TDS_EN_冠志模板.docx",
-      "template_sha256": "5cab6551aedb414144d488ad8b2f8e818a1211adbf9d93c10e61bce09a8a29cf",
+      "template_sha256": "2165efbe143be1238e5680c2850cf9adf5938de9cbb0a552d0b32b8cf373e537",
       "language": "en-US",
       "company": "guanzhi",
       "slots": [
@@ -303,8 +437,8 @@
           "kind": "paragraph_list",
           "locator": {
             "paragraph_indices": [
-              21,
-              22
+              20,
+              21
             ]
           }
         },
@@ -312,14 +446,14 @@
           "field_id": "product.application",
           "kind": "paragraph",
           "locator": {
-            "paragraph_index": 26
+            "paragraph_index": 24
           }
         },
         {
           "field_id": "product.storage",
           "kind": "paragraph",
           "locator": {
-            "paragraph_index": 30
+            "paragraph_index": 28
           }
         },
         {
@@ -372,7 +506,33 @@
         "header_row_index": 0,
         "data_start_row_index": 1,
         "source_led": true,
-        "max_source_rows": 100
+        "max_source_rows": 100,
+        "allowed_topologies": [
+          "2-col",
+          "3-col",
+          "4-col"
+        ],
+        "default_topology": "4-col",
+        "topology_widths": {
+          "2-col": [
+            3442,
+            5162
+          ],
+          "3-col": [
+            2999,
+            4484,
+            1121
+          ],
+          "4-col": [
+            2999,
+            2025,
+            816,
+            2764
+          ]
+        }
+      },
+      "page_contract": {
+        "max_pages": 1
       },
       "performance_extension": {
         "allowed": true,
@@ -383,15 +543,15 @@
       },
       "feature_extension": {
         "allowed": true,
-        "paragraph_template_index": 22,
-        "separator_paragraph_index": 23,
-        "insert_after_paragraph_index": 22,
+        "paragraph_template_index": 21,
+        "separator_paragraph_index": null,
+        "insert_after_paragraph_index": 21,
         "max_items": 100
       },
       "feature_format_contract": {
         "paragraph_indices": [
-          21,
-          22
+          20,
+          21
         ],
         "numbering": "enabled",
         "number_start_twips": 480,
@@ -404,11 +564,66 @@
       },
       "tail_blank_trim": {
         "allowed": true
+      },
+      "body_blank_trim": {
+        "allowed": true,
+        "max_body_blank_paragraphs": 0,
+        "separator_paragraphs": 0,
+        "compact_line_twips": 120
+      },
+      "inter_section_spacing": {
+        "separator_paragraphs": 0,
+        "heading_before_twips": 160,
+        "content_after_twips": 60,
+        "tolerance_twips": 0
+      },
+      "english_vertical_budget": {
+        "allowed": true,
+        "threshold_total_items": 12,
+        "levels": [
+          {
+            "name": "level-1",
+            "max_total_items": 16,
+            "heading_before_twips": 120,
+            "heading_after_twips": 60,
+            "item_after_twips": 30,
+            "line_twips": 280,
+            "line_rule": "auto"
+          },
+          {
+            "name": "level-2",
+            "max_total_items": null,
+            "heading_before_twips": 80,
+            "heading_after_twips": 40,
+            "item_after_twips": 20,
+            "line_twips": 260,
+            "line_rule": "exact"
+          }
+        ]
+      },
+      "standard_typography": {
+        "section_heading": {
+          "first_before_twips": 100,
+          "before_twips": 160,
+          "after_twips": 80
+        },
+        "feature_items": {
+          "before_twips": 0,
+          "after_twips": 60,
+          "line_twips": 280,
+          "line_rule": "auto"
+        },
+        "body_paragraphs": {
+          "before_twips": 0,
+          "after_twips": 60,
+          "line_twips": 300,
+          "line_rule": "auto"
+        }
       }
     },
     "TDS_EN_国彩模板": {
       "template": "templates\\active\\TDS_EN_国彩模板.docx",
-      "template_sha256": "0a289335c6e7d0acdc4d8f9174b9bfdf05a3ae6afb29e1e37b5ee04a8d96560c",
+      "template_sha256": "6ff73b00e917881f52477f139c034b4e2b4cfeef89880e7e95c96a36e275510f",
       "language": "en-US",
       "company": "guocai",
       "slots": [
@@ -438,8 +653,8 @@
           "kind": "paragraph_list",
           "locator": {
             "paragraph_indices": [
-              21,
-              22
+              20,
+              21
             ]
           }
         },
@@ -447,14 +662,14 @@
           "field_id": "product.application",
           "kind": "paragraph",
           "locator": {
-            "paragraph_index": 26
+            "paragraph_index": 24
           }
         },
         {
           "field_id": "product.storage",
           "kind": "paragraph",
           "locator": {
-            "paragraph_index": 30
+            "paragraph_index": 28
           }
         },
         {
@@ -507,7 +722,33 @@
         "header_row_index": 0,
         "data_start_row_index": 1,
         "source_led": true,
-        "max_source_rows": 100
+        "max_source_rows": 100,
+        "allowed_topologies": [
+          "2-col",
+          "3-col",
+          "4-col"
+        ],
+        "default_topology": "4-col",
+        "topology_widths": {
+          "2-col": [
+            3442,
+            5162
+          ],
+          "3-col": [
+            2999,
+            4484,
+            1121
+          ],
+          "4-col": [
+            2999,
+            2025,
+            816,
+            2764
+          ]
+        }
+      },
+      "page_contract": {
+        "max_pages": 1
       },
       "performance_extension": {
         "allowed": true,
@@ -518,15 +759,15 @@
       },
       "feature_extension": {
         "allowed": true,
-        "paragraph_template_index": 22,
-        "separator_paragraph_index": 23,
-        "insert_after_paragraph_index": 22,
+        "paragraph_template_index": 21,
+        "separator_paragraph_index": null,
+        "insert_after_paragraph_index": 21,
         "max_items": 100
       },
       "feature_format_contract": {
         "paragraph_indices": [
-          21,
-          22
+          20,
+          21
         ],
         "numbering": "enabled",
         "number_start_twips": 480,
@@ -539,6 +780,61 @@
       },
       "tail_blank_trim": {
         "allowed": true
+      },
+      "body_blank_trim": {
+        "allowed": true,
+        "max_body_blank_paragraphs": 0,
+        "separator_paragraphs": 0,
+        "compact_line_twips": 120
+      },
+      "inter_section_spacing": {
+        "separator_paragraphs": 0,
+        "heading_before_twips": 160,
+        "content_after_twips": 60,
+        "tolerance_twips": 0
+      },
+      "english_vertical_budget": {
+        "allowed": true,
+        "threshold_total_items": 12,
+        "levels": [
+          {
+            "name": "level-1",
+            "max_total_items": 16,
+            "heading_before_twips": 120,
+            "heading_after_twips": 60,
+            "item_after_twips": 30,
+            "line_twips": 280,
+            "line_rule": "auto"
+          },
+          {
+            "name": "level-2",
+            "max_total_items": null,
+            "heading_before_twips": 80,
+            "heading_after_twips": 40,
+            "item_after_twips": 20,
+            "line_twips": 260,
+            "line_rule": "exact"
+          }
+        ]
+      },
+      "standard_typography": {
+        "section_heading": {
+          "first_before_twips": 100,
+          "before_twips": 160,
+          "after_twips": 80
+        },
+        "feature_items": {
+          "before_twips": 0,
+          "after_twips": 60,
+          "line_twips": 280,
+          "line_rule": "auto"
+        },
+        "body_paragraphs": {
+          "before_twips": 0,
+          "after_twips": 60,
+          "line_twips": 300,
+          "line_rule": "auto"
+        }
       }
     }
   }

@@ -1,0 +1,23 @@
+{
+  "skill_name": "legal-compliance-judgment",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "根据完整的 PU-1002 MSDS/TDS 和物质成分，只做物质成分基础筛查，检查 REACH SVHC、REACH Annex XVII、REACH Annex XIV 触发项、EU POPs、RoHS、HSF 001、BSBL 和 91/338/EC。",
+      "expected_output": "不依赖销售市场、用途、包装或客户条件；使用严格完整资料闭世界假设，逐项输出符合或不符合，保留数据状态、源文件、行号、命中物质和限值证据，并生成和校验 PDF。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "组件 CAS 50-32-8 命中 AfPS GS 2019:01 PAK，输入成品迁移量 0.3 mg/kg，Category 1 限值 0.2 mg/kg，给出结果。",
+      "expected_output": "适用时判定为不符合，并展示命中 CAS、测量值、限值、单位和源 CSV。",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "客户要求 Mattel RMS2901，但当前资料只有 MSDS/TDS，没有该客户标准限值和测试方法。",
+      "expected_output": "固定模式明确点名客户标准时可判定为需补证，明确缺少现行客户标准、适用范围和测试方法；自动条件驱动模式默认不因缺少客户标准文件而索要补充报告。",
+      "files": []
+    }
+  ]
+}

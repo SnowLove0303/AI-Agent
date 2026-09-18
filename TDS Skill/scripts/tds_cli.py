@@ -1,10 +1,11 @@
 from __future__ import annotations
-import argparse, subprocess, sys
+import argparse, shutil, subprocess, sys
 from pathlib import Path
-from tds_common import ROOT, convert_legacy
+from tds_common import ROOT, convert_legacy, load, source_fidelity_errors
 SCRIPTS=Path(__file__).parent
+PY = sys.executable if sys.executable.lower().endswith('.exe') else (shutil.which('python') or 'python.exe')
 def run(name,*args):
-    r=subprocess.run([sys.executable,str(SCRIPTS/name),*map(str,args)],text=True,encoding='utf-8',errors='replace');
+    r=subprocess.run([PY,str(SCRIPTS/name),*map(str,args)],text=True,encoding='utf-8',errors='replace');
     if r.returncode: raise SystemExit(r.returncode)
 def report_delivery(output_dir):
     import json
@@ -37,9 +38,11 @@ def main():
             for p,lang in ((cn,'zh-CN'),(en,'en-US')):
                 if p: f=audit/(p.stem+'_'+lang+'.json'); run('extract_tds_source.py',p,'--language',lang,'--output',f); facts.append((lang,f))
             cnf=next((p for l,p in facts if l=='zh-CN'),None); enf=next((p for l,p in facts if l=='en-US'),None); mapping=audit/'mapping.json'; map_args=[]; map_args += ['--cn',cnf] if cnf else []; map_args += ['--en',enf] if enf else []; map_args += ['--registry',ROOT/'mapping'/'template_field_registry.json','--output',mapping]; run('map_tds_fields.py',*map_args)
+        fidelity_errors=source_fidelity_errors(load(mapping))
+        if fidelity_errors: raise SystemExit('source fidelity contract failed; PDF/package publication blocked: ' + '; '.join(fidelity_errors))
         run('overwrite_tds.py','--mapping',mapping,'--registry',ROOT/'mapping'/'template_field_registry.json','--output-dir',word_dir,'--log-dir',log_dir,'--generation-dir',generation_dir,'--artifact-root',x.output_dir,'--model',x.model)
         run('audit_tds_eight.py','--output-dir',x.output_dir,'--registry',ROOT/'mapping'/'template_field_registry.json','--mapping',mapping,'--model',x.model,'--report',audit/'docx_preflight_report.json','--docx-only')
-        for docx in sorted(word_dir.glob('*.docx')):
+        for docx in sorted(word_dir.glob(f'{x.model}_TDS_*.docx')):
             run('convert_docx_to_pdf.py',docx,pdf_dir/(docx.stem+'.pdf'),'--evidence',pdf_evidence_dir/(docx.stem+'.conversion.json'))
         run('audit_tds_eight.py','--output-dir',x.output_dir,'--registry',ROOT/'mapping'/'template_field_registry.json','--mapping',mapping,'--model',x.model,'--report',audit/'release_report.json','--conversion-evidence-dir',pdf_evidence_dir); report_delivery(x.output_dir); return
     args=['--output-dir',x.output_dir,'--registry',ROOT/'mapping'/'template_field_registry.json','--mapping',x.mapping,'--model',x.output_dir.name,'--report',x.report]

@@ -90,3 +90,43 @@ PDF MUST 由对应的最终 DOCX 通过统一转换器派生；系统 MUST 记�
 #### Scenario: Source-output parity blocker
 - **WHEN** 输出性能表的行数、顺序、项目标签、限定条件、指标值、单位或测试方法与源文件不一致
 - **THEN** 审计 MUST 输出明确的 parity blocker，并禁止正式发布。
+
+### Requirement: Standard spacing without format loss
+模板和覆写引擎 MUST 固化章节标题、正文段落和特性项的标准段前、段后及行间距；审计 MUST 验证 active 模板本身符合该契约。间距整改 MUST NOT 改变字体、字号、字符间距、首行/悬挂缩进、编号、制表位、表格结构或页眉页脚。
+
+#### Scenario: Spacing contract is inherited
+- **WHEN** 输出从任一 active 模板 fresh clone 并写入产品文本
+- **THEN** 输出沿用模板的字体、字号、缩进和编号，仅在注册的垂直预算触发时调整允许的 `w:spacing` 属性；模板间距契约或受保护格式不符合时审计 MUST 阻断。
+
+### Requirement: Native centering for Chinese product titles
+两个中文 active 模板的 `product.title` 段落 MUST 使用原生 `w:jc w:val="center"`，且左缩进 MUST 为零或未定义；标题字体、字号、加粗、字符属性和其他段落属性 MUST 继续继承 active 模板。覆写引擎 MUST NOT 通过固定左缩进模拟标题居中。
+
+#### Scenario: Long Chinese title remains centered
+- **WHEN** 长度超过历史示例的中文产品名称写入 `product.title`
+- **THEN** 输出标题保持原生居中，不因固定左缩进向右偏移或被挤压；标题契约审计通过。
+
+### Requirement: Uniform inter-section vertical gaps
+输出中每个章节有效内容的末端到下一个章节标题之间 MUST 使用统一的受控垂直过渡；正文区域不得保留占位空段或压缩空段制造局部额外留白。审计 MUST 检查章节标题前无残留空段，并验证输出正文区域空段数符合 registry 的 `inter_section_spacing` 契约。该整改 MUST NOT 改变字体、字号、正文内部行距、首行/悬挂缩进、编号、制表位或表格结构。
+
+#### Scenario: Application-to-storage gap matches other section transitions
+- **WHEN** 输出包含【应用】与【储存】章节以及其他连续章节过渡
+- **THEN** 【应用】末行到【储存】标题的垂直间距不得因历史空段而显著大于其他章节过渡；输出间距审计通过。
+
+### Requirement: Verbatim Chinese source fidelity
+
+中文输出 MUST 继承源文档事实，不得对产品名称、正文、产品特性、应用、储存、性能项目、指标值、单位、测试方法或免责声明进行同义改写、词序调整、技术术语替换、数值变更或内容删减。映射 MUST 保存源事实文件及字段/性能行哈希；中文 `normalized_values` MUST 与 `source_values` 一致，中文覆写 MUST 直接使用源值。生成后的 DOCX MUST 由独立门禁按字段、章节行和性能表行精确回读比对；只允许注册的外层空白收束、列表序号剥离和段落拆分。该门禁失败时 MUST 阻断 PDF 转换和交付包发布。
+
+#### Scenario: Chinese normalization mutation is blocked
+- **WHEN** Agent 或脚本将中文源字段改成同义词、不同词序、删减语句或改变技术限定条件
+- **THEN** 覆写前映射熔断返回明确的字段/性能行突变错误，且不写入可发布 DOCX。
+
+#### Scenario: Generated DOCX mutation is blocked
+- **WHEN** DOCX 中的中文标题、正文或性能表内容与源事实不一致
+- **THEN** 生成后忠实度门禁返回明确的输出差异，CLI 不执行 PDF 转换，发布报告为失败。
+
+### Requirement: Graduated English vertical budget
+英文高密度内容 MUST 使用注册的 Level 1/Level 2 间距预算，并在生成记录中保留实际级别；Level 1 和 Level 2 的标题/正文间距与行距 MUST 与 registry 一致，且最终页数 MUST 继续满足单页契约。
+
+#### Scenario: Dense English output compresses in two levels
+- **WHEN** 英文内容项超过预算阈值
+- **THEN** 16 项以内使用 Level 1，超过 16 项使用 Level 2；两级均保留字体、字号、缩进和编号，页数超过上限时发布 MUST 失败。
