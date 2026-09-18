@@ -6,10 +6,14 @@ from docx.oxml.ns import qn
 
 from template_mutation_whitelist import (
     audit_cross_page_contract,
+    clear_value_cells,
+    composite_value_text,
     MutationViolation,
     compare_format_anchors,
     compare_locked_skeleton,
     set_sequence_prefix,
+    TemplateSlotRegistry,
+    unique_cells,
     write_s82_top_rows,
     write_row_values,
 )
@@ -140,6 +144,105 @@ def test_s3_component_row_writes_all_three_data_cells():
     row = output.tables[2].rows[4]
     write_row_values(row, ["Component", "123-45-6", "10"], table_index=2, row_index=4)
     assert [cell.text for cell in row.cells] == ["Component", "123-45-6", "10"]
+
+
+def test_registry_records_locked_composite_and_multi_column_topology_deterministically():
+    for template_path in (TEMPLATE, TEMPLATE_EN):
+        first = TemplateSlotRegistry.from_document(Document(str(template_path)))
+        second = TemplateSlotRegistry.from_document(Document(str(template_path)))
+        assert first.slots == second.slots
+        assert first.slots[(1, 9)].role == "s2_composite_value"
+        assert first.slots[(1, 9)].cell_indices == (1,)
+        assert first.slots[(1, 9)].locked_cell_indices == (0,)
+        assert first.slots[(1, 9)].special_policy == "s2_route_prefix"
+        assert first.slots[(2, 4)].cell_indices == (0, 1, 2)
+        assert first.slots[(7, 14)].cell_indices == (0, 1, 2, 3)
+        assert first.slots[(7, 14)].special_policy == "four_column_data"
+
+
+def test_s28_route_prefixes_survive_clear_and_overwrite_in_cn_and_en():
+    for template_path in (TEMPLATE, TEMPLATE_EN):
+        template = Document(str(template_path))
+        output = Document(str(template_path))
+        registry = TemplateSlotRegistry.from_document(output)
+        expected_prefixes = [
+            unique_cells(template.tables[1].rows[index])[1].text
+            for index in range(9, 14)
+        ]
+        clear_value_cells(output, registry)
+        assert [unique_cells(output.tables[1].rows[index])[1].text for index in range(9, 14)] == expected_prefixes
+        for index in range(9, 14):
+            row = output.tables[1].rows[index]
+            write_row_values(
+                row, [unique_cells(row)[0].text, "源文件危害说明"],
+                table_index=1, row_index=index, registry=registry,
+            )
+        for index, prefix in zip(range(9, 14), expected_prefixes):
+            cell = unique_cells(output.tables[1].rows[index])[1]
+            assert cell.text == prefix + "\n源文件危害说明"
+            assert composite_value_text(output.tables[1].rows[index]) == "源文件危害说明"
+        language = "en" if template_path == TEMPLATE_EN else "cn"
+        assert compare_locked_skeleton(template, output) == []
+        assert compare_format_anchors(template, output, language=language) == []
+
+
+def test_s28_health_rows_keep_composite_handling_after_authorized_renumbering():
+    for template_path in (TEMPLATE, TEMPLATE_EN):
+        template = Document(str(template_path))
+        output = Document(str(template_path))
+        row = output.tables[1].rows[9]
+        set_sequence_prefix(unique_cells(row)[0], 2, 7)
+        registry = TemplateSlotRegistry.from_document(output)
+        clear_value_cells(output, registry)
+        write_row_values(
+            row, [unique_cells(row)[0].text, "重排后的健康危害"],
+            table_index=1, row_index=9, registry=registry,
+        )
+        assert composite_value_text(row) == "重排后的健康危害"
+        assert unique_cells(row)[1].text.endswith("\n重排后的健康危害")
+        assert compare_locked_skeleton(template, output) == []
+
+
+def test_s28_route_prefix_mutation_is_blocked():
+    template = Document(str(TEMPLATE))
+    output = Document(str(TEMPLATE))
+    cell = unique_cells(output.tables[1].rows[9])[1]
+    cell.paragraphs[0].runs[0].text = "错误前缀："
+    errors = compare_locked_skeleton(template, output)
+    assert any("route prefix" in error for error in errors)
+
+
+def test_s11_middle_sublabel_text_is_locked_but_final_value_is_writable():
+    template = Document(str(TEMPLATE))
+    output = Document(str(TEMPLATE))
+    row = output.tables[10].rows[4]
+    cells = unique_cells(row)
+    original_sublabel = cells[1].text
+    write_row_values(
+        row, [cells[0].text, original_sublabel, "source endpoint value"],
+        table_index=10, row_index=4,
+        registry=TemplateSlotRegistry.from_document(output),
+    )
+    assert cells[1].text == original_sublabel
+    assert cells[-1].text == "source endpoint value"
+    assert compare_locked_skeleton(template, output) == []
+    cells[1].paragraphs[0].runs[0].text = "tampered sublabel"
+    errors = compare_locked_skeleton(template, output)
+    assert any("sub-label/header text changed" in error for error in errors)
+
+
+def test_three_column_structure_drift_is_blocked():
+    template = Document(str(TEMPLATE))
+    output = Document(str(TEMPLATE))
+    cell = unique_cells(output.tables[2].rows[4])[1]
+    tc_pr = cell._tc.get_or_add_tcPr()
+    grid_span = tc_pr.find(qn("w:gridSpan"))
+    if grid_span is None:
+        grid_span = tc_pr.makeelement(qn("w:gridSpan"), {})
+        tc_pr.append(grid_span)
+    grid_span.set(qn("w:val"), "2")
+    errors = compare_format_anchors(template, output)
+    assert any("format anchor changed" in error for error in errors)
 
 
 def test_extra_s9_source_row_uses_cloned_style_and_source_label_only_on_insert():

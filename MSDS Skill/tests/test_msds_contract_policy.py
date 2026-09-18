@@ -23,6 +23,7 @@ from msds_pipeline import (  # noqa: E402
 from section11_alignment import align_s11_rows  # noqa: E402
 from template_mutation_whitelist import (  # noqa: E402
     TemplateSlotRegistry,
+    compare_format_anchors,
     normalize_value_text,
     write_row_values,
     unique_cells,
@@ -39,7 +40,7 @@ def test_source_states_are_distinct():
     assert classify_source_value("") == SourceState.ABSENT
 
 
-def test_s8_recommendation_stays_blank_but_gloves_keep_mapping():
+def test_s8_recommendation_value_is_source_gated_but_gloves_keep_mapping():
     document = Document(str(TEMPLATE))
     registry = TemplateSlotRegistry.from_document(document)
     table = document.tables[7]
@@ -53,8 +54,38 @@ def test_s8_recommendation_stays_blank_but_gloves_keep_mapping():
         table_index=7, row_index=5, registry=registry,
     )
 
-    assert unique_cells(table.rows[8])[1].text == ""
+    assert unique_cells(table.rows[8])[1].text == "污染的手套应废弃。"
+    assert any(
+        run.text.strip() and run.bold is not True
+        for paragraph in unique_cells(table.rows[8])[1].paragraphs
+        for run in paragraph.runs
+    )
+    assert compare_format_anchors(
+        Document(str(TEMPLATE)), document, language="cn"
+    ) == []
     assert unique_cells(table.rows[5])[1].text == "厚度≧0.4mm；穿透时间≧480min."
+
+    # Source-absent rows may be removed before the recommendation row.  The
+    # recommendation's non-bold value format must remain auditable by its
+    # semantic label after that approved reordering.
+    reordered = Document(str(TEMPLATE))
+    reordered_registry = TemplateSlotRegistry.from_document(reordered)
+    write_row_values(
+        reordered.tables[7].rows[8], ["建议：", "污染的手套应废弃。"],
+        table_index=7, row_index=8, registry=reordered_registry,
+    )
+    reordered.tables[7]._tbl.remove(reordered.tables[7].rows[7]._tr)
+    assert compare_format_anchors(
+        Document(str(TEMPLATE)), reordered, language="cn"
+    ) == []
+
+    absent = Document(str(TEMPLATE))
+    absent_registry = TemplateSlotRegistry.from_document(absent)
+    write_row_values(
+        absent.tables[7].rows[8], ["建议：", ""],
+        table_index=7, row_index=8, registry=absent_registry,
+    )
+    assert unique_cells(absent.tables[7].rows[8])[1].text == ""
 
 
 def test_synthetic_spaced_slash_becomes_semantic_break_but_compact_slash_survives():
@@ -80,7 +111,7 @@ def test_pu1001_source_text_is_written_without_summary_loss():
         document.tables[1].rows[10], ["2.8  健康危害", ingestion],
         table_index=1, row_index=10, registry=registry,
     )
-    assert unique_cells(document.tables[1].rows[10])[1].text == ingestion
+    assert unique_cells(document.tables[1].rows[10])[1].text == "食入：\n" + ingestion
 
 
 def test_s10_missing_rows_are_hidden():

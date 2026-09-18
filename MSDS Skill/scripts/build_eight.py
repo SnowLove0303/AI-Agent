@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""One-command eight-format build for the unified MSDS skill (v3.24.0).
+"""One-command eight-format build for the unified MSDS skill (v3.26.0).
 
 Business flow::
 
@@ -16,8 +16,13 @@ Usage::
 
     python scripts/build_eight.py --source SRC.docx --facts MODEL.json
     --out DIR [--model MODEL] [--revision DATE] [--no-pdf] [--timeout S]
-    [--pdf-workers N] [--wpscli PATH] [--progress-file PATH]
-    [--docx-preview-dir DIR] [--preflight-only] [--preflight-report PATH]
+    [--pdf-workers N] [--wpscli PATH] [--cache-dir DIR] [--progress-file PATH]
+    [--docx-preview-dir DIR] [--family-profile PATH] [--preflight-only]
+    [--preflight-report PATH] [--agent-review-seconds S]
+    [--human-wait-seconds S] [--retry-count N]
+
+The final matrix is isolated under ``DIR/MODEL/WORD`` and
+``DIR/MODEL/PDF``; ``DIR/MODEL/matrix-report.json`` is the release evidence.
 """
 from __future__ import annotations
 
@@ -64,6 +69,26 @@ def main() -> int:
         help="optional directory receiving the four audited DOCX before PDF conversion",
     )
     parser.add_argument(
+        "--cache-dir", type=Path, default=None,
+        help="persistent source/evidence cache root; defaults to OUT/.msds_cache",
+    )
+    parser.add_argument(
+        "--family-profile", type=Path, default=None,
+        help="optional reviewed-bound JSON family profile; candidates never auto-fill facts",
+    )
+    parser.add_argument(
+        "--agent-review-seconds", type=float, default=None,
+        help="optional externally supplied Agent/manual review duration for telemetry",
+    )
+    parser.add_argument(
+        "--human-wait-seconds", type=float, default=None,
+        help="optional externally supplied human/WPS wait duration for telemetry",
+    )
+    parser.add_argument(
+        "--retry-count", type=int, default=0,
+        help="optional retry count supplied by the harness; does not weaken gates",
+    )
+    parser.add_argument(
         "--preflight-only", action="store_true",
         help="report every facts/OpenSpec blocker without cloning templates or starting WPS",
     )
@@ -93,7 +118,10 @@ def main() -> int:
         selected = discover_source(args.source or args.source_dir, model=args.model)
         facts = json.loads(args.facts.read_text(encoding="utf-8"))
         if args.preflight_only:
-            result = run_preflight(selected.original_path, args.facts, args.model)
+            result = run_preflight(
+                selected.original_path, args.facts, args.model,
+                family_profile=args.family_profile, cache_dir=args.cache_dir,
+            )
             if args.preflight_report is not None:
                 args.preflight_report.parent.mkdir(parents=True, exist_ok=True)
                 temporary = args.preflight_report.with_name(
@@ -113,7 +141,12 @@ def main() -> int:
                               do_pdf=not args.no_pdf, timeout=args.timeout,
                               pdf_workers=args.pdf_workers, wpscli=args.wpscli,
                               progress_callback=publish_progress,
-                              docx_preview_dir=args.docx_preview_dir)
+                              docx_preview_dir=args.docx_preview_dir,
+                              cache_dir=args.cache_dir,
+                              family_profile=args.family_profile,
+                              agent_review_seconds=args.agent_review_seconds,
+                              human_wait_seconds=args.human_wait_seconds,
+                              retry_count=args.retry_count)
     except (ReleaseBlocked, SourceSelectionError, FileNotFoundError, ValueError, RuntimeError) as blocked:
         print(json.dumps({"outcome": "RELEASE_FAIL", "blocker": str(blocked)},
                          ensure_ascii=False, indent=2))
@@ -121,7 +154,7 @@ def main() -> int:
     print(json.dumps({"outcome": "RELEASE_PASS", "product": report["product"],
                       "docx": report["docx_count"], "pdf": report["pdf_count"],
                       "timing": report.get("timing"),
-                      "out": str(args.out)}, ensure_ascii=False, indent=2))
+                      "out": report.get("output_root")}, ensure_ascii=False, indent=2))
     return 0
 
 

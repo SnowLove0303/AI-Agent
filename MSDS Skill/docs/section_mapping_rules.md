@@ -22,7 +22,7 @@ allowed change to the maintained table.
 | S5 / table 5 | fire-fighting endpoints | value cells | hide unsupported item | no row rebuild |
 | S6 / table 6 | accidental-release endpoints | value cells | hide unsupported item | no row rebuild |
 | S7 / table 7 | handling/storage endpoints | value cells | hide unsupported item | no row rebuild |
-| S8 / table 8 | PPE and engineering controls by meaning | dedicated PPE writer; S8.2 four data columns | recommendation blank; empty engineering block hidden | dedicated writers only |
+| S8 / table 8 | PPE and engineering controls by meaning | dedicated PPE writer; S8.2 four data columns | source-gated recommendation; empty engineering block hidden | dedicated writers only |
 | S9 / table 9 | physical/chemical properties | value cells | omit missing-data row | remove whole item, then prefix-only renumber |
 | S10 / table 10 | stability/reactivity endpoints | value cells | omit unsupported/missing item | smallest safe row omission |
 | S11 / table 11 | toxicology notes/endpoints | semantic endpoint-skeleton alignment, then value cells | preserve explicit availability sentence; omit absent endpoints | no invented endpoint or generic renumber; merge-safe omission only |
@@ -62,9 +62,23 @@ Section 2 fields, pure missing placeholders suppress the whole item. Section
 - Never insert arbitrary breaks inside a statement for visual alignment.
 - Prefer semantic line breaks within the existing destination paragraph when this best preserves template geometry; separate value paragraphs are also acceptable if paragraph spacing is zero and the label/layout remains untouched.
 
+#### Precautionary group contract
+
+The four source headings `预防措施：`, `事故响应：`, `安全储存：` and `废弃处置：`
+are ordered semantic groups inside the fixed Section 2 precautionary value slot.
+They are not new labels and must never be copied into the template label cell.
+Extract a group heading and its following P statements as one fact boundary,
+including when the source places a heading inline with a statement. Preserve
+the source group order and emit each populated group as `heading` followed by
+one P statement per logical line. Empty/orphan headings are omitted; the
+remaining groups are not renumbered independently because P lines do not
+consume a visible `2.x` number. Any populated source group must be mapped to
+`precautionary_statements`, traced in both language layers, and rejected if it
+is duplicated, flattened without its heading, or silently dropped.
+
 ### CN semantic slot projection
 - Do not pass source Section 2 rows directly to the template by list position.
-- Bind source `2.1 GHS危险性类别`, `2.2 标签要素` and `2.3 其他危害` to the maintained template semantic slots `2.2`, `2.3` and `2.10`, respectively; never rewrite the template's locked label text. Source `2.2 标签要素` normally contains the explicit label-ingredient explanation `必须列在标签上的有害成分：` plus the ingredient on a following semantic line (English: `Hazardous ingredients required to be listed on the label:` plus the ingredient). It must never be classified as or written into the template `2.4 信号词` value. The signal-word value is a separate source fact and may only be `危险` / `警告` or `Danger` / `Warning`; other prose is unresolved and blocks release.
+- Bind source `2.1 GHS危险性类别`, `2.2 标签要素` and `2.3 其他危害` to the maintained template semantic slots `2.2`, `2.3` and `2.10`, respectively; never rewrite the template's locked label text. Source `2.2 标签要素` normally contains the explicit label-ingredient explanation `必须列在标签上的有害成分：` plus the ingredient on a following semantic line (English: `Hazardous ingredients required to be listed on the label:` plus the ingredient). It must never be classified as or written into the template `2.4 信号词` value. The signal-word value is a separate controlled source fact: `危险` / `警告`, `无信号词` / `No signal word`, `无` / `None`, or `Not applicable`; other prose is unresolved and blocks release. Health-hazard rows remain composite slots after authorized numeric renumbering.
 - Run source-missing suppression first, then apply the explicit `2.2→2.1`, `2.3→2.2`, `2.10→2.3` visible-number map. This keeps the final three-item sequence stable when all other sample-product rows are absent.
 
 ## Section 3 — Composition
@@ -80,7 +94,7 @@ High-risk fixed structure.
 - Map hand/glove information -> existing hand/glove labels.
 - Map eye/face -> existing eye label.
 - Map body protection -> existing body label.
-- The fixed `建议：` label has no customer-facing value in this workflow; leave its value blank even if the source contains a recommendation.
+- The fixed `建议：` label is locked, but its non-bold value cell is source-gated: retain a substantive source recommendation and leave it empty only when the source has no recommendation.
 - If the source has exposure-limit text but the template has no safe corresponding item, omit it rather than inventing a new label.
 - Never generate composite labels like `8.2 暴露控制 / 呼吸系统防护：`.
 

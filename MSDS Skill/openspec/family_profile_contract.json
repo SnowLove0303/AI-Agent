@@ -1,0 +1,17 @@
+{
+  "schema_id": "MSDS-FAMILY-PROFILE-326",
+  "version": "3.26.0",
+  "status": "active",
+  "format": "json",
+  "required_profile_fields": ["profile_id", "family", "models", "candidates"],
+  "candidate_required_fields": ["candidate_id", "target", "value", "evidence_required", "disposition"],
+  "allowed_dispositions": ["candidate", "confirmed", "omitted", "conflict"],
+  "allowed_evidence": ["current_source", "reviewed_translation", "controlled_overlay"],
+  "rules": [
+    "profile candidates are not approved facts",
+    "candidate values cannot be written directly to DOCX",
+    "confirmed candidates require a current source locator or allowed overlay record",
+    "conflict and unresolved candidates block formal build",
+    "profile scope must include the requested model"
+  ]
+}

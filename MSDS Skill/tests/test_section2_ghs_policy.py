@@ -18,6 +18,11 @@ from section2_ghs_policy import (
     project_source_cn_headings,
     suppress_missing_section2_rows_and_renumber,
 )
+from template_mutation_whitelist import (
+    TemplateSlotRegistry,
+    clear_value_cells,
+    write_row_values,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -80,6 +85,26 @@ def test_section2_missing_rows_are_removed_and_unique_items_renumbered():
     assert not is_missing_section2_value("眼睛：无刺激")
 
 
+def test_s28_prefix_only_rows_are_removed_after_whitelist_clear():
+    document = Document(ROOT / "examples" / "template_reference.docx")
+    registry = TemplateSlotRegistry.from_document(document)
+    clear_value_cells(document, registry)
+    for row_index in range(9, 14):
+        row = document.tables[1].rows[row_index]
+        write_row_values(
+            row, [row.cells[0].text, ""],
+            table_index=1, row_index=row_index, registry=registry,
+        )
+    result = suppress_missing_section2_rows_and_renumber(
+        document, lambda paragraph, text: setattr(paragraph, "text", text)
+    )
+    assert result["removed_count"] >= 5
+    assert not any(
+        row.cells[0].text.strip().startswith("2.8")
+        for row in document.tables[1].rows[1:]
+    )
+
+
 def test_section2_explicit_number_map_keeps_source_requested_numbers():
     document = Document(ROOT / "examples" / "template_reference.docx")
     table = document.tables[1]
@@ -125,6 +150,74 @@ def test_source_cn_s2_projects_by_semantic_slot_not_list_position():
     assert number_map == {2: 1, 3: 2, 10: 3}
 
 
+def test_source_cn_s2_projects_grouped_precautionary_value_and_suppresses_empty_group():
+    rows, _ = project_source_cn_facts({
+        "precautionary_groups": [
+            {
+                "group_key": "prevention",
+                "source_heading": "\u9884\u9632\u63aa\u65bd\uff1a",
+                "statements": [{"code": "P210", "text": "P210 \u8fdc\u79bb\u70ed\u6e90\u3002"}],
+            },
+            {
+                "group_key": "storage",
+                "source_heading": "\u5b89\u5168\u50a8\u5b58\uff1a",
+                "statements": [],
+            },
+            {
+                "group_key": "disposal",
+                "source_heading": "\u5e9f\u5f03\u5904\u7f6e\uff1a",
+                "statements": [{"code": "P501", "text": "P501 \u6309\u7167\u89c4\u5b9a\u5904\u7f6e\u3002"}],
+            },
+        ],
+    })
+    precautionary = rows[6][1]
+    assert precautionary.splitlines() == [
+        "\u9884\u9632\u63aa\u65bd\uff1a",
+        "P210 \u8fdc\u79bb\u70ed\u6e90\u3002",
+        "\u5e9f\u5f03\u5904\u7f6e\uff1a",
+        "P501 \u6309\u7167\u89c4\u5b9a\u5904\u7f6e\u3002",
+    ]
+
+
+def test_release_audit_blocks_missing_or_out_of_order_precautionary_groups():
+    from audit_section2_release import run
+
+    document = Document(ROOT / "examples" / "template_reference.docx")
+    table = document.tables[1]
+    table.rows[7].cells[-1].text = (
+        "\u9884\u9632\u63aa\u65bd\uff1a\nP210 \u8fdc\u79bb\u70ed\u6e90\u3002\n"
+        "\u5e9f\u5f03\u5904\u7f6e\uff1a\nP501 \u6309\u89c4\u5b9a\u5904\u7f6e\u3002"
+    )
+    errors, info = run(
+        None,
+        document=document,
+        expected_precautionary_groups=["prevention", "response"],
+    )
+    assert not info["pass"]
+    assert any("precautionary group headings are missing or out of order" in error for error in errors)
+
+
+def test_release_audit_rejects_template_precautionary_group_when_source_has_none():
+    from audit_section2_release import run
+
+    document = Document(ROOT / "examples" / "template_reference.docx")
+    errors, _info = run(
+        None,
+        document=document,
+        expected_precautionary_groups=[],
+    )
+    assert any("precautionary group headings are missing or out of order" in error for error in errors)
+
+
+def test_en_drafter_protects_controlled_precautionary_heading_from_generic_glossary():
+    from draft_en_facts import draft_section
+
+    review = []
+    rows = [["2.6 \u9632\u8303\u8bf4\u660e\uff1a", "\u9884\u9632\u63aa\u65bd\uff1a\nP210 \u8fdc\u79bb\u70ed\u6e90\u3002"]]
+    drafted = draft_section(rows, [("\u9884\u9632\u63aa\u65bd", "Wrong glossary heading")], "s2", review)
+    assert drafted[0][1].splitlines()[0] == "Prevention:"
+
+
 def test_s2_semantic_contract_separates_label_ingredients_and_signal_word():
     rows = [
         ["2.1 紧急情况概述", ""],
@@ -141,6 +234,20 @@ def test_s2_semantic_contract_separates_label_ingredients_and_signal_word():
     errors = validate_s2_semantics(misplaced, "zh")
     assert any("label-elements slot contains only a signal word" in error for error in errors)
     assert any("signal-word slot contains label-ingredient prose" in error for error in errors)
+
+
+@pytest.mark.parametrize(
+    "signal", ["无信号词", "无", "None", "No signal word", "Not applicable"]
+)
+def test_s2_semantic_contract_accepts_controlled_non_hazard_signal_values(signal):
+    rows = [
+        ["2.1 紧急情况概述", ""],
+        ["2.2 GHS危险性类别：", "根据 GHS 不属于危害化学品"],
+        ["2.3 GHS标签要素：", ""],
+        [" GHS象形图", ""],
+        ["2.4 信号词：", signal],
+    ]
+    assert validate_s2_semantics(rows, "zh") == []
 
 
 def test_source_pictogram_is_inserted_as_picture(tmp_path):

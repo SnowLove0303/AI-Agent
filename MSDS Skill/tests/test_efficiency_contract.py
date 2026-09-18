@@ -12,6 +12,7 @@ from efficiency_contract import (  # noqa: E402
     StageTimer,
     load_efficiency_spec,
     validate_efficiency_spec,
+    validate_v326_telemetry,
 )
 
 
@@ -47,3 +48,25 @@ def test_diagnostic_has_actionable_expected_actual_diff_and_hint():
     assert "actual=tcPr=B" in message
     assert "diff=expected!=actual" in message
     assert "hint=restore the template anchor" in message
+
+
+def test_v326_telemetry_contract_is_additive_and_observational():
+    report = {
+        "timing": {
+            "stage_events": [],
+            "stage_totals": {},
+            "cache": {"root": "cache", "source_cache_reused": False},
+            "pdf": {"workers": 2, "batch_seconds": 1.2,
+                    "converter": "wps", "lineage_verified": True},
+            "variants": [{"language": "zh", "brand": "guanzhi",
+                           "docx_seconds": 1.0, "pdf_seconds": 2.0}],
+            "time_categories": {
+                "machine": {"seconds": 3.0},
+                "agent_review": {"seconds": None},
+                "human_wait": {"seconds": None},
+                "retry": {"seconds": 0.0, "count": 0},
+            },
+        },
+    }
+    assert validate_v326_telemetry(report) == []
+    assert validate_v326_telemetry({"timing": {}})

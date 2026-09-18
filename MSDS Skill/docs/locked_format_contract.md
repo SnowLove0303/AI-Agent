@@ -1,7 +1,9 @@
 # Locked Format Contract
 
 ## Immutable objects
-For every surviving bold label, preserve the original template object rather than recreating it.
+For every surviving bold label, and for every semantically template-owned
+prefix or sublabel even when it is not bold, preserve the original template
+object rather than recreating it.
 
 Preserve:
 - exact text/numbering/punctuation;
@@ -11,12 +13,25 @@ Preserve:
 - table grid and neighboring cell geometry;
 - row layout unless the complete item is intentionally omitted.
 
+The Section 2.8 route prefix is template-owned content inside the current
+two-column value cell. Section 11.1/11.7 middle sublabels are template-owned
+content inside three-column rows. Section 3's three-cell rows and Section
+8.2's four-cell rows are physical topology, not formatting suggestions.
+
 ## Allowed
-- edit non-bold value content;
+- edit non-bold value content only in the declared final value cell or value
+  tail;
 - omit unsupported complete items;
 - update supported header/footer metadata while preserving presentation;
 - remove non-semantic whitespace artifacts from value areas;
 - normalize non-bold value character formatting to approved exemplar.
+
+All writable values are non-bold by contract. Their other character
+properties inherit from the destination value anchor. Removing or explicitly
+disabling bold on a value run is the only permitted character-format
+exception; no bold value may be emitted even if a legacy value placeholder or
+paragraph mark in the template is bold. Template-bold labels, sequence cells,
+headers, sublabels and composite prefixes remain immutable.
 
 ## Forbidden
 - relabel/renumber/reorder surviving labels;

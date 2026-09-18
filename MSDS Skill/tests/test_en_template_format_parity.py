@@ -8,6 +8,13 @@ from lxml import etree
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 from normalize_en_layout import _approved_body_rpr, sync_en_template_text_format
+from template_mutation_whitelist import (
+    TemplateSlotRegistry,
+    clear_value_cells,
+    compare_format_anchors,
+    unique_cells,
+    write_row_values,
+)
 
 
 def _xml(element):
@@ -57,3 +64,22 @@ def test_en_blank_value_slots_use_the_same_body_format_as_populated_slots():
     expected = _xml(_approved_body_rpr(reference))
     assert _xml(populated.runs[0]._r.rPr) == expected
     assert _xml(blank_slot.runs[0]._r.rPr) == expected
+
+
+def test_en_s28_normalization_preserves_prefix_and_normalizes_value_tail():
+    template = ROOT / "examples" / "template_reference_en.docx"
+    document = Document(str(template))
+    registry = TemplateSlotRegistry.from_document(document)
+    row = document.tables[1].rows[9]
+    prefix_run = unique_cells(row)[1].paragraphs[0].runs[0]
+    prefix_rpr = _xml(prefix_run._r.rPr)
+    write_row_values(
+        row, [unique_cells(row)[0].text, "source-backed health hazard"],
+        table_index=1, row_index=9, registry=registry,
+    )
+    sync_en_template_text_format(document, template)
+    cell = unique_cells(row)[1]
+    assert cell.text == "吸入：\nsource-backed health hazard"
+    assert _xml(cell.paragraphs[0].runs[0]._r.rPr) == prefix_rpr
+    assert _xml(cell.paragraphs[0].runs[-1]._r.rPr) == _xml(_approved_body_rpr(Document(str(template))))
+    assert compare_format_anchors(Document(str(template)), document, language="en") == []

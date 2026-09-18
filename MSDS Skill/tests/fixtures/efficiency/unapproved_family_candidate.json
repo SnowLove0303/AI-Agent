@@ -1,0 +1,14 @@
+{
+  "profile_id": "efficiency-test-family",
+  "family": "test-family",
+  "models": ["EFF-TEST"],
+  "candidates": [
+    {
+      "candidate_id": "unsupported-value",
+      "target": "s9.1",
+      "value": "not in source",
+      "evidence_required": true,
+      "disposition": "candidate"
+    }
+  ]
+}

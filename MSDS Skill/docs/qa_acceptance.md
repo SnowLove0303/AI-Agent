@@ -9,11 +9,15 @@
 6. OpenSpec execution-record, empty-value-row and post-omission numbering audit.
 7. Agent mutation-boundary audit: only value-cell writes/clears, source-presence
    decisions and necessary styled data-row changes are declared; labels, bold
-   runs and layout remain immutable.
+   runs and layout remain immutable. Every non-empty writable value is
+   non-bold and inherits the value anchor's other typography; locked bold
+   labels, sublabels, headers and route prefixes are excluded from that gate.
 
 ## Visual checks — every page
 At 100% inspect:
 - all bold labels align exactly like template;
+- all non-empty writable values are non-bold, including S15/S16 one-cell
+  values and Section 2.8 value tails;
 - body font is consistent;
 - no large blank area under short values;
 - no blank label rows;

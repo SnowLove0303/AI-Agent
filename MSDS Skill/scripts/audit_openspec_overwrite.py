@@ -20,7 +20,7 @@ from audit_whitespace import run as audit_whitespace
 from renumber_visible_items import audit as audit_numbering
 from renumber_visible_items import collect as collect_numbered_items
 from section2_hp_policy import is_missing_data_value
-from template_mutation_whitelist import unique_cells
+from template_mutation_whitelist import composite_value_text, is_s28_row, unique_cells
 from agent_execution_contract import load_spec
 
 
@@ -49,14 +49,23 @@ def _is_allowed_blank_value(table_index: int, row_index: int, label: str) -> boo
     return False
 
 
-def audit_empty_value_rows(document) -> list[dict]:
+def audit_empty_value_rows(document, context=None) -> list[dict]:
     """Reject visible label rows whose writable value area is empty."""
     problems: list[dict] = []
-    for table_index, table in enumerate(document.tables):
-        for row_index, row in enumerate(table.rows):
+    if context is None:
+        rows = (
+            (table_index, row_index, row, unique_cells(row))
+            for table_index, table in enumerate(document.tables)
+            for row_index, row in enumerate(table.rows)
+        )
+    else:
+        rows = (
+            (record.table_index, record.row_index, record.row, record.cells)
+            for record in context.rows()
+        )
+    for table_index, row_index, row, cells in rows:
             if row_index == 0:
                 continue
-            cells = unique_cells(row)
             if not cells:
                 problems.append({"type": "row_without_cells", "table": table_index, "row": row_index})
                 continue
@@ -68,7 +77,11 @@ def audit_empty_value_rows(document) -> list[dict]:
             if table_index == 2 and row_index == 3:
                 # S3's three-column header is structure, not a value row.
                 continue
-            if table_index == 7 and row_index >= 12:
+            if table_index == 1 and is_s28_row(table_index, row):
+                # The route prefix is template-owned.  Audit only the value
+                # tail so a prefix-only retained row is correctly blocking.
+                values = [composite_value_text(row).strip()]
+            elif table_index == 7 and row_index >= 12:
                 # S8.2 parent/header/data rows are independently handled by
                 # write_s82_top_rows; a retained data row must have all values.
                 values = [cell.text.strip() for cell in cells]
@@ -101,8 +114,10 @@ def audit_empty_value_rows(document) -> list[dict]:
     return problems
 
 
-def audit_value_whitespace(document) -> list[dict]:
+def audit_value_whitespace(document, context=None) -> list[dict]:
     """Reject blank lines and fake spacing in non-locked value content."""
+    if context is not None:
+        return context.value_whitespace()
     problems: list[dict] = []
     for table_index, table in enumerate(document.tables):
         for row_index, row in enumerate(table.rows):
@@ -140,17 +155,18 @@ def audit_value_whitespace(document) -> list[dict]:
 
 
 def audit(template_path: Path, output_path: Path, *, language: str = "cn",
-          template=None, output=None) -> dict:
+          template=None, output=None, context=None) -> dict:
     template = template or Document(str(template_path))
     output = output or Document(str(output_path))
     base = audit_template(template_path, output_path, template=template,
-                          output=output, language=language)
+                          output=output, language=language, context=context)
     errors = list(base.get("errors", []))
-    empty_rows = audit_empty_value_rows(output)
-    value_whitespace = audit_value_whitespace(output)
-    whitespace = audit_whitespace(str(output_path), document=output)
+    empty_rows = audit_empty_value_rows(output, context=context)
+    value_whitespace = audit_value_whitespace(output, context=context)
+    whitespace = audit_whitespace(str(output_path), document=output, context=context)
     whitespace_issues = whitespace.get("issues", [])
-    numbering = audit_numbering(collect_numbered_items(output))
+    numbering_items = context.numbering_items() if context is not None else collect_numbered_items(output)
+    numbering = audit_numbering(numbering_items)
     for item in empty_rows:
         errors.append("OpenSpec: " + json.dumps(item, ensure_ascii=False, sort_keys=True))
     for item in value_whitespace:

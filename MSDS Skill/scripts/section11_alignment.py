@@ -21,13 +21,19 @@ class Section11AlignmentError(ValueError):
 _ROUTE_ALIASES = {
     "经口": "oral",
     "口服": "oral",
+    "急性经口毒性": "oral",
     "oral": "oral",
+    "acute oral toxicity": "oral",
     "吸入": "inhalation",
     "吸入性": "inhalation",
+    "急性吸入毒性": "inhalation",
     "inhalation": "inhalation",
+    "acute inhalation toxicity": "inhalation",
     "经皮": "dermal",
     "皮肤": "dermal",
+    "急性经皮毒性": "dermal",
     "dermal": "dermal",
+    "acute dermal toxicity": "dermal",
 }
 
 _CHILD_ALIASES = {
@@ -76,7 +82,9 @@ def _endpoint_number(label: object) -> int | None:
     text = _compact(label)
     # Order matters: specific labels must be resolved before generic toxicity.
     aliases = (
-        (1, ("急性毒性", "acutetoxicity")),
+        (1, ("急性毒性", "急性经口毒性", "急性吸入毒性", "急性经皮毒性",
+             "acutetoxicity", "acute oral toxicity", "acute inhalation toxicity",
+             "acute dermal toxicity")),
         (2, ("主要皮肤刺激性", "皮肤刺激", "primaryskinirritation")),
         (3, ("主要眼睛刺激性", "主要粘膜刺激性", "原发性粘膜刺激", "眼睛刺激", "primaryeyeirritation")),
         (4, ("致敏性", "sensitization")),

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Draft English facts from an approved standardized Chinese model (v3.24.0).
+"""Draft English facts from an approved standardized Chinese model (v3.26.0).
 
 Business role: EN is a professional translation OF the standardized model,
 never of a rendered DOCX and never an independent derivation.  This module
@@ -22,6 +22,8 @@ import csv
 import json
 import re
 from pathlib import Path
+
+from section2_hp_policy import translate_precautionary_group_headings
 
 CJK_RE = re.compile(r"[\u4e00-\u9fff]+")
 CAS_RE = re.compile(r"\d{2,7}-\d{2}-\d")
@@ -100,7 +102,17 @@ def draft_section(rows: list, glossary, section: str, review: list) -> list:
             continue
         drafted = []
         for cell_index, cell in enumerate(row):
-            draft, flagged = draft_value(str(cell), glossary)
+            source_cell = str(cell)
+            if section == "s2" and cell_index > 0:
+                # Convert controlled group headings before the general
+                # glossary runs.  Otherwise a broad glossary entry such as
+                # "预防措施" could consume the exact heading and make the
+                # group-level EN contract impossible to verify.
+                source_cell = translate_precautionary_group_headings(source_cell)
+            draft, flagged = draft_value(source_cell, glossary)
+            if section == "s2" and cell_index > 0:
+                draft = translate_precautionary_group_headings(draft)
+                flagged = bool(CJK_RE.search(draft))
             drafted.append(draft)
             if flagged and not (section == "s3" and cell_index == 1):
                 # S3 CAS cells are locked verbatim; nothing to review there.

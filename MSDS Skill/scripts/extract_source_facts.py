@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mechanical source-fact extractor for the unified MSDS pipeline (v3.24.0).
+"""Mechanical source-fact extractor for the unified MSDS pipeline (v3.26.0).
 
 Business role: the overwrite core is *extract -> standardize (CN) -> render
 CN -> translate EN from the standardized model*.  This module does the first
@@ -44,7 +44,14 @@ import zipfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from section2_hp_policy import _CODE_RE, is_missing_data_value, split_coded_statements  # noqa: E402
+from section2_hp_policy import (  # noqa: E402
+    _CODE_RE,
+    is_missing_data_value,
+    is_precautionary_group_heading,
+    is_precautionary_section_heading,
+    split_coded_statements,
+    tokenize_precautionary_line,
+)
 from agent_execution_contract import blank_execution_contract  # noqa: E402
 from source_interpretation_contract import blank_output_traceability  # noqa: E402
 from source_ingest import (  # noqa: E402
@@ -52,6 +59,12 @@ from source_ingest import (  # noqa: E402
     prepare_source,
     require_section_extraction,
     SourceSelectionError,
+)
+from s8_ppe_policy import (  # noqa: E402
+    S8_PPE_ORDER,
+    canonical_s8_label,
+    s8_ppe_key,
+    split_s8_label_value,
 )
 
 try:
@@ -78,7 +91,10 @@ LABEL_ELEMENT_HEADING_RE = re.compile(
     re.I,
 )
 SIGNAL_RE = re.compile(r"(?:信号词|signal\s+word)\s*[：:]\s*(.*)", re.I)
-SIGNAL_WORD_RE = re.compile(r"^(?:危险|警告|danger|warning)$", re.I)
+SIGNAL_WORD_RE = re.compile(
+    r"^(?:危险|警告|无信号词|无|danger|warning|no signal word|none|not applicable)$",
+    re.I,
+)
 CATEGORY_RE = re.compile(r"(类别\s*\S*|\(H\d+[a-zA-Z]*\))")
 MISSING_HINT_RE = re.compile(r"(无适用资料|无数据资料|暂无|未提供|不详)")
 OTHER_HAZARDS_RE = re.compile(
@@ -218,6 +234,39 @@ def extract_model(table, source: Path, ext: Extraction) -> str:
     return ""
 
 
+_HEALTH_ROUTE_PATTERNS = (
+    ("inhalation", re.compile(
+        r"^\s*(?:吸入(?:危害|危害性)?|吸入毒性|inhalation(?:\s+hazard)?)\s*[:：]\s*(.*)$",
+        re.I,
+    )),
+    ("ingestion", re.compile(
+        r"^\s*(?:食入(?:危害|危害性)?|摄入(?:危害|危害性)?|吞食(?:危害|危害性)?|"
+        r"ingestion(?:\s+hazard)?|oral(?:\s+hazard)?)\s*[:：]\s*(.*)$",
+        re.I,
+    )),
+    ("skin", re.compile(
+        r"^\s*(?:皮肤(?:刺激|危害|腐蚀/刺激)?|skin(?:\s+irritation|\s+hazard)?)\s*[:：]\s*(.*)$",
+        re.I,
+    )),
+    ("eyes", re.compile(
+        r"^\s*(?:眼睛?(?:刺激|危害)?|眼部(?:刺激|危害)?|eyes?(?:\s+irritation|\s+hazard)?)\s*[:：]\s*(.*)$",
+        re.I,
+    )),
+    ("symptoms_signs", re.compile(
+        r"^\s*(?:症状(?:和|及)?体征|症状与体征|signs?\s+and\s+symptoms?)\s*[:：]\s*(.*)$",
+        re.I,
+    )),
+)
+
+
+def _health_route_value(line: str) -> tuple[str, str] | None:
+    for route, pattern in _HEALTH_ROUTE_PATTERNS:
+        match = pattern.match(line or "")
+        if match:
+            return route, match.group(1).strip()
+    return None
+
+
 def extract_s2(table, ext: Extraction) -> dict:
     """Split the merged S2 cell into classified logical lines."""
     text = "\n".join(
@@ -229,11 +278,15 @@ def extract_s2(table, ext: Extraction) -> dict:
     )
     lines = [line.strip() for line in re.split(r"[\r\n]+", text) if line.strip()]
     out = {"ghs_classes": [], "label_elements": [], "h_statements": [], "p_statements": [],
+           "precautionary_groups": [],
            "signal": "", "label_ingredients": [], "other_hazards": None,
+           "health_hazards": {route: [] for route, _ in _HEALTH_ROUTE_PATTERNS},
            "other": [], "raw_lines": lines}
     skip_next = False
     pending_signal = False
     subsection = ""
+    precautionary_active = False
+    current_precautionary_group = None
     for index, line in enumerate(lines):
         if skip_next:
             skip_next = False
@@ -246,6 +299,89 @@ def extract_s2(table, ext: Extraction) -> dict:
         subsection_match = re.match(r"^2\.(\d+)\b", line)
         if subsection_match:
             subsection = subsection_match.group(1)
+            if not is_precautionary_section_heading(line):
+                precautionary_active = False
+                current_precautionary_group = None
+        if is_precautionary_section_heading(line):
+            precautionary_active = True
+            current_precautionary_group = None
+            continue
+        candidate_precautionary_tokens = tokenize_precautionary_line(line)
+        has_group_heading = any(
+            token.get("kind") == "group_heading"
+            for token in candidate_precautionary_tokens
+        )
+        has_p_statement = any(
+            token.get("kind") == "p_statement"
+            for token in candidate_precautionary_tokens
+        )
+        # Do not let ordinary S2 prose that happens to contain a controlled
+        # word such as "Response:" become a precautionary group.  A group can
+        # start without an outer heading only when it is a standalone heading
+        # or a coded P line in the source's conventional 2.4/2.6 precautionary
+        # subsection.  Once the outer heading has been seen, all subsequent
+        # group/P tokens remain in the active region until the next 2.x slot.
+        precautionary_in_context = (
+            precautionary_active
+            or (
+                subsection in {"4", "6"}
+                and (has_p_statement or is_precautionary_group_heading(line))
+            )
+            or (
+                has_group_heading
+                and not subsection
+                and (
+                    is_precautionary_group_heading(line)
+                    or has_p_statement
+                )
+            )
+        )
+        precautionary_tokens = (
+            candidate_precautionary_tokens if precautionary_in_context else []
+        )
+        if precautionary_tokens:
+            if any(token.get("kind") == "group_heading" for token in precautionary_tokens):
+                precautionary_active = True
+            for token in precautionary_tokens:
+                if token.get("kind") == "group_heading":
+                    current_precautionary_group = {
+                        "group_key": token.get("group_key"),
+                        "source_heading": token.get("source_heading", ""),
+                        "source_locator": f"s2.line[{index + 1}]",
+                        "statements": [],
+                    }
+                    out["precautionary_groups"].append(current_precautionary_group)
+                    continue
+                if token.get("kind") == "p_statement":
+                    statement = str(token.get("text") or "").strip()
+                    if not statement:
+                        continue
+                    out["p_statements"].append(statement)
+                    if precautionary_active and current_precautionary_group is not None:
+                        current_precautionary_group["statements"].append({
+                            "code": token.get("code", ""),
+                            "text": statement,
+                            "source_locator": f"s2.line[{index + 1}]",
+                        })
+            continue
+        if precautionary_active and current_precautionary_group is not None:
+            statements = current_precautionary_group.get("statements") or []
+            if statements:
+                previous = str(statements[-1].get("text") or "").rstrip()
+                if previous and previous[-1] not in "。.!?！？；;":
+                    continuation = f"{previous} {line}".strip()
+                    statements[-1]["text"] = continuation
+                    if out["p_statements"]:
+                        out["p_statements"][-1] = continuation
+                    continue
+        health_route = _health_route_value(line)
+        if health_route:
+            route, value = health_route
+            if value:
+                out["health_hazards"][route].append(value)
+            else:
+                ext.flag("s2", "health-route-empty", f"{route}: {line[:100]}")
+            continue
         other_hazards = OTHER_HAZARDS_RE.match(line)
         if other_hazards:
             out["other_hazards"] = other_hazards.group(1).strip()
@@ -254,6 +390,15 @@ def extract_s2(table, ext: Extraction) -> dict:
             # This is a structural heading.  The value for the maintained
             # label-elements slot is sourced from the explicit
             # ``必须列在标签上的有害成分`` line below, not from this heading.
+            continue
+        classification = re.match(
+            r"^\s*(?:2\.1\s*)?(?:GHS\s*危险性分类|危险性|GHS\s*classification|hazard\s*classification)"
+            r"\s*[:：]\s*(.+?)\s*$",
+            line,
+            re.I,
+        )
+        if classification:
+            out["ghs_classes"].append(classification.group(1).strip())
             continue
         if re.match(r"^GHS\s*[-－]?\s*象形图\s*$", line, re.I):
             if index + 1 < len(lines) and not re.match(r"^\d+\.\d+\b", lines[index + 1]):
@@ -283,10 +428,14 @@ def extract_s2(table, ext: Extraction) -> dict:
                     tail = _label_ingredient_tail(candidate)
                     if tail:
                         out["label_ingredients"].append(tail)
+                        out["label_elements"].append(candidate)
                     elif index + 1 < len(lines):
                         follower = lines[index + 1]
                         if not re.match(r"^\d+\.\d+\b", follower) and not SIGNAL_RE.search(follower):
                             out["label_ingredients"].append(follower)
+                            out["label_elements"].append(
+                                f"{candidate}\n{follower}"
+                            )
                             skip_next = True
                     ext.flag("s2", "signal-label-ingredient-reclassified", line[:100])
                 else:
@@ -308,6 +457,12 @@ def extract_s2(table, ext: Extraction) -> dict:
                     skip_next = True
             if tail:
                 out["label_ingredients"].append(tail)
+                # Preserve the semantic explanation, including its mandatory
+                # marker. It is a label-elements value, never a signal word.
+                explanation = line if line.rstrip("：:").strip() != tail else line
+                if index + 1 < len(lines) and not _label_ingredient_tail(line):
+                    explanation = f"{line}\n{tail}"
+                out["label_elements"].append(explanation)
             else:
                 ext.flag("s2", "label-ingredient-phrasing",
                          f"ingredient line without explicit value: {line[:60]}")
@@ -333,6 +488,25 @@ def extract_s2(table, ext: Extraction) -> dict:
     if not out["label_ingredients"]:
         ext.flag("s2", "label-ingredients-absent",
                  "no explicit label-ingredient line; generator will suppress the row")
+    for group in out["precautionary_groups"]:
+        if not group.get("statements"):
+            ext.flag(
+                "s2",
+                "precautionary-group-orphan",
+                f"{group.get('group_key') or 'unknown'} at {group.get('source_locator')}",
+            )
+    non_hazard = any(
+        re.search(r"不属于(?:危险|危害)|not\s+hazardous|not\s+classified", value, re.I)
+        for value in out["ghs_classes"]
+    )
+    if non_hazard and not out["signal"]:
+        # Controlled fallback is allowed only because the source explicitly
+        # concluded that the product is not hazardous under GHS.
+        out["signal"] = "无信号词"
+        ext.flag("s2", "controlled-nonhazard-signal-fallback", "source classification is non-hazardous")
+    if non_hazard and not out["label_elements"]:
+        out["label_elements"] = ["无危险的象形图警示性说明"]
+        ext.flag("s2", "controlled-nonhazard-pictogram-fallback", "source classification is non-hazardous")
     if not out["signal"]:
         ext.flag("s2", "signal-missing",
                  "no explicit signal word in source; confirm before writing")
@@ -349,6 +523,29 @@ def split_inline_protective_material(text: str) -> list[str] | None:
     return [f"{match.group(1)}:", match.group(2)]
 
 
+def _s8_row_texts(table, index) -> list[str]:
+    """Read S8 cells without destroying tabs used as label/value evidence."""
+    values = []
+    for cell in unique_cells(table.rows[index]):
+        lines = []
+        for paragraph in cell.paragraphs:
+            text = str(paragraph.text or "").replace("\r", "\n").strip()
+            if text:
+                lines.append(text)
+        values.append("\n".join(lines))
+    return values
+
+
+def _s8_heading_mode(label: str) -> str | None:
+    """Resolve a source 8.x heading by meaning, not by its number."""
+    compact = re.sub(r"\s+", "", str(label or "")).casefold()
+    if any(token in compact for token in ("暴露控制", "exposurecontrol")):
+        return "ppe"
+    if any(token in compact for token in ("控制参数", "工程控制", "controlparameters", "engineeringcontrols")):
+        return "control"
+    return None
+
+
 def extract_s8(table, ext: Extraction) -> tuple[list, list]:
     """Map source 8.1/8.2 semantics into the formal template slots.
 
@@ -357,39 +554,50 @@ def extract_s8(table, ext: Extraction) -> tuple[list, list]:
     and the engineering-control value under ``8.2``; map by meaning, never by
     source row position.
     """
-    exposure_rows = []
+    ppe_rows: dict[str, list[str]] = {}
     control_lines = []
     mode = None
     for index in range(1, len(table.rows)):
-        cells = row_texts(table, index)
+        cells = _s8_row_texts(table, index)
         label = cells[0] if cells else ""
         value = cells[1] if len(cells) > 1 else ""
         if re.match(r"^\s*8\.1(?!\d)", label, re.I):
-            mode = "control"
-            if value and value != label:
-                control_lines.extend(line for line in value.splitlines() if line.strip())
+            mode = _s8_heading_mode(label) or mode
+            if mode == "control" and value and value != label:
+                control_lines.extend(line.strip() for line in value.splitlines() if line.strip())
             continue
         if re.match(r"^\s*8\.2(?!\d)", label, re.I):
-            mode = "exposure"
+            mode = _s8_heading_mode(label) or mode
+            if mode == "control" and value and value != label:
+                control_lines.extend(line.strip() for line in value.splitlines() if line.strip())
             continue
-        split = split_inline_protective_material(label)
-        if split:
-            label, value = split
-        elif value and value == label:
+        if value and value == label:
             value = ""
         if "工作场所组分控制参数" in label or "control parameters for workplace components" in label.casefold():
             continue
-        if mode == "control":
-            control_lines.extend(line for line in label.splitlines() if line.strip())
-            control_lines.extend(line for line in value.splitlines() if line.strip())
+        key, recovered_value, contaminated = split_s8_label_value(label, value)
+        if key is not None:
+            if contaminated:
+                ext.flag(
+                    "s8",
+                    "inline-label-value-contamination",
+                    f"{label!r}; authoritative value cell retained",
+                )
+            if key in ppe_rows and ppe_rows[key][1] and recovered_value:
+                ppe_rows[key][1] = f"{ppe_rows[key][1]}\n{recovered_value}".strip()
+                ext.flag("s8", "duplicate-ppe-label", key)
+            else:
+                ppe_rows[key] = [canonical_s8_label(key, "zh"), recovered_value]
             continue
-        if mode == "exposure":
-            # The formal template intentionally leaves this label's value
-            # blank; it is not a customer-facing field for this workflow.
-            if re.match(r"^\s*(?:建议|recommendation)\b", label, re.I):
-                value = ""
-            exposure_rows.append([label, value])
-    rows = [["8.1 暴露控制：", ""]] + exposure_rows
+        if mode == "control":
+            control_lines.extend(line.strip() for line in label.splitlines() if line.strip())
+            control_lines.extend(line.strip() for line in value.splitlines() if line.strip())
+            continue
+        if label or value:
+            ext.flag("s8", "unmapped-ppe-row", f"{label!r} / {value!r}")
+
+    rows = [["8.1 暴露控制：", ""]]
+    rows.extend(ppe_rows[key] for key in S8_PPE_ORDER if key in ppe_rows)
     rows.append(["8.2 工程控制：", "\n".join(control_lines)])
     return rows, _control_parameter_records(table, ext)
 
@@ -800,9 +1008,19 @@ def source_mapping_draft(sections: dict, control_parameters: list,
             return "\n".join(text_value(item) for item in value if text_value(item))
         return str(value or "").strip()
 
-    def add(section: str, locator: str, value: object, target_slot: str | None = None):
+    def add(section: str, locator: str, value: object, target_slot: str | None = None,
+            *, source_kind: str = "fact", group_key: str | None = None,
+            source_heading: str | None = None, has_statements: bool | None = None):
         text = text_value(value)
         if not text:
+            return
+        # These two fallback values are controlled conclusions derived from an
+        # explicit non-hazard source classification, not independent source
+        # facts. Keeping them out of the ledger prevents a synthetic fallback
+        # from being mistaken for a source cell with its own locator.
+        if section == "s2" and locator in {"s2.signal", "s2.label_elements"} \
+                and text in {"无信号词", "无危险的象形图警示性说明", "No signal word",
+                             "No hazard pictograms or precautionary statements"}:
             return
         # This is a normalized destination-only heading emitted by the S8
         # semantic adapter, not a source fact.  Keeping it out of the ledger
@@ -814,7 +1032,7 @@ def source_mapping_draft(sections: dict, control_parameters: list,
         unit_ids = source_unit_ids(section, text)
         item = {
             "fact_id": fact_id,
-            "source_kind": "fact",
+            "source_kind": source_kind,
             "source_locator": locator,
             "source_section": section,
             "source_text": text,
@@ -827,8 +1045,14 @@ def source_mapping_draft(sections: dict, control_parameters: list,
             "line_break_policy": line_break_policy(section, text),
             "review_status": "pending",
         }
+        if group_key is not None:
+            item["group_key"] = group_key
+        if source_heading is not None:
+            item["source_heading"] = source_heading
+        if has_statements is not None:
+            item["has_statements"] = has_statements
         items.append(item)
-        fact_ledger.append({
+        ledger_item = {
             "fact_id": fact_id,
             "source_section": section,
             "source_locator": locator,
@@ -838,14 +1062,74 @@ def source_mapping_draft(sections: dict, control_parameters: list,
             "normalized_value": text,
             "mapping_status": "pending",
             "line_break_policy": line_break_policy(section, text),
-        })
+        }
+        if group_key is not None:
+            ledger_item["group_key"] = group_key
+        if source_heading is not None:
+            ledger_item["source_heading"] = source_heading
+        if has_statements is not None:
+            ledger_item["has_statements"] = has_statements
+        if source_kind != "fact":
+            ledger_item["source_kind"] = source_kind
+        fact_ledger.append(ledger_item)
 
     for section_number in range(1, 17):
         section = f"s{section_number}"
         value = sections.get(section)
         if isinstance(value, dict):
             for field, entries in value.items():
-                if isinstance(entries, list):
+                if section == "s2" and field == "precautionary_groups" \
+                        and isinstance(entries, list):
+                    for index, group in enumerate(entries, start=1):
+                        if not isinstance(group, dict):
+                            continue
+                        statements = group.get("statements") or []
+                        statement_values = []
+                        for statement in statements:
+                            if isinstance(statement, dict):
+                                statement_value = str(statement.get("text") or "").strip()
+                            else:
+                                statement_value = str(statement or "").strip()
+                            if statement_value:
+                                statement_values.append(statement_value)
+                        heading = str(
+                            group.get("source_heading") or group.get("heading") or ""
+                        ).strip()
+                        group_text = "\n".join(
+                            value for value in [heading, *statement_values] if value
+                        )
+                        if not group_text:
+                            continue
+                        key = str(group.get("group_key") or f"group-{index}").strip()
+                        add(
+                            section,
+                            f"s2.precautionary_groups[{index}]",
+                            group_text,
+                            target_slot=f"s2.precautionary_statements.group[{key}]",
+                            source_kind="precautionary_group",
+                            group_key=key,
+                            source_heading=heading,
+                            has_statements=bool(statement_values),
+                        )
+                    continue
+                if isinstance(entries, dict):
+                    for subfield, nested in entries.items():
+                        if isinstance(nested, list):
+                            for index, entry in enumerate(nested, start=1):
+                                add(
+                                    section,
+                                    f"{section}.{field}.{subfield}[{index}]",
+                                    entry,
+                                    target_slot=f"{section}.{field}.{subfield}[{index}]",
+                                )
+                        elif isinstance(nested, str):
+                            add(
+                                section,
+                                f"{section}.{field}.{subfield}",
+                                nested,
+                                target_slot=f"{section}.{field}.{subfield}",
+                            )
+                elif isinstance(entries, list):
                     for index, entry in enumerate(entries, start=1):
                         add(section, f"{section}.{field}[{index}]", entry,
                             target_slot=f"{section}.{field}[{index}]")

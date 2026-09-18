@@ -4,7 +4,10 @@ All CN/EN × Guanzhi/Guocai outputs begin as byte-level copies of the authoritat
 
 Agent-allowed operations are limited to body-value insertion/clearing in
 label-associated value cells, source-presence decisions, and necessary
-complete styled-row insertion/deletion under the section rule. Numeric-prefix
+complete styled-row insertion/deletion under the section rule. In composite
+rows the writable scope is the final value cell or value tail only: S2.8 route
+prefixes and Section 11.1/11.7 middle sublabels remain template-owned even
+when they are not bold. Numeric-prefix
 renumbering, pictogram insertion, company overlay and header/footer model/date
 fields are deterministic runtime-controlled operations, not Agent permissions.
 The OpenSpec execution record and all release gates are mandatory.
@@ -18,3 +21,10 @@ resolved before any value cells are cleared or physical rows are changed.
 Forbidden operations: rebuilding tables from scratch, copying geometry from an old product output, EN-specific table redesign, collapsing endpoints into prose, adding/removing columns, changing merges to fit translation, independently deciding item presence in each variant, leaving a blank value row, or writing any value through a sequence/label cell.
 
 Four outputs share one semantic item-presence manifest. Language affects wording only; company affects supplier fields only.
+
+Value typography is strict: template-prepared bold content is a locked label
+or structural object. Every writable value is inherited from its value
+anchor with bold removed or explicitly disabled, while all other typography
+and layout properties remain inherited. A non-empty bold value is a release
+blocker; the audit must distinguish it from legitimate bold labels and
+template-owned prefixes.

@@ -1,0 +1,7 @@
+{
+  "kind": "legacy-word",
+  "source_formats": ["doc", "odt", "rtf"],
+  "expected_adapter": "libreoffice-docx-cache",
+  "formal_output": false,
+  "template_mutation": false
+}

@@ -38,8 +38,9 @@ label cells. Only the corresponding value cells may be written or suppressed.
 The source `2.2 标签要素` is the label-ingredient explanation slot, normally
 containing `必须列在标签上的有害成分：` and the source ingredient on a
 separate logical line. It is not the `2.4 信号词` slot; signal word is a
-separate exact value (`危险`/`警告` or `Danger`/`Warning`). Label-ingredient
-prose in the signal-word slot is a release blocker.
+separate controlled value (`危险`/`警告`, `无信号词`/`No signal word`, `无`/`None`,
+or `Not applicable`). Label-ingredient prose and unresolved free text in the
+signal-word slot are release blockers.
 
 ## Layout rule
 The bundled formal template is the layout authority. Preserve its table/cell
@@ -61,6 +62,13 @@ For EN output, one Arial 12-point `w:rPr` exemplar from the active EN
 template is applied to every inserted non-bold value run, including values
 written into originally blank template slots. Paragraph geometry remains
 destination-specific; labels, sublabels and table formatting remain locked.
+
+Every writable value is required to be non-bold, including values whose
+legacy template anchor or paragraph mark is bold. The writer may remove or
+explicitly disable only the value run's bold property and must retain the
+anchor's other font, size, color, language and spacing properties. Pre-existing
+bold labels, sequence cells, headers, sublabels and composite route prefixes
+are locked template content and are not checked as values.
 
 ## Omission rule
 Do not leave empty labels. Remove unsupported items at the smallest safe display unit while preserving neighboring supported items and table integrity.
@@ -123,6 +131,17 @@ A file is accepted only after automated audits and full-page rendered visual ins
   authoritative for labels, slot order and formatting.
 
 
+## Section 2 disjoint fact routing rule
+
+Section 2 values must be planned through the stable semantic router before
+template overwrite. The emergency-overview value is source-explicit only; it
+cannot be synthesized from 2.5 hazard statements, 2.7 physical/chemical
+hazards, 2.8 health hazards or 2.10 other hazards. A source fact is exclusive
+to one Section 2 target by default. A reviewed `shared` exception must list all
+approved targets and state why reuse is semantically required. Mapping and
+output traceability must agree with the same stable target, not merely with
+similar text or an output row number. Generic positional targets are a blocker.
+
 ## Section 2 H/P line-wrapping rule
 For the template fields “危险性说明” and “防范说明”:
 1. Detect complete hazard statements beginning with `Hxxx` or `EUHxxx`.
@@ -153,7 +172,7 @@ For the template fields “危险性说明” and “防范说明”:
 7. Audit ordinary sections after renumbering for gaps, duplicates, wrong section prefixes and formatting drift. Sections 11/12 retain standard source endpoint numbers after omission; audit them for order and duplicate re-entry instead of renumbering endpoints.
 8. Required operation order: semantic mapping -> suppress unsupported/missing-data items -> whitespace cleanup -> continuous renumber -> locked-format audit -> Section 2 H/P layout audit -> render/visual QA.
 
-Semantic slot mapping is mandatory. In Section 1, leave `1.1 产品名称` blank and put `中文名称 + 型号` in the existing `中文名称` value cell. In Section 8, map source `8.1 控制参数` to the template `8.2 工程控制` value and source PPE rows under the template `8.1 暴露控制` block; the fixed `建议` label has no output value. In Section 12, source `生态毒性` must populate template `12.1`, not either template-only leading explanation row. Synthetic spaced-slash separators are converted to semantic line breaks; a slash-only line blocks release.
+Semantic slot mapping is mandatory. In Section 1, leave `1.1 产品名称` blank and put `中文名称 + 型号` in the existing `中文名称` value cell. In Section 8, map source `8.1 控制参数` to the template `8.2 工程控制` value and source PPE rows under the template `8.1 暴露控制` block; the fixed `建议` label is immutable, while its non-bold value cell is populated only when a substantive source recommendation is reviewed. In Section 12, source `生态毒性` must populate template `12.1`, not either template-only leading explanation row. Synthetic spaced-slash separators are converted to semantic line breaks; a slash-only line blocks release.
 
 ## Product identity placement (mandatory)
 For the current Guanzhi template, product identity is not duplicated across all Section 1 fields. Apply this without waiting for user correction:

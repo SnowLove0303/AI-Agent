@@ -82,3 +82,33 @@ The following are hard invariants, not optimization choices:
 The measurable performance baseline must be collected from comparable Harness
 runs. The contract deliberately does not turn the historical report's rough
 percentages into a false SLA.
+
+## V3.26 efficiency addendum
+
+V3.26 keeps the same four-stage order and adds bounded reuse/measurement:
+
+- The formal CLI accepts `--cache-dir`; source-adapter cache entries are bound
+  to the original source hash, format and adapter contract. A cache hit only
+  avoids repeated mechanical preparation. It never approves facts or skips
+  source mapping, traceability or release gates.
+- A read-only `AuditContext` is constructed once per staged DOCX after save.
+  Compatible locked-skeleton, value-typography, value-whitespace, empty-row
+  and numbering observations may reuse it. Persisted DOCX/ZIP, terminology,
+  PDF-lineage and final matrix checks remain independent saved-file gates.
+- `matrix-report.json` records additive `timing.cache`, `timing.pdf`,
+  `timing.time_categories`, per-variant wall times and final artifact hashes.
+  Machine time is measured by the pipeline; Agent/manual review and human
+  wait time are `null` unless explicitly supplied by the caller.
+- WPS conversion remains bounded threaded execution, with `--pdf-workers 1`
+  as the conservative serial fallback and `2` as the default. Process pools
+  and resident COM/WPS sessions are not enabled by default until comparable
+  stability evidence exists.
+- Run `python scripts/benchmark_efficiency.py --source SRC.docx` for a
+  non-publishing cold/warm evidence-cache measurement. Add `--facts MODEL.json`
+  to compare DOCX-only or PDF-enabled matrix runs at worker counts `1,2,3`
+  (or another explicit list). All benchmark output is temporary and is
+  removed before the command returns.
+
+The benchmark output is evidence, not a guaranteed duration or speedup. A
+converter failure is reported as a failure sample and cannot be reclassified
+as a successful release.

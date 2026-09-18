@@ -11,8 +11,13 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from family_profile import FamilyProfileError, review_profile  # noqa: E402
 from msds_pipeline import approved_facts_errors  # noqa: E402
-from source_ingest import SourceSelectionError, discover_source  # noqa: E402
+from source_ingest import (  # noqa: E402
+    SourceSelectionError,
+    discover_source,
+    prepare_source,
+)
 
 
 def _write_json_atomic(path: Path, payload: dict) -> None:
@@ -32,7 +37,9 @@ def _write_json_atomic(path: Path, payload: dict) -> None:
             temporary.unlink()
 
 
-def run(source: Path, facts_path: Path, model: str | None = None) -> dict:
+def run(source: Path, facts_path: Path, model: str | None = None,
+        *, family_profile: Path | None = None,
+        cache_dir: Path | None = None) -> dict:
     """Return all blockers without loading a template or resolving WPS."""
     facts = json.loads(Path(facts_path).read_text(encoding="utf-8"))
     if not isinstance(facts, dict):
@@ -50,6 +57,22 @@ def run(source: Path, facts_path: Path, model: str | None = None) -> dict:
         }
     selected = discover_source(Path(source), model=resolved_model)
     errors = approved_facts_errors(facts, selected.original_path, resolved_model)
+    profile_report = None
+    if family_profile is not None:
+        cache_root = (Path(cache_dir).expanduser().resolve()
+                      if cache_dir is not None
+                      else Path(facts_path).expanduser().resolve().parent / ".msds_cache")
+        try:
+            with prepare_source(selected, cache_dir=cache_root) as prepared:
+                profile_report = review_profile(
+                    family_profile, selected.original_path, resolved_model,
+                    prepared_source=prepared.extraction_path,
+                )
+        except (FamilyProfileError, OSError, ValueError) as exc:
+            errors.append(f"family profile: {exc}")
+        else:
+            errors.extend("family profile: " + error
+                          for error in profile_report.get("errors", []))
     return {
         "status": "ready" if not errors else "blocked",
         "errors": errors,
@@ -58,6 +81,8 @@ def run(source: Path, facts_path: Path, model: str | None = None) -> dict:
         "source_format": selected.source_format,
         "source_sha256": selected.source_sha256,
         "facts": str(Path(facts_path).resolve()),
+        "cache_dir": str(cache_root) if family_profile is not None else None,
+        "family_profile": profile_report,
         "template_clone_started": False,
         "pdf_converter_started": False,
         "next_action": "build_eight" if not errors else "fix every listed blocker, then rerun preflight",
@@ -77,9 +102,14 @@ def main() -> int:
     parser.add_argument("--facts", required=True, type=Path)
     parser.add_argument("--model", default=None)
     parser.add_argument("--out", type=Path, default=None)
+    parser.add_argument("--family-profile", type=Path, default=None)
+    parser.add_argument("--cache-dir", type=Path, default=None)
     args = parser.parse_args()
     try:
-        result = run(args.source or args.source_dir, args.facts, args.model)
+        result = run(
+            args.source or args.source_dir, args.facts, args.model,
+            family_profile=args.family_profile, cache_dir=args.cache_dir,
+        )
     except (OSError, json.JSONDecodeError, SourceSelectionError, ValueError, RuntimeError) as blocked:
         result = {"status": "blocked", "errors": [str(blocked)]}
     if args.out is not None:

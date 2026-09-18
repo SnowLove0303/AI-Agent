@@ -25,8 +25,19 @@ baseline is adopted:
 - header/footer structure and dynamic page-number fields.
 
 The first physical cell of a normal field row is treated as the sequence/label
-cell. In structured rows, the sublabel cell retains the template's formatting;
-only its approved source-grounded subvalue may be written.
+cell. In structured rows, template-owned sublabel cells retain both their
+exact text and formatting; only the final value cell may be written. This
+rule applies even when a sublabel is not bold.
+
+Section 2.8 is a composite exception to the simple “second cell is value”
+shape. In the maintained two-column CN/EN templates, the second cell already
+contains a template-owned route prefix (`吸入：`, `食入：`, `皮肤：`, `眼睛：`,
+or `症状和体征：`; the runtime also recognizes the exact maintained English
+equivalent). The prefix remains in its original run tree. The runtime writes
+only a value tail after a semantic line break, and clearing the slot restores
+the prefix-only cell. If a separately maintained three-column S2.8 layout is
+encountered, the middle route cell is locked and only the final cell is
+writable.
 
 For Section 11.1 and 11.7 three-column rows, the middle sublabel cell is
 always locked template text. The runtime must align facts to the fixed Section
@@ -34,12 +45,34 @@ always locked template text. The runtime must align facts to the fixed Section
 source fact list may not be projected by physical list position. See
 `scripts/section11_alignment.py`.
 
+The physical topology is part of the same lock: Section 3 data rows remain
+three physical cells, Section 8.2 data rows remain four physical cells, and
+their `gridSpan`, `vMerge`, table grid and row boundaries are not editable.
+Bold labels/runs are hard locks, and non-bold route prefixes or sublabels are
+also hard locks because ownership is semantic, not inferred from boldness.
+
 The runtime creates a slot registry from the fresh template clone before it
 clears values. Non-empty value objects are writable; blank value objects remain
 locked unless an explicit semantic input exception exists (for example the
 product-name and emergency-overview inputs). The formal Section 8 `建议 /
-Recommendation` value is not an input slot and remains blank. A source-absent blank slot remains blank and is
-recorded in the source-presence audit, rather than receiving invented text.
+Recommendation` value is an explicit source-gated input slot: a reviewed,
+substantive source recommendation may be written in its non-bold value cell;
+when the source is absent, the value remains blank and is recorded in the
+source-presence audit rather than receiving invented text.
+Global value typography is also a hard boundary: every non-empty writable
+value must be non-bold. The value may inherit its template anchor's font,
+size, color, language, spacing and other character properties, but direct
+bold and paragraph-inherited bold must be removed or explicitly disabled on
+the value run. This applies to ordinary fields, S3/S8.2 data cells, S11 final
+endpoint cells, one-cell S15/S16 notes and Section 2.8 value tails. The
+pre-bolded template labels, sequence cells, headers, sublabels and route
+prefixes remain locked and are not value targets. In Section 15, the bold
+structural headings `其它的规定：` and `符合下列法规要求：` (and their exact
+English template equivalents) are also locked one-cell headings, not writable
+one-cell note values. Their semantic recognition is independent of physical
+row index, so approved omission of another Section 15 row can never unlock
+them.
+
 The active CN/EN baseline label text is copied exactly. Any tab or other text
 present in a label in the approved template is template-owned and is not
 cleaned, shortened or normalized during overwrite.
@@ -63,9 +96,9 @@ Only the following operations are permitted:
 4. Write S8.2 top-level data rows as exactly four values: substance, basis,
    type and value. If more verified records exist than the template's two
    example rows, clone the existing styled data row in place; never rebuild
-   the parent table. With no verified records, remove the second example row
-   and write the exact missing-data placeholder (`无数据` / `No data
-   available`) into the value column of the single remaining data row.
+   the parent table. With no verified records, remove the complete workplace-
+   component block (parent, header and data rows); do not leave a template
+   example or synthesize a missing-data placeholder for an absent block.
 5. Suppress a complete dedicated row when its value is source-absent,
    unsupported or a pure missing-data sentinel under the section policy. The
    runtime may then renumber only numeric prefixes when that policy requires it.
@@ -88,7 +121,7 @@ The generator must fail if it attempts to:
 
 - write a normal row through the label/sequence cell;
 - rebuild label paragraphs/runs or globally normalize locked-cell formatting;
-- change paragraph formatting, label/sublabel run formatting, table geometry,
+- change paragraph formatting, label/sublabel/prefix run formatting, table geometry,
   merges, widths, borders, row heights or page fields. EN body-value run
   character formatting may change only to the single approved exemplar;
 - globally normalize fonts, line spacing, paragraph spacing or indents;
@@ -108,3 +141,28 @@ audit fails when an output changes a surviving row's setting. Repeating headers
 remain enabled where present. Row omission is allowed only for a dedicated
 S2/S9 pure-missing item, a source-absent ordinary field, or the documented
 note-only Sections 11/12 policy; no arbitrary row deletion is accepted.
+
+## v3.25.3 semantic and layout gates
+
+Before this mutation boundary is reached, the Section 2 fact router must have
+confirmed that each non-empty value belongs to its stable semantic destination.
+The emergency-overview value is explicit-source-only; it cannot be assembled
+from other Section 2 hazard rows. One fact is exclusive to one target unless a
+reviewed `shared` exception lists every target and its reason. This semantic
+gate is independent of the locked-label audit and runs before the template is
+cloned.
+
+When S8.2 survives, its five-column grid, four logical data cells, `gridSpan`,
+widths, parent/header rows and data-row properties must remain inherited from a
+fresh clone. When no verified control records exist, the whole S8.2 block may be
+removed together. S11.4 cell vertical alignment must also remain inherited from
+the fresh clone. These output-only checks block drift; they do not modify the
+formal template or perform a global formatting repair.
+
+Section 8 PPE rows are aligned by semantic label before source-presence
+suppression. The value cell is authoritative when a source label cell also
+contains a tabbed or inline tail; the stale tail is retained only in review
+evidence and is never copied into a neighboring label or value. An unmapped
+PPE row is a blocking ambiguity. Output labels are compared with the fresh
+template skeleton; only a label change relative to that baseline is blocked.
+The writer never silently rewrites a template label.

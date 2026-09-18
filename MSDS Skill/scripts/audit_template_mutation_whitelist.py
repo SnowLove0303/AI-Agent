@@ -11,13 +11,15 @@ from docx import Document
 
 from template_mutation_whitelist import (
     audit_cross_page_contract,
+    audit_values_nonbold,
     compare_format_anchors,
     compare_locked_skeleton,
 )
+from layout_preservation_policy import audit_s114_vertical_alignment, audit_s82
 
 
 def audit(template_path: Path, output_path: Path, *, template=None, output=None,
-          language: str = "cn") -> dict:
+          language: str = "cn", context=None) -> dict:
     template = template or Document(str(template_path))
     output = output or Document(str(output_path))
     errors = compare_locked_skeleton(template, output)
@@ -29,6 +31,17 @@ def audit(template_path: Path, output_path: Path, *, template=None, output=None,
         template, output, language=language,
         approved_en_body_rpr=approved_en_body_rpr,
     ))
+    value_typography = audit_values_nonbold(
+        output, language=language, context=context
+    )
+    errors.extend(
+        "value-typography: " + json.dumps(item, ensure_ascii=False, sort_keys=True)
+        for item in value_typography
+    )
+    s82_layout = audit_s82(template, output, language=language)
+    errors.extend("s8.2-layout: " + error for error in s82_layout.get("errors", []))
+    s114_alignment = audit_s114_vertical_alignment(template, output)
+    errors.extend("s11.4-alignment: " + error for error in s114_alignment.get("errors", []))
     cross_page = audit_cross_page_contract(template, output)
     errors.extend(cross_page["errors"])
     result = {
@@ -36,6 +49,9 @@ def audit(template_path: Path, output_path: Path, *, template=None, output=None,
         "output": str(output_path),
         "table_count": len(output.tables),
         "errors": errors,
+        "value_typography": value_typography,
+        "s8_2_layout": s82_layout,
+        "s11_4_alignment": s114_alignment,
         "cross_page": cross_page,
         "status": "passed" if not errors else "failed",
     }

@@ -1,13 +1,27 @@
 {
   "spec_id": "MSDS-SOURCE-INTERPRETATION-001",
-  "version": "1.1.0",
+  "version": "1.3.0",
   "status": "active",
   "purpose": "Fail-closed source coverage, fact provenance, semantic mapping and output traceability contract.",
   "required_top_level_records": [
     "source_coverage",
     "fact_ledger",
     "source_mapping",
-    "output_traceability"
+    "output_traceability",
+    "section2_routing"
+  ],
+  "section2_routing_version": "1.0.0",
+  "section2_semantic_targets": [
+    "emergency_overview",
+    "ghs_classes",
+    "label_elements",
+    "signal_word",
+    "hazard_statements",
+    "precautionary_statements",
+    "physical_chemical_hazards",
+    "health_hazards",
+    "environmental_hazards",
+    "other_hazards"
   ],
   "source_coverage_statuses": ["ready", "needs-review", "blocked"],
   "required_source_coverage_fields": [
@@ -37,6 +51,18 @@
     "mapping_status",
     "line_break_policy"
   ],
+  "precautionary_group_schema": {
+    "source_kind": "precautionary_group",
+    "required_fields": [
+      "group_key",
+      "source_heading",
+      "statements",
+      "has_statements"
+    ],
+    "group_order": ["prevention", "response", "storage", "disposal"],
+    "target": "precautionary_statements",
+    "empty_group_policy": "omit_heading_and_content"
+  },
   "evidence_types": ["explicit", "derived", "translated"],
   "fact_mapping_statuses": [
     "pending",
@@ -80,6 +106,11 @@
     "Section 11 facts were not aligned to the fixed endpoint skeleton before writing",
     "Section 11 locked sublabels were treated as writable values",
     "NCO content was left buried in generic Section 9 other information",
-    "source hash in any evidence record does not match the original source"
+    "source hash in any evidence record does not match the original source",
+    "Section 2 emergency overview is synthesized or routed from another hazard target",
+    "one Section 2 source fact is reused across semantic targets without a reviewed shared exception",
+    "Section 2 trace target disagrees with reviewed semantic mapping",
+    "populated Section 2 precautionary group is flattened, duplicated or silently omitted",
+    "Section 2 precautionary group heading is missing or out of source order in CN/EN output"
   ]
 }

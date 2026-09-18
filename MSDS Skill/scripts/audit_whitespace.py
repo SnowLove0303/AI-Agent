@@ -17,8 +17,10 @@ def unique_cells(row):
         if k not in seen: seen.add(k); out.append(c)
     return out
 
-def run(docx, document=None):
+def run(docx, document=None, context=None):
     """Audit one built DOCX; return the report dict. Import-safe core of main()."""
+    if context is not None:
+        return context.whitespace_report()
     d = document or Document(docx); issues=[]; intentional_breaks=0; intentional_tabs=0
     for ti,t in enumerate(d.tables):
         for ri,row in enumerate(t.rows):

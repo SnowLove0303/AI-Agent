@@ -1,0 +1,16 @@
+{
+  "schema_id": "MSDS-TELEMETRY-326",
+  "version": "3.26.0",
+  "status": "active",
+  "units": "seconds",
+  "required_report_sections": ["stage_events", "stage_totals", "cache", "pdf", "variants", "time_categories"],
+  "time_categories": ["machine", "agent_review", "human_wait", "retry"],
+  "required_variant_fields": ["language", "brand", "docx_seconds", "pdf_seconds"],
+  "required_pdf_fields": ["workers", "batch_seconds", "converter", "lineage_verified"],
+  "failure_policy": "telemetry errors never downgrade release blockers",
+  "benchmark_policy": {
+    "publishes_formal_matrix": false,
+    "requires_same_source_facts_templates_and_converter": true,
+    "reports": ["cold_cache", "warm_cache", "median", "maximum", "failures", "retries"]
+  }
+}

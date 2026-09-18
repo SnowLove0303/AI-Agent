@@ -12,6 +12,7 @@ before editing DOCX XML.
 """
 from __future__ import annotations
 from dataclasses import dataclass
+import re
 
 @dataclass(frozen=True)
 class IdentityExpected:
@@ -27,8 +28,13 @@ def expected_identity(chinese_name: str, model: str) -> IdentityExpected:
         raise ValueError("Chinese product name is required")
     if not model:
         raise ValueError("Product model/code is required")
-    # Avoid accidental duplicate model if source Chinese name already includes it.
-    if chinese_name.endswith(" " + model) or chinese_name == model:
+    # Avoid accidental duplicate model if the source Chinese name already
+    # carries it either with a separator or compactly (for example
+    # ``接着树脂PU-1001``).  Compare the suffix after removing whitespace and
+    # ignoring case; retain the source spelling/spacing in the display value.
+    chinese_compact = re.sub(r"\s+", "", chinese_name).casefold()
+    model_compact = re.sub(r"\s+", "", model).casefold()
+    if chinese_compact.endswith(model_compact):
         combined = chinese_name
     else:
         combined = f"{chinese_name} {model}"

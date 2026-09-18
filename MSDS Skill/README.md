@@ -1,6 +1,21 @@
-# MSDS Skill 3.24.0
+# MSDS Skill 3.26.0
 
 `MSDS Skill` is the controlled MSDS/SDS standardization skill for producing synchronized Chinese and English deliverables for the Guanzhi and Guocai company profiles.
+
+V3.25.3 makes the value typography, Section 2 route semantics, Section 8 PPE alignment and layout boundaries explicit: template-bold content
+is locked label/structure content; every writable value is inherited from the
+template value anchor with bold removed or explicitly disabled. A semantic
+release gate blocks any non-empty bold value while ignoring locked labels,
+sublabels, headers and Section 2.8 route prefixes.
+The pre-clone router rejects synthesized Section 2.1 emergency overviews and
+cross-target fact duplication. Output-only S8.2 topology and S11.4 vertical
+alignment audits block structural drift while keeping the formal templates
+byte-pinned.
+
+V3.26.0 adds source/cache reuse, a read-only shared audit context and
+non-publishing efficiency telemetry/benchmarking. It keeps WPS conversion
+bounded and conservative, does not bundle another office engine, and does not
+turn cache hits or benchmark checkpoints into approval or release gates.
 
 ## Scope
 
@@ -13,6 +28,10 @@
 - Section 9 omission of pure missing-data rows followed by continuous renumbering.
 - Source-grounded facts only; example values embedded in the template are not product facts.
 - Locked template geometry, labels, paragraph/run formatting and header/footer conventions.
+- Bold labels/runs, non-bold composite route prefixes and structured middle
+  sublabels are all template-owned locks; S3 remains three physical columns
+  and S8.2 remains four physical columns. Only declared final value cells,
+  source-gated hide decisions and necessary styled row insertions are writable.
 - Section 8.2 uses the formal template's top-level four-column control-parameter rows (`物质 / 依据 / 类型 / 数值`; EN `Substance / Basis / Type / Value`) with source-grounded data-row projection; with no verified records the complete workplace-component block is hidden and no synthetic missing-data row is emitted.
 - Release-blocking audits and full-page visual QA.
 - Feishu 17-section skeleton mutation whitelist: sequence/label columns and
@@ -47,6 +66,9 @@
 - Source interpretation,取舍 and semantic line-break rules are documented in
   `docs/source_interpretation_playbook.md` and enforced by
   `scripts/source_interpretation_contract.py`.
+- V3.25 adds fail-closed source grounding, S15/S16 one-cell de-duplication,
+  Section 11 alias and short-row policies, deterministic WPS timeout cleanup,
+  and per-model `WORD`/`PDF` output isolation.
 - V3.24 fixes the business-stage boundary: the runtime fully extracts source
   information first, performs constrained semantic normalization second,
   overwrites a fixed cloned template third, and performs only bounded
@@ -59,7 +81,7 @@ Read [`SKILL.md`](SKILL.md) for the operating contract. The reusable scripts, te
 
 ## Version
 
-Public release: `MSDS Skill 3.24.0`
+Public release: `MSDS Skill 3.26.0`
 
 Template baseline: the current user-supplied formal CN/EN templates are adopted
 byte-for-byte. CN SHA-256 is
@@ -71,6 +93,19 @@ from the distributable package. Rollback evidence must be stored outside the
 active skill directory.
 
 The public release contains current Skill source and validation assets only.
+Version 3.25.0 adds a second source-grounding audit that rejects template-only
+product values, keeps the full label-ingredient explanation separate from the
+signal-word slot, de-duplicates one-cell S15/S16 payloads, sanitizes empty
+source rows, records the S11.4 short-row exception, isolates final output at
+`OUT/MODEL/WORD` and `OUT/MODEL/PDF`, and kills/reaps owned WPS processes on
+timeout. Version 3.24.2 adds the compatibility patch on top of the locked template
+boundary: source-gated Section 8 recommendations are retained, controlled
+non-hazard signal words are accepted, compact Chinese model suffixes are not
+duplicated, and Section 2 health-hazard composite rows survive legal numeric
+renumbering. Version 3.24.1 hardens the template mutation boundary: Section
+2.8 route prefixes survive clear/overwrite, Section 11 middle sublabels are
+explicitly locked, and physical three-/four-column topology is registered and
+audited.
 Version 3.24.0 adds the four-stage overwrite contract, precomputed semantic
 write plans, actionable expected/actual/diff/hint diagnostics and stage
 telemetry. Version 3.23.0 adds nested-table source extraction, semantic Section 11
@@ -97,6 +132,17 @@ interpreter caches are not part of the release. Stage timings are observational
 and are not a fixed SLA; fast feedback never bypasses final semantic, format,
 geometry, whitespace, source or render gates.
 
+The V3.26 benchmark command writes only to a temporary private directory:
+
+```text
+python scripts/benchmark_efficiency.py --source SRC.docx --facts MODEL.json \
+  --docx-only --worker-counts 1,2,3 --runs 2
+```
+
+The matrix report's additive telemetry distinguishes measured machine time
+from explicitly supplied Agent/manual review and human wait time, records
+source-cache decisions, bounded PDF scheduling and final artifact hashes.
+
 ## DeepSeek Harness run
 
 Run the production entry point once for the reviewed facts model:
@@ -104,7 +150,7 @@ Run the production entry point once for the reviewed facts model:
 ```text
 python scripts/build_eight.py --source SRC.docx --facts MODEL.json --out OUT \
   --pdf-workers 2 --progress-file OUT/matrix-progress.json \
-  --docx-preview-dir OUT/_docx_preview
+  --docx-preview-dir OUT/_docx_preview --cache-dir OUT/.msds_cache
 ```
 
 The command validates the source and facts once, builds all four audited DOCX
@@ -114,6 +160,10 @@ validation, DOCX construction or PDF conversion. Use `--pdf-workers 1` if the
 host WPS process is not concurrency-safe. `--no-pdf` is diagnostic only and
 does not satisfy the eight-file release contract. No LibreOffice or
 `soffice.exe` is bundled or used as a fallback.
+
+Final files are promoted to `OUT/MODEL/WORD` (four DOCX) and
+`OUT/MODEL/PDF` (four PDF); `OUT/MODEL/matrix-report.json` is the corresponding
+matrix evidence. The optional `OUT/_docx_preview` directory is diagnostic only.
 
 Run the unified release audit with:
 
@@ -147,10 +197,17 @@ python scripts/prepare_evidence_packet.py --source SRC.docx --model MODEL `
   --out OUT/evidence-packet.json --cache-dir OUT/.msds_cache
 ```
 
-The packet is review-required and is not approved facts. After the Agent
-finishes the review, run the all-errors preflight before the production build:
+The packet is review-required and is not approved facts. It must never be
+passed as `--facts`; the Agent must complete source mapping, empty decisions,
+traceability and execution acknowledgement in a separate approved model.
+After the Agent finishes the review, run the all-errors preflight before the
+production build:
 
 ```powershell
 python scripts/build_eight.py --source SRC.docx --facts MODEL.json `
   --model MODEL --preflight-only --preflight-report OUT/preflight.json
 ```
+
+The resumable sequence is therefore `prepare packet -> review -> preflight ->
+build`. A matching packet is reported as reused, while stale source bytes,
+adapter/schema changes or an invalid cache entry trigger fresh mechanical work.

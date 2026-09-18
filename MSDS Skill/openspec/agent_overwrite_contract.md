@@ -2,7 +2,7 @@
 
 Status: `ACTIVE`
 Spec ID: `MSDS-AGENT-OVERWRITE-001`
-Version: `1.4.0`
+Version: `1.6.0`
 
 This OpenSpec is the execution-layer contract for the maintained MSDS skill. It
 does not replace the existing requirements documents. It makes their order and
@@ -24,6 +24,7 @@ Before inspecting a source for overwrite, the Agent must read the complete
 - [source_interpretation_contract.md](source_interpretation_contract.md)
 - [source_interpretation_contract.json](source_interpretation_contract.json)
 - [source_interpretation_playbook.md](../docs/source_interpretation_playbook.md)
+- [source_grounding_policy.md](../docs/source_grounding_policy.md)
 - [efficiency_contract.md](efficiency_contract.md)
 - [efficiency_contract.json](efficiency_contract.json)
 
@@ -77,11 +78,11 @@ the detailed actions below may not be reordered across those stage boundaries:
 8. **微调:** after fixed writes, hide empty/unsupported rows before numbering.
    Never leave a bare label row
    or a visible template example without source support.
-10. Reorder the remaining visible main items in semantic order and change only
+9. Reorder the remaining visible main items in semantic order and change only
    their numeric prefixes when the omission policy requires continuity.
-11. Run locked-label, bold-format, geometry, source-coverage, field-mapping,
-    output-traceability and whitespace audits.
-12. Render and inspect every page before release.
+10. Run locked-label, bold-format, geometry, source-coverage, field-mapping,
+   output-traceability and whitespace audits.
+11. Render and inspect every page before release.
 
 Before any value cell is cleared or any XML row is inserted/removed, the
 runtime must have a reviewed semantic write/mutation plan. Stage timing and
@@ -102,9 +103,10 @@ gap. The wording, punctuation, bold formatting, run properties, paragraph
 properties, cell geometry and table structure remain template-owned.
 
 Intentional exceptions are narrow and explicit: the maintained blank product
-name value, the supplier-information parent row, the formal blank
-`Recommendation` value, structural parent/header rows, and endpoint-specific
-missing-data rules already defined by `requirements_spec.md`.
+name value, the supplier-information parent row, the source-gated
+`Recommendation` value (blank only when source-absent), structural
+parent/header rows, and endpoint-specific missing-data rules already defined
+by `requirements_spec.md`.
 
 ## Non-negotiable protections
 
@@ -139,6 +141,11 @@ missing-data rules already defined by `requirements_spec.md`.
   spaces and slash-only lines are never valid substitutes.
 - Body values must use the approved template value formatting and semantic line
   breaks. Tabs, trailing spaces, empty paragraphs and fake spacing are blocked.
+- Every non-empty writable value must be non-bold. It inherits the template
+  value anchor's other typography, while direct or paragraph-inherited bold is
+  removed or explicitly disabled. Template-bold labels, sequence cells,
+  headers, sublabels and Section 2.8 route prefixes remain locked and are
+  excluded from the value check.
 - Table count, grid, merges, borders, widths, row properties, headers/footers
   and page behavior are preserved from the fresh clone.
 - Any failed gate is a release blocker; the Agent must not deliver a partially

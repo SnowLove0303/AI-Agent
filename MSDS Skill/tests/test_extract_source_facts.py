@@ -143,6 +143,9 @@ def test_s2_keeps_label_ingredient_explanation_out_of_signal_word():
         row.cells[0].text = text
     data = extract_s2(table, Extraction())
     assert data["label_ingredients"] == ["基于HDI的亲水脂肪族聚异氰酸酯"]
+    assert data["label_elements"] == [
+        "必须列在标签上的有害成分：\n基于HDI的亲水脂肪族聚异氰酸酯"
+    ]
     assert data["signal"] == "警告"
     assert "基于HDI的亲水脂肪族聚异氰酸酯" not in data["other"]
 
@@ -179,7 +182,7 @@ def test_s11_splits_combined_preamble_before_endpoint_mapping():
     assert rows[0] == ["该产品无可用的毒理学研究。 下面是这些成分的毒理学数据。"] or rows[0][0] == "该产品无可用的毒理学研究。"
 
 
-def test_s8_maps_control_parameters_to_engineering_and_blanks_recommendation():
+def test_s8_maps_control_parameters_to_engineering_and_preserves_recommendation():
     from docx import Document
 
     document = Document()
@@ -197,9 +200,24 @@ def test_s8_maps_control_parameters_to_engineering_and_blanks_recommendation():
     rows, control_parameters = extract_s8(table, Extraction())
     assert rows[0] == ["8.1 暴露控制：", ""]
     assert rows[1] == ["呼吸系统防护：", "喷涂过程中要求有呼吸防护设备。"]
-    assert rows[2] == ["建议：", ""]
+    assert rows[2] == ["建议：", "污染的手套应废弃。"]
     assert rows[-1] == ["8.2 工程控制：", "根据EC指令2006/121/EG,无可用的接触限值信息"]
     assert control_parameters == []
+
+
+@pytest.mark.parametrize(
+    "signal", ["无信号词", "无", "None", "No signal word", "Not applicable"]
+)
+def test_s2_extracts_controlled_non_hazard_signal_values(signal):
+    from docx import Document
+
+    document = Document()
+    table = document.add_table(rows=1, cols=1)
+    for text in ("2.1 GHS classification", f"Signal Word: {signal}"):
+        row = table.add_row()
+        row.cells[0].text = text
+    data = extract_s2(table, Extraction())
+    assert data["signal"] == signal
 
 
 def test_s8_extracts_nested_control_parameter_records_and_coverage(tmp_path):
@@ -273,3 +291,110 @@ def test_s12_keeps_source_121_and_suppresses_only_template_notes():
     assert rows[2][0].startswith("12.1")
     assert rows[3][0].startswith("12.2")
     assert rows[4][0].startswith("12.3")
+
+
+def test_s2_extracts_precautionary_groups_and_does_not_leak_headings_to_other():
+    from docx import Document
+
+    document = Document()
+    table = document.add_table(rows=1, cols=2)
+    row = table.add_row()
+    row.cells[0].text = "S2"
+    row.cells[1].text = (
+        "2.4 \u9632\u8303\u8bf4\u660e\uff1a\n"
+        "\u9884\u9632\u63aa\u65bd\uff1a\n"
+        "P210 \u8fdc\u79bb\u70ed\u6e90\u3002\n"
+        "\u4e8b\u6545\u54cd\u5e94\uff1a\n"
+        "P304+P340 \u5982\u679c\u5438\u5165\uff1a\u5c06\u4eba\u5458\u79fb\u5230\u7a7a\u6c14\u65b0\u9c9c\u5904\u3002\n"
+        "\u5b89\u5168\u50a8\u5b58\uff1a\n"
+        "\u5e9f\u5f03\u5904\u7f6e\uff1a\n"
+        "P501 \u6309\u7167\u89c4\u5b9a\u5904\u7f6e\u3002"
+    )
+
+    data = extract_s2(table, Extraction())
+    assert [group["group_key"] for group in data["precautionary_groups"]] == [
+        "prevention", "response", "storage", "disposal",
+    ]
+    assert [len(group["statements"]) for group in data["precautionary_groups"]] == [1, 1, 0, 1]
+    assert all("\u9884\u9632\u63aa\u65bd" not in line for line in data["other"])
+    assert all("\u4e8b\u6545\u54cd\u5e94" not in line for line in data["other"])
+    assert all("\u5b89\u5168\u50a8\u5b58" not in line for line in data["other"])
+    assert all("\u5e9f\u5f03\u5904\u7f6e" not in line for line in data["other"])
+
+
+def test_s2_extracts_inline_group_boundary_without_merging_heading_into_statement():
+    from docx import Document
+
+    document = Document()
+    table = document.add_table(rows=1, cols=2)
+    row = table.add_row()
+    row.cells[0].text = "S2"
+    row.cells[1].text = (
+        "\u9884\u9632\u63aa\u65bd\uff1aP201 \u4f7f\u7528\u524d\u53d6\u5f97\u4e13\u95e8\u8bf4\u660e\u3002"
+        "\u4e8b\u6545\u54cd\u5e94\uff1aP304+P340 \u5982\u679c\u5438\u5165\uff0c\u5c06\u4eba\u5458\u79fb\u5230\u7a7a\u6c14\u65b0\u9c9c\u5904\u3002"
+    )
+    data = extract_s2(table, Extraction())
+    assert [group["group_key"] for group in data["precautionary_groups"]] == ["prevention", "response"]
+    assert data["precautionary_groups"][0]["statements"][0]["code"] == "P201"
+    assert data["precautionary_groups"][1]["statements"][0]["code"] == "P304+P340"
+
+
+def test_s2_does_not_promote_heading_like_prose_outside_precautionary_context():
+    from docx import Document
+
+    document = Document()
+    table = document.add_table(rows=1, cols=2)
+    row = table.add_row()
+    row.cells[0].text = "S2"
+    row.cells[1].text = (
+        "2.1 \u5e94\u6025\u60c5\u51b5\u6982\u8ff0\uff1a\u4e8b\u6545\u54cd\u5e94\uff1a\u6309\u7167\u5e94\u6025\u7a0b\u5e8f\u5904\u7406\u3002\n"
+        "2.2 GHS \u5206\u7c7b\uff1a\u672a\u5206\u7c7b"
+    )
+    data = extract_s2(table, Extraction())
+    assert data["precautionary_groups"] == []
+    assert data["p_statements"] == []
+
+
+def test_s2_records_orphan_group_for_review_but_projection_suppresses_it():
+    from docx import Document
+
+    document = Document()
+    table = document.add_table(rows=1, cols=2)
+    row = table.add_row()
+    row.cells[0].text = "S2"
+    row.cells[1].text = (
+        "2.4 \u9632\u8303\u8bf4\u660e\uff1a\n"
+        "\u5b89\u5168\u50a8\u5b58\uff1a"
+    )
+    ext = Extraction()
+    data = extract_s2(table, ext)
+    assert data["precautionary_groups"][0]["group_key"] == "storage"
+    assert data["precautionary_groups"][0]["statements"] == []
+    assert any(item["issue"] == "precautionary-group-orphan" for item in ext.review)
+
+
+def test_source_mapping_draft_keeps_precautionary_group_as_one_semantic_fact():
+    from extract_source_facts import source_mapping_draft
+
+    heading = "\u9884\u9632\u63aa\u65bd\uff1a"
+    statement = "P210 \u8fdc\u79bb\u70ed\u6e90\u3002"
+    sections = {f"s{number}": {} for number in range(1, 17)}
+    sections["s2"] = {
+        "precautionary_groups": [{
+            "group_key": "prevention",
+            "source_heading": heading,
+            "source_locator": "s2.line[2]",
+            "statements": [{"code": "P210", "text": statement}],
+        }],
+    }
+    coverage = {
+        "source_units": [
+            {"unit_id": "SRC-1", "source_section": "s2", "text": heading},
+            {"unit_id": "SRC-2", "source_section": "s2", "text": statement},
+        ]
+    }
+    result = source_mapping_draft(sections, [], [], coverage, "PU-1002", "hash")
+    group_items = [item for item in result["items"] if item.get("source_kind") == "precautionary_group"]
+    assert len(group_items) == 1
+    assert group_items[0]["target_slot"] == "s2.precautionary_statements.group[prevention]"
+    assert group_items[0]["source_unit_ids"] == ["SRC-1", "SRC-2"]

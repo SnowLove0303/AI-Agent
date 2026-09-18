@@ -1,0 +1,7 @@
+{
+  "kind": "direct-docx",
+  "source_format": "docx",
+  "expected_adapter": "direct-docx",
+  "formal_output": false,
+  "template_mutation": false
+}

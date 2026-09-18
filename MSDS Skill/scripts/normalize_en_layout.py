@@ -21,7 +21,10 @@ from docx.oxml.ns import qn
 from docx.shared import Pt
 
 from template_mutation_whitelist import (
+    composite_prefix_text,
+    composite_value_cell_index,
     english_body_cells as whitelist_english_body_cells,
+    is_s15_locked_heading_row,
     unique_cells as whitelist_unique_cells,
 )
 
@@ -86,9 +89,11 @@ def _approved_body_rpr(reference_document):
     run from the maintained template and use only its ``w:rPr`` for inserted
     non-bold value text.  Paragraph properties remain destination-specific.
     """
-    for table in reference_document.tables[:16]:
+    for table_index, table in enumerate(reference_document.tables[:16]):
         for row_index, row in enumerate(table.rows):
             if row_index == 0:
+                continue
+            if table_index == 14 and is_s15_locked_heading_row(row):
                 continue
             cells = unique_cells(row)
             for cell_index, cell in enumerate(cells):
@@ -175,6 +180,10 @@ def sync_en_template_text_format(document, template_path: str | Path, reference_
             break
         reference_table = reference.tables[table_index]
         for row_index, row in enumerate(table.rows):
+            if table_index == 14 and is_s15_locked_heading_row(row):
+                # Section 15 structural headings keep the exact fresh-clone
+                # paragraph/run properties; they are not EN body values.
+                continue
             ref_row = _reference_row(reference_table, table, table_index, row, row_index)
             if ref_row is None:
                 continue
@@ -191,6 +200,42 @@ def sync_en_template_text_format(document, template_path: str | Path, reference_
                 body_cells = english_body_cells(table_index, row_index, row)
                 is_body_cell = any(hash(cell._tc) == hash(body_cell._tc)
                                    for body_cell in body_cells)
+                composite_index = composite_value_cell_index(row) \
+                    if table_index == 1 else None
+                if composite_index == cell_index:
+                    # S2.8's route prefix shares a physical cell with the
+                    # value tail in the maintained template.  Normalize only
+                    # runs after the prefix; the prefix run properties are
+                    # template-owned even when the prefix itself is non-bold.
+                    prefix = composite_prefix_text(row)
+                    cursor = 0
+                    for paragraph_index, paragraph in enumerate(cell.paragraphs):
+                        if paragraph_index >= len(ref_cell.paragraphs):
+                            ref_paragraph = ref_cell.paragraphs[-1]
+                        else:
+                            ref_paragraph = ref_cell.paragraphs[paragraph_index]
+                        # This cell is already a fresh clone of the matching
+                        # S2.8 template row.  Its paragraph properties include
+                        # row-specific border/merge presentation; replacing
+                        # them with a label-occurrence anchor can select the
+                        # wrong repeated child row.  Preserve the destination
+                        # pPr and normalize only the writable value-tail RPR.
+                        for run_index, run in enumerate(paragraph.runs):
+                            text = run.text or ""
+                            prefix_run = cursor < len(prefix)
+                            if text and not prefix_run and not run.bold:
+                                _replace_child(run._r, qn("w:rPr"), body_rpr)
+                            elif text and prefix_run:
+                                # Keep the route-prefix RPR exactly as cloned.
+                                pass
+                            else:
+                                ref_runs = ref_paragraph.runs
+                                ref_run = ref_runs[min(run_index, len(ref_runs) - 1)] \
+                                    if ref_runs else None
+                                ref_rpr = ref_run._r.rPr if ref_run is not None else None
+                                _replace_child(run._r, qn("w:rPr"), ref_rpr)
+                            cursor += len(text)
+                    continue
                 if len(cells) > 1 and cell_index == 0 and not is_body_cell:
                     continue
                 ref_cell = ref_cells[min(cell_index, len(ref_cells) - 1)]
@@ -236,6 +281,8 @@ def normalize_en_document(document, template_path: str | Path | None = None,
         for row_index, row in enumerate(table.rows):
             cells = unique_cells(row)
             if not cells:
+                continue
+            if table_index == 14 and is_s15_locked_heading_row(row):
                 continue
             if row_index == 0:
                 # Keep the template heading's automatic numbering and only

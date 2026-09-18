@@ -78,16 +78,51 @@ def find_wpscli(explicit: str | None = None) -> str:
     )
 
 
+def _run_command(command: list[str], *, timeout: int, creationflags: int = 0):
+    """Run one owned WPS command and release it deterministically.
+
+    ``subprocess.run(timeout=...)`` terminates its child only after the
+    timeout exception has escaped.  WPS may still hold the input/output DOCX
+    or its temporary directory during that window, which is the source of the
+    intermittent WinError 32 reports in Harness runs.  Keeping the process
+    handle here lets us kill and reap the exact converter process we started
+    before the caller cleans the temporary directory.  We deliberately do not
+    use a broad process-name kill or terminate unrelated office sessions.
+    """
+    process = subprocess.Popen(
+        command,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        creationflags=creationflags,
+    )
+    try:
+        stdout, stderr = process.communicate(timeout=timeout)
+    except subprocess.TimeoutExpired:
+        try:
+            process.kill()
+        finally:
+            # Reap the owned process so its handles are closed before the
+            # TemporaryDirectory context removes generated files.
+            process.communicate()
+        raise
+    finally:
+        # Defensive cleanup for test doubles and unusual process wrappers;
+        # normal completed processes already return a non-None poll value.
+        if process.poll() is None:
+            try:
+                process.kill()
+            finally:
+                process.communicate()
+    return subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
+
+
 @lru_cache(maxsize=8)
 def version(wpscli: str) -> str:
     try:
-        result = subprocess.run(
-            [wpscli, "--version"],
-            check=False,
-            capture_output=True,
-            text=True,
-            timeout=30,
-        )
+        result = _run_command([wpscli, "--version"], timeout=30)
         return (result.stdout or result.stderr).strip()
     except Exception as exc:  # pragma: no cover - diagnostic fallback
         return f"unavailable: {exc}"
@@ -136,16 +171,7 @@ def preflight(template_path: Path, timeout: int = 30,
         ]
         flags = getattr(subprocess, "CREATE_NO_WINDOW", 0) if os.name == "nt" else 0
         try:
-            result = subprocess.run(
-                command,
-                check=False,
-                capture_output=True,
-                text=True,
-                encoding="utf-8",
-                errors="replace",
-                timeout=timeout,
-                creationflags=flags,
-            )
+            result = _run_command(command, timeout=timeout, creationflags=flags)
         except subprocess.TimeoutExpired as exc:
             raise RuntimeError(
                 f"WPS converter preflight timed out after {timeout}s; "
@@ -201,16 +227,7 @@ def convert(input_path: Path, output_path: Path, timeout: int = 300,
             "--json",
         ]
         try:
-            result = subprocess.run(
-                command,
-                check=False,
-                capture_output=True,
-                text=True,
-                encoding="utf-8",
-                errors="replace",
-                timeout=timeout,
-                creationflags=flags,
-            )
+            result = _run_command(command, timeout=timeout, creationflags=flags)
         except subprocess.TimeoutExpired as exc:
             raise RuntimeError(f"WPS DOCX-to-PDF conversion timed out after {timeout}s") from exc
         if result.returncode != 0 or not generated.is_file() or generated.stat().st_size == 0:

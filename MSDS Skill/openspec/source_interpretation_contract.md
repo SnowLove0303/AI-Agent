@@ -2,7 +2,7 @@
 
 Status: `ACTIVE`
 Spec ID: `MSDS-SOURCE-INTERPRETATION-001`
-Version: `1.1.0`
+Version: `1.2.0`
 
 This contract prevents the Agent from treating an incomplete extraction or a
 semantic guess as an approved MSDS fact model. It is an evidence gate between
@@ -12,7 +12,7 @@ the locked-template and value-cell-only contract in
 
 ## Mandatory intermediate records
 
-An approved facts JSON must contain all four records below:
+An approved facts JSON must contain all five records below:
 
 1. `source_coverage`: the source inventory and reading-completeness result;
 2. `fact_ledger`: one stable-ID record for every extracted source fact;
@@ -20,10 +20,40 @@ An approved facts JSON must contain all four records below:
    section;
 4. `output_traceability`: a reviewed record connecting every written value or
    hidden row to its source fact, approved derivation, or explicit absence
-   decision.
+   decision;
+5. `section2_routing`: a reviewed stable semantic route for every mapped
+   Section 2 fact, exclusive by default with explicit reviewed sharing only.
 
 The build is blocked before a template is cloned when any record is absent,
 stale, incomplete or inconsistent with the original source hash.
+
+## Section 2 disjoint routing gate
+
+Section 2 target numbers are presentation only. The approved facts file must
+carry `section2_routing` with version `1.0.0`, status `reviewed`, and one item
+for each mapped Section 2 fact. Items use the stable targets
+`emergency_overview`, `ghs_classes`, `label_elements`, `signal_word`,
+`hazard_statements`, `precautionary_statements`,
+`physical_chemical_hazards`, `health_hazards`, `environmental_hazards` and
+`other_hazards`.
+
+The emergency-overview target accepts only an explicit Section 2 emergency
+source locator and an explicit fact. It may not be derived from H/P statements,
+physical/chemical hazards, health hazards or other hazards. A fact is exclusive
+to one target unless its routing item declares `usage: shared`, supplies a
+complete `approved_targets` list and gives a review reason. The pre-clone gate
+cross-checks source mapping, CN/EN semantic rows and output traceability; a
+generic positional target or a cross-target trace is a blocker.
+
+Precautionary statements have an additional group-level contract. The source
+headings Prevention/预防措施, Response/事故响应, Storage/安全储存 and
+Disposal/废弃处置 are ordered semantic children of the single
+`precautionary_statements` target. A populated source group must have its own
+fact-ledger and mapping record, retain the source heading in CN and the
+controlled English heading in EN, and appear in source order in the existing
+value cell. An orphan heading with no P statement is omitted. Flattening a
+populated group, routing it to `other`, silently dropping it, or using
+`duplicate` is a release blocker.
 
 ## Source coverage gate
 

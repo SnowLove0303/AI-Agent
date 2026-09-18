@@ -15,12 +15,12 @@ import tempfile
 from pathlib import Path
 
 from extract_source_facts import extract
-from source_ingest import SourceSelection, source_adapter_cache_key
+from source_ingest import SourceSelection, discover_source, source_adapter_cache_key
 
 
 SKILL_ROOT = Path(__file__).resolve().parent.parent
 VERSION_PATH = SKILL_ROOT / "VERSION.txt"
-PACKET_SCHEMA_VERSION = "3.24.0"
+PACKET_SCHEMA_VERSION = "3.26.0"
 
 
 def _sha256(path: Path) -> str:
@@ -92,6 +92,75 @@ def _matches(packet: object, selection: SourceSelection, model: str | None,
         and packet.get("model") == (model or draft.get("model") if isinstance(draft, dict) else model)
         and isinstance(draft, dict)
         and draft.get("source_sha256") == selection.source_sha256
+    )
+
+
+def looks_like_evidence_packet(payload: object) -> bool:
+    """Identify a mechanical packet before it can be mistaken for approved facts."""
+    return isinstance(payload, dict) and (
+        "packet_schema_version" in payload
+        or "facts_draft" in payload
+        or payload.get("build_allowed") is False
+    )
+
+
+def validate_packet_provenance(packet: object, selection: SourceSelection,
+                               model: str | None = None,
+                               *, require_build_allowed: bool = False) -> list[str]:
+    """Validate packet identity and, optionally, direct-build eligibility.
+
+    A generated packet is intentionally ``needs-review`` and
+    ``build_allowed: false``.  The default mode therefore validates it as an
+    evidence reference only.  ``require_build_allowed=True`` is used by
+    callers that are checking whether a packet was incorrectly supplied as
+    the approved facts model; that path must fail closed.
+    """
+    errors: list[str] = []
+    if not isinstance(packet, dict):
+        return ["evidence packet must be a JSON object"]
+    expected_key = packet_cache_key(selection, model)
+    source = packet.get("source")
+    draft = packet.get("facts_draft")
+    if packet.get("packet_schema_version") != PACKET_SCHEMA_VERSION:
+        errors.append("evidence packet schema version does not match active extractor")
+    if packet.get("packet_cache_key") != expected_key:
+        errors.append("evidence packet cache key does not match source/model/contracts")
+    if not isinstance(source, dict):
+        errors.append("evidence packet source identity is missing")
+    else:
+        if source.get("sha256") != selection.source_sha256:
+            errors.append("evidence packet source_sha256 does not match selected source")
+        if source.get("format") != selection.source_format:
+            errors.append("evidence packet source format does not match selected source")
+    if not isinstance(draft, dict):
+        errors.append("evidence packet facts_draft is missing")
+    else:
+        if draft.get("source_sha256") != selection.source_sha256:
+            errors.append("evidence packet draft source_sha256 does not match selected source")
+        expected_model = model or draft.get("model")
+        if packet.get("model") != expected_model:
+            errors.append("evidence packet model does not match requested model")
+    if require_build_allowed:
+        if packet.get("status") != "approved" or packet.get("build_allowed") is not True:
+            errors.append(
+                "evidence packet is review-required and cannot be used as approved facts; "
+                "complete source mapping, traceability and Agent review first"
+            )
+        review_queue = packet.get("review_queue")
+        if review_queue not in ([], None):
+            errors.append("evidence packet review_queue is not empty")
+    return errors
+
+
+def packet_direct_build_errors(payload: object, selection: SourceSelection | Path,
+                               model: str | None = None) -> list[str]:
+    """Return explicit blockers when a packet is supplied as the facts model."""
+    if not looks_like_evidence_packet(payload):
+        return []
+    if not isinstance(selection, SourceSelection):
+        selection = discover_source(Path(selection), model=model)
+    return validate_packet_provenance(
+        payload, selection, model, require_build_allowed=True
     )
 
 
@@ -202,5 +271,6 @@ def prepare_packet(source: Path, out: Path, *, model: str | None = None,
 
 __all__ = [
     "PACKET_SCHEMA_VERSION", "make_packet", "packet_cache_key",
-    "prepare_packet", "skill_version",
+    "prepare_packet", "skill_version", "looks_like_evidence_packet",
+    "validate_packet_provenance", "packet_direct_build_errors",
 ]

@@ -14,6 +14,7 @@ from typing import Iterable
 from docx.oxml.ns import qn
 
 from section2_hp_policy import is_missing_data_value
+from template_mutation_whitelist import is_s15_locked_heading_row
 
 
 class SourceState(str, Enum):
@@ -144,6 +145,10 @@ def apply_source_absence_policy(document, facts: dict, unique_cells) -> dict:
             if section == 8 and index in {1, 12, 13}:
                 continue
             if section == 8 and re.match(r"^\s*(?:建议|recommendation)\b", label, re.I):
+                continue
+            if section == 15 and is_s15_locked_heading_row(row):
+                # These one-cell rows are structural headings, not source
+                # values.  A missing legal item must never remove them.
                 continue
             absent = index >= source_limit
             if not absent:

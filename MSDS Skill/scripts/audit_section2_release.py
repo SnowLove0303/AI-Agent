@@ -13,6 +13,9 @@ from section2_ghs_policy import (
     is_missing_section2_value,
     row_has_visual_content,
 )
+from section2_hp_policy import (
+    precautionary_group_key,
+)
 
 
 def unique_cells(row):
@@ -26,7 +29,16 @@ def unique_cells(row):
     return out
 
 
-def run(docx, require_pictogram=False, document=None):
+def _precautionary_value(table) -> str:
+    for row in table.rows[1:]:
+        cells = unique_cells(row)
+        label = cells[0].text.strip() if cells else ""
+        if re.search(r"(?:防范说明|precautionary\s+statements)", label, re.I):
+            return "\n".join(cell.text.strip() for cell in cells[1:] if cell.text.strip())
+    return ""
+
+
+def run(docx, require_pictogram=False, document=None, expected_precautionary_groups=None):
     """Audit one built DOCX; return (errors, info). Import-safe core of main()."""
     doc = document or Document(str(docx))
     table = doc.tables[1]
@@ -60,6 +72,19 @@ def run(docx, require_pictogram=False, document=None):
             labels.append(f"2.{old_to_new[old]}")
     if require_pictogram and not pictogram_present:
         errors.append("required source pictogram is absent")
+    expected_groups = list(expected_precautionary_groups or [])
+    if expected_precautionary_groups is not None:
+        value = _precautionary_value(table)
+        actual_groups = [
+            precautionary_group_key(line)
+            for line in value.splitlines()
+            if precautionary_group_key(line)
+        ]
+        if actual_groups != expected_groups:
+            errors.append(
+                "precautionary group headings are missing or out of order: "
+                f"expected {expected_groups}, found {actual_groups}"
+            )
     # Compare unique transitions, while allowing repeated child rows.
     unique_labels = []
     for label in labels:

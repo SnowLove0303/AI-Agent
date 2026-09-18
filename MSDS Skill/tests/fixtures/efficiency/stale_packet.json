@@ -1,0 +1,7 @@
+{
+  "packet_schema_version": "old",
+  "status": "needs-review",
+  "build_allowed": false,
+  "source": {"format": "docx", "sha256": "stale-hash"},
+  "facts_draft": {"model": "EFF-TEST", "source_sha256": "stale-hash"}
+}

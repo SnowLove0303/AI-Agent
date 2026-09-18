@@ -3,7 +3,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-
 class SectionRuleViolation(ValueError):
     """A semantic payload or active template violates a section contract."""
 
@@ -95,5 +94,42 @@ def validate_section_payload(section: int, rows, table, *, check_capacity: bool 
         raise SectionRuleViolation(f"S{section} rows may contain at most label/sublabel/value")
 
 
+def sanitize_section_payload(section: int, rows) -> list:
+    """Remove only empty intermediate rows before capacity/shape validation.
+
+    This is deliberately conservative. A one-cell row is itself a possible
+    source value (especially S15/S16); rows with explicit missing wording are
+    retained for the section policy to decide. Rows with no payload at all are
+    removed so later values cannot be shifted by an empty source row.
+    """
+    cleaned = []
+    for row in list(rows or []):
+        if isinstance(row, dict):
+            value = str(row.get("value") or "").strip()
+            if value or row.get("state") in {"EXPLICIT_MISSING", "NOT_APPLICABLE"}:
+                cleaned.append(row)
+            continue
+        if not isinstance(row, (list, tuple)):
+            continue
+        values = [str(value or "").strip() for value in row]
+        if not any(values):
+            continue
+        if section in {2, 8}:
+            # S2/S8 are semantic fixed-slot projections. Keep their headings
+            # and sparse rows until the value writer has used the physical
+            # template positions; the later source-presence pass is the only
+            # stage allowed to remove empty rows. Compacting either payload
+            # here would move a later value into an earlier locked label.
+            cleaned.append(list(row))
+            continue
+        if len(values) > 1 and not any(values[1:]) and section not in {3, 11, 12, 15, 16}:
+            continue
+        # A common one-cell draft shape is [label, label + value]. Keep the
+        # row here; the mutation whitelist performs the value-only de-dup.
+        cleaned.append(list(row))
+    return cleaned
+
+
 __all__ = ["SECTION_RULES", "SectionRule", "SectionRuleViolation",
-           "rule_for", "validate_section_payload", "validate_section_template"]
+           "rule_for", "sanitize_section_payload", "validate_section_payload",
+           "validate_section_template"]

@@ -1,0 +1,19 @@
+{
+  "schema_id": "MSDS-CACHE-326",
+  "version": "3.26.0",
+  "status": "active",
+  "artifacts": {
+    "evidence_packet": {
+      "reuse_requires": ["source_sha256", "source_format", "packet_schema_version", "extractor_sha256", "source_ingest_sha256", "source_interpretation_spec_sha256", "model"],
+      "approval_state": "needs-review-only",
+      "direct_build_allowed": false
+    },
+    "legacy_docx": {
+      "reuse_requires": ["source_sha256", "source_format", "adapter_version"],
+      "validity": "non-empty valid DOCX zip",
+      "publication_use": "prepared-source-only"
+    }
+  },
+  "invalid_entry_policy": "ignore and regenerate atomically",
+  "provenance": ["original_source_path", "original_source_format", "original_source_sha256", "cache_key", "adapter"]
+}

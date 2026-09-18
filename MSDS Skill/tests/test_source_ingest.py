@@ -89,9 +89,11 @@ def test_legacy_word_conversion_is_reused_by_source_hash(tmp_path, monkeypatch):
     with prepare_source(selected, cache_dir=cache) as prepared:
         assert prepared.adapter == "libreoffice-docx-cache"
         assert prepared.extraction_path.is_file()
+        assert prepared.cache_reused is False
     with prepare_source(selected, cache_dir=cache) as prepared:
         assert prepared.adapter == "libreoffice-docx-cache"
         assert prepared.extraction_path.is_file()
+        assert prepared.cache_reused is True
     assert len(calls) == 1
 
     source.write_bytes(b"legacy-source-v2")
@@ -99,3 +101,30 @@ def test_legacy_word_conversion_is_reused_by_source_hash(tmp_path, monkeypatch):
     with prepare_source(changed, cache_dir=cache) as prepared:
         assert prepared.extraction_path.is_file()
     assert len(calls) == 2
+
+
+def test_legacy_grounding_uses_prepared_source_but_keeps_original_identity(tmp_path):
+    from docx import Document
+    from source_grounding import audit
+
+    source = tmp_path / "legacy.doc"
+    source.write_bytes(b"legacy-source")
+    prepared = tmp_path / "prepared.docx"
+    document = Document()
+    document.add_paragraph("Known prepared source value")
+    document.save(prepared)
+    facts = {
+        "fact_ledger": [{
+            "fact_id": "fact-1",
+            "source_text": "Known prepared source value",
+            "normalized_value": "Known prepared source value",
+        }],
+        "zh": {"s1": [["Product name", "Known prepared source value"]]},
+    }
+
+    report = audit(facts, source, "EFF-TEST", prepared_source=prepared)
+
+    assert report["status"] == "passed"
+    assert report["source"] == str(source)
+    assert report["prepared_source"] == str(prepared)
+    assert report["source_search_path"] == str(prepared)

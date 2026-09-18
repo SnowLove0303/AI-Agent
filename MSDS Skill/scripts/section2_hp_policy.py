@@ -42,6 +42,174 @@ _CODE_RE = re.compile(r"(?<![A-Za-z0-9])((?:EUH|H)\d{3}[A-Za-z]{0,3}|P\d{3}(?:\+
 _GROUP_HEADING_RE = re.compile(r"^(预防措施|事故响应|安全储存|废弃处置|预防|响应|储存|处置)\s*[：:]\s*$")
 
 
+_PRECAUTIONARY_GROUP_ALIASES = {
+    "prevention": ("预防措施", "预防", "Prevention"),
+    "response": ("事故响应", "响应", "Response"),
+    "storage": ("安全储存", "储存", "Storage"),
+    "disposal": ("废弃处置", "处置", "Disposal"),
+}
+_PRECAUTIONARY_GROUP_CN = {
+    "prevention": "预防措施：",
+    "response": "事故响应：",
+    "storage": "安全储存：",
+    "disposal": "废弃处置：",
+}
+_PRECAUTIONARY_GROUP_EN = {
+    "prevention": "Prevention:",
+    "response": "Response:",
+    "storage": "Storage:",
+    "disposal": "Disposal:",
+}
+_GROUP_HEADING_INLINE_RE = re.compile(
+    r"(?:预防措施|事故响应|安全储存|废弃处置|预防|响应|储存|处置|"
+    r"Prevention|Response|Storage|Disposal)\s*[：:]",
+    re.I,
+)
+_PRECAUTIONARY_SECTION_HEADING_RE = re.compile(
+    r"^\s*(?:2\.\d+\s*)?(?:防范说明|precautionary\s+statements)\s*[：:]?\s*$",
+    re.I,
+)
+
+
+def precautionary_group_key(text: str) -> str | None:
+    """Return the controlled group key for an explicit heading line."""
+    candidate = re.sub(r"[\t\u3000]+", " ", str(text or "")).strip()
+    for key, aliases in _PRECAUTIONARY_GROUP_ALIASES.items():
+        pattern = r"^(?:" + "|".join(re.escape(alias) for alias in aliases) + r")\s*[：:]\s*$"
+        if re.fullmatch(pattern, candidate, flags=re.IGNORECASE):
+            return key
+    return None
+
+
+def is_precautionary_group_heading(text: str) -> bool:
+    return precautionary_group_key(text) is not None
+
+
+def is_precautionary_section_heading(text: str) -> bool:
+    """Return true for the outer S2 precautionary heading, not a group."""
+    return bool(_PRECAUTIONARY_SECTION_HEADING_RE.fullmatch(str(text or "").strip()))
+
+
+def _heading_boundary(line: str, start: int) -> bool:
+    """Accept an inline group heading only at a semantic boundary."""
+    prefix = line[:start].rstrip()
+    if not prefix:
+        return True
+    if prefix[-1] in "。.!?！？；;":
+        return True
+    return bool(_CODE_RE.search(prefix))
+
+
+def tokenize_precautionary_line(line: str) -> list[dict]:
+    """Tokenize headings and complete P-statements in one source line."""
+    normalized = re.sub(r"[\t\u3000]+", " ", str(line or "")).strip()
+    if not normalized:
+        return []
+
+    events: list[tuple[str, re.Match]] = []
+    for match in _GROUP_HEADING_INLINE_RE.finditer(normalized):
+        if _heading_boundary(normalized, match.start()):
+            events.append(("group_heading", match))
+    for match in _CODE_RE.finditer(normalized):
+        code = match.group(1).upper()
+        if code.startswith("P"):
+            events.append(("p_statement", match))
+    events.sort(key=lambda item: (item[1].start(), 0 if item[0] == "group_heading" else 1))
+
+    if not events:
+        if is_precautionary_group_heading(normalized):
+            return [{
+                "kind": "group_heading",
+                "group_key": precautionary_group_key(normalized),
+                "source_heading": normalized,
+            }]
+        return []
+
+    tokens: list[dict] = []
+    for index, (kind, match) in enumerate(events):
+        if kind == "group_heading":
+            heading = match.group(0).strip()
+            tokens.append({
+                "kind": "group_heading",
+                "group_key": precautionary_group_key(heading),
+                "source_heading": heading,
+            })
+            continue
+        end = events[index + 1][1].start() if index + 1 < len(events) else len(normalized)
+        statement = normalized[match.start():end].strip()
+        if statement:
+            tokens.append({
+                "kind": "p_statement",
+                "code": match.group(1).upper(),
+                "text": statement,
+            })
+    return tokens
+
+
+def split_precautionary_statements(text: str) -> list[dict]:
+    """Return an ordered heading/P token stream, joining wrapped P lines."""
+    tokens: list[dict] = []
+    for raw_line in re.split(r"\r\n|\r|\n", str(text or "")):
+        line = re.sub(r"[\t\u3000]+", " ", raw_line).strip()
+        if not line:
+            continue
+        line_tokens = tokenize_precautionary_line(line)
+        if line_tokens:
+            tokens.extend(line_tokens)
+            continue
+        if tokens and tokens[-1].get("kind") == "p_statement":
+            previous = str(tokens[-1].get("text") or "").rstrip()
+            if previous and previous[-1] not in "。.!?！？；;":
+                tokens[-1]["text"] = f"{previous} {line}"
+                continue
+        tokens.append({"kind": "unclassified", "text": line})
+    return tokens
+
+
+def render_precautionary_groups(groups: object, language: str = "zh") -> str:
+    """Render reviewed non-empty groups as semantic lines in a value cell."""
+    if not isinstance(groups, list):
+        return ""
+    if language not in {"zh", "en"}:
+        raise ValueError("language must be zh or en")
+    lines: list[str] = []
+    for group in groups:
+        if not isinstance(group, dict):
+            continue
+        statements = group.get("statements") or []
+        rendered_statements: list[str] = []
+        for statement in statements:
+            if isinstance(statement, dict):
+                value = str(statement.get("text") or "").strip()
+            else:
+                value = str(statement or "").strip()
+            if value:
+                rendered_statements.append(value)
+        if not rendered_statements:
+            continue
+        key = str(group.get("group_key") or "").strip()
+        source_heading = str(
+            group.get("source_heading") or group.get("heading") or ""
+        ).strip()
+        if language == "en":
+            heading = _PRECAUTIONARY_GROUP_EN.get(key, source_heading)
+        else:
+            heading = source_heading or _PRECAUTIONARY_GROUP_CN.get(key, "")
+        if heading:
+            lines.append(heading)
+        lines.extend(rendered_statements)
+    return "\n".join(lines)
+
+
+def translate_precautionary_group_headings(text: str) -> str:
+    """Translate only complete controlled group-heading lines to English."""
+    translated: list[str] = []
+    for line in str(text or "").splitlines():
+        key = precautionary_group_key(line)
+        translated.append(_PRECAUTIONARY_GROUP_EN.get(key, line) if key else line)
+    return "\n".join(translated)
+
+
 def split_coded_statements(text: str, allowed_prefixes=("H", "EUH", "P")) -> List[str]:
     """Split coded H/EUH/P statements into logical lines.
 

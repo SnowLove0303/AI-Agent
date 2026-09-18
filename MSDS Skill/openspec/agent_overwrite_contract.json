@@ -1,6 +1,6 @@
 {
   "spec_id": "MSDS-AGENT-OVERWRITE-001",
-  "version": "1.4.0",
+  "version": "1.6.0",
   "status": "active",
   "purpose": "Fail-closed execution contract for source-grounded in-place MSDS template overwrite.",
   "read_before_action": [
@@ -16,6 +16,7 @@
     "openspec/source_interpretation_contract.md",
     "openspec/source_interpretation_contract.json",
     "docs/source_interpretation_playbook.md",
+    "docs/source_grounding_policy.md",
     "openspec/efficiency_contract.md",
     "openspec/efficiency_contract.json"
   ],
@@ -26,6 +27,7 @@
     "build_fact_ledger",
     "constrained_information_normalization",
     "review_source_mapping",
+    "review_section2_fact_routing",
     "review_output_traceability",
     "decide_source_presence",
     "align_structured_endpoint_skeleton",
@@ -50,6 +52,7 @@
     "empty_value_rows_hidden_before_renumbering",
     "surviving_items_reordered_continuously",
     "body_values_use_template_approved_format",
+    "all_writable_values_are_nonbold",
     "no_artificial_blank_lines_or_spacing",
     "source_read_completeness_verified",
     "source_nested_tables_inventoried",
@@ -70,7 +73,11 @@
     "fine_tuning_happens_after_overwrite",
     "mutation_plan_is_reviewed_before_xml_mutation",
     "fast_checks_do_not_replace_final_qa",
-    "stage_timings_are_recorded"
+    "stage_timings_are_recorded",
+    "section2_facts_are_disjoint_by_default",
+    "emergency_overview_is_explicit_source_only",
+    "s82_topology_is_inherited_from_template",
+    "s114_vertical_alignment_is_inherited_from_template"
   ],
   "execution_mode": {
     "status": "reviewed",
@@ -99,6 +106,7 @@
       "edit_locked_label_text",
       "edit_locked_sequence_text_except_runtime_post_omission_prefix",
       "edit_bold_or_run_format",
+      "write_bold_writable_value",
       "edit_paragraph_or_cell_format",
       "edit_table_geometry_merge_width_border_or_row_properties",
       "edit_header_footer_or_page_fields",
@@ -120,7 +128,7 @@
     {
       "table": 8,
       "label": "Recommendation",
-      "reason": "The formal template keeps this fixed label but the value is deliberately blank."
+      "reason": "The formal template keeps this fixed label; the non-bold value is source-gated and remains blank only when the source has no substantive recommendation."
     },
     {
       "table": 3,
@@ -131,11 +139,15 @@
   "release_blockers": [
     "changed sequence or locked label text",
     "lost bold label formatting or changed label run/paragraph/cell properties",
+    "bold writable value text",
     "source value written into the wrong template field",
     "empty or unsupported value row left visible outside an explicit exception",
     "numbering audited before omission or visible numbering left discontinuous",
     "blank paragraphs, tabs, trailing spaces or artificial layout spacing",
     "global formatting normalization or table reconstruction",
-    "any failed semantic, geometry, whitespace or render gate"
+    "any failed semantic, geometry, whitespace or render gate",
+    "Section 2 fact routing missing, ambiguous, cross-target or duplicated",
+    "S8.2 grid/column/topology drift",
+    "S11.4 vertical alignment drift"
   ]
 }

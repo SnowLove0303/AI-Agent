@@ -69,6 +69,7 @@ class PreparedSource:
     extraction_path: Path | None
     adapter: str
     can_extract_sections: bool
+    cache_reused: bool = False
 
 
 def sha256(path: Path) -> str:
@@ -233,7 +234,7 @@ def prepare_source(selection_or_path: SourceSelection | Path,
         cached = (_cached_conversion_path(selection, cache_dir)
                   if cache_dir is not None else None)
         if cached is not None and _valid_cached_docx(cached):
-            yield PreparedSource(selection, cached, "libreoffice-docx-cache", True)
+            yield PreparedSource(selection, cached, "libreoffice-docx-cache", True, True)
             return
         with tempfile.TemporaryDirectory(prefix="msds_source_adapter_") as temp_dir:
             result = subprocess.run(
@@ -254,7 +255,7 @@ def prepare_source(selection_or_path: SourceSelection | Path,
                 if cached is not None else converted
             )
             adapter = "libreoffice-docx-cache" if cached is not None else "libreoffice-docx"
-            yield PreparedSource(selection, extraction_path, adapter, True)
+            yield PreparedSource(selection, extraction_path, adapter, True, False)
         return
     # These source formats are discoverable and can be used with a separately
     # approved, source-hash-bound facts model, but are not guessed into the

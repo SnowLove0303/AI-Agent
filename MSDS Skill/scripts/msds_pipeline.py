@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Shared DOCX-first build pipeline for the unified MSDS skill (v3.24.0).
+"""Shared DOCX-first build pipeline for the unified MSDS skill (v3.26.0).
 
 Business role: one parameterized path replaces the per-model copied
 generators.  Input is an *approved* standardized model file::
@@ -68,15 +68,35 @@ from section2_ghs_policy import (  # noqa: E402
 from section2_hp_policy import is_missing_data_value  # noqa: E402
 from missing_data_policy import apply_source_absence_policy  # noqa: E402
 from section11_alignment import align_s11_rows  # noqa: E402
+from s11_layout_policy import audit as audit_s11_layout  # noqa: E402
+from s11_layout_policy import normalize as normalize_s11_layout  # noqa: E402
 from agent_execution_contract import validate_agent_execution_contract  # noqa: E402
 from source_interpretation_contract import validate_source_interpretation  # noqa: E402
+from source_grounding import audit as audit_source_grounding  # noqa: E402
+from source_grounding import validate as validate_source_grounding  # noqa: E402
+from section2_fact_router import (  # noqa: E402
+    audit as audit_section2_fact_router,
+    expected_precautionary_group_keys,
+)
+from layout_preservation_policy import (  # noqa: E402
+    audit_s114_vertical_alignment,
+    audit_s82,
+)
 from product_identity_policy import audit_identity, expected_identity  # noqa: E402
 from section_overwrite_rules import (  # noqa: E402
+    sanitize_section_payload,
     validate_section_payload,
     validate_section_template,
 )
+from s8_ppe_policy import align_s8_rows  # noqa: E402
 from source_ingest import discover_source, prepare_source  # noqa: E402
 from efficiency_contract import StageTimer  # noqa: E402
+from evidence_packet import (  # noqa: E402
+    looks_like_evidence_packet,
+    packet_direct_build_errors,
+)
+from family_profile import FamilyProfileError, review_profile  # noqa: E402
+from audit_context import AuditContext  # noqa: E402
 from structured_toxicology_policy import (  # noqa: E402
     audit_field_value_integrity,
     audit_study_separation,
@@ -171,7 +191,8 @@ def validate_template_baselines(template_cn: Path, template_en: Path,
     return actual
 
 
-def approved_facts_errors(facts: dict, source: Path, model: str) -> list[str]:
+def approved_facts_errors(facts: dict, source: Path, model: str,
+                          prepared_source: Path | None = None) -> list[str]:
     """Collect every facts blocker before cloning templates.
 
     Keeping this as a list-producing function lets the Harness run a cheap
@@ -180,6 +201,8 @@ def approved_facts_errors(facts: dict, source: Path, model: str) -> list[str]:
     empty, so this does not weaken any gate.
     """
     errors = []
+    if looks_like_evidence_packet(facts):
+        errors.extend(packet_direct_build_errors(facts, source, model))
     if not facts.get("zh") or not facts.get("en"):
         errors.append(
             "approved zh+en facts are both required; draft en with draft_en_facts.py "
@@ -197,6 +220,10 @@ def approved_facts_errors(facts: dict, source: Path, model: str) -> list[str]:
         errors.append("facts source_sha256 does not match the selected original source")
     errors.extend(validate_source_mapping(facts, model, source_hash))
     errors.extend(validate_source_interpretation(facts, source, model))
+    errors.extend(validate_source_grounding(
+        facts, source, model, prepared_source=prepared_source
+    ))
+    errors.extend(audit_section2_fact_router(facts).get("errors", []))
     required = {f"s{i}" for i in range(1, 17)}
     for language in ("zh", "en"):
         layer = facts.get(language)
@@ -226,9 +253,12 @@ def approved_facts_errors(facts: dict, source: Path, model: str) -> list[str]:
     return errors
 
 
-def validate_approved_facts(facts: dict, source: Path, model: str) -> None:
+def validate_approved_facts(facts: dict, source: Path, model: str,
+                            prepared_source: Path | None = None) -> None:
     """Fail before cloning templates when the facts contract is unsafe."""
-    errors = approved_facts_errors(facts, source, model)
+    errors = approved_facts_errors(
+        facts, source, model, prepared_source=prepared_source
+    )
     if errors:
         raise ReleaseBlocked("facts contract: " + "; ".join(errors))
 
@@ -358,16 +388,19 @@ def align_note_section_rows(values, table) -> list:
 
 
 def suppress_s8_recommendation_value(rows, language: str) -> list:
-    """Keep the template's recommendation label but never write its value."""
-    output = []
-    for row in list(rows or []):
-        values = list(row) if isinstance(row, (list, tuple)) else [row]
-        label = str(values[0]) if values else ""
-        if re.match(r"^\s*(?:建议|recommendation)\b", label, re.I):
-            output.append([label] + [""] * max(0, len(values) - 1))
-        else:
-            output.append(values)
-    return output
+    """Preserve a source-gated recommendation value without changing labels.
+
+    The formal ``建议 / Recommendation`` label is template-owned, but its
+    non-bold value cell is a permitted source input.  The source extractor
+    supplies an empty value when the source has no recommendation; in that
+    case the existing source-presence policy leaves the approved empty slot
+    empty.  This helper remains as a named compatibility boundary so older
+    callers cannot silently reintroduce unconditional blanking.
+    """
+    return [
+        list(row) if isinstance(row, (list, tuple)) else [row]
+        for row in list(rows or [])
+    ]
 
 
 @dataclass(frozen=True)
@@ -402,7 +435,13 @@ def plan_body_write(doc, facts: dict, language: str) -> tuple[list[SectionWriteP
     baseline_row_counts = base.template_geometry(language)["rows"]
     for sec in range(1, 17):
         table = doc.tables[sec - 1]
-        source_rows = facts.get(f"s{sec}") or []
+        source_rows = sanitize_section_payload(sec, facts.get(f"s{sec}") or [])
+        if sec == 8:
+            # Keep all PPE slots in template order until after values are
+            # written.  The source-presence pass may then remove empty rows,
+            # but an absent hand/eye row can never shift a later fact.
+            source_rows = align_s8_rows(source_rows, language)
+        policy_facts[f"s{sec}"] = source_rows
         inserted_count = 0
         if sec in {9, 15}:
             inserted_count = max(
@@ -620,23 +659,25 @@ def suppress_empty_s82_engineering_control(doc) -> dict:
 
 def gate_locked_labels(template_path: Path, docx_path: Path, *,
                        template_document=None, output_document=None,
-                       language: str = "cn") -> list[str]:
+                       language: str = "cn", audit_context=None) -> list[str]:
     template = template_document or Document(str(template_path))
     output = output_document or Document(str(docx_path))
     report = audit_whitelist.audit(template_path, docx_path,
                                    template=template, output=output,
-                                   language=language)
+                                   language=language, context=audit_context)
     return report.get("errors", []) if isinstance(report, dict) else []
 
 
-def gate_section2(docx_path: Path, require_pictogram: bool, document=None) -> list[str]:
+def gate_section2(docx_path: Path, require_pictogram: bool, document=None,
+                  expected_precautionary_groups=None) -> list[str]:
     errors, _info = audit_s2.run(docx_path, require_pictogram=require_pictogram,
-                                 document=document)
+                                 document=document,
+                                 expected_precautionary_groups=expected_precautionary_groups)
     return errors
 
 
-def gate_whitespace(docx_path: Path, document=None) -> list[str]:
-    report = audit_ws.run(str(docx_path), document=document)
+def gate_whitespace(docx_path: Path, document=None, audit_context=None) -> list[str]:
+    report = audit_ws.run(str(docx_path), document=document, context=audit_context)
     return [json.dumps(issue, ensure_ascii=False) for issue in report.get("issues", [])]
 
 
@@ -674,6 +715,26 @@ def gate_s9_leftover(docx_path: Path, document=None) -> list[str]:
     return errors
 
 
+def gate_s11_row_height(template_document, output_document,
+                        exception: dict | None = None) -> list[str]:
+    report = audit_s11_layout(template_document, output_document, exception)
+    return report.get("errors", [])
+
+
+def gate_s82_layout(template_document, output_document, *, language: str,
+                    expected_present: bool) -> list[str]:
+    report = audit_s82(
+        template_document, output_document, language=language,
+        expected_present=expected_present,
+    )
+    return report.get("errors", [])
+
+
+def gate_s114_vertical_alignment(template_document, output_document) -> list[str]:
+    report = audit_s114_vertical_alignment(template_document, output_document)
+    return report.get("errors", [])
+
+
 def gate_product_identity(docx_path: Path, language: str, product: str,
                           document=None) -> list[str]:
     if language != "zh":
@@ -694,23 +755,22 @@ def gate_product_identity(docx_path: Path, language: str, product: str,
 
 
 def gate_s8_recommendation(docx_path: Path, document=None) -> list[str]:
-    doc = document or Document(str(docx_path))
-    errors = []
-    for row in doc.tables[7].rows[1:]:
-        cells = unique_cells(row)
-        if not cells or not re.match(r"^\s*(?:建议|recommendation)\b", cells[0].text, re.I):
-            continue
-        if any(cell.text.strip() for cell in cells[1:]):
-            errors.append("Section 8 recommendation value must remain blank")
-    return errors
+    """Keep the legacy gate callable while allowing source-gated values.
+
+    The mutation whitelist and locked-format audit validate the label and
+    value-cell boundary.  A substantive recommendation is valid customer
+    content; only source-presence policy decides whether an absent one stays
+    empty.  There is therefore no unconditional blank-value blocker here.
+    """
+    return []
 
 
 def gate_openspec_overwrite(template_path: Path, docx_path: Path, *,
                             language: str, template_document=None,
-                            output_document=None) -> list[str]:
+                            output_document=None, audit_context=None) -> list[str]:
     report = audit_openspec.audit(
         template_path, docx_path, language=language,
-        template=template_document, output=output_document,
+        template=template_document, output=output_document, context=audit_context,
     )
     return report.get("errors", [])
 
@@ -790,27 +850,47 @@ def build_one(*, template_cn: Path, template_en: Path, template_en_source: Path,
                     language=language, brand=brand):
             fine_tuning = apply_post_overwrite_fine_tuning(doc, policy_facts)
             body_audit.update(fine_tuning["source_presence_policy"])
+            s11_layout_policy = normalize_s11_layout(
+                doc, policy_facts.get("s11") or []
+            )
         s2_policy = fine_tuning["section2_policy"]
         s9_policy = fine_tuning["section9_policy"]
         s8_policy = fine_tuning["section8_policy"]
         with _timed(timing_recorder, "docx_save", language=language, brand=brand):
             doc.save(staged_docx)
 
+        audit_context = AuditContext(doc)
         blockers: list[str] = []
         with _timed(timing_recorder, "release_audit", language=language, brand=brand):
             blockers.extend(f"locked-labels: {e}" for e in gate_locked_labels(
                 template, staged_docx, template_document=template_document,
-                output_document=doc, language=language))
+                output_document=doc, language=language,
+                audit_context=audit_context))
             blockers.extend(f"section2: {e}" for e in gate_section2(
-                staged_docx, require_pictogram=with_pictogram, document=doc))
-            blockers.extend(f"whitespace: {e}" for e in gate_whitespace(staged_docx, document=doc))
+                staged_docx, require_pictogram=with_pictogram, document=doc,
+                expected_precautionary_groups=expected_precautionary_group_keys(facts)))
+            blockers.extend(f"whitespace: {e}" for e in gate_whitespace(
+                staged_docx, document=doc, audit_context=audit_context
+            ))
             blockers.extend(f"s9: {e}" for e in gate_s9_leftover(staged_docx, document=doc))
             blockers.extend(f"s11: {e}" for e in gate_s11_toxicology(staged_docx, document=doc))
+            blockers.extend(f"s11-layout: {e}" for e in gate_s11_row_height(
+                template_document or Document(str(template)), doc, s11_layout_policy
+            ))
+            blockers.extend(f"s8.2-layout: {e}" for e in gate_s82_layout(
+                template_document or Document(str(template)), doc,
+                language=language,
+                expected_present=bool(lang_facts.get("s8_control_parameters")),
+            ))
+            blockers.extend(f"s11.4-alignment: {e}" for e in gate_s114_vertical_alignment(
+                template_document or Document(str(template)), doc
+            ))
             blockers.extend(gate_product_identity(staged_docx, language, product, document=doc))
             blockers.extend(f"s8: {e}" for e in gate_s8_recommendation(staged_docx, document=doc))
             blockers.extend(f"openspec: {e}" for e in gate_openspec_overwrite(
                 template, staged_docx, language=language,
                 template_document=template_document, output_document=doc,
+                audit_context=audit_context,
             ))
             if language == "en":
                 blockers.extend(f"terminology: {e}" for e in gate_terminology(staged_docx))
@@ -838,6 +918,15 @@ def build_one(*, template_cn: Path, template_en: Path, template_en_source: Path,
         "pictogram": pictogram_audit,
         "section9_policy": s9_policy,
         "section8_policy": s8_policy,
+        "section11_layout_policy": s11_layout_policy,
+        "section8_2_layout_policy": audit_s82(
+            template_document or Document(str(template)), doc,
+            language=language,
+            expected_present=bool(lang_facts.get("s8_control_parameters")),
+        ),
+        "section11_4_alignment_policy": audit_s114_vertical_alignment(
+            template_document or Document(str(template)), doc
+        ),
         "source_presence_policy": body_audit,
         "status": "ready",
         "formal_ready": True,
@@ -889,12 +978,65 @@ def gate_output_matrix(root: Path, model: str, records: list[dict], do_pdf: bool
         raise ReleaseBlocked("output matrix: " + "; ".join(errors[:8]))
 
 
+def gate_promoted_output_matrix(root: Path, model: str, records: list[dict],
+                                do_pdf: bool) -> None:
+    """Re-check the user-visible WORD/PDF matrix after atomic promotion."""
+    word_root = root / "WORD"
+    pdf_root = root / "PDF"
+    expected_docx = set(output_names(model))
+    errors = []
+    for name in sorted(expected_docx):
+        docx = word_root / name
+        if not docx.is_file() or docx.stat().st_size == 0:
+            errors.append(f"missing or empty promoted DOCX: {name}")
+        if do_pdf:
+            pdf = pdf_root / Path(name).with_suffix(".pdf").name
+            if not pdf.is_file() or pdf.stat().st_size == 0:
+                errors.append(f"missing or empty promoted PDF: {pdf.name}")
+    for record in records:
+        docx = Path(record.get("output_path", ""))
+        if docx.parent != word_root:
+            errors.append(f"DOCX is outside WORD output root: {docx}")
+        if do_pdf:
+            pdf = Path(record.get("pdf_path", ""))
+            evidence = record.get("pdf_evidence") or {}
+            if pdf.parent != pdf_root:
+                errors.append(f"PDF is outside PDF output root: {pdf}")
+            if evidence.get("source_sha256") != sha256(docx):
+                errors.append(f"promoted PDF evidence is not bound to DOCX: {docx.name}")
+            if pdf.is_file() and evidence.get("output_sha256") != sha256(pdf):
+                errors.append(f"promoted PDF evidence hash mismatch: {pdf.name}")
+    if errors:
+        raise ReleaseBlocked("promoted output matrix: " + "; ".join(errors[:8]))
+
+
+def resolve_cache_dir(out_root: Path, cache_dir: Path | None = None) -> Path:
+    """Resolve one deterministic cache root for a matrix invocation."""
+    if cache_dir is not None:
+        return Path(cache_dir).expanduser().resolve()
+    return Path(out_root).expanduser().resolve() / ".msds_cache"
+
+
+def resolve_pdf_workers(requested: int, variant_count: int = 4) -> int:
+    """Return a positive worker count bounded by the number of variants."""
+    if requested < 1:
+        raise ValueError("pdf_workers must be at least 1")
+    if variant_count < 1:
+        raise ValueError("variant_count must be at least 1")
+    return min(int(requested), int(variant_count))
+
+
 def build_matrix(*, source: Path, facts: dict, out_root: Path,
                  model: str | None = None, revision: str | None = None,
                  do_pdf: bool = True, timeout: int = 300,
                  pdf_workers: int = 2, wpscli: str | None = None,
                  progress_callback=None,
-                 docx_preview_dir: Path | None = None) -> dict:
+                 docx_preview_dir: Path | None = None,
+                 cache_dir: Path | None = None,
+                 family_profile: Path | None = None,
+                 agent_review_seconds: float | None = None,
+                 human_wait_seconds: float | None = None,
+                 retry_count: int = 0) -> dict:
     """Build the four DOCX masters, then convert PDFs as one parallel batch.
 
     DOCX construction and all DOCX gates remain serial and deterministic. PDF
@@ -907,8 +1049,14 @@ def build_matrix(*, source: Path, facts: dict, out_root: Path,
     model = model or facts.get("model") or ""
     if not model:
         raise ValueError("model is required (argument or facts['model'])")
-    if do_pdf and pdf_workers < 1:
-        raise ValueError("pdf_workers must be at least 1")
+    if do_pdf:
+        resolve_pdf_workers(pdf_workers)
+    if agent_review_seconds is not None and agent_review_seconds < 0:
+        raise ValueError("agent_review_seconds must be non-negative")
+    if human_wait_seconds is not None and human_wait_seconds < 0:
+        raise ValueError("human_wait_seconds must be non-negative")
+    if retry_count < 0:
+        raise ValueError("retry_count must be non-negative")
     timing_recorder = StageTimer()
     total_started = time.perf_counter()
     if not facts.get("zh") or not facts.get("en"):
@@ -929,12 +1077,58 @@ def build_matrix(*, source: Path, facts: dict, out_root: Path,
         source_format=selection.source_format,
         source_sha256=selection.source_sha256,
     )
+    requested_out_root = Path(out_root).resolve()
+    cache_root = resolve_cache_dir(requested_out_root, cache_dir)
+    source_prepare_started = time.perf_counter()
+    with prepare_source(selection, cache_dir=cache_root) as prepared:
+        prepared_source_path = prepared.extraction_path
+        prepared_adapter = prepared.adapter
+        source_cache_reused = prepared.cache_reused
+    timing_recorder.add(
+        "extract_all_source_information",
+        time.perf_counter() - source_prepare_started,
+        adapter=prepared_adapter,
+        source_format=selection.source_format,
+        cache_dir=str(cache_root),
+    )
+    _notify_last_stage(progress_callback, timing_recorder,
+                       "extract_all_source_information",
+                       adapter=prepared_adapter,
+                       source_format=selection.source_format)
+    family_profile_report = None
+    if family_profile is not None:
+        try:
+            family_profile_report = review_profile(
+                Path(family_profile), selection.original_path, model,
+                prepared_source=prepared_source_path,
+            )
+        except (FamilyProfileError, OSError, ValueError) as exc:
+            raise ReleaseBlocked(f"family profile: {exc}") from exc
+        if family_profile_report.get("errors"):
+            raise ReleaseBlocked(
+                "family profile: " + "; ".join(family_profile_report["errors"][:8])
+            )
+        _notify_progress(
+            progress_callback,
+            "family_profile_reviewed",
+            profile=str(Path(family_profile).expanduser().resolve()),
+            suggestions=len(family_profile_report.get("suggestions", [])),
+            confirmed=len(family_profile_report.get("confirmed", [])),
+        )
     with _timed(timing_recorder, "constrained_information_normalization", model=model):
-        validate_approved_facts(facts, selection.original_path, model)
+        validate_approved_facts(
+            facts, selection.original_path, model,
+            prepared_source=prepared_source_path,
+        )
+        source_grounding_report = audit_source_grounding(
+            facts, selection.original_path, model,
+            prepared_source=prepared_source_path,
+        )
     _notify_last_stage(progress_callback, timing_recorder,
                        "constrained_information_normalization", model=model)
     _notify_progress(progress_callback, "facts_validated", model=model)
-    out_root.parent.mkdir(parents=True, exist_ok=True)
+    matrix_root = requested_out_root / model
+    matrix_root.parent.mkdir(parents=True, exist_ok=True)
     names = output_names(model)
     variants = [("zh", "guanzhi"), ("zh", "guocai"), ("en", "guanzhi"), ("en", "guocai")]
     name_map = {("zh", "guanzhi"): names[0], ("zh", "guocai"): names[1],
@@ -994,155 +1188,215 @@ def build_matrix(*, source: Path, facts: dict, out_root: Path,
         template_sha256={"zh": template_hashes["zh"], "en": template_hashes["en"]},
     )
     records = []
-    timing = {"variants": [], "docx_seconds": 0.0, "pdf_seconds": 0.0}
-    with tempfile.TemporaryDirectory(prefix=f".{model}_matrix_", dir=out_root.parent) as stage_dir:
+    timing = {
+        "variants": [],
+        "docx_seconds": 0.0,
+        "pdf_seconds": 0.0,
+        "cache": {
+            "root": str(cache_root),
+            "source_adapter": prepared_adapter,
+            "source_cache_reused": source_cache_reused,
+            "evidence_packet": "not-used-by-build",
+        },
+        "pdf": {
+            "workers": None,
+            "batch_seconds": 0.0,
+            "converter": converter_version_text,
+            "lineage_verified": None,
+            "failures": [],
+            "retries": retry_count,
+        },
+    }
+    with tempfile.TemporaryDirectory(prefix=f".{model}_matrix_", dir=matrix_root.parent) as stage_dir:
         stage_root = Path(stage_dir)
-        source_prepare_started = time.perf_counter()
-        with prepare_source(selection) as prepared:
-            timing_recorder.add(
-                "extract_all_source_information",
-                time.perf_counter() - source_prepare_started,
-                adapter=prepared.adapter,
-                source_format=selection.source_format,
+        with_pictogram = source_has_images(prepared_source_path)
+        for variant_index, (language, brand) in enumerate(variants):
+            out_docx = stage_root / name_map[(language, brand)]
+            variant_started = time.perf_counter()
+            _notify_progress(
+                progress_callback,
+                "docx_started",
+                index=variant_index + 1,
+                total=len(variants),
+                language=language,
+                brand=brand,
             )
-            with_pictogram = source_has_images(prepared.extraction_path)
-            for variant_index, (language, brand) in enumerate(variants):
-                out_docx = stage_root / name_map[(language, brand)]
-                variant_started = time.perf_counter()
-                _notify_progress(
-                    progress_callback,
-                    "docx_started",
-                    index=variant_index + 1,
-                    total=len(variants),
-                    language=language,
-                    brand=brand,
-                )
-                record = build_one(
-                    template_cn=SKILL_ROOT / "examples" / "template_reference.docx",
-                    template_en=SKILL_ROOT / "examples" / "template_reference_en.docx",
-                    template_en_source=SKILL_ROOT / "examples" / "template_reference_en_source.docx",
-                    source=selection.original_path, source_media=prepared.extraction_path,
-                    facts=facts, language=language, brand=brand,
-                    product=model, revision=revision, out_docx=out_docx,
-                    with_pictogram=with_pictogram,
-                    template_document=template_documents[language],
-                    source_sha256=selection.source_sha256,
-                    template_sha256=template_hashes[language],
-                    template_en_source_sha256=template_en_source_sha256,
-                    timing_recorder=timing_recorder)
-                docx_seconds = time.perf_counter() - variant_started
-                timing["docx_seconds"] += docx_seconds
-                timing_item = {"language": language, "brand": brand,
-                               "docx_seconds": round(docx_seconds, 3),
-                               "pdf_seconds": 0.0}
-                timing["variants"].append(timing_item)
-                records.append(record)
-                _notify_progress(
-                    progress_callback,
-                    "docx_ready",
-                    index=variant_index + 1,
-                    total=len(variants),
-                    language=language,
-                    brand=brand,
-                    seconds=timing_item["docx_seconds"],
-                    workflow_stages=["fixed_structure_template_overwrite",
-                                     "post_overwrite_fine_tuning", "release_audit"],
-                    staged_path=str(out_docx),
-                )
+            record = build_one(
+                template_cn=SKILL_ROOT / "examples" / "template_reference.docx",
+                template_en=SKILL_ROOT / "examples" / "template_reference_en.docx",
+                template_en_source=SKILL_ROOT / "examples" / "template_reference_en_source.docx",
+                source=selection.original_path, source_media=prepared_source_path,
+                facts=facts, language=language, brand=brand,
+                product=model, revision=revision, out_docx=out_docx,
+                with_pictogram=with_pictogram,
+                template_document=template_documents[language],
+                source_sha256=selection.source_sha256,
+                template_sha256=template_hashes[language],
+                template_en_source_sha256=template_en_source_sha256,
+                timing_recorder=timing_recorder)
+            docx_seconds = time.perf_counter() - variant_started
+            timing["docx_seconds"] += docx_seconds
+            timing_item = {"language": language, "brand": brand,
+                           "docx_seconds": round(docx_seconds, 3),
+                           "pdf_seconds": 0.0}
+            timing["variants"].append(timing_item)
+            records.append(record)
+            _notify_progress(
+                progress_callback,
+                "docx_ready",
+                index=variant_index + 1,
+                total=len(variants),
+                language=language,
+                brand=brand,
+                seconds=timing_item["docx_seconds"],
+                workflow_stages=["fixed_structure_template_overwrite",
+                                 "post_overwrite_fine_tuning", "release_audit"],
+                staged_path=str(out_docx),
+            )
 
-            if docx_preview_dir is not None:
-                preview_started = time.perf_counter()
-                preview_root = Path(docx_preview_dir).resolve()
-                if preview_root == Path(out_root).resolve():
-                    raise ValueError("docx_preview_dir must differ from out_root")
-                preview_root.mkdir(parents=True, exist_ok=True)
-                for record in records:
-                    staged = Path(record["output_path"])
-                    preview = preview_root / staged.name
-                    shutil.copy2(staged, preview)
-                    record["docx_preview_path"] = str(preview)
-                timing_recorder.add("docx_preview_checkpoint",
-                                    time.perf_counter() - preview_started,
-                                    count=len(records))
-                _notify_progress(
-                    progress_callback,
-                    "docx_preview_ready",
-                    directory=str(preview_root),
-                    count=len(records),
+        if docx_preview_dir is not None:
+            preview_started = time.perf_counter()
+            preview_root = Path(docx_preview_dir).resolve()
+            if preview_root == matrix_root:
+                raise ValueError("docx_preview_dir must differ from out_root")
+            preview_root.mkdir(parents=True, exist_ok=True)
+            for record in records:
+                staged = Path(record["output_path"])
+                preview = preview_root / staged.name
+                shutil.copy2(staged, preview)
+                record["docx_preview_path"] = str(preview)
+            timing_recorder.add("docx_preview_checkpoint",
+                                time.perf_counter() - preview_started,
+                                count=len(records))
+            _notify_progress(
+                progress_callback,
+                "docx_preview_ready",
+                directory=str(preview_root),
+                count=len(records),
+            )
+
+        if do_pdf:
+            workers = resolve_pdf_workers(pdf_workers, len(records))
+            timing["pdf"]["workers"] = workers
+            timing["pdf"]["converter"] = converter_version_text
+            _notify_progress(
+                progress_callback,
+                "pdf_batch_started",
+                workers=workers,
+                count=len(records),
+            )
+
+            def convert_variant(index: int, record: dict):
+                out_docx = Path(record["output_path"])
+                out_pdf = out_docx.with_suffix(".pdf")
+                pdf_started = time.perf_counter()
+                evidence = convert_pdf(
+                    out_docx,
+                    out_pdf,
+                    timeout=timeout,
+                    wpscli=converter_executable,
+                    converter_version=converter_version_text,
                 )
+                return index, out_pdf, evidence, time.perf_counter() - pdf_started
 
-            if do_pdf:
-                workers = min(pdf_workers, len(records))
-                _notify_progress(
-                    progress_callback,
-                    "pdf_batch_started",
-                    workers=workers,
-                    count=len(records),
-                )
-
-                def convert_variant(index: int, record: dict):
-                    out_docx = Path(record["output_path"])
-                    out_pdf = out_docx.with_suffix(".pdf")
-                    pdf_started = time.perf_counter()
-                    evidence = convert_pdf(
-                        out_docx,
-                        out_pdf,
-                        timeout=timeout,
-                        wpscli=converter_executable,
-                        converter_version=converter_version_text,
-                    )
-                    return index, out_pdf, evidence, time.perf_counter() - pdf_started
-
-                pdf_batch_started = time.perf_counter()
-                with ThreadPoolExecutor(max_workers=workers,
-                                        thread_name_prefix="msds-pdf") as executor:
-                    futures = {
-                        executor.submit(convert_variant, index, record): index
-                        for index, record in enumerate(records)
-                    }
-                    for future in as_completed(futures):
+            pdf_batch_started = time.perf_counter()
+            with ThreadPoolExecutor(max_workers=workers,
+                                    thread_name_prefix="msds-pdf") as executor:
+                futures = {
+                    executor.submit(convert_variant, index, record): index
+                    for index, record in enumerate(records)
+                }
+                for future in as_completed(futures):
+                    try:
                         index, out_pdf, evidence, elapsed = future.result()
-                        timing_item = timing["variants"][index]
-                        timing_item["pdf_seconds"] = round(elapsed, 3)
-                        timing["pdf_seconds"] += timing_item["pdf_seconds"]
-                        records[index]["pdf_path"] = str(out_pdf)
-                        records[index]["pdf_evidence"] = evidence
-                        _notify_progress(
-                            progress_callback,
-                            "pdf_ready",
-                            index=index + 1,
-                            total=len(records),
-                            language=records[index]["language"],
-                            brand=records[index]["brand"],
-                            seconds=timing_item["pdf_seconds"],
+                    except Exception as exc:
+                        timing["pdf"]["failures"].append({
+                            "type": type(exc).__name__,
+                            "message": str(exc),
+                        })
+                        timing_recorder.add(
+                            "pdf_conversion_failure", 0.0, status="failed",
+                            error_type=type(exc).__name__,
                         )
-                timing_recorder.add("pdf_conversion_batch",
-                                    time.perf_counter() - pdf_batch_started,
-                                    workers=workers, count=len(records))
+                        raise
+                    timing_item = timing["variants"][index]
+                    timing_item["pdf_seconds"] = round(elapsed, 3)
+                    timing["pdf_seconds"] += timing_item["pdf_seconds"]
+                    records[index]["pdf_path"] = str(out_pdf)
+                    records[index]["pdf_evidence"] = evidence
+                    _notify_progress(
+                        progress_callback,
+                        "pdf_ready",
+                        index=index + 1,
+                        total=len(records),
+                        language=records[index]["language"],
+                        brand=records[index]["brand"],
+                        seconds=timing_item["pdf_seconds"],
+                    )
+            pdf_batch_seconds = time.perf_counter() - pdf_batch_started
+            timing["pdf"]["batch_seconds"] = round(pdf_batch_seconds, 3)
+            timing_recorder.add("pdf_conversion_batch", pdf_batch_seconds,
+                                workers=workers, count=len(records))
         gate_output_matrix(stage_root, model, records, do_pdf)
-        out_root.mkdir(parents=True, exist_ok=True)
+        matrix_root.mkdir(parents=True, exist_ok=True)
+        word_root = matrix_root / "WORD"
+        pdf_root = matrix_root / "PDF"
+        word_root.mkdir(parents=True, exist_ok=True)
+        if do_pdf:
+            pdf_root.mkdir(parents=True, exist_ok=True)
         expected_docx = set(output_names(model))
         for name in sorted(expected_docx):
-            os.replace(stage_root / name, out_root / name)
+            os.replace(stage_root / name, word_root / name)
             if do_pdf:
                 pdf_name = Path(name).with_suffix(".pdf").name
-                os.replace(stage_root / pdf_name, out_root / pdf_name)
+                os.replace(stage_root / pdf_name, pdf_root / pdf_name)
         for record in records:
             old_docx = Path(record["output_path"])
-            final_docx = out_root / old_docx.name
+            final_docx = word_root / old_docx.name
             record["output_path"] = str(final_docx)
             if do_pdf:
                 old_pdf = Path(record["pdf_path"])
-                final_pdf = out_root / old_pdf.name
+                final_pdf = pdf_root / old_pdf.name
                 record["pdf_path"] = str(final_pdf)
                 record["pdf_evidence"]["source_docx"] = str(final_docx)
                 record["pdf_evidence"]["output_pdf"] = str(final_pdf)
+            record["docx_sha256"] = sha256(final_docx)
+            if do_pdf:
+                record["pdf_sha256"] = sha256(final_pdf)
+        gate_promoted_output_matrix(matrix_root, model, records, do_pdf)
+    if do_pdf:
+        timing["pdf"]["lineage_verified"] = all(
+            (record.get("pdf_evidence") or {}).get("source_is_final_docx") is True
+            and (record.get("pdf_evidence") or {}).get("source_sha256") == record.get("docx_sha256")
+            and (record.get("pdf_evidence") or {}).get("output_sha256") == record.get("pdf_sha256")
+            for record in records
+        )
     stage_snapshot = timing_recorder.snapshot()
     timing["stage_events"] = stage_snapshot["events"]
     timing["stage_totals"] = stage_snapshot["totals"]
     timing["stage_total_seconds"] = stage_snapshot["total_seconds"]
     timing["total_seconds"] = round(time.perf_counter() - total_started, 3)
+    timing["time_categories"] = {
+        "machine": {
+            "seconds": timing["total_seconds"],
+            "source": "measured-by-pipeline",
+        },
+        "agent_review": {
+            "seconds": agent_review_seconds,
+            "source": "supplied" if agent_review_seconds is not None else "not-supplied",
+        },
+        "human_wait": {
+            "seconds": human_wait_seconds,
+            "source": "supplied" if human_wait_seconds is not None else "not-supplied",
+        },
+        "retry": {
+            "seconds": 0.0,
+            "count": retry_count,
+            "source": "supplied-pipeline-count",
+        },
+    }
     report = {
+        "telemetry_schema_version": "3.26.0",
         "product": model,
         "matrix": "2 brands x 2 languages x 2 formats" if do_pdf else "2 brands x 2 languages (DOCX only)",
         "docx_count": 4,
@@ -1153,10 +1407,16 @@ def build_matrix(*, source: Path, facts: dict, out_root: Path,
         "source": str(selection.original_path),
         "source_format": selection.source_format,
         "source_sha256": selection.source_sha256,
+        "cache_dir": str(cache_root),
+        "family_profile": family_profile_report,
         "records": records,
+        "output_root": str(matrix_root),
+        "word_root": str(matrix_root / "WORD"),
+        "pdf_root": str(matrix_root / "PDF") if do_pdf else None,
+        "source_grounding": source_grounding_report,
         "timing": timing,
     }
-    (out_root / "matrix-report.json").write_text(
+    (matrix_root / "matrix-report.json").write_text(
         json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     _notify_progress(
         progress_callback,
@@ -1165,6 +1425,6 @@ def build_matrix(*, source: Path, facts: dict, out_root: Path,
         docx_count=report["docx_count"],
         pdf_count=report["pdf_count"],
         seconds=timing["total_seconds"],
-        out=str(out_root),
+        out=str(matrix_root),
     )
     return report

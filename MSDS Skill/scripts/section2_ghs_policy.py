@@ -22,7 +22,8 @@ from copy import deepcopy
 
 from docx.oxml.ns import qn
 
-from section2_hp_policy import is_missing_data_value
+from section2_hp_policy import is_missing_data_value, render_precautionary_groups
+from template_mutation_whitelist import composite_value_text, is_s28_row, unique_cells
 
 
 def format_label_elements(language: str, hazardous_ingredients: list[str] | tuple[str, ...]) -> str:
@@ -55,6 +56,8 @@ def row_has_visual_content(row) -> bool:
 
 
 def _value_text(row) -> str:
+    if is_s28_row(1, row):
+        return composite_value_text(row).strip()
     cells = []
     seen = set()
     for cell in row.cells:
@@ -89,11 +92,14 @@ _LABEL_INGREDIENT_VALUE_RE = re.compile(
     r"ingredients required to be listed on the label)",
     re.I,
 )
-_SIGNAL_WORD_RE = re.compile(r"^(?:危险|警告|danger|warning)$", re.I)
+_SIGNAL_WORD_RE = re.compile(
+    r"^(?:危险|警告|无信号词|无|danger|warning|no signal word|none|not applicable)$",
+    re.I,
+)
 
 
 def is_signal_word_value(value: str) -> bool:
-    """Return whether a semantic S2 value is exactly a signal word."""
+    """Return whether a semantic S2 value is in the controlled vocabulary."""
     candidate = re.sub(r"[\s。；;.!！]+$", "", (value or "").strip())
     return bool(_SIGNAL_WORD_RE.fullmatch(candidate))
 
@@ -136,7 +142,7 @@ def validate_s2_semantics(rows, language: str = "zh") -> list[str]:
         )
     if signal_value and not is_signal_word_value(signal_value):
         errors.append(
-            f"{language} Section 2 signal-word slot must be exactly 危险/警告 or Danger/Warning"
+            f"{language} Section 2 signal-word slot must use the controlled signal-word vocabulary"
         )
     return errors
 
@@ -208,22 +214,52 @@ def project_source_cn_facts(s2: dict) -> tuple[list[list[str]], dict[int, int]]:
     """
     def first(name: str) -> str:
         values = s2.get(name) or []
+        if isinstance(values, str):
+            return values.strip()
         return str(values[0]).strip() if values else ""
+
+    def health_route(route: str) -> str:
+        health = s2.get("health_hazards") or {}
+        if isinstance(health, dict):
+            values = health.get(route) or []
+            if isinstance(values, str):
+                return values.strip()
+            return str(values[0]).strip() if values else ""
+        return ""
+
+    def route_label(route: str) -> str:
+        # This semantic marker exists only in the reviewed facts layer.  The
+        # writer ignores source labels and keeps the cloned template prefix;
+        # the marker lets source mapping/trace audits identify repeated 2.8
+        # rows after empty-row suppression without using physical position.
+        return f"2.8 健康危害 [route={route}]"
+
+    label_elements = first("label_elements")
+    if not label_elements:
+        label_elements = format_label_elements("zh", s2.get("label_ingredients") or [])
+
+    precautionary_value = render_precautionary_groups(
+        s2.get("precautionary_groups"), "zh"
+    )
+    if not precautionary_value:
+        precautionary_value = "\n".join(
+            str(x).strip() for x in (s2.get("p_statements") or []) if str(x).strip()
+        )
 
     return ([
         ["2.1 紧急情况概述", ""],
         ["2.2 GHS危险性类别：", first("ghs_classes")],
-        ["2.3 GHS标签要素：", first("label_elements")],
+        ["2.3 GHS标签要素：", label_elements],
         [" GHS象形图", ""],
         ["2.4 信号词：", str(s2.get("signal") or "").strip()],
         ["2.5 危险性说明：", "\n".join(str(x).strip() for x in (s2.get("h_statements") or []) if str(x).strip())],
-        ["2.6 防范说明：", "\n".join(str(x).strip() for x in (s2.get("p_statements") or []) if str(x).strip())],
+        ["2.6 防范说明：", precautionary_value],
         ["2.7 物理和化学危险：", ""],
-        ["2.8 健康危害", ""],
-        ["2.8 健康危害", ""],
-        ["2.8 健康危害", ""],
-        ["2.8 健康危害", ""],
-        ["2.8 健康危害", ""],
+        [route_label("inhalation"), health_route("inhalation")],
+        [route_label("ingestion"), health_route("ingestion")],
+        [route_label("skin"), health_route("skin")],
+        [route_label("eyes"), health_route("eyes")],
+        [route_label("symptoms_signs"), health_route("symptoms_signs")],
         ["2.9 环境危害", ""],
         ["2.10 其他危害：", str(s2.get("other_hazards") or "").strip()],
     ], {2: 1, 3: 2, 10: 3})
@@ -243,6 +279,52 @@ def _replace_prefix(paragraph, section: int, item: int, set_paragraph_text) -> N
         )
 
 
+_S28_ROUTE_PREFIX_TEXTS = (
+    "吸入：", "食入：", "皮肤：", "眼睛：", "症状和体征：",
+    "Inhalation:", "Ingestion:", "Skin:", "Eyes:",
+    "Signs and symptoms:",
+)
+
+
+def _xml_cell_text(cell) -> str:
+    return "".join(node.text or "" for node in cell.iter(qn("w:t"))).strip()
+
+
+def _raw_s28_route_row(row) -> bool:
+    """Detect a route row from raw XML even if its merged label is blank."""
+    cells = row._tr.findall(qn("w:tc"))
+    if len(cells) < 2:
+        return False
+    value_text = _xml_cell_text(cells[1])
+    return any(value_text.startswith(prefix) for prefix in _S28_ROUTE_PREFIX_TEXTS)
+
+
+def _promote_s28_label_cell(target_cell, source_cell) -> None:
+    """Repair a vertical S2.8 merge after its restart row was removed.
+
+    The maintained template stores the repeated ``健康危害`` label in a
+    vertically merged restart cell; continuation cells are physically blank.
+    Removing the restart row without promoting the next continuation cell
+    makes python-docx expose the previous row's label for every later route.
+    Promote the next raw XML cell and copy only the deleted label's paragraph
+    content/format.  The target cell's width, borders and other geometry stay
+    intact; changing vMerge from continuation to restart is the smallest
+    authorized merge repair.
+    """
+    target_pr = target_cell.get_or_add_tcPr()
+    for child in list(target_cell):
+        if child is not target_pr:
+            target_cell.remove(child)
+    for child in list(source_cell):
+        if child.tag != qn("w:tcPr"):
+            target_cell.append(deepcopy(child))
+    vmerge = target_pr.find(qn("w:vMerge"))
+    if vmerge is None:
+        vmerge = target_pr.makeelement(qn("w:vMerge"), {})
+        target_pr.append(vmerge)
+    vmerge.set(qn("w:val"), "restart")
+
+
 def suppress_missing_section2_rows_and_renumber(document, set_paragraph_text,
                                                 number_map: dict[int, int] | None = None):
     """Remove missing Section 2 rows and renumber unique visible items.
@@ -253,7 +335,11 @@ def suppress_missing_section2_rows_and_renumber(document, set_paragraph_text,
     """
     table = document.tables[1]
     removed_labels = []
-    for row in list(table.rows)[1:]:
+    removed_s28_label_cell = None
+    # Remove from the bottom up.  Section 2.8 contains vertically merged
+    # continuation cells; forward XML removal invalidates later row proxies
+    # and can cause an empty route to survive or inherit the prior label.
+    for row in reversed(list(table.rows)[1:]):
         cells = []
         seen = set()
         for cell in row.cells:
@@ -267,6 +353,10 @@ def suppress_missing_section2_rows_and_renumber(document, set_paragraph_text,
             and not row_has_visual_content(row)
             and (not _value_text(row) or is_missing_section2_value(_value_text(row)))
         ):
+            if removed_s28_label_cell is None and is_s28_row(1, row) and cells:
+                # Preserve the deleted merged restart cell as the style/text
+                # source for the first surviving continuation row.
+                removed_s28_label_cell = deepcopy(cells[0]._tc)
             # Keep an unnumbered non-data row only when it is the pictogram slot
             # and the picture is present.  Other empty rows are not customer-facing.
             removed_labels.append(label)
@@ -278,6 +368,14 @@ def suppress_missing_section2_rows_and_renumber(document, set_paragraph_text,
     # deletion can make python-docx resolve a later repeated row to the old
     # physical position, which is unsafe for repeated 2.8 child rows.
     visible_rows = list(table.rows)[1:]
+    if removed_s28_label_cell is not None:
+        for row in visible_rows:
+            if not _raw_s28_route_row(row):
+                continue
+            raw_cells = row._tr.findall(qn("w:tc"))
+            if raw_cells and not _xml_cell_text(raw_cells[0]):
+                _promote_s28_label_cell(raw_cells[0], removed_s28_label_cell)
+            break
 
     # Snapshot the original item number before changing any label text.  A
     # vertically merged label cell is returned by python-docx for every child

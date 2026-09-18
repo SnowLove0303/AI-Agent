@@ -1,5 +1,7 @@
 MSDS Unified Eight-Deliverable Standardizer Skill
-3.24.0
+3.26.0
+Source-hash-bound cache reuse, reviewed family candidates and shared read-only audit context
+Additive machine/review/wait telemetry, non-publishing benchmark harness and bounded WPS worker evidence
 Four-stage overwrite workflow, semantic write planning, actionable diagnostics and stage telemetry
 DOCX-first matrix batch and bounded parallel PDF conversion
 WPS converter preflight/version cache and Harness progress checkpoints

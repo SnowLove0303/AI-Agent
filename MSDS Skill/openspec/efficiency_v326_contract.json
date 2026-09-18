@@ -1,0 +1,45 @@
+{
+  "spec_id": "MSDS-EFFICIENCY-326",
+  "version": "3.26.0",
+  "status": "active",
+  "baseline": {
+    "revision": "3e5eef903da06b249bce3b4fbd43f49b3e97b087",
+    "snapshot": "C:/Users/52882/AppData/Local/Temp/msds-efficiency-baseline-20260917-3.zip",
+    "rollback": "restore the snapshot or revert only change-owned files; never reset or clean the worktree globally"
+  },
+  "business_stages": [
+    "extract_all_source_information",
+    "constrained_information_normalization",
+    "fixed_structure_template_overwrite",
+    "post_overwrite_fine_tuning"
+  ],
+  "cache_boundaries": [
+    "source_sha256",
+    "source_format",
+    "adapter_version",
+    "extractor_version",
+    "packet_schema_version",
+    "source_interpretation_contract_sha256"
+  ],
+  "hard_invariants": [
+    "template owns labels, sequence, bold label runs, tables, geometry, headers and footers",
+    "source owns product facts",
+    "cached evidence never approves facts",
+    "family candidates never auto-fill unsupported values",
+    "all semantic, source, locked-format, whitespace, geometry, lineage and render gates remain blocking"
+  ],
+  "pdf": {
+    "converter": "wpscli-word2pdf",
+    "default_workers": 2,
+    "allowed_worker_measurements": [1, 2, 3],
+    "lineage_required": true,
+    "process_pool_default": false,
+    "resident_office_default": false
+  },
+  "telemetry": {
+    "schema_version": "1",
+    "machine_time_is_distinct_from_review_time": true,
+    "gate_independent": true,
+    "required_fields": ["stage_events", "stage_totals", "cache", "pdf", "variants"]
+  }
+}
