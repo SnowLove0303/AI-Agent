@@ -177,12 +177,18 @@ def _value_text(row) -> str:
 
 
 def is_missing_section2_value(value: str) -> bool:
-    """Recognize only whole-item missing values, including ``Label: No data``."""
+    """Recognize whole-item missing values, including ``Label: No data`` or ``无`` / ``None``."""
     if is_missing_data_value(value):
         return True
     stripped = re.sub(r"\s+", " ", (value or "").strip())
+    s_clean = re.sub(r"[\s；;，,:：.!！？?。]+$", "", stripped).strip().lower()
+    if s_clean in {"无", "none", "no"}:
+        return True
     if ":" in stripped or "：" in stripped:
         remainder = re.split(r"[:：]", stripped, maxsplit=1)[1].strip()
+        rem_clean = re.sub(r"[\s；;，,:：.!！？?。]+$", "", remainder).strip().lower()
+        if rem_clean in {"无", "none", "no"}:
+            return True
         return is_missing_data_value(remainder)
     return False
 
@@ -286,6 +292,9 @@ def is_explicit_other_hazards_row(row) -> bool:
             cells[0].text.strip(), re.I,
         )
         value = match.group(1).strip() if match else ""
+    v_clean = re.sub(r"[\s；;，,:：.!！？?。]+$", "", value).strip().lower()
+    if v_clean in {"无", "none", "no"}:
+        return False
     return bool(value)
 
 
