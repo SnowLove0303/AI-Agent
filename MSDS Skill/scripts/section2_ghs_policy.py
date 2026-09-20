@@ -22,6 +22,7 @@ from copy import deepcopy
 
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
+from docx.shared import Pt
 
 from section2_hp_policy import is_missing_data_value, render_precautionary_groups
 from template_mutation_whitelist import composite_value_text, is_s28_row, unique_cells
@@ -46,6 +47,8 @@ def set_cell_value_unified(
     lang: str = "zh",
     bold: bool = False,
     size_pt: float = 12.0,
+    indent_sub_items: bool = False,
+    sub_item_indent_pt: float = 18.0,
 ):
     """Set cell value with guaranteed 12.0 pt typography and consistent font family.
 
@@ -72,8 +75,18 @@ def set_cell_value_unified(
         p_elem = cell.paragraphs[-1]._p
         p_elem.getparent().remove(p_elem)
 
+    heading_pattern = re.compile(
+        r"^(?:预防措施|事故响应|安全储存|废弃处置|Prevention|Response|Storage|Disposal)[：:]?$",
+        re.IGNORECASE,
+    )
+
     for p, line in zip(cell.paragraphs, lines):
         p.text = line
+        if indent_sub_items:
+            if heading_pattern.match(line):
+                p.paragraph_format.left_indent = Pt(0)
+            else:
+                p.paragraph_format.left_indent = Pt(sub_item_indent_pt)
         run = p.runs[0]
         rPr = run._r.get_or_add_rPr()
 
