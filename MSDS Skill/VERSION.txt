@@ -1,5 +1,6 @@
 MSDS Unified Eight-Deliverable Standardizer Skill
-3.26.5
+3.26.6
+Jev System One domain adjudicator and decision ledger, dual-system fast/slow path routing
 Verbatim Section 2 GHS label elements, unified 12.0 pt value typography enforcement, Section 11 independent row playbook
 GHS precautionary reverse-resolution, Jev signal word and Section 3 amine salt routing, Section 11 multi-tier toxicology
 Strict non-hazard Section 2 suppression, P-statement leakage prevention, continuous renumbering and release audit gate

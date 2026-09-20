@@ -274,6 +274,19 @@ inside the skill package. Historical evidence and rollback material must be
 stored outside the distributable skill directory and must never be presented
 to an Agent as an alternative template authority.
 
+## [3.26.6] - 2026-09-20
+
+### Added
+- **Jev System One Core Engine (`scripts/jev_engine.py`)**:
+  - Integrated TypeSafe System One decision client (`JevEngine`) with official endpoint and API key (via environment variable `ZEN_API_KEY` / `JEV_API_KEY` or `~/.jev/zen.key`).
+  - Implemented resilient connection pooling, exponential retry, and deterministic zero-stop fallback protection (`fallback_choice`, `fallback_noul`, `fallback_score`).
+  - Added auditable `DecisionLedger` recording all decisions, prompts, confidence scores, and latencies into `jev_decision_ledger.json`.
+- **Domain Decision & Gatekeeping Adjudicator (`scripts/jev_domain_adjudicator.py`)**:
+  - Implemented 5 key arbitration scenarios: GHS Signal Word arbitration, Cross-Section Fact Routing, Independent Row Splitting per `independent_row_playbook.md`, TDS Technical Indicator Slot Mapping, and Pre-Release Semantic Consistency Auditing.
+  - Architected dual-system fast/slow path routing: deterministic regex rules execute locally in 0ms, while ambiguous/borderline cases invoke on-demand Jev arbitration.
+- **Full Unit Test Coverage (`tests/test_jev_engine.py`)**:
+  - Added 9 comprehensive unit tests covering initialization, fallback on network error, signal word arbitration, cross-section routing, row splitting, TDS slot mapping, semantic consistency gate, and decision ledger export (258/258 tests passing).
+
 ## [3.26.5] - 2026-09-20
 
 ### Added

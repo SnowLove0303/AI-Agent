@@ -3,67 +3,38 @@
 
 Provides intelligent routing and decision making using Jev 1.13 when available,
 with deterministic, fail-safe rule fallbacks.
+Delegates to JevDomainAdjudicator and JevEngine for unified architecture.
 """
+from __future__ import annotations
+
 import sys
-import re
+from typing import Optional, Tuple
 
-# Try to import Jev
-JEV_AVAILABLE = False
 try:
-    sys.path.insert(0, r"C:\Users\Administrator\.jev")
-    from jev import decide_choice, decide_noul, call_jev
-    JEV_AVAILABLE = True
-except Exception:
-    JEV_AVAILABLE = False
+    from jev_domain_adjudicator import DEFAULT_ADJUDICATOR, JevDomainAdjudicator
+    from jev_engine import DEFAULT_ENGINE, DecisionLedger, GLOBAL_LEDGER, JevEngine
+except ImportError:
+    try:
+        from .jev_domain_adjudicator import DEFAULT_ADJUDICATOR, JevDomainAdjudicator
+        from .jev_engine import DEFAULT_ENGINE, DecisionLedger, GLOBAL_LEDGER, JevEngine
+    except ImportError:
+        DEFAULT_ADJUDICATOR = None
+        DEFAULT_ENGINE = None
+        GLOBAL_LEDGER = None
 
 
-def resolve_signal_word(raw_text: str) -> tuple[str, str]:
+def resolve_signal_word(raw_text: str) -> Tuple[str, str]:
     """Resolve signal word from Section 2 raw text. Returns (zh_word, en_word)."""
-    if re.search(r"(?:警告词|信号词)[：:]\s*警告", raw_text) or "警告词：警告" in raw_text:
-        return ("警告", "Warning")
-    if re.search(r"(?:警告词|信号词)[：:]\s*危险", raw_text) or "警告词：危险" in raw_text:
-        return ("危险", "Danger")
-    
-    if JEV_AVAILABLE:
-        try:
-            choice, conf = decide_choice(
-                raw_text[:500],
-                "确定该化学品的GHS信号词",
-                {"warning": "警告 (Warning)", "danger": "危险 (Danger)", "none": "无信号词 (No signal word)"}
-            )
-            if choice == "warning":
-                return ("警告", "Warning")
-            elif choice == "danger":
-                return ("危险", "Danger")
-            elif choice == "none":
-                return ("无信号词", "No signal word")
-        except Exception:
-            pass
-
+    if DEFAULT_ADJUDICATOR:
+        zh, en, _ = DEFAULT_ADJUDICATOR.adjudicate_ghs_signal_word(raw_text)
+        return zh, en
     return ("无信号词", "No signal word")
 
 
-def route_s3_to_s2(s3_text: str) -> dict:
+def route_s3_to_s2(s3_text: str) -> Optional[dict]:
     """Route Section 3 amine salt neutralization / threshold notes to Section 2 label elements.
     Returns dict with 'zh' and 'en' verbatim text blocks from source, or None if not applicable.
     """
-    if not s3_text:
-        return None
-    
-    has_amine_salt = bool(re.search(r"中和剂.*?已键合为盐", s3_text) or "键合为盐" in s3_text)
-    has_threshold = bool(re.search(r"特定阈值浓度", s3_text) or "SCL" in s3_text)
-
-    if not (has_amine_salt or has_threshold):
-        return None
-
-    zh_text = (
-        "羟基丙烯酸酯聚合物GHS危险性分类：不适用\n"
-        "请注意以下物质：\n"
-        "N,N-二甲基乙醇胺，中和剂，已键合为盐，质量浓度小于2.0%"
-    )
-    en_text = (
-        "Hydroxyacrylate polymer GHS hazard classification: Not applicable\n"
-        "Please note the following substance:\n"
-        "N,N-Dimethylethanolamine, neutralizing agent, bound as salt, mass concentration less than 2.0%"
-    )
-    return {"zh": zh_text, "en": en_text}
+    if DEFAULT_ADJUDICATOR:
+        return DEFAULT_ADJUDICATOR.adjudicate_cross_section_fact(s3_text)
+    return None

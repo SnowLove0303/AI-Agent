@@ -3,7 +3,14 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS standardization skill that discovers supported source files, binds source-grounded facts to synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, preserves locked templates, and releases four DOCX plus four PDF deliverables only after semantic and render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.26.5
+# Unified MSDS Eight-Deliverable Standardizer v3.26.6
+
+## Mandatory Jev System One Adjudication and Decision Ledger (v3.26.6)
+
+1. `MSDS Skill/scripts/jev_engine.py` and `jev_domain_adjudicator.py` must be used for all ambiguous GHS classifications, cross-section fact routing, independent row necessity, TDS parameter slot mapping, and semantic consistency pre-release audits.
+2. Fast-path deterministic rules handle explicit, unambiguous text in 0ms; Jev System One is invoked on-demand when ambiguity or cross-section conflicts arise.
+3. All Jev decisions must be recorded in `GLOBAL_LEDGER` and exported to `jev_decision_ledger.json` for full auditability.
+
 
 ## Mandatory Verbatim Section 2, Unified Value Typography, and Independent Row Playbook (v3.26.5)
 

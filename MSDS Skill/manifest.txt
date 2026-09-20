@@ -82,6 +82,8 @@ scripts/ghs_code_resolver.py
 scripts/ghs_pictogram_policy.py
 scripts/inspect_docx_structure.py
 scripts/jev_dispatcher.py
+scripts/jev_domain_adjudicator.py
+scripts/jev_engine.py
 scripts/layout_preservation_policy.py
 scripts/missing_data_policy.py
 scripts/msds_pipeline.py
@@ -133,6 +135,7 @@ tests/test_evidence_packet.py
 tests/test_extract_source_facts.py
 tests/test_family_profile.py
 tests/test_ghs_resolver_and_jev.py
+tests/test_jev_engine.py
 tests/test_layout_preservation_policy.py
 tests/test_msds_contract_policy.py
 tests/test_numbering_policy.py

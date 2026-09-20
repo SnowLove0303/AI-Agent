@@ -1,4 +1,7 @@
-# MSDS Skill 3.26.5
+# MSDS Skill 3.26.6
+
+V3.26.6 embeds the Jev System One Core Engine (`scripts/jev_engine.py`) and Domain Adjudicator (`scripts/jev_domain_adjudicator.py`), providing on-demand TypeSafe System One decision making, fast/slow dual-path routing, and an auditable Decision Ledger.
+
 
 V3.26.5 permanently enforces 100% unified 12.0 pt value cell typography via `set_cell_value_unified`, guarantees verbatim Section 2 label elements from source files, and codifies the Independent Row and Paragraph Separation Playbook (`docs/independent_row_playbook.md`) ensuring product-level status and polymer data are cleanly separated into independent table rows.
 
