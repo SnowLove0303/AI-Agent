@@ -25,8 +25,25 @@ from docx.oxml.ns import qn
 from section2_hp_policy import is_missing_data_value, render_precautionary_groups
 from template_mutation_whitelist import composite_value_text, is_s28_row, unique_cells
 
+try:
+    from ghs_code_resolver import format_precautionary_text, resolve_precautionary_statements
+    from jev_dispatcher import resolve_signal_word, route_s3_to_s2
+except ImportError:
+    try:
+        from .ghs_code_resolver import format_precautionary_text, resolve_precautionary_statements
+        from .jev_dispatcher import resolve_signal_word, route_s3_to_s2
+    except ImportError:
+        format_precautionary_text = None
+        resolve_precautionary_statements = None
+        resolve_signal_word = None
+        route_s3_to_s2 = None
 
-def format_label_elements(language: str, hazardous_ingredients: list[str] | tuple[str, ...]) -> str:
+
+def format_label_elements(
+    language: str,
+    hazardous_ingredients: list[str] | tuple[str, ...],
+    extra_note: str | None = None,
+) -> str:
     """Return the explicit, line-separated GHS label-ingredient tip.
 
     With no verified ingredients the value stays empty so the existing
@@ -34,7 +51,7 @@ def format_label_elements(language: str, hazardous_ingredients: list[str] | tupl
     leaving a bare heading in customer-facing output.
     """
     ingredients = [str(x).strip() for x in hazardous_ingredients if str(x).strip()]
-    if not ingredients:
+    if not ingredients and not extra_note:
         if language not in ("en", "zh"):
             raise ValueError("language must be zh or en")
         return ""
@@ -44,7 +61,13 @@ def format_label_elements(language: str, hazardous_ingredients: list[str] | tupl
         heading = "必须列在标签上的有害成分："
     else:
         raise ValueError("language must be zh or en")
-    return "\n".join([heading, *ingredients])
+    parts = []
+    if ingredients:
+        parts.append(heading)
+        parts.extend(ingredients)
+    if extra_note and str(extra_note).strip():
+        parts.append(str(extra_note).strip())
+    return "\n".join(parts)
 
 
 def row_has_visual_content(row) -> bool:

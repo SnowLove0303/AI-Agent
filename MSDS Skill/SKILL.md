@@ -3,7 +3,16 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS standardization skill that discovers supported source files, binds source-grounded facts to synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, preserves locked templates, and releases four DOCX plus four PDF deliverables only after semantic and render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.26.3
+# Unified MSDS Eight-Deliverable Standardizer v3.26.4
+
+## Mandatory GHS code reverse-resolution and Jev dispatcher routing (v3.26.4)
+
+When source MSDS assets contain natural language hazard, precautionary, storage or disposal statements without alphanumeric codes, agents must NOT delete them or leave rows blank.
+1. `scripts/ghs_code_resolver.py` reverse-resolves statements against canonical GHS rules into standard P-codes (`P280`, `P264`, `P270`, `P271`, `P304+P340`, `P305+P351+P338`, `P302+P352`, `P301+P330+P331`, `P391`, `P370+P378`, `P403+P235`, `P501`) and groups them into standard 4-block headings (预防措施, 事故响应, 安全储存, 废弃处置).
+2. `scripts/jev_dispatcher.py` handles intelligent GHS Signal Word mapping (e.g. `警告词：警告` -> `警告` / `Warning`) and routes Section 3 amine neutralization / SCL threshold notes into Section 2.3 GHS Label Elements.
+3. Section 11 must provide transparent multi-tier toxicological reporting, explicitly declaring polymer absence of data and identifying reference components by name and CAS number.
+
+
 
 ## Mandatory v2.9 inheritance (release blocker)
 

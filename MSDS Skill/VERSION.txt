@@ -1,5 +1,6 @@
 MSDS Unified Eight-Deliverable Standardizer Skill
-3.26.3
+3.26.4
+GHS precautionary reverse-resolution, Jev signal word and Section 3 amine salt routing, Section 11 multi-tier toxicology
 Strict non-hazard Section 2 suppression, P-statement leakage prevention, continuous renumbering and release audit gate
 Resumable single-entry efficiency workflow with evidence, review, preflight and formal-build checkpoints
 Source-hash-bound cache reuse, reviewed family candidates and shared read-only audit context

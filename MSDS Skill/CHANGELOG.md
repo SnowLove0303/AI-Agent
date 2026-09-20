@@ -274,6 +274,23 @@ inside the skill package. Historical evidence and rollback material must be
 stored outside the distributable skill directory and must never be presented
 to an Agent as an alternative template authority.
 
+## [3.26.4] - 2026-09-20
+
+### Added
+- **GHS Precautionary Code Reverse Resolver (`scripts/ghs_code_resolver.py`)**:
+  - Automatically resolves natural language safety, emergency handling, storage and disposal text to canonical alphanumeric GHS P-codes (`P280`, `P264`, `P270`, `P271`, `P304+P340`, `P305+P351+P338`, `P302+P352`, `P301+P330+P331`, `P391`, `P370+P378`, `P403+P235`, `P501`).
+  - Standardizes precautionary output into four distinct blocks: 预防措施 / Prevention, 事故响应 / Response, 安全储存 / Storage, 废弃处置 / Disposal.
+- **Jev System One Dispatcher (`scripts/jev_dispatcher.py`)**:
+  - Integrates `C:\Users\Administrator\.jev\jev.py` (`decide_choice`) for intelligent routing and signal word resolution.
+  - Automatically recognizes `警告词：警告` as canonical Signal Word (`警告` in CN, `Warning` in EN).
+  - Intelligently extracts Section 3 amine neutralization / SCL threshold notes and routes them into Section 2.3 GHS Label Elements.
+- **Section 2 Non-Hazard & Skeleton Preservation Refinement**:
+  - Corrected over-suppression policy: substantive hazard statements (`没有明显的已知作用或严重危险。`), physical/chemical hazards (`对水体、土壤可造成一定的污染。`), and environmental hazards are strictly preserved.
+  - Guaranteed continuous renumbering across all visible rows without phantom row leaks.
+- **Section 11 Multi-Tier Toxicology Transparency**:
+  - Explicitly states polymer-tier lack of data (`羟基聚丙烯酸酯分散体：毒性：无资料；刺激性：无资料`).
+  - Explicitly binds and displays toxicological reference component with CAS number (`二丙二醇丁醚，CAS 29911-28-2`).
+
 ## [3.26.3] - 2026-09-18
 
 ### Added

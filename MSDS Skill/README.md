@@ -1,4 +1,8 @@
-# MSDS Skill 3.26.3
+# MSDS Skill 3.26.4
+
+V3.26.4 introduces the GHS code reverse-resolver (`scripts/ghs_code_resolver.py`), Jev System One dispatcher (`scripts/jev_dispatcher.py`), signal word recognition, Section 3 amine salt neutralization note intelligent routing into Section 2.3, and multi-tier toxicology reporting in Section 11.
+
+
 
 `MSDS Skill` is the controlled MSDS/SDS standardization skill for producing synchronized Chinese and English deliverables for the Guanzhi and Guocai company profiles.
 
