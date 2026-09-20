@@ -76,7 +76,7 @@ def set_cell_value_unified(
         p_elem.getparent().remove(p_elem)
 
     heading_pattern = re.compile(
-        r"^(?:预防措施|事故响应|安全储存|废弃处置|Prevention|Response|Storage|Disposal)[：:]?$",
+        r"^(?:预防措施|事故响应|安全储存|安全存储|废弃处置|Prevention|Response|Storage|Disposal)[：:]?$",
         re.IGNORECASE,
     )
 
