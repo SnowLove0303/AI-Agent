@@ -295,3 +295,45 @@ def test_cn_source_headings_are_projected_without_layout_drift():
     assert [row.cells[0].text for row in output.tables[1].rows] == [
         row.cells[0].text for row in template.tables[1].rows
     ]
+
+
+def test_non_hazard_section2_suppression_and_release_audit():
+    """Verify that non-hazardous products have absent H/P/route rows suppressed,
+    surviving items renumbered continuously (2.1, 2.2, 2.3), and illegal CMR P-statements blocked.
+    """
+    from audit_section2_release import run as audit_s2
+    document = Document(ROOT / "examples" / "template_reference.docx")
+    table = document.tables[1]
+
+    # Populate non-hazard inputs: Category 2.2 populated as non-hazard, signal word, other hazards;
+    # all H statements, P statements, health routes left empty.
+    table.rows[1].cells[-1].text = ""  # 2.1 emergency overview empty -> suppressed
+    table.rows[2].cells[-1].text = "未被分类"  # 2.2 GHS category -> becomes 2.1
+    table.rows[3].cells[-1].text = ""  # 2.3 label elements empty -> suppressed
+    table.rows[4].cells[-1].text = "无危险的象形图"  # pictogram
+    table.rows[5].cells[-1].text = "无信号词"  # 2.4 signal word -> becomes 2.2
+    table.rows[6].cells[-1].text = ""  # 2.5 H statements empty -> suppressed
+    table.rows[7].cells[-1].text = ""  # 2.6 P statements empty -> suppressed
+    table.rows[8].cells[-1].text = ""  # 2.7 physical/chemical empty -> suppressed
+    for r in range(9, 14):
+        table.rows[r].cells[-1].text = ""  # 2.8 health hazard routes empty -> suppressed
+    table.rows[14].cells[-1].text = ""  # 2.9 environmental empty -> suppressed
+    table.rows[15].cells[-1].text = "无适用资料。"  # 2.10 other hazards -> becomes 2.3
+
+    result = suppress_missing_section2_rows_and_renumber(
+        document, lambda p, text: setattr(p, "text", text)
+    )
+    labels = [row.cells[0].text.strip() for row in document.tables[1].rows[1:]]
+    assert labels == [
+        "2.1  GHS危险性类别：",
+        "GHS象形图：",
+        "2.2  信号词：",
+        "2.3  其他危害",
+    ]
+    errors, info = audit_s2("dummy.docx", document=document)
+    assert not errors, f"Expected audit pass on clean non-hazard S2, got: {errors}"
+
+    # Invalidate by adding prohibited P405 to non-hazardous substance
+    table.rows[-1].cells[-1].text = "P405 储存处须加锁。"
+    errors, _ = audit_s2("dummy.docx", document=document)
+    assert any("P405" in err for err in errors)

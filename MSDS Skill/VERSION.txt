@@ -1,5 +1,6 @@
 MSDS Unified Eight-Deliverable Standardizer Skill
-3.26.2
+3.26.3
+Strict non-hazard Section 2 suppression, P-statement leakage prevention, continuous renumbering and release audit gate
 Resumable single-entry efficiency workflow with evidence, review, preflight and formal-build checkpoints
 Source-hash-bound cache reuse, reviewed family candidates and shared read-only audit context
 Additive machine/review/wait telemetry, non-publishing benchmark harness and bounded WPS worker evidence

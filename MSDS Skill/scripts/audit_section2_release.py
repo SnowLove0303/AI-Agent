@@ -92,6 +92,26 @@ def run(docx, require_pictogram=False, document=None, expected_precautionary_gro
             unique_labels.append(label)
     if unique_labels != [f"2.{i}" for i in range(1, len(unique_labels) + 1)]:
         errors.append(f"Section 2 numbering is not continuous: {unique_labels}")
+
+    # Non-hazard validation: if classified as non-hazardous, verify that no
+    # CMR/toxic precautionary statements (e.g. P201, P202, P405) or phantom/illogical health
+    # routes (e.g. "吸入：可能引起轻微的皮肤刺激") are present.
+    is_non_hazard = bool(
+        re.search(r"未被分类|不属于(?:危险|危害)|not\s+classified|not\s+hazardous", all_text, re.I)
+    )
+    if is_non_hazard:
+        if re.search(r"P405|储存处须加锁|store\s+locked\s+up", all_text, re.I):
+            errors.append("non-hazardous substance must not contain P405 (Store locked up)")
+        if re.search(r"P201|P202|获取特别指示|obtain\s+special\s+instructions", all_text, re.I):
+            errors.append("non-hazardous substance must not contain CMR precautionary statements (P201/P202)")
+        if "吸入：可能引起轻微的皮肤刺激" in all_text or "Inhalation: May cause mild skin irritation" in all_text:
+            errors.append("Section 2 contains illogical health hazard route (inhalation causing skin irritation)")
+
+    # Duplicate label wording check (e.g. "其他危害其他危害" or "Other HazardsOther Hazards")
+    for label in labels:
+        if re.search(r"(其他危害|Other\s+Hazards)", label, re.I):
+            errors.append(f"Section 2 label has duplicated wording: {label}")
+
     return errors, {"pass": not errors, "pictogram_present": pictogram_present, "labels": labels}
 
 

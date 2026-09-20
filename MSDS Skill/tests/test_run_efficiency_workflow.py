@@ -19,7 +19,7 @@ def test_first_invocation_stops_at_review_checkpoint(tmp_path):
     )
 
     assert result["outcome"] == "EVIDENCE_PACKET_READY"
-    state = json.loads((tmp_path / "run" / "workflow-state.json").read_text())
+    state = json.loads((tmp_path / "run" / "workflow-state.json").read_text(encoding='utf-8'))
     assert state["status"] == "awaiting_review"
     assert state["stages"]["review"]["status"] == "required"
     assert state["stages"]["preflight"]["status"] == "pending"
@@ -47,7 +47,7 @@ def test_blocked_preflight_never_starts_build(tmp_path, monkeypatch):
 
     assert result["outcome"] == "PREFLIGHT_BLOCKED"
     assert calls == []
-    state = json.loads((tmp_path / "run" / "workflow-state.json").read_text())
+    state = json.loads((tmp_path / "run" / "workflow-state.json").read_text(encoding='utf-8'))
     assert state["status"] == "preflight_blocked"
     assert state["stages"]["build"]["status"] == "not_started"
 
@@ -78,6 +78,6 @@ def test_passed_preflight_calls_formal_build_once(tmp_path, monkeypatch):
     assert result["outcome"] == "RELEASE_PASS"
     assert len(calls) == 1
     assert calls[0]["do_pdf"] is False
-    state = json.loads((tmp_path / "run" / "workflow-state.json").read_text())
+    state = json.loads((tmp_path / "run" / "workflow-state.json").read_text(encoding='utf-8'))
     assert state["status"] == "release_pass"
     assert state["stages"]["build"]["status"] == "passed"

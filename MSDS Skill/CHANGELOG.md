@@ -273,3 +273,20 @@ Only the current formal templates and current active snapshots are maintained
 inside the skill package. Historical evidence and rollback material must be
 stored outside the distributable skill directory and must never be presented
 to an Agent as an alternative template authority.
+
+## [3.26.3] - 2026-09-18
+
+### Added
+- **Strict Non-Hazard Section 2 Suppression**:
+  - Automatically suppresses absent H-statements (2.3), P-statements (2.4), physical/chemical hazards (2.5), and health hazard route breakdowns (2.6) when a substance is explicitly classified as non-hazardous under GHS.
+  - Automatically clears phantom/inherited H/P statements during fact extraction if no explicit hazard codes are present in the source text.
+- **Enhanced Section 2 Non-Hazard Release Audit Gate (`audit_section2_release.py`)**:
+  - Prohibits CMR/high-risk precautionary statements (`P201`, `P202`, `P405 储存处须加锁` / `Store locked up`) on non-hazardous chemicals.
+  - Detects and blocks illogical health hazard route synthesis (e.g. `吸入：可能引起轻微的皮肤刺激`).
+  - Audits continuous post-omission numbering continuity (`2.1` -> Pictogram -> `2.2` -> `2.3`).
+  - Detects and blocks duplicated label wording (e.g. `其他危害其他危害`).
+- **Synchronized CN/EN Non-Hazard Glossary**:
+  - Added controlled translations in `professional_translation_glossary.tsv` for `无信号词` (`No signal word`), `无危险的象形图` (`No hazard pictogram`), `未被分类` (`Not classified`), transport non-hazard statements, and confidential trade secrets.
+
+---
+

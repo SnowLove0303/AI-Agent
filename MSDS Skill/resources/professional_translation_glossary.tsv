@@ -93,3 +93,20 @@ CAS编号	CAS No.	Section 3
 基于现有数据，未满足分类标准。	Based on available data, the classification criteria are not met.	Professional phrase
 非危险货物	Not regulated as dangerous goods.	Transport
 不适用	Not applicable	Substantive applicability only
+无信号词	No signal word	Section 2 controlled non-hazard signal word
+无危险的象形图	No hazard pictogram	Section 2 non-hazard pictogram statement
+无危险的象形图警示性说明	No hazard pictograms or precautionary statements	Section 2 non-hazard pictogram and precautionary statement
+未被分类	Not classified	Section 2 GHS classification
+物理危险：未被分类	Physical hazard: Not classified	Section 2 GHS classification
+健康危险：未被分类	Health hazard: Not classified	Section 2 GHS classification
+环境危险：未被分类	Environmental hazard: Not classified	Section 2 GHS classification
+根据GB 12268《危险货物品名表》，未分类为危险货物。	Not classified as dangerous goods according to GB 12268 "List of Dangerous Goods".	Section 2 transport classification
+无适用资料。	No applicable data.	Section 2 other hazards
+商业机密	Trade secret	Section 3 confidential ingredient
+聚氨酯分散体	Polyurethane dispersion	Section 3 ingredient
+聚氨酯聚合物	Polyurethane polymer	Section 3 ingredient
+去离子水	Deionized water	Section 3 ingredient
+三乙胺	Triethylamine	Section 3 ingredient
+目测	Visual inspection	TDS/MSDS test method
+蓝光半透液体	Bluish translucent liquid	TDS/MSDS appearance
+蓝光透明乳液	Bluish transparent emulsion	TDS/MSDS appearance

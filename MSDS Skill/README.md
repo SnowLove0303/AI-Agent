@@ -1,4 +1,4 @@
-# MSDS Skill 3.26.2
+# MSDS Skill 3.26.3
 
 `MSDS Skill` is the controlled MSDS/SDS standardization skill for producing synchronized Chinese and English deliverables for the Guanzhi and Guocai company profiles.
 
@@ -12,7 +12,7 @@ cross-target fact duplication. Output-only S8.2 topology and S11.4 vertical
 alignment audits block structural drift while keeping the formal templates
 byte-pinned.
 
-V3.26.2 adds a reviewed English product-name gate, active English-template
+V3.26.3 adds a reviewed English product-name gate, active English-template
 remediation, Arial 12 pt value prototypes, bold health-hazard route prefixes,
 and fail-closed English value typography checks. TDS production remains
 outside this repository and is recorded as an external follow-up.
@@ -87,7 +87,7 @@ Read [`SKILL.md`](SKILL.md) for the operating contract. The reusable scripts, te
 
 ## Version
 
-Public release: `MSDS Skill 3.26.2`
+Public release: `MSDS Skill 3.26.3`
 
 Template baseline: the current user-supplied formal CN/EN templates are adopted
 byte-for-byte for the CN source and as a reviewed maintainer remediation for

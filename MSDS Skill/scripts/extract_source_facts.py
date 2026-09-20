@@ -499,14 +499,25 @@ def extract_s2(table, ext: Extraction) -> dict:
         re.search(r"不属于(?:危险|危害)|not\s+hazardous|not\s+classified", value, re.I)
         for value in out["ghs_classes"]
     )
-    if non_hazard and not out["signal"]:
-        # Controlled fallback is allowed only because the source explicitly
-        # concluded that the product is not hazardous under GHS.
-        out["signal"] = "无信号词"
-        ext.flag("s2", "controlled-nonhazard-signal-fallback", "source classification is non-hazardous")
-    if non_hazard and not out["label_elements"]:
-        out["label_elements"] = ["无危险的象形图警示性说明"]
-        ext.flag("s2", "controlled-nonhazard-pictogram-fallback", "source classification is non-hazardous")
+    if non_hazard:
+        # For non-hazardous substances, clear phantom/inherited H/P statements
+        # unless explicit codes were present in the source text itself.
+        has_explicit_codes = any(
+            re.match(r"^[HP]|EUH", line) for line in out.get("raw_lines", [])
+        )
+        if not has_explicit_codes:
+            out["h_statements"] = []
+            out["p_statements"] = []
+            out["precautionary_groups"] = []
+            out["health_hazards"] = {route: [] for route, _ in _HEALTH_ROUTE_PATTERNS}
+            ext.flag("s2", "controlled-nonhazard-cleared",
+                     "non-hazardous substance: cleared absent H/P statements and health routes")
+        if not out["signal"]:
+            out["signal"] = "无信号词"
+            ext.flag("s2", "controlled-nonhazard-signal-fallback", "source classification is non-hazardous")
+        if not out["label_elements"]:
+            out["label_elements"] = ["无危险的象形图警示性说明"]
+            ext.flag("s2", "controlled-nonhazard-pictogram-fallback", "source classification is non-hazardous")
     if not out["signal"]:
         ext.flag("s2", "signal-missing",
                  "no explicit signal word in source; confirm before writing")
