@@ -1,4 +1,6 @@
-# MSDS Skill 3.26.6
+# MSDS Skill 3.27.0
+
+V3.27.0 standardizes the new user-tuned English 16-table master template (`examples/template_reference_en.docx`), updates the Section 8 geometry to 12 rows across the entire architecture (`[9, 16, 6, 6, 5, 4, 3, 12, 24, 6, 18, 6, 3, 5, 9, 2]`), enforces an absolute lock on bold font and cell formatting, eliminates residual Chinese characters, and guarantees exact 7-page PDF convergence (eliminating trailing 8th blank page).
 
 V3.26.6 embeds the Jev System One Core Engine (`scripts/jev_engine.py`) and Domain Adjudicator (`scripts/jev_domain_adjudicator.py`), providing on-demand TypeSafe System One decision making, fast/slow dual-path routing, and an auditable Decision Ledger.
 
@@ -23,65 +25,7 @@ alignment audits block structural drift while keeping the formal templates
 byte-pinned.
 
 V3.26.3 adds a reviewed English product-name gate, active English-template
-remediation, Arial 12 pt value prototypes, bold health-hazard route prefixes,
-and fail-closed English value typography checks. TDS production remains
-outside this repository and is recorded as an external follow-up.
-
-V3.26.0 adds source/cache reuse, a read-only shared audit context and
-non-publishing efficiency telemetry/benchmarking. It keeps WPS conversion
-bounded and conservative, does not bundle another office engine, and does not
-turn cache hits or benchmark checkpoints into approval or release gates.
-
-## Scope
-
-- One source-grounded semantic model.
-- Four synchronized DOCX masters: Chinese/English × Guanzhi/Guocai.
-- Four PDFs derived one-to-one from the final audited DOCX files.
-- Fresh-clone in-place overwrite of the approved template.
-- One physical row per Section 3 component.
-- Structured Section 11 toxicology through 11.10.
-- Section 9 omission of pure missing-data rows followed by continuous renumbering.
-- Source-grounded facts only; example values embedded in the template are not product facts.
-- Locked template geometry, labels, paragraph/run formatting and header/footer conventions.
-- Bold labels/runs, bold EN health-hazard route prefixes, CN route prefixes
-  and structured middle sublabels are all template-owned locks; S3 remains
-  three physical columns
-  and S8.2 remains four physical columns. Only declared final value cells,
-  source-gated hide decisions and necessary styled row insertions are writable.
-- Section 8.2 uses the formal template's top-level four-column control-parameter rows (`物质 / 依据 / 类型 / 数值`; EN `Substance / Basis / Type / Value`) with source-grounded data-row projection; with no verified records the complete workplace-component block is hidden and no synthetic missing-data row is emitted.
-- Release-blocking audits and full-page visual QA.
-- Feishu 17-section skeleton mutation whitelist: sequence/label columns and
-  template-owned geometry are locked; the Agent may change only approved value
-  cells, empty/hide decisions and necessary styled data rows. Pictograms,
-  aliases, numbering and company/header/footer fields are runtime-controlled.
-- Source `主要粘膜刺激性` is mapped to the existing `11.3 主要眼睛刺激性`
-  endpoint without inventing an additional conclusion or moving it to 11.10.
-- A unified deliverable evaluation layer assigns a fixed 100-point quality
-  score, applies B0/B1/B2 release blockers, and emits one evidence-complete
-  audit report for every eight-file package.
-- Source discovery is explicit and hash-bound: DOCX/DOCM extract directly,
-  DOC/ODT/RTF use a source-hash-bound LibreOffice conversion cache, and XLS/XLSX/TXT source
-  files are discoverable but remain blocked from guessed 16-section extraction
-  until their semantic adapters are approved. PDF is output-only.
-- S1-S16 table behavior is declared in one executable overwrite-rule registry;
-  payload shape, table structure and allowed omission boundaries are checked
-  before writing values.
-- Matrix builds reuse immutable template documents and the saved in-memory DOCX
-  across audits; all four DOCX masters finish before a bounded parallel PDF
-  batch starts, with Harness-visible progress checkpoints.
-- Active template files are byte-pinned before cloning; a changed or
-  unapproved template baseline blocks release.
-- Approved facts require a source-bound, reviewed S1-S16 mapping manifest with
-  an explicit disposition for every extracted candidate, so unresolved or
-  silently omitted source material cannot enter a formal build.
-- Approved facts also require a source-coverage inventory, stable-ID fact
-  ledger and reviewed output-traceability record. Every source fact must be
-  disposed, every output value must point to evidence, and unreadable,
-  ambiguous or conflicting source content blocks the build before template
-  cloning.
-- Source interpretation,取舍 and semantic line-break rules are documented in
-  `docs/source_interpretation_playbook.md` and enforced by
-  `scripts/source_interpretation_contract.py`.
+remediation, Arial 12 pt body typography, and formal TDS separation.
 - V3.25 adds fail-closed source grounding, S15/S16 one-cell de-duplication,
   Section 11 alias and short-row policies, deterministic WPS timeout cleanup,
   and per-model `WORD`/`PDF` output isolation.
@@ -97,15 +41,15 @@ Read [`SKILL.md`](SKILL.md) for the operating contract. The reusable scripts, te
 
 ## Version
 
-Public release: `MSDS Skill 3.26.3`
+Public release: `MSDS Skill 3.27.0`
 
 Template baseline: the current user-supplied formal CN/EN templates are adopted
 byte-for-byte for the CN source and as a reviewed maintainer remediation for
 the EN active baseline. CN SHA-256 is
 `b6c52c3d6003d4314e578733c5066dc9541c70ee49957ab56c24dd749ade2d43`. EN source
-SHA-256 is `34a259eed50d2e78b4609c66453fa9baab610a623dcc7ee531db359b1a988497`;
+SHA-256 is `38565de4ce59f2e34146d03ed3eefa692df4f42cc4d212d8e4fb7b098f924eef`;
 EN active SHA-256 is
-`49a279aa8c7a50f38ee6929ca2f030cf13b01ee0d1e476d790a2352a316bfa2b`.
+`38565de4ce59f2e34146d03ed3eefa692df4f42cc4d212d8e4fb7b098f924eef`.
 Historical template copies and versioned snapshots are intentionally excluded
 from the distributable package. Rollback evidence must be stored outside the
 active skill directory.

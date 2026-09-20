@@ -1,5 +1,6 @@
 MSDS Unified Eight-Deliverable Standardizer Skill
-3.26.6
+3.27.0
+Standard EN master template and 12-row geometry baseline, strict bold and format lock, 7-page exact convergence
 Jev System One domain adjudicator and decision ledger, dual-system fast/slow path routing
 Verbatim Section 2 GHS label elements, unified 12.0 pt value typography enforcement, Section 11 independent row playbook
 GHS precautionary reverse-resolution, Jev signal word and Section 3 amine salt routing, Section 11 multi-tier toxicology

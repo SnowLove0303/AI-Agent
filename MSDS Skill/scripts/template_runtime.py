@@ -13,9 +13,9 @@ from template_mutation_whitelist import write_row_values
 
 
 CN_GUANZHI = "广州冠志新材料科技有限公司"
-CN_GUANZHI_ADDR = "广州市萝岗区科学城掬泉路3号广州国际企业孵化器A区1106室"
-CN_GUOCAI = "英德市国彩精细化工有限公司"
-CN_GUOCAI_ADDR = "广东省英德市白沙镇太平村更古坑凯迪工业园区"
+CN_GUANZHI_ADDR = "广州开发区科学城开源路11号科技企业加速器A4栋1106房"
+CN_GUOCAI = "英德市国彩新材料有限公司"
+CN_GUOCAI_ADDR = "广东省英德市白沙镇太平村更古坑凯迪工业园"
 EN_GUANZHI = "Guangzhou Guanzhi New Materials Technology Co., Ltd."
 EN_GUANZHI_ADDR = "Room 1106, Area A, Guangzhou International Enterprise Incubator, No. 3 Juquan Road, Science City, Luogang District, Guangzhou"
 EN_GUOCAI = "Yingde Guocai Fine Chemical Co., Ltd."
@@ -29,7 +29,7 @@ def unique_cells(row):
 def template_geometry(language: str) -> dict:
     rows = ([10, 16, 6, 6, 5, 4, 3, 16, 24, 6, 18, 6, 3, 5, 9, 2]
             if language == "zh" else
-            [9, 16, 6, 6, 5, 4, 3, 16, 24, 6, 18, 6, 3, 5, 9, 2])
+            [9, 16, 6, 6, 5, 4, 3, 12, 24, 6, 18, 6, 3, 5, 9, 2])
     if language not in {"zh", "en"}:
         raise ValueError(f"unsupported language: {language}")
     return {"table_count": 16, "rows": rows}

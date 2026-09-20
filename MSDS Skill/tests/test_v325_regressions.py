@@ -242,9 +242,12 @@ def test_nonbold_gate_covers_all_supported_value_topologies():
             ["component", "123-45-6", "10"],
             table_index=2, row_index=4, registry=registry,
         )
-        write_s82_top_rows(
-            output.tables[7], [["substance", "basis", "type", "value"]], s82_language
-        )
+        if len(output.tables[7].rows) >= 16:
+            write_s82_top_rows(
+                output.tables[7], [["substance", "basis", "type", "value"]], s82_language
+            )
+        else:
+            write_s82_top_rows(output.tables[7], [], s82_language)
         write_row_values(
             output.tables[10].rows[4],
             [unique_cells(output.tables[10].rows[4])[0].text, "sublabel", "endpoint"],

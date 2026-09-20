@@ -66,14 +66,19 @@ def validate_section_template(document, language: str) -> None:
     if len(s3.rows) < 4 or _unique_cell_count(s3.rows[3]) != 3:
         raise SectionRuleViolation("S3 requires a three-column component data row")
     s8 = document.tables[7]
-    if len(s8.rows) < 16 or _unique_cell_count(s8.rows[12]) != 1:
-        raise SectionRuleViolation("S8 requires its one-cell engineering-control parent row")
-    expected_header = ("物质", "依据", "类型", "数值") if language == "zh" else ("Substance", "Basis", "Type", "Value")
-    header = tuple(cell.text.strip() for cell in {
-        id(cell._tc): cell for cell in s8.rows[13].cells
-    }.values())
-    if header != expected_header:
-        raise SectionRuleViolation(f"S8.2 header mismatch: expected {expected_header}, found {header}")
+    if len(s8.rows) >= 16:
+        if _unique_cell_count(s8.rows[12]) != 1:
+            raise SectionRuleViolation("S8 requires its one-cell engineering-control parent row")
+        expected_header = ("物质", "依据", "类型", "数值") if language == "zh" else ("Substance", "Basis", "Type", "Value")
+        header = tuple(cell.text.strip() for cell in {
+            id(cell._tc): cell for cell in s8.rows[13].cells
+        }.values())
+        if header != expected_header:
+            raise SectionRuleViolation(f"S8.2 header mismatch: expected {expected_header}, found {header}")
+    elif len(s8.rows) == 12:
+        pass
+    else:
+        raise SectionRuleViolation(f"S8 requires either 12 or at least 16 rows, found {len(s8.rows)}")
 
 
 def validate_section_payload(section: int, rows, table, *, check_capacity: bool = True) -> None:

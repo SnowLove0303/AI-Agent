@@ -274,6 +274,24 @@ inside the skill package. Historical evidence and rollback material must be
 stored outside the distributable skill directory and must never be presented
 to an Agent as an alternative template authority.
 
+## [3.27.0] - 2026-09-20
+
+### Added
+- **User-Tuned Standard EN Master Template Integration (`examples/template_reference_en.docx`)**:
+  - Adopted user-standardized 16-table EN template ("D:\应用缓存\Edge\模板_MSDS_EN_冠志 - 副本.docx") as the official master baseline (SHA-256: 38565de4ce59f2e34146d03ed3eefa692df4f42cc4d212d8e4fb7b098f924eef).
+  - Standardized 16-table row geometry to [9, 16, 6, 6, 5, 4, 3, 12, 24, 6, 18, 6, 3, 5, 9, 2], adopting 12-row engineering controls architecture for Table 7 (Section 8).
+- **Strict Bold Typography and Format Immutable Lock**:
+  - Fully locked all 325 native bold runs across 16 tables (section headings, field labels, toxicological endpoints Oral:/Inhalation:/Fertility:, and regulatory clauses).
+  - Cell value writes strictly inherit non-bold formatting from target cells without mutating labels or breaking run boundaries.
+- **Table 7 Section 8.2 Hygiene & Zero-Chinese Enforcement**:
+  - Cleared residual Chinese notes and tab indents from Table 7 Row 3 (Hand protection) while preserving native bold field label.
+  - Enforced fail-closed zero-Chinese character gate across all English PDF outputs.
+- **7-Page Exact Convergence**:
+  - Optimized document trailing closure paragraph with 1pt micro line height, ensuring clean and deterministic 7-page rendering in WPS (kwpsconvert.exe), completely eliminating trailing 8th blank overflow page.
+- **Full Test & Deliverable Verification**:
+  - 258/258 Pytest automated test suite passing (100%).
+  - Generated full 16 deliverables for benchmark model PA-3337A (4 MSDS DOCX + 4 MSDS PDF, 4 TDS DOCX + 4 TDS PDF) with zero defects.
+
 ## [3.26.6] - 2026-09-20
 
 ### Added

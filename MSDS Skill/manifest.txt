@@ -51,6 +51,7 @@ resources/professional_translation_glossary.tsv
 resources/section2_ghs_policy.md
 resources/section_translation_rules.md
 resources/structured_toxicology_translation.md
+resources/OS-6040_approved_facts.json
 scripts/agent_execution_contract.py
 scripts/audit_context.py
 scripts/audit_deliverable_package.py

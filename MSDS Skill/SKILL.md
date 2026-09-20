@@ -3,7 +3,15 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS standardization skill that discovers supported source files, binds source-grounded facts to synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, preserves locked templates, and releases four DOCX plus four PDF deliverables only after semantic and render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.26.6
+# Unified MSDS Eight-Deliverable Standardizer v3.27.0
+
+## Mandatory EN Master Template & Format/Bold Immutable Lock (v3.27.0)
+
+1. The user-tuned 16-table English master template (examples/template_reference_en.docx) is the immutable baseline for all English MSDS generation.
+2. Section 8 (Table 7) standard geometry is 12 rows ([9, 16, 6, 6, 5, 4, 3, 12, 24, 6, 18, 6, 3, 5, 9, 2]).
+3. Bold runs (325 runs across 16 tables) and paragraph formatting are strictly locked. Value cells inherit typography without mutating labels or modifying bold status.
+4. Output must strictly converge to 7 pages without 8th blank overflow page, and enforce a 0 Chinese characters gate.
+
 
 ## Mandatory Jev System One Adjudication and Decision Ledger (v3.26.6)
 
