@@ -87,8 +87,8 @@ def test_route_s3_to_s2():
     routed = route_s3_to_s2(s3_raw)
     assert routed is not None
     assert "N,N-二甲基乙醇胺" in routed["zh"]
-    assert "已完全键合为盐" in routed["zh"]
-    assert "SCL >= 5%" in routed["en"]
+    assert "已键合为盐" in routed["zh"]
+    assert "N,N-Dimethylethanolamine" in routed["en"]
 
     assert route_s3_to_s2("普通水性树脂，无中和剂") is None
 

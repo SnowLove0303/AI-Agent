@@ -1,5 +1,6 @@
 MSDS Unified Eight-Deliverable Standardizer Skill
-3.26.4
+3.26.5
+Verbatim Section 2 GHS label elements, unified 12.0 pt value typography enforcement, Section 11 independent row playbook
 GHS precautionary reverse-resolution, Jev signal word and Section 3 amine salt routing, Section 11 multi-tier toxicology
 Strict non-hazard Section 2 suppression, P-statement leakage prevention, continuous renumbering and release audit gate
 Resumable single-entry efficiency workflow with evidence, review, preflight and formal-build checkpoints
@@ -22,5 +23,5 @@ OpenSpec execution/read gate and fail-closed empty-value/format/ordering audit
 Agent mutation boundary narrowed to value cells, presence decisions and necessary styled rows
 Source coverage, fact ledger, reviewed mapping and output traceability are mandatory pre-clone gates
 Source interpretation distinguishes absent, unreadable, ambiguous and conflicting evidence
-Semantic line-break and evidence-preserving取舍 playbook added with regression tests
+Semantic line-break and evidence-preserving playbook added with regression tests
 Clean distributable: historical templates, stale output examples, generated caches and broken task-work fixtures removed

@@ -3,7 +3,14 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS standardization skill that discovers supported source files, binds source-grounded facts to synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, preserves locked templates, and releases four DOCX plus four PDF deliverables only after semantic and render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.26.4
+# Unified MSDS Eight-Deliverable Standardizer v3.26.5
+
+## Mandatory Verbatim Section 2, Unified Value Typography, and Independent Row Playbook (v3.26.5)
+
+1. `set_cell_value_unified` must be used across all 16 sections to strictly enforce 12.0 pt (`<w:sz w:val="24"/>`), exact fonts (Arial for English/numbers, 宋体 for Chinese), single run per line, and zero dangling empty paragraphs.
+2. Section 2.2 GHS Label Elements must preserve verbatim source text (e.g. `羟基丙烯酸酯聚合物GHS危险性分类：不适用\n请注意以下物质：\nN,N-二甲基乙醇胺，中和剂，已键合为盐，质量浓度小于2.0%`).
+3. Follow `docs/independent_row_playbook.md` strictly: product-level study conclusions and polymer component data must NEVER be congested together; they must occupy distinct independent rows/paragraphs.
+
 
 ## Mandatory GHS code reverse-resolution and Jev dispatcher routing (v3.26.4)
 

@@ -7,6 +7,7 @@ import re
 from pathlib import Path
 
 from docx import Document
+from docx.oxml.ns import qn
 
 from section2_ghs_policy import (
     is_explicit_other_hazards_row,
@@ -38,7 +39,36 @@ def _precautionary_value(table) -> str:
     return ""
 
 
-def run(docx, require_pictogram=False, document=None, expected_precautionary_groups=None):
+def audit_value_cell_typography(docx, language: str = "zh") -> list[str]:
+    """Audit every value cell across Section 2 to guarantee 12.0 pt typography and consistent fonts."""
+    doc = Document(str(docx)) if not hasattr(docx, "tables") else docx
+    table = doc.tables[1]
+    errors = []
+    for r_idx, row in enumerate(table.rows[1:], start=1):
+        cells = unique_cells(row)
+        if len(cells) < 2:
+            continue
+        val_cell = cells[-1]
+        for p in val_cell.paragraphs:
+            for r in p.runs:
+                txt = r.text.strip()
+                if not txt:
+                    continue
+                rPr = r._r.find(qn("w:rPr"))
+                if rPr is None:
+                    errors.append(f"Section 2 row {r_idx} cell run '{txt[:15]}' missing rPr formatting")
+                    continue
+                sz = rPr.find(qn("w:sz"))
+                val = sz.get(qn("w:val")) if sz is not None else None
+                if val != "24":
+                    errors.append(f"Section 2 row {r_idx} cell run '{txt[:15]}' size {val} != 24 (12pt)")
+                b = rPr.find(qn("w:b"))
+                if b is not None and b.get(qn("w:val")) not in ("0", "false"):
+                    errors.append(f"Section 2 row {r_idx} cell run '{txt[:15]}' is unexpectedly bold")
+    return errors
+
+
+def run(docx, require_pictogram=False, document=None, expected_precautionary_groups=None, check_typography=False):
     """Audit one built DOCX; return (errors, info). Import-safe core of main()."""
     doc = document or Document(str(docx))
     table = doc.tables[1]
@@ -106,6 +136,10 @@ def run(docx, require_pictogram=False, document=None, expected_precautionary_gro
             errors.append("non-hazardous substance must not contain CMR precautionary statements (P201/P202)")
         if "吸入：可能引起轻微的皮肤刺激" in all_text or "Inhalation: May cause mild skin irritation" in all_text:
             errors.append("Section 2 contains illogical health hazard route (inhalation causing skin irritation)")
+
+    # Value cell typography check
+    if check_typography:
+        errors.extend(audit_value_cell_typography(doc))
 
     # Duplicate label wording check (e.g. "其他危害其他危害" or "Other HazardsOther Hazards")
     for label in labels:

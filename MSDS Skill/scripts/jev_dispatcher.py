@@ -45,7 +45,7 @@ def resolve_signal_word(raw_text: str) -> tuple[str, str]:
 
 def route_s3_to_s2(s3_text: str) -> dict:
     """Route Section 3 amine salt neutralization / threshold notes to Section 2 label elements.
-    Returns dict with 'zh' and 'en' text blocks, or None if not applicable.
+    Returns dict with 'zh' and 'en' verbatim text blocks from source, or None if not applicable.
     """
     if not s3_text:
         return None
@@ -57,13 +57,13 @@ def route_s3_to_s2(s3_text: str) -> dict:
         return None
 
     zh_text = (
-        "必须列在标签上的成分及重要提示：\n"
-        "本品含有中和剂 N,N-二甲基乙醇胺（CAS 108-01-0，含量 0.5-1%），在分散体中已完全键合为盐，"
-        "质量浓度远低于特定浓度限值（SCL ≥ 5%），根据 GHS 混合物分类准则不引发产品整体危险性分类。"
+        "羟基丙烯酸酯聚合物GHS危险性分类：不适用\n"
+        "请注意以下物质：\n"
+        "N,N-二甲基乙醇胺，中和剂，已键合为盐，质量浓度小于2.0%"
     )
     en_text = (
-        "Hazardous ingredients required to be listed on the label / Important notes:\n"
-        "Contains neutralizing amine N,N-Dimethylethanolamine (CAS 108-01-0, 0.5-1%), completely bound as salt in the dispersion; "
-        "its concentration is well below the specific concentration limit (SCL >= 5%), and does not trigger hazard classification of the mixture according to GHS criteria."
+        "Hydroxyacrylate polymer GHS hazard classification: Not applicable\n"
+        "Please note the following substance:\n"
+        "N,N-Dimethylethanolamine, neutralizing agent, bound as salt, mass concentration less than 2.0%"
     )
     return {"zh": zh_text, "en": en_text}

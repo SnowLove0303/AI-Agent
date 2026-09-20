@@ -21,6 +21,7 @@ import re
 from copy import deepcopy
 
 from docx.oxml.ns import qn
+from docx.oxml import OxmlElement
 
 from section2_hp_policy import is_missing_data_value, render_precautionary_groups
 from template_mutation_whitelist import composite_value_text, is_s28_row, unique_cells
@@ -38,6 +39,70 @@ except ImportError:
         resolve_signal_word = None
         route_s3_to_s2 = None
 
+
+def set_cell_value_unified(
+    cell,
+    text_or_lines: str | list[str] | tuple[str, ...],
+    lang: str = "zh",
+    bold: bool = False,
+    size_pt: float = 12.0,
+):
+    """Set cell value with guaranteed 12.0 pt typography and consistent font family.
+
+    Splits multi-line content into distinct paragraphs, cleans extraneous empty paragraphs,
+    and injects complete w:rPr on every run.
+    """
+    if isinstance(text_or_lines, str):
+        lines = [line.strip() for line in text_or_lines.split("\n") if line.strip()]
+    elif isinstance(text_or_lines, (list, tuple)):
+        lines = [str(line).strip() for line in text_or_lines if str(line).strip()]
+    else:
+        s = str(text_or_lines).strip() if text_or_lines is not None else ""
+        lines = [s] if s else []
+
+    if not lines:
+        lines = [""]
+
+    half_pts = str(int(round(size_pt * 2)))
+
+    # Ensure exact number of paragraphs
+    while len(cell.paragraphs) < len(lines):
+        cell.add_paragraph()
+    while len(cell.paragraphs) > len(lines):
+        p_elem = cell.paragraphs[-1]._p
+        p_elem.getparent().remove(p_elem)
+
+    for p, line in zip(cell.paragraphs, lines):
+        p.text = line
+        run = p.runs[0]
+        rPr = run._r.get_or_add_rPr()
+
+        # 1. Fonts
+        rFonts = rPr.find(qn("w:rFonts"))
+        if rFonts is None:
+            rFonts = OxmlElement("w:rFonts")
+            rPr.append(rFonts)
+        rFonts.set(qn("w:ascii"), "Arial")
+        rFonts.set(qn("w:hAnsi"), "Arial")
+        if lang == "zh":
+            rFonts.set(qn("w:eastAsia"), "宋体")
+            rFonts.set(qn("w:hint"), "eastAsia")
+
+        # 2. Size
+        sz = rPr.find(qn("w:sz"))
+        if sz is None:
+            sz = OxmlElement("w:sz")
+            rPr.append(sz)
+        sz.set(qn("w:val"), half_pts)
+
+        szCs = rPr.find(qn("w:szCs"))
+        if szCs is None:
+            szCs = OxmlElement("w:szCs")
+            rPr.append(szCs)
+        szCs.set(qn("w:val"), half_pts)
+
+        # 3. Bold
+        run.font.bold = bold
 
 def format_label_elements(
     language: str,

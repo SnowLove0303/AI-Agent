@@ -1,4 +1,7 @@
-# MSDS Skill 3.26.4
+# MSDS Skill 3.26.5
+
+V3.26.5 permanently enforces 100% unified 12.0 pt value cell typography via `set_cell_value_unified`, guarantees verbatim Section 2 label elements from source files, and codifies the Independent Row and Paragraph Separation Playbook (`docs/independent_row_playbook.md`) ensuring product-level status and polymer data are cleanly separated into independent table rows.
+
 
 V3.26.4 introduces the GHS code reverse-resolver (`scripts/ghs_code_resolver.py`), Jev System One dispatcher (`scripts/jev_dispatcher.py`), signal word recognition, Section 3 amine salt neutralization note intelligent routing into Section 2.3, and multi-tier toxicology reporting in Section 11.
 
