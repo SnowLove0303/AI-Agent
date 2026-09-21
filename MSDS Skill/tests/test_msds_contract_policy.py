@@ -202,10 +202,13 @@ def test_s11_compressed_facts_are_aligned_by_endpoint_before_rows_are_hidden():
         visible.append((cells[0].text, [cell.text for cell in cells[1:]]))
 
     skin = next(item for item in visible if "11.2" in item[0])
-    sensitization = next(item for item in visible if "11.4" in item[0])
-    teratogenicity = next(item for item in visible if "11.7" in item[0] and "致畸形" in item[1][0])
+    sensitization = next(
+        item for item in visible
+        if any("皮肤接触可能致敏" in value for value in item[1])
+    )
+    teratogenicity = next(item for item in visible if item[1] and "致畸形" in item[1][0])
     assert "轻微刺激" in skin[1][0]
-    assert "皮肤接触可能致敏" in sensitization[1][0]
+    assert any("皮肤接触可能致敏" in value for value in sensitization[1])
     assert teratogenicity[1][-1] == "无数据资料。"
     assert not any("吸入：" in label or "经皮：" in label for label, _ in visible)
     assert all("\n\n" not in value for _, values in visible for value in values)

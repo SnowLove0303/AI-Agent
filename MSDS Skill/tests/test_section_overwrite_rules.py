@@ -7,7 +7,16 @@ from docx import Document
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from msds_pipeline import ReleaseBlocked, validate_template_baselines  # noqa: E402
+from msds_pipeline import (  # noqa: E402
+    ReleaseBlocked,
+    align_note_section_rows,
+    align_s9_rows,
+    validate_template_baselines,
+)
+from section2_ghs_policy import (  # noqa: E402
+    normalize_non_hazard_category,
+    sanitize_label_elements_text,
+)
 from section_overwrite_rules import (  # noqa: E402
     LOCAL_SECTION_POLICIES,
     SECTION_RULES,
@@ -56,3 +65,30 @@ def test_section_11_2_three_column_middle_label_is_not_a_value():
 
     cells = [Cell("11.2 毒性："), Cell("经口："), Cell("LD50 > 5000 mg/kg")]
     assert [cell.text for cell in _payload_cells(cells, 11)] == ["LD50 > 5000 mg/kg"]
+
+
+def test_section2_keeps_explicit_category_and_line_breaks_special_note():
+    assert normalize_non_hazard_category("GHS危险性类别: 无") == "无"
+    assert sanitize_label_elements_text("请注意以下物质：，N,N-二甲基乙醇胺\n特定阈值浓度≥5%") == (
+        "请注意以下物质：\nN,N-二甲基乙醇胺\n特定阈值浓度≥5%"
+    )
+
+
+def test_section9_matches_properties_by_label_not_source_position():
+    template = Document(str(ROOT / "examples" / "template_reference.docx"))
+    rows = align_s9_rows([
+        {"label": "9.3 pH值：", "value": "7-9"},
+        {"label": "外 观：", "value": "透明装液体"},
+    ], template.tables[8])
+    assert rows[0][1] == "透明装液体"
+    assert next(value for label, value in rows if "ph" in label.casefold()) == "7-9"
+
+
+def test_section13_combines_two_notes_into_one_note_slot():
+    template = Document(str(ROOT / "examples" / "template_reference.docx"))
+    rows = align_note_section_rows([
+        ["第一条说明", ""],
+        ["第二条说明", ""],
+        ["处理方法：", "处置值"],
+    ], template.tables[12])
+    assert rows == [["第一条说明\n第二条说明"], ["处理方法：", "处置值"]]

@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import re
 
-from template_mutation_whitelist import normalize_value_text, unique_cells
+from template_mutation_whitelist import normalize_value_text, set_sequence_prefix, unique_cells
 
 
 class Section11AlignmentError(ValueError):
@@ -237,4 +237,29 @@ def align_s11_rows(values, table) -> list:
     return aligned
 
 
-__all__ = ["Section11AlignmentError", "align_s11_rows"]
+def renumber_visible_s11_rows(table) -> dict:
+    """Compact surviving S11 endpoint groups to continuous visible numbers."""
+    next_number = 1
+    old_to_new: dict[int, int] = {}
+    labels = []
+    for row in list(table.rows)[1:]:
+        cells = unique_cells(row)
+        if not cells:
+            continue
+        match = re.match(r"^\s*11\.(\d+)\b", cells[0].text)
+        if not match:
+            continue
+        old = int(match.group(1))
+        if old not in old_to_new:
+            old_to_new[old] = next_number
+            next_number += 1
+        set_sequence_prefix(cells[0], 11, old_to_new[old])
+        labels.append(cells[0].text.strip())
+    return {
+        "renumbered": bool(old_to_new),
+        "number_map": {f"11.{old}": f"11.{new}" for old, new in old_to_new.items()},
+        "visible_labels": labels,
+    }
+
+
+__all__ = ["Section11AlignmentError", "align_s11_rows", "renumber_visible_s11_rows"]

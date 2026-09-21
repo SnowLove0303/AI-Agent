@@ -65,9 +65,9 @@ def test_empty_intermediate_rows_are_removed_before_capacity_check():
 
 
 def test_s5_and_s13_empty_capacity_rows_are_removed_without_reordering_values():
-    for section in (5, 13):
-        rows = [["模板标签A", ""], ["源标签", "源值"], ["模板标签B", ""]]
-        assert sanitize_section_payload(section, rows) == [["源标签", "源值"]]
+    rows = [["模板标签A", ""], ["源标签", "源值"], ["模板标签B", ""]]
+    assert sanitize_section_payload(5, rows) == [["源标签", "源值"]]
+    assert sanitize_section_payload(13, rows) == rows
 
 
 def test_source_grounding_rejects_template_only_value(tmp_path):

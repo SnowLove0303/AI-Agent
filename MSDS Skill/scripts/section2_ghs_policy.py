@@ -155,16 +155,33 @@ def sanitize_label_elements_text(value: object) -> str:
     text = str(value or "").replace("\r", "").strip()
     if not text:
         return ""
+    # Source files sometimes flatten the heading and the note into one line,
+    # occasionally leaving a comma after the heading.  The heading is a
+    # structural cue, so restore the logical line break before filtering any
+    # classification evidence.
+    text = re.sub(
+        r"(请注意以下物质|attention\s+substance)\s*[：:]\s*[，,]?\s*",
+        lambda match: match.group(1) + ("：" if match.group(1) == "请注意以下物质" else ":") + "\n",
+        text,
+        count=1,
+        flags=re.I,
+    )
+    # A flattened source often joins the special-substance note and its
+    # threshold with a comma.  The threshold is a separate logical line in
+    # the maintained skeleton; remove only that separator, not source prose.
+    text = re.sub(
+        r"[，,]\s*(?=(?:特定阈值浓度|specific\s+concentration\s+limit))",
+        "\n",
+        text,
+        count=1,
+        flags=re.I,
+    )
     lines = [line.strip() for line in text.split("\n") if line.strip()]
     if not any(_ATTENTION_NOTE_RE.search(line) for line in lines):
         return text
     kept: list[str] = []
     for line in lines:
         if _LABEL_ELEMENTS_CLASSIFICATION_RE.search(line):
-            continue
-        if re.search(r"特定阈值浓度|specific\s+concentration\s+limit", line, re.I):
-            if kept:
-                kept[-1] = kept[-1].rstrip("。；;，,") + "，" + line
             continue
         kept.append(line)
     return "\n".join(kept).strip()
@@ -206,9 +223,19 @@ def format_label_elements(
 def normalize_non_hazard_category(value: object, *, component_ghs_context: bool = False) -> str:
     """Use the fallback only when no component GHS evidence conflicts."""
     text = str(value or "").strip()
+    # A source fact may repeat its field label inside the value.  The template
+    # already owns that label; retain only the source conclusion (including an
+    # explicit ``无``) so it cannot be mistaken for a missing slot.
+    text = re.sub(
+        r"^\s*GHS\s*(?:危险性)?\s*(?:类别|分类)\s*[:：]\s*",
+        "",
+        text,
+        count=1,
+        flags=re.I,
+    ).strip()
     if component_ghs_context:
         return text
-    return "根据 GHS 不属于危险物" if not text or text == "无" else text
+    return "根据 GHS 不属于危险物" if not text else text
 
 
 def normalize_pictogram_value(value: object) -> str:
@@ -232,6 +259,28 @@ def normalize_s2_projected_rows(rows, s3_rows=None) -> list:
             item[1] = sanitize_label_elements_text(item[1])
         elif len(item) > 1 and "GHS象形图" in label:
             item[1] = normalize_pictogram_value(item[1])
+        elif len(item) > 1:
+            # Source labels and template labels are not required to be
+            # identical.  Once a fact is semantically routed to a template
+            # slot, remove only a leading source field label; never rewrite
+            # the actual source statement.
+            prefix = None
+            if re.search(r"2\.5\s*危险性说明|hazard\s+statement", label, re.I):
+                prefix = r"危险性说明|危害性说明|hazard\s+statement(?:s)?"
+            elif re.search(r"2\.7\s*(?:物理和化学危险|physical\s+and\s+chemical\s+hazards)", label, re.I):
+                prefix = r"物理化学危险|物理和化学危险|physical\s+and\s+chemical\s+hazards"
+            elif re.search(r"2\.9\s*(?:环境危害|environmental\s+hazards)", label, re.I):
+                prefix = r"环境危害|environmental\s+hazards"
+            elif re.search(r"2\.10\s*(?:其他危害|other\s+hazards)", label, re.I):
+                prefix = r"其他危害|危害性说明|other\s+hazards"
+            if prefix:
+                item[1] = re.sub(
+                    rf"^\s*(?:{prefix})\s*[:：]\s*",
+                    "",
+                    str(item[1] or ""),
+                    count=1,
+                    flags=re.I,
+                ).strip()
         normalized.append(item)
     return normalized
 

@@ -14,6 +14,7 @@ from typing import Iterable
 from docx.oxml.ns import qn
 
 from section2_hp_policy import is_missing_data_value
+from s8_ppe_policy import split_s8_label_value
 from template_mutation_whitelist import is_s15_locked_heading_row
 
 
@@ -144,6 +145,15 @@ def apply_source_absence_policy(document, facts: dict, unique_cells) -> dict:
             if section == 3 and index in {2, 3}:
                 continue
             if section == 8 and index in {1, 12, 13}:
+                continue
+            hand_key, _hand_tail, _hand_contaminated = split_s8_label_value(label, "")
+            if section == 8 and (
+                hand_key == "hand"
+                or re.match(r"^\s*(?:手部防护|hand\s+protection)\s*[:：]?\s*$", label, re.I)
+            ):
+                # Hand protection is a template-owned parent slot.  Its
+                # empty value is meaningful when child glove-material rows
+                # are present and must not be hidden as missing data.
                 continue
             if section == 8 and re.match(r"^\s*(?:建议|recommendation)\b", label, re.I):
                 continue

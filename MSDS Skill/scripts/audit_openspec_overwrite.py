@@ -38,6 +38,11 @@ def _is_allowed_blank_value(table_index: int, row_index: int, label: str) -> boo
         return True
     if table_index == 7 and body in {"建议", "recommendation"}:
         return True
+    if table_index == 7 and body in {"手部防护", "hand protection"}:
+        # Hand protection is a visible parent slot in the maintained S8
+        # skeleton.  It may intentionally have no direct value while its
+        # glove-material children carry the source-backed detail.
+        return True
     if table_index == 14 and body.startswith(
         ("相关安全、健康和环保法律法规", "relevant safety, health and environmental regulations")
     ):

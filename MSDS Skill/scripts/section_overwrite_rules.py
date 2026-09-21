@@ -43,12 +43,12 @@ SECTION_RULES = {
 LOCAL_SECTION_POLICIES = {
     2: {"match_basis": "semantic_route_with_product_component_scope", "source_text_policy": "verbatim_product_s2_facts; preserve source product category when S3 carries component GHS evidence; S2.2/S2.3 only special-substance attention note; strip classification/H-code lines and retain a threshold only as part of that note; no-pictogram=>无象形图; S2.5 heading plus hanging detail paragraphs", "empty_policy": "hide_then_renumber"},
     3: {"match_basis": "component_name_cas_content_plus_component_evidence", "source_text_policy": "verbatim_source_component_values; component GHS evidence remains routed evidence and is never copied into S2 label-elements prose", "layout_policy": "all three component data cells horizontal and vertical center", "empty_policy": "source-only"},
-    8: {"match_basis": "ppe_and_control_meaning", "source_text_policy": "verbatim_source_control_or_ppe; hand row blank unless explicit hand value; never duplicate another PPE value", "empty_policy": "hide_absent_ppe_and_engineering_block"},
-    9: {"match_basis": "property_alias", "source_text_policy": "verbatim_property_value", "empty_policy": "hide_missing_property_row"},
+    8: {"match_basis": "ppe_and_control_meaning", "source_text_policy": "verbatim_source_control_or_ppe; preserve the template hand-protection parent even when its value is blank; never duplicate another PPE value", "empty_policy": "hide_absent_ppe_and_engineering_block"},
+    9: {"match_basis": "property_alias", "source_text_policy": "match source properties to template labels by semantic alias; preserve explicit not-applicable values and omit only approved missing rows", "empty_policy": "hide_missing_property_row"},
     10: {"match_basis": "endpoint_semantics", "source_text_policy": "verbatim_endpoint_value; sequence prefix and label text/format/indent/spacing remain locked", "empty_policy": "reviewed_absence_declaration_or_hide"},
-    11: {"match_basis": "endpoint_study_field", "source_text_policy": "verbatim_structured_source_fields; in 11.1/11.2/11.7 three-column rows write only the final value cell", "layout_policy": "first two columns are locked bold labels; every value is explicit language font/12pt, vertical center, left align", "empty_policy": "align_skeleton_then_hide_absent_endpoint"},
+    11: {"match_basis": "endpoint_study_field", "source_text_policy": "verbatim_structured_source_fields; in 11.1/11.2/11.7 three-column rows write only the final value cell; renumber surviving endpoint groups continuously after omission", "layout_policy": "first two columns are locked bold labels; every value is explicit language font/12pt, vertical center, left align", "empty_policy": "align_skeleton_then_hide_absent_endpoint"},
     12: {"match_basis": "endpoint_and_explanatory_note", "source_text_policy": "verbatim_endpoint_value", "empty_policy": "hide_unmatched_explanatory_row"},
-    13: {"match_basis": "disposal_endpoint", "source_text_policy": "verbatim_source_instruction", "empty_policy": "source_only"},
+    13: {"match_basis": "disposal_endpoint", "source_text_policy": "verbatim_source_instruction; combine source explanation lines into the template one-cell note slot, retain the final two-column treatment row", "empty_policy": "source_only"},
     14: {"match_basis": "transport_field", "source_text_policy": "verbatim_source_instruction", "empty_policy": "source_only"},
 }
 
@@ -134,9 +134,13 @@ def sanitize_section_payload(section: int, rows) -> list:
     # Section 1 is a positional identity/supplier skeleton.  Its blank
     # product-name and supplier-heading rows are structural slots; removing
     # them shifts every following value into the wrong locked label.
-    if section in {1, 9}:
+    if section == 1:
         return [list(row) for row in list(rows or [])
                 if isinstance(row, (list, tuple)) and row]
+    if section == 9:
+        return [dict(row) if isinstance(row, dict) else list(row)
+                for row in list(rows or [])
+                if isinstance(row, dict) or (isinstance(row, (list, tuple)) and row)]
     cleaned = []
     for row in list(rows or []):
         if isinstance(row, dict):
@@ -157,7 +161,7 @@ def sanitize_section_payload(section: int, rows) -> list:
             # here would move a later value into an earlier locked label.
             cleaned.append(list(row))
             continue
-        if len(values) > 1 and not any(values[1:]) and section not in {3, 11, 12, 15, 16}:
+        if len(values) > 1 and not any(values[1:]) and section not in {3, 11, 12, 13, 15, 16}:
             continue
         # A common one-cell draft shape is [label, label + value]. Keep the
         # row here; the mutation whitelist performs the value-only de-dup.

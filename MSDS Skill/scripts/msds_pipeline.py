@@ -36,6 +36,7 @@ import shutil
 import sys
 import tempfile
 import time
+import unicodedata
 from calendar import month_name
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from contextlib import nullcontext
@@ -69,7 +70,7 @@ from section2_ghs_policy import (  # noqa: E402
 )
 from section2_hp_policy import is_missing_data_value  # noqa: E402
 from missing_data_policy import apply_source_absence_policy  # noqa: E402
-from section11_alignment import align_s11_rows  # noqa: E402
+from section11_alignment import align_s11_rows, renumber_visible_s11_rows  # noqa: E402
 from s11_layout_policy import audit as audit_s11_layout  # noqa: E402
 from s11_layout_policy import normalize as normalize_s11_layout  # noqa: E402
 from agent_execution_contract import validate_agent_execution_contract  # noqa: E402
@@ -402,9 +403,116 @@ def align_note_section_rows(values, table) -> list:
         note_slots += 1
     if not note_slots:
         return rows
-    notes = [row for row in rows if len(row) <= 1]
-    endpoints = [row for row in rows if len(row) > 1]
+    notes = []
+    endpoints = []
+    for row in rows:
+        values = list(row) if isinstance(row, (list, tuple)) else [row]
+        # Approved facts may use [note, ""] for a one-cell source row.  The
+        # empty tail is not an endpoint value and must not change topology.
+        if len(values) <= 1 or not any(str(value or "").strip() for value in values[1:]):
+            text = "\n".join(str(value or "").strip() for value in values if str(value or "").strip())
+            if text:
+                notes.append([text])
+        else:
+            endpoints.append(values)
+    if note_slots == 1 and len(notes) > 1:
+        # The maintained S13 skeleton deliberately combines the two legal
+        # explanation lines into one one-cell row before the final two-column
+        # treatment-method row.
+        notes = [["\n".join(row[0] for row in notes)]]
     return notes[:note_slots] + [[""]] * max(0, note_slots - len(notes)) + endpoints
+
+
+def _s9_property_key(text: object) -> str | None:
+    value = unicodedata.normalize("NFKC", str(text or "")).casefold()
+    value = re.sub(r"^\s*9\.\d+\s*", "", value)
+    value = re.sub(r"[\s:：()（）\[\]【】%％/／_-]+", "", value)
+    aliases = (
+        ("appearance", "外观", "外观", "appearance"),
+        ("odour_threshold", "嗅觉阈值", "嗅觉阀值", "odourthreshold"),
+        ("ph", "ph值", "ph"),
+        ("initial_boiling_point", "初沸点", "initialboilingpoint"),
+        ("flash_point", "闪点", "flashpoint"),
+        ("evaporation_rate", "蒸发速率", "evaporationrate"),
+        ("flammability", "可燃性固态气态", "可燃性", "flammability"),
+        ("heat_of_combustion", "燃烧值", "heatofcombustion"),
+        ("saturated_vapour_pressure", "饱和蒸气压", "saturatedvapourpressure"),
+        ("relative_vapour_density", "相对蒸气密度", "relativevapourdensity"),
+        ("density", "相对密度", "密度", "density"),
+        ("water_solubility", "水溶性", "solubilityinwater"),
+        ("surface_tension", "表面张力", "surfacetension"),
+        ("log_pow", "辛醇水分配系数对数值", "辛醇水分配系数的对数值", "logpow"),
+        ("auto_ignition_temperature", "自燃温度", "autoignitiontemperature"),
+        ("ignition_temperature", "引燃温度", "ignitiontemperature"),
+        ("decomposition_temperature", "分解温度", "decompositiontemperature"),
+        ("dynamic_viscosity", "动力粘度", "动力黏度", "dynamicviscosity"),
+        ("solid_content", "固体含量", "solidcontent"),
+        ("other_information", "其他信息", "otherinformation"),
+    )
+    for key, *candidates in aliases:
+        if any(re.sub(r"[\s:：()（）\[\]【】%％/／_-]+", "", candidate.casefold()) in value
+               for candidate in candidates):
+            return key
+    return None
+
+
+def _s3_structural_label(text: object) -> bool:
+    value = re.sub(r"\s+", "", str(text or "")).casefold()
+    return any(token in value for token in (
+        "成分", "ingredients", "化学品名称", "chemicalname", "cas编号", "casno",
+    ))
+
+
+def align_s3_rows(values, table) -> list[list[str]]:
+    """Restore the fixed S3 header skeleton before writing components."""
+    rows = [list(row) for row in list(values or []) if isinstance(row, (list, tuple)) and row]
+    template_rows = list(table.rows)[1:]
+    if len(template_rows) < 3:
+        return rows
+    product_row = rows[0] if rows and not _s3_structural_label(rows[0][0]) else []
+    if not product_row:
+        product_cells = unique_cells(template_rows[0])
+        product_row = [product_cells[0].text, "", ""]
+    component_candidates = rows[1:] if product_row and rows and rows[0] is product_row else rows
+    components = [row[:3] for row in component_candidates
+                  if len(row) >= 3 and str(row[0] or "").strip()
+                  and not _s3_structural_label(row[0])]
+    structural = []
+    for template_row in template_rows[1:3]:
+        structural.append([cell.text for cell in unique_cells(template_row)])
+    return [product_row[:3], *structural, *components]
+
+
+def align_s9_rows(values, table) -> list[list[str]]:
+    """Map sparse physical-property facts to template properties by meaning."""
+    mapped: dict[str, str] = {}
+    positional: dict[int, str] = {}
+    for row in list(values or []):
+        if isinstance(row, dict):
+            label, value = row.get("label", ""), row.get("value", "")
+        else:
+            label = row[0] if row else ""
+            value = "\n".join(str(item or "").strip() for item in row[1:])
+        key = _s9_property_key(label)
+        if key is None:
+            numeric_hint = re.fullmatch(r"\s*9\.(\d+)\s*", str(label or ""))
+            if numeric_hint:
+                positional[int(numeric_hint.group(1))] = str(value or "").strip()
+                continue
+            if str(label or value).strip():
+                raise ValueError(f"unmapped Section 9 property: {label!r}")
+            continue
+        if key in mapped and mapped[key] != str(value or "").strip():
+            raise ValueError(f"duplicate conflicting Section 9 property: {label!r}")
+        mapped[key] = str(value or "").strip()
+
+    output = []
+    for index, row in enumerate(list(table.rows)[1:], start=1):
+        cells = unique_cells(row)
+        label = cells[0].text if cells else ""
+        key = _s9_property_key(label)
+        output.append([label, mapped.get(key, positional.get(index, ""))])
+    return output
 
 
 def suppress_s8_recommendation_value(rows, language: str) -> list:
@@ -459,6 +567,20 @@ def plan_body_write(doc, facts: dict, language: str) -> tuple[list[SectionWriteP
     for sec in range(1, 17):
         table = doc.tables[sec - 1]
         source_rows = sanitize_section_payload(sec, facts.get(f"s{sec}") or [])
+        raw_source_count = len(source_rows)
+        if sec == 3:
+            source_rows = align_s3_rows(source_rows, table)
+        if sec == 9:
+            # S9 facts are allowed to carry an explicit omit marker so the
+            # physical-property row can be removed without writing a dict's
+            # Python representation into the DOCX.
+            source_rows = [
+                [row.get("label", ""), row.get("value", "")]
+                if isinstance(row, dict) else list(row)
+                for row in source_rows
+                if not isinstance(row, dict) or not row.get("omit")
+            ]
+            source_rows = align_s9_rows(source_rows, table)
         if sec == 2:
             source_rows = normalize_s2_projected_rows(
                 source_rows, s3_rows=facts.get("s3") or []
@@ -472,7 +594,7 @@ def plan_body_write(doc, facts: dict, language: str) -> tuple[list[SectionWriteP
         inserted_count = 0
         if sec in {9, 15}:
             inserted_count = max(
-                0, len(source_rows) - (baseline_row_counts[sec - 1] - 1)
+                0, raw_source_count - (baseline_row_counts[sec - 1] - 1)
             )
         rows = base.project_rows_to_template(source_rows, language, sec, table)
         semantic_mode = "field_rows"
@@ -483,10 +605,10 @@ def plan_body_write(doc, facts: dict, language: str) -> tuple[list[SectionWriteP
             rows = align_s11_rows(source_rows, table)
             policy_facts[f"s{sec}"] = rows
             semantic_mode = "endpoint_notes"
-        elif sec == 12:
+        elif sec in {12, 13}:
             rows = align_note_section_rows(rows, table)
             policy_facts[f"s{sec}"] = rows
-            semantic_mode = "endpoint_rows"
+            semantic_mode = "endpoint_rows" if sec == 12 else "note_then_endpoint_rows"
         # Capacity is intentionally checked after the planned row insertion;
         # shape/semantic checks still run now to fail before any XML mutation.
         validate_section_payload(sec, rows, table, check_capacity=False)
@@ -497,6 +619,7 @@ def plan_body_write(doc, facts: dict, language: str) -> tuple[list[SectionWriteP
 def apply_post_overwrite_fine_tuning(doc, policy_facts: dict) -> dict:
     """Apply only the bounded row/prefix policies after fixed value writes."""
     absence = apply_source_absence_policy(doc, policy_facts, unique_cells)
+    s11_policy = renumber_visible_s11_rows(doc.tables[10])
     s2_policy = suppress_missing_section2_rows_and_renumber(
         doc, set_paragraph_text, number_map=policy_facts.get("s2_number_map")
     )
@@ -507,6 +630,7 @@ def apply_post_overwrite_fine_tuning(doc, policy_facts: dict) -> dict:
         "section2_policy": s2_policy,
         "section9_policy": s9_policy,
         "section8_policy": s8_policy,
+        "section11_policy": s11_policy,
     }
 
 
@@ -651,7 +775,8 @@ def suppress_s9(doc) -> dict:
         cells = unique_cells(row)
         value = " ".join(cell.text.strip() for cell in cells[1:] if cell.text.strip())
         label = cells[0].text.strip() if cells else ""
-        if not value or is_missing_data_value(value):
+        explicit_not_applicable = value.casefold() in {"不适用", "not applicable"}
+        if not value or (is_missing_data_value(value) and not explicit_not_applicable):
             removed.append(label)
             table._tbl.remove(row._tr)
         else:
@@ -904,6 +1029,7 @@ def build_one(*, template_cn: Path, template_en: Path, template_en_source: Path,
         s2_policy = fine_tuning["section2_policy"]
         s9_policy = fine_tuning["section9_policy"]
         s8_policy = fine_tuning["section8_policy"]
+        s11_policy = fine_tuning["section11_policy"]
         with _timed(timing_recorder, "docx_save", language=language, brand=brand):
             doc.save(staged_docx)
 
@@ -971,6 +1097,7 @@ def build_one(*, template_cn: Path, template_en: Path, template_en_source: Path,
         "pictogram": pictogram_audit,
         "section9_policy": s9_policy,
         "section8_policy": s8_policy,
+        "section11_policy": s11_policy,
         "section11_layout_policy": s11_layout_policy,
         "section8_2_layout_policy": audit_s82(
             template_document or Document(str(template)), doc,
