@@ -4,8 +4,10 @@
 
 - Split flattened Section 2.2 special-substance thresholds into logical lines
   and remove the separator comma without rewriting the source statement.
-- Restored the explicit source GHS category conclusion, hazard-statement route
-  and Section 2 duplicate-prefix guard in the shared semantic projection.
+- Restored the explicit source GHS category conclusion, routing the reviewed
+  Section 3 component classification/H-code fact into Section 2.1 while
+  keeping Section 2.2/2.3 limited to the special-substance note; duplicate
+  field prefixes are stripped only when the template already owns the label.
 - Rebuilt incomplete CN/EN Section 3 facts against the maintained product-type,
   ingredient, header and component skeleton so leading components cannot be
   dropped or shifted into later rows.
@@ -18,9 +20,9 @@
 ## v3.27.7 — 2026-09-21
 
 - Split Section 2 product-level facts from Section 3 component-level GHS
-  evidence. A source product category of `无` is preserved when Section 3
-  contains component classifications, H-codes or thresholds; the non-hazard
-  fallback is no longer allowed to overwrite that evidence.
+  evidence. An explicit reviewed component classification is now routed into
+  Section 2.1 when the product-level field says `无`; the non-hazard fallback
+  is no longer allowed to overwrite that evidence.
 - Restricted Section 2.2/2.3 label-elements output to the verified
   special-substance attention note and blocked classification/H-code leakage
   into that slot.

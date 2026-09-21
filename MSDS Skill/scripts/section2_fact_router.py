@@ -207,7 +207,9 @@ def _mapping_items(facts: dict) -> tuple[dict[str, dict], list[str]]:
                     f"Section 2 routing: mapping item {index} has ambiguous target_slot "
                     f"{item.get('target_slot')!r}"
                 )
-            elif item.get("source_section") != "s2":
+            elif item.get("source_section") != "s2" and not (
+                item.get("cross_section_route") is True and target == "ghs_classes"
+            ):
                 errors.append(
                     f"Section 2 routing: fact {fact_id} comes from "
                     f"{item.get('source_section')!r} but targets {target}"
@@ -427,7 +429,9 @@ def audit(facts: dict) -> dict:
                 f"routing target {route_item.get('_semantic_target')!r}"
             )
         source_section = mapping.get("source_section")
-        if source_section != "s2":
+        if source_section != "s2" and not (
+            mapping.get("cross_section_route") is True and route == "ghs_classes"
+        ):
             errors.append(f"Section 2 routing: fact {fact_id} is not sourced from s2")
         fact = ledger.get(fact_id, {})
         if route in {
@@ -488,7 +492,9 @@ def audit(facts: dict) -> dict:
                     f"Section 2 routing: trace item {index} places fact {fact_id} in {target}, "
                     "but reviewed mapping assigns another destination"
                 )
-            if mapping.get("source_section") != "s2":
+            if mapping.get("source_section") != "s2" and not (
+                mapping.get("cross_section_route") is True and target == "ghs_classes"
+            ):
                 errors.append(f"Section 2 routing: trace item {index} uses non-s2 fact {fact_id}")
             traces_by_fact.setdefault(fact_id, []).append((target, item))
 

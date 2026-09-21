@@ -106,6 +106,35 @@ def test_explicit_source_emergency_overview_and_translation_are_accepted():
     assert report["status"] == "passed", report["errors"]
 
 
+def test_reviewed_component_classification_can_route_to_section2_category():
+    facts = _facts(source_locator="s3.component_ghs[1]")
+    facts["fact_ledger"][0]["source_section"] = "s3"
+    facts["source_mapping"]["items"][0].update({
+        "source_section": "s3",
+        "source_locator": "s3.component_ghs[1]",
+        "target_slot": "s2.ghs_classes",
+        "cross_section_route": True,
+    })
+    facts["section2_routing"]["items"][0].update({
+        "fact_id": "FACT-1",
+        "semantic_target": "ghs_classes",
+        "cross_section_route": True,
+        "reason": "Reviewed component GHS classification routes to S2.1.",
+    })
+    facts["output_traceability"]["items"] = [{
+        "target_section": "s2",
+        "target_slot": "s2.ghs_classes",
+        "decision": "written",
+        "source_fact_ids": ["FACT-1"],
+        "line_break_policy": "preserve_logical_lines",
+        "output_values": {"zh": "易燃液体3 H226", "en": "Flammable liquid 3 H226"},
+    }]
+    facts["zh"]["s2"] = [["2.2 GHS危险性类别", "易燃液体3 H226"]]
+    facts["en"]["s2"] = [["2.2 GHS classification", "Flammable liquid 3 H226"]]
+    report = audit(facts)
+    assert report["status"] == "passed", report["errors"]
+
+
 def test_precautionary_group_requires_semantic_route_and_both_language_headings():
     facts = _facts(
         source_locator="s2.line[4]",
