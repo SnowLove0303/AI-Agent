@@ -84,7 +84,13 @@ def test_source_grounding_rejects_template_only_value(tmp_path):
             "normalized_value": "产品A",
         }],
         "output_traceability": {
-            "items": [{"output_values": {"zh": "产品A", "en": "Product A"}}]
+            "items": [{
+                "decision": "written",
+                "source_fact_ids": ["FACT-0001"],
+                "evidence_type": "approved_translation",
+                "translation_reviewed": True,
+                "output_values": {"zh": "产品A", "en": "Product A"},
+            }]
         },
         "zh": {"s1": [["产品名称", "模板示例水和沸点"]]},
         "en": {"s1": [["Product name", "Product A"]]},
@@ -107,13 +113,46 @@ def test_source_grounding_accepts_reviewed_translation_value(tmp_path):
             "normalized_value": "产品A",
         }],
         "output_traceability": {
-            "items": [{"output_values": {"zh": "产品A", "en": "Product A"}}]
+            "items": [{
+                "decision": "written",
+                "source_fact_ids": ["FACT-0001"],
+                "evidence_type": "approved_translation",
+                "translation_reviewed": True,
+                "output_values": {"zh": "产品A", "en": "Product A"},
+            }]
         },
         "zh": {"s1": [["产品名称", "产品A"]]},
         "en": {"s1": [["Product name", "Product A"]]},
     }
     report = audit_source_grounding(facts, source, "TEST-1")
     assert report["status"] == "passed"
+
+
+def test_source_grounding_does_not_trust_traceability_as_source(tmp_path):
+    source = tmp_path / "source.docx"
+    source_doc = Document()
+    source_doc.add_paragraph("立即脱掉所有被污染的衣物")
+    source_doc.save(source)
+    facts = {
+        "model": "TEST-1",
+        "fact_ledger": [{
+            "fact_id": "FACT-1",
+            "source_text": "立即脱掉所有被污染的衣物",
+            "normalized_value": "立即脱掉所有被污染的衣物",
+        }],
+        "output_traceability": {
+            "items": [{
+                "decision": "written",
+                "source_fact_ids": ["FACT-1"],
+                "output_values": {"zh": "脱去所有受污染的衣物", "en": "Remove all contaminated clothing"},
+            }]
+        },
+        "zh": {"s4": [["脱衣", "脱去所有受污染的衣物"]]},
+        "en": {"s4": []},
+    }
+    report = audit_source_grounding(facts, source, "TEST-1")
+    assert report["status"] == "failed"
+    assert any("zh.s4[1]" in error for error in report["errors"])
 
 
 def test_source_grounding_reads_header_and_footer_source_anchors(tmp_path):

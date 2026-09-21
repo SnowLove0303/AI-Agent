@@ -90,6 +90,7 @@ from product_identity_policy import (  # noqa: E402
     expected_identity,
 )
 from section_overwrite_rules import (  # noqa: E402
+    local_policy_for,
     sanitize_section_payload,
     validate_section_payload,
     validate_section_template,
@@ -449,6 +450,9 @@ def plan_body_write(doc, facts: dict, language: str) -> tuple[list[SectionWriteP
     """
     plans: list[SectionWritePlan] = []
     policy_facts = dict(facts)
+    policy_facts["_local_section_policies"] = {
+        str(section): local_policy_for(section) for section in range(1, 17)
+    }
     baseline_row_counts = base.template_geometry(language)["rows"]
     for sec in range(1, 17):
         table = doc.tables[sec - 1]
@@ -543,6 +547,7 @@ def write_body(doc, facts: dict, language: str, *, apply_fine_tuning: bool = Tru
     )
     result = {"skipped_blank_template_slots": skipped_slots,
               "inserted_data_rows": inserted_data_rows,
+              "local_section_policies": policy_facts["_local_section_policies"],
               "semantic_write_plan": [plan.as_dict() for plan in plans],
               "_policy_facts": policy_facts}
     if apply_fine_tuning:

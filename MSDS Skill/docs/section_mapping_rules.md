@@ -146,3 +146,29 @@ After source mapping and product-identity placement, apply a company-profile ove
 - 传真：86-763-2811024
 - footer company name：英德市国彩精细化工有限公司
 No other section or product value may change solely because the company variant changes.
+# Global gate and local section rules
+
+本文件的局部规则必须在全局限制之后执行，不能反过来放宽全局限制。
+
+## Global restrictions (S1-S16)
+
+- 模板标签、序号、加粗/非加粗边界、字体字号、段落排版、单元格垂直对齐、表格列/合并/边框和页眉页脚属于模板资产；只能通过唯一值写入入口写入值单元格。
+- 源文件是事实唯一来源。默认保留可正确匹配的源文案、数值、单位、范围、否定结论和限定词；允许的变化仅限字段映射、标签去重、语义换行、结构化重排、已审核翻译和规则明确的空行/样式行操作。
+- `output_traceability` 只能记录决定，不能给自己的输出充当证据。写入值必须绑定 `source_fact_ids`，中文值须能在源文件定位；英文值若为翻译必须显式标记 `approved_translation` 和 `translation_reviewed=true`。
+- 所有 Section 共用同一个事实台账、源覆盖、映射和追溯门。任何一个 Section 发生的“同义改写、模板示例外溢、常识补全、跨 Section 借值、按剩余槽位硬塞”都必须全局阻断。
+- 输入格式可以不统一，但只能归一化章节名、编号、标签边界、换行、嵌套表格和列顺序；冲突、重复命中、无法唯一归类、不可读区域必须进入 `needs-review/blocked`。
+
+## Local restrictions (semantic routing and omission)
+
+| Section | Local matching rule | Source text policy | Missing/structure policy |
+|---|---|---|---|
+| 2 | 按语义路由到 emergency/classes/label/signal/H/P/physical/health/environment/other | 保留源分组和句子 | 缺失整行隐藏后再重编号 |
+| 8 | PPE 与工程控制分开按含义映射；控制参数进 8.2 | 保留源防护和限值表述 | PPE/工程控制按源存在性处理 |
+| 9 | 按属性别名逐项映射，NCO 独立 | 保留属性值及范围/单位 | 缺失属性行隐藏 |
+| 10 | 按稳定性、分解产物、危害反应、避免条件、禁配物逐项映射 | 保留源结论；缺失声明必须有明确规则 | 无源字段不允许常识补写 |
+| 11 | 先按端点→研究→字段对齐模板骨架；11.1/11.2/11.7 中间列是锁定子标签 | 保留研究字段、途径、物种、结果和限定词 | 先对齐再隐藏缺失端点，不能位置前移 |
+| 12 | 生态毒性/降解性/其他不利影响分别映射；说明行需有源依据 | 保留源端点表述 | 模板专有说明行隐藏 |
+| 13 | 按处置端点映射 | 保留源操作指令 | 不能官僚化改写 |
+| 14 | 按运输字段映射 | 保留温度、禁配和特殊措施原文 | 不能用常识改写物理红线 |
+
+局部规则只回答“这个事实该去哪个目标字段、是否保留/隐藏、如何适配结构”；全局规则仍负责“值是否有来源、文案是否保真、模板是否未漂移、值格式是否正确”。

@@ -327,6 +327,15 @@ def _validate_traceability(trace: object, fact_ids: set[str], mapping_by_fact: d
                 for language in ("zh", "en"):
                     if not isinstance(output_values.get(language), str) or not output_values[language].strip():
                         _error(errors, f"source interpretation: written trace item {index} needs non-empty {language} output_value")
+            evidence_type = item.get("evidence_type", "exact_source")
+            if evidence_type not in {
+                "exact_source", "approved_translation", "approved_derivation", "company_overlay"
+            }:
+                _error(errors, f"source interpretation: written trace item {index} has invalid evidence_type")
+            if evidence_type == "approved_translation" and item.get("translation_reviewed") is not True:
+                _error(errors, f"source interpretation: translation trace item {index} must be reviewed")
+            if evidence_type == "approved_derivation" and not _text(item.get("derivation_rule_id")):
+                _error(errors, f"source interpretation: derivation trace item {index} needs derivation_rule_id")
         if decision in {"hidden", "not_written"}:
             if not _text(item.get("reason")):
                 _error(errors, f"source interpretation: hidden/not_written trace item {index} needs a reason")

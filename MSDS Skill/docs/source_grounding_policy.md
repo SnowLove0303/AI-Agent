@@ -21,6 +21,22 @@ The value's evidence must be recorded in `output_traceability`. A value that
 appears only in the template, a previous output, an Agent's general
 knowledge, or a guessed field mapping is unauthorized and blocks release.
 
+`output_traceability.output_values` is not evidence by itself. A written trace
+must bind `source_fact_ids` and use one of the reviewed evidence types:
+`exact_source`, `approved_translation`, `approved_derivation` or
+`company_overlay`. An English translation additionally requires
+`translation_reviewed: true`; a derivation requires a named
+`derivation_rule_id`. This is a global gate shared by all sixteen Sections,
+not a Section 2-only rule.
+
+For Chinese output, the default is source-verbatim: after removing only
+template labels, field prefixes and semantic line-break changes, the value
+must be locatable in the original source. Section-specific routing may move a
+fact to a different template slot, but may not rewrite a correctly matched
+source sentence. For English output, translation is allowed only through the
+reviewed translation evidence path; a trace item cannot authorize a free
+paraphrase.
+
 ## Source reading and reconciliation
 
 Read all paragraphs, tables, nested tables, headers/footers, images and

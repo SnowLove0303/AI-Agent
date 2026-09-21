@@ -16,6 +16,7 @@ class SectionRule:
     value_scope: str
     empty_policy: str
     structural_policy: str
+    source_text_policy: str = "verbatim_or_reviewed_translation"
 
 
 SECTION_RULES = {
@@ -36,6 +37,28 @@ SECTION_RULES = {
     15: SectionRule(15, 15, "laws/regulations", "field_rows", "value cells", "empty legal rows hidden", "remove only empty row; preserve source order"),
     16: SectionRule(16, 16, "disclaimer", "field_rows", "value cells", "source-only", "no row rebuild"),
 }
+
+# Local rules are deliberately data, not scattered writer-side exceptions.
+# They refine semantic routing after the global source/template/value gates.
+LOCAL_SECTION_POLICIES = {
+    2: {"match_basis": "semantic_route", "source_text_policy": "verbatim_grouped_statements", "empty_policy": "hide_then_renumber"},
+    8: {"match_basis": "ppe_and_control_meaning", "source_text_policy": "verbatim_source_control_or_ppe", "empty_policy": "hide_absent_ppe_and_engineering_block"},
+    9: {"match_basis": "property_alias", "source_text_policy": "verbatim_property_value", "empty_policy": "hide_missing_property_row"},
+    10: {"match_basis": "endpoint_semantics", "source_text_policy": "verbatim_endpoint_value", "empty_policy": "reviewed_absence_declaration_or_hide"},
+    11: {"match_basis": "endpoint_study_field", "source_text_policy": "verbatim_structured_source_fields", "empty_policy": "align_skeleton_then_hide_absent_endpoint"},
+    12: {"match_basis": "endpoint_and_explanatory_note", "source_text_policy": "verbatim_endpoint_value", "empty_policy": "hide_unmatched_explanatory_row"},
+    13: {"match_basis": "disposal_endpoint", "source_text_policy": "verbatim_source_instruction", "empty_policy": "source_only"},
+    14: {"match_basis": "transport_field", "source_text_policy": "verbatim_source_instruction", "empty_policy": "source_only"},
+}
+
+
+def local_policy_for(section: int) -> dict:
+    """Return the local semantic rule without weakening global gates."""
+    return dict(LOCAL_SECTION_POLICIES.get(section, {
+        "match_basis": "registered_semantic_field",
+        "source_text_policy": "verbatim_or_reviewed_translation",
+        "empty_policy": rule_for(section).empty_policy,
+    }))
 
 
 def rule_for(section: int) -> SectionRule:
@@ -135,6 +158,6 @@ def sanitize_section_payload(section: int, rows) -> list:
     return cleaned
 
 
-__all__ = ["SECTION_RULES", "SectionRule", "SectionRuleViolation",
-           "rule_for", "sanitize_section_payload", "validate_section_payload",
-           "validate_section_template"]
+__all__ = ["LOCAL_SECTION_POLICIES", "SECTION_RULES", "SectionRule", "SectionRuleViolation",
+           "local_policy_for", "rule_for", "sanitize_section_payload",
+           "validate_section_payload", "validate_section_template"]

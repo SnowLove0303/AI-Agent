@@ -3,7 +3,20 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS standardization skill that discovers supported source files, binds source-grounded facts to synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, preserves locked templates, and releases four DOCX plus four PDF deliverables only after semantic and render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.27.4
+# Unified MSDS Eight-Deliverable Standardizer v3.27.5
+
+## Global Source Fidelity and Layered Section Rules (v3.27.5)
+
+1. The global source-grounding gate is shared by S1-S16. `output_traceability`
+   records output decisions but never becomes evidence by itself.
+2. Chinese values are source-verbatim by default after semantic field routing
+   and line-break/structure normalization. English values may be translated
+   only with a bound source fact and explicit reviewed-translation evidence.
+3. Local Section rules refine matching and omission only; they cannot weaken
+   template immutability, value typography, source evidence or the single
+   guarded writer.
+4. Flexible source handling normalizes section names, numbering, labels,
+   tables, nested tables and line breaks without paraphrasing source facts.
 
 ## Mandatory EN Master Template & Format/Bold Immutable Lock (v3.27.4)
 

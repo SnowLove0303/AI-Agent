@@ -1,5 +1,18 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.27.5 — 2026-09-21
+
+- Added the global source-fidelity gate shared by all sixteen Sections; output
+  traceability can no longer authorize a value by repeating the value itself.
+- Required reviewed evidence for non-verbatim English translations and named
+  rules for approved derivations.
+- Split global template/value/evidence constraints from local semantic rules
+  for Sections 2, 8, 9, 10, 11, 12, 13 and 14.
+- Fixed Section 11.2 three-column source-presence handling so its middle bold
+  sublabel is never treated as a writable value.
+- Added regression coverage for paraphrase rejection, local semantic policy
+  registration and Section 11.2 route protection.
+
 ## v3.27.3 — 2026-09-21
 
 - Adopted the supplied `正式模板_MSDS_EN_冠志(1).docx` as the EN source record

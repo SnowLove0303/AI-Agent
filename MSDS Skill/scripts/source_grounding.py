@@ -137,16 +137,39 @@ def _iter_control_payloads(facts: dict, language: str):
 
 
 def _iter_output_trace_values(facts: dict):
+    """Yield only explicitly reviewed non-source output evidence.
+
+    ``output_values`` is a record of a decision, not a source of truth.  The
+    old implementation added every traced value to the allow-list, which let a
+    fabricated value pass simply because an Agent copied it into its own
+    traceability record.  Exact source values are checked against the source
+    corpus below; only reviewed translations/derivations need an explicit
+    exception here.
+    """
     trace = facts.get("output_traceability") or {}
     items = trace.get("items", []) if isinstance(trace, dict) else []
     for item in items:
+        if not isinstance(item, dict) or item.get("decision") not in {"written", "merged"}:
+            continue
         values = item.get("output_values") if isinstance(item, dict) else None
         if not isinstance(values, dict):
+            continue
+        fact_ids = item.get("source_fact_ids") or []
+        evidence_type = str(item.get("evidence_type") or "").strip()
+        if not fact_ids or evidence_type not in {
+            "approved_translation", "approved_derivation", "company_overlay"
+        }:
+            continue
+        if evidence_type == "approved_translation" and item.get("translation_reviewed") is not True:
+            continue
+        if evidence_type == "approved_derivation" and not str(
+            item.get("derivation_rule_id") or ""
+        ).strip():
             continue
         for language in ("zh", "en"):
             value = _text(values.get(language))
             if value:
-                yield language, value
+                yield language, value, evidence_type
 
 
 def audit(facts: dict, source: Path, model: str,
@@ -182,7 +205,7 @@ def audit(facts: dict, source: Path, model: str,
                 source_values.append(source_value)
 
     trace_values = {language: [] for language in ("zh", "en")}
-    for language, value in _iter_output_trace_values(facts):
+    for language, value, _evidence_type in _iter_output_trace_values(facts):
         trace_values[language].append(value)
 
     grounding = facts.get("source_grounding") or {}
@@ -208,8 +231,10 @@ def audit(facts: dict, source: Path, model: str,
         if grounding.get("source_sha256") not in {None, facts.get("source_sha256")}:
             errors.append("source grounding: source_sha256 does not match facts")
 
+    # Source text is the primary allow-list.  Reviewed translations and
+    # narrowly approved derivations are the only trace-based exceptions.
     allowed = {
-        language: {_canonical(value) for value in source_values + trace_values[language]
+        language: {_canonical(value) for value in trace_values[language]
                    + overlay_values[language] if _text(value)}
         for language in ("zh", "en")
     }
@@ -235,6 +260,8 @@ def audit(facts: dict, source: Path, model: str,
         for location, value in payloads:
             candidate = _canonical(value)
             if not candidate:
+                continue
+            if _source_anchor(value, _source_text(search_source)):
                 continue
             if candidate in allowed[language] or any(
                 candidate in item or item in candidate for item in allowed[language]

@@ -94,8 +94,9 @@ def _source_backed_note(text: str, rows: Iterable[object]) -> bool:
 def _payload_cells(cells: list, section: int) -> list:
     """Return only actual value cells for source-presence evaluation.
 
-    Section 11 has two three-column families: the three acute-toxicity route
-    rows (11.1) and the three reproductive-toxicity child rows (11.7).  Their
+    Section 11 has three three-column families: the acute-toxicity route
+    rows (11.1), the direct toxicity/irritation subrows (11.2) and the
+    reproductive-toxicity child rows (11.7).  Their
     middle cells are locked sublabels, not evidence.  Counting ``吸入：`` or
     ``Dermal:`` as payload leaves an absent endpoint visible and was the cause
     of the empty-row defect.
@@ -103,7 +104,7 @@ def _payload_cells(cells: list, section: int) -> list:
     if len(cells) == 1:
         return cells
     if section == 11 and cells and re.match(
-        r"^\s*11\.(?:1|7)\b", cells[0].text, re.I
+        r"^\s*11\.(?:1|2|7)\b", cells[0].text, re.I
     ) and len(cells) >= 3:
         return cells[2:]
     return cells[1:]
