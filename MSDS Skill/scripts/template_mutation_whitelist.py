@@ -169,7 +169,7 @@ class TemplateSlotRegistry:
                 if (
                     table_index == 10
                     and len(cells) >= 3
-                    and re.match(r"^\s*11\.(?:1|7)\b", cells[0].text)
+                    and re.match(r"^\s*11\.(?:1|2|7)\b", cells[0].text)
                 ):
                     slots[table_index, row_index] = TemplateSlot(
                         table_index, row_index, (len(cells) - 1,), "endpoint_value", True,
@@ -399,7 +399,7 @@ def _set_value_rpr(r_pr, language: str | None) -> None:
         node.set(qn("w:val"), str(int(VALUE_SIZE_PT * 2)))
 
 
-def _set_value_cell_layout(cell, language: str | None) -> None:
+def _set_value_cell_layout(cell, language: str | None, *, alignment: int = 0) -> None:
     """Apply value-only alignment/vertical rules; labels never call this."""
     if language not in VALUE_FONT_BY_LANGUAGE:
         return
@@ -410,7 +410,7 @@ def _set_value_cell_layout(cell, language: str | None) -> None:
         tc_pr.append(v_align)
     v_align.set(qn("w:val"), "center")
     for paragraph in cell.paragraphs:
-        paragraph.alignment = 0  # WD_ALIGN_PARAGRAPH.LEFT
+        paragraph.alignment = alignment
         for run in paragraph.runs:
             if not run.bold:
                 _set_value_rpr(run._r.get_or_add_rPr(), language)
@@ -427,7 +427,10 @@ def enforce_value_typography(document, language: str,
             for _cell_index, cell, locked_prefix in _writable_value_cells(
                 table_index, row_index, row
             ):
-                _set_value_cell_layout(cell, language)
+                # Section 3's three data columns are explicitly centered by
+                # both maintained templates; other value slots are left-aligned.
+                alignment = 1 if table_index == 2 and row_index >= 4 else 0
+                _set_value_cell_layout(cell, language, alignment=alignment)
 
 
 def _write_paragraph_content(paragraph, text: str, *, force_nonbold: bool = True,
@@ -516,7 +519,7 @@ def _replace_leading_pattern_in_runs(paragraph, pattern: str, replacement: str) 
 
 
 def set_value_cell_text(cell, text: str, *, force_nonbold: bool = True,
-                        language: str | None = None) -> None:
+                        language: str | None = None, alignment: int = 0) -> None:
     """Write only a pre-authorized value/note cell as non-bold text.
 
     All writable value slots use the template's existing character anchor
@@ -531,7 +534,7 @@ def set_value_cell_text(cell, text: str, *, force_nonbold: bool = True,
     )
     for paragraph in cell.paragraphs[1:]:
         paragraph._element.getparent().remove(paragraph._element)
-    _set_value_cell_layout(cell, language)
+    _set_value_cell_layout(cell, language, alignment=alignment)
 
 
 def _append_text_nodes(parent, text: str) -> None:
@@ -806,7 +809,7 @@ def write_row_values(row, values: Sequence[object], *, table_index: int | None =
         if len(cells) != 3 or len(values) < 3:
             raise MutationViolation("S3 data row must contain exactly name/CAS/concentration")
         for cell, value in zip(cells, values[:3]):
-            set_value_cell_text(cell, value, language=language)
+            set_value_cell_text(cell, value, language=language, alignment=1)
         return
 
     # One-cell fixed semantic note slots are expressly writable as a slot.
@@ -824,7 +827,7 @@ def write_row_values(row, values: Sequence[object], *, table_index: int | None =
     if (
         table_index == 10
         and len(cells) >= 3
-        and re.match(r"^\s*11\.(?:1|7)\b", cells[0].text)
+        and re.match(r"^\s*11\.(?:1|2|7)\b", cells[0].text)
     ):
         targets = registry.writable_cells(table_index, row_index, row) if registry else [cells[-1]]
         if targets:
@@ -1221,7 +1224,7 @@ def _writable_value_cells(table_index: int, row_index: int, row) -> list[tuple[i
     if (
         table_index == 10
         and len(cells) >= 3
-        and re.match(r"^\s*11\.(?:1|7)\b", cells[0].text, re.I)
+        and re.match(r"^\s*11\.(?:1|2|7)\b", cells[0].text, re.I)
     ):
         return [(len(cells) - 1, cells[-1], None)]
 

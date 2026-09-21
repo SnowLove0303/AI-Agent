@@ -151,6 +151,7 @@ def test_s3_component_row_writes_all_three_data_cells():
     row = output.tables[2].rows[4]
     write_row_values(row, ["Component", "123-45-6", "10"], table_index=2, row_index=4)
     assert [cell.text for cell in row.cells] == ["Component", "123-45-6", "10"]
+    assert all(paragraph.alignment == 1 for cell in row.cells for paragraph in cell.paragraphs)
 
 
 def test_registry_records_locked_composite_and_multi_column_topology_deterministically():
@@ -257,6 +258,21 @@ def test_s11_middle_sublabel_text_is_locked_but_final_value_is_writable():
     cells[1].paragraphs[0].runs[0].text = "tampered sublabel"
     errors = compare_locked_skeleton(template, output)
     assert any("sub-label/header text changed" in error for error in errors)
+
+
+def test_s11_2_three_column_variant_locks_first_two_cells():
+    output = Document(str(TEMPLATE))
+    row = output.tables[10].rows[12]
+    cells = unique_cells(row)
+    cells[0].paragraphs[0].runs[0].text = cells[0].text.replace("11.7", "11.2", 1)
+    original_sublabel = cells[1].text
+    registry = TemplateSlotRegistry.from_document(output)
+    write_row_values(
+        row, [cells[0].text, original_sublabel, "source endpoint value"],
+        table_index=10, row_index=12, registry=registry,
+    )
+    assert cells[1].text == original_sublabel
+    assert cells[2].text == "source endpoint value"
 
 
 def test_three_column_structure_drift_is_blocked():

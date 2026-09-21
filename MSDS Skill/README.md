@@ -1,6 +1,6 @@
-# MSDS Skill 3.27.3
+# MSDS Skill 3.27.4
 
-V3.27.3 preserves the locked labels and adds the supplied EN template baseline plus a single value-write typography boundary: EN values are Times New Roman 12 pt and CN values are 宋体 12 pt, both left-aligned and vertically centered. Legitimate original sources under `覆写产出` remain allowed. The English 16-table master template (`examples/template_reference_en.docx`) uses Section 8 geometry `[9, 16, 6, 6, 5, 4, 3, 16, 24, 6, 18, 6, 3, 5, 9, 2]`.
+V3.27.4 preserves the locked labels and applies one value-write typography boundary: EN values are Times New Roman 12 pt and CN values are 宋体 12 pt; ordinary values are left-aligned and vertically centered, while the three Section 3 component data columns retain the template's centered alignment. Legitimate original sources under `覆写产出` remain allowed. The English 16-table master template (`examples/template_reference_en.docx`) uses Section 8 geometry `[9, 16, 6, 6, 5, 4, 3, 16, 24, 6, 18, 6, 3, 5, 9, 2]`.
 
 V3.26.6 embeds the Jev System One Core Engine (`scripts/jev_engine.py`) and Domain Adjudicator (`scripts/jev_domain_adjudicator.py`), providing on-demand TypeSafe System One decision making, fast/slow dual-path routing, and an auditable Decision Ledger.
 
@@ -41,7 +41,7 @@ Read [`SKILL.md`](SKILL.md) for the operating contract. The reusable scripts, te
 
 ## Version
 
-Public release: `MSDS Skill 3.27.3`
+Public release: `MSDS Skill 3.27.4`
 
 Template baseline: the current user-supplied formal CN/EN templates are kept
 as source records, while active baselines normalize value cells only. CN source

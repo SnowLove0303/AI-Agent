@@ -380,3 +380,14 @@ to an Agent as an alternative template authority.
 
 ---
 # Changelog
+
+## v3.27.4 — 2026-09-21
+
+- Preserved the maintained template's centered paragraph alignment for all
+  Section 3 component, CAS and concentration value cells in both languages;
+  the final value-typography gate no longer flattens those cells to left
+  alignment.
+- Classified three-column Section 11.2 rows like the existing 11.1/11.7
+  endpoint rows: only the final cell is writable, while the first two cells,
+  including bold sublabels, remain template-owned and excluded from value
+  typography enforcement.
