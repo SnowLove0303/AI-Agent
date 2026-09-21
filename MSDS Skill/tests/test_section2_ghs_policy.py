@@ -20,6 +20,7 @@ from section2_ghs_policy import (
     suppress_missing_section2_rows_and_renumber,
     normalize_non_hazard_category,
     normalize_pictogram_value,
+    sanitize_label_elements_text,
 )
 from template_mutation_whitelist import (
     TemplateSlotRegistry,
@@ -258,6 +259,62 @@ def test_s2_semantic_contract_separates_label_ingredients_and_signal_word():
     errors = validate_s2_semantics(misplaced, "zh")
     assert any("label-elements slot contains only a signal word" in error for error in errors)
     assert any("signal-word slot contains label-ingredient prose" in error for error in errors)
+
+
+def test_component_ghs_evidence_does_not_overwrite_product_category_or_label_note():
+    s3_rows = [
+        ["羟基丙烯酸酯聚合物", "26985-11-5", "＞48"],
+        ["GHS 危险性分类：不适用"],
+        ["请注意以下物质："],
+        ["N,N-二甲基乙醇胺，中和剂，已键合为盐，质量浓度小于 1.0%"],
+        ["GHS 分类：易燃液体 3 H226"],
+        ["特定阈值浓度≥5%"],
+    ]
+    rows, _ = project_source_cn_facts(
+        {
+            "ghs_classes": ["无"],
+            "label_elements": [
+                "请注意以下物质：\n"
+                "N,N-二甲基乙醇胺，中和剂，已键合为盐，质量浓度小于 1.0%\n"
+                "GHS 分类：易燃液体 3 H226\n"
+                "特定阈值浓度≥5%"
+            ],
+        },
+        s3_rows,
+    )
+    assert rows[1][1] == "无"
+    assert rows[2][1] == (
+        "请注意以下物质：\n"
+        "N,N-二甲基乙醇胺，中和剂，已键合为盐，质量浓度小于 1.0%，特定阈值浓度≥5%"
+    )
+    assert "GHS 分类" not in rows[2][1]
+    assert validate_s2_semantics(rows, "zh", s3_rows) == []
+
+
+def test_label_note_leakage_is_a_release_error_before_sanitization():
+    rows = [
+        ["2.1 紧急情况概述", ""],
+        ["2.2 GHS危险性类别：", "无"],
+        ["2.3 GHS标签要素：", "请注意以下物质：\nGHS 分类：易燃液体 3 H226"],
+        [" GHS象形图", "无象形图"],
+        ["2.4 信号词：", "警告"],
+    ]
+    assert sanitize_label_elements_text(rows[2][1]) == "请注意以下物质："
+    errors = validate_s2_semantics(rows, "zh", [["GHS 分类：易燃液体 3 H226"]])
+    assert any("classification/H-code text" in error for error in errors)
+
+
+def test_section2_release_gate_rejects_fallback_against_s3_component_evidence():
+    from audit_section2_release import run
+
+    document = Document(ROOT / "examples" / "template_reference.docx")
+    document.tables[1].rows[2].cells[-1].text = "根据 GHS 不属于危险物"
+    errors, _ = run(
+        None,
+        document=document,
+        source_s3_rows=[["GHS 分类：易燃液体 3 H226"]],
+    )
+    assert any("non-hazard fallback" in error for error in errors)
 
 
 @pytest.mark.parametrize(

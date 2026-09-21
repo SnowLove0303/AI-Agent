@@ -124,6 +124,52 @@ def set_cell_value_unified(
         tc_pr.append(v_align)
     v_align.set(qn("w:val"), "center")
 
+_COMPONENT_GHS_CLASSIFICATION_RE = re.compile(
+    r"(?:GHS|危害?性)\s*(?:危险性)?\s*(?:分类|类别|classification|category)"
+    r"|\bH\d{3}\b|特定阈值浓度|specific\s+concentration\s+limit",
+    re.I,
+)
+_LABEL_ELEMENTS_CLASSIFICATION_RE = re.compile(
+    r"(?:GHS|危害?性)\s*(?:危险性)?\s*(?:分类|类别|classification|category)"
+    r"|\bH\d{3}\b",
+    re.I,
+)
+_ATTENTION_NOTE_RE = re.compile(
+    r"(?:请注意以下物质|attention\s+substance|neutralized|中和剂|已键合为盐)",
+    re.I,
+)
+
+
+def has_component_ghs_context(rows) -> bool:
+    """Return true when S3 carries component-level GHS evidence."""
+    corpus = "\n".join(
+        "\n".join(str(item or "") for item in row)
+        if isinstance(row, (list, tuple)) else str(row or "")
+        for row in list(rows or [])
+    )
+    return bool(_COMPONENT_GHS_CLASSIFICATION_RE.search(corpus))
+
+
+def sanitize_label_elements_text(value: object) -> str:
+    """Keep only the special-substance note in the S2 label-elements slot."""
+    text = str(value or "").replace("\r", "").strip()
+    if not text:
+        return ""
+    lines = [line.strip() for line in text.split("\n") if line.strip()]
+    if not any(_ATTENTION_NOTE_RE.search(line) for line in lines):
+        return text
+    kept: list[str] = []
+    for line in lines:
+        if _LABEL_ELEMENTS_CLASSIFICATION_RE.search(line):
+            continue
+        if re.search(r"特定阈值浓度|specific\s+concentration\s+limit", line, re.I):
+            if kept:
+                kept[-1] = kept[-1].rstrip("。；;，,") + "，" + line
+            continue
+        kept.append(line)
+    return "\n".join(kept).strip()
+
+
 def format_label_elements(
     language: str,
     hazardous_ingredients: list[str] | tuple[str, ...],
@@ -151,13 +197,17 @@ def format_label_elements(
         parts.append(heading)
         parts.extend(ingredients)
     if extra_note and str(extra_note).strip():
-        parts.append(str(extra_note).strip())
+        note = sanitize_label_elements_text(extra_note)
+        if note:
+            parts.append(note)
     return "\n".join(parts)
 
 
-def normalize_non_hazard_category(value: object) -> str:
-    """Use the maintained conclusion when the source has no GHS class."""
+def normalize_non_hazard_category(value: object, *, component_ghs_context: bool = False) -> str:
+    """Use the fallback only when no component GHS evidence conflicts."""
     text = str(value or "").strip()
+    if component_ghs_context:
+        return text
     return "根据 GHS 不属于危险物" if not text or text == "无" else text
 
 
@@ -167,14 +217,19 @@ def normalize_pictogram_value(value: object) -> str:
     return "无象形图" if not text or text == "无" else text
 
 
-def normalize_s2_projected_rows(rows) -> list:
+def normalize_s2_projected_rows(rows, s3_rows=None) -> list:
     """Apply local S2 value rules to both drafted and manually approved facts."""
     normalized = []
+    component_ghs_context = has_component_ghs_context(s3_rows)
     for row in list(rows or []):
         item = list(row) if isinstance(row, (list, tuple)) else [row]
         label = str(item[0] or "") if item else ""
         if len(item) > 1 and "GHS危险性类别" in label:
-            item[1] = normalize_non_hazard_category(item[1])
+            item[1] = normalize_non_hazard_category(
+                item[1], component_ghs_context=component_ghs_context
+            )
+        elif len(item) > 1 and "GHS标签要素" in label:
+            item[1] = sanitize_label_elements_text(item[1])
         elif len(item) > 1 and "GHS象形图" in label:
             item[1] = normalize_pictogram_value(item[1])
         normalized.append(item)
@@ -288,7 +343,7 @@ def looks_like_label_ingredient_value(value: str) -> bool:
     return bool(_LABEL_INGREDIENT_VALUE_RE.search((value or "").strip()))
 
 
-def validate_s2_semantics(rows, language: str = "zh") -> list[str]:
+def validate_s2_semantics(rows, language: str = "zh", s3_rows=None) -> list[str]:
     """Block the two high-risk S2 slot swaps before any template is cloned.
 
     The maintained template's source-semantic mapping is:
@@ -308,7 +363,19 @@ def validate_s2_semantics(rows, language: str = "zh") -> list[str]:
         return str(row[1] or "").strip()
 
     label_value = value_at(2)
+    category_value = value_at(1)
     signal_value = value_at(4)
+    if has_component_ghs_context(s3_rows) and category_value == "根据 GHS 不属于危险物":
+        errors.append(
+            f"{language} Section 2 category uses the non-hazard fallback even though "
+            "Section 3 contains component GHS classification evidence; preserve the "
+            "source product-level value instead"
+        )
+    if _LABEL_ELEMENTS_CLASSIFICATION_RE.search(label_value):
+        errors.append(
+            f"{language} Section 2 label-elements slot contains component GHS "
+            "classification/H-code text; retain only the special-substance note"
+        )
     if is_signal_word_value(label_value):
         errors.append(
             f"{language} Section 2 label-elements slot contains only a signal word; "
@@ -386,7 +453,7 @@ def project_source_cn_headings(document, language: str = "zh") -> list[str]:
     return []
 
 
-def project_source_cn_facts(s2: dict) -> tuple[list[list[str]], dict[int, int]]:
+def project_source_cn_facts(s2: dict, s3_rows=None) -> tuple[list[list[str]], dict[int, int]]:
     """Project source S2 semantics into the fixed CN template slots.
 
     The source numbers are semantic, not positional: source 2.1/2.2/2.3
@@ -416,9 +483,14 @@ def project_source_cn_facts(s2: dict) -> tuple[list[list[str]], dict[int, int]]:
         # rows after empty-row suppression without using physical position.
         return f"2.8 健康危害 [route={route}]"
 
-    label_elements = first("label_elements")
+    component_ghs_context = has_component_ghs_context(s3_rows)
+    label_elements = sanitize_label_elements_text(first("label_elements"))
     if not label_elements:
-        label_elements = format_label_elements("zh", s2.get("label_ingredients") or [])
+        label_elements = format_label_elements(
+            "zh",
+            s2.get("label_ingredients") or [],
+            extra_note=s2.get("label_note") or s2.get("special_substance_note") or "",
+        )
 
     precautionary_value = render_precautionary_groups(
         s2.get("precautionary_groups"), "zh"
@@ -430,7 +502,9 @@ def project_source_cn_facts(s2: dict) -> tuple[list[list[str]], dict[int, int]]:
 
     return ([
         ["2.1 紧急情况概述", ""],
-        ["2.2 GHS危险性类别：", normalize_non_hazard_category(first("ghs_classes"))],
+        ["2.2 GHS危险性类别：", normalize_non_hazard_category(
+            first("ghs_classes"), component_ghs_context=component_ghs_context
+        )],
         ["2.3 GHS标签要素：", label_elements],
         [" GHS象形图", normalize_pictogram_value(s2.get("pictogram"))],
         ["2.4 信号词：", str(s2.get("signal") or "").strip()],
@@ -613,6 +687,7 @@ def suppress_missing_section2_rows_and_renumber(document, set_paragraph_text,
 
 __all__ = [
     "format_label_elements",
+    "has_component_ghs_context", "sanitize_label_elements_text",
     "normalize_non_hazard_category", "normalize_pictogram_value",
     "normalize_s2_projected_rows",
     "apply_precautionary_layout",

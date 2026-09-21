@@ -44,7 +44,7 @@ Use the current Guanzhi identity-placement contract:
 Example: source model `EP-1704`, Chinese name `水性环氧乳液` and reviewed English name `Waterborne epoxy emulsion` => CN `中文名称` is `水性环氧乳液 EP-1704`, CN `产品名称` remains blank, and EN `Product name` is `Waterborne epoxy emulsion EP-1704`. Missing, model-only or untraceable EN names block release.
 
 ## Section 2 — Hazard identification
-Only source-supported classification/label elements. Never inherit template GHS category, pictogram, signal word, H/P statement or environmental claim from a sample product.
+Only source-supported classification/label elements. Never inherit template GHS category, pictogram, signal word, H/P statement or environmental claim from a sample product. Product-level Section 2 facts and component-level Section 3 GHS evidence are separate scopes and must not be collapsed.
 
 Missing-data suppression applies before writing by endpoint. Source-backed
 Section 2 `其他危险` is an explicit exception: retain its source wording,
@@ -79,11 +79,11 @@ is duplicated, flattened without its heading, or silently dropped.
 
 ### CN semantic slot projection
 - Do not pass source Section 2 rows directly to the template by list position.
-- Bind source `2.1 GHS危险性类别`, `2.2 标签要素` and `2.3 其他危害` to the maintained template semantic slots `2.2`, `2.3` and `2.10`, respectively; never rewrite the template's locked label text. Source `2.2 标签要素` normally contains the explicit label-ingredient explanation `必须列在标签上的有害成分：` plus the ingredient on a following semantic line (English: `Hazardous ingredients required to be listed on the label:` plus the ingredient). It must never be classified as or written into the template `2.4 信号词` value. The signal-word value is a separate controlled source fact: `危险` / `警告`, `无信号词` / `No signal word`, `无` / `None`, or `Not applicable`; other prose is unresolved and blocks release. Health-hazard rows remain composite slots after authorized numeric renumbering.
+- Bind source `2.1 GHS危险性类别`, `2.2 标签要素` and `2.3 其他危害` to the maintained template semantic slots `2.2`, `2.3` and `2.10`, respectively; never rewrite the template's locked label text. Source `2.2 标签要素` is only the special-substance attention note, such as `请注意以下物质：` plus the stated substance/threshold. Component GHS classifications and H-codes found in Section 3 are evidence for component routing and must not be copied into the Section 2 label-elements slot; a threshold clause is retained only when it belongs to the source-backed attention note. If the product-level source category is `无` while Section 3 contains component GHS evidence, preserve `无` and do not replace it with `根据 GHS 不属于危险物`. It must never be classified as or written into the template `2.4 信号词` value. The signal-word value is a separate controlled source fact: `危险` / `警告`, `无信号词` / `No signal word`, `无` / `None`, or `Not applicable`; other prose is unresolved and blocks release. Health-hazard rows remain composite slots after authorized numeric renumbering.
 - Run source-missing suppression first, then apply the explicit `2.2→2.1`, `2.3→2.2`, `2.10→2.3` visible-number map. This keeps the final three-item sequence stable when all other sample-product rows are absent.
 
 ## Section 3 — Composition
-Use source chemical names, CAS and ranges exactly. Preserve “商业机密/N/A” when source says so. Do not infer a hidden ingredient.
+Use source chemical names, CAS and ranges exactly. Preserve “商业机密/N/A” when source says so. Do not infer a hidden ingredient. Every populated name, CAS and content cell is both horizontally and vertically centered. Component GHS classification/H-code/threshold notes remain source evidence for semantic routing; they are not free prose to append to Section 2.2/2.3.
 
 ## Sections 4–7
 Map by function. Remove extraction line-wrap artifacts. Keep prose compact. Do not add new safety advice from template sample values.
@@ -103,7 +103,7 @@ High-risk fixed structure.
 Map property by property. **Properties whose source value is only a missing-data placeholder must disappear as whole dedicated rows before write.** Do not leave a blank visual slot. Then renumber the surviving visible Section 9 properties continuously in their original semantic order; change only the numeric prefix. Preserve substantive values such as `不适用` / `Not applicable`, measured values and source-supported `其他信息` / `Other information`. `NCO含量` / `NCO content` is a dedicated independent property: when it appears inline in `其他信息`, split it before mapping so it cannot be lost in generic prose. Existing “其他信息” may compactly hold source-only technical parameters such as MFFT/Tg/hydroxyl content when semantically appropriate.
 
 ## Section 10 — Stability/reactivity
-Map only equivalent concepts. If source lacks “应避免条件/禁配物”, those items disappear rather than showing empty values.
+Map only equivalent concepts. If source lacks “应避免条件/禁配物”, those items disappear rather than showing empty values. The sequence prefix, label wording, boldness, indentation, spacing and alignment remain the fresh template's locked geometry; only the value cell and authorized numeric prefix may change.
 
 ## Section 11 — Toxicology
 Highest-risk section.
@@ -113,9 +113,11 @@ Highest-risk section.
 - Preserve “类似产品的风险评估数据” as a qualifier; do not convert it into direct product-test evidence.
 - Unsupported endpoints disappear.
 - Never write the compacted source list by physical row position. First align it
-  to the template skeleton by endpoint and locked sublabel. The 11.1 middle
-  cells (`经口 / 吸入 / 经皮`) and 11.7 middle cells (fertility,
-  teratogenicity and in-vitro genotoxicity) are labels, not writable values.
+  to the template skeleton by endpoint and locked sublabel. The 11.1, 11.2 and
+  11.7 middle cells (`经口 / 吸入 / 经皮`, or the matching 11.2/11.7 child
+  labels) are labels, not writable values; only the final value cell is
+  writable. The first two columns remain bold/template-owned even when the
+  source uses a different layout.
   Missing routes/children produce absent value slots and are removed only by
   the merge-safe omission policy after alignment; the next endpoint must never
   inherit the removed row's value.

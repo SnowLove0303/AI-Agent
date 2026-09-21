@@ -21,16 +21,16 @@ class SectionRule:
 
 SECTION_RULES = {
     1: SectionRule(1, 1, "source identification", "field_rows", "value cells; identity overlay", "1.1 blank", "no row rebuild"),
-    2: SectionRule(2, 2, "semantic hazard slots", "semantic_slots", "value cells; approved numeric prefix only", "omit missing except source 2.3 other hazards", "omit whole rows then prefix-only renumber"),
-    3: SectionRule(3, 3, "name/CAS/content", "component_rows", "all three data cells", "source-only", "clone styled component rows only"),
+    2: SectionRule(2, 2, "semantic hazard slots with product/component scope", "semantic_slots", "value cells; approved numeric prefix only", "omit missing except source 2.3 other hazards", "omit whole rows then prefix-only renumber", "source-scoped; never collapse Section 3 component GHS evidence into product slots"),
+    3: SectionRule(3, 3, "name/CAS/content", "component_rows", "all three data cells", "source-only", "clone styled component rows only", "verbatim source component values; all three writable cells centered"),
     4: SectionRule(4, 4, "first-aid endpoints", "field_rows", "value cells", "hide unsupported item", "no row rebuild"),
     5: SectionRule(5, 5, "fire-fighting endpoints", "field_rows", "value cells", "hide unsupported item", "no row rebuild"),
     6: SectionRule(6, 6, "accidental-release endpoints", "field_rows", "value cells", "hide unsupported item", "no row rebuild"),
     7: SectionRule(7, 7, "handling/storage endpoints", "field_rows", "value cells", "hide unsupported item", "no row rebuild"),
     8: SectionRule(8, 8, "PPE plus engineering controls by meaning", "dedicated_ppe_engineering", "PPE value cells; S8.2 four data columns", "suggestion blank; empty engineering row/block hidden", "dedicated S8 writers only"),
     9: SectionRule(9, 9, "physical/chemical properties", "field_rows", "value cells", "omit missing-data row", "omit whole rows then prefix-only renumber"),
-    10: SectionRule(10, 10, "stability/reactivity endpoints", "field_rows", "value cells", "omit unsupported or missing item", "smallest safe row omission"),
-    11: SectionRule(11, 11, "toxicology notes/endpoints", "endpoint_notes", "note slots or endpoint value cells", "preserve explicit availability sentence; omit absent endpoints; 11.7 no-data only when source-present", "no invented endpoint or generic renumber"),
+    10: SectionRule(10, 10, "stability/reactivity endpoints", "field_rows", "value cells", "omit unsupported or missing item", "smallest safe row omission", "verbatim endpoint value; sequence and label geometry remain template-owned"),
+    11: SectionRule(11, 11, "toxicology notes/endpoints", "endpoint_notes", "note slots or endpoint value cells; final cell only in 11.1/11.2/11.7 three-column rows", "preserve explicit availability sentence; omit absent endpoints; 11.7 no-data only when source-present", "no invented endpoint or generic renumber", "verbatim structured source fields; first two columns of 11.1/11.2/11.7 are locked labels"),
     12: SectionRule(12, 12, "ecotoxicity/persistence/adverse effects", "endpoint_rows", "source-backed endpoint value cells", "template-only note rows hidden", "remove note rows only; retain mapped 12.1-12.3"),
     13: SectionRule(13, 13, "disposal endpoints", "field_rows", "value cells", "source-only", "no row rebuild"),
     14: SectionRule(14, 14, "transport endpoints", "field_rows", "value cells", "source-only", "no row rebuild"),
@@ -41,12 +41,12 @@ SECTION_RULES = {
 # Local rules are deliberately data, not scattered writer-side exceptions.
 # They refine semantic routing after the global source/template/value gates.
 LOCAL_SECTION_POLICIES = {
-    2: {"match_basis": "semantic_route", "source_text_policy": "verbatim_grouped_statements; no-class=>根据 GHS 不属于危险物; no-pictogram=>无象形图; label-note preserved; S2.5 heading plus hanging detail paragraphs", "empty_policy": "hide_then_renumber"},
-    3: {"match_basis": "component_name_cas_content", "source_text_policy": "verbatim_source_component_values", "layout_policy": "all component data cells horizontal and vertical center", "empty_policy": "source-only"},
+    2: {"match_basis": "semantic_route_with_product_component_scope", "source_text_policy": "verbatim_product_s2_facts; preserve source product category when S3 carries component GHS evidence; S2.2/S2.3 only special-substance attention note; strip classification/H-code lines and retain a threshold only as part of that note; no-pictogram=>无象形图; S2.5 heading plus hanging detail paragraphs", "empty_policy": "hide_then_renumber"},
+    3: {"match_basis": "component_name_cas_content_plus_component_evidence", "source_text_policy": "verbatim_source_component_values; component GHS evidence remains routed evidence and is never copied into S2 label-elements prose", "layout_policy": "all three component data cells horizontal and vertical center", "empty_policy": "source-only"},
     8: {"match_basis": "ppe_and_control_meaning", "source_text_policy": "verbatim_source_control_or_ppe; hand row blank unless explicit hand value; never duplicate another PPE value", "empty_policy": "hide_absent_ppe_and_engineering_block"},
     9: {"match_basis": "property_alias", "source_text_policy": "verbatim_property_value", "empty_policy": "hide_missing_property_row"},
-    10: {"match_basis": "endpoint_semantics", "source_text_policy": "verbatim_endpoint_value", "empty_policy": "reviewed_absence_declaration_or_hide"},
-    11: {"match_basis": "endpoint_study_field", "source_text_policy": "verbatim_structured_source_fields", "empty_policy": "align_skeleton_then_hide_absent_endpoint"},
+    10: {"match_basis": "endpoint_semantics", "source_text_policy": "verbatim_endpoint_value; sequence prefix and label text/format/indent/spacing remain locked", "empty_policy": "reviewed_absence_declaration_or_hide"},
+    11: {"match_basis": "endpoint_study_field", "source_text_policy": "verbatim_structured_source_fields; in 11.1/11.2/11.7 three-column rows write only the final value cell", "layout_policy": "first two columns are locked bold labels; every value is explicit language font/12pt, vertical center, left align", "empty_policy": "align_skeleton_then_hide_absent_endpoint"},
     12: {"match_basis": "endpoint_and_explanatory_note", "source_text_policy": "verbatim_endpoint_value", "empty_policy": "hide_unmatched_explanatory_row"},
     13: {"match_basis": "disposal_endpoint", "source_text_policy": "verbatim_source_instruction", "empty_policy": "source_only"},
     14: {"match_basis": "transport_field", "source_text_policy": "verbatim_source_instruction", "empty_policy": "source_only"},

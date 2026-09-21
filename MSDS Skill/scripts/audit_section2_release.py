@@ -10,6 +10,7 @@ from docx import Document
 from docx.oxml.ns import qn
 
 from section2_ghs_policy import (
+    has_component_ghs_context,
     is_explicit_other_hazards_row,
     is_missing_section2_value,
     row_has_visual_content,
@@ -68,7 +69,8 @@ def audit_value_cell_typography(docx, language: str = "zh") -> list[str]:
     return errors
 
 
-def run(docx, require_pictogram=False, document=None, expected_precautionary_groups=None, check_typography=False):
+def run(docx, require_pictogram=False, document=None, expected_precautionary_groups=None,
+        check_typography=False, source_s3_rows=None):
     """Audit one built DOCX; return (errors, info). Import-safe core of main()."""
     doc = document or Document(str(docx))
     table = doc.tables[1]
@@ -76,6 +78,36 @@ def run(docx, require_pictogram=False, document=None, expected_precautionary_gro
     all_text = "\n".join(cell.text for row in table.rows for cell in unique_cells(row))
     if "见2.4-2.6" in all_text or "See 2.4-2.6" in all_text:
         errors.append("customer-facing cross-reference remains in Section 2")
+
+    for row in table.rows[1:]:
+        cells = unique_cells(row)
+        label = cells[0].text.strip() if cells else ""
+        if "GHS标签要素" not in re.sub(r"\s+", "", label):
+            continue
+        value = "\n".join(cell.text.strip() for cell in cells[1:] if cell.text.strip())
+        if re.search(
+            r"(?:GHS|危险性)\s*(?:危险性)?\s*(?:分类|类别|classification|category)|\bH\d{3}\b",
+            value, re.I,
+        ):
+            errors.append(
+                "Section 2 label-elements slot contains component GHS classification/H-code text; "
+                "retain only the special-substance note"
+            )
+        break
+
+    if has_component_ghs_context(source_s3_rows):
+        for row in table.rows[1:]:
+            cells = unique_cells(row)
+            label = cells[0].text.strip() if cells else ""
+            if "GHS危险性类别" not in re.sub(r"\s+", "", label):
+                continue
+            value = " ".join(cell.text.strip() for cell in cells[1:] if cell.text.strip())
+            if value == "根据 GHS 不属于危险物":
+                errors.append(
+                    "Section 2 category uses the non-hazard fallback even though "
+                    "Section 3 contains component GHS classification evidence"
+                )
+            break
 
     labels = []
     pictogram_present = False

@@ -3,9 +3,9 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS standardization skill that discovers supported source files, binds source-grounded facts to synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, preserves locked templates, and releases four DOCX plus four PDF deliverables only after semantic and render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.27.6
+# Unified MSDS Eight-Deliverable Standardizer v3.27.7
 
-## Global Source Fidelity and Layered Section Rules (v3.27.6)
+## Global Source Fidelity and Layered Section Rules (v3.27.7)
 
 1. The global source-grounding gate is shared by S1-S16. `output_traceability`
    records output decisions but never becomes evidence by itself.
@@ -143,19 +143,31 @@ lineage and render checks remain independent release gates. Use
 comparisons. No cache hit, benchmark checkpoint or family candidate authorizes
 source-free filling, label edits, format edits or a skipped gate.
 
-## Mandatory value typography rule (release blocker)
+## Mandatory global skeleton and value-format rule (release blocker)
 
 The template's pre-existing bold content is locked label/sequence/header/
 structure content. The maintained English health-hazard route prefixes are
 also bold locked template content; only their descriptions are writable.
-A writable value can inherit the template value anchor's
-font family, size, color, language, spacing and other non-bold properties, but
-it MUST never be bold. This applies to ordinary value cells, S3 and S8.2 data
-cells, Section 11 final value cells, one-cell S15/S16 note values and Section
-2.8 value tails. The shared writer removes or explicitly overrides w:b and
-w:bCs on value runs; the release audit classifies value cells by semantic
-topology and blocks any non-empty bold value. It does not scan locked labels
-as values, and it never changes the official template to achieve this rule.
+The template's labels, sequence prefixes, bold child labels, paragraph layout,
+indentation, spacing, borders, merges, widths and table geometry are immutable.
+Only a declared value cell may be written, an entire source-absent row may be
+hidden, a source-backed styled row may be inserted through its dedicated
+writer, and a visible numeric prefix may be renumbered; none of those
+permissions authorizes changing label wording or formatting. Sequence plus
+label alignment is therefore a global contract, not a Section 9/10 exception.
+
+Every non-empty writable value run in S1-S16 MUST carry explicit `w:rFonts`
+(`ascii`, `hAnsi`, `eastAsia`, `cs`), `w:sz` and `w:szCs`; inheritance from
+Normal or a table style is not acceptable. CN values are 宋体, 12 pt (小四);
+EN values are Times New Roman, 12 pt (小四). Values are vertically centered
+and left aligned, except every populated S3 name/CAS/content data cell, which
+is vertically and horizontally centered. Values MUST be non-bold. This
+includes ordinary cells, all three S3 data cells, S8.2 data cells, Section 11
+final value cells, one-cell S15/S16 note values and Section 2.8 value tails.
+The shared writer applies the contract and the release audit blocks any
+missing or inherited font/size/alignment, bold writable value, or drift in the
+locked skeleton. It never repairs the official template to make a bad output
+pass.
 
 ## 0. Default deliverable
 Given one source MSDS/SDS, default to **eight synchronized deliverables**: four authoritative editable DOCX files plus four publication PDF files derived from those DOCX masters:
@@ -419,7 +431,7 @@ checks source order, group presence and CN/EN heading preservation.
 Section 2 is customer-facing and must be self-contained:
 
 - If the source DOCX contains a GHS pictogram image, extract and insert that image into the cloned template's existing GHS pictogram cell. Preserve the image as an image; do not replace it with `无数据`, `None`, alt text or a textual description. If no image is supplied, resolve a pictogram only from explicit verified GHS classifications and record the resolution in the audit; never infer from vague prose.
-- CN source Section 2 headings select the existing fixed CN semantic slots without rewriting their labels. The English baseline keeps its approved English label. The source `2.2 标签要素` maps to the maintained template's `2.3 GHS标签要素` slot; it is not the signal-word slot. Its value must contain the verified label-ingredient explanation as explicit, line-separated text, for example `必须列在标签上的有害成分：` followed by `基于HDI的亲水脂肪族聚异氰酸酯` on the next line. The English equivalent is `Hazardous ingredients required to be listed on the label:` followed by the ingredient on the next line. The template `2.4 信号词` slot accepts the controlled source vocabulary `危险` / `警告`, `无信号词` / `No signal word`, `无` / `None`, or `Not applicable`; label-ingredient prose and other unresolved free text must never be placed there. With no verified label ingredients the label-elements value stays empty and the existing missing-row suppression removes the whole row; never leave the bare heading. If preceding Section 2 rows are omitted, health-hazard rows may be renumbered from `2.8` to `2.7`; route-prefix handling remains semantic and must preserve the five template-owned prefixes.
+- CN source Section 2 headings select the existing fixed CN semantic slots without rewriting their labels. The English baseline keeps its approved English label. The source `2.2 标签要素` maps to the maintained template's `2.3 GHS标签要素` slot; it is not the signal-word slot. Its value is only the verified special-substance attention note, for example `请注意以下物质：` followed by `N,N-二甲基乙醇胺，中和剂，已键合为盐，质量浓度小于 1.0%，特定阈值浓度≥5%`. Component GHS classifications and H-codes remain Section 3/routing evidence and MUST NOT be dumped into the Section 2.2/2.3 label-elements value; a threshold clause may remain only when it is part of the source-backed special-substance note. The English equivalent follows the same scope rule. The template `2.4 信号词` slot accepts the controlled source vocabulary `危险` / `警告`, `无信号词` / `No signal word`, `无` / `None`, or `Not applicable`; label-note prose and other unresolved free text must never be placed there. When the source product-level category is `无` but Section 3 contains component GHS evidence, preserve the source product-level `无`; do not derive `根据 GHS 不属于危险物`. With no verified special-substance note the label-elements value stays empty and the existing missing-row suppression removes the whole row; never leave the bare heading. If preceding Section 2 rows are omitted, health-hazard rows may be renumbered from `2.8` to `2.7`; route-prefix handling remains semantic and must preserve the five template-owned prefixes.
 - Never output `见2.4-2.6`, `See 2.4-2.6`, or any customer-facing cross-reference. Signal word, hazard statements and precautionary statements remain directly visible in their own rows.
 - After Section 2 values and pictograms are written, remove a whole dedicated row whose value is only `无数据` / `No data available`, including `眼睛：无数据` / `Eyes: No data available`, and renumber surviving unique `2.x` items in original order. Keep substantive negatives such as `无刺激`, `不适用` and `无危险反应`; repeated child rows retain one shared number. The unnumbered pictogram row remains when an image is present.
 - `2.3 其他危险` is a source-backed endpoint. If the source explicitly contains it with `无适用资料` (or an equivalent explicit conclusion), keep the row and include it in continuous numbering; only an absent source endpoint is hidden.
@@ -487,7 +499,7 @@ Rules:
 - Preserve source route order where the template supports it.
 - A simple conclusion such as `STOT assessment - single exposure: Based on available data, the classification criteria are not met.` may remain one field:value line; do not over-split it.
 - When the source explicitly supplies a missing endpoint value, retain that endpoint row and write the exact missing-data placeholder. When the source has no endpoint field at all, suppress the template-only row; if every endpoint in Section 11 or 12 is absent or explicitly missing, retain only the source explanation row.
-- Section 11.7 is an exact endpoint projection: `生育力`, `致畸形` and `体外遗传毒性` may only be populated from their matching source fields. An explicit source phrase such as `无数据资料` is retained for the matching endpoint; an unmatched or blank child row is hidden. Do not move `体外遗传毒性` study data into a blank reproductive-toxicity child row.
+- Section 11.2 is also a three-column structured row when present: its first and second columns are template-owned bold labels and only the final value column is writable. The same rule applies to 11.1 and 11.7; never classify `经口`/`吸入`/`经皮` or a 11.2/11.7 child label as a value, and never shift its value into the next row. Section 11.7 is an exact endpoint projection: `生育力`, `致畸形` and `体外遗传毒性` may only be populated from their matching source fields. An explicit source phrase such as `无数据资料` is retained for the matching endpoint; an unmatched or blank child row is hidden. Do not move `体外遗传毒性` study data into a blank reproductive-toxicity child row.
 - Section 11 is source-field projection, not a reasoning step. Write only endpoint values, species, results, classifications, methods or evidence qualifiers explicitly present in the verified source/semantic payload. Do not add a method, species, classification, “similar product” qualifier, overall assessment or additional-information conclusion merely because a neighboring field exists in the template.
 - The verified source field `主要粘膜刺激性` is classified into the existing semantic endpoint slot `11.3 主要眼睛刺激性`; this changes neither the locked label nor the source result/value, and the value must not be duplicated into `11.10 附加信息`.
 - For study results, use direct source-grounded field lines in the value cell, such as material/substance, species, result, classification, method/guideline and the supported evidence qualifier `对类似产品的研究` / `Study of a similar product`.

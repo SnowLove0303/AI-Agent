@@ -11,6 +11,7 @@ from docx.oxml.ns import qn
 
 from template_mutation_whitelist import (
     audit_cross_page_contract,
+    audit_value_typography_contract,
     clear_value_cells,
     composite_value_text,
     MutationViolation,
@@ -152,6 +153,26 @@ def test_s3_component_row_writes_all_three_data_cells():
     write_row_values(row, ["Component", "123-45-6", "10"], table_index=2, row_index=4)
     assert [cell.text for cell in row.cells] == ["Component", "123-45-6", "10"]
     assert all(paragraph.alignment == 1 for cell in row.cells for paragraph in cell.paragraphs)
+
+
+def test_global_value_typography_contract_covers_s3_and_section11_values():
+    output = Document(str(TEMPLATE))
+    registry = TemplateSlotRegistry.from_document(output)
+    clear_value_cells(output, registry)
+    write_row_values(
+        output.tables[2].rows[4], ["Component", "123-45-6", "10"],
+        table_index=2, row_index=4, registry=registry,
+    )
+    write_row_values(
+        output.tables[10].rows[1], ["该产品无可用的毒理学研究。"],
+        table_index=10, row_index=1, registry=registry,
+    )
+    assert audit_value_typography_contract(output, "cn") == []
+
+    run = output.tables[10].rows[1].cells[-1].paragraphs[0].runs[0]
+    run._r.get_or_add_rPr().remove(run._r.rPr.find(qn("w:sz")))
+    errors = audit_value_typography_contract(output, "cn")
+    assert any("explicit size mismatch" in error for error in errors)
 
 
 def test_registry_records_locked_composite_and_multi_column_topology_deterministically():

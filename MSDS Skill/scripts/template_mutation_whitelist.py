@@ -1144,6 +1144,68 @@ def audit_values_nonbold(document, language: str = "cn", context=None) -> list[d
     return problems
 
 
+def audit_value_typography_contract(document, language: str = "cn") -> list[str]:
+    """Fail closed on explicit font, size, alignment and boldness for values."""
+    normalized_language = "zh" if language in {"zh", "cn"} else language
+    expected_font = VALUE_FONT_BY_LANGUAGE.get(normalized_language)
+    if expected_font is None:
+        return [f"unsupported value typography language: {language}"]
+    expected_size = str(int(VALUE_SIZE_PT * 2))
+    errors: list[str] = []
+    for table_index, table in enumerate(document.tables[:16]):
+        for row_index, row in enumerate(table.rows):
+            expected_alignment = 1 if table_index == 2 and row_index >= 4 else 0
+            for cell_index, cell, locked_prefix in _writable_value_cells(
+                table_index, row_index, row
+            ):
+                tc_pr = cell._tc.tcPr
+                v_align = tc_pr.find(qn("w:vAlign")) if tc_pr is not None else None
+                if v_align is None or v_align.get(qn("w:val")) != "center":
+                    errors.append(
+                        f"value cell vertical alignment must be center: table={table_index + 1} "
+                        f"row={row_index + 1} cell={cell_index + 1}"
+                    )
+                for paragraph in cell.paragraphs:
+                    paragraph_alignment = getattr(paragraph.alignment, "value", paragraph.alignment)
+                    if paragraph_alignment != expected_alignment and (paragraph.text.strip() or table_index == 2):
+                        errors.append(
+                            f"value paragraph alignment mismatch: table={table_index + 1} row={row_index + 1} "
+                            f"cell={cell_index + 1} expected={expected_alignment} actual={paragraph_alignment}"
+                        )
+                for run, paragraph, value_text in _iter_value_text_runs(cell, locked_prefix):
+                    r_pr = run._r.rPr
+                    if r_pr is None:
+                        errors.append(
+                            f"value run has no explicit typography: table={table_index + 1} "
+                            f"row={row_index + 1} cell={cell_index + 1} text={value_text[:24]!r}"
+                        )
+                        continue
+                    r_fonts = r_pr.find(qn("w:rFonts"))
+                    actual_fonts = {
+                        key: r_fonts.get(qn(f"w:{key}")) if r_fonts is not None else None
+                        for key in ("ascii", "hAnsi", "eastAsia", "cs")
+                    }
+                    if any(font != expected_font for font in actual_fonts.values()):
+                        errors.append(
+                            f"value run font mismatch: table={table_index + 1} row={row_index + 1} "
+                            f"cell={cell_index + 1} expected={expected_font!r} actual={actual_fonts}"
+                        )
+                    for tag in ("w:sz", "w:szCs"):
+                        size = r_pr.find(qn(tag))
+                        if size is None or size.get(qn("w:val")) != expected_size:
+                            errors.append(
+                                f"value run explicit size mismatch: table={table_index + 1} "
+                                f"row={row_index + 1} cell={cell_index + 1} text={value_text[:24]!r} "
+                                f"expected={expected_size} actual={size.get(qn('w:val')) if size is not None else None}"
+                            )
+                    if _value_run_is_bold(run, paragraph):
+                        errors.append(
+                            f"writable value is bold: table={table_index + 1} row={row_index + 1} "
+                            f"cell={cell_index + 1} text={value_text[:24]!r}"
+                        )
+    return errors
+
+
 def _is_s8_recommendation_value_cell(table_index: int, row_index: int,
                                      row, cell_index: int) -> bool:
     """Return true only for the source-gated Section 8 value cell."""
@@ -1976,6 +2038,7 @@ __all__ = [
     "S82_MISSING",
     "clear_value_cells",
     "audit_values_nonbold",
+    "audit_value_typography_contract",
     "locked_cell_snapshots",
     "compare_locked_skeleton",
     "compare_format_anchors",

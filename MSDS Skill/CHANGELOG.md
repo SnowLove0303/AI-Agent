@@ -1,5 +1,26 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.27.7 — 2026-09-21
+
+- Split Section 2 product-level facts from Section 3 component-level GHS
+  evidence. A source product category of `无` is preserved when Section 3
+  contains component classifications, H-codes or thresholds; the non-hazard
+  fallback is no longer allowed to overwrite that evidence.
+- Restricted Section 2.2/2.3 label-elements output to the verified
+  special-substance attention note and blocked classification/H-code leakage
+  into that slot.
+- Made the global writable-value contract release-blocking: CN values are
+  explicit 宋体 12 pt, EN values are explicit Times New Roman 12 pt, values
+  are vertically centered and left aligned, and every populated S3
+  name/CAS/content value is horizontally and vertically centered. Missing
+  direct OOXML font/size properties now fail instead of inheriting five-point
+  Normal text.
+- Reasserted locked sequence-plus-label geometry for all sections and the
+  three-column Section 11.1/11.2/11.7 rule that only the final value cell is
+  writable.
+- Added PA-4902 regression gates for the reported fallback, classification
+  leakage, S3 alignment drift and Section 11 five-point inheritance defects.
+
 ## v3.27.6 — 2026-09-21
 
 - Normalized absent/no GHS category to `根据 GHS 不属于危险物` and absent

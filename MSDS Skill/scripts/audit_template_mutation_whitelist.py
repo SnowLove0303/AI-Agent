@@ -11,6 +11,7 @@ from docx import Document
 
 from template_mutation_whitelist import (
     audit_cross_page_contract,
+    audit_value_typography_contract,
     audit_values_nonbold,
     compare_format_anchors,
     compare_locked_skeleton,
@@ -37,6 +38,10 @@ def audit(template_path: Path, output_path: Path, *, template=None, output=None,
     errors.extend(
         "value-typography: " + json.dumps(item, ensure_ascii=False, sort_keys=True)
         for item in value_typography
+    )
+    errors.extend(
+        "value-format-contract: " + error
+        for error in audit_value_typography_contract(output, language=language)
     )
     s82_layout = audit_s82(template, output, language=language)
     errors.extend("s8.2-layout: " + error for error in s82_layout.get("errors", []))

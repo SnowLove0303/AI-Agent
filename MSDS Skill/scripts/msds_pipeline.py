@@ -269,7 +269,7 @@ def approved_facts_errors(facts: dict, source: Path, model: str,
             for index, word in required_words:
                 if index >= len(labels) or word not in labels[index]:
                     errors.append(f"zh Section 2 slot {index + 1} must be {word}")
-        errors.extend(validate_s2_semantics(s2, language))
+        errors.extend(validate_s2_semantics(s2, language, layer.get("s3")))
     return errors
 
 
@@ -460,7 +460,9 @@ def plan_body_write(doc, facts: dict, language: str) -> tuple[list[SectionWriteP
         table = doc.tables[sec - 1]
         source_rows = sanitize_section_payload(sec, facts.get(f"s{sec}") or [])
         if sec == 2:
-            source_rows = normalize_s2_projected_rows(source_rows)
+            source_rows = normalize_s2_projected_rows(
+                source_rows, s3_rows=facts.get("s3") or []
+            )
         if sec == 8:
             # Keep all PPE slots in template order until after values are
             # written.  The source-presence pass may then remove empty rows,
@@ -696,10 +698,11 @@ def gate_locked_labels(template_path: Path, docx_path: Path, *,
 
 
 def gate_section2(docx_path: Path, require_pictogram: bool, document=None,
-                  expected_precautionary_groups=None) -> list[str]:
+                  expected_precautionary_groups=None, source_s3_rows=None) -> list[str]:
     errors, _info = audit_s2.run(docx_path, require_pictogram=require_pictogram,
                                  document=document,
-                                 expected_precautionary_groups=expected_precautionary_groups)
+                                 expected_precautionary_groups=expected_precautionary_groups,
+                                 source_s3_rows=source_s3_rows)
     return errors
 
 
@@ -910,7 +913,9 @@ def build_one(*, template_cn: Path, template_en: Path, template_en_source: Path,
                 audit_context=audit_context))
             blockers.extend(f"section2: {e}" for e in gate_section2(
                 staged_docx, require_pictogram=with_pictogram, document=doc,
-                expected_precautionary_groups=expected_precautionary_group_keys(facts)))
+                expected_precautionary_groups=expected_precautionary_group_keys(facts),
+                source_s3_rows=lang_facts.get("s3"),
+            ))
             blockers.extend(f"whitespace: {e}" for e in gate_whitespace(
                 staged_docx, document=doc, audit_context=audit_context
             ))
