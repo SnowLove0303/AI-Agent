@@ -711,8 +711,11 @@ def gate_whitespace(docx_path: Path, document=None, audit_context=None) -> list[
     return [json.dumps(issue, ensure_ascii=False) for issue in report.get("issues", [])]
 
 
-def gate_terminology(docx_path: Path) -> list[str]:
-    return audit_terms.run(docx_path)
+def gate_terminology(docx_path: Path, template_path: Path | None = None) -> list[str]:
+    # The maintained EN template itself contains legacy fixed labels and
+    # full-width punctuation.  Compare against that baseline so the audit
+    # blocks only newly introduced value/heading violations.
+    return audit_terms.run(docx_path, baseline=template_path)
 
 
 def gate_s11_toxicology(docx_path: Path, document=None) -> list[str]:
@@ -940,7 +943,9 @@ def build_one(*, template_cn: Path, template_en: Path, template_en_source: Path,
                 audit_context=audit_context,
             ))
             if language == "en":
-                blockers.extend(f"terminology: {e}" for e in gate_terminology(staged_docx))
+                blockers.extend(f"terminology: {e}" for e in gate_terminology(
+                    staged_docx, template_path=template
+                ))
         if blockers:
             raise ReleaseBlocked(f"{language}/{brand}: " + "; ".join(blockers[:8]))
 

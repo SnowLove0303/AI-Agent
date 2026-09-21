@@ -84,7 +84,7 @@ def run_audit(root: Path, model: str, *, template_cn: Path | None = None,
                 if "_MSDS_EN_" in p.name:
                     text_hits.extend(
                         f"{p.name}: ENGLISH_TERMINOLOGY {issue}"
-                        for issue in audit_english_terminology(p)
+                        for issue in audit_english_terminology(p, baseline=template_en)
                     )
         except Exception as exc:
             text_hits.append(f"text scan error: {exc}")

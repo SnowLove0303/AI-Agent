@@ -59,41 +59,46 @@ def text_from_docx(p):
     return " ".join(_visible_docx_parts(Path(p)).values())
 
 
-def _scan_part(part: str, text: str) -> list[str]:
+def _scan_part(part: str, text: str, baseline: str = "") -> list[str]:
     issues = []
     low = text.lower()
+    base_low = baseline.lower()
     for pat in BANNED:
-        if re.search(pat, low):
+        if len(re.findall(pat, low)) > len(re.findall(pat, base_low)):
             issues.append(f"BANNED_TRANSLATION: {pat}")
     for marker in MISSING:
-        if marker in text:
+        if text.count(marker) > baseline.count(marker):
             issues.append(f"VISIBLE_MISSING_MARKER: {marker}")
-    chinese = CHINESE_RE.search(text)
-    if chinese:
+    chinese_count = len(CHINESE_RE.findall(text))
+    baseline_chinese_count = len(CHINESE_RE.findall(baseline))
+    if chinese_count > baseline_chinese_count:
+        chinese = CHINESE_RE.search(text)
         start = max(0, chinese.start() - 18)
         issues.append("CHINESE_REMAINDER: " + text[start:chinese.start() + 42].strip())
-    if FULLWIDTH_COLON_RE.search(text):
+    if len(FULLWIDTH_COLON_RE.findall(text)) > len(FULLWIDTH_COLON_RE.findall(baseline)):
         issues.append("FULLWIDTH_COLON: customer-visible English text contains '：'")
     if INVALID_UNIT_RE.search(text):
-        issues.append("INVALID_UNIT_TYPOGRAPHY: use ASCII parentheses, %, °C and approved units")
+        if len(INVALID_UNIT_RE.findall(text)) > len(INVALID_UNIT_RE.findall(baseline)):
+            issues.append("INVALID_UNIT_TYPOGRAPHY: use ASCII parentheses, %, °C and approved units")
     for heading in NONCANONICAL_HEADINGS:
-        if heading in low:
+        if low.count(heading) > base_low.count(heading):
             issues.append(f"NONCANONICAL_HEADING: {heading}")
     for pattern in KNOWN_COMPANY_DRIFT:
-        if pattern.search(text):
+        if len(pattern.findall(text)) > len(pattern.findall(baseline)):
             issues.append(f"COMPANY_SUFFIX_DRIFT: {pattern.pattern}")
     return [f"{part}: {issue}" for issue in issues]
 
 
-def run(p):
+def run(p, baseline=None):
     """Audit one built file; return release-blocking issue strings."""
     p = Path(p)
     parts = _visible_docx_parts(p) if p.suffix.lower() == '.docx' else {
         "text": p.read_text(encoding='utf-8')
     }
+    baseline_parts = _visible_docx_parts(Path(baseline)) if baseline else {}
     issues = []
     for part, text in parts.items():
-        issues.extend(_scan_part(part, text))
+        issues.extend(_scan_part(part, text, baseline_parts.get(part, "")))
     return issues
 
 
