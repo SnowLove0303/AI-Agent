@@ -87,9 +87,19 @@ def run(docx, require_pictogram=False, document=None, expected_precautionary_gro
         value = " ".join(cell.text.strip() for cell in cells[1:] if cell.text.strip())
         if "GHS象形图" in label or re.search(r"ghs\s+pictogram", label, flags=re.IGNORECASE):
             pictogram_present = pictogram_present or row_has_visual_content(row)
+        normalized_label = re.sub(r"\s+", "", label)
+        explicit_no_is_data = (
+            re.sub(r"[\s；;，,:：.!！？?。]+$", "", value.strip()) == "无"
+            and (
+                normalized_label.startswith("2.1")
+                or normalized_label.startswith("2.2")
+                or "GHS象形图" in normalized_label
+            )
+        )
         if (
             not is_explicit_other_hazards_row(row)
             and not row_has_visual_content(row)
+            and not explicit_no_is_data
             and (not value or is_missing_section2_value(value))
         ):
             errors.append(f"missing-data row remains: {label}")

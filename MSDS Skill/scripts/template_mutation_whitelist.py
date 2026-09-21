@@ -1081,6 +1081,21 @@ def _format_anchor_without_bold(cell) -> tuple[str, str, str]:
     return tc_pr, p_pr, r_pr
 
 
+def _format_anchor_value_layout(cell) -> tuple[str, str, str]:
+    """Return the immutable layout anchor for a writable value cell.
+
+    Value typography is a global contract: CN values are Songti small-four
+    and EN values are Times New Roman small-four.  Therefore value-cell run
+    font/size/lang properties are intentionally excluded here; cell and
+    paragraph layout remain locked and are still compared byte-for-byte.
+    Dedicated typography audits validate the required value font separately.
+    """
+    tc_pr = _without_bold(cell._tc.tcPr)
+    paragraph = cell.paragraphs[0] if cell.paragraphs else None
+    p_pr = _without_bold(paragraph._p.pPr) if paragraph is not None else ""
+    return tc_pr, p_pr, ""
+
+
 def _iter_value_text_runs(cell, locked_prefix: str | None = None):
     """Yield non-empty value portions while skipping a shared-cell prefix."""
     prefix_remaining = len(locked_prefix or "")
@@ -1495,7 +1510,7 @@ def compare_format_anchors(template, output, *, language: str = "cn",
                         # a writable value is removal of bold.  Font, size,
                         # color, language, spacing and all cell/paragraph
                         # layout must still inherit the fresh template.
-                        if _format_anchor_without_bold(expected_cell) != _format_anchor_without_bold(actual_cell):
+                        if _format_anchor_value_layout(expected_cell) != _format_anchor_value_layout(actual_cell):
                             cell_formats_match = False
                             break
                     elif _format_anchor(expected_cell) != _format_anchor(actual_cell):

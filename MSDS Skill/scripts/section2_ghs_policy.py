@@ -465,9 +465,19 @@ def suppress_missing_section2_rows_and_renumber(document, set_paragraph_text,
                 seen.add(key)
                 cells.append(cell)
         label = cells[0].text.strip() if cells else ""
+        normalized_label = re.sub(r"\s+", "", label)
+        explicit_no_is_data = (
+            re.sub(r"[\s；;，,:：.!！？?。]+$", "", _value_text(row).strip()) == "无"
+            and (
+                normalized_label.startswith("2.2")
+                or normalized_label.startswith("2.3")
+                or "GHS象形图" in normalized_label
+            )
+        )
         if (
             not is_explicit_other_hazards_row(row)
             and not row_has_visual_content(row)
+            and not explicit_no_is_data
             and (not _value_text(row) or is_missing_section2_value(_value_text(row)))
         ):
             if removed_s28_label_cell is None and is_s28_row(1, row) and cells:

@@ -130,6 +130,12 @@ def sanitize_section_payload(section: int, rows) -> list:
     retained for the section policy to decide. Rows with no payload at all are
     removed so later values cannot be shifted by an empty source row.
     """
+    # Section 1 is a positional identity/supplier skeleton.  Its blank
+    # product-name and supplier-heading rows are structural slots; removing
+    # them shifts every following value into the wrong locked label.
+    if section in {1, 9}:
+        return [list(row) for row in list(rows or [])
+                if isinstance(row, (list, tuple)) and row]
     cleaned = []
     for row in list(rows or []):
         if isinstance(row, dict):
