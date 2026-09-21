@@ -128,7 +128,10 @@ def _row_key(row: list | tuple) -> tuple:
             raise Section11AlignmentError(
                 f"cannot map Section 11.1 sublabel: {sublabel!r}"
             )
-        return ("endpoint", endpoint, "overall")
+        # The fixed template represents the aggregate 11.1 row with no route
+        # key (None).  Keep the semantic key identical to the template so an
+        # omitted route cannot become a phantom unmatched endpoint.
+        return ("endpoint", endpoint, None)
     if endpoint == 7:
         child = _child(sublabel)
         if child is None:
