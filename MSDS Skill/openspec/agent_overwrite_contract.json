@@ -17,6 +17,7 @@
     "openspec/source_interpretation_contract.json",
     "docs/source_interpretation_playbook.md",
     "docs/source_grounding_policy.md",
+    "docs/agent_overwrite_sop.md",
     "openspec/efficiency_contract.md",
     "openspec/efficiency_contract.json"
   ],
@@ -87,6 +88,22 @@
     "source_interpretation_boundary": "scripts/source_interpretation_contract.py",
     "empty_value_policy": "suppress_row_then_renumber",
     "release_policy": "fail_closed"
+  },
+  "sop": {
+    "version": "1.0",
+    "required_stages": [
+      "lock_input",
+      "inventory_source",
+      "build_fact_ledger",
+      "semantic_route",
+      "normalize_structure_only",
+      "review_mapping_and_traceability",
+      "plan_template_mutations",
+      "clone_template_and_write_values",
+      "suppress_empty_rows_and_renumber",
+      "audit_and_render_qa"
+    ],
+    "required_local_sections": [2, 8, 9, 10, 11, 12, 13, 14]
   },
   "agent_mutation_boundary": {
     "allowed_operations": [

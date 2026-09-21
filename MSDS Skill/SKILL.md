@@ -17,6 +17,9 @@ description: One maintained MSDS/SDS standardization skill that discovers suppor
    guarded writer.
 4. Flexible source handling normalizes section names, numbering, labels,
    tables, nested tables and line breaks without paraphrasing source facts.
+5. The reviewed `overwrite_sop` record is required before template cloning;
+   cross-Section semantic routing is allowed only with source facts, a reason
+   and the normal global evidence/audit gates.
 
 ## Mandatory EN Master Template & Format/Bold Immutable Lock (v3.27.4)
 

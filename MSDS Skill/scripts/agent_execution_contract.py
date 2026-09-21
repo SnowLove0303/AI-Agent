@@ -90,6 +90,28 @@ def validate_agent_execution_contract(facts: dict) -> list[str]:
         errors.append(
             "agent_execution agent_mutation_boundary must exactly match the active OpenSpec"
         )
+    sop = facts.get("overwrite_sop")
+    expected_sop = spec.get("sop") or {}
+    if not isinstance(sop, dict):
+        errors.append("overwrite_sop record is missing; complete the Agent overwrite SOP before approval")
+    else:
+        if sop.get("version") != expected_sop.get("version"):
+            errors.append("overwrite_sop version does not match active SOP")
+        if sop.get("status") != "reviewed":
+            errors.append("overwrite_sop status must be reviewed")
+        stages = sop.get("stages")
+        required_stages = expected_sop.get("required_stages", [])
+        stage_names = [item.get("stage") for item in stages if isinstance(item, dict)] if isinstance(stages, list) else []
+        if stage_names != required_stages:
+            errors.append("overwrite_sop stages must match the required global order")
+        elif any(item.get("status") != "completed" for item in stages):
+            errors.append("overwrite_sop every required stage must be completed")
+        if sorted(sop.get("loaded_local_sections") or []) != expected_sop.get("required_local_sections", []):
+            errors.append("overwrite_sop local Section rule set is incomplete")
+        if not isinstance(sop.get("cross_section_routes"), list):
+            errors.append("overwrite_sop cross_section_routes must be a list")
+        if not isinstance(sop.get("audit_plan"), list) or not sop.get("audit_plan"):
+            errors.append("overwrite_sop audit_plan is missing")
     return errors
 
 
@@ -106,6 +128,7 @@ def blank_execution_contract() -> dict:
         "operation_order": [],
         "execution_mode": {},
         "agent_mutation_boundary": {},
+        "overwrite_sop": {"version": load_spec().get("sop", {}).get("version"), "status": "needs-review"},
     }
 
 

@@ -37,6 +37,18 @@ def reviewed_execution():
     }
 
 
+def reviewed_sop():
+    sop = load_spec()["sop"]
+    return {
+        "version": sop["version"],
+        "status": "reviewed",
+        "stages": [{"stage": stage, "status": "completed"} for stage in sop["required_stages"]],
+        "loaded_local_sections": sop["required_local_sections"],
+        "cross_section_routes": [],
+        "audit_plan": ["source_fidelity", "template_lock", "section_local_rules", "render_qa"],
+    }
+
+
 def test_openspec_normative_sources_are_installed():
     assert validate_spec_installation() == []
 
@@ -47,7 +59,25 @@ def test_agent_execution_requires_full_review_record():
 
 
 def test_reviewed_agent_execution_record_is_accepted():
-    assert validate_agent_execution_contract({"agent_execution": reviewed_execution()}) == []
+    assert validate_agent_execution_contract({
+        "agent_execution": reviewed_execution(), "overwrite_sop": reviewed_sop()
+    }) == []
+
+
+def test_agent_execution_requires_reviewed_overwrite_sop():
+    errors = validate_agent_execution_contract({"agent_execution": reviewed_execution()})
+    assert any("overwrite_sop record is missing" in error for error in errors)
+
+
+def test_sop_keeps_cross_section_routing_explicit():
+    record = reviewed_sop()
+    record["cross_section_routes"] = [{
+        "source_section": "s3",
+        "target_section": "s2",
+        "source_fact_ids": ["FACT-S3-001"],
+        "reason": "GHS label explanation is semantically a Section 2 label element",
+    }]
+    assert record["cross_section_routes"][0]["source_section"] != record["cross_section_routes"][0]["target_section"]
 
 
 def test_agent_mutation_boundary_cannot_be_expanded():

@@ -12,6 +12,8 @@
   sublabel is never treated as a writable value.
 - Added regression coverage for paraphrase rejection, local semantic policy
   registration and Section 11.2 route protection.
+- Added the Agent overwrite SOP and made its reviewed stage record mandatory
+  before template cloning; cross-Section routes remain explicitly supported.
 
 ## v3.27.3 — 2026-09-21
 

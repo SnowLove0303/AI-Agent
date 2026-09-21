@@ -25,6 +25,7 @@ Before inspecting a source for overwrite, the Agent must read the complete
 - [source_interpretation_contract.json](source_interpretation_contract.json)
 - [source_interpretation_playbook.md](../docs/source_interpretation_playbook.md)
 - [source_grounding_policy.md](../docs/source_grounding_policy.md)
+- [agent_overwrite_sop.md](../docs/agent_overwrite_sop.md)
 - [efficiency_contract.md](efficiency_contract.md)
 - [efficiency_contract.json](efficiency_contract.json)
 
@@ -89,6 +90,13 @@ runtime must have a reviewed semantic write/mutation plan. Stage timing and
 fast-check output are diagnostic evidence only; they cannot replace the final
 semantic, locked-format, whitespace, geometry, source-traceability or render
 gates.
+
+The approved facts JSON must also contain a reviewed `overwrite_sop` record.
+It records completion of the global sequence, loaded local Section rules and
+cross-Section semantic routes. A source fact may route from one source Section
+to another target Section only when the mapping carries source evidence and a
+semantic reason. The SOP record never authorizes unsupported content or
+bypasses the global source-fidelity and template-lock gates.
 
 ## Empty-value row rule
 
