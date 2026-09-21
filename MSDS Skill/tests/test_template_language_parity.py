@@ -7,7 +7,7 @@ from docx import Document
 
 ROOT = Path(__file__).resolve().parents[1]
 CN_ROWS = [10, 16, 6, 6, 5, 4, 3, 16, 24, 6, 18, 6, 3, 5, 9, 2]
-EN_ROWS = [9, 16, 6, 6, 5, 4, 3, 12, 24, 6, 18, 6, 3, 5, 9, 2]
+EN_ROWS = [9, 16, 6, 6, 5, 4, 3, 16, 24, 6, 18, 6, 3, 5, 9, 2]
 
 
 def _rows(document):
@@ -40,8 +40,8 @@ def test_en_template_is_distinct_and_uses_english_section_labels():
     import hashlib
     # The supplied EN template remains the immutable source record; the active
     # baseline is a versioned maintainer remediation with unchanged geometry.
-    assert hashlib.sha256(source.read_bytes()).hexdigest() == "34a259eed50d2e78b4609c66453fa9baab610a623dcc7ee531db359b1a988497"
-    assert hashlib.sha256((ROOT / "examples" / "template_reference_en.docx").read_bytes()).hexdigest() == "38565de4ce59f2e34146d03ed3eefa692df4f42cc4d212d8e4fb7b098f924eef"
+    assert hashlib.sha256(source.read_bytes()).hexdigest() == "0c7f3bfd74a85955a32fd691a392077f79c0acc74d2c7765947e02cf7c226c3f"
+    assert hashlib.sha256((ROOT / "examples" / "template_reference_en.docx").read_bytes()).hexdigest() == "dca8a1a5940f4410003b032d9ec914291c1e961383305af271ba3cd6b32e495f"
     assert source.read_bytes() != (ROOT / "examples" / "template_reference_en.docx").read_bytes()
     assert "Identification" in en.tables[0].rows[0].cells[0].text
     assert "Chemical category" in en.tables[0].rows[2].cells[0].text
@@ -62,9 +62,9 @@ def test_en_template_is_distinct_and_uses_english_section_labels():
 
 def test_en_snapshot_pins_the_supplied_template_hash_and_geometry():
     snapshot = json.loads((ROOT / "tests" / "template_snapshot_en.json").read_text(encoding="utf-8"))
-    assert snapshot["source_sha256"] == "49a279aa8c7a50f38ee6929ca2f030cf13b01ee0d1e476d790a2352a316bfa2b"
+    assert snapshot["source_sha256"] == "dca8a1a5940f4410003b032d9ec914291c1e961383305af271ba3cd6b32e495f"
     import hashlib
-    assert hashlib.sha256((ROOT / "examples" / "template_reference_en_source.docx").read_bytes()).hexdigest() == "34a259eed50d2e78b4609c66453fa9baab610a623dcc7ee531db359b1a988497"
+    assert hashlib.sha256((ROOT / "examples" / "template_reference_en_source.docx").read_bytes()).hexdigest() == "0c7f3bfd74a85955a32fd691a392077f79c0acc74d2c7765947e02cf7c226c3f"
     assert [table["row_count"] for table in snapshot["tables"]] == [9, 16, 6, 6, 5, 4, 3, 16, 24, 6, 18, 6, 3, 5, 9, 2]
     assert [table["column_count"] for table in snapshot["tables"]] == [2, 2, 3, 2, 2, 2, 2, 5, 2, 2, 4, 2, 2, 2, 1, 1]
     top_rows = snapshot["tables"][7]["rows"]

@@ -1,6 +1,6 @@
 {
   "source_filename": "template_reference.docx",
-  "source_sha256": "b6c52c3d6003d4314e578733c5066dc9541c70ee49957ab56c24dd749ade2d43",
+  "source_sha256": "a69a447f7f39599b10c30c7f92c4d5101d94fd85bfdcc4d89de429d1c796af1c",
   "tables": [
     {
       "table": 0,
@@ -207,12 +207,12 @@
                   "runs": [
                     {
                       "text": "此处填写产品中文名称+型号",
-                      "rPr_hash": "1ce7952487bd21041c819d63d83509a1974e019e999467bb1539f070d9e440ac",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -276,12 +276,12 @@
                   "runs": [
                     {
                       "text": "此处填写化学品分类名称",
-                      "rPr_hash": "1ce7952487bd21041c819d63d83509a1974e019e999467bb1539f070d9e440ac",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -381,12 +381,12 @@
                   "runs": [
                     {
                       "text": "此处填写使用建议和使用限制",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -530,12 +530,12 @@
                   "runs": [
                     {
                       "text": "广州冠志新材料科技有限公司",
-                      "rPr_hash": "67a83bafd2b6738fafa290189b5883a6bda62b8d31031b49378879a27f9a6e8f",
+                      "rPr_hash": "fc0540ba5ceab8ac3a3f78043d6bebfd6f4503ae75cf36c7cec62065c6bd0236",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -599,12 +599,12 @@
                   "runs": [
                     {
                       "text": "地址：广州市萝岗区科学城掬泉路3号广州国际企业孵化器A区1106室",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -668,12 +668,12 @@
                   "runs": [
                     {
                       "text": "86-20-82567990",
-                      "rPr_hash": "ab7dd700ce6e6e1021ce8d9594ce89149a747d4447a190e5a7045b83d70d3d6a",
+                      "rPr_hash": "0d241addf8bd2555fc2763960bb5746d0db7894168741c2a66b987ad2623d9a7",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -737,12 +737,12 @@
                   "runs": [
                     {
                       "text": "86-20-32214789",
-                      "rPr_hash": "ab7dd700ce6e6e1021ce8d9594ce89149a747d4447a190e5a7045b83d70d3d6a",
+                      "rPr_hash": "0d241addf8bd2555fc2763960bb5746d0db7894168741c2a66b987ad2623d9a7",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -1003,12 +1003,12 @@
                   "runs": [
                     {
                       "text": "易燃液体，类别4（H227）",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -1108,12 +1108,12 @@
                   "runs": [
                     {
                       "text": "无",
-                      "rPr_hash": "6bcee46d9d2b2eb40f6856f2561163370e474c357cbdd6284fa90bda52990f82",
+                      "rPr_hash": "3a3aec11c8a17b71ce793703b740e87a1fed28db696622f555b2918ab6858b11",
                       "bold": false,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -1189,12 +1189,12 @@
                   "runs": [
                     {
                       "text": "无",
-                      "rPr_hash": "6bcee46d9d2b2eb40f6856f2561163370e474c357cbdd6284fa90bda52990f82",
+                      "rPr_hash": "3a3aec11c8a17b71ce793703b740e87a1fed28db696622f555b2918ab6858b11",
                       "bold": false,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -1294,12 +1294,12 @@
                   "runs": [
                     {
                       "text": "警告",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -1399,12 +1399,12 @@
                   "runs": [
                     {
                       "text": "H316造成轻微皮肤刺激。",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
+                      "rPr_hash": "706329b978de8ab4778e4e3e186ebb95ee247c47429b19f9d3d9e1acc0c2c7e3",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -1504,12 +1504,12 @@
                   "runs": [
                     {
                       "text": "预防措施：",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
+                      "rPr_hash": "706329b978de8ab4778e4e3e186ebb95ee247c47429b19f9d3d9e1acc0c2c7e3",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -1522,12 +1522,12 @@
                   "runs": [
                     {
                       "text": "P210 远离热源、热表面、火花、明火和其他点火源。禁止吸烟。",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
+                      "rPr_hash": "706329b978de8ab4778e4e3e186ebb95ee247c47429b19f9d3d9e1acc0c2c7e3",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -1615,12 +1615,12 @@
                   "runs": [
                     {
                       "text": "喷涂使用时可能形成雾滴或气溶胶，应避免吸入。",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
+                      "rPr_hash": "706329b978de8ab4778e4e3e186ebb95ee247c47429b19f9d3d9e1acc0c2c7e3",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -1696,12 +1696,12 @@
                   "runs": [
                     {
                       "text": "吸入：",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
+                      "rPr_hash": "706329b978de8ab4778e4e3e186ebb95ee247c47429b19f9d3d9e1acc0c2c7e3",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -1777,12 +1777,12 @@
                   "runs": [
                     {
                       "text": "食入：",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
+                      "rPr_hash": "706329b978de8ab4778e4e3e186ebb95ee247c47429b19f9d3d9e1acc0c2c7e3",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -1858,12 +1858,12 @@
                   "runs": [
                     {
                       "text": "皮肤：",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
+                      "rPr_hash": "706329b978de8ab4778e4e3e186ebb95ee247c47429b19f9d3d9e1acc0c2c7e3",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -1939,12 +1939,12 @@
                   "runs": [
                     {
                       "text": "眼睛：",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
+                      "rPr_hash": "706329b978de8ab4778e4e3e186ebb95ee247c47429b19f9d3d9e1acc0c2c7e3",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -2020,12 +2020,12 @@
                   "runs": [
                     {
                       "text": "症状和体征：",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
+                      "rPr_hash": "706329b978de8ab4778e4e3e186ebb95ee247c47429b19f9d3d9e1acc0c2c7e3",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -2101,24 +2101,24 @@
                   "runs": [
                     {
                       "text": "如：对水生生物有毒。",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
+                      "rPr_hash": "706329b978de8ab4778e4e3e186ebb95ee247c47429b19f9d3d9e1acc0c2c7e3",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "可能对水生环境造成长期有害影响",
-                      "rPr_hash": "bd2049ccdb4ec41e989517971f232181b95ec04b464d7ffbe93ad3c33991d581",
+                      "rPr_hash": "b40f08a433eb1aa061c1202e27c86057bf3d4e53e931b08b65da9849a9ce4c88",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -2194,12 +2194,12 @@
                   "runs": [
                     {
                       "text": "无",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
+                      "rPr_hash": "706329b978de8ab4778e4e3e186ebb95ee247c47429b19f9d3d9e1acc0c2c7e3",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -2346,7 +2346,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[3]/w:tr[2]/w:tc[2]",
-              "tcPr_hash": "1a5f3a4d1fc24d4803b5b22dc4a641c57084caf493b761a6f3af526ee4289391",
+              "tcPr_hash": "9ae68fa18480f6c857fafb02edcc4300c08a50603be041891e0589d25cf64b75",
               "tcW": "6262",
               "tcW_type": "dxa",
               "gridSpan": "2",
@@ -2359,12 +2359,12 @@
                   "runs": [
                     {
                       "text": "混合物",
-                      "rPr_hash": "4ba05672152181abb7135f268cae50f076c878c7b79ae6c5651fd362c632f59b",
+                      "rPr_hash": "fc0540ba5ceab8ac3a3f78043d6bebfd6f4503ae75cf36c7cec62065c6bd0236",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -2627,16 +2627,16 @@
               "paragraphs": [
                 {
                   "text": "成分1",
-                  "pPr_hash": "cce63a167965a67a28c22b06962b050e0ab5c682b0b36db5521802690ead7c23",
+                  "pPr_hash": "9065e247bbbd6c848a7f99962f45ac633adc00269e693b8a13098223391ba137",
                   "runs": [
                     {
                       "text": "成分1",
-                      "rPr_hash": "bd5227e03a7351f4b20e18898a53a176e4c30ef7242e6b62073e01cb0120c06a",
+                      "rPr_hash": "44ae82bf45dad24d73cb5fc1fc51a727ff847f62f2c4932eb53a572bda4d6601",
                       "bold": false,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -2658,16 +2658,16 @@
               "paragraphs": [
                 {
                   "text": "商业机密",
-                  "pPr_hash": "f5fc797d9e51cba7c7981dc818afc5918e1ec03b460f2c25d348024b050c5d62",
+                  "pPr_hash": "65b05cf85a9953f78c4326242a6f2577b7ebcd5c26ec640542d53b89aeb7ae26",
                   "runs": [
                     {
                       "text": "商业机密",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -2689,16 +2689,16 @@
               "paragraphs": [
                 {
                   "text": "> n",
-                  "pPr_hash": "9087aa8d240fed5ab66cb6705cc72ad29e094a6f956e6c472b096bc48886002f",
+                  "pPr_hash": "c65fda12c9107fb8f48581a54e20ab74ea92febe0604255f566aa4ba234c0135",
                   "runs": [
                     {
                       "text": "> n",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -2727,16 +2727,16 @@
               "paragraphs": [
                 {
                   "text": "成分2",
-                  "pPr_hash": "cce63a167965a67a28c22b06962b050e0ab5c682b0b36db5521802690ead7c23",
+                  "pPr_hash": "9065e247bbbd6c848a7f99962f45ac633adc00269e693b8a13098223391ba137",
                   "runs": [
                     {
                       "text": "成分2",
-                      "rPr_hash": "bd5227e03a7351f4b20e18898a53a176e4c30ef7242e6b62073e01cb0120c06a",
+                      "rPr_hash": "44ae82bf45dad24d73cb5fc1fc51a727ff847f62f2c4932eb53a572bda4d6601",
                       "bold": false,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -2758,16 +2758,16 @@
               "paragraphs": [
                 {
                   "text": "7732-18-5",
-                  "pPr_hash": "ce677761a1b1197d1d3ad28fddfa650eb1365b9f539087f2be1298c1c4110298",
+                  "pPr_hash": "7b627319a9d27a49f0320b2d38cc1c54979b91bd54c20d94b28b9df006750eb6",
                   "runs": [
                     {
                       "text": "7732-18-5",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -2789,16 +2789,16 @@
               "paragraphs": [
                 {
                   "text": "> 45",
-                  "pPr_hash": "9087aa8d240fed5ab66cb6705cc72ad29e094a6f956e6c472b096bc48886002f",
+                  "pPr_hash": "c65fda12c9107fb8f48581a54e20ab74ea92febe0604255f566aa4ba234c0135",
                   "runs": [
                     {
                       "text": "> 45",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -2944,7 +2944,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[4]/w:tr[2]/w:tc[2]",
-              "tcPr_hash": "25c8eba8740e12bb39be66bdc0d769ff6426ddf9edd49280338552d9224988c5",
+              "tcPr_hash": "6d52f09a081dd9647ae49cfe1c58b10b865921ced8acca145b83cfb102fd9a4a",
               "tcW": "6276",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -2957,12 +2957,12 @@
                   "runs": [
                     {
                       "text": "立即脱掉所有被污染的衣物。",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
+                      "rPr_hash": "706329b978de8ab4778e4e3e186ebb95ee247c47429b19f9d3d9e1acc0c2c7e3",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3037,7 +3037,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[4]/w:tr[3]/w:tc[2]",
-              "tcPr_hash": "b42b4c32b42e45a28f74dae0819a70e20b9a6de557ea8d27fdcd8755caba2440",
+              "tcPr_hash": "5c845597d0f6476f0807a8e56debd5c91fed44a6898242768519e8fde981f41d",
               "tcW": "6276",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -3050,24 +3050,24 @@
                   "runs": [
                     {
                       "text": "若意外吞食，不要催吐，立即就医。",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "无意识时，不要经口喂食任何食物。",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
+                      "rPr_hash": "706329b978de8ab4778e4e3e186ebb95ee247c47429b19f9d3d9e1acc0c2c7e3",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3142,7 +3142,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[4]/w:tr[4]/w:tc[2]",
-              "tcPr_hash": "b42b4c32b42e45a28f74dae0819a70e20b9a6de557ea8d27fdcd8755caba2440",
+              "tcPr_hash": "5c845597d0f6476f0807a8e56debd5c91fed44a6898242768519e8fde981f41d",
               "tcW": "6276",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -3155,12 +3155,12 @@
                   "runs": [
                     {
                       "text": "立即翻起上下眼睑用大量缓和流动的水清洗眼睛至少20 分钟。且将头倾斜，避免化学品流入另一只未受污染的眼睛，并立即就医。",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
+                      "rPr_hash": "706329b978de8ab4778e4e3e186ebb95ee247c47429b19f9d3d9e1acc0c2c7e3",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3235,7 +3235,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[4]/w:tr[5]/w:tc[2]",
-              "tcPr_hash": "b42b4c32b42e45a28f74dae0819a70e20b9a6de557ea8d27fdcd8755caba2440",
+              "tcPr_hash": "5c845597d0f6476f0807a8e56debd5c91fed44a6898242768519e8fde981f41d",
               "tcW": "6276",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -3248,12 +3248,12 @@
                   "runs": [
                     {
                       "text": "立即用肥皂和大量的水冲洗。若发生皮肤反应，就医。",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3328,7 +3328,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[4]/w:tr[6]/w:tc[2]",
-              "tcPr_hash": "dc4c74c41b8523fe0c065d85d494813da2c83bedf6bf3fbdf93061959a93bd9e",
+              "tcPr_hash": "12229227447ce5791b704acbbd609f2700a5421c56e4016931345e34a310fb3c",
               "tcW": "6276",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -3341,12 +3341,12 @@
                   "runs": [
                     {
                       "text": "一旦吸入，如有不适，就医。",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
+                      "rPr_hash": "706329b978de8ab4778e4e3e186ebb95ee247c47429b19f9d3d9e1acc0c2c7e3",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3491,7 +3491,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[5]/w:tr[2]/w:tc[2]",
-              "tcPr_hash": "e8d513a664c913997f5ef1a4d8cf573724de0ae405a124b7372975594446ec72",
+              "tcPr_hash": "8eefc8988be141573be0ed78ee57c32e9a1d1b054cb2436a9e80b9453cb0afe3",
               "tcW": "6262",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -3504,108 +3504,108 @@
                   "runs": [
                     {
                       "text": "二氧化碳（",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "CO",
-                      "rPr_hash": "ab7dd700ce6e6e1021ce8d9594ce89149a747d4447a190e5a7045b83d70d3d6a",
+                      "rPr_hash": "0d241addf8bd2555fc2763960bb5746d0db7894168741c2a66b987ad2623d9a7",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "2",
-                      "rPr_hash": "14b71ca6dc2471db867da8584b9d0b6700c6119ac02e85444e1e211b679696b9",
+                      "rPr_hash": "b6ae051fbfac71f11f72a4ec51f88828c16de1eac77b80970dca2edbc9f7ba89",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "），",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "耐醇",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "泡沫，",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "化学干粉",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "。",
-                      "rPr_hash": "8cd58a1f810ed881fc35c95c41813af22e5a14d85ec6359d2fd25867e9e02f60",
+                      "rPr_hash": "c88b5162504cf626962aadaebd95d7271f8bedde8d01acfbcfe9aa7e35a5cc70",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "大火时应用水喷洒。",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3680,7 +3680,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[5]/w:tr[3]/w:tc[2]",
-              "tcPr_hash": "1d4c81a22c19b14a3763f442ac7ab79e35da1580847f58f4273ca94d360abce4",
+              "tcPr_hash": "ffce20736e4bae239e5c1febe67430eafed07a180f223f2c842df51b2306177b",
               "tcW": "6262",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -3693,24 +3693,24 @@
                   "runs": [
                     {
                       "text": "高流量的水喷射",
-                      "rPr_hash": "da4879c77cbbe623e7fc811e4e9069466e9f6b09785325cb73cc325c060282f0",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "。",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3785,7 +3785,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[5]/w:tr[4]/w:tc[2]",
-              "tcPr_hash": "1d4c81a22c19b14a3763f442ac7ab79e35da1580847f58f4273ca94d360abce4",
+              "tcPr_hash": "ffce20736e4bae239e5c1febe67430eafed07a180f223f2c842df51b2306177b",
               "tcW": "6262",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -3798,36 +3798,36 @@
                   "runs": [
                     {
                       "text": "燃烧时释放一氧化碳、二氧化碳、氮氧化物",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "等",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "。",
-                      "rPr_hash": "8cd58a1f810ed881fc35c95c41813af22e5a14d85ec6359d2fd25867e9e02f60",
+                      "rPr_hash": "c88b5162504cf626962aadaebd95d7271f8bedde8d01acfbcfe9aa7e35a5cc70",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3840,12 +3840,12 @@
                   "runs": [
                     {
                       "text": "在着火或爆炸情况下，不要吸进烟尘。",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3920,7 +3920,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[5]/w:tr[5]/w:tc[2]",
-              "tcPr_hash": "072ac6bebf7472cfdc5542e8fa4182318eec8b33eefa508baf79fd75d9915fef",
+              "tcPr_hash": "373d83d9a7d965eee18547d6e634b8a2c7f6f06a979bfaf3f8190901120f88df",
               "tcW": "6262",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -3933,12 +3933,12 @@
                   "runs": [
                     {
                       "text": "消防人员必须佩戴自供气式呼吸器。",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3951,12 +3951,12 @@
                   "runs": [
                     {
                       "text": "禁止污染的灭火用水流入土壤，地下水或地表水中。",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4100,7 +4100,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[6]/w:tr[2]/w:tc[2]",
-              "tcPr_hash": "66a6520edcdc2ed74b8f8ffc255d1f9bb08b4d3016c3634603e4e7427256f7a2",
+              "tcPr_hash": "ba00d730a6964060fa0143aa850bb883d71405436cb10f9bd6a120d411c73bdb",
               "tcW": "6262",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -4113,36 +4113,36 @@
                   "runs": [
                     {
                       "text": "戴防护设备。确保充分的通风",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "/",
-                      "rPr_hash": "ab7dd700ce6e6e1021ce8d9594ce89149a747d4447a190e5a7045b83d70d3d6a",
+                      "rPr_hash": "0d241addf8bd2555fc2763960bb5746d0db7894168741c2a66b987ad2623d9a7",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "排气。",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4155,12 +4155,12 @@
                   "runs": [
                     {
                       "text": "令未授权人员离开。",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4235,7 +4235,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[6]/w:tr[3]/w:tc[2]",
-              "tcPr_hash": "2bd7d51681843d606f504146ee2cacf1940a9faebacf77333354aff225a3c364",
+              "tcPr_hash": "1fcd2171872d34d691ae20dd882dd83c095329ac017fe38e80530122442540d0",
               "tcW": "6262",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -4248,24 +4248,24 @@
                   "runs": [
                     {
                       "text": "禁止排入下水道，废水或土壤中",
-                      "rPr_hash": "4ba05672152181abb7135f268cae50f076c878c7b79ae6c5651fd362c632f59b",
+                      "rPr_hash": "fc0540ba5ceab8ac3a3f78043d6bebfd6f4503ae75cf36c7cec62065c6bd0236",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "。",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4340,7 +4340,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[6]/w:tr[4]/w:tc[2]",
-              "tcPr_hash": "fc892704bf496af516774b07c42cfceb3e39894c26eed3b0b95c632715ba0862",
+              "tcPr_hash": "e54233416d035c05146963820e2a3498d67ce07181647ac67d2655b296549c33",
               "tcW": "6262",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -4353,12 +4353,12 @@
                   "runs": [
                     {
                       "text": "用化学品吸收材料或必要时用干沙收集，并储存于密闭容器中。",
-                      "rPr_hash": "4ba05672152181abb7135f268cae50f076c878c7b79ae6c5651fd362c632f59b",
+                      "rPr_hash": "fc0540ba5ceab8ac3a3f78043d6bebfd6f4503ae75cf36c7cec62065c6bd0236",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4477,7 +4477,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[7]/w:tr[2]/w:tc[2]",
-              "tcPr_hash": "e8d513a664c913997f5ef1a4d8cf573724de0ae405a124b7372975594446ec72",
+              "tcPr_hash": "8eefc8988be141573be0ed78ee57c32e9a1d1b054cb2436a9e80b9453cb0afe3",
               "tcW": "6262",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -4490,36 +4490,36 @@
                   "runs": [
                     {
                       "text": "在具有适当排气通风的场所使用。",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
+                      "rPr_hash": "706329b978de8ab4778e4e3e186ebb95ee247c47429b19f9d3d9e1acc0c2c7e3",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "避免与皮肤和眼睛接触。",
-                      "rPr_hash": "4ba05672152181abb7135f268cae50f076c878c7b79ae6c5651fd362c632f59b",
+                      "rPr_hash": "fc0540ba5ceab8ac3a3f78043d6bebfd6f4503ae75cf36c7cec62065c6bd0236",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "不要呼吸蒸气或喷雾。远离食物，饮料和烟草，休息前及工作结束及时洗手。更换被污染或浸湿的衣物。",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
+                      "rPr_hash": "706329b978de8ab4778e4e3e186ebb95ee247c47429b19f9d3d9e1acc0c2c7e3",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4570,7 +4570,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[7]/w:tr[3]/w:tc[2]",
-              "tcPr_hash": "072ac6bebf7472cfdc5542e8fa4182318eec8b33eefa508baf79fd75d9915fef",
+              "tcPr_hash": "373d83d9a7d965eee18547d6e634b8a2c7f6f06a979bfaf3f8190901120f88df",
               "tcW": "6262",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -4583,72 +4583,72 @@
                   "runs": [
                     {
                       "text": "容器保持紧闭，存储在",
-                      "rPr_hash": "4ba05672152181abb7135f268cae50f076c878c7b79ae6c5651fd362c632f59b",
+                      "rPr_hash": "fc0540ba5ceab8ac3a3f78043d6bebfd6f4503ae75cf36c7cec62065c6bd0236",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "凉爽",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
+                      "rPr_hash": "706329b978de8ab4778e4e3e186ebb95ee247c47429b19f9d3d9e1acc0c2c7e3",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "通风处。",
-                      "rPr_hash": "4ba05672152181abb7135f268cae50f076c878c7b79ae6c5651fd362c632f59b",
+                      "rPr_hash": "fc0540ba5ceab8ac3a3f78043d6bebfd6f4503ae75cf36c7cec62065c6bd0236",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "为保证",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
+                      "rPr_hash": "706329b978de8ab4778e4e3e186ebb95ee247c47429b19f9d3d9e1acc0c2c7e3",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "产品质量，必须遵守我们产品信息表的储存条件。",
-                      "rPr_hash": "4ba05672152181abb7135f268cae50f076c878c7b79ae6c5651fd362c632f59b",
+                      "rPr_hash": "fc0540ba5ceab8ac3a3f78043d6bebfd6f4503ae75cf36c7cec62065c6bd0236",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": " ",
-                      "rPr_hash": "027e44043457f56aad5a2bdc58ffcf56503933dd75955e71ab918d271357b457",
+                      "rPr_hash": "e74aef3fba1801f7681e747e9b061c1f61b9c17eee903430c2157da07d9886ae",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4870,12 +4870,12 @@
                   "runs": [
                     {
                       "text": "喷涂过程中要求有呼吸防护设备。",
-                      "rPr_hash": "4ba05672152181abb7135f268cae50f076c878c7b79ae6c5651fd362c632f59b",
+                      "rPr_hash": "fc0540ba5ceab8ac3a3f78043d6bebfd6f4503ae75cf36c7cec62065c6bd0236",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4963,12 +4963,12 @@
                   "runs": [
                     {
                       "text": "建议戴上防护手套。",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
+                      "rPr_hash": "706329b978de8ab4778e4e3e186ebb95ee247c47429b19f9d3d9e1acc0c2c7e3",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5032,12 +5032,12 @@
                   "runs": [
                     {
                       "text": "EN 374-3",
-                      "rPr_hash": "027e44043457f56aad5a2bdc58ffcf56503933dd75955e71ab918d271357b457",
+                      "rPr_hash": "e74aef3fba1801f7681e747e9b061c1f61b9c17eee903430c2157da07d9886ae",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5101,48 +5101,48 @@
                   "runs": [
                     {
                       "text": "厚度≧",
-                      "rPr_hash": "4ba05672152181abb7135f268cae50f076c878c7b79ae6c5651fd362c632f59b",
+                      "rPr_hash": "fc0540ba5ceab8ac3a3f78043d6bebfd6f4503ae75cf36c7cec62065c6bd0236",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "0.4mm",
-                      "rPr_hash": "027e44043457f56aad5a2bdc58ffcf56503933dd75955e71ab918d271357b457",
+                      "rPr_hash": "e74aef3fba1801f7681e747e9b061c1f61b9c17eee903430c2157da07d9886ae",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "；穿透时间≧",
-                      "rPr_hash": "4ba05672152181abb7135f268cae50f076c878c7b79ae6c5651fd362c632f59b",
+                      "rPr_hash": "fc0540ba5ceab8ac3a3f78043d6bebfd6f4503ae75cf36c7cec62065c6bd0236",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "480min.",
-                      "rPr_hash": "027e44043457f56aad5a2bdc58ffcf56503933dd75955e71ab918d271357b457",
+                      "rPr_hash": "e74aef3fba1801f7681e747e9b061c1f61b9c17eee903430c2157da07d9886ae",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5206,48 +5206,48 @@
                   "runs": [
                     {
                       "text": "厚度≧",
-                      "rPr_hash": "4ba05672152181abb7135f268cae50f076c878c7b79ae6c5651fd362c632f59b",
+                      "rPr_hash": "fc0540ba5ceab8ac3a3f78043d6bebfd6f4503ae75cf36c7cec62065c6bd0236",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "0.5mm",
-                      "rPr_hash": "027e44043457f56aad5a2bdc58ffcf56503933dd75955e71ab918d271357b457",
+                      "rPr_hash": "e74aef3fba1801f7681e747e9b061c1f61b9c17eee903430c2157da07d9886ae",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "；穿透时间≧",
-                      "rPr_hash": "4ba05672152181abb7135f268cae50f076c878c7b79ae6c5651fd362c632f59b",
+                      "rPr_hash": "fc0540ba5ceab8ac3a3f78043d6bebfd6f4503ae75cf36c7cec62065c6bd0236",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "480min.",
-                      "rPr_hash": "027e44043457f56aad5a2bdc58ffcf56503933dd75955e71ab918d271357b457",
+                      "rPr_hash": "e74aef3fba1801f7681e747e9b061c1f61b9c17eee903430c2157da07d9886ae",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5311,48 +5311,48 @@
                   "runs": [
                     {
                       "text": "厚度≧",
-                      "rPr_hash": "4ba05672152181abb7135f268cae50f076c878c7b79ae6c5651fd362c632f59b",
+                      "rPr_hash": "fc0540ba5ceab8ac3a3f78043d6bebfd6f4503ae75cf36c7cec62065c6bd0236",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "0.35mm",
-                      "rPr_hash": "027e44043457f56aad5a2bdc58ffcf56503933dd75955e71ab918d271357b457",
+                      "rPr_hash": "e74aef3fba1801f7681e747e9b061c1f61b9c17eee903430c2157da07d9886ae",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "；穿透时间≧",
-                      "rPr_hash": "4ba05672152181abb7135f268cae50f076c878c7b79ae6c5651fd362c632f59b",
+                      "rPr_hash": "fc0540ba5ceab8ac3a3f78043d6bebfd6f4503ae75cf36c7cec62065c6bd0236",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "480min.",
-                      "rPr_hash": "027e44043457f56aad5a2bdc58ffcf56503933dd75955e71ab918d271357b457",
+                      "rPr_hash": "e74aef3fba1801f7681e747e9b061c1f61b9c17eee903430c2157da07d9886ae",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5472,36 +5472,36 @@
                   "runs": [
                     {
                       "text": "戴",
-                      "rPr_hash": "4ba05672152181abb7135f268cae50f076c878c7b79ae6c5651fd362c632f59b",
+                      "rPr_hash": "fc0540ba5ceab8ac3a3f78043d6bebfd6f4503ae75cf36c7cec62065c6bd0236",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "护目镜",
-                      "rPr_hash": "956ff87db2293f443f37d2a2c6c3586236a1db9dd4642cae620982394d491fd4",
+                      "rPr_hash": "706329b978de8ab4778e4e3e186ebb95ee247c47429b19f9d3d9e1acc0c2c7e3",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "/面罩。",
-                      "rPr_hash": "4ba05672152181abb7135f268cae50f076c878c7b79ae6c5651fd362c632f59b",
+                      "rPr_hash": "fc0540ba5ceab8ac3a3f78043d6bebfd6f4503ae75cf36c7cec62065c6bd0236",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5565,12 +5565,12 @@
                   "runs": [
                     {
                       "text": "穿着适当的防护服。",
-                      "rPr_hash": "4ba05672152181abb7135f268cae50f076c878c7b79ae6c5651fd362c632f59b",
+                      "rPr_hash": "fc0540ba5ceab8ac3a3f78043d6bebfd6f4503ae75cf36c7cec62065c6bd0236",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5646,12 +5646,12 @@
                   "runs": [
                     {
                       "text": "使用局部排风或全面通风，保持工作场所空气中浓度低于职业接触限值；工作场所设置洗眼器与安全淋浴设施。",
-                      "rPr_hash": "4ba05672152181abb7135f268cae50f076c878c7b79ae6c5651fd362c632f59b",
+                      "rPr_hash": "fc0540ba5ceab8ac3a3f78043d6bebfd6f4503ae75cf36c7cec62065c6bd0236",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5840,7 +5840,7 @@
             {
               "cell": 0,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[15]/w:tc[1]",
-              "tcPr_hash": "1ef1a4a9e11c85a7825af7d9eb4187ae2fc0f454546288040b1b53041ee79ddd",
+              "tcPr_hash": "d0c5bb336662470e0399823f68a27fbcb04f72c14b2f3cb6919011f097407c1f",
               "tcW": "3193",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -5849,64 +5849,64 @@
               "paragraphs": [
                 {
                   "text": "六亚甲基-1,6-二异氰酸酯",
-                  "pPr_hash": "2eedff92818bc149bd72b95024f90db624a7e0bf281c2a5fc3a93776532cb6cf",
+                  "pPr_hash": "b508c023c63773befd91d4349a132067626b8e4599cb73d8dd301d83cdda5554",
                   "runs": [
                     {
                       "text": "六亚甲基-",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "1",
-                      "rPr_hash": "ab7dd700ce6e6e1021ce8d9594ce89149a747d4447a190e5a7045b83d70d3d6a",
+                      "rPr_hash": "0d241addf8bd2555fc2763960bb5746d0db7894168741c2a66b987ad2623d9a7",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": ",",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "6",
-                      "rPr_hash": "ab7dd700ce6e6e1021ce8d9594ce89149a747d4447a190e5a7045b83d70d3d6a",
+                      "rPr_hash": "0d241addf8bd2555fc2763960bb5746d0db7894168741c2a66b987ad2623d9a7",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "-二异氰酸酯",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5919,7 +5919,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[15]/w:tc[2]",
-              "tcPr_hash": "35dfdb0edda04824b2fdf2f5675379501b42a767c379d755356d3c7aeb9fb552",
+              "tcPr_hash": "7fbd0b2cefb21386a5bdc042b113bfaf54662322decacafdeff4031b0cedf2b0",
               "tcW": "1737",
               "tcW_type": "dxa",
               "gridSpan": "2",
@@ -5928,40 +5928,40 @@
               "paragraphs": [
                 {
                   "text": "CN OEL",
-                  "pPr_hash": "d3636dbaac7bfe5f66e9b0f5bf6aa31ebff0ef28311bffe84cac4995e190edf2",
+                  "pPr_hash": "6b273091ddd6e8725a8eb119d4ad3dd93abb494d13b874e8bc7bee2c8a8cd1fa",
                   "runs": [
                     {
                       "text": "CN",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": " ",
-                      "rPr_hash": "ab7dd700ce6e6e1021ce8d9594ce89149a747d4447a190e5a7045b83d70d3d6a",
+                      "rPr_hash": "0d241addf8bd2555fc2763960bb5746d0db7894168741c2a66b987ad2623d9a7",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "OEL",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5974,7 +5974,7 @@
             {
               "cell": 2,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[15]/w:tc[3]",
-              "tcPr_hash": "8242d9fe1755c560400512983066c92601399eef77cf820df0cab0af597792c4",
+              "tcPr_hash": "61638bb9af25b0f82d1562692e30f9fac15f9e9466fa7179bf708ae5cb908f6b",
               "tcW": "2465",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -5983,16 +5983,16 @@
               "paragraphs": [
                 {
                   "text": "TWA",
-                  "pPr_hash": "d3636dbaac7bfe5f66e9b0f5bf6aa31ebff0ef28311bffe84cac4995e190edf2",
+                  "pPr_hash": "6b273091ddd6e8725a8eb119d4ad3dd93abb494d13b874e8bc7bee2c8a8cd1fa",
                   "runs": [
                     {
                       "text": "TWA",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6005,7 +6005,7 @@
             {
               "cell": 3,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[15]/w:tc[4]",
-              "tcPr_hash": "348e3d80072710725f9f9ccbed66b7830e17a76fce2ac6c86722b7e00db6e999",
+              "tcPr_hash": "af1dc3f6dd3e5b24ed1a4e5894db93c7fc744e1d07f4e48c29a130d81c4fa972",
               "tcW": "2465",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -6014,64 +6014,64 @@
               "paragraphs": [
                 {
                   "text": "0.03 mg/m3",
-                  "pPr_hash": "d3636dbaac7bfe5f66e9b0f5bf6aa31ebff0ef28311bffe84cac4995e190edf2",
+                  "pPr_hash": "6b273091ddd6e8725a8eb119d4ad3dd93abb494d13b874e8bc7bee2c8a8cd1fa",
                   "runs": [
                     {
                       "text": "0",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": ".03 ",
-                      "rPr_hash": "ab7dd700ce6e6e1021ce8d9594ce89149a747d4447a190e5a7045b83d70d3d6a",
+                      "rPr_hash": "0d241addf8bd2555fc2763960bb5746d0db7894168741c2a66b987ad2623d9a7",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "mg",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "/m",
-                      "rPr_hash": "ab7dd700ce6e6e1021ce8d9594ce89149a747d4447a190e5a7045b83d70d3d6a",
+                      "rPr_hash": "0d241addf8bd2555fc2763960bb5746d0db7894168741c2a66b987ad2623d9a7",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "3",
-                      "rPr_hash": "6220225a7b4d146d19dc6678cbee0692874fd9877a754a6ca2fcac954dd85203",
+                      "rPr_hash": "dcc7bab364ede75c43df568eb7e3b15d6733c9aab9935e1d15af091b23dd4c41",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6091,7 +6091,7 @@
             {
               "cell": 0,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[16]/w:tc[1]",
-              "tcPr_hash": "fbbe138f1836ea37d088bf873b68d087a85391b970c74254978f4e00d8657ede",
+              "tcPr_hash": "ce9dc1b3f117aad1880f419259c353f2145eac657bb6cb048705ce83b6d8dac9",
               "tcW": "3193",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -6100,16 +6100,16 @@
               "paragraphs": [
                 {
                   "text": "丙二醇甲醚醋酸酯",
-                  "pPr_hash": "d3636dbaac7bfe5f66e9b0f5bf6aa31ebff0ef28311bffe84cac4995e190edf2",
+                  "pPr_hash": "6b273091ddd6e8725a8eb119d4ad3dd93abb494d13b874e8bc7bee2c8a8cd1fa",
                   "runs": [
                     {
                       "text": "丙二醇甲醚醋酸酯",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6122,7 +6122,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[16]/w:tc[2]",
-              "tcPr_hash": "9065fa63ea7f5b254209faac8d268b6a906c576d299f77bed21039996b11832b",
+              "tcPr_hash": "bfedc6fb33fce21cedc7832c0d3e087b993975aa24ff8a1c2ea386e921bb47f8",
               "tcW": "1737",
               "tcW_type": "dxa",
               "gridSpan": "2",
@@ -6131,40 +6131,40 @@
               "paragraphs": [
                 {
                   "text": "CN OEL",
-                  "pPr_hash": "d3636dbaac7bfe5f66e9b0f5bf6aa31ebff0ef28311bffe84cac4995e190edf2",
+                  "pPr_hash": "6b273091ddd6e8725a8eb119d4ad3dd93abb494d13b874e8bc7bee2c8a8cd1fa",
                   "runs": [
                     {
                       "text": "CN",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": " ",
-                      "rPr_hash": "ab7dd700ce6e6e1021ce8d9594ce89149a747d4447a190e5a7045b83d70d3d6a",
+                      "rPr_hash": "0d241addf8bd2555fc2763960bb5746d0db7894168741c2a66b987ad2623d9a7",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "OEL",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6177,7 +6177,7 @@
             {
               "cell": 2,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[16]/w:tc[3]",
-              "tcPr_hash": "d18a45a1af6824c915cb071d0a669c5b68568169b0c4a3799c9e1397fa95f312",
+              "tcPr_hash": "830485f57589c43258f39468f531dfd5f873832dcdc89570dc3db679e103c466",
               "tcW": "2465",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -6186,16 +6186,16 @@
               "paragraphs": [
                 {
                   "text": "TWA",
-                  "pPr_hash": "d3636dbaac7bfe5f66e9b0f5bf6aa31ebff0ef28311bffe84cac4995e190edf2",
+                  "pPr_hash": "6b273091ddd6e8725a8eb119d4ad3dd93abb494d13b874e8bc7bee2c8a8cd1fa",
                   "runs": [
                     {
                       "text": "TWA",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6208,7 +6208,7 @@
             {
               "cell": 3,
               "xml_path": "/w:document/w:body/w:tbl[8]/w:tr[16]/w:tc[4]",
-              "tcPr_hash": "cad72cebddb1537ae729354488735824fba5d5948309979322425ee1e7748af8",
+              "tcPr_hash": "4489644c3e246aa25053f20ddf09475c2ec08b5eafaa9089d9d8d0e58292dcbe",
               "tcW": "2465",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -6217,52 +6217,52 @@
               "paragraphs": [
                 {
                   "text": "100 mg/m3",
-                  "pPr_hash": "d3636dbaac7bfe5f66e9b0f5bf6aa31ebff0ef28311bffe84cac4995e190edf2",
+                  "pPr_hash": "6b273091ddd6e8725a8eb119d4ad3dd93abb494d13b874e8bc7bee2c8a8cd1fa",
                   "runs": [
                     {
                       "text": "100 ",
-                      "rPr_hash": "ab7dd700ce6e6e1021ce8d9594ce89149a747d4447a190e5a7045b83d70d3d6a",
+                      "rPr_hash": "0d241addf8bd2555fc2763960bb5746d0db7894168741c2a66b987ad2623d9a7",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "mg",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "/m",
-                      "rPr_hash": "ab7dd700ce6e6e1021ce8d9594ce89149a747d4447a190e5a7045b83d70d3d6a",
+                      "rPr_hash": "0d241addf8bd2555fc2763960bb5746d0db7894168741c2a66b987ad2623d9a7",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "3",
-                      "rPr_hash": "6220225a7b4d146d19dc6678cbee0692874fd9877a754a6ca2fcac954dd85203",
+                      "rPr_hash": "dcc7bab364ede75c43df568eb7e3b15d6733c9aab9935e1d15af091b23dd4c41",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6524,12 +6524,12 @@
                   "runs": [
                     {
                       "text": "无数据",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6605,12 +6605,12 @@
                   "runs": [
                     {
                       "text": "7-9",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6686,7 +6686,7 @@
                   "runs": [
                     {
                       "text": "非离子",
-                      "rPr_hash": "2052fe235b66eb4db4a745fce387f6aa52bb5aff91cb83dd5372b50ff309d105",
+                      "rPr_hash": "7fbc7387eebf976aa5e9cf1d46a62037014a1cd73f0e3f8859bbadb5d4f2ffb2",
                       "bold": null,
                       "italic": null,
                       "underline": null,
@@ -6771,12 +6771,12 @@
                   "runs": [
                     {
                       "text": "无数据",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6864,12 +6864,12 @@
                   "runs": [
                     {
                       "text": "无数据",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6957,12 +6957,12 @@
                   "runs": [
                     {
                       "text": "无数据",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7038,12 +7038,12 @@
                   "runs": [
                     {
                       "text": "无数据",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7119,12 +7119,12 @@
                   "runs": [
                     {
                       "text": "无数据",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7200,12 +7200,12 @@
                   "runs": [
                     {
                       "text": "无数据",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7281,12 +7281,12 @@
                   "runs": [
                     {
                       "text": "无数据",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7362,12 +7362,12 @@
                   "runs": [
                     {
                       "text": "无数据",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7443,12 +7443,12 @@
                   "runs": [
                     {
                       "text": "无数据",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7524,12 +7524,12 @@
                   "runs": [
                     {
                       "text": "无数据",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7605,12 +7605,12 @@
                   "runs": [
                     {
                       "text": "无数据",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7686,12 +7686,12 @@
                   "runs": [
                     {
                       "text": "无数据",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7767,12 +7767,12 @@
                   "runs": [
                     {
                       "text": "无数据",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7848,12 +7848,12 @@
                   "runs": [
                     {
                       "text": "无数据",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7916,7 +7916,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[9]/w:tr[20]/w:tc[2]",
-              "tcPr_hash": "fc8dd34e2af768b67124fed392222bde56b837f145381eef40e65ad1b294398b",
+              "tcPr_hash": "23ca784f4352b250f436859c7952c59cc53279702c7fc83b8a69d174a37c1d8f",
               "tcW": "6277",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -7929,12 +7929,12 @@
                   "runs": [
                     {
                       "text": "无数据",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7997,7 +7997,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[9]/w:tr[21]/w:tc[2]",
-              "tcPr_hash": "fc8dd34e2af768b67124fed392222bde56b837f145381eef40e65ad1b294398b",
+              "tcPr_hash": "23ca784f4352b250f436859c7952c59cc53279702c7fc83b8a69d174a37c1d8f",
               "tcW": "6277",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -8010,12 +8010,12 @@
                   "runs": [
                     {
                       "text": "无数据",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -8078,7 +8078,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[9]/w:tr[22]/w:tc[2]",
-              "tcPr_hash": "fc8dd34e2af768b67124fed392222bde56b837f145381eef40e65ad1b294398b",
+              "tcPr_hash": "23ca784f4352b250f436859c7952c59cc53279702c7fc83b8a69d174a37c1d8f",
               "tcW": "6277",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -8091,12 +8091,12 @@
                   "runs": [
                     {
                       "text": "无数据",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -8159,7 +8159,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[9]/w:tr[23]/w:tc[2]",
-              "tcPr_hash": "fc8dd34e2af768b67124fed392222bde56b837f145381eef40e65ad1b294398b",
+              "tcPr_hash": "23ca784f4352b250f436859c7952c59cc53279702c7fc83b8a69d174a37c1d8f",
               "tcW": "6277",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -8172,12 +8172,12 @@
                   "runs": [
                     {
                       "text": "无数据",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -8240,7 +8240,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[9]/w:tr[24]/w:tc[2]",
-              "tcPr_hash": "7ab65358842ff440d1a3057b17c7f87f8e1240504ab59d8011af17f89183d835",
+              "tcPr_hash": "a955817c8bb78bf2d6971b16ae138f2551ba2168e305dd0b483705b6e3122ba8",
               "tcW": "6277",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -8253,12 +8253,12 @@
                   "runs": [
                     {
                       "text": "无数据",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -8404,7 +8404,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[10]/w:tr[2]/w:tc[2]",
-              "tcPr_hash": "5d0da1ac69a1542aa0b1580e3c9b6f12fddcafb877704caf713b20833f1ee46b",
+              "tcPr_hash": "9764db940812392eacba77d1f82927514fc84b9827dfd80c7a170e353978290f",
               "tcW": "6277",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -8417,12 +8417,12 @@
                   "runs": [
                     {
                       "text": "在推荐储存和操作条件下稳定。避免冻结、过热和长期阳光照射。",
-                      "rPr_hash": "da4879c77cbbe623e7fc811e4e9069466e9f6b09785325cb73cc325c060282f0",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -8497,7 +8497,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[10]/w:tr[3]/w:tc[2]",
-              "tcPr_hash": "fc8dd34e2af768b67124fed392222bde56b837f145381eef40e65ad1b294398b",
+              "tcPr_hash": "23ca784f4352b250f436859c7952c59cc53279702c7fc83b8a69d174a37c1d8f",
               "tcW": "6277",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -8510,12 +8510,12 @@
                   "runs": [
                     {
                       "text": "受热分解或燃烧可能产生一氧化碳、二氧化碳、氮氧化物及刺激性烟气。",
-                      "rPr_hash": "da4879c77cbbe623e7fc811e4e9069466e9f6b09785325cb73cc325c060282f0",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -8590,7 +8590,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[10]/w:tr[4]/w:tc[2]",
-              "tcPr_hash": "fc8dd34e2af768b67124fed392222bde56b837f145381eef40e65ad1b294398b",
+              "tcPr_hash": "23ca784f4352b250f436859c7952c59cc53279702c7fc83b8a69d174a37c1d8f",
               "tcW": "6277",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -8603,12 +8603,12 @@
                   "runs": [
                     {
                       "text": "正常使用条件下无已知危险反应；",
-                      "rPr_hash": "da4879c77cbbe623e7fc811e4e9069466e9f6b09785325cb73cc325c060282f0",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -8695,7 +8695,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[10]/w:tr[5]/w:tc[2]",
-              "tcPr_hash": "fc8dd34e2af768b67124fed392222bde56b837f145381eef40e65ad1b294398b",
+              "tcPr_hash": "23ca784f4352b250f436859c7952c59cc53279702c7fc83b8a69d174a37c1d8f",
               "tcW": "6277",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -8708,12 +8708,12 @@
                   "runs": [
                     {
                       "text": "无数据",
-                      "rPr_hash": "1ce7952487bd21041c819d63d83509a1974e019e999467bb1539f070d9e440ac",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -8776,7 +8776,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[10]/w:tr[6]/w:tc[2]",
-              "tcPr_hash": "7ab65358842ff440d1a3057b17c7f87f8e1240504ab59d8011af17f89183d835",
+              "tcPr_hash": "a955817c8bb78bf2d6971b16ae138f2551ba2168e305dd0b483705b6e3122ba8",
               "tcW": "6277",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -8789,12 +8789,12 @@
                   "runs": [
                     {
                       "text": "无数据",
-                      "rPr_hash": "1ce7952487bd21041c819d63d83509a1974e019e999467bb1539f070d9e440ac",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -8899,7 +8899,7 @@
             {
               "cell": 0,
               "xml_path": "/w:document/w:body/w:tbl[11]/w:tr[2]/w:tc",
-              "tcPr_hash": "a437f85b654c2002af9bdbc1b60a05cfae2a8805256fb2f354bc91e295e68921",
+              "tcPr_hash": "b9c8b38dd6525d1243a61a9b1d3bbb3a408419ce76b6241bf0fd3a469764d862",
               "tcW": "9781",
               "tcW_type": "dxa",
               "gridSpan": "4",
@@ -8912,12 +8912,12 @@
                   "runs": [
                     {
                       "text": "该产品无可用的毒理学研究。",
-                      "rPr_hash": "da4879c77cbbe623e7fc811e4e9069466e9f6b09785325cb73cc325c060282f0",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -8937,7 +8937,7 @@
             {
               "cell": 0,
               "xml_path": "/w:document/w:body/w:tbl[11]/w:tr[3]/w:tc",
-              "tcPr_hash": "4f318e64cfd273b3eef599cab26e955f478d9b26e1c5786e3a3215c1f1f6eaa1",
+              "tcPr_hash": "e9baf07eeebb7d0bfd933d22e2e0f5416315c5fe168532d734029aa301faa43e",
               "tcW": "9781",
               "tcW_type": "dxa",
               "gridSpan": "4",
@@ -9073,7 +9073,7 @@
             {
               "cell": 2,
               "xml_path": "/w:document/w:body/w:tbl[11]/w:tr[4]/w:tc[3]",
-              "tcPr_hash": "64cb8a37fbe950a1a79060ef89aa171afb691b762f2aaf5d3fffbe6876dfcc83",
+              "tcPr_hash": "b36c773c7dcc40bf860d8811b060f29e1571c53459c020e598d6a5ccfbe04ac7",
               "tcW": "4951",
               "tcW_type": "dxa",
               "gridSpan": "2",
@@ -9086,12 +9086,12 @@
                   "runs": [
                     {
                       "text": "半数致死剂量（LD50）/大鼠：约3,306 mg/kg。",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9209,7 +9209,7 @@
             {
               "cell": 2,
               "xml_path": "/w:document/w:body/w:tbl[11]/w:tr[5]/w:tc[3]",
-              "tcPr_hash": "64cb8a37fbe950a1a79060ef89aa171afb691b762f2aaf5d3fffbe6876dfcc83",
+              "tcPr_hash": "b36c773c7dcc40bf860d8811b060f29e1571c53459c020e598d6a5ccfbe04ac7",
               "tcW": "4951",
               "tcW_type": "dxa",
               "gridSpan": "2",
@@ -9222,12 +9222,12 @@
                   "runs": [
                     {
                       "text": "半数致死浓度（LC50）/4 h/大鼠： ＞1.5 mg/L（气溶胶）。 ",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9345,7 +9345,7 @@
             {
               "cell": 2,
               "xml_path": "/w:document/w:body/w:tbl[11]/w:tr[6]/w:tc[3]",
-              "tcPr_hash": "64cb8a37fbe950a1a79060ef89aa171afb691b762f2aaf5d3fffbe6876dfcc83",
+              "tcPr_hash": "b36c773c7dcc40bf860d8811b060f29e1571c53459c020e598d6a5ccfbe04ac7",
               "tcW": "4951",
               "tcW_type": "dxa",
               "gridSpan": "2",
@@ -9358,12 +9358,12 @@
                   "runs": [
                     {
                       "text": "半数致死剂量（LD50）/兔：2,764 mg/kg。",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9450,7 +9450,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[11]/w:tr[7]/w:tc[2]",
-              "tcPr_hash": "865683fc8218fe4258fb029d1ed5cf1429451ffd2c2a45a52c21c0c2422f59df",
+              "tcPr_hash": "7df66cec427f37590230f9506a49fcbca613b2ab521da8b990d39b584559be27",
               "tcW": "6262",
               "tcW_type": "dxa",
               "gridSpan": "3",
@@ -9463,12 +9463,12 @@
                   "runs": [
                     {
                       "text": "根据现有数据，二乙二醇单丁醚未达到急性经口、 经皮或气溶胶吸入毒性的分类标准。",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9555,7 +9555,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[11]/w:tr[8]/w:tc[2]",
-              "tcPr_hash": "865683fc8218fe4258fb029d1ed5cf1429451ffd2c2a45a52c21c0c2422f59df",
+              "tcPr_hash": "7df66cec427f37590230f9506a49fcbca613b2ab521da8b990d39b584559be27",
               "tcW": "6262",
               "tcW_type": "dxa",
               "gridSpan": "3",
@@ -9568,12 +9568,12 @@
                   "runs": [
                     {
                       "text": "物种：兔子",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9586,12 +9586,12 @@
                   "runs": [
                     {
                       "text": "分类：",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9616,12 +9616,12 @@
                   "runs": [
                     {
                       "text": "结果：",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9732,7 +9732,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[11]/w:tr[9]/w:tc[2]",
-              "tcPr_hash": "865683fc8218fe4258fb029d1ed5cf1429451ffd2c2a45a52c21c0c2422f59df",
+              "tcPr_hash": "7df66cec427f37590230f9506a49fcbca613b2ab521da8b990d39b584559be27",
               "tcW": "6262",
               "tcW_type": "dxa",
               "gridSpan": "3",
@@ -9745,12 +9745,12 @@
                   "runs": [
                     {
                       "text": "物种：兔子",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9763,12 +9763,12 @@
                   "runs": [
                     {
                       "text": "分类：刺激眼睛",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9781,12 +9781,12 @@
                   "runs": [
                     {
                       "text": "结果：",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9873,7 +9873,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[11]/w:tr[10]/w:tc[2]",
-              "tcPr_hash": "865683fc8218fe4258fb029d1ed5cf1429451ffd2c2a45a52c21c0c2422f59df",
+              "tcPr_hash": "7df66cec427f37590230f9506a49fcbca613b2ab521da8b990d39b584559be27",
               "tcW": "6262",
               "tcW_type": "dxa",
               "gridSpan": "3",
@@ -9886,12 +9886,12 @@
                   "runs": [
                     {
                       "text": "物种：",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9916,12 +9916,12 @@
                   "runs": [
                     {
                       "text": "分类：",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9946,12 +9946,12 @@
                   "runs": [
                     {
                       "text": "结果：",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -10038,7 +10038,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[11]/w:tr[11]/w:tc[2]",
-              "tcPr_hash": "865683fc8218fe4258fb029d1ed5cf1429451ffd2c2a45a52c21c0c2422f59df",
+              "tcPr_hash": "7df66cec427f37590230f9506a49fcbca613b2ab521da8b990d39b584559be27",
               "tcW": "6262",
               "tcW_type": "dxa",
               "gridSpan": "3",
@@ -10131,7 +10131,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[11]/w:tr[12]/w:tc[2]",
-              "tcPr_hash": "865683fc8218fe4258fb029d1ed5cf1429451ffd2c2a45a52c21c0c2422f59df",
+              "tcPr_hash": "7df66cec427f37590230f9506a49fcbca613b2ab521da8b990d39b584559be27",
               "tcW": "6262",
               "tcW_type": "dxa",
               "gridSpan": "3",
@@ -10144,12 +10144,12 @@
                   "runs": [
                     {
                       "text": "在动物试验中未见致癌影响。",
-                      "rPr_hash": "1ce7952487bd21041c819d63d83509a1974e019e999467bb1539f070d9e440ac",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -10255,7 +10255,7 @@
             {
               "cell": 2,
               "xml_path": "/w:document/w:body/w:tbl[11]/w:tr[13]/w:tc[3]",
-              "tcPr_hash": "857a27fbe3e5787cdac0782fb0a8d73f47485da2037a565de408d9d42b13be0c",
+              "tcPr_hash": "540ab82d63f0c55ebc0cec0d536ba2b2d4bd94a9140222dd5f18c20185f01a41",
               "tcW": "4316",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -10366,7 +10366,7 @@
             {
               "cell": 2,
               "xml_path": "/w:document/w:body/w:tbl[11]/w:tr[14]/w:tc[3]",
-              "tcPr_hash": "857a27fbe3e5787cdac0782fb0a8d73f47485da2037a565de408d9d42b13be0c",
+              "tcPr_hash": "540ab82d63f0c55ebc0cec0d536ba2b2d4bd94a9140222dd5f18c20185f01a41",
               "tcW": "4316",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -10477,7 +10477,7 @@
             {
               "cell": 2,
               "xml_path": "/w:document/w:body/w:tbl[11]/w:tr[15]/w:tc[3]",
-              "tcPr_hash": "857a27fbe3e5787cdac0782fb0a8d73f47485da2037a565de408d9d42b13be0c",
+              "tcPr_hash": "540ab82d63f0c55ebc0cec0d536ba2b2d4bd94a9140222dd5f18c20185f01a41",
               "tcW": "4316",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -10650,7 +10650,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[11]/w:tr[17]/w:tc[2]",
-              "tcPr_hash": "865683fc8218fe4258fb029d1ed5cf1429451ffd2c2a45a52c21c0c2422f59df",
+              "tcPr_hash": "7df66cec427f37590230f9506a49fcbca613b2ab521da8b990d39b584559be27",
               "tcW": "6262",
               "tcW_type": "dxa",
               "gridSpan": "3",
@@ -10663,12 +10663,12 @@
                   "runs": [
                     {
                       "text": "无数据资料。",
-                      "rPr_hash": "1ce7952487bd21041c819d63d83509a1974e019e999467bb1539f070d9e440ac",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -10743,7 +10743,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[11]/w:tr[18]/w:tc[2]",
-              "tcPr_hash": "3e6549a4265048e4e5328935a67164f3c0b1a9f823c6142a892c9655b9ab2367",
+              "tcPr_hash": "974284c3250632b749b838067c4172ae46414826b731454e4fe914da349b1bdd",
               "tcW": "6262",
               "tcW_type": "dxa",
               "gridSpan": "3",
@@ -10919,12 +10919,12 @@
                   "runs": [
                     {
                       "text": "该产品无可用的生态毒理学研究。",
-                      "rPr_hash": "65bc7eb7f697ff15b31320ff625bccf31233d8077d4ae6bbe703220283c15409",
+                      "rPr_hash": "f290404f188c0c60b0009c0ff910f20b9f53b4dfaf1df362fcc34b9baee897ea",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11050,12 +11050,12 @@
                   "runs": [
                     {
                       "text": "对鱼类的毒性：",
-                      "rPr_hash": "5a2e64fc90d46a918a6f226c1c8466610c24b9708aac0b77a99a482966c85569",
+                      "rPr_hash": "470b3f6fed4aa3d8e08f985bcf327e0d9412d1407a408b19faae01bebe7d1aff",
                       "bold": false,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11086,12 +11086,12 @@
                   "runs": [
                     {
                       "text": "其他：",
-                      "rPr_hash": "5a2e64fc90d46a918a6f226c1c8466610c24b9708aac0b77a99a482966c85569",
+                      "rPr_hash": "470b3f6fed4aa3d8e08f985bcf327e0d9412d1407a408b19faae01bebe7d1aff",
                       "bold": false,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11227,7 +11227,7 @@
                     },
                     {
                       "text": "。",
-                      "rPr_hash": "ce6f346a0cabe2f21571b624666b547eb174b37cac054f72c25ee335609e982f",
+                      "rPr_hash": "8771e02207247344003d22dffa513cbef9953e1cd8b69df35228057ecf5ac9fc",
                       "bold": null,
                       "italic": null,
                       "underline": null,
@@ -11331,7 +11331,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[12]/w:tr[6]/w:tc[2]",
-              "tcPr_hash": "01dc61a7d4f8e8b037e64c5f74c95e49a50d393cf94e61735aba8aae532152a2",
+              "tcPr_hash": "a955817c8bb78bf2d6971b16ae138f2551ba2168e305dd0b483705b6e3122ba8",
               "tcW": "6277",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -11344,12 +11344,12 @@
                   "runs": [
                     {
                       "text": "无数据资料。",
-                      "rPr_hash": "1ce7952487bd21041c819d63d83509a1974e019e999467bb1539f070d9e440ac",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11450,12 +11450,12 @@
                   "runs": [
                     {
                       "text": "必须遵守适用的国标、国家或当地法规进行废弃。",
-                      "rPr_hash": "da4879c77cbbe623e7fc811e4e9069466e9f6b09785325cb73cc325c060282f0",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11468,36 +11468,36 @@
                   "runs": [
                     {
                       "text": "在欧盟领域内废弃，应根据欧洲废弃物分类（",
-                      "rPr_hash": "da4879c77cbbe623e7fc811e4e9069466e9f6b09785325cb73cc325c060282f0",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "EWC",
-                      "rPr_hash": "ab7dd700ce6e6e1021ce8d9594ce89149a747d4447a190e5a7045b83d70d3d6a",
+                      "rPr_hash": "0d241addf8bd2555fc2763960bb5746d0db7894168741c2a66b987ad2623d9a7",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "）的适当法规。",
-                      "rPr_hash": "da4879c77cbbe623e7fc811e4e9069466e9f6b09785325cb73cc325c060282f0",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11557,64 +11557,64 @@
               "paragraphs": [
                 {
                   "text": "尽可能将容器倒空（例如经倾倒，刮擦或排干直至“滴干”）",
-                  "pPr_hash": "7d12832078fa821c9adabe4b99a5ead71d742f36f4f7a70f5eb9da0b5ee86330",
+                  "pPr_hash": "447d1e226c75c826db49d5de1183aad57b04f0c992e526548e99147c3464df57",
                   "runs": [
                     {
                       "text": "尽可能将容器倒空（例如经倾倒，刮擦或排干直至",
-                      "rPr_hash": "da4879c77cbbe623e7fc811e4e9069466e9f6b09785325cb73cc325c060282f0",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "“",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "滴干",
-                      "rPr_hash": "da4879c77cbbe623e7fc811e4e9069466e9f6b09785325cb73cc325c060282f0",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "”",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "）",
-                      "rPr_hash": "da4879c77cbbe623e7fc811e4e9069466e9f6b09785325cb73cc325c060282f0",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11623,16 +11623,16 @@
                 },
                 {
                   "text": "可根据化学工业现存的回收方案送往适当的收集点处理。",
-                  "pPr_hash": "7d12832078fa821c9adabe4b99a5ead71d742f36f4f7a70f5eb9da0b5ee86330",
+                  "pPr_hash": "447d1e226c75c826db49d5de1183aad57b04f0c992e526548e99147c3464df57",
                   "runs": [
                     {
                       "text": "可根据化学工业现存的回收方案送往适当的收集点处理。",
-                      "rPr_hash": "da4879c77cbbe623e7fc811e4e9069466e9f6b09785325cb73cc325c060282f0",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11641,16 +11641,16 @@
                 },
                 {
                   "text": "容器应按照国家法令和环境相关法规进行回收。",
-                  "pPr_hash": "7d12832078fa821c9adabe4b99a5ead71d742f36f4f7a70f5eb9da0b5ee86330",
+                  "pPr_hash": "447d1e226c75c826db49d5de1183aad57b04f0c992e526548e99147c3464df57",
                   "runs": [
                     {
                       "text": "容器应按照国家法令和环境相关法规进行回收。",
-                      "rPr_hash": "da4879c77cbbe623e7fc811e4e9069466e9f6b09785325cb73cc325c060282f0",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11659,16 +11659,16 @@
                 },
                 {
                   "text": "不能将废弃物通过废水排放。",
-                  "pPr_hash": "7962276afc40ff687b61c57f83757239794bd8741a9388e8ca0c0afccbc2cf43",
+                  "pPr_hash": "39c24c4ded8a826126d1e1a711ca9acee882b8a9c27b96c3b483c290712fecfc",
                   "runs": [
                     {
                       "text": "不能将废弃物通过废水排放。",
-                      "rPr_hash": "da4879c77cbbe623e7fc811e4e9069466e9f6b09785325cb73cc325c060282f0",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11826,12 +11826,12 @@
                   "runs": [
                     {
                       "text": "非危险品陆运输方式。",
-                      "rPr_hash": "da4879c77cbbe623e7fc811e4e9069466e9f6b09785325cb73cc325c060282f0",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11919,12 +11919,12 @@
                   "runs": [
                     {
                       "text": "非危险品海运方式。",
-                      "rPr_hash": "da4879c77cbbe623e7fc811e4e9069466e9f6b09785325cb73cc325c060282f0",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12012,12 +12012,12 @@
                   "runs": [
                     {
                       "text": "非危险品运输方式。",
-                      "rPr_hash": "da4879c77cbbe623e7fc811e4e9069466e9f6b09785325cb73cc325c060282f0",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12105,12 +12105,12 @@
                   "runs": [
                     {
                       "text": "非危险货物。",
-                      "rPr_hash": "da4879c77cbbe623e7fc811e4e9069466e9f6b09785325cb73cc325c060282f0",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12123,96 +12123,96 @@
                   "runs": [
                     {
                       "text": "避免",
-                      "rPr_hash": "1ce7952487bd21041c819d63d83509a1974e019e999467bb1539f070d9e440ac",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "温度高于",
-                      "rPr_hash": "da4879c77cbbe623e7fc811e4e9069466e9f6b09785325cb73cc325c060282f0",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "+",
-                      "rPr_hash": "ab7dd700ce6e6e1021ce8d9594ce89149a747d4447a190e5a7045b83d70d3d6a",
+                      "rPr_hash": "0d241addf8bd2555fc2763960bb5746d0db7894168741c2a66b987ad2623d9a7",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "35",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "℃，温度不可低于",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "+",
-                      "rPr_hash": "a4b693f1d98775170d5165ef415a257f2d8d6773f3274cb970723c9df060ee9d",
+                      "rPr_hash": "0ec3f56581d3f016d0654931a5f12f6a03e6965129511b453b5d1e58615ba656",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "5",
-                      "rPr_hash": "ab7dd700ce6e6e1021ce8d9594ce89149a747d4447a190e5a7045b83d70d3d6a",
+                      "rPr_hash": "0d241addf8bd2555fc2763960bb5746d0db7894168741c2a66b987ad2623d9a7",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "℃。",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12225,12 +12225,12 @@
                   "runs": [
                     {
                       "text": "远离食物、酸和碱。",
-                      "rPr_hash": "2a68f416766d265edf591ed3cce49e760a8665b50a8e522e2322047bdce95fbd",
+                      "rPr_hash": "befe2267c1771b2e89feaf37241d382727a63439c057e5e0c3811a1557ddfa92",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12336,12 +12336,12 @@
                   "runs": [
                     {
                       "text": "物质或混合物的相关安全、健康和环保法律法规",
-                      "rPr_hash": "a712762530ffb1c1eccd5af742f9f1e0ea5a0e7fa60c29133ac66e97f807e4dc",
+                      "rPr_hash": "967b548b1e7a9ff03ab0f3914f9ad8387ef6a074619fcf59e7e1f342107a8574",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12450,36 +12450,36 @@
                   "runs": [
                     {
                       "text": "危险化学品安全管理条例，国务院令",
-                      "rPr_hash": "a712762530ffb1c1eccd5af742f9f1e0ea5a0e7fa60c29133ac66e97f807e4dc",
+                      "rPr_hash": "967b548b1e7a9ff03ab0f3914f9ad8387ef6a074619fcf59e7e1f342107a8574",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "591",
-                      "rPr_hash": "e1d837cc476bbe793588c5f564a77641b4fa1fe7c5b2a0437fbaa0797bb52082",
+                      "rPr_hash": "042b9d44e408a3e6370a1595909d6743b008955f96ae3b18acb436547a93c297",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "号",
-                      "rPr_hash": "a712762530ffb1c1eccd5af742f9f1e0ea5a0e7fa60c29133ac66e97f807e4dc",
+                      "rPr_hash": "967b548b1e7a9ff03ab0f3914f9ad8387ef6a074619fcf59e7e1f342107a8574",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12512,24 +12512,24 @@
                   "runs": [
                     {
                       "text": "GB/T 16483 ",
-                      "rPr_hash": "61f03744bf8f42405c515d2442b58e0e7e5b609dcc880065daf2b8ed0214ca2b",
+                      "rPr_hash": "83c524f3f4efa47e445d1a6768478b54fda1fe681849891d5f30c15f0007ea91",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "化学品安全技术说明书内容和项目顺序",
-                      "rPr_hash": "a712762530ffb1c1eccd5af742f9f1e0ea5a0e7fa60c29133ac66e97f807e4dc",
+                      "rPr_hash": "967b548b1e7a9ff03ab0f3914f9ad8387ef6a074619fcf59e7e1f342107a8574",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12562,24 +12562,24 @@
                   "runs": [
                     {
                       "text": "GB 13690 ",
-                      "rPr_hash": "61f03744bf8f42405c515d2442b58e0e7e5b609dcc880065daf2b8ed0214ca2b",
+                      "rPr_hash": "83c524f3f4efa47e445d1a6768478b54fda1fe681849891d5f30c15f0007ea91",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "化学品分类和危险性公示通则",
-                      "rPr_hash": "a712762530ffb1c1eccd5af742f9f1e0ea5a0e7fa60c29133ac66e97f807e4dc",
+                      "rPr_hash": "967b548b1e7a9ff03ab0f3914f9ad8387ef6a074619fcf59e7e1f342107a8574",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12612,24 +12612,24 @@
                   "runs": [
                     {
                       "text": "GB ",
-                      "rPr_hash": "61f03744bf8f42405c515d2442b58e0e7e5b609dcc880065daf2b8ed0214ca2b",
+                      "rPr_hash": "83c524f3f4efa47e445d1a6768478b54fda1fe681849891d5f30c15f0007ea91",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
                     },
                     {
                       "text": "30000.2-29 化学品分类和标签规范",
-                      "rPr_hash": "e1d837cc476bbe793588c5f564a77641b4fa1fe7c5b2a0437fbaa0797bb52082",
+                      "rPr_hash": "042b9d44e408a3e6370a1595909d6743b008955f96ae3b18acb436547a93c297",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12662,12 +12662,12 @@
                   "runs": [
                     {
                       "text": "GB 15258 化学品安全标签编写规定",
-                      "rPr_hash": "e1d837cc476bbe793588c5f564a77641b4fa1fe7c5b2a0437fbaa0797bb52082",
+                      "rPr_hash": "042b9d44e408a3e6370a1595909d6743b008955f96ae3b18acb436547a93c297",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12753,7 +12753,7 @@
             {
               "cell": 0,
               "xml_path": "/w:document/w:body/w:tbl[16]/w:tr[2]/w:tc",
-              "tcPr_hash": "21a757bfbdc8fe2d13132f22565f611c0d83fb99e3cf1a420e4ca0ca6d9d0895",
+              "tcPr_hash": "a89ea88382e3f66f18719279bb77705d8a9324f226ca4788175fce5feee3c3f0",
               "tcW": "9781",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -12766,12 +12766,12 @@
                   "runs": [
                     {
                       "text": "就我们所掌握的知识信息，截止本安全技术说明书发布之日，它提供的资料是正确的。所提供的信息仅仅作为安全处理，使用，生产，储存，运输，处置和排放的指导书，而不是一份担保或品质说明书。本资料只针对所指定的具体物料，而对这种物料与其它物料混合使用或在其它制程中使用的情况，则未必有效（除非在文本中有特别说明）。",
-                      "rPr_hash": "a712762530ffb1c1eccd5af742f9f1e0ea5a0e7fa60c29133ac66e97f807e4dc",
+                      "rPr_hash": "967b548b1e7a9ff03ab0f3914f9ad8387ef6a074619fcf59e7e1f342107a8574",
                       "bold": null,
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": null,
+                        "name": "宋体",
                         "size_pt": 12.0,
                         "color": null
                       }

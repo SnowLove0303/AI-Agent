@@ -49,13 +49,13 @@ def test_formal_output_cannot_be_reused_as_source(tmp_path):
         discover_source(output)
 
 
-def test_renamed_generated_file_in_output_directory_cannot_be_reused(tmp_path):
+def test_source_under_overwrite_output_directory_is_allowed(tmp_path):
     output_dir = tmp_path / "覆写产出"
     output_dir.mkdir()
-    renamed = output_dir / "reviewed_source.docx"
-    renamed.write_bytes(b"renamed generated output")
-    with pytest.raises(SourceSelectionError, match="generated/output directory"):
-        discover_source(renamed)
+    source = output_dir / "reviewed_source.docx"
+    source.write_bytes(b"original source")
+    selected = discover_source(source)
+    assert selected.original_path == source.resolve()
 
 
 def test_docx_preview_checkpoint_cannot_be_reused_as_source(tmp_path):

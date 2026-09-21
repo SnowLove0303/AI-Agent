@@ -23,6 +23,7 @@ from copy import deepcopy
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 from docx.shared import Pt
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 from section2_hp_policy import is_missing_data_value, render_precautionary_groups
 from template_mutation_whitelist import composite_value_text, is_s28_row, unique_cells
@@ -95,11 +96,9 @@ def set_cell_value_unified(
         if rFonts is None:
             rFonts = OxmlElement("w:rFonts")
             rPr.append(rFonts)
-        rFonts.set(qn("w:ascii"), "Arial")
-        rFonts.set(qn("w:hAnsi"), "Arial")
-        if lang == "zh":
-            rFonts.set(qn("w:eastAsia"), "宋体")
-            rFonts.set(qn("w:hint"), "eastAsia")
+        font_name = "宋体" if lang == "zh" else "Times New Roman"
+        for key in ("ascii", "hAnsi", "eastAsia", "cs"):
+            rFonts.set(qn(f"w:{key}"), font_name)
 
         # 2. Size
         sz = rPr.find(qn("w:sz"))
@@ -116,6 +115,14 @@ def set_cell_value_unified(
 
         # 3. Bold
         run.font.bold = bold
+        p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+
+    tc_pr = cell._tc.get_or_add_tcPr()
+    v_align = tc_pr.find(qn("w:vAlign"))
+    if v_align is None:
+        v_align = OxmlElement("w:vAlign")
+        tc_pr.append(v_align)
+    v_align.set(qn("w:val"), "center")
 
 def format_label_elements(
     language: str,

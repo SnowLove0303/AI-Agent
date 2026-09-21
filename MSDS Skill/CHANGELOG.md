@@ -1,5 +1,31 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.27.3 — 2026-09-21
+
+- Adopted the supplied `正式模板_MSDS_EN_冠志(1).docx` as the EN source record
+  and active 16-row Section 8 baseline.
+- Enforced value-only typography at the shared write boundary: EN values use
+  Times New Roman 12 pt; CN values use 宋体 12 pt; both are left-aligned and
+  vertically centered. Locked labels and bold template runs remain untouched.
+
+## v3.27.2 — 2026-09-21
+
+- Removed the over-broad `覆写产出` path-segment source gate. Original MSDS
+  files may now be read from that directory tree while formal output filenames,
+  runtime output/cache directories, and PDF-as-source blocking remain intact.
+
+## v3.27.1 — 2026-09-21
+
+- Added the single guarded value-write boundary: existing template labels,
+  bold runs, paragraph properties, table geometry, cell properties, headers,
+  footers and page fields remain template-owned assets.
+- Added XML-level locked-template drift repair/audit and regression coverage
+  for Section 9 labels and Section 11 child labels.
+- Normalized full-width/half-width source text, escaped line breaks, legacy
+  line endings and visual wraps before semantic field mapping.
+- Preserved the V3.27.0 CN/EN template baselines and source hashes; no new
+  template copy or parallel skill branch was introduced.
+
 ## v3.26.2 — 2026-09-18
 
 - Added a fail-closed English product identity contract: the reviewed English
@@ -353,4 +379,4 @@ to an Agent as an alternative template authority.
   - Added controlled translations in `professional_translation_glossary.tsv` for `无信号词` (`No signal word`), `无危险的象形图` (`No hazard pictogram`), `未被分类` (`Not classified`), transport non-hazard statements, and confidential trade secrets.
 
 ---
-
+# Changelog

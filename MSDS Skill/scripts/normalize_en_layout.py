@@ -29,8 +29,8 @@ from template_mutation_whitelist import (
 )
 
 
-EN_BODY_FONT = "Arial"
-# MSDS EN ordinary values and value tails are maintained at Arial 12 pt.
+EN_BODY_FONT = "Times New Roman"
+# MSDS EN ordinary values and value tails are maintained at Times New Roman 12 pt.
 # This constant is also used by the compatibility/no-template path; keeping it
 # here prevents a caller from silently reintroducing the 10.5 pt patch style.
 EN_BODY_SIZE = Pt(12)
@@ -88,7 +88,7 @@ def _approved_body_rpr(reference_document):
 
     The active EN template contains legacy sample values with inconsistent
     character anchors.  A value's meaning must not determine its font, and a
-    blank template value has no run to copy.  Select one non-bold Arial body
+    blank template value has no run to copy.  Select one non-bold Times New Roman body
     run from the maintained template and use only its ``w:rPr`` for inserted
     non-bold value text.  Paragraph properties remain destination-specific.
     """
@@ -116,7 +116,7 @@ def _approved_body_rpr(reference_document):
                                 and size is not None
                                 and size.get(qn("w:val")) == "24"):
                             return deepcopy(r_pr)
-    raise RuntimeError("active EN template has no approved Arial 12pt body-value exemplar")
+    raise RuntimeError("active EN template has no approved Times New Roman 12pt body-value exemplar")
 
 
 def _anchor_label(text: str) -> str:
@@ -305,7 +305,7 @@ def normalize_en_document(document, template_path: str | Path | None = None,
                     _normalize_runs(paragraph, EN_BODY_SIZE)
 
             # Section 11's sublabel column is deliberately narrow in the
-            # approved geometry.  A small Arial bold label is the stable way
+            # approved geometry.  A small Times New Roman bold label is the stable way
             # to keep the English labels on one line without changing the
             # grid widths or merge topology.
             if table_index == 10 and len(cells) >= 3 and cells[1].text.strip():

@@ -3,12 +3,12 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS standardization skill that discovers supported source files, binds source-grounded facts to synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, preserves locked templates, and releases four DOCX plus four PDF deliverables only after semantic and render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.27.0
+# Unified MSDS Eight-Deliverable Standardizer v3.27.3
 
-## Mandatory EN Master Template & Format/Bold Immutable Lock (v3.27.0)
+## Mandatory EN Master Template & Format/Bold Immutable Lock (v3.27.3)
 
 1. The user-tuned 16-table English master template (examples/template_reference_en.docx) is the immutable baseline for all English MSDS generation.
-2. Section 8 (Table 7) standard geometry is 12 rows ([9, 16, 6, 6, 5, 4, 3, 12, 24, 6, 18, 6, 3, 5, 9, 2]).
+2. Section 8 (Table 7) standard geometry is 16 rows ([9, 16, 6, 6, 5, 4, 3, 16, 24, 6, 18, 6, 3, 5, 9, 2]).
 3. Bold runs (325 runs across 16 tables) and paragraph formatting are strictly locked. Value cells inherit typography without mutating labels or modifying bold status.
 4. Output must strictly converge to 7 pages without 8th blank overflow page, and enforce a 0 Chinese characters gate.
 
@@ -22,7 +22,7 @@ description: One maintained MSDS/SDS standardization skill that discovers suppor
 
 ## Mandatory Verbatim Section 2, Unified Value Typography, and Independent Row Playbook (v3.26.5)
 
-1. `set_cell_value_unified` must be used across all 16 sections to strictly enforce 12.0 pt (`<w:sz w:val="24"/>`), exact fonts (Arial for English/numbers, 宋体 for Chinese), single run per line, and zero dangling empty paragraphs.
+1. `set_cell_value_unified` and the shared value writer must enforce 12.0 pt (`<w:sz w:val="24"/>`), Times New Roman for EN values, 宋体 for CN values, left paragraph alignment, centered cell vertical alignment, single run per line where the writer owns the full value cell, and zero dangling empty paragraphs.
 2. Section 2.2 GHS Label Elements must preserve verbatim source text (e.g. `羟基丙烯酸酯聚合物GHS危险性分类：不适用\n请注意以下物质：\nN,N-二甲基乙醇胺，中和剂，已键合为盐，质量浓度小于2.0%`).
 3. Follow `docs/independent_row_playbook.md` strictly: product-level study conclusions and polymer component data must NEVER be congested together; they must occupy distinct independent rows/paragraphs.
 
@@ -116,7 +116,7 @@ formatting changes.
 
 V3.26.2 adds the reviewed English product-name gate, active EN template
 remediation, bold English health-hazard route-prefix prototypes and the
-fail-closed Arial 12 pt EN value-format audit. TDS production is outside this
+fail-closed Times New Roman 12 pt EN value-format audit. TDS production is outside this
 repository and remains an external follow-up.
 
 V3.26.0 adds a source-hash-bound cache root, reviewed-only family candidates,
@@ -198,17 +198,17 @@ The language-specific template baselines are authoritative:
 
 - CN source record: `examples/template_reference_cn_source.docx`, an unchanged copy of the user-supplied formal `正式模板_MSDS_CN_冠志.docx`.
 - CN active baseline: `examples/template_reference.docx`, the current user-approved formal CN template installed byte-for-byte.
-- EN source record: `examples/template_reference_en_source.docx`, an unchanged copy of the user-supplied formal `正式模板_MSDS_EN_冠志.docx`.
-- EN active baseline: `examples/template_reference_en.docx`, a reviewed maintainer remediation of the preserved formal EN source; geometry and locked structure remain unchanged.
+- EN source record: `examples/template_reference_en_source.docx`, an unchanged copy of the user-supplied formal `正式模板_MSDS_EN_冠志(1).docx`.
+- EN active baseline: `examples/template_reference_en.docx`, a value-cell-only normalization of the supplied EN source; labels, bold runs and table geometry remain unchanged.
 - Historical template copies are deliberately not shipped. Only the current
   user-approved CN/EN baselines and their unchanged source records are part of
   the active package; rollback copies belong outside the distributable skill.
 
 Pinned SHA-256:
 
-- CN: `b6c52c3d6003d4314e578733c5066dc9541c70ee49957ab56c24dd749ade2d43`
-- EN source: `34a259eed50d2e78b4609c66453fa9baab610a623dcc7ee531db359b1a988497`
-- EN active baseline: `49a279aa8c7a50f38ee6929ca2f030cf13b01ee0d1e476d790a2352a316bfa2b`.
+- CN active baseline: `a69a447f7f39599b10c30c7f92c4d5101d94fd85bfdcc4d89de429d1c796af1c`
+- EN source: `0c7f3bfd74a85955a32fd691a392077f79c0acc74d2c7765947e02cf7c226c3f`
+- EN active baseline: `dca8a1a5940f4410003b032d9ec914291c1e961383305af271ba3cd6b32e495f`.
 
 Structural baseline:
 - 16 tables
@@ -217,7 +217,7 @@ Structural baseline:
 - CN and EN are intentionally different physical templates. Shared semantic content and overwrite rules do not require identical physical row counts or label wording.
 - Section 11 current multi-column/merged-cell geometry is locked.
 - Section 2.8 health-hazard route prefixes are English, bold, and locked
-  template content; their value tails are ordinary Arial 12 pt. Section
+  template content; their value tails are ordinary Times New Roman 12 pt. Section
   11.1/11.7 middle sublabels and every other bold template label/run are also
   locked template content. The physical three-cell
   Section 3 rows and four-cell Section 8.2 rows are also locked topology; only
@@ -245,9 +245,9 @@ A newer user-approved template immediately supersedes this one. Do not restore g
 ## 2A. Highest-priority in-place overwrite contract
 This rule overrides every language/layout convenience rule. Each CN deliverable MUST be created by cloning `examples/template_reference.docx`; each EN deliverable MUST be created by cloning the independent `examples/template_reference_en.docx`; all four are then mutated in place. Never create an EN document from a blank document, from a rebuilt table set, or from a rendered CN output. Never add a CN-only row to the EN template merely to equalize section capacity.
 
-The maintained EN health-hazard route prefixes are bold Arial 12 pt template
-content (`Inhalation:`, `Ingestion:`, `Skin:`, `Eyes:`, `Signs and symptoms:`).
-Only the descriptive tail after such a prefix is a writable regular Arial 12
+The maintained EN health-hazard route prefixes are bold template-owned content
+(`Inhalation:`, `Ingestion:`, `Skin:`, `Eyes:`, `Signs and symptoms:`).
+Only the descriptive tail after such a prefix is a writable regular Times New Roman 12
 pt value. Runtime Agents may not translate, restyle or replace these prefixes.
 
 The template owns: table count/order, row/column geometry, grid, merges, cell properties, borders, widths, section placement, label cells, paragraph properties, character-format anchors, and page-crossing behavior. All maintained formal templates permit their tables to continue across pages; each active baseline's row-level `cantSplit` settings are also template-owned and must be preserved exactly on surviving output rows. The source owns facts only. Agent mutation is restricted to writing or clearing label-associated value cells, deciding whether a value is source-absent/unsupported and therefore hidden, and requesting only necessary complete styled-row insertion or deletion under the section rule. Labels, sequence text, boldness, fonts, paragraph properties, cell properties, tables and page layout are never Agent-editable. A bold label/run is a hard lock, but non-bold template-owned prefixes and sublabels are hard locks as well. In particular, S2.8 route prefixes (`吸入：`, `食入：`, `皮肤：`, `眼睛：`, `症状和体征：`, or the exact maintained EN equivalent) remain in the same template run tree; the value tail is appended after the prefix without rewriting it. The previous Section 2 label-alias path is retired; source headings select semantic slots but never rewrite template labels.
@@ -629,7 +629,7 @@ it must not normalize EN to CN, add rows, or redesign labels/geometry.
 - The EN locked-label audit must be run with `--language en`; it permits only
   the documented EN paragraph-layout normalization while continuing to check
   the ordered label anchors, table/cell positions and run properties.
-- All inserted non-bold EN value text uses one approved Arial 12-point body
+- All inserted non-bold EN value text uses one approved Times New Roman 12-point body
   `w:rPr` exemplar selected from the active EN template. This is a character-
   format rule only: destination paragraph properties, labels, sublabels,
   table geometry, row heights, merges, borders and cross-page behavior remain
@@ -717,9 +717,10 @@ generators are frozen regression vehicles and are not production entry points.
   resolve to exactly one supported candidate after model filtering; multiple
   candidates require an explicit `--source` path. Lock files and formal
   `*_MSDS_(CN|EN)_(冠志|国彩)` outputs are never discovery candidates, and a
-  formal output cannot be passed as the source. Generated/output directories
-  (`覆写产出`, `output(s)`, `artifacts`, `_task_work`) are also blocked even
-  when a generated file is renamed.
+  formal output cannot be passed as the source. Runtime output/cache directories
+  (`output(s)`, `artifacts`, `_task_work`, `_docx_preview`, `.msds_cache`) are
+  blocked as source locations; `覆写产出` is not intrinsically blocked because
+  it may contain legitimate original MSDS files.
 - The source registry currently recognizes `.docx`, `.docm`, `.doc`, `.odt`,
   `.rtf`, `.xlsx`, `.xls` and `.txt`. Direct section extraction is approved
   for DOCX/DOCM; DOC/ODT/RTF use a LibreOffice DOCX adapter whose result may

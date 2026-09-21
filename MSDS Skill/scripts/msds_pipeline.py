@@ -109,6 +109,7 @@ from structured_toxicology_policy import (  # noqa: E402
 )
 from template_mutation_whitelist import (  # noqa: E402
     clear_value_cells,
+    enforce_value_typography,
     set_sequence_prefix,
     TemplateSlotRegistry,
     unique_cells,
@@ -135,9 +136,9 @@ GUANZHI_FAX = "86-20-32214789"
 GUOCAI_TEL = "86-763-2811205"
 GUOCAI_FAX = "86-763-2811024"
 PINNED_TEMPLATE_SHA256 = {
-    "zh": "b6c52c3d6003d4314e578733c5066dc9541c70ee49957ab56c24dd749ade2d43",
-    "en": "49a279aa8c7a50f38ee6929ca2f030cf13b01ee0d1e476d790a2352a316bfa2b",
-    "en_source": "34a259eed50d2e78b4609c66453fa9baab610a623dcc7ee531db359b1a988497",
+    "zh": "a69a447f7f39599b10c30c7f92c4d5101d94fd85bfdcc4d89de429d1c796af1c",
+    "en": "dca8a1a5940f4410003b032d9ec914291c1e961383305af271ba3cd6b32e495f",
+    "en_source": "0c7f3bfd74a85955a32fd691a392077f79c0acc74d2c7765947e02cf7c226c3f",
 }
 SECTION_KEYS = {f"s{i}" for i in range(1, 17)}
 
@@ -513,7 +514,7 @@ def write_body(doc, facts: dict, language: str, *, apply_fine_tuning: bool = Tru
     # The registry is intentionally built only after all authorized insertions
     # are complete, then all value cells are cleared in one controlled pass.
     registry = TemplateSlotRegistry.from_document(doc)
-    clear_value_cells(doc, registry=registry)
+    clear_value_cells(doc, registry=registry, language=language)
     skipped_slots = []
     baseline_row_counts = base.template_geometry(language)["rows"]
     for plan in plans:
@@ -530,7 +531,8 @@ def write_body(doc, facts: dict, language: str, *, apply_fine_tuning: bool = Tru
             )
             audit = base.set_row(table.rows[row_index], values, table_index=sec - 1,
                                  row_index=row_index, registry=registry,
-                                 inserted_data_row=inserted_data_row)
+                                 inserted_data_row=inserted_data_row,
+                                 language=language)
             if audit:
                 audit["section"] = sec
                 skipped_slots.append(audit)
@@ -882,6 +884,7 @@ def build_one(*, template_cn: Path, template_en: Path, template_en_source: Path,
             s11_layout_policy = normalize_s11_layout(
                 doc, policy_facts.get("s11") or []
             )
+            enforce_value_typography(doc, language)
         s2_policy = fine_tuning["section2_policy"]
         s9_policy = fine_tuning["section9_policy"]
         s8_policy = fine_tuning["section8_policy"]

@@ -3,6 +3,7 @@
 from pathlib import Path
 import sys
 import docx
+from docx.oxml.ns import qn
 
 SCRIPTS_DIR = Path(__file__).resolve().parents[1] / "scripts"
 if str(SCRIPTS_DIR) not in sys.path:
@@ -23,8 +24,10 @@ def test_set_cell_value_unified_zh():
         assert len(p.runs) == 1
         r = p.runs[0]
         assert r.font.size.pt == 12.0
-        assert r.font.name == "Arial"
+        assert r.font.name == "宋体"
         assert r.font.bold is False
+        assert p.alignment == 0
+    assert cell._tc.tcPr.find(qn("w:vAlign")).get(qn("w:val")) == "center"
 
 
 def test_set_cell_value_unified_en():
@@ -38,8 +41,10 @@ def test_set_cell_value_unified_en():
         assert len(p.runs) == 1
         r = p.runs[0]
         assert r.font.size.pt == 12.0
-        assert r.font.name == "Arial"
+        assert r.font.name == "Times New Roman"
         assert r.font.bold is False
+        assert p.alignment == 0
+    assert cell._tc.tcPr.find(qn("w:vAlign")).get(qn("w:val")) == "center"
 
 
 def test_audit_value_cell_typography():

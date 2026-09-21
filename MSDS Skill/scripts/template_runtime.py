@@ -29,7 +29,7 @@ def unique_cells(row):
 def template_geometry(language: str) -> dict:
     rows = ([10, 16, 6, 6, 5, 4, 3, 16, 24, 6, 18, 6, 3, 5, 9, 2]
             if language == "zh" else
-            [9, 16, 6, 6, 5, 4, 3, 12, 24, 6, 18, 6, 3, 5, 9, 2])
+            [9, 16, 6, 6, 5, 4, 3, 16, 24, 6, 18, 6, 3, 5, 9, 2])
     if language not in {"zh", "en"}:
         raise ValueError(f"unsupported language: {language}")
     return {"table_count": 16, "rows": rows}
@@ -96,10 +96,11 @@ def sanitize_template_artifacts(doc: Document) -> None:
 
 
 def set_row(row, values, *, table_index=None, row_index=None, registry=None,
-            inserted_data_row=False):
+            inserted_data_row=False, language=None):
     return write_row_values(row, values, table_index=table_index,
                             row_index=row_index, registry=registry,
-                            inserted_data_row=inserted_data_row)
+                            inserted_data_row=inserted_data_row,
+                            language=language)
 
 
 def ensure_s3_component_rows(doc: Document, component_count: int) -> None:

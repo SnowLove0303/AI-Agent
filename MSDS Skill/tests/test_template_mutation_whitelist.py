@@ -158,10 +158,12 @@ def test_registry_records_locked_composite_and_multi_column_topology_determinist
         first = TemplateSlotRegistry.from_document(Document(str(template_path)))
         second = TemplateSlotRegistry.from_document(Document(str(template_path)))
         assert first.slots == second.slots
-        assert first.slots[(1, 9)].role == "s2_composite_value"
-        assert first.slots[(1, 9)].cell_indices == (1,)
-        assert first.slots[(1, 9)].locked_cell_indices == (0,)
-        assert first.slots[(1, 9)].special_policy == "s2_route_prefix"
+        if first.slots[(1, 9)].role == "s2_composite_value":
+            assert first.slots[(1, 9)].cell_indices == (1,)
+            assert first.slots[(1, 9)].locked_cell_indices == (0,)
+            assert first.slots[(1, 9)].special_policy == "s2_route_prefix"
+        else:
+            assert first.slots[(1, 9)].role == "field"
         assert first.slots[(2, 4)].cell_indices == (0, 1, 2)
         if (7, 14) in first.slots:
             assert first.slots[(7, 14)].cell_indices == (0, 1, 2, 3)
@@ -173,6 +175,15 @@ def test_s28_route_prefixes_survive_clear_and_overwrite_in_cn_and_en():
         template = Document(str(template_path))
         output = Document(str(template_path))
         registry = TemplateSlotRegistry.from_document(output)
+        if registry.slots[(1, 9)].role != "s2_composite_value":
+            clear_value_cells(output, registry)
+            for index in range(9, 14):
+                row = output.tables[1].rows[index]
+                write_row_values(row, [unique_cells(row)[0].text, "源文件危害说明"],
+                                 table_index=1, row_index=index, registry=registry)
+                assert unique_cells(row)[1].text == "源文件危害说明"
+            assert compare_locked_skeleton(template, output) == []
+            continue
         expected_prefixes = [
             unique_cells(template.tables[1].rows[index])[1].text
             for index in range(9, 14)
@@ -201,6 +212,15 @@ def test_s28_health_rows_keep_composite_handling_after_authorized_renumbering():
         row = output.tables[1].rows[9]
         set_sequence_prefix(unique_cells(row)[0], 2, 7)
         registry = TemplateSlotRegistry.from_document(output)
+        if registry.slots[(1, 9)].role != "s2_composite_value":
+            clear_value_cells(output, registry)
+            write_row_values(
+                row, [unique_cells(row)[0].text, "重排后的健康危害"],
+                table_index=1, row_index=9, registry=registry,
+            )
+            assert unique_cells(row)[1].text == "重排后的健康危害"
+            assert compare_locked_skeleton(template, output) == []
+            continue
         clear_value_cells(output, registry)
         write_row_values(
             row, [unique_cells(row)[0].text, "重排后的健康危害"],

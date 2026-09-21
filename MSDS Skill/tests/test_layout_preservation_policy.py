@@ -92,7 +92,7 @@ def test_s114_vertical_alignment_drift_is_blocked():
     if align is None:
         align = tc_pr.makeelement(qn("w:vAlign"), {})
         tc_pr.append(align)
-    align.set(qn("w:val"), "center")
+    align.set(qn("w:val"), "bottom")
     report = audit_s114_vertical_alignment(template, output)
     assert report["status"] == "failed"
     assert any("vertical alignment changed" in error for error in report["errors"])

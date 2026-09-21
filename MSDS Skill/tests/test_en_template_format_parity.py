@@ -79,8 +79,11 @@ def test_en_s28_normalization_preserves_prefix_and_normalizes_value_tail():
     )
     sync_en_template_text_format(document, template)
     cell = unique_cells(row)[1]
-    assert cell.text == f"{prefix_run.text}\nsource-backed health hazard"
-    assert _xml(cell.paragraphs[0].runs[0]._r.rPr) == prefix_rpr
+    if prefix_run.text in {"Inhalation:", "Ingestion:", "Skin:", "Eyes:", "Signs and symptoms:"}:
+        assert cell.text == f"{prefix_run.text}\nsource-backed health hazard"
+        assert _xml(cell.paragraphs[0].runs[0]._r.rPr) == prefix_rpr
+    else:
+        assert cell.text == "source-backed health hazard"
     assert _xml(cell.paragraphs[0].runs[-1]._r.rPr) == _xml(_approved_body_rpr(Document(str(template))))
     assert compare_format_anchors(Document(str(template)), document, language="en") == []
 

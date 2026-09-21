@@ -1,6 +1,6 @@
-# MSDS Skill 3.27.0
+# MSDS Skill 3.27.3
 
-V3.27.0 standardizes the new user-tuned English 16-table master template (`examples/template_reference_en.docx`), updates the Section 8 geometry to 12 rows across the entire architecture (`[9, 16, 6, 6, 5, 4, 3, 12, 24, 6, 18, 6, 3, 5, 9, 2]`), enforces an absolute lock on bold font and cell formatting, eliminates residual Chinese characters, and guarantees exact 7-page PDF convergence (eliminating trailing 8th blank page).
+V3.27.3 preserves the locked labels and adds the supplied EN template baseline plus a single value-write typography boundary: EN values are Times New Roman 12 pt and CN values are 宋体 12 pt, both left-aligned and vertically centered. Legitimate original sources under `覆写产出` remain allowed. The English 16-table master template (`examples/template_reference_en.docx`) uses Section 8 geometry `[9, 16, 6, 6, 5, 4, 3, 16, 24, 6, 18, 6, 3, 5, 9, 2]`.
 
 V3.26.6 embeds the Jev System One Core Engine (`scripts/jev_engine.py`) and Domain Adjudicator (`scripts/jev_domain_adjudicator.py`), providing on-demand TypeSafe System One decision making, fast/slow dual-path routing, and an auditable Decision Ledger.
 
@@ -41,15 +41,16 @@ Read [`SKILL.md`](SKILL.md) for the operating contract. The reusable scripts, te
 
 ## Version
 
-Public release: `MSDS Skill 3.27.0`
+Public release: `MSDS Skill 3.27.3`
 
-Template baseline: the current user-supplied formal CN/EN templates are adopted
-byte-for-byte for the CN source and as a reviewed maintainer remediation for
-the EN active baseline. CN SHA-256 is
-`b6c52c3d6003d4314e578733c5066dc9541c70ee49957ab56c24dd749ade2d43`. EN source
-SHA-256 is `38565de4ce59f2e34146d03ed3eefa692df4f42cc4d212d8e4fb7b098f924eef`;
+Template baseline: the current user-supplied formal CN/EN templates are kept
+as source records, while active baselines normalize value cells only. CN source
+SHA-256 is `b6c52c3d6003d4314e578733c5066dc9541c70ee49957ab56c24dd749ade2d43`;
+CN active SHA-256 is
+`a69a447f7f39599b10c30c7f92c4d5101d94fd85bfdcc4d89de429d1c796af1c`. EN source
+SHA-256 is `0c7f3bfd74a85955a32fd691a392077f79c0acc74d2c7765947e02cf7c226c3f`;
 EN active SHA-256 is
-`38565de4ce59f2e34146d03ed3eefa692df4f42cc4d212d8e4fb7b098f924eef`.
+`dca8a1a5940f4410003b032d9ec914291c1e961383305af271ba3cd6b32e495f`.
 Historical template copies and versioned snapshots are intentionally excluded
 from the distributable package. Rollback evidence must be stored outside the
 active skill directory.

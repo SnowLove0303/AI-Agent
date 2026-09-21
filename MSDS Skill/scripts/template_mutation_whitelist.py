@@ -25,6 +25,7 @@ import re
 from dataclasses import dataclass
 from typing import Callable, Iterable, Sequence
 
+from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
 from diagnostics import format_diagnostic
@@ -41,6 +42,9 @@ S82_MISSING = {
     "zh": "无数据",
     "en": "No data available",
 }
+
+VALUE_FONT_BY_LANGUAGE = {"zh": "宋体", "en": "Times New Roman"}
+VALUE_SIZE_PT = 12.0
 
 # Blank cells are not automatically writable.  These are explicit semantic
 # input exceptions; the S8 recommendation is source-gated and is written only
@@ -376,7 +380,58 @@ def normalize_value_text(text: str) -> str:
     )
 
 
-def _write_paragraph_content(paragraph, text: str, *, force_nonbold: bool = True) -> None:
+def _set_value_rpr(r_pr, language: str | None) -> None:
+    """Force approved value font/size without touching template labels."""
+    if language not in VALUE_FONT_BY_LANGUAGE:
+        return
+    font = VALUE_FONT_BY_LANGUAGE[language]
+    r_fonts = r_pr.find(qn("w:rFonts"))
+    if r_fonts is None:
+        r_fonts = OxmlElement("w:rFonts")
+        r_pr.insert(0, r_fonts)
+    for key in ("ascii", "hAnsi", "eastAsia", "cs"):
+        r_fonts.set(qn(f"w:{key}"), font)
+    for tag in ("w:sz", "w:szCs"):
+        node = r_pr.find(qn(tag))
+        if node is None:
+            node = OxmlElement(tag)
+            r_pr.append(node)
+        node.set(qn("w:val"), str(int(VALUE_SIZE_PT * 2)))
+
+
+def _set_value_cell_layout(cell, language: str | None) -> None:
+    """Apply value-only alignment/vertical rules; labels never call this."""
+    if language not in VALUE_FONT_BY_LANGUAGE:
+        return
+    tc_pr = cell._tc.get_or_add_tcPr()
+    v_align = tc_pr.find(qn("w:vAlign"))
+    if v_align is None:
+        v_align = OxmlElement("w:vAlign")
+        tc_pr.append(v_align)
+    v_align.set(qn("w:val"), "center")
+    for paragraph in cell.paragraphs:
+        paragraph.alignment = 0  # WD_ALIGN_PARAGRAPH.LEFT
+        for run in paragraph.runs:
+            if not run.bold:
+                _set_value_rpr(run._r.get_or_add_rPr(), language)
+
+
+def enforce_value_typography(document, language: str,
+                             registry: TemplateSlotRegistry | None = None) -> None:
+    """Final S1-S16 value-only typography gate; locked bold runs are skipped."""
+    if language not in VALUE_FONT_BY_LANGUAGE:
+        raise MutationViolation(f"unsupported value typography language: {language}")
+    registry = registry or TemplateSlotRegistry.from_document(document)
+    for table_index, table in enumerate(document.tables[:16]):
+        for row_index, row in enumerate(table.rows):
+            for _cell_index, cell, locked_prefix in _writable_value_cells(
+                table_index, row_index, row
+            ):
+                _set_value_cell_layout(cell, language)
+
+
+def _write_paragraph_content(paragraph, text: str, *, force_nonbold: bool = True,
+                            language: str | None = None) -> None:
     """Replace a writable value while inheriting template style without bold.
 
     The maintained templates use bold for labels and fixed structure.  A
@@ -415,6 +470,7 @@ def _write_paragraph_content(paragraph, text: str, *, force_nonbold: bool = True
     run = paragraph._p.makeelement(qn("w:r"), {})
     if old_rpr is not None:
         run.append(old_rpr)
+    _set_value_rpr(run.get_or_add_rPr(), language)
     for index, line in enumerate(str(text).split("\n")):
         if index:
             run.append(paragraph._p.makeelement(qn("w:br"), {}))
@@ -459,7 +515,8 @@ def _replace_leading_pattern_in_runs(paragraph, pattern: str, replacement: str) 
     return paragraph.text
 
 
-def set_value_cell_text(cell, text: str, *, force_nonbold: bool = True) -> None:
+def set_value_cell_text(cell, text: str, *, force_nonbold: bool = True,
+                        language: str | None = None) -> None:
     """Write only a pre-authorized value/note cell as non-bold text.
 
     All writable value slots use the template's existing character anchor
@@ -470,10 +527,11 @@ def set_value_cell_text(cell, text: str, *, force_nonbold: bool = True) -> None:
     if not cell.paragraphs:
         raise MutationViolation("value cell has no template paragraph")
     _write_paragraph_content(
-        cell.paragraphs[0], text, force_nonbold=force_nonbold,
+        cell.paragraphs[0], text, force_nonbold=force_nonbold, language=language,
     )
     for paragraph in cell.paragraphs[1:]:
         paragraph._element.getparent().remove(paragraph._element)
+    _set_value_cell_layout(cell, language)
 
 
 def _append_text_nodes(parent, text: str) -> None:
@@ -552,7 +610,7 @@ def _value_rpr_for_composite(paragraph, prefix_clones: Sequence):
     return r_pr
 
 
-def set_s28_composite_value_cell(cell, text: str) -> None:
+def set_s28_composite_value_cell(cell, text: str, language: str | None = None) -> None:
     """Write only the value tail while preserving the Section 2.8 prefix.
 
     This is intentionally not implemented with ``cell.text`` or the generic
@@ -573,10 +631,12 @@ def set_s28_composite_value_cell(cell, text: str) -> None:
         paragraph._p.append(clone)
     if value:
         separator_rpr = _value_rpr_for_composite(paragraph, prefix_clones)
+        _set_value_rpr(separator_rpr, language)
         paragraph._p.append(_run_with_break(paragraph, separator_rpr))
         paragraph._p.append(_run_with_text(paragraph, value, separator_rpr))
     for extra in cell.paragraphs[1:]:
         extra._element.getparent().remove(extra._element)
+    _set_value_cell_layout(cell, language)
 
 
 def _s28_value_without_prefix(value: object, prefix: str) -> str:
@@ -650,7 +710,8 @@ def _single_column_payload(values: Sequence[object]) -> str:
 def write_row_values(row, values: Sequence[object], *, table_index: int | None = None,
                      row_index: int | None = None,
                      registry: TemplateSlotRegistry | None = None,
-                     inserted_data_row: bool = False) -> dict | None:
+                     inserted_data_row: bool = False,
+                     language: str | None = None) -> dict | None:
     """Write a semantic row through the mutation whitelist.
 
     ``values`` keeps the historical source-fact shape, where the first item is
@@ -713,6 +774,7 @@ def write_row_values(row, values: Sequence[object], *, table_index: int | None =
             return None
         set_value_cell_text(
             targets[0], values[-1] if values else "", force_nonbold=True,
+            language=language,
         )
         return None
 
@@ -732,11 +794,11 @@ def write_row_values(row, values: Sequence[object], *, table_index: int | None =
         value = _s28_value_without_prefix(value, prefix)
         target = targets[0]
         if prefix_cell_index is None:
-            set_s28_composite_value_cell(target, value)
+            set_s28_composite_value_cell(target, value, language=language)
         else:
             # Alternate three-column layouts have a dedicated locked middle
             # cell and an ordinary final value cell.
-            set_value_cell_text(target, value)
+            set_value_cell_text(target, value, language=language)
         return None
 
     # S3 component data rows: name, CAS, concentration are all writable.
@@ -744,7 +806,7 @@ def write_row_values(row, values: Sequence[object], *, table_index: int | None =
         if len(cells) != 3 or len(values) < 3:
             raise MutationViolation("S3 data row must contain exactly name/CAS/concentration")
         for cell, value in zip(cells, values[:3]):
-            set_value_cell_text(cell, value)
+            set_value_cell_text(cell, value, language=language)
         return
 
     # One-cell fixed semantic note slots are expressly writable as a slot.
@@ -755,7 +817,7 @@ def write_row_values(row, values: Sequence[object], *, table_index: int | None =
                 content = _single_column_payload(values)
             else:
                 content = "\n".join(values[:-1]) if len(values) > 1 and not values[-1].strip() else "\n".join(values)
-            set_value_cell_text(targets[0], content)
+            set_value_cell_text(targets[0], content, language=language)
         return
 
     payload = _payload_for_field_row(cells, values)
@@ -766,7 +828,7 @@ def write_row_values(row, values: Sequence[object], *, table_index: int | None =
     ):
         targets = registry.writable_cells(table_index, row_index, row) if registry else [cells[-1]]
         if targets:
-            set_value_cell_text(targets[-1], values[-1] if values else "")
+            set_value_cell_text(targets[-1], values[-1] if values else "", language=language)
         return None
     if registry is not None:
         targets = registry.writable_cells(table_index, row_index, row)
@@ -776,12 +838,12 @@ def write_row_values(row, values: Sequence[object], *, table_index: int | None =
                         "table_index": table_index, "row_index": row_index}
             return None
         for cell, value in zip(targets, payload):
-            set_value_cell_text(cell, value)
+            set_value_cell_text(cell, value, language=language)
         return None
     for offset, value in enumerate(payload, start=1):
         if offset >= len(cells):
             break
-        set_value_cell_text(cells[offset], value)
+        set_value_cell_text(cells[offset], value, language=language)
 
 
 def write_s82_top_rows(table, records: Iterable[Sequence[object]], language: str) -> dict:
@@ -827,7 +889,7 @@ def write_s82_top_rows(table, records: Iterable[Sequence[object]], language: str
         if len(cells) != 4:
             raise MutationViolation("S8.2 data row must have four cells")
         for target, value in zip(cells, normalized[position]):
-            set_value_cell_text(target, value)
+            set_value_cell_text(target, value, language=language)
     return {
         "record_count": len(records),
         "row_count": len(normalized),
@@ -835,7 +897,8 @@ def write_s82_top_rows(table, records: Iterable[Sequence[object]], language: str
     }
 
 
-def clear_value_cells(document, registry: TemplateSlotRegistry | None = None) -> None:
+def clear_value_cells(document, registry: TemplateSlotRegistry | None = None,
+                      language: str | None = None) -> None:
     """Clear only writable value cells, leaving all labels and headings intact."""
     for table_index, table in enumerate(document.tables):
         for row_index, row in enumerate(table.rows):
@@ -851,12 +914,12 @@ def clear_value_cells(document, registry: TemplateSlotRegistry | None = None) ->
                 targets = registry.writable_cells(table_index, row_index, row)
                 if slot and slot.special_policy == "s2_route_prefix" and targets:
                     if len(cells) == 2:
-                        set_s28_composite_value_cell(targets[0], "")
+                        set_s28_composite_value_cell(targets[0], "", language=language)
                     else:
-                        set_value_cell_text(targets[0], "")
+                        set_value_cell_text(targets[0], "", language=language)
                 else:
                     for cell in targets:
-                        set_value_cell_text(cell, "")
+                        set_value_cell_text(cell, "", language=language)
                 continue
             if table_index == 2 and row_index in {2, 3}:
                 # S3 parent row and three-column table header are locked.
@@ -1593,6 +1656,12 @@ def _compare_s28_composite_prefixes(template, output) -> list[str]:
             actual_rows.append((cells, _s28_parts(cells)))
     if not expected_rows:
         return []
+    # Some maintained EN baselines use ordinary value cells for S2.8 rather
+    # than embedding route prefixes in the value cell.  In that topology the
+    # generic value-cell/locked-label audits are authoritative; this composite
+    # audit has no prefix boundary to validate.
+    if all(parts is None for _cells, parts in expected_rows):
+        return []
 
     errors = []
     expected_by_label = {}
@@ -1871,6 +1940,7 @@ __all__ = [
     "set_s28_composite_value_cell",
     "set_sequence_prefix",
     "write_row_values",
+    "enforce_value_typography",
     "write_s82_top_rows",
     "S82_TOP_HEADERS",
     "S82_CHILD_HEADERS",
