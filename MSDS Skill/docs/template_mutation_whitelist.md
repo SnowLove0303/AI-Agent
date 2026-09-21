@@ -15,7 +15,7 @@ baseline is adopted:
 - table-cross-page permission, table layout type, repeating-header settings and each surviving row's `cantSplit` setting;
 - paragraph properties and cell/table properties in every surviving writable
   value cell, not only in labels. EN non-bold body-value runs are the sole
-  character-format exception: they must use one approved Arial 12-point
+  character-format exception: they must use one approved Times New Roman 12-point
   `w:rPr` exemplar from the active EN template; EN labels and sublabels remain
   individually locked;
 - the S8.2 top-level header row (`物质 / 依据 / 类型 / 数值`; EN `Substance /
@@ -33,7 +33,7 @@ Section 2.8 is a composite exception to the simple “second cell is value”
 shape. In the maintained two-column CN/EN templates, the second cell already
 contains a template-owned route prefix (`吸入：`, `食入：`, `皮肤：`, `眼睛：`,
 or `症状和体征：`; EN uses the exact maintained English equivalent). The EN
-prefix is a bold Arial 12 pt run. The prefix remains in its original run tree.
+prefix is a bold Times New Roman 12 pt run. The prefix remains in its original run tree.
 The runtime writes
 only a value tail after a semantic line break, and clearing the slot restores
 the prefix-only cell. If a separately maintained three-column S2.8 layout is
@@ -52,7 +52,7 @@ their `gridSpan`, `vMerge`, table grid and row boundaries are not editable.
 Bold labels/runs are hard locks, and route prefixes or sublabels are also hard
 locks because ownership is semantic, not inferred from boldness. In particular,
 the EN health-hazard prefix is bold while its writable description tail is
-regular Arial 12 pt.
+regular Times New Roman 12 pt.
 
 The runtime creates a slot registry from the fresh template clone before it
 clears values. Non-empty value objects are writable; blank value objects remain

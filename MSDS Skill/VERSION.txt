@@ -19,7 +19,7 @@ Active CN/EN template rows allow natural cross-page breaking
 Semantic S1/S8/S12 mapping and slash-only-line guards
 Executable S1-S16 overwrite-rule registry and cached release audits
 Source-bound mapping manifest and byte-pinned template release gate
-Unified Arial 12-point EN body-value format across populated and blank slots
+Unified Times New Roman 12-point EN body-value format across populated and blank slots
 User-approved CN/EN templates re-internalized byte-for-byte with refreshed snapshots
 OpenSpec execution/read gate and fail-closed empty-value/format/ordering audit
 Agent mutation boundary narrowed to value cells, presence decisions and necessary styled rows

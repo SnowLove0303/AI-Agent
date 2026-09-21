@@ -15,7 +15,7 @@ Preserve:
 
 The Section 2.8 route prefix is template-owned content inside the current
 two-column value cell. CN keeps the maintained Chinese prefix; EN keeps the
-maintained English equivalent as a bold Arial 12 pt run. Section 11.1/11.7 middle sublabels are template-owned
+maintained English equivalent as a bold Times New Roman 12 pt run. Section 11.1/11.7 middle sublabels are template-owned
 content inside three-column rows. Section 3's three-cell rows and Section
 8.2's four-cell rows are physical topology, not formatting suggestions.
 

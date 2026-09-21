@@ -58,7 +58,7 @@ the newly approved baseline.
 
 ## Body text rule
 All non-bold inserted text uses the approved exemplar's character formatting.
-For EN output, one Arial 12-point `w:rPr` exemplar from the active EN
+For EN output, one Times New Roman 12-point `w:rPr` exemplar from the active EN
 template is applied to every inserted non-bold value run, including values
 written into originally blank template slots. Paragraph geometry remains
 destination-specific; labels, sublabels and table formatting remain locked.
