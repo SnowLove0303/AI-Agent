@@ -14,6 +14,8 @@
 - Reconciled all global typography contracts with the active writer: EN value
   text and locked route prefixes are Times New Roman 12 pt; CN value text is
   宋体 12 pt. Removed stale Arial wording from the normative documents.
+- Added a formal pytest entry point restricted to the maintained `tests/`
+  suite so historical `_task_work` fixtures cannot contaminate release QA.
 - Added regression coverage and OpenSpec traceability for the local rules.
 
 ## v3.27.5 — 2026-09-21
