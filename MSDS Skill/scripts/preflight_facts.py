@@ -43,17 +43,21 @@ def run(source: Path, facts_path: Path, model: str | None = None,
     """Return all blockers without loading a template or resolving WPS."""
     facts = json.loads(Path(facts_path).read_text(encoding="utf-8"))
     if not isinstance(facts, dict):
+        errors = ["facts JSON root must be an object"]
         return {
             "status": "blocked",
-            "errors": ["facts JSON root must be an object"],
+            "errors": errors,
+            "blockers": errors,
             "template_clone_started": False,
             "pdf_converter_started": False,
         }
     resolved_model = model or facts.get("model") or ""
     if not resolved_model:
+        errors = ["model is required (argument or facts['model'])"]
         return {
             "status": "blocked",
-            "errors": ["model is required (argument or facts['model'])"],
+            "errors": errors,
+            "blockers": errors,
         }
     selected = discover_source(Path(source), model=resolved_model)
     errors = approved_facts_errors(facts, selected.original_path, resolved_model)
@@ -76,6 +80,10 @@ def run(source: Path, facts_path: Path, model: str | None = None,
     return {
         "status": "ready" if not errors else "blocked",
         "errors": errors,
+        # Keep the original ``errors`` field and expose the older caller
+        # vocabulary too.  A preflight blocker must never be dropped merely
+        # because a wrapper uses the legacy key.
+        "blockers": errors,
         "model": resolved_model,
         "source": str(selected.original_path),
         "source_format": selected.source_format,
@@ -111,7 +119,8 @@ def main() -> int:
             family_profile=args.family_profile, cache_dir=args.cache_dir,
         )
     except (OSError, json.JSONDecodeError, SourceSelectionError, ValueError, RuntimeError) as blocked:
-        result = {"status": "blocked", "errors": [str(blocked)]}
+        errors = [str(blocked)]
+        result = {"status": "blocked", "errors": errors, "blockers": errors}
     if args.out is not None:
         _write_json_atomic(args.out, result)
     print(json.dumps(result, ensure_ascii=False, indent=2))

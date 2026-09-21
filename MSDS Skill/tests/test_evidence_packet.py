@@ -45,6 +45,7 @@ def test_preflight_reports_all_contract_errors_without_template_or_pdf_work(tmp_
     result = run_preflight(FIXTURE, facts_path, "HPU-7660")
     assert result["status"] == "blocked"
     assert len(result["errors"]) >= 4
+    assert result["blockers"] == result["errors"]
     assert result["template_clone_started"] is False
     assert result["pdf_converter_started"] is False
 
@@ -55,6 +56,7 @@ def test_preflight_blocks_non_object_facts_json(tmp_path):
     result = run_preflight(FIXTURE, facts_path, "HPU-7660")
     assert result["status"] == "blocked"
     assert result["errors"] == ["facts JSON root must be an object"]
+    assert result["blockers"] == result["errors"]
 
 
 def test_packet_provenance_is_validated_but_unapproved_packet_cannot_build(tmp_path):
