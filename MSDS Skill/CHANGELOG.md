@@ -1,5 +1,20 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.27.8 — 2026-09-21
+
+- Split flattened Section 2.2 special-substance thresholds into logical lines
+  and remove the separator comma without rewriting the source statement.
+- Restored the explicit source GHS category conclusion, hazard-statement route
+  and Section 2 duplicate-prefix guard in the shared semantic projection.
+- Rebuilt incomplete CN/EN Section 3 facts against the maintained product-type,
+  ingredient, header and component skeleton so leading components cannot be
+  dropped or shifted into later rows.
+- Kept Section 9 semantic property matching, Section 8 hand-protection parent
+  preservation, Section 11 subject-specific notes/renumbering and Section 13
+  note-plus-treatment topology under release-blocking audits.
+- Replayed PA-4902 through the full four-DOCX/four-PDF pipeline: 275 tests,
+  four-format audit and 100/100 deliverable audit passed.
+
 ## v3.27.7 — 2026-09-21
 
 - Split Section 2 product-level facts from Section 3 component-level GHS
