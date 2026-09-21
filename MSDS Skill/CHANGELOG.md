@@ -1,5 +1,15 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.27.6 — 2026-09-21
+
+- Normalized absent/no GHS category to `根据 GHS 不属于危险物` and absent
+  pictograms to `无象形图`, while preserving source attention-substance notes.
+- Rendered Section 2.5 precautionary headings as separate paragraphs with
+  18pt hanging detail indentation through the shared value writer.
+- Enforced centered Section 3 component/CAS/content cells and prevented
+  contaminated or duplicate Section 8 hand-protection values.
+- Added regression coverage and OpenSpec traceability for the local rules.
+
 ## v3.27.5 — 2026-09-21
 
 - Added the global source-fidelity gate shared by all sixteen Sections; output

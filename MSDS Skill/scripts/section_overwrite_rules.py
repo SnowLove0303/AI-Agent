@@ -41,8 +41,9 @@ SECTION_RULES = {
 # Local rules are deliberately data, not scattered writer-side exceptions.
 # They refine semantic routing after the global source/template/value gates.
 LOCAL_SECTION_POLICIES = {
-    2: {"match_basis": "semantic_route", "source_text_policy": "verbatim_grouped_statements", "empty_policy": "hide_then_renumber"},
-    8: {"match_basis": "ppe_and_control_meaning", "source_text_policy": "verbatim_source_control_or_ppe", "empty_policy": "hide_absent_ppe_and_engineering_block"},
+    2: {"match_basis": "semantic_route", "source_text_policy": "verbatim_grouped_statements; no-class=>根据 GHS 不属于危险物; no-pictogram=>无象形图; label-note preserved; S2.5 heading plus hanging detail paragraphs", "empty_policy": "hide_then_renumber"},
+    3: {"match_basis": "component_name_cas_content", "source_text_policy": "verbatim_source_component_values", "layout_policy": "all component data cells horizontal and vertical center", "empty_policy": "source-only"},
+    8: {"match_basis": "ppe_and_control_meaning", "source_text_policy": "verbatim_source_control_or_ppe; hand row blank unless explicit hand value; never duplicate another PPE value", "empty_policy": "hide_absent_ppe_and_engineering_block"},
     9: {"match_basis": "property_alias", "source_text_policy": "verbatim_property_value", "empty_policy": "hide_missing_property_row"},
     10: {"match_basis": "endpoint_semantics", "source_text_policy": "verbatim_endpoint_value", "empty_policy": "reviewed_absence_declaration_or_hide"},
     11: {"match_basis": "endpoint_study_field", "source_text_policy": "verbatim_structured_source_fields", "empty_policy": "align_skeleton_then_hide_absent_endpoint"},

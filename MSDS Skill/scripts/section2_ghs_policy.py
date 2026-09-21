@@ -155,6 +155,71 @@ def format_label_elements(
     return "\n".join(parts)
 
 
+def normalize_non_hazard_category(value: object) -> str:
+    """Use the maintained conclusion when the source has no GHS class."""
+    text = str(value or "").strip()
+    return "根据 GHS 不属于危险物" if not text or text == "无" else text
+
+
+def normalize_pictogram_value(value: object) -> str:
+    """Keep the fixed pictogram slot explicit when no pictogram is present."""
+    text = str(value or "").strip()
+    return "无象形图" if not text or text == "无" else text
+
+
+def normalize_s2_projected_rows(rows) -> list:
+    """Apply local S2 value rules to both drafted and manually approved facts."""
+    normalized = []
+    for row in list(rows or []):
+        item = list(row) if isinstance(row, (list, tuple)) else [row]
+        label = str(item[0] or "") if item else ""
+        if len(item) > 1 and "GHS危险性类别" in label:
+            item[1] = normalize_non_hazard_category(item[1])
+        elif len(item) > 1 and "GHS象形图" in label:
+            item[1] = normalize_pictogram_value(item[1])
+        normalized.append(item)
+    return normalized
+
+
+def apply_precautionary_layout(document) -> dict:
+    """Render S2.5 with standalone headings and 18pt-indented detail lines."""
+    table = document.tables[1]
+    heading_re = re.compile(
+        r"^(?:预防措施|事故响应|安全储存|安全存储|废弃处置|"
+        r"Prevention|Response|Storage|Disposal)[：:]?$", re.I
+    )
+    for row in list(table.rows)[1:]:
+        cells = unique_cells(row)
+        if len(cells) < 2:
+            continue
+        label = cells[0].text
+        if "防范说明" not in label and "Precautionary" not in label:
+            continue
+        cell = cells[-1]
+        lines = [line.strip() for line in cell.text.replace("\r", "").split("\n") if line.strip()]
+        if not lines:
+            return {"changed": False}
+        _write_precautionary_paragraph(cell.paragraphs[0], lines[0], left_pt=0)
+        for paragraph in list(cell.paragraphs[1:]):
+            paragraph._element.getparent().remove(paragraph._element)
+        for line in lines[1:]:
+            paragraph = cell.add_paragraph()
+            _write_precautionary_paragraph(
+                paragraph, line, left_pt=0 if heading_re.match(line) else 18
+            )
+        return {"changed": True, "paragraph_count": len(lines)}
+    return {"changed": False}
+
+
+def _write_precautionary_paragraph(paragraph, text: str, *, left_pt: float) -> None:
+    paragraph.text = text
+    paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    paragraph.paragraph_format.left_indent = Pt(left_pt)
+    paragraph.paragraph_format.first_line_indent = None
+    for run in paragraph.runs:
+        run.font.bold = False
+
+
 def row_has_visual_content(row) -> bool:
     """Return true when a row contains an embedded drawing/picture."""
     for cell in row.cells:
@@ -365,9 +430,9 @@ def project_source_cn_facts(s2: dict) -> tuple[list[list[str]], dict[int, int]]:
 
     return ([
         ["2.1 紧急情况概述", ""],
-        ["2.2 GHS危险性类别：", first("ghs_classes")],
+        ["2.2 GHS危险性类别：", normalize_non_hazard_category(first("ghs_classes"))],
         ["2.3 GHS标签要素：", label_elements],
-        [" GHS象形图", ""],
+        [" GHS象形图", normalize_pictogram_value(s2.get("pictogram"))],
         ["2.4 信号词：", str(s2.get("signal") or "").strip()],
         ["2.5 危险性说明：", "\n".join(str(x).strip() for x in (s2.get("h_statements") or []) if str(x).strip())],
         ["2.6 防范说明：", precautionary_value],
@@ -548,6 +613,9 @@ def suppress_missing_section2_rows_and_renumber(document, set_paragraph_text,
 
 __all__ = [
     "format_label_elements",
+    "normalize_non_hazard_category", "normalize_pictogram_value",
+    "normalize_s2_projected_rows",
+    "apply_precautionary_layout",
     "project_source_cn_facts",
     "row_has_visual_content",
     "is_missing_section2_value",

@@ -1510,7 +1510,18 @@ def compare_format_anchors(template, output, *, language: str = "cn",
                         # a writable value is removal of bold.  Font, size,
                         # color, language, spacing and all cell/paragraph
                         # layout must still inherit the fresh template.
-                        if _format_anchor_value_layout(expected_cell) != _format_anchor_value_layout(actual_cell):
+                        expected_layout = _format_anchor_value_layout(expected_cell)
+                        actual_layout = _format_anchor_value_layout(actual_cell)
+                        # S2.5 deliberately expands one value into heading and
+                        # detail paragraphs; its cell geometry remains locked,
+                        # while paragraph indentation is the local rule.
+                        if table_index == 1 and (
+                            "防范说明" in output_cells[0].text
+                            or "Precautionary" in output_cells[0].text
+                        ):
+                            expected_layout = (expected_layout[0], "", expected_layout[2])
+                            actual_layout = (actual_layout[0], "", actual_layout[2])
+                        if expected_layout != actual_layout:
                             cell_formats_match = False
                             break
                     elif _format_anchor(expected_cell) != _format_anchor(actual_cell):

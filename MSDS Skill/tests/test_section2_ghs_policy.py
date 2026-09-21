@@ -10,6 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 from ghs_pictogram_policy import insert_source_pictogram
 from section2_ghs_policy import (
+    apply_precautionary_layout,
     format_label_elements,
     is_missing_section2_value,
     is_explicit_other_hazards_row,
@@ -17,6 +18,8 @@ from section2_ghs_policy import (
     project_source_cn_facts,
     project_source_cn_headings,
     suppress_missing_section2_rows_and_renumber,
+    normalize_non_hazard_category,
+    normalize_pictogram_value,
 )
 from template_mutation_whitelist import (
     TemplateSlotRegistry,
@@ -31,6 +34,27 @@ ROOT = Path(__file__).resolve().parents[1]
 def test_label_elements_are_explicit_and_line_separated():
     assert format_label_elements("zh", ["亲水脂肪族聚异氰酸酯"]) == "必须列在标签上的有害成分：\n亲水脂肪族聚异氰酸酯"
     assert format_label_elements("en", ["Hydrophilic aliphatic polyisocyanate"]) == "Hazardous ingredients required to be listed on the label:\nHydrophilic aliphatic polyisocyanate"
+
+
+def test_non_hazard_and_pictogram_values_use_approved_customer_text():
+    assert normalize_non_hazard_category("无") == "根据 GHS 不属于危险物"
+    assert normalize_non_hazard_category("") == "根据 GHS 不属于危险物"
+    assert normalize_non_hazard_category("类别 3") == "类别 3"
+    assert normalize_pictogram_value("无") == "无象形图"
+    assert normalize_pictogram_value("") == "无象形图"
+
+
+def test_precautionary_layout_splits_headings_and_indents_details():
+    document = Document(ROOT / "examples" / "template_reference.docx")
+    row = document.tables[1].rows[7]
+    row.cells[-1].text = "预防措施：\n第一条。\n第二条。\n事故响应：\n第三条。"
+    result = apply_precautionary_layout(document)
+    paragraphs = document.tables[1].rows[7].cells[-1].paragraphs
+    assert result["changed"] is True
+    assert [p.text for p in paragraphs] == ["预防措施：", "第一条。", "第二条。", "事故响应：", "第三条。"]
+    assert paragraphs[0].paragraph_format.left_indent == 0
+    assert paragraphs[1].paragraph_format.left_indent.pt == 18
+    assert paragraphs[3].paragraph_format.left_indent == 0
 
 
 def test_label_elements_without_ingredients_leave_empty_value_for_suppression():

@@ -149,10 +149,18 @@ def align_s8_rows(rows, language: str = "zh") -> list[list[str]]:
             if label or value:
                 raise ValueError(f"unmapped Section 8 PPE row: {label!r}")
             continue
+        # A source often leaves a stale prose tail after the hand-protection
+        # label while the actual value cell is empty.  That tail is not a
+        # hand-protection fact and must not duplicate respiratory protection.
+        if key == "hand" and not value:
+            split_value = ""
         if key in records and records[key] and split_value:
             records[key] = f"{records[key]}\n{split_value}".strip()
         else:
             records[key] = split_value
+
+    if records.get("hand") and records.get("hand") == records.get("respiratory"):
+        records["hand"] = ""
 
     heading = "8.1 暴露控制：" if language == "zh" else "8.1 Exposure controls:"
     engineering = "8.2 工程控制：" if language == "zh" else "8.2 Engineering controls:"

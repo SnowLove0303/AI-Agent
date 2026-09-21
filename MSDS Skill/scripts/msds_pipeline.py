@@ -60,7 +60,9 @@ from ghs_pictogram_policy import extract_first_embedded_image, insert_source_pic
 from normalize_en_layout import normalize_en_document  # noqa: E402
 from output_matrix import output_names  # noqa: E402
 from section2_ghs_policy import (  # noqa: E402
+    apply_precautionary_layout,
     is_missing_section2_value,
+    normalize_s2_projected_rows,
     validate_s2_semantics,
     row_has_visual_content,
     suppress_missing_section2_rows_and_renumber,
@@ -457,6 +459,8 @@ def plan_body_write(doc, facts: dict, language: str) -> tuple[list[SectionWriteP
     for sec in range(1, 17):
         table = doc.tables[sec - 1]
         source_rows = sanitize_section_payload(sec, facts.get(f"s{sec}") or [])
+        if sec == 2:
+            source_rows = normalize_s2_projected_rows(source_rows)
         if sec == 8:
             # Keep all PPE slots in template order until after values are
             # written.  The source-presence pass may then remove empty rows,
@@ -885,6 +889,7 @@ def build_one(*, template_cn: Path, template_en: Path, template_en_source: Path,
         with _timed(timing_recorder, "post_overwrite_fine_tuning",
                     language=language, brand=brand):
             fine_tuning = apply_post_overwrite_fine_tuning(doc, policy_facts)
+            s2_layout_policy = apply_precautionary_layout(doc)
             body_audit.update(fine_tuning["source_presence_policy"])
             s11_layout_policy = normalize_s11_layout(
                 doc, policy_facts.get("s11") or []
@@ -951,6 +956,7 @@ def build_one(*, template_cn: Path, template_en: Path, template_en_source: Path,
                             "rows": [len(table.rows) for table in doc.tables],
                             "s3_component_rows": len(lang_facts["s3"]) - 3},
         "section2_policy": s2_policy,
+        "section2_layout_policy": s2_layout_policy,
         "section2_heading_policy": {"changed": [], "locked": True},
         "pictogram": pictogram_audit,
         "section9_policy": s9_policy,

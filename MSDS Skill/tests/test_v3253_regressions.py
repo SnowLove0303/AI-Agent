@@ -218,12 +218,28 @@ def test_section8_source_boundary_is_reviewed_and_output_label_uses_baseline_dif
     template = Document(str(ROOT / "examples" / "template_reference.docx"))
     output = Document(str(ROOT / "examples" / "template_reference.docx"))
     assert compare_locked_skeleton(template, output) == []
+
+
+def test_section8_hand_tail_is_not_promoted_to_a_value():
+    document = Document()
+    table = document.add_table(rows=1, cols=2)
+    _add_two_cell_row(table, "8.1 暴露控制：")
+    _add_two_cell_row(table, "呼吸系统防护：", "喷涂过程中要求有呼吸防护设备。")
+    _add_two_cell_row(table, "手部防护：\t喷涂过程中要求有呼吸防护设备。", "")
+    ext = Extraction()
+    rows, _ = extract_s8(table, ext)
+    aligned = {row[0]: row[1] for row in align_s8_rows(rows)[1:-1]}
+    assert aligned["呼吸系统防护："] == "喷涂过程中要求有呼吸防护设备。"
+    assert aligned["手部防护："] == ""
+
+
+def test_section8_source_boundary_is_locked_against_label_contamination():
+    template = Document(str(ROOT / "examples" / "template_reference.docx"))
+    output = Document(str(ROOT / "examples" / "template_reference.docx"))
     label_cell = unique_cells(output.tables[7].rows[3])[0]
     label_cell.paragraphs[0].add_run("\t不应写入标签单元格的值")
     errors = compare_locked_skeleton(template, output)
     assert any("locked" in error and "text changed" in error for error in errors)
-
-
 def test_section2_sanitizer_keeps_sparse_slots_until_semantic_omission():
     rows = [["2.1 \u7d27\u6025\u60c5\u51b5\u6982\u8ff0", ""],
             ["2.2 GHS\u5371\u9669\u6027\u7c7b\u522b\uff1a", "\u672a\u88ab\u5206\u7c7b"]]
