@@ -1,5 +1,19 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.27.9 — 2026-09-22
+
+- Made Section 2.1 classification output line-based: every explicit GHS
+  classification/H-code pair occupies one logical line while the pair itself
+  stays intact.
+- Split packed Section 2.5 H-statements and Section 2.6 P-statements at
+  semantic code boundaries before writing values.
+- Kept Section 2.3 GHS label elements as `title + explanation`; specific
+  concentration limits remain attached to the explanation instead of becoming
+  a standalone line.
+- Added evidence-bound typo correction for the PA-4902 source typo
+  `依然液体` + `H226` → `易燃液体` + `H226`; unrelated text is never passed
+  through a general spell-check rewrite.
+
 ## v3.27.8 — 2026-09-21
 
 - Split flattened Section 2.2 special-substance thresholds into logical lines

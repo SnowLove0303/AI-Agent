@@ -25,7 +25,12 @@ from docx.oxml import OxmlElement
 from docx.shared import Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 
-from section2_hp_policy import is_missing_data_value, render_precautionary_groups
+from section2_hp_policy import (
+    is_missing_data_value,
+    render_precautionary_groups,
+    split_h_statements,
+    split_p_statements,
+)
 from template_mutation_whitelist import composite_value_text, is_s28_row, unique_cells
 
 try:
@@ -135,8 +140,16 @@ _LABEL_ELEMENTS_CLASSIFICATION_RE = re.compile(
     re.I,
 )
 _ATTENTION_NOTE_RE = re.compile(
-    r"(?:请注意以下物质|attention\s+substance|neutralized|中和剂|已键合为盐)",
+    r"(?:请注意以下物质|attention\s+substance|please\s+note\s+the\s+following\s+substance|neutralized|中和剂|已键合为盐)",
     re.I,
+)
+
+# Keep typo correction narrow and evidence-bound.  ``依然液体`` is a known
+# source typo for the GHS H226 class ``易燃液体``; it is corrected only when
+# the same logical classification line carries H226, never by free-text
+# spell-checking across an unrelated MSDS field.
+_REVIEWED_GHS_TYPO_FIXES = (
+    (re.compile(r"依然液体(?=\s*\d?\s*H226\b)", re.I), "易燃液体"),
 )
 
 
@@ -150,6 +163,37 @@ def has_component_ghs_context(rows) -> bool:
     return bool(_COMPONENT_GHS_CLASSIFICATION_RE.search(corpus))
 
 
+def split_ghs_classification_lines(value: object) -> list[str]:
+    """Split packed GHS class entries at explicit logical separators.
+
+    Classification names and H-codes stay on the same line.  This differs
+    from H-statement splitting, which has the code at the start of a sentence.
+    """
+    text = str(value or "").replace("\r", "").strip()
+    if not text:
+        return []
+    lines: list[str] = []
+    for raw in text.split("\n"):
+        raw = re.sub(r"[\t\u3000]+", " ", raw).strip()
+        if not raw:
+            continue
+        # Semicolons are the stable separator used by both CN and EN GHS
+        # class lists.  Preserve the class/H-code pair as one logical line.
+        parts = re.split(r"\s*[；;]\s*", raw)
+        lines.extend(part.strip() for part in parts if part.strip())
+    return lines
+
+
+def normalize_ghs_classification_text(value: object) -> str:
+    """Return line-separated GHS classifications with reviewed typo fixes."""
+    normalized: list[str] = []
+    for line in split_ghs_classification_lines(value):
+        for pattern, replacement in _REVIEWED_GHS_TYPO_FIXES:
+            line = pattern.sub(replacement, line)
+        normalized.append(line)
+    return "\n".join(normalized)
+
+
 def sanitize_label_elements_text(value: object) -> str:
     """Keep only the special-substance note in the S2 label-elements slot."""
     text = str(value or "").replace("\r", "").strip()
@@ -160,18 +204,8 @@ def sanitize_label_elements_text(value: object) -> str:
     # structural cue, so restore the logical line break before filtering any
     # classification evidence.
     text = re.sub(
-        r"(请注意以下物质|attention\s+substance)\s*[：:]\s*[，,]?\s*",
+        r"(请注意以下物质|attention\s+substance|please\s+note\s+the\s+following\s+substance)\s*[：:]\s*[，,]?\s*",
         lambda match: match.group(1) + ("：" if match.group(1) == "请注意以下物质" else ":") + "\n",
-        text,
-        count=1,
-        flags=re.I,
-    )
-    # A flattened source often joins the special-substance note and its
-    # threshold with a comma.  The threshold is a separate logical line in
-    # the maintained skeleton; remove only that separator, not source prose.
-    text = re.sub(
-        r"[，,]\s*(?=(?:特定阈值浓度|specific\s+concentration\s+limit))",
-        "\n",
         text,
         count=1,
         flags=re.I,
@@ -184,6 +218,20 @@ def sanitize_label_elements_text(value: object) -> str:
         if _LABEL_ELEMENTS_CLASSIFICATION_RE.search(line):
             continue
         kept.append(line)
+    # The label-elements value is normally exactly two logical lines:
+    # heading + explanation.  A threshold is part of that explanation, not a
+    # third standalone statement.  Rejoin only a threshold line so other
+    # source-backed sentence boundaries remain untouched.
+    for index in range(1, len(kept)):
+        if re.match(r"^(?:特定阈值浓度|specific\s+concentration\s+limit)", kept[index], re.I):
+            previous = kept[index - 1].rstrip()
+            if previous.endswith(("，", ",", "；", ";", ":", "：")):
+                separator = ""
+            else:
+                separator = "，" if re.search(r"[\u4e00-\u9fff]", previous) else ", "
+            kept[index - 1] = previous + separator + kept[index]
+            del kept[index]
+            break
     return "\n".join(kept).strip()
 
 
@@ -227,7 +275,7 @@ def normalize_non_hazard_category(value: object, *, component_ghs_context: bool 
     # already owns that label; retain only the source conclusion (including an
     # explicit ``无``) so it cannot be mistaken for a missing slot.
     text = re.sub(
-        r"^\s*GHS\s*(?:危险性)?\s*(?:类别|分类)\s*[:：]\s*",
+        r"^\s*GHS\s*(?:(?:危险性)?\s*(?:类别|分类)|hazard\s+classification|classification)\s*[:：]?\s*",
         "",
         text,
         count=1,
@@ -251,11 +299,21 @@ def normalize_s2_projected_rows(rows, s3_rows=None) -> list:
     for row in list(rows or []):
         item = list(row) if isinstance(row, (list, tuple)) else [row]
         label = str(item[0] or "") if item else ""
-        if len(item) > 1 and "GHS危险性类别" in label:
-            item[1] = normalize_non_hazard_category(
-                item[1], component_ghs_context=component_ghs_context
+        if len(item) > 1 and re.search(
+            r"GHS\s*(?:危险性)?\s*(?:类别|分类)|GHS\s+(?:hazard\s+)?classification",
+            label,
+            re.I,
+        ):
+            item[1] = normalize_ghs_classification_text(
+                normalize_non_hazard_category(
+                    item[1], component_ghs_context=component_ghs_context
+                )
             )
-        elif len(item) > 1 and "GHS标签要素" in label:
+        elif len(item) > 1 and re.search(
+            r"GHS标签要素|GHS\s+label\s+elements",
+            label,
+            re.I,
+        ):
             item[1] = sanitize_label_elements_text(item[1])
         elif len(item) > 1 and "GHS象形图" in label:
             item[1] = normalize_pictogram_value(item[1])
@@ -281,6 +339,18 @@ def normalize_s2_projected_rows(rows, s3_rows=None) -> list:
                     count=1,
                     flags=re.I,
                 ).strip()
+            if re.search(r"2\.5\s*危险性说明|hazard\s+statement", label, re.I):
+                item[1] = "\n".join(
+                    part for value in str(item[1] or "").splitlines()
+                    for part in split_h_statements(value) or [value.strip()]
+                    if part.strip()
+                )
+            elif re.search(r"2\.6\s*防范说明|precautionary\s+statement", label, re.I):
+                item[1] = "\n".join(
+                    part for value in str(item[1] or "").splitlines()
+                    for part in split_p_statements(value) or [value.strip()]
+                    if part.strip()
+                )
         normalized.append(item)
     return normalized
 
@@ -551,14 +621,26 @@ def project_source_cn_facts(s2: dict, s3_rows=None) -> tuple[list[list[str]], di
 
     return ([
         ["2.1 紧急情况概述", ""],
-        ["2.2 GHS危险性类别：", normalize_non_hazard_category(
-            first("ghs_classes"), component_ghs_context=component_ghs_context
+        ["2.2 GHS危险性类别：", normalize_ghs_classification_text(
+            normalize_non_hazard_category(
+                first("ghs_classes"), component_ghs_context=component_ghs_context
+            )
         )],
         ["2.3 GHS标签要素：", label_elements],
         [" GHS象形图", normalize_pictogram_value(s2.get("pictogram"))],
         ["2.4 信号词：", str(s2.get("signal") or "").strip()],
-        ["2.5 危险性说明：", "\n".join(str(x).strip() for x in (s2.get("h_statements") or []) if str(x).strip())],
-        ["2.6 防范说明：", precautionary_value],
+        ["2.5 危险性说明：", "\n".join(
+            statement
+            for value in (s2.get("h_statements") or [])
+            for statement in split_h_statements(value) or [str(value).strip()]
+            if statement.strip()
+        )],
+        ["2.6 防范说明：", "\n".join(
+            statement
+            for value in precautionary_value.splitlines()
+            for statement in split_p_statements(value) or [str(value).strip()]
+            if statement.strip()
+        )],
         ["2.7 物理和化学危险：", ""],
         [route_label("inhalation"), health_route("inhalation")],
         [route_label("ingestion"), health_route("ingestion")],
@@ -736,7 +818,8 @@ def suppress_missing_section2_rows_and_renumber(document, set_paragraph_text,
 
 __all__ = [
     "format_label_elements",
-    "has_component_ghs_context", "sanitize_label_elements_text",
+    "has_component_ghs_context", "split_ghs_classification_lines",
+    "normalize_ghs_classification_text", "sanitize_label_elements_text",
     "normalize_non_hazard_category", "normalize_pictogram_value",
     "normalize_s2_projected_rows",
     "apply_precautionary_layout",

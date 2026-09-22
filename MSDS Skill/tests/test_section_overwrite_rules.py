@@ -15,6 +15,8 @@ from msds_pipeline import (  # noqa: E402
 )
 from section2_ghs_policy import (  # noqa: E402
     normalize_non_hazard_category,
+    normalize_ghs_classification_text,
+    normalize_s2_projected_rows,
     sanitize_label_elements_text,
 )
 from section_overwrite_rules import (  # noqa: E402
@@ -70,8 +72,38 @@ def test_section_11_2_three_column_middle_label_is_not_a_value():
 def test_section2_keeps_explicit_category_and_line_breaks_special_note():
     assert normalize_non_hazard_category("GHS危险性类别: 无") == "无"
     assert sanitize_label_elements_text("请注意以下物质：，N,N-二甲基乙醇胺\n特定阈值浓度≥5%") == (
-        "请注意以下物质：\nN,N-二甲基乙醇胺\n特定阈值浓度≥5%"
+        "请注意以下物质：\nN,N-二甲基乙醇胺，特定阈值浓度≥5%"
     )
+
+
+def test_section2_classification_keeps_h_code_with_class_and_corrects_reviewed_typo():
+    assert normalize_ghs_classification_text(
+        "依然液体3 H226；急性毒性4 吸入性 H332；皮肤腐蚀1B H314"
+    ) == (
+        "易燃液体3 H226\n急性毒性4 吸入性 H332\n皮肤腐蚀1B H314"
+    )
+
+
+def test_section2_h_and_p_values_split_before_the_guarded_writer():
+    rows = normalize_s2_projected_rows([
+        ["2.5 危险性说明：", "H226 易燃液体。 H332 吸入有害。"],
+        ["2.6 防范说明：", "预防措施： P280 戴防护手套。 P270 操作时不得进食。"],
+    ])
+    assert rows == [
+        ["2.5 危险性说明：", "H226 易燃液体。\nH332 吸入有害。"],
+        ["2.6 防范说明：", "预防措施：\nP280 戴防护手套。\nP270 操作时不得进食。"],
+    ]
+
+
+def test_section2_english_classification_uses_the_same_line_policy():
+    rows = normalize_s2_projected_rows([
+        ["2.2 GHS classification", "Flammable liquid 3 H226; Skin corrosion 1B H314"],
+        ["2.3 GHS label elements", "Please note the following substance:\nN,N-dimethylethanolamine\nspecific concentration limit >=5%"],
+    ])
+    assert rows == [
+        ["2.2 GHS classification", "Flammable liquid 3 H226\nSkin corrosion 1B H314"],
+        ["2.3 GHS label elements", "Please note the following substance:\nN,N-dimethylethanolamine, specific concentration limit >=5%"],
+    ]
 
 
 def test_section9_matches_properties_by_label_not_source_position():

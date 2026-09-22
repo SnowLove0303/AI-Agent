@@ -285,12 +285,11 @@ def test_component_ghs_evidence_does_not_overwrite_product_category_or_label_not
     assert rows[1][1] == "无"
     assert rows[2][1] == (
         "请注意以下物质：\n"
-        "N,N-二甲基乙醇胺，中和剂，已键合为盐，质量浓度小于 1.0%\n"
-        "特定阈值浓度≥5%"
+        "N,N-二甲基乙醇胺，中和剂，已键合为盐，质量浓度小于 1.0%，特定阈值浓度≥5%"
     )
     assert sanitize_label_elements_text(
         "请注意以下物质：，N,N-二甲基乙醇胺，质量浓度小于1.0%，特定阈值浓度≥5%"
-    ) == "请注意以下物质：\nN,N-二甲基乙醇胺，质量浓度小于1.0%\n特定阈值浓度≥5%"
+    ) == "请注意以下物质：\nN,N-二甲基乙醇胺，质量浓度小于1.0%，特定阈值浓度≥5%"
     assert "GHS 分类" not in rows[2][1]
     assert validate_s2_semantics(rows, "zh", s3_rows) == []
 

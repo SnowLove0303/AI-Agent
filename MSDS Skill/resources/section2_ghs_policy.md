@@ -20,7 +20,23 @@ Hydrophilic aliphatic polyisocyanate
 
 The source heading `2.2 标签要素` selects the maintained template's `2.3 GHS标签要素` value slot. It is not a signal-word field. Keep the label-ingredient explanation in this slot, and keep the separate `2.4 信号词` value limited to the explicit source signal word `危险` / `警告` or `Danger` / `Warning`. Never move `必须列在标签上的有害成分` or its ingredient into the signal-word slot.
 
+The normal label-elements shape is exactly two logical lines: the attention
+heading, followed by the explanation. A specific concentration limit belongs
+to the explanation line and must not be emitted as a standalone third line.
+
+When Section 2 reports no product-level classification but a reviewed Section
+3 component fact contains an explicit GHS classification/H-code, route that
+fact into Section 2.1. Keep every classification/H-code pair on its own line.
+For known source typos, correct only when the same fact supplies the governing
+H-code; for example, `依然液体` + `H226` is corrected to `易燃液体` + `H226`.
+Do not run an unconstrained spell-check over MSDS values.
+
 Do not write `见2.4-2.6`, `See 2.4-2.6`, or any other customer-facing cross-reference. Signal word, hazard statements and precautionary statements remain in their own visible rows.
+
+Section 2.5 H/EUH statements and Section 2.6 P statements are logical-line
+values: each coded statement occupies its own line, while the controlled
+group heading remains a separate first-level line and detail lines use the
+template's hanging indentation.
 
 ## Pictograms
 
