@@ -11,7 +11,12 @@ from __future__ import annotations
 
 import re
 
-from template_mutation_whitelist import normalize_value_text, set_sequence_prefix, unique_cells
+from template_mutation_whitelist import (
+    normalize_template_value_heading,
+    normalize_value_text,
+    set_sequence_prefix,
+    unique_cells,
+)
 
 
 class Section11AlignmentError(ValueError):
@@ -164,58 +169,6 @@ def _template_key(row) -> tuple:
     return ("endpoint", endpoint, None)
 
 
-def _strip_owned_prefix(value: str, patterns: tuple[str, ...], *, route: bool = False) -> str:
-    """Remove one template-owned heading from the start of a source value."""
-    if not value.strip() or not patterns:
-        return value
-    aliases = "|".join(f"(?:{pattern})" for pattern in patterns)
-    suffix = r"\s*(?:[:：]\s*|(?=[（(]))" if route else r"\s*[:：]\s*"
-    return re.sub(
-        rf"^\s*(?:{aliases}){suffix}",
-        "",
-        value,
-        count=1,
-        flags=re.IGNORECASE,
-    )
-
-
-def _strip_template_owned_headings(label: object, sublabel: object, value: object) -> str:
-    """Remove only endpoint/route headings already owned by the template."""
-    text = str(value or "")
-    endpoint = _endpoint_number(label)
-    if endpoint is None:
-        return normalize_value_text(text)
-    endpoint_patterns = {
-        1: (r"急性\s*毒性", r"毒性", r"acute\s+toxicity", r"toxicity"),
-        2: (r"主要\s*皮肤刺激性", r"皮肤刺激性", r"刺激性",
-            r"primary\s+skin\s+irritation", r"skin\s+irritation", r"irritation"),
-        3: (r"主要\s*(?:眼睛|粘膜)刺激性", r"眼睛刺激性", r"粘膜刺激性", r"刺激性",
-            r"primary\s+(?:eye|mucous\s+membrane)\s+irritation",
-            r"eye\s+irritation", r"irritation"),
-        4: (r"致敏性", r"sensitization"),
-        5: (r"致突变性", r"突变性", r"mutagenicity", r"genotoxicity"),
-        6: (r"致癌性", r"carcinogenicity"),
-        7: (r"生殖毒性", r"毒性", r"reproductive\s+toxicity", r"toxicity"),
-        8: (r"特异性靶器官(?:系统)?毒性", r"毒性",
-            r"specific\s+target\s+organ(?:\s+system)?\s+toxicity", r"toxicity"),
-        9: (r"吸入危险", r"aspiration\s+hazard"),
-        10: (r"附加信息", r"其他信息", r"additional\s+information"),
-    }.get(endpoint, ())
-    text = _strip_owned_prefix(text, endpoint_patterns)
-    if str(sublabel or "").strip() and endpoint in {1, 7}:
-        child_patterns = {
-            "oral": (r"经口", r"口服", r"oral"),
-            "inhalation": (r"吸入", r"吸入性", r"inhalation"),
-            "dermal": (r"经皮", r"皮肤", r"dermal"),
-            "fertility": (r"生育力", r"fertility"),
-            "teratogenicity": (r"致畸形", r"致畸", r"胚胎", r"teratogenicity"),
-            "in_vitro_genotoxicity": (r"体外遗传毒性", r"体外基因毒性", r"in\s+vitro\s+genotoxicity"),
-        }
-        child_key = _route(sublabel) or _child(sublabel)
-        text = _strip_owned_prefix(text, child_patterns.get(child_key, ()), route=True)
-    return normalize_value_text(text)
-
-
 def _normalized_row(row: list | tuple, target_cells: list) -> list:
     """Fit a source row to the target row shape without changing labels."""
     source = [str(value or "") for value in row]
@@ -223,9 +176,9 @@ def _normalized_row(row: list | tuple, target_cells: list) -> list:
         return [normalize_value_text("\n".join(source))]
     if len(target_cells) == 3:
         sublabel = target_cells[1].text
-        value = _strip_template_owned_headings(target_cells[0].text, sublabel, source[-1])
+        value = normalize_template_value_heading(target_cells[0].text, source[-1], sublabel)
         return [source[0], sublabel if not source[1].strip() else source[1], value]
-    return [source[0], _strip_template_owned_headings(target_cells[0].text, "", source[-1])]
+    return [source[0], normalize_template_value_heading(target_cells[0].text, source[-1])]
 
 
 def align_s11_rows(values, table) -> list:

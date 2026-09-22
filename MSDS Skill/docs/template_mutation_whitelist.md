@@ -65,6 +65,12 @@ Recommendation` value is an explicit source-gated input slot: a reviewed,
 substantive source recommendation may be written in its non-bold value cell;
 when the source is absent, the value remains blank and is recorded in the
 source-presence audit rather than receiving invented text.
+Every ordinary writable value also passes through the global heading-ownership
+guard. If the value begins with the surviving row label, or with a reviewed
+bilingual alias of that label, that repeated heading is removed before the
+value is written. Structured rows additionally compare their locked sublabel.
+Only the leading heading plus its delimiter is eligible; the remainder of the
+source statement is not paraphrased or normalized away.
 Global value typography is also a hard boundary: every non-empty writable
 value must be non-bold. The value may inherit its template anchor's font,
 size, color, language, spacing and other character properties, but direct

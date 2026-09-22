@@ -1,5 +1,14 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.27.13 — 2026-09-22
+
+- Promoted template-label/value de-duplication to the shared guarded value
+  writer instead of limiting it to Section 11.
+- Added exact and reviewed bilingual heading aliases for ordinary fields while
+  preserving all non-heading source text.
+- Added a global writer regression for a Section 4 field and retained the
+  Section 11.1 Chinese/English regression coverage.
+
 ## v3.27.12 — 2026-09-22
 
 - Fixed Section 11.1 structured values that repeated the locked endpoint and

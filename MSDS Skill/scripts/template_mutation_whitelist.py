@@ -720,6 +720,64 @@ def _single_column_payload(values: Sequence[object]) -> str:
     return tail or label
 
 
+def _heading_pattern(heading: str) -> str:
+    compact = re.sub(r"\s+", "", str(heading or "").strip(" ：:"))
+    return r"\s*" + r"\s*".join(re.escape(char) for char in compact)
+
+
+def _strip_leading_heading(value: str, headings: Sequence[str], *, route: bool = False) -> str:
+    suffix = r"\s*(?:[:：]\s*|(?=[（(]))" if route else r"\s*[:：]\s*"
+    for heading in sorted((str(item) for item in headings if str(item).strip()), key=len, reverse=True):
+        value = re.sub(
+            rf"^\s*(?:{_heading_pattern(heading)}){suffix}",
+            "",
+            value,
+            count=1,
+            flags=re.IGNORECASE,
+        )
+    return value
+
+
+def normalize_template_value_heading(label: object, value: object,
+                                     sublabel: object = "") -> str:
+    """Drop only headings already owned by the destination template row."""
+    text = normalize_value_text(str(value or ""))
+    label_text = re.sub(r"^\s*\d+(?:\.\d+)?\s*", "", str(label or ""))
+    label_text = label_text.strip(" ：:")
+    compact = re.sub(r"\s+", "", label_text).casefold()
+    aliases = {
+        "急性毒性": ("毒性", "acute toxicity", "toxicity"),
+        "acutetoxicity": ("毒性", "acute toxicity", "toxicity"),
+        "主要皮肤刺激性": ("刺激性", "皮肤刺激性", "primary skin irritation", "skin irritation", "irritation"),
+        "primaryskinirritation": ("刺激性", "皮肤刺激性", "primary skin irritation", "skin irritation", "irritation"),
+        "主要眼睛刺激性": ("刺激性", "眼睛刺激性", "primary eye irritation", "eye irritation", "irritation"),
+        "primaryeyeirritation": ("刺激性", "眼睛刺激性", "primary eye irritation", "eye irritation", "irritation"),
+        "生殖毒性": ("毒性", "reproductive toxicity", "toxicity"),
+        "reproductivetoxicity": ("毒性", "reproductive toxicity", "toxicity"),
+        "特异性靶器官系统毒性": ("毒性", "specific target organ system toxicity", "toxicity"),
+        "specifictargetorgantoxicity": ("毒性", "specific target organ toxicity", "toxicity"),
+        "物理和化学危险": ("物理化学危险", "physical and chemical hazards", "physical chemical hazards"),
+        "physicalandchemicalhazards": ("物理化学危险", "physical and chemical hazards", "physical chemical hazards"),
+        "危险性说明": ("危害性说明", "hazard statement", "hazard statements"),
+        "危害性说明": ("危险性说明", "hazard statement", "hazard statements"),
+        "hazardstatement": ("危险性说明", "危害性说明", "hazard statement", "hazard statements"),
+        "防范说明": ("precautionary statement", "precautionary statements"),
+        "precautionarystatement": ("防范说明", "precautionary statement", "precautionary statements"),
+    }
+    text = _strip_leading_heading(text, (label_text, *aliases.get(compact, ())))
+    child = str(sublabel or "").strip(" ：:")
+    if child:
+        child_compact = re.sub(r"\s+", "", child).casefold()
+        route = child_compact in {
+            "经口", "口服", "oral", "吸入", "吸入性", "inhalation",
+            "经皮", "皮肤", "dermal", "生育力", "fertility", "致畸形",
+            "致畸", "胚胎", "teratogenicity", "体外遗传毒性",
+            "体外基因毒性", "invitrogenotoxicity",
+        }
+        text = _strip_leading_heading(text, (child,), route=route)
+    return text
+
+
 def write_row_values(row, values: Sequence[object], *, table_index: int | None = None,
                      row_index: int | None = None,
                      registry: TemplateSlotRegistry | None = None,
@@ -786,7 +844,9 @@ def write_row_values(row, values: Sequence[object], *, table_index: int | None =
                         "table_index": table_index, "row_index": row_index}
             return None
         set_value_cell_text(
-            targets[0], values[-1] if values else "", force_nonbold=True,
+            targets[0], normalize_template_value_heading(
+                cells[0].text, values[-1] if values else "",
+            ), force_nonbold=True,
             language=language,
         )
         return None
@@ -841,8 +901,15 @@ def write_row_values(row, values: Sequence[object], *, table_index: int | None =
     ):
         targets = registry.writable_cells(table_index, row_index, row) if registry else [cells[-1]]
         if targets:
-            set_value_cell_text(targets[-1], values[-1] if values else "", language=language)
+            value = normalize_template_value_heading(
+                cells[0].text, values[-1] if values else "", cells[1].text,
+            )
+            set_value_cell_text(targets[-1], value, language=language)
         return None
+    payload = [
+        normalize_template_value_heading(cells[0].text, value)
+        for value in payload
+    ]
     if registry is not None:
         targets = registry.writable_cells(table_index, row_index, row)
         if not targets:
@@ -2053,6 +2120,7 @@ __all__ = [
     "set_value_cell_text",
     "set_s28_composite_value_cell",
     "set_sequence_prefix",
+    "normalize_template_value_heading",
     "write_row_values",
     "enforce_value_typography",
     "write_s82_top_rows",

@@ -1,6 +1,8 @@
-# MSDS Skill 3.27.12
+# MSDS Skill 3.27.13
 
-V3.27.12 fixes repeated endpoint/route headings in Section 11 values: when the
+V3.27.13 promotes template-label/value de-duplication to the guarded global
+writer, so repeated row headings in ordinary S1-S16 values are removed using
+only exact or reviewed bilingual aliases. V3.27.12 fixes repeated endpoint/route headings in Section 11 values: when the
 template already owns `急性毒性` + `经口` / `Acute toxicity` + `Oral`, only the
 source result tail is written. V3.27.11 installs per-route Section 2
 health-hazard de-duplication and

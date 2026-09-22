@@ -54,6 +54,17 @@ def test_value_write_preserves_locked_label_and_skeleton():
     assert not compare_locked_skeleton(template, output)
 
 
+def test_global_value_writer_removes_duplicate_row_heading_only():
+    output = Document(str(TEMPLATE))
+    row = output.tables[3].rows[1]
+    write_row_values(
+        row,
+        ["4.1 一般措施：", "一般措施：立即脱掉所有被污染的衣物。"],
+        table_index=3, row_index=1,
+    )
+    assert unique_cells(row)[1].text == "立即脱掉所有被污染的衣物。"
+
+
 def test_label_text_change_is_blocked():
     template = Document(str(TEMPLATE))
     output = Document(str(TEMPLATE))
