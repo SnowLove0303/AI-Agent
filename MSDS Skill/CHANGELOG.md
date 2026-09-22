@@ -1,5 +1,13 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.27.12 — 2026-09-22
+
+- Fixed Section 11.1 structured values that repeated the locked endpoint and
+  route headings, such as `毒性：经口：` / `Toxicity: Oral:`.
+- Applied the same conservative endpoint/sublabel de-duplication through the
+  shared Section 11 alignment path while preserving the source result tail.
+- Added Chinese and English regression coverage.
+
 ## v3.27.11 — 2026-09-22
 
 - Changed Section 2 health-hazard de-duplication from a blanket switch to

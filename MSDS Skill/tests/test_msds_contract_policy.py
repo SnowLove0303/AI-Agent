@@ -214,6 +214,30 @@ def test_s11_compressed_facts_are_aligned_by_endpoint_before_rows_are_hidden():
     assert all("\n\n" not in value for _, values in visible for value in values)
 
 
+@pytest.mark.parametrize(
+    ("template_name", "source_row", "expected"),
+    [
+        (
+            "template_reference.docx",
+            ["11.1 急性毒性：", "经口：", "毒性：经口（鼠）LD50：＞5000 mg/kg"],
+            "（鼠）LD50：＞5000 mg/kg",
+        ),
+        (
+            "template_reference_en.docx",
+            ["11.1 Acute toxicity:", "Oral:", "Toxicity: Oral (rat) LD50: >5000 mg/kg"],
+            "(rat) LD50: >5000 mg/kg",
+        ),
+    ],
+)
+def test_s11_value_drops_only_locked_endpoint_and_route_headings(
+    template_name, source_row, expected
+):
+    document = Document(str(ROOT / "examples" / template_name))
+    aligned = align_s11_rows([source_row], document.tables[10])
+    row = next(item for item in aligned if item[0].strip().startswith("11.1"))
+    assert row[-1] == expected
+
+
 def test_write_plan_is_resolved_before_row_mutation():
     document = Document(str(TEMPLATE))
     facts = {f"s{section}": [] for section in range(1, 17)}

@@ -40,10 +40,13 @@ the prefix-only cell. If a separately maintained three-column S2.8 layout is
 encountered, the middle route cell is locked and only the final cell is
 writable.
 
-For Section 11.1 and 11.7 three-column rows, the middle sublabel cell is
-always locked template text. The runtime must align facts to the fixed Section
-11 endpoint skeleton before evaluating source presence or clearing rows; a
-source fact list may not be projected by physical list position. See
+For Section 11.1, 11.2 and 11.7 structured rows, the middle sublabel cell is
+always locked template text when present. The runtime must align facts to the
+fixed Section 11 endpoint skeleton before evaluating source presence or
+clearing rows; a source fact list may not be projected by physical list
+position. If a source value repeats an endpoint or sublabel that the surviving
+template row already owns, only that leading repeated heading is removed; the
+remaining source result is preserved verbatim. See
 `scripts/section11_alignment.py`.
 
 The physical topology is part of the same lock: Section 3 data rows remain

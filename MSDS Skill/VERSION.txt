@@ -1,5 +1,5 @@
 MSDS Unified Eight-Deliverable Standardizer Skill
-3.27.11
+3.27.12
 Per-route Section 2 health-hazard de-duplication and source-preserving route
 extraction installed while
 preserving the shared Section 6 divider rule and Section 11 endpoint/value
