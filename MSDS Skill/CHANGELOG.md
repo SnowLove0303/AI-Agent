@@ -1,5 +1,18 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.27.10 — 2026-09-22
+
+- Installed the user-approved CN/EN formal templates as the new active and
+  source-record baselines; the verified content, 16-section structure and
+  language-specific capacities remain unchanged while table styling is refreshed.
+- Retained the shared Section 6 printable divider rule so the label/value split
+  cannot disappear when the new table style is used.
+- Retained Section 11 endpoint-aware value normalization: when the locked label
+  already states `主要皮肤刺激性`/`Primary skin irritation`, the value contains
+  only the source test result and never a duplicate `刺激性`/`Irritation` prefix.
+- Refreshed template hashes, geometry snapshots and release metadata to
+  fail closed against the new baseline.
+
 ## v3.27.9 — 2026-09-22
 
 - Made Section 2.1 classification output line-based: every explicit GHS

@@ -3,20 +3,22 @@
 ## Authority
 The language-specific files below are the authoritative MSDS templates bundled with this skill:
 
-- CN: `examples/template_reference.docx`
+- CN: `examples/template_reference.docx` (active value-cell typography normalization is applied without changing labels or table style)
 - CN source record: `examples/template_reference_cn_source.docx` (byte-preserved copy of the user-supplied formal template)
 - EN source record: `examples/template_reference_en_source.docx` (byte-preserved copy of the user-supplied formal template)
 - EN active baseline: `examples/template_reference_en.docx` (reviewed maintainer remediation of the preserved user-supplied formal template; geometry and locked structure unchanged)
 Historical rollback copies are not shipped in the active skill package.
 
-Pinned source filenames supplied by the user: `正式模板_MSDS_CN_冠志.docx` for CN and
-`正式模板_MSDS_EN_冠志.docx` for EN.
+Pinned source filenames supplied by the user: `正式模板_MSDS_CN_冠志(1).docx` for CN and
+`正式模板_MSDS_EN_冠志(1).docx` for EN.
 
-CN SHA-256: `b6c52c3d6003d4314e578733c5066dc9541c70ee49957ab56c24dd749ade2d43`
+CN active SHA-256: `8b0b633b527fad0c2311528e6e252fff73ceb8fcd1a39e91169efd0d5dd4df84`
 
-EN source SHA-256: `34a259eed50d2e78b4609c66453fa9baab610a623dcc7ee531db359b1a988497`
+CN source SHA-256: `748f68968c2ddf1d2558d5c6e5879a7b5d76ab1be12fe70fed130f9fe9424b5f`
 
-EN active SHA-256: `49a279aa8c7a50f38ee6929ca2f030cf13b01ee0d1e476d790a2352a316bfa2b` (reviewed active baseline)
+EN source SHA-256: `a5fef82b43f6ad0d32350c3c715ee05f6c41eead2ff90d26efbbbd5784434f3c`
+
+EN active SHA-256: `11e3da3b1eb1b4694f891e8e94f1901f6c000b22af84cca769b268e4925af800` (reviewed active baseline)
 
 ## Structural baseline
 - 16 tables / MSDS sections.
@@ -33,7 +35,7 @@ EN active SHA-256: `49a279aa8c7a50f38ee6929ca2f030cf13b01ee0d1e476d790a2352a316b
 - v3.6.2 border adjustment: Section 8 changes the internal boundaries for the PPE/hand-protection rows to dotted lines and adjusts the surrounding top/bottom boundary edges; Section 11 changes the boundary edges around the introductory/reference-data transition to dotted lines. These are template-owned visual properties and must be retained by fresh-clone generation.
 - v3.6.2 audit finding: table count, row counts, column/grid widths, merges, paragraph properties and character properties are unchanged from v3.6.1; only the approved Section 8/11 cell-border geometry and a non-visible footer table-property extension changed.
 - `tests/template_snapshot.json` and `tests/template_snapshot_en.json` record the active CN/EN table/cell merges, grid and cell widths, paragraph/run properties, and header/footer parts. Historical versioned snapshots are not shipped and are never template authorities.
-- Both language baselines have 16 tables and column counts `2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 1, 1`; their row capacities differ only where the supplied templates differ.
+- Both language baselines have 16 tables and effective unique-cell column counts `2, 2, 3, 2, 2, 2, 2, 4, 2, 2, 3, 2, 2, 2, 1, 1`; their row capacities differ only where the supplied templates differ. Section 8.2 retains a five-column grid with merged cells, while Section 11 exposes its three writable/label columns through merged-cell structure.
 - The current CN and EN source records supplied by the user are preserved as-is. The EN source has nine rows in its first table and its Section 11 sublabels are `Oral:`, `Inhalation:`, `Dermal:`, `Fertility:`, `Teratogenicity:` and `In vitro genotoxicity:`. The active EN remediation also maintains English bold health-hazard route prefixes and ordinary Times New Roman 12 pt value prototypes without changing geometry.
 - Product-like text embedded in either template is example content only; it is never a source of product facts.
 - The active CN and EN formal templates allow their tables to span pages. Their row-level `w:cantSplit` settings are retained as supplied by the current baseline (including the intentional settings in Sections 2, 6 and 11), and repeating section headers remain controlled by `w:tblHeader`. These are template baseline properties, not post-generation layout patches.
@@ -41,7 +43,7 @@ EN active SHA-256: `49a279aa8c7a50f38ee6929ca2f030cf13b01ee0d1e476d790a2352a316b
 ## Replacement procedure
 When the user explicitly designates a new approved template as the new built-in baseline:
 1. Preserve the supplied source file as an unchanged `*_source.docx` record.
-2. Install the supplied language template byte-for-byte as the active baseline; do not normalize it to the other language.
+2. Install the supplied language template as the active baseline; apply only the shared value-cell typography contract to writable value anchors, never to labels or table style.
 3. Update this document's source filenames, SHA-256 values and structural baseline.
 4. Regenerate the corresponding language snapshot(s) with `scripts/snapshot_template_geometry.py`.
 5. Run locked-label / structural audits against each active language baseline.

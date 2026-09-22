@@ -1,6 +1,6 @@
 {
   "source_filename": "template_reference.docx",
-  "source_sha256": "1eb95662289577e4e49f71cff0b0456af11cf9e3e06a6752354f682a4fd76e6b",
+  "source_sha256": "8b0b633b527fad0c2311528e6e252fff73ceb8fcd1a39e91169efd0d5dd4df84",
   "tables": [
     {
       "table": 0,
@@ -212,7 +212,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -281,7 +281,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -386,7 +386,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -535,7 +535,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -604,7 +604,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -673,7 +673,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -742,7 +742,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -907,7 +907,7 @@
               "paragraphs": [
                 {
                   "text": "",
-                  "pPr_hash": "afa4e10ae343ce545952d8f2a6961b772e2934655936948436400d436b9a09fa",
+                  "pPr_hash": "ec719323ddc0983d7d9c9fba4339a2a7437665b9846af8e06f9908f9c30b2841",
                   "runs": []
                 }
               ],
@@ -999,7 +999,7 @@
               "paragraphs": [
                 {
                   "text": "易燃液体，类别4（H227）",
-                  "pPr_hash": "0444a1716c0e124f691fb3205ddfce6b70b10c95b41cbdbc5e3f96db1a83f998",
+                  "pPr_hash": "880e247f88a80205c0a997b8252a88c820a229ad45f15698b3ba1064b90a9773",
                   "runs": [
                     {
                       "text": "易燃液体，类别4（H227）",
@@ -1008,7 +1008,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -1104,7 +1104,7 @@
               "paragraphs": [
                 {
                   "text": "无",
-                  "pPr_hash": "6649afc6b80b3b1314c2bbda4426da80da57fd18f9d2b036832bbecc1a2f3a75",
+                  "pPr_hash": "46ed552aaa0232f4be1f3d4f06f76c2b98e822bfdbae032250bb0c1ab9277f3e",
                   "runs": [
                     {
                       "text": "无",
@@ -1113,7 +1113,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -1185,7 +1185,7 @@
               "paragraphs": [
                 {
                   "text": "无",
-                  "pPr_hash": "24f903c5d9c7ca67d4aef65c017b9765a510f58e6393431aded1e942048f732b",
+                  "pPr_hash": "d2db422cf2021134ff92282b93a5adebe9652e03cbc72764aa5202018d45dfb5",
                   "runs": [
                     {
                       "text": "无",
@@ -1194,7 +1194,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -1290,7 +1290,7 @@
               "paragraphs": [
                 {
                   "text": "警告",
-                  "pPr_hash": "d0539b65e94b92b4749a5cb54a0237ee30a01eefbf2131947bb0d5313a1f6903",
+                  "pPr_hash": "744da1925515ba925f236981210f2b2877e3f1c420f227f9e9c35376493778c3",
                   "runs": [
                     {
                       "text": "警告",
@@ -1299,7 +1299,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -1395,7 +1395,7 @@
               "paragraphs": [
                 {
                   "text": "H316造成轻微皮肤刺激。",
-                  "pPr_hash": "0444a1716c0e124f691fb3205ddfce6b70b10c95b41cbdbc5e3f96db1a83f998",
+                  "pPr_hash": "880e247f88a80205c0a997b8252a88c820a229ad45f15698b3ba1064b90a9773",
                   "runs": [
                     {
                       "text": "H316造成轻微皮肤刺激。",
@@ -1404,7 +1404,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -1509,7 +1509,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -1518,7 +1518,7 @@
                 },
                 {
                   "text": "P210 远离热源、热表面、火花、明火和其他点火源。禁止吸烟。",
-                  "pPr_hash": "0444a1716c0e124f691fb3205ddfce6b70b10c95b41cbdbc5e3f96db1a83f998",
+                  "pPr_hash": "880e247f88a80205c0a997b8252a88c820a229ad45f15698b3ba1064b90a9773",
                   "runs": [
                     {
                       "text": "P210 远离热源、热表面、火花、明火和其他点火源。禁止吸烟。",
@@ -1527,7 +1527,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -1620,7 +1620,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -1701,7 +1701,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -1782,7 +1782,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -1863,7 +1863,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -1944,7 +1944,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -2025,7 +2025,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -2106,7 +2106,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -2118,7 +2118,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -2199,7 +2199,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -2241,7 +2241,7 @@
             {
               "cell": 0,
               "xml_path": "/w:document/w:body/w:tbl[3]/w:tr[1]/w:tc",
-              "tcPr_hash": "e9d92109a198186f40e7765e6f87a9580f6491b9dcf6bcf295efdebaeae2ceac",
+              "tcPr_hash": "096f1a042551070e3772550df7bfb7757435b0391aaf02446b16b716355eaa17",
               "tcW": "9781",
               "tcW_type": "dxa",
               "gridSpan": "3",
@@ -2315,7 +2315,7 @@
             {
               "cell": 0,
               "xml_path": "/w:document/w:body/w:tbl[3]/w:tr[2]/w:tc[1]",
-              "tcPr_hash": "69cd6fedfe124f09bcd2cfc8efacfd7523d31a302b1562aca64c8522238fb456",
+              "tcPr_hash": "7b032c34c0b900fab9255b3aa681abd4cd4ab30bc88798a724bdd704c8f64824",
               "tcW": "3519",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -2346,7 +2346,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[3]/w:tr[2]/w:tc[2]",
-              "tcPr_hash": "9ae68fa18480f6c857fafb02edcc4300c08a50603be041891e0589d25cf64b75",
+              "tcPr_hash": "0586eeef1aa5b65ea92834c6e47d2b5db61e9a0241d25de9c747a65491c5e785",
               "tcW": "6262",
               "tcW_type": "dxa",
               "gridSpan": "2",
@@ -2364,7 +2364,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -2474,7 +2474,7 @@
                       "rPr_hash": "805f031002e025526463158cd9a68912df73460124d8d27f72cbd5217477ccd2",
                       "bold": true,
                       "italic": null,
-                      "underline": "True",
+                      "underline": true,
                       "font": {
                         "name": null,
                         "size_pt": 12.0,
@@ -2505,7 +2505,7 @@
                       "rPr_hash": "ea897edb319d980965cbc7694a3a993c72bbda55b8e02608915e8548189cbcd1",
                       "bold": null,
                       "italic": null,
-                      "underline": "True",
+                      "underline": true,
                       "font": {
                         "name": null,
                         "size_pt": 12.0,
@@ -2517,7 +2517,7 @@
                       "rPr_hash": "3261b59bf3d2913baad34f5df3e80c9e7c48c18b4025618cd29f5d6703a503ec",
                       "bold": null,
                       "italic": null,
-                      "underline": "True",
+                      "underline": true,
                       "font": {
                         "name": null,
                         "size_pt": 12.0,
@@ -2548,7 +2548,7 @@
                       "rPr_hash": "8a552d410b98110212d076cb95da1737733052f54b78089b360c6a6f949d2920",
                       "bold": null,
                       "italic": null,
-                      "underline": "True",
+                      "underline": true,
                       "font": {
                         "name": null,
                         "size_pt": 12.0,
@@ -2560,7 +2560,7 @@
                       "rPr_hash": "ea897edb319d980965cbc7694a3a993c72bbda55b8e02608915e8548189cbcd1",
                       "bold": null,
                       "italic": null,
-                      "underline": "True",
+                      "underline": true,
                       "font": {
                         "name": null,
                         "size_pt": 12.0,
@@ -2572,7 +2572,7 @@
                       "rPr_hash": "e6cc72aef8821cef4f8f88ec8b265ceac8d9bcfa7405b4b3132628f739c9eb87",
                       "bold": null,
                       "italic": null,
-                      "underline": "True",
+                      "underline": true,
                       "font": {
                         "name": null,
                         "size_pt": 12.0,
@@ -2584,7 +2584,7 @@
                       "rPr_hash": "ea897edb319d980965cbc7694a3a993c72bbda55b8e02608915e8548189cbcd1",
                       "bold": null,
                       "italic": null,
-                      "underline": "True",
+                      "underline": true,
                       "font": {
                         "name": null,
                         "size_pt": 12.0,
@@ -2596,7 +2596,7 @@
                       "rPr_hash": "e6cc72aef8821cef4f8f88ec8b265ceac8d9bcfa7405b4b3132628f739c9eb87",
                       "bold": null,
                       "italic": null,
-                      "underline": "True",
+                      "underline": true,
                       "font": {
                         "name": null,
                         "size_pt": 12.0,
@@ -2627,7 +2627,7 @@
               "paragraphs": [
                 {
                   "text": "成分1",
-                  "pPr_hash": "cce63a167965a67a28c22b06962b050e0ab5c682b0b36db5521802690ead7c23",
+                  "pPr_hash": "5afcdebcd0edf6cadead8b88a476aeab0a3ab983a8ab9ef53d0850b16b48ea4e",
                   "runs": [
                     {
                       "text": "成分1",
@@ -2636,7 +2636,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -2667,7 +2667,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -2698,7 +2698,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -2718,7 +2718,7 @@
             {
               "cell": 0,
               "xml_path": "/w:document/w:body/w:tbl[3]/w:tr[6]/w:tc[1]",
-              "tcPr_hash": "69cd6fedfe124f09bcd2cfc8efacfd7523d31a302b1562aca64c8522238fb456",
+              "tcPr_hash": "fe3e099ce6e07545aa19d1e1ae684642b13889e24c5fb0c59e19a25000033d4f",
               "tcW": "3519",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -2727,7 +2727,7 @@
               "paragraphs": [
                 {
                   "text": "成分2",
-                  "pPr_hash": "cce63a167965a67a28c22b06962b050e0ab5c682b0b36db5521802690ead7c23",
+                  "pPr_hash": "5afcdebcd0edf6cadead8b88a476aeab0a3ab983a8ab9ef53d0850b16b48ea4e",
                   "runs": [
                     {
                       "text": "成分2",
@@ -2736,7 +2736,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -2749,7 +2749,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[3]/w:tr[6]/w:tc[2]",
-              "tcPr_hash": "c9d021c7a571f3b2e3523cb0e2a9bfe07ab3dcb9c316dd41a6c4dc29c3828b4f",
+              "tcPr_hash": "a6abfaa10cf052ab88b2f91e0a1a12c6421c5d226b53c3747322023a7aed5790",
               "tcW": "3153",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -2767,7 +2767,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -2780,7 +2780,7 @@
             {
               "cell": 2,
               "xml_path": "/w:document/w:body/w:tbl[3]/w:tr[6]/w:tc[3]",
-              "tcPr_hash": "edcea0a0a20f4836e2689278b8ec86ca5ac8c6f30a9f87f18e8753b26084fc4e",
+              "tcPr_hash": "de7f81f6eae96f45bca8c0616ffd1fc9edf11c5a0f39a55a49f03cf5bbc76beb",
               "tcW": "3109",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -2798,7 +2798,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -2953,7 +2953,7 @@
               "paragraphs": [
                 {
                   "text": "立即脱掉所有被污染的衣物。",
-                  "pPr_hash": "4f2e7d888fe8c456ae063080843e54f0e2605641a0e45a615be89b2bffa1fe80",
+                  "pPr_hash": "8ece899344f9c444cbfe3e61a1fe1123a5c6755f67230583945fa692f1addb5a",
                   "runs": [
                     {
                       "text": "立即脱掉所有被污染的衣物。",
@@ -2962,7 +2962,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3055,7 +3055,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3067,7 +3067,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3160,7 +3160,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3253,7 +3253,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3346,7 +3346,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3509,7 +3509,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3521,7 +3521,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3533,7 +3533,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3545,7 +3545,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3557,7 +3557,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3569,7 +3569,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3581,7 +3581,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3593,7 +3593,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3605,7 +3605,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3689,7 +3689,7 @@
               "paragraphs": [
                 {
                   "text": "高流量的水喷射。",
-                  "pPr_hash": "bb15b7a7d7c132a480990af2b0928fde35ceef0abe91dafb736d38eea2e07761",
+                  "pPr_hash": "b84300ac999deb58e1c22ee27496d8537f827ecb6b79a63aaff13d7f0d3c8691",
                   "runs": [
                     {
                       "text": "高流量的水喷射",
@@ -3698,7 +3698,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3710,7 +3710,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3803,7 +3803,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3815,7 +3815,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3827,7 +3827,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3845,7 +3845,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3938,7 +3938,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -3956,7 +3956,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4045,7 +4045,7 @@
             {
               "cell": 0,
               "xml_path": "/w:document/w:body/w:tbl[6]/w:tr[2]/w:tc[1]",
-              "tcPr_hash": "9b3ce480426d55800d467aeb5984450e7bd5deb14470fba6505953d3272b1800",
+              "tcPr_hash": "696bc0d0a9eb2bfa6af478417a089c721093394e4d8793cbfc32e774cf2a26fa",
               "tcW": "3519",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -4100,7 +4100,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[6]/w:tr[2]/w:tc[2]",
-              "tcPr_hash": "ba00d730a6964060fa0143aa850bb883d71405436cb10f9bd6a120d411c73bdb",
+              "tcPr_hash": "8eefc8988be141573be0ed78ee57c32e9a1d1b054cb2436a9e80b9453cb0afe3",
               "tcW": "6262",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -4118,7 +4118,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4130,7 +4130,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4142,7 +4142,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4160,7 +4160,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4180,7 +4180,7 @@
             {
               "cell": 0,
               "xml_path": "/w:document/w:body/w:tbl[6]/w:tr[3]/w:tc[1]",
-              "tcPr_hash": "4fbda9dbb96ffd9912569478b4934f5201955279f753a0d85e415db791d60a1d",
+              "tcPr_hash": "0dfe49d9fddbc1fbce2f3a34695f51c764274de2602ee17cda57e7440f62bf00",
               "tcW": "3519",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -4235,7 +4235,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[6]/w:tr[3]/w:tc[2]",
-              "tcPr_hash": "1fcd2171872d34d691ae20dd882dd83c095329ac017fe38e80530122442540d0",
+              "tcPr_hash": "ffce20736e4bae239e5c1febe67430eafed07a180f223f2c842df51b2306177b",
               "tcW": "6262",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -4244,7 +4244,7 @@
               "paragraphs": [
                 {
                   "text": "禁止排入下水道，废水或土壤中。",
-                  "pPr_hash": "24de1e52c70d440964df320a4521df3422d6532fd151fffd309551b8164ae348",
+                  "pPr_hash": "3aea66edaa424cecccd6a1c7417e6ac85151aefc24513285d027cf404fb22b95",
                   "runs": [
                     {
                       "text": "禁止排入下水道，废水或土壤中",
@@ -4253,7 +4253,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4265,7 +4265,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4285,7 +4285,7 @@
             {
               "cell": 0,
               "xml_path": "/w:document/w:body/w:tbl[6]/w:tr[4]/w:tc[1]",
-              "tcPr_hash": "68ba99dd13bcef8ae9088b05fbca82ab2bce05fb2a92b5dfd3d4dda6eb85b35e",
+              "tcPr_hash": "a52bccd9a72a428fc458892b76645007bb240ce0a2cd08f119736c966dc1cade",
               "tcW": "3519",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -4340,7 +4340,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[6]/w:tr[4]/w:tc[2]",
-              "tcPr_hash": "e54233416d035c05146963820e2a3498d67ce07181647ac67d2655b296549c33",
+              "tcPr_hash": "373d83d9a7d965eee18547d6e634b8a2c7f6f06a979bfaf3f8190901120f88df",
               "tcW": "6262",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -4358,7 +4358,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4495,7 +4495,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4507,7 +4507,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4519,7 +4519,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4588,7 +4588,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4600,7 +4600,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4612,7 +4612,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4624,7 +4624,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4636,7 +4636,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4648,7 +4648,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4665,7 +4665,7 @@
     {
       "table": 7,
       "row_count": 16,
-      "column_count": 5,
+      "column_count": 4,
       "unique_cell_counts": [
         1,
         1,
@@ -4866,7 +4866,7 @@
               "paragraphs": [
                 {
                   "text": "喷涂过程中要求有呼吸防护设备。",
-                  "pPr_hash": "24de1e52c70d440964df320a4521df3422d6532fd151fffd309551b8164ae348",
+                  "pPr_hash": "3aea66edaa424cecccd6a1c7417e6ac85151aefc24513285d027cf404fb22b95",
                   "runs": [
                     {
                       "text": "喷涂过程中要求有呼吸防护设备。",
@@ -4875,7 +4875,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -4959,7 +4959,7 @@
               "paragraphs": [
                 {
                   "text": "建议戴上防护手套。",
-                  "pPr_hash": "fa69d2277e69d0bf711308bf286dedd5cd459c56af2960023c043963a958e807",
+                  "pPr_hash": "cffc8f6ff66a559a062bacf86acce8dacb268e6081ee3b21ca4b3600495e40b1",
                   "runs": [
                     {
                       "text": "建议戴上防护手套。",
@@ -4968,7 +4968,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5037,7 +5037,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5106,7 +5106,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5118,7 +5118,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5130,7 +5130,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5142,7 +5142,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5211,7 +5211,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5223,7 +5223,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5235,7 +5235,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5247,7 +5247,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5316,7 +5316,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5328,7 +5328,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5340,7 +5340,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5352,7 +5352,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5412,7 +5412,7 @@
               "paragraphs": [
                 {
                   "text": "",
-                  "pPr_hash": "1b31c6ec9d00dfe74d27631705ad417e92bfcd41276eb8aeb802e18cd993f200",
+                  "pPr_hash": "8729022881e7a67b6ca71942187da5a58745b07556ee8ae9c829d0f1a76a1ef1",
                   "runs": []
                 }
               ],
@@ -5477,7 +5477,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5489,7 +5489,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5501,7 +5501,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5570,7 +5570,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5642,7 +5642,7 @@
               "paragraphs": [
                 {
                   "text": "使用局部排风或全面通风，保持工作场所空气中浓度低于职业接触限值；工作场所设置洗眼器与安全淋浴设施。",
-                  "pPr_hash": "19005db1385aad59c30269311377cdcb4d37a838f3ce65f00f44bbffcd318ac8",
+                  "pPr_hash": "290438a0e0c8a6b1004ae924c9df08c33503caa43ddf7b5ba29573c084cd1b0f",
                   "runs": [
                     {
                       "text": "使用局部排风或全面通风，保持工作场所空气中浓度低于职业接触限值；工作场所设置洗眼器与安全淋浴设施。",
@@ -5651,7 +5651,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5858,7 +5858,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5870,7 +5870,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5882,7 +5882,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5894,7 +5894,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5906,7 +5906,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5937,7 +5937,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5949,7 +5949,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5961,7 +5961,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -5992,7 +5992,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6023,7 +6023,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6035,7 +6035,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6047,7 +6047,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6059,7 +6059,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6071,7 +6071,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6109,7 +6109,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6140,7 +6140,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6152,7 +6152,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6164,7 +6164,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6195,7 +6195,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6226,7 +6226,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6238,7 +6238,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6250,7 +6250,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6262,7 +6262,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6434,11 +6434,7 @@
                       "font": {
                         "name": "宋体",
                         "size_pt": 12.0,
-                        "color": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "color": "000000"
                       }
                     }
                   ]
@@ -6529,7 +6525,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6610,7 +6606,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6693,11 +6689,7 @@
                       "font": {
                         "name": "宋体",
                         "size_pt": 12.0,
-                        "color": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "color": "000000"
                       }
                     }
                   ]
@@ -6776,7 +6768,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6869,7 +6861,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -6962,7 +6954,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7043,7 +7035,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7124,7 +7116,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7205,7 +7197,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7286,7 +7278,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7367,7 +7359,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7448,7 +7440,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7529,7 +7521,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7610,7 +7602,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7691,7 +7683,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7772,7 +7764,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7853,7 +7845,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -7934,7 +7926,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -8015,7 +8007,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -8096,7 +8088,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -8177,7 +8169,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -8258,7 +8250,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -8422,7 +8414,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -8515,7 +8507,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -8608,7 +8600,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -8713,7 +8705,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -8794,7 +8786,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -8811,7 +8803,7 @@
     {
       "table": 10,
       "row_count": 18,
-      "column_count": 4,
+      "column_count": 3,
       "unique_cell_counts": [
         1,
         1,
@@ -8917,7 +8909,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9091,7 +9083,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9227,7 +9219,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9363,7 +9355,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9468,7 +9460,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9573,7 +9565,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9591,7 +9583,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9621,7 +9613,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9750,7 +9742,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9768,7 +9760,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9786,7 +9778,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9891,7 +9883,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9921,7 +9913,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -9951,7 +9943,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -10149,7 +10141,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -10668,7 +10660,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -10915,7 +10907,7 @@
               "paragraphs": [
                 {
                   "text": "该产品无可用的生态毒理学研究。",
-                  "pPr_hash": "12ce3085756868aef75910f764e2ffda3e5707928402d0d5ac59d289e55f8e00",
+                  "pPr_hash": "44078c73b120657e3a9ecc34cdb520c72b14e8dfb5b8274920360eb63ed89ed4",
                   "runs": [
                     {
                       "text": "该产品无可用的生态毒理学研究。",
@@ -10924,7 +10916,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11046,7 +11038,7 @@
               "paragraphs": [
                 {
                   "text": "对鱼类的毒性：",
-                  "pPr_hash": "b633e7ef00adfbfeb9607e251f928d88f196502bba649ba2fad157b5567ba000",
+                  "pPr_hash": "460ab3689b297670f1840517a18a9cf258fbba48f1d53bf416909f13c5997a5a",
                   "runs": [
                     {
                       "text": "对鱼类的毒性：",
@@ -11055,7 +11047,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11082,7 +11074,7 @@
                 },
                 {
                   "text": "其他：",
-                  "pPr_hash": "b633e7ef00adfbfeb9607e251f928d88f196502bba649ba2fad157b5567ba000",
+                  "pPr_hash": "460ab3689b297670f1840517a18a9cf258fbba48f1d53bf416909f13c5997a5a",
                   "runs": [
                     {
                       "text": "其他：",
@@ -11091,7 +11083,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11349,7 +11341,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11455,7 +11447,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11473,7 +11465,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11485,7 +11477,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11497,7 +11489,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11566,7 +11558,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11578,7 +11570,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11590,7 +11582,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11602,7 +11594,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11614,7 +11606,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11632,7 +11624,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11650,7 +11642,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11668,7 +11660,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11708,7 +11700,7 @@
             {
               "cell": 0,
               "xml_path": "/w:document/w:body/w:tbl[14]/w:tr[1]/w:tc",
-              "tcPr_hash": "b224ba1b7261bb9fd5ad1907f7974926f92b535c5ca255c23a39ca470b53e3a5",
+              "tcPr_hash": "cd66284ef0a31999ce19cc1afde3a0d7d8e62ff3e3f80331e47d407566aabc68",
               "tcW": "9781",
               "tcW_type": "dxa",
               "gridSpan": "2",
@@ -11758,7 +11750,7 @@
             {
               "cell": 0,
               "xml_path": "/w:document/w:body/w:tbl[14]/w:tr[2]/w:tc[1]",
-              "tcPr_hash": "f5e3314a01223bc59acaf4aec819e85db2acc8a14881c632e6756ba0a4ebf113",
+              "tcPr_hash": "2402c7f92622a89161f217610cfe991b4a66da34c497f0f884c98911f3c29dde",
               "tcW": "3504",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -11813,7 +11805,7 @@
             {
               "cell": 1,
               "xml_path": "/w:document/w:body/w:tbl[14]/w:tr[2]/w:tc[2]",
-              "tcPr_hash": "9764db940812392eacba77d1f82927514fc84b9827dfd80c7a170e353978290f",
+              "tcPr_hash": "23ca784f4352b250f436859c7952c59cc53279702c7fc83b8a69d174a37c1d8f",
               "tcW": "6277",
               "tcW_type": "dxa",
               "gridSpan": null,
@@ -11831,7 +11823,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -11915,7 +11907,7 @@
               "paragraphs": [
                 {
                   "text": "非危险品海运方式。",
-                  "pPr_hash": "6d8f7ec3423e39be06a34697c819f6ca99faf05d73335f214b7bf4279db6b5a8",
+                  "pPr_hash": "19007e17ce7c017f3df5ae8066a781de93b2553b5bb284071562b878aa968eac",
                   "runs": [
                     {
                       "text": "非危险品海运方式。",
@@ -11924,7 +11916,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12008,7 +12000,7 @@
               "paragraphs": [
                 {
                   "text": "非危险品运输方式。",
-                  "pPr_hash": "6d8f7ec3423e39be06a34697c819f6ca99faf05d73335f214b7bf4279db6b5a8",
+                  "pPr_hash": "19007e17ce7c017f3df5ae8066a781de93b2553b5bb284071562b878aa968eac",
                   "runs": [
                     {
                       "text": "非危险品运输方式。",
@@ -12017,7 +12009,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12110,7 +12102,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12128,7 +12120,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12140,7 +12132,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12152,7 +12144,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12164,7 +12156,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12176,7 +12168,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12188,7 +12180,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12200,7 +12192,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12212,7 +12204,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12221,7 +12213,7 @@
                 },
                 {
                   "text": "远离食物、酸和碱。",
-                  "pPr_hash": "6d8f7ec3423e39be06a34697c819f6ca99faf05d73335f214b7bf4279db6b5a8",
+                  "pPr_hash": "19007e17ce7c017f3df5ae8066a781de93b2553b5bb284071562b878aa968eac",
                   "runs": [
                     {
                       "text": "远离食物、酸和碱。",
@@ -12230,7 +12222,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12332,7 +12324,7 @@
               "paragraphs": [
                 {
                   "text": "物质或混合物的相关安全、健康和环保法律法规",
-                  "pPr_hash": "92339ca3ae752c98fbe18e12bc3d8f9a4d1968459ea89946fa419c6b6b127439",
+                  "pPr_hash": "bc776a783ae4014db97a394f12ffde4f13b233fc42b920f7fe01426a2dd11ce0",
                   "runs": [
                     {
                       "text": "物质或混合物的相关安全、健康和环保法律法规",
@@ -12341,7 +12333,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12446,7 +12438,7 @@
               "paragraphs": [
                 {
                   "text": "危险化学品安全管理条例，国务院令591号",
-                  "pPr_hash": "92339ca3ae752c98fbe18e12bc3d8f9a4d1968459ea89946fa419c6b6b127439",
+                  "pPr_hash": "bc776a783ae4014db97a394f12ffde4f13b233fc42b920f7fe01426a2dd11ce0",
                   "runs": [
                     {
                       "text": "危险化学品安全管理条例，国务院令",
@@ -12455,7 +12447,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12467,7 +12459,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12479,7 +12471,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12508,7 +12500,7 @@
               "paragraphs": [
                 {
                   "text": "GB/T 16483 化学品安全技术说明书内容和项目顺序",
-                  "pPr_hash": "92339ca3ae752c98fbe18e12bc3d8f9a4d1968459ea89946fa419c6b6b127439",
+                  "pPr_hash": "bc776a783ae4014db97a394f12ffde4f13b233fc42b920f7fe01426a2dd11ce0",
                   "runs": [
                     {
                       "text": "GB/T 16483 ",
@@ -12517,7 +12509,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12529,7 +12521,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12558,7 +12550,7 @@
               "paragraphs": [
                 {
                   "text": "GB 13690 化学品分类和危险性公示通则",
-                  "pPr_hash": "92339ca3ae752c98fbe18e12bc3d8f9a4d1968459ea89946fa419c6b6b127439",
+                  "pPr_hash": "bc776a783ae4014db97a394f12ffde4f13b233fc42b920f7fe01426a2dd11ce0",
                   "runs": [
                     {
                       "text": "GB 13690 ",
@@ -12567,7 +12559,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12579,7 +12571,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12608,7 +12600,7 @@
               "paragraphs": [
                 {
                   "text": "GB 30000.2-29 化学品分类和标签规范",
-                  "pPr_hash": "07a4badab4576407c13eb386987025774e6a4a18bf3b823b97ceb82b655ef149",
+                  "pPr_hash": "ecc38ecf7d234f4736f8a2a147bcfd2aed5f73be18cd5b5fadae6a0b57ccc6cd",
                   "runs": [
                     {
                       "text": "GB ",
@@ -12617,7 +12609,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12629,7 +12621,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12658,7 +12650,7 @@
               "paragraphs": [
                 {
                   "text": "GB 15258 化学品安全标签编写规定",
-                  "pPr_hash": "07a4badab4576407c13eb386987025774e6a4a18bf3b823b97ceb82b655ef149",
+                  "pPr_hash": "ecc38ecf7d234f4736f8a2a147bcfd2aed5f73be18cd5b5fadae6a0b57ccc6cd",
                   "runs": [
                     {
                       "text": "GB 15258 化学品安全标签编写规定",
@@ -12667,7 +12659,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }
@@ -12762,7 +12754,7 @@
               "paragraphs": [
                 {
                   "text": "就我们所掌握的知识信息，截止本安全技术说明书发布之日，它提供的资料是正确的。所提供的信息仅仅作为安全处理，使用，生产，储存，运输，处置和排放的指导书，而不是一份担保或品质说明书。本资料只针对所指定的具体物料，而对这种物料与其它物料混合使用或在其它制程中使用的情况，则未必有效（除非在文本中有特别说明）。",
-                  "pPr_hash": "92339ca3ae752c98fbe18e12bc3d8f9a4d1968459ea89946fa419c6b6b127439",
+                  "pPr_hash": "bc776a783ae4014db97a394f12ffde4f13b233fc42b920f7fe01426a2dd11ce0",
                   "runs": [
                     {
                       "text": "就我们所掌握的知识信息，截止本安全技术说明书发布之日，它提供的资料是正确的。所提供的信息仅仅作为安全处理，使用，生产，储存，运输，处置和排放的指导书，而不是一份担保或品质说明书。本资料只针对所指定的具体物料，而对这种物料与其它物料混合使用或在其它制程中使用的情况，则未必有效（除非在文本中有特别说明）。",
@@ -12771,7 +12763,7 @@
                       "italic": null,
                       "underline": null,
                       "font": {
-                        "name": "宋体",
+                        "name": null,
                         "size_pt": 12.0,
                         "color": null
                       }

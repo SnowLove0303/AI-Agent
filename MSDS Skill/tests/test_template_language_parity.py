@@ -40,8 +40,8 @@ def test_en_template_is_distinct_and_uses_english_section_labels():
     import hashlib
     # The supplied EN template remains the immutable source record; the active
     # baseline is a versioned maintainer remediation with unchanged geometry.
-    assert hashlib.sha256(source.read_bytes()).hexdigest() == "0c7f3bfd74a85955a32fd691a392077f79c0acc74d2c7765947e02cf7c226c3f"
-    assert hashlib.sha256((ROOT / "examples" / "template_reference_en.docx").read_bytes()).hexdigest() == "dca8a1a5940f4410003b032d9ec914291c1e961383305af271ba3cd6b32e495f"
+    assert hashlib.sha256(source.read_bytes()).hexdigest() == "a5fef82b43f6ad0d32350c3c715ee05f6c41eead2ff90d26efbbbd5784434f3c"
+    assert hashlib.sha256((ROOT / "examples" / "template_reference_en.docx").read_bytes()).hexdigest() == "11e3da3b1eb1b4694f891e8e94f1901f6c000b22af84cca769b268e4925af800"
     assert source.read_bytes() != (ROOT / "examples" / "template_reference_en.docx").read_bytes()
     assert "Identification" in en.tables[0].rows[0].cells[0].text
     assert "Chemical category" in en.tables[0].rows[2].cells[0].text
@@ -49,9 +49,9 @@ def test_en_template_is_distinct_and_uses_english_section_labels():
     assert "8.2" in "\n".join(cell.text for row in en.tables[7].rows for cell in row.cells)
     assert "11.10" in "\n".join(cell.text for row in en.tables[10].rows for cell in row.cells)
     assert "Hand protection" in en.tables[7].rows[3].cells[0].text
-    assert "Firefighting precautions" in en.tables[5].rows[1].cells[0].text
-    assert en.tables[0].rows[0].cells[0].text == "Identification"
-    assert en.tables[13].rows[0].cells[0].text == "14.Transportation information"
+    assert "Personal precautions, protective equipment and" in en.tables[5].rows[1].cells[0].text
+    assert en.tables[0].rows[0].cells[0].text == "Identification of the substance/mixture and of the company/undertaking"
+    assert en.tables[13].rows[0].cells[0].text == "14. Transport information"
     assert en.tables[10].cell(3, 1).text == "Oral:"
     assert en.tables[10].cell(4, 1).text == "Inhalation:"
     assert en.tables[10].cell(5, 1).text == "Dermal:"
@@ -62,11 +62,11 @@ def test_en_template_is_distinct_and_uses_english_section_labels():
 
 def test_en_snapshot_pins_the_supplied_template_hash_and_geometry():
     snapshot = json.loads((ROOT / "tests" / "template_snapshot_en.json").read_text(encoding="utf-8"))
-    assert snapshot["source_sha256"] == "dca8a1a5940f4410003b032d9ec914291c1e961383305af271ba3cd6b32e495f"
+    assert snapshot["source_sha256"] == "11e3da3b1eb1b4694f891e8e94f1901f6c000b22af84cca769b268e4925af800"
     import hashlib
-    assert hashlib.sha256((ROOT / "examples" / "template_reference_en_source.docx").read_bytes()).hexdigest() == "0c7f3bfd74a85955a32fd691a392077f79c0acc74d2c7765947e02cf7c226c3f"
+    assert hashlib.sha256((ROOT / "examples" / "template_reference_en_source.docx").read_bytes()).hexdigest() == "a5fef82b43f6ad0d32350c3c715ee05f6c41eead2ff90d26efbbbd5784434f3c"
     assert [table["row_count"] for table in snapshot["tables"]] == [9, 16, 6, 6, 5, 4, 3, 16, 24, 6, 18, 6, 3, 5, 9, 2]
-    assert [table["column_count"] for table in snapshot["tables"]] == [2, 2, 3, 2, 2, 2, 2, 5, 2, 2, 4, 2, 2, 2, 1, 1]
+    assert [table["column_count"] for table in snapshot["tables"]] == [2, 2, 3, 2, 2, 2, 2, 4, 2, 2, 3, 2, 2, 2, 1, 1]
     top_rows = snapshot["tables"][7]["rows"]
     assert top_rows[12]["cells"][0]["text"].strip() == "Control parameters for workplace components"
     assert [cell["text"] for cell in top_rows[13]["cells"]] == ["Substance", "Basis", "Type", "Value"]

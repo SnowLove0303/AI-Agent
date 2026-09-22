@@ -3,9 +3,9 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS standardization skill that discovers supported source files, binds source-grounded facts to synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, preserves locked templates, and releases four DOCX plus four PDF deliverables only after semantic and render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.27.9
+# Unified MSDS Eight-Deliverable Standardizer v3.27.10
 
-## Global Source Fidelity and Layered Section Rules (v3.27.9)
+## Global Source Fidelity and Layered Section Rules (v3.27.10)
 
 1. The global source-grounding gate is shared by S1-S16. `output_traceability`
    records output decisions but never becomes evidence by itself.
@@ -236,7 +236,7 @@ Hard rules:
 The language-specific template baselines are authoritative:
 
 - CN source record: `examples/template_reference_cn_source.docx`, an unchanged copy of the user-supplied formal `正式模板_MSDS_CN_冠志.docx`.
-- CN active baseline: `examples/template_reference.docx`, the current user-approved formal CN template installed byte-for-byte.
+- CN active baseline: `examples/template_reference.docx`, the current user-approved formal CN template with the shared value-cell typography contract applied; labels, table style and geometry remain template-owned.
 - EN source record: `examples/template_reference_en_source.docx`, an unchanged copy of the user-supplied formal `正式模板_MSDS_EN_冠志(1).docx`.
 - EN active baseline: `examples/template_reference_en.docx`, a value-cell-only normalization of the supplied EN source; labels, bold runs and table geometry remain unchanged.
 - Historical template copies are deliberately not shipped. Only the current
@@ -245,9 +245,10 @@ The language-specific template baselines are authoritative:
 
 Pinned SHA-256:
 
-- CN active baseline: `a69a447f7f39599b10c30c7f92c4d5101d94fd85bfdcc4d89de429d1c796af1c`
-- EN source: `0c7f3bfd74a85955a32fd691a392077f79c0acc74d2c7765947e02cf7c226c3f`
-- EN active baseline: `dca8a1a5940f4410003b032d9ec914291c1e961383305af271ba3cd6b32e495f`.
+- CN source: `748f68968c2ddf1d2558d5c6e5879a7b5d76ab1be12fe70fed130f9fe9424b5f`
+- CN active baseline: `8b0b633b527fad0c2311528e6e252fff73ceb8fcd1a39e91169efd0d5dd4df84`
+- EN source: `a5fef82b43f6ad0d32350c3c715ee05f6c41eead2ff90d26efbbbd5784434f3c`
+- EN active baseline: `11e3da3b1eb1b4694f891e8e94f1901f6c000b22af84cca769b268e4925af800`.
 
 Structural baseline:
 - 16 tables

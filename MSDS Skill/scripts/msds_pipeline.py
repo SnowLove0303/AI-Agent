@@ -45,6 +45,8 @@ from datetime import date, datetime
 from pathlib import Path
 
 from docx import Document
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
 
 SCRIPTS = Path(__file__).resolve().parent
 if str(SCRIPTS) not in sys.path:
@@ -140,9 +142,9 @@ GUANZHI_FAX = "86-20-32214789"
 GUOCAI_TEL = "86-763-2811205"
 GUOCAI_FAX = "86-763-2811024"
 PINNED_TEMPLATE_SHA256 = {
-    "zh": "1eb95662289577e4e49f71cff0b0456af11cf9e3e06a6752354f682a4fd76e6b",
-    "en": "dca8a1a5940f4410003b032d9ec914291c1e961383305af271ba3cd6b32e495f",
-    "en_source": "0c7f3bfd74a85955a32fd691a392077f79c0acc74d2c7765947e02cf7c226c3f",
+    "zh": "8b0b633b527fad0c2311528e6e252fff73ceb8fcd1a39e91169efd0d5dd4df84",
+    "en": "11e3da3b1eb1b4694f891e8e94f1901f6c000b22af84cca769b268e4925af800",
+    "en_source": "a5fef82b43f6ad0d32350c3c715ee05f6c41eead2ff90d26efbbbd5784434f3c",
 }
 SECTION_KEYS = {f"s{i}" for i in range(1, 17)}
 
@@ -618,6 +620,7 @@ def plan_body_write(doc, facts: dict, language: str) -> tuple[list[SectionWriteP
 
 def apply_post_overwrite_fine_tuning(doc, policy_facts: dict) -> dict:
     """Apply only the bounded row/prefix policies after fixed value writes."""
+    enforce_section6_column_divider(doc)
     absence = apply_source_absence_policy(doc, policy_facts, unique_cells)
     s11_policy = renumber_visible_s11_rows(doc.tables[10])
     s2_policy = suppress_missing_section2_rows_and_renumber(
@@ -632,6 +635,31 @@ def apply_post_overwrite_fine_tuning(doc, policy_facts: dict) -> dict:
         "section8_policy": s8_policy,
         "section11_policy": s11_policy,
     }
+
+
+def enforce_section6_column_divider(doc) -> None:
+    """Keep the Section 6 label/value divider printable in every output.
+
+    The maintained templates currently declare ``insideV=none`` at table
+    level, which makes the two-column split disappear in rendered output.
+    Section 6 is an explicit two-column label/value table, so its vertical
+    divider is a controlled layout invariant; this does not alter labels,
+    widths, merges, paragraph formatting, or any other table boundary.
+    """
+    table = doc.tables[5]
+    tbl_pr = table._tbl.tblPr
+    borders = tbl_pr.find(qn("w:tblBorders"))
+    if borders is None:
+        borders = OxmlElement("w:tblBorders")
+        tbl_pr.append(borders)
+    inside_v = borders.find(qn("w:insideV"))
+    if inside_v is None:
+        inside_v = OxmlElement("w:insideV")
+        borders.append(inside_v)
+    inside_v.set(qn("w:val"), "single")
+    inside_v.set(qn("w:color"), "auto")
+    inside_v.set(qn("w:sz"), "4")
+    inside_v.set(qn("w:space"), "0")
 
 
 def write_body(doc, facts: dict, language: str, *, apply_fine_tuning: bool = True) -> dict:

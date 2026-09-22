@@ -986,6 +986,18 @@ def _without_text(element) -> str:
     return clone.xml
 
 
+def _table_properties_snapshot(table_index: int, table) -> str:
+    """Return a table-property snapshot with approved layout overlays ignored."""
+    clone = copy.deepcopy(table._tbl.tblPr)
+    if table_index == 5:
+        # Section 6 is a two-column label/value table.  The active baseline
+        # predates the required printable divider and declares insideV=none;
+        # the writer restores that single divider as a controlled overlay.
+        for inside_v in clone.xpath("./w:tblBorders/w:insideV"):
+            inside_v.getparent().remove(inside_v)
+    return _without_text(clone)
+
+
 def _cell_style_snapshot(cell) -> tuple[str, tuple[str, ...], tuple[tuple[str, ...], ...]]:
     tc_pr = _without_text(cell._tc.tcPr)
     p_props = tuple(_without_text(paragraph._p.pPr) for paragraph in cell.paragraphs)
@@ -1512,7 +1524,7 @@ def compare_format_anchors(template, output, *, language: str = "cn",
     for table_index, (template_table, output_table) in enumerate(
         zip(template.tables, output.tables)
     ):
-        if _without_text(template_table._tbl.tblPr) != _without_text(output_table._tbl.tblPr):
+        if _table_properties_snapshot(table_index, template_table) != _table_properties_snapshot(table_index, output_table):
             errors.append(f"table properties changed: table {table_index}")
         if _without_text(template_table._tbl.tblGrid) != _without_text(output_table._tbl.tblGrid):
             errors.append(f"table grid changed: table {table_index}")

@@ -1,6 +1,8 @@
-# MSDS Skill 3.27.9
+# MSDS Skill 3.27.10
 
-V3.27.9 strengthens Section 2 line structure and reviewed typo handling:
+V3.27.10 installs the new user-approved CN/EN table-style baselines while
+retaining the shared Section 6 divider enforcement and Section 11 endpoint/value
+de-duplication. V3.27.9 strengthens Section 2 line structure and reviewed typo handling:
 GHS classifications keep each class/H-code pair on its own line, H/P
 statements are split into logical code lines, label elements retain a
 title-plus-explanation shape, and the source typo `依然液体` is corrected to
@@ -47,16 +49,16 @@ Read [`SKILL.md`](SKILL.md) for the operating contract. The reusable scripts, te
 
 ## Version
 
-Public release: `MSDS Skill 3.27.8`
+Public release: `MSDS Skill 3.27.10`
 
 Template baseline: the current user-supplied formal CN/EN templates are kept
 as source records, while active baselines normalize value cells only. CN source
-SHA-256 is `b6c52c3d6003d4314e578733c5066dc9541c70ee49957ab56c24dd749ade2d43`;
+SHA-256 is `748f68968c2ddf1d2558d5c6e5879a7b5d76ab1be12fe70fed130f9fe9424b5f`;
 CN active SHA-256 is
-`a69a447f7f39599b10c30c7f92c4d5101d94fd85bfdcc4d89de429d1c796af1c`. EN source
-SHA-256 is `0c7f3bfd74a85955a32fd691a392077f79c0acc74d2c7765947e02cf7c226c3f`;
+`8b0b633b527fad0c2311528e6e252fff73ceb8fcd1a39e91169efd0d5dd4df84`. EN source
+SHA-256 is `a5fef82b43f6ad0d32350c3c715ee05f6c41eead2ff90d26efbbbd5784434f3c`;
 EN active SHA-256 is
-`dca8a1a5940f4410003b032d9ec914291c1e961383305af271ba3cd6b32e495f`.
+`11e3da3b1eb1b4694f891e8e94f1901f6c000b22af84cca769b268e4925af800`.
 Historical template copies and versioned snapshots are intentionally excluded
 from the distributable package. Rollback evidence must be stored outside the
 active skill directory.
