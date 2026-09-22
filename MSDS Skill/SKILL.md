@@ -3,9 +3,9 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS standardization skill that discovers supported source files, binds source-grounded facts to synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, preserves locked templates, and releases four DOCX plus four PDF deliverables only after semantic and render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.27.10
+# Unified MSDS Eight-Deliverable Standardizer v3.27.11
 
-## Global Source Fidelity and Layered Section Rules (v3.27.10)
+## Global Source Fidelity and Layered Section Rules (v3.27.11)
 
 1. The global source-grounding gate is shared by S1-S16. `output_traceability`
    records output decisions but never becomes evidence by itself.
@@ -455,6 +455,12 @@ GHS conclusion such as `未被分类` / `Not classified` into a route row. If a
 route is absent or contains only a missing-data sentinel, leave that route's
 value empty so the complete row is removed before visible renumbering; later
 route values must never move into the empty route's label.
+Compare Section 2.5 H/EUH statements to those routes independently: suppress
+only the route explicitly covered by the H/EUH text, retain all uncovered
+routes and all source lines from the source 2.7/2.8 health-hazard block, and
+never use a blanket “health hazard already mentioned” switch. Route-labelled
+first-aid instructions inside Section 2.6 remain in the precautionary response
+group and are not health-hazard facts.
 
 Read `resources/section2_ghs_policy.md` and use `scripts/section2_ghs_policy.py` plus `scripts/ghs_pictogram_policy.py` for this policy.
 

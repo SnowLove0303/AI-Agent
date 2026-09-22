@@ -84,6 +84,34 @@ def test_one_fact_cannot_be_duplicated_across_section2_targets():
     assert any("duplicated across targets" in error for error in report["errors"])
 
 
+def test_route_duplicate_in_health_row_is_blocked_only_for_covered_route():
+    facts = _facts(source_text="H315 Causes skin irritation.")
+    facts["zh"]["s2"] = [
+        ["2.5 危险性说明：", "H315 Causes skin irritation."],
+        ["2.8 健康危害 [route=skin]", "Skin irritation."],
+        ["2.8 健康危害 [route=eyes]", "Eye irritation."],
+    ]
+    facts["en"]["s2"] = [
+        ["2.5 Hazard statements:", "H315 Causes skin irritation."],
+        ["2.8 Health hazards [route=skin]", "Skin irritation."],
+        ["2.8 Health hazards [route=eyes]", "Eye irritation."],
+    ]
+    facts["output_traceability"]["items"] = [
+        _trace("hazard_statements", zh="H315 Causes skin irritation.", en="H315 Causes skin irritation."),
+        _trace("health_hazards.skin", zh="Skin irritation.", en="Skin irritation."),
+        _trace("health_hazards.eyes", zh="Eye irritation.", en="Eye irritation."),
+    ]
+    report = audit(facts)
+    assert any(
+        "repeats a route already covered" in error and "skin" in error
+        for error in report["errors"]
+    )
+    assert not any(
+        "repeats a route already covered" in error and "eyes" in error
+        for error in report["errors"]
+    )
+
+
 def test_explicit_source_emergency_overview_and_translation_are_accepted():
     source_text = "吸入后可能引起呼吸道刺激。"
     facts = _facts(

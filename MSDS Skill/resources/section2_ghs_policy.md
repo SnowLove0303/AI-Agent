@@ -38,6 +38,14 @@ values: each coded statement occupies its own line, while the controlled
 group heading remains a separate first-level line and detail lines use the
 template's hanging indentation.
 
+Health-hazard routing is per exposure route, never a single on/off switch.
+Compare Section 2.5 H/EUH text with inhalation, ingestion, skin, eyes and
+symptoms/signs independently: suppress only the route already covered by the
+H/EUH text, retain every uncovered route and every additional source line from
+the source Section 2.7/2.8 block, and preserve its wording. Route-labelled
+first-aid lines inside Section 2.6 remain in the response group and must not be
+promoted into a health-hazard row.
+
 ## Pictograms
 
 If the source DOCX contains an embedded GHS pictogram, extract and insert the source image into the cloned template's existing GHS pictogram cell. Preserve the image as an image; do not replace it with `无数据`, `None`, alt text, or a textual description. If no image is supplied, a pictogram may be resolved only from explicit, verified GHS classifications and the resolution must be recorded in the audit; do not infer from a vague prose hazard.

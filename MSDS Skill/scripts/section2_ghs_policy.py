@@ -31,6 +31,7 @@ from section2_hp_policy import (
     split_h_statements,
     split_p_statements,
 )
+from section2_fact_router import health_routes_covered_by_h_statements
 from template_mutation_whitelist import composite_value_text, is_s28_row, unique_cells
 
 try:
@@ -586,14 +587,24 @@ def project_source_cn_facts(s2: dict, s3_rows=None) -> tuple[list[list[str]], di
             return values.strip()
         return str(values[0]).strip() if values else ""
 
+    h_statements = [
+        statement
+        for value in (s2.get("h_statements") or [])
+        for statement in split_h_statements(value) or [str(value).strip()]
+        if str(statement).strip()
+    ]
+    covered_health_routes = health_routes_covered_by_h_statements(h_statements)
+
     def health_route(route: str) -> str:
         health = s2.get("health_hazards") or {}
-        if isinstance(health, dict):
-            values = health.get(route) or []
-            if isinstance(values, str):
-                return values.strip()
-            return str(values[0]).strip() if values else ""
-        return ""
+        if f"health_hazards.{route}" in covered_health_routes:
+            return ""
+        values = health.get(route) if isinstance(health, dict) else []
+        if isinstance(values, str):
+            return values.strip()
+        return "\n".join(
+            str(value).strip() for value in (values or []) if str(value).strip()
+        )
 
     def route_label(route: str) -> str:
         # This semantic marker exists only in the reviewed facts layer.  The
@@ -629,12 +640,7 @@ def project_source_cn_facts(s2: dict, s3_rows=None) -> tuple[list[list[str]], di
         ["2.3 GHS标签要素：", label_elements],
         [" GHS象形图", normalize_pictogram_value(s2.get("pictogram"))],
         ["2.4 信号词：", str(s2.get("signal") or "").strip()],
-        ["2.5 危险性说明：", "\n".join(
-            statement
-            for value in (s2.get("h_statements") or [])
-            for statement in split_h_statements(value) or [str(value).strip()]
-            if statement.strip()
-        )],
+        ["2.5 危险性说明：", "\n".join(h_statements)],
         ["2.6 防范说明：", "\n".join(
             statement
             for value in precautionary_value.splitlines()

@@ -322,6 +322,27 @@ def test_s2_extracts_precautionary_groups_and_does_not_leak_headings_to_other():
     assert all("\u5e9f\u5f03\u5904\u7f6e" not in line for line in data["other"])
 
 
+def test_s2_does_not_route_precautionary_response_lines_as_health_hazards():
+    from docx import Document
+
+    document = Document()
+    table = document.add_table(rows=1, cols=1)
+    table.add_row().cells[0].text = (
+        "2.6 防范说明：\n事故响应：\n吸入：一旦吸入，如有不适，就医。\n"
+        "食入：立即漱口。\n2.7 健康危害：\n吸入危害：可能引起呼吸道刺激。\n"
+        "皮肤刺激：可能造成皮肤刺激。"
+    )
+    data = extract_s2(table, Extraction())
+    assert data["health_hazards"]["inhalation"] == ["可能引起呼吸道刺激。"]
+    assert data["health_hazards"]["skin"] == ["可能造成皮肤刺激。"]
+    response_text = [
+        statement["text"]
+        for statement in data["precautionary_groups"][0]["statements"]
+    ]
+    assert "吸入：一旦吸入，如有不适，就医。" in response_text
+    assert "食入：立即漱口。" in response_text
+
+
 def test_s2_extracts_inline_group_boundary_without_merging_heading_into_statement():
     from docx import Document
 

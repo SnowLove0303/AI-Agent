@@ -1,6 +1,10 @@
-# MSDS Skill 3.27.10
+# MSDS Skill 3.27.11
 
-V3.27.10 installs the new user-approved CN/EN table-style baselines while
+V3.27.11 installs per-route Section 2 health-hazard de-duplication and
+source-preserving extraction: only the route covered by Section 2.5 H/EUH text
+is suppressed, uncovered source 2.7/2.8 routes remain complete, and 2.6
+first-aid route instructions cannot leak into health-hazard rows. V3.27.10
+installs the new user-approved CN/EN table-style baselines while
 retaining the shared Section 6 divider enforcement and Section 11 endpoint/value
 de-duplication. V3.27.9 strengthens Section 2 line structure and reviewed typo handling:
 GHS classifications keep each class/H-code pair on its own line, H/P

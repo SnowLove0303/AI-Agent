@@ -12,7 +12,7 @@ import re
 import unicodedata
 
 
-ROUTER_VERSION = "1.1.0"
+ROUTER_VERSION = "1.2.0"
 SECTION2_TARGETS = (
     "emergency_overview",
     "ghs_classes",
@@ -37,6 +37,42 @@ _PRECAUTIONARY_GROUP_EN = {
     "storage": "Storage:",
     "disposal": "Disposal:",
 }
+
+_HEALTH_ROUTE_TARGETS = (
+    "health_hazards.inhalation",
+    "health_hazards.ingestion",
+    "health_hazards.skin",
+    "health_hazards.eyes",
+    "health_hazards.symptoms_signs",
+)
+_H_CODE_ROUTE_MAP = {
+    "inhalation": (330, 331, 332, 334, 335),
+    "ingestion": (300, 301, 302, 303, 304),
+    "skin": (310, 311, 312, 313, 314, 315, 316, 317),
+    "eyes": (314, 318, 319),
+}
+_ROUTE_TEXT_PATTERNS = {
+    "inhalation": re.compile(r"吸入|呼吸道|吸入后|inhal(?:ation|ed)|respiratory", re.I),
+    "ingestion": re.compile(r"食入|摄入|吞食|经口|口服|swallow(?:ed)?|ingest(?:ion|ed)?|oral", re.I),
+    "skin": re.compile(r"皮肤|经皮|skin|dermal", re.I),
+    "eyes": re.compile(r"眼睛|眼部|眼|eye|ocular", re.I),
+    "symptoms_signs": re.compile(r"症状|体征|symptoms?|signs?", re.I),
+}
+
+
+def health_routes_covered_by_h_statements(statements) -> set[str]:
+    """Return only exposure routes explicitly covered by Section 2.5 H text."""
+    covered: set[str] = set()
+    text = "\n".join(_text(item) for item in (statements or []) if _text(item))
+    for code in re.findall(r"(?<![A-Za-z0-9])H(\d{3})[A-Za-z]{0,3}\b", text, re.I):
+        number = int(code)
+        for route, numbers in _H_CODE_ROUTE_MAP.items():
+            if number in numbers:
+                covered.add(f"health_hazards.{route}")
+    for route, pattern in _ROUTE_TEXT_PATTERNS.items():
+        if pattern.search(text):
+            covered.add(f"health_hazards.{route}")
+    return covered
 
 _TARGET_ALIASES = {
     "emergency_overview": ("emergency_overview", "emergency", "紧急情况概述", "紧急概述"),
@@ -462,6 +498,24 @@ def audit(facts: dict) -> dict:
     errors.extend(_audit_precautionary_groups(
         facts, ledger, routing_by_fact, trace_items
     ))
+
+    # H statements suppress only the same exposure route. A route not covered
+    # by Section 2.5 must remain available from the source Section 2.7/2.8
+    # health-hazard block; blanket suppression would lose source facts.
+    for language in ("zh", "en"):
+        h_values = []
+        route_values: dict[str, list[str]] = {}
+        for _, _, target, value in _iter_section2_rows(facts.get(language), language) or ():
+            if target == "hazard_statements":
+                h_values.append(value)
+            elif target in _HEALTH_ROUTE_TARGETS and _text(value):
+                route_values.setdefault(target, []).append(value)
+        covered = health_routes_covered_by_h_statements(h_values)
+        for target in sorted(covered.intersection(route_values)):
+            errors.append(
+                f"Section 2 routing: {language} {target} repeats a route already "
+                "covered by Section 2.5 hazard statements"
+            )
     traces_by_fact: dict[str, list[tuple[str, dict]]] = {}
     for index, item in enumerate(trace_items, start=1):
         decision = item.get("decision")

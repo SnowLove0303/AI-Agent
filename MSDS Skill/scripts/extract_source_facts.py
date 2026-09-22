@@ -374,8 +374,19 @@ def extract_s2(table, ext: Extraction) -> dict:
                     if out["p_statements"]:
                         out["p_statements"][-1] = continuation
                     continue
+        # A route-labelled line inside 2.6/2.4 response instructions is a
+        # first-aid instruction, not a health-hazard fact. Keep it in the
+        # response group verbatim, while only route lines outside that block
+        # may feed 2.7/2.8.
         health_route = _health_route_value(line)
-        if health_route:
+        if precautionary_active and health_route and current_precautionary_group is not None:
+            current_precautionary_group["statements"].append({
+                "code": "",
+                "text": line,
+                "source_locator": f"s2.line[{index + 1}]",
+            })
+            continue
+        if not precautionary_active and health_route:
             route, value = health_route
             if value:
                 out["health_hazards"][route].append(value)
@@ -508,10 +519,10 @@ def extract_s2(table, ext: Extraction) -> dict:
         if not has_explicit_codes:
             out["h_statements"] = []
             out["p_statements"] = []
-            out["precautionary_groups"] = []
-            out["health_hazards"] = {route: [] for route, _ in _HEALTH_ROUTE_PATTERNS}
+            if not any(group.get("statements") for group in out["precautionary_groups"]):
+                out["precautionary_groups"] = []
             ext.flag("s2", "controlled-nonhazard-cleared",
-                     "non-hazardous substance: cleared absent H/P statements and health routes")
+                     "non-hazardous substance: cleared absent H/P statements and precautionary groups")
         if not out["signal"]:
             out["signal"] = "无信号词"
             ext.flag("s2", "controlled-nonhazard-signal-fallback", "source classification is non-hazardous")

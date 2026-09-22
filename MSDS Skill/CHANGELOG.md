@@ -1,5 +1,16 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.27.11 — 2026-09-22
+
+- Changed Section 2 health-hazard de-duplication from a blanket switch to
+  independent inhalation, ingestion, skin, eyes and symptoms/signs routing.
+- Preserved every uncovered source 2.7/2.8 route and every additional same-route
+  source line instead of taking only the first value.
+- Kept route-labelled first-aid instructions from Section 2.6 in the response
+  group and blocked them from being promoted into health-hazard rows.
+- Added release-audit blockers and regression coverage for route-specific
+  duplication, missing route values and source-line preservation.
+
 ## v3.27.10 — 2026-09-22
 
 - Installed the user-approved CN/EN formal templates as the new active and

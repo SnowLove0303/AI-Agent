@@ -204,6 +204,28 @@ def test_source_cn_s2_projects_grouped_precautionary_value_and_suppresses_empty_
     ]
 
 
+def test_health_routes_dedupe_per_route_and_retain_all_uncovered_source_values():
+    rows, _ = project_source_cn_facts({
+        "h_statements": ["H315 造成皮肤刺激。"],
+        "health_hazards": {
+            "inhalation": ["吸入第一条。", "吸入第二条。"],
+            "ingestion": ["食入危害。"],
+            "skin": ["皮肤刺激。"],
+            "eyes": ["眼睛刺激。"],
+            "symptoms_signs": ["症状和体征。"],
+        },
+    })
+    projected = {
+        label.split("route=", 1)[1].rstrip("]"): value
+        for label, value in rows if "route=" in label
+    }
+    assert projected["skin"] == ""
+    assert projected["inhalation"] == "吸入第一条。\n吸入第二条。"
+    assert projected["ingestion"] == "食入危害。"
+    assert projected["eyes"] == "眼睛刺激。"
+    assert projected["symptoms_signs"] == "症状和体征。"
+
+
 def test_release_audit_blocks_missing_or_out_of_order_precautionary_groups():
     from audit_section2_release import run
 
