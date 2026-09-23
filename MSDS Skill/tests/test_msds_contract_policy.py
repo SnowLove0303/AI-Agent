@@ -227,6 +227,26 @@ def test_s11_compressed_facts_are_aligned_by_endpoint_before_rows_are_hidden():
             ["11.1 Acute toxicity:", "Oral:", "Toxicity: Oral (rat) LD50: >5000 mg/kg"],
             "(rat) LD50: >5000 mg/kg",
         ),
+        (
+            "template_reference.docx",
+            ["11.2 主要皮肤刺激性：", "皮肤- 兔子 500 毫克 轻度;"],
+            "兔子 500 毫克 轻度;",
+        ),
+        (
+            "template_reference.docx",
+            ["11.3 主要眼睛刺激性：", "眼- 兔子 500 毫克/24小时 轻度"],
+            "兔子 500 毫克/24小时 轻度",
+        ),
+        (
+            "template_reference_en.docx",
+            ["11.2 Primary skin irritation:", "skin - rabbit 500 mg, mild;"],
+            "rabbit 500 mg, mild;",
+        ),
+        (
+            "template_reference_en.docx",
+            ["11.3 Primary eye irritation:", "eye - rabbit 500 mg/24 hours, mild"],
+            "rabbit 500 mg/24 hours, mild",
+        ),
     ],
 )
 def test_s11_value_drops_only_locked_endpoint_and_route_headings(
@@ -234,7 +254,7 @@ def test_s11_value_drops_only_locked_endpoint_and_route_headings(
 ):
     document = Document(str(ROOT / "examples" / template_name))
     aligned = align_s11_rows([source_row], document.tables[10])
-    row = next(item for item in aligned if item[0].strip().startswith("11.1"))
+    row = next(item for item in aligned if item[0].strip().startswith(source_row[0].split()[0]))
     assert row[-1] == expected
 
 

@@ -1,8 +1,7 @@
 MSDS Unified Eight-Deliverable Standardizer Skill
-3.27.13
-Global template-label/value de-duplication is enforced by the guarded writer;
-Section 11 endpoint/route de-duplication and source-preserving Section 2 route
-extraction remain enabled while preserving the shared Section 6 divider rule.
+3.27.14
+Section 11.2 skin-irritation and 11.3 eye-irritation duplicate heading cleanup;
+ordinary Section 1-16 source values remain verbatim.
 Standard EN master template and 12-row geometry baseline, strict bold and format lock, 7-page exact convergence
 Jev System One domain adjudicator and decision ledger, dual-system fast/slow path routing
 Verbatim Section 2 GHS label elements, unified 12.0 pt value typography enforcement, Section 11 independent row playbook

@@ -1,13 +1,19 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.27.14 — 2026-09-23
+
+- Narrowed duplicate-heading removal to the reviewed Section 11 toxicology
+  endpoints; ordinary Section 1-16 values retain source wording.
+- Fixed Section 11.2 `皮肤-` / `skin -` and Section 11.3 `眼-` / `eye -`
+  prefixes when the locked endpoint label already identifies the irritation
+  type.
+- Added Chinese and English regressions for both endpoints and for preserving
+  ordinary Section 4 source wording.
+
 ## v3.27.13 — 2026-09-22
 
-- Promoted template-label/value de-duplication to the shared guarded value
-  writer instead of limiting it to Section 11.
-- Added exact and reviewed bilingual heading aliases for ordinary fields while
-  preserving all non-heading source text.
-- Added a global writer regression for a Section 4 field and retained the
-  Section 11.1 Chinese/English regression coverage.
+- Temporarily applied duplicate-heading cleanup globally. Superseded by
+  v3.27.14 after validation showed ordinary fields must preserve source wording.
 
 ## v3.27.12 — 2026-09-22
 

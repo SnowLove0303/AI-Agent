@@ -65,12 +65,12 @@ Recommendation` value is an explicit source-gated input slot: a reviewed,
 substantive source recommendation may be written in its non-bold value cell;
 when the source is absent, the value remains blank and is recorded in the
 source-presence audit rather than receiving invented text.
-Every ordinary writable value also passes through the global heading-ownership
-guard. If the value begins with the surviving row label, or with a reviewed
-bilingual alias of that label, that repeated heading is removed before the
-value is written. Structured rows additionally compare their locked sublabel.
-Only the leading heading plus its delimiter is eligible; the remainder of the
-source statement is not paraphrased or normalized away.
+Duplicate-heading removal is limited to reviewed Section 11 toxicology labels
+and their structured sublabels. Section 11.2 removes only repeated irritation
+headings, including the source markers `皮肤-`/`skin -`; Section 11.3 removes
+only repeated eye-irritation headings, including `眼-`/`eye -`. Ordinary
+sections preserve source value wording even when it begins with text similar
+to a template label.
 Global value typography is also a hard boundary: every non-empty writable
 value must be non-bold. The value may inherit its template anchor's font,
 size, color, language, spacing and other character properties, but direct

@@ -1,8 +1,8 @@
-# MSDS Skill 3.27.13
+# MSDS Skill 3.27.14
 
-V3.27.13 promotes template-label/value de-duplication to the guarded global
-writer, so repeated row headings in ordinary S1-S16 values are removed using
-only exact or reviewed bilingual aliases. V3.27.12 fixes repeated endpoint/route headings in Section 11 values: when the
+V3.27.14 limits duplicate-heading cleanup to reviewed Section 11 toxicology
+labels, including the `皮肤-` / `skin -` and `眼-` / `eye -` prefixes in 11.2
+and 11.3. Ordinary Section 1-16 source values remain verbatim. V3.27.12 fixes repeated endpoint/route headings in Section 11 values: when the
 template already owns `急性毒性` + `经口` / `Acute toxicity` + `Oral`, only the
 source result tail is written. V3.27.11 installs per-route Section 2
 health-hazard de-duplication and
@@ -58,7 +58,7 @@ Read [`SKILL.md`](SKILL.md) for the operating contract. The reusable scripts, te
 
 ## Version
 
-Public release: `MSDS Skill 3.27.10`
+Public release: `MSDS Skill 3.27.14`
 
 Template baseline: the current user-supplied formal CN/EN templates are kept
 as source records, while active baselines normalize value cells only. CN source
