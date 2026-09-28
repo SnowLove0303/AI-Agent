@@ -2,7 +2,8 @@ from __future__ import annotations
 import argparse, hashlib, json, re, subprocess, zipfile
 from pathlib import Path
 from docx import Document
-from tds_common import split_body_paragraphs, OUTPUT_HEADINGS, PERFORMANCE_TOPOLOGIES, ROOT, SECTION_HEADINGS, apply_vertical_budget_snapshot, body_blank_count, dump, hidden_block_indices, hidden_field_ids, inter_section_gap_errors, load, package_inventory, performance_topology, sha256, doc_snapshot, source_fidelity_errors, source_output_fidelity_errors, trim_body_blank_snapshot, typography_contract_errors
+from lint_tds_docx import lint_docx
+from tds_common import split_body_paragraphs, OUTPUT_HEADINGS, PERFORMANCE_TOPOLOGIES, ROOT, SECTION_HEADINGS, apply_vertical_budget_snapshot, body_blank_count, dump, hidden_block_indices, hidden_field_ids, inter_section_gap_errors, load, package_inventory, performance_topology, sha256, doc_snapshot, source_fidelity_errors, source_output_fidelity_errors, template_registry_errors, trim_body_blank_snapshot, typography_contract_errors, variant_asset_errors
 
 def shape(s):
     s=json.loads(json.dumps(s));
@@ -169,6 +170,7 @@ def main():
     docx_dir=args.output_dir/'WORD' if (args.output_dir/'WORD').is_dir() else args.output_dir
     pdf_dir=args.output_dir/'PDF' if (args.output_dir/'PDF').is_dir() else args.output_dir
     reg=load(args.registry); mapping=load(args.mapping); results=[]; errors=[]; warnings=[]
+    errors.extend(f'template_registry:{item}' for item in template_registry_errors(reg))
     errors.extend(f'source_fidelity_mapping:{item}' for item in source_fidelity_errors(mapping))
     fields=semantic_fields(mapping)
     model=mapping.get('normalized_model',{})
@@ -203,6 +205,8 @@ def main():
         out=docx_dir/f'{args.model}_{stem}.docx'
         if not out.is_file(): errors.append(f'missing_docx:{out.name}'); continue
         base=Document(str(ROOT/v['template'])); product=Document(str(out));
+        errors.extend(f'docx_linter:{item}' for item in lint_docx(out,ROOT/v['template'],vid,v,mapping))
+        errors.extend(f'variant_asset:{item}' for item in variant_asset_errors(out,v,vid))
         errors.extend(f'typography_contract:{vid}:{item}' for item in typography_contract_errors(base,v))
         geometry_ok=audit_shape(base,product,v,mapping)
         if not geometry_ok: errors.append(f'geometry_changed:{vid}')

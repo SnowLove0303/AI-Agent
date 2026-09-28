@@ -165,3 +165,10 @@
 - 内化四个用户维护模板：CN/EN × 冠志/国彩；建立来源 hash、active DOCX、registry 和 geometry/package snapshot。
 - 建立一次抽取、统一 semantic model、四变体一一映射、fresh-clone 原位覆写和 fail-closed 约束。
 - 建立四 DOCX + 四 DOCX-derived PDF 的八格式构建和发布审计入口。
+## 1.3.25
+
+- 增加四变体模板 SHA-256 与冠志/国彩公司资产运行时门禁。
+- 增加 `lint_tds_docx.py`，在 PDF 转换前检查正文样式继承、非法换行、公司资产和源事实回读。
+- 跨章节完整短语泄漏阻断，避免历史/邻近章节内容进入当前字段。
+- 英文垂直预算不再修改正文行距或 `lineRule`；锁定输出时保留 `.pending` 可恢复文件。
+

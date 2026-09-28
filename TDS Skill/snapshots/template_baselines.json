@@ -2,9 +2,9 @@
   "schema_version": "1.0.0",
   "variants": {
     "TDS_CN_冠志模板": {
-      "file": "templates\\active\\TDS_CN_冠志模板.docx",
+      "file": "templates/active/TDS_CN_冠志模板.docx",
       "sha256": "8bd49db386c6078ffa5355c101ba3a54457bd5007702f40d421ac2a79e2f2871",
-      "source_file": "templates\\source\\TDS_CN_冠志模板.doc",
+      "source_file": "templates/source/TDS_CN_冠志模板.doc",
       "source_sha256": "5e360ec1a260bfee597b4ea802adec8fbf43492a033ddb57e4ef1188a880d599",
       "snapshot": {
         "sections": [
@@ -2260,9 +2260,9 @@
       }
     },
     "TDS_CN_国彩模板": {
-      "file": "templates\\active\\TDS_CN_国彩模板.docx",
+      "file": "templates/active/TDS_CN_国彩模板.docx",
       "sha256": "2bf8a7acbad9eb73969bde9d62c5bf1cad862ea88c02fed7fb0ec14562660e6e",
-      "source_file": "templates\\source\\TDS_CN_国彩模板.doc",
+      "source_file": "templates/source/TDS_CN_国彩模板.doc",
       "source_sha256": "26f6258d6a906db0ccbb76d25df5788ccd3700aad5fd502270803dddfcee02d0",
       "snapshot": {
         "sections": [
@@ -4417,9 +4417,9 @@
       }
     },
     "TDS_EN_冠志模板": {
-      "file": "templates\\active\\TDS_EN_冠志模板.docx",
+      "file": "templates/active/TDS_EN_冠志模板.docx",
       "sha256": "2165efbe143be1238e5680c2850cf9adf5938de9cbb0a552d0b32b8cf373e537",
-      "source_file": "templates\\source\\TDS_EN_冠志模板.doc",
+      "source_file": "templates/source/TDS_EN_冠志模板.doc",
       "source_sha256": "7d177b7685223d821745122b358b5e58ee0a1b4c893f985d4a6a32099fa9cb3d",
       "snapshot": {
         "sections": [
@@ -6597,9 +6597,9 @@
       }
     },
     "TDS_EN_国彩模板": {
-      "file": "templates\\active\\TDS_EN_国彩模板.docx",
+      "file": "templates/active/TDS_EN_国彩模板.docx",
       "sha256": "6ff73b00e917881f52477f139c034b4e2b4cfeef89880e7e95c96a36e275510f",
-      "source_file": "templates\\source\\TDS_EN_国彩模板.doc",
+      "source_file": "templates/source/TDS_EN_国彩模板.doc",
       "source_sha256": "df365acc5b827f4a598e358f2c47dd80190c1aa47598edbfb0944337339d3fe8",
       "snapshot": {
         "sections": [

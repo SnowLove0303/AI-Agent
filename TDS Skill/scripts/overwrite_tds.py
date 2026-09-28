@@ -7,7 +7,7 @@ from docx import Document
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.text.paragraph import Paragraph
-from tds_common import OUTPUT_HEADINGS, PERFORMANCE_TOPOLOGIES, ROOT, SECTION_HEADINGS, apply_vertical_budget, body_blank_count, dump, fresh_write, hidden_block_indices, hidden_field_ids, load, performance_topology, replace_cell, replace_feature_paragraph, replace_paragraph, sha256, source_fidelity_errors, source_output_fidelity_errors, trim_body_blank_paragraphs, vertical_budget_level, split_body_paragraphs
+from tds_common import OUTPUT_HEADINGS, PERFORMANCE_TOPOLOGIES, ROOT, SECTION_HEADINGS, apply_vertical_budget, body_blank_count, dump, fresh_write, hidden_block_indices, hidden_field_ids, load, performance_topology, replace_cell, replace_feature_paragraph, replace_paragraph, sha256, source_fidelity_errors, source_output_fidelity_errors, template_registry_errors, trim_body_blank_paragraphs, variant_asset_errors, vertical_budget_level, split_body_paragraphs
 
 NO_DATA={'zh-CN':'无数据','en-US':'No data available'}
 def feature_lines(text): return [re.sub(r'^\s*\d+[.、]\s*','',line) for line in (text or '').splitlines()]
@@ -67,6 +67,8 @@ def write_source_performance_rows(doc, rows, variant, lang, topology):
         if columns>=4: values.append(row_value(item,'test_method_values',lang,'test_method_values') or item.get('test_method',''))
         for column,text in enumerate(values): replace_cell(row.cells[column],text)
 def _write_variant(mapping, registry, variant_id, output, event=None, generation_path=None, execution_log_file=None):
+    registry_errors=template_registry_errors(registry)
+    if registry_errors: raise RuntimeError(f'template registry contract failed: {registry_errors}')
     fidelity_errors=source_fidelity_errors(mapping)
     if fidelity_errors: raise RuntimeError(f'source fidelity contract failed: {fidelity_errors}')
     variant=registry['variants'][variant_id]; lang=variant['language']; fields=semantic_fields(mapping,lang); slots={x['field_id']:x for x in variant['slots']}
@@ -167,7 +169,7 @@ def _write_variant(mapping, registry, variant_id, output, event=None, generation
         budget_level=vertical_budget_level(variant,total_items)
         if event and vertical_budget:
             profile=next((item for item in variant.get('english_vertical_budget',{}).get('levels',[]) if str(item.get('name','')).endswith(str(budget_level))),{})
-            event('english_vertical_budget_applied', total_items=total_items, level=budget_level, line_twips=profile.get('line_twips',260), item_after_twips=profile.get('item_after_twips',profile.get('after_twips',40)))
+            event('english_vertical_budget_applied', total_items=total_items, level=budget_level, line_spacing_preserved=True, item_after_twips=profile.get('item_after_twips',profile.get('after_twips',40)))
         tail_trimmed=[]
         if variant.get('tail_blank_trim',{}).get('allowed',False):
             while doc.paragraphs and not doc.paragraphs[-1].text.strip():
@@ -181,13 +183,15 @@ def _write_variant(mapping, registry, variant_id, output, event=None, generation
         edit.vertical_budget_level=budget_level
         edit.tail_blank_count=len(tail_trimmed)
     fresh_write(ROOT/variant['template'],output,edit)
+    asset_errors=variant_asset_errors(output,variant,variant_id)
+    if asset_errors: raise RuntimeError(f'variant asset contract failed: {asset_errors}')
     if event: event('docx_written', output_bytes=output.stat().st_size)
     text='\n'.join(p.text for p in Document(str(output)).paragraphs)+'\n'+'\n'.join(c.text for t in Document(str(output)).tables for r in t.rows for c in r.cells)
     leaked=[x for x in sample_tokens if x.lower() in text.lower() and x not in (mapping.get('allowed_source_tokens') or [])]
     output_fidelity_errors=source_output_fidelity_errors(Document(str(output)),mapping,registry,variant_id)
     if output_fidelity_errors: raise RuntimeError(f'source output fidelity failed: {output_fidelity_errors}')
     feature_values=feature_lines(fields.get('product.features',{}).get('values',{}).get(lang,'')); feature_slots=len(variant.get('feature_format_contract',{}).get('paragraph_indices',[21,23]))
-    record={'schema_version':'1.3.24','variant_id':variant_id,'template':variant['template'],'template_sha256':variant['template_sha256'],'output':str(output),'output_sha256':sha256(output),'generated_at':datetime.now(timezone.utc).isoformat(),'fresh_clone':True,'source_led_performance_rows':source_rows is not None,'performance_table_topology':topology,'performance_extra_rows':len(extension_rows),'feature_extra_items':max(0,len(feature_values)-feature_slots),'hidden_fields':sorted(hidden_field_ids(mapping)),'hidden_paragraphs':getattr(edit,'hidden_paras',[]),'body_blank_paragraphs_trimmed':getattr(edit,'body_blank_trimmed',0),'body_blank_paragraph_count':getattr(edit,'body_blank_count',0),'english_vertical_budget_applied':getattr(edit,'vertical_budget',False),'english_vertical_budget_level':getattr(edit,'vertical_budget_level',0),'tail_blank_paragraphs_trimmed':getattr(edit,'tail_blank_count',0),'sample_fact_leaks':leaked,'source_fidelity':'pass','normalization_model_status':mapping.get('normalized_model',{}).get('status','legacy-mapping'),'translation_source':mapping.get('normalized_model',{}).get('translation',{}).get('source','legacy-mapping'),'decision_ledger_entries':len(mapping.get('decision_ledger',mapping.get('normalized_model',{}).get('decision_ledger',[]))),'execution_log_file':execution_log_file or output.name+'.overwrite.log.json','ready_for_user_proofreading':not leaked,'customer_ready':False}
+    record={'schema_version':'1.3.25','variant_id':variant_id,'template':variant['template'],'template_sha256':variant['template_sha256'],'output':str(output),'output_sha256':sha256(output),'generated_at':datetime.now(timezone.utc).isoformat(),'fresh_clone':True,'source_led_performance_rows':source_rows is not None,'performance_table_topology':topology,'performance_extra_rows':len(extension_rows),'feature_extra_items':max(0,len(feature_values)-feature_slots),'hidden_fields':sorted(hidden_field_ids(mapping)),'hidden_paragraphs':getattr(edit,'hidden_paras',[]),'body_blank_paragraphs_trimmed':getattr(edit,'body_blank_trimmed',0),'body_blank_paragraph_count':getattr(edit,'body_blank_count',0),'english_vertical_budget_applied':getattr(edit,'vertical_budget',False),'english_vertical_budget_level':getattr(edit,'vertical_budget_level',0),'english_vertical_budget_line_spacing_preserved':True,'tail_blank_paragraphs_trimmed':getattr(edit,'tail_blank_count',0),'sample_fact_leaks':leaked,'source_fidelity':'pass','normalization_model_status':mapping.get('normalized_model',{}).get('status','legacy-mapping'),'translation_source':mapping.get('normalized_model',{}).get('translation',{}).get('source','legacy-mapping'),'decision_ledger_entries':len(mapping.get('decision_ledger',mapping.get('normalized_model',{}).get('decision_ledger',[]))),'execution_log_file':execution_log_file or output.name+'.overwrite.log.json','ready_for_user_proofreading':not leaked,'customer_ready':False}
     dump(generation_path or output.with_suffix(output.suffix+'.generation.json'),record)
     if leaked: raise RuntimeError(f'sample facts leaked in {output.name}: {leaked}')
 

@@ -13,11 +13,13 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
 from overwrite_tds import write_variant
 from audit_tds_eight import audit_shape, pdf_page_count
-from tds_common import body_blank_count, feature_spacing_signature, inter_section_gap_errors, load, numbering_shape, package_inventory, paragraph_shape, source_fidelity_errors, source_output_fidelity_errors, text_sha256, typography_contract_errors
+from lint_tds_docx import lint_docx
+from tds_common import body_blank_count, cross_section_phrase_errors, feature_spacing_signature, inter_section_gap_errors, load, numbering_shape, package_inventory, paragraph_shape, replace_or_retain, source_fidelity_errors, source_output_fidelity_errors, template_registry_errors, text_sha256, typography_contract_errors, variant_asset_errors
 
 
 def test_all_four_variants_are_fresh_clones(tmp_path):
     registry = load(ROOT / "mapping" / "template_field_registry.json")
+    assert template_registry_errors(registry) == []
     mapping = load(ROOT / "tests" / "fixtures" / "valid_mapping.json")
     for variant_id, variant in registry["variants"].items():
         output = tmp_path / f"TDS-DEMO_{variant_id}.docx"
@@ -31,6 +33,8 @@ def test_all_four_variants_are_fresh_clones(tmp_path):
         generation = json.loads(output.with_suffix(output.suffix + ".generation.json").read_text(encoding="utf-8"))
         assert generation["execution_log_file"] == execution_log.name
         doc = Document(str(output))
+        assert variant_asset_errors(output, variant, variant_id) == []
+        assert lint_docx(output, ROOT / variant["template"], variant_id, variant, mapping) == []
         assert len(doc.tables) == 1
         assert len(doc.tables[0].rows) == 6
         assert "EP-1704" not in "\n".join(p.text for p in doc.paragraphs)
@@ -583,21 +587,24 @@ def test_english_vertical_budget_preserves_template_indent(tmp_path):
     output = tmp_path / "english-budget.docx"
     write_variant(mapping, registry, "TDS_EN_冠志模板", output)
     doc = Document(str(output))
-    headings = {"Product Description", "Supply Form", "Product Features", "Application", "Storage"}
+    headings = {"Product Description", "Supply Form", "Product Features", "Application", "Storage", "Technical Data"}
     body_start = next(i for i, p in enumerate(doc.paragraphs) if p.text.strip() == "Product Description")
     body = [p for p in doc.paragraphs[body_start:] if p.text.strip() and p.text.strip() not in headings]
     assert body
     generation = json.loads(output.with_suffix(output.suffix + ".generation.json").read_text(encoding="utf-8"))
-    expected = {1: ("280", "30"), 2: ("260", "20")} [generation["english_vertical_budget_level"]]
+    expected_after = {1: "30", 2: "20"}[generation["english_vertical_budget_level"]]
     for paragraph in body:
         spacing = paragraph._p.pPr.find(qn("w:spacing"))
-        assert spacing is not None and spacing.get(qn("w:line")) == expected[0] and spacing.get(qn("w:after")) == expected[1]
+        assert spacing is not None and spacing.get(qn("w:after")) == expected_after
+        if not paragraph.text.startswith("Feature "):
+            assert spacing.get(qn("w:line")) == "300" and spacing.get(qn("w:lineRule")) == "auto"
     ind = body[0]._p.pPr.find(qn("w:ind"))
     assert ind is not None and ind.get(qn("w:firstLineChars")) == "200" and ind.get(qn("w:firstLine")) == "480"
     feature = next(p for p in body if p.text == "Feature one.")
     feature_ind = feature._p.pPr.find(qn("w:ind"))
     assert feature_ind is not None and feature_ind.get(qn("w:left")) == "840" and feature_ind.get(qn("w:hanging")) == "360"
     assert generation["english_vertical_budget_applied"] is True
+    assert generation["english_vertical_budget_line_spacing_preserved"] is True
     assert audit_shape(Document(str(ROOT / variant["template"])), doc, variant, mapping)
 
 
@@ -606,3 +613,28 @@ def test_pdf_page_count_uses_pure_python_fallback_when_pypdf_is_unavailable(tmp_
     pdf.write_bytes(b"%PDF-1.4\n1 0 obj << /Type /Page >>\n2 0 obj << /Type /Page >>\n")
     monkeypatch.setitem(sys.modules, "pypdf", None)
     assert pdf_page_count(pdf) == 2
+
+
+def test_locked_output_retains_recoverable_pending_file(tmp_path, monkeypatch):
+    source = tmp_path / "generated.pdf"
+    target = tmp_path / "deliverable.pdf"
+    source.write_bytes(b"generated")
+    target.write_bytes(b"locked-baseline")
+
+    def locked_replace(*args, **kwargs):
+        raise PermissionError("locked")
+
+    monkeypatch.setattr("tds_common.os.replace", locked_replace)
+    with pytest.raises(PermissionError, match="retained generated file"):
+        replace_or_retain(source, target, suffix=".pending.pdf")
+    assert (tmp_path / "deliverable.pdf.pending.pdf").read_bytes() == b"generated"
+    assert target.read_bytes() == b"locked-baseline"
+
+
+def test_normalized_text_cannot_copy_a_clause_from_another_section():
+    mapping = {"normalized_model": {"fields": {
+        "product.description": {"source_values": {"zh-CN": "用于树脂。"}, "normalized_values": {"zh-CN": "用于树脂。水性涂料和粘合剂体系。"}},
+        "product.application": {"source_values": {"zh-CN": "水性涂料和粘合剂体系。"}, "normalized_values": {"zh-CN": "水性涂料和粘合剂体系。"}},
+    }}}
+    errors = cross_section_phrase_errors(mapping)
+    assert any("product.description<-product.application" in error for error in errors)

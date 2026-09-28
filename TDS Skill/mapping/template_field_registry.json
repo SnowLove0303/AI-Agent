@@ -2,10 +2,11 @@
   "schema_version": "1.0.0",
   "variants": {
     "TDS_CN_冠志模板": {
-      "template": "templates\\active\\TDS_CN_冠志模板.docx",
+      "template": "templates/active/TDS_CN_冠志模板.docx",
       "template_sha256": "8bd49db386c6078ffa5355c101ba3a54457bd5007702f40d421ac2a79e2f2871",
       "language": "zh-CN",
       "company": "guanzhi",
+      "asset_contract": {"media_allowed": true, "first_paragraph_left_twips": 1360},
       "slots": [
         {
           "field_id": "product.title",
@@ -204,10 +205,11 @@
       }
     },
     "TDS_CN_国彩模板": {
-      "template": "templates\\active\\TDS_CN_国彩模板.docx",
+      "template": "templates/active/TDS_CN_国彩模板.docx",
       "template_sha256": "2bf8a7acbad9eb73969bde9d62c5bf1cad862ea88c02fed7fb0ec14562660e6e",
       "language": "zh-CN",
       "company": "guocai",
+      "asset_contract": {"media_allowed": false, "first_paragraph_left_twips": null},
       "slots": [
         {
           "field_id": "product.title",
@@ -406,10 +408,11 @@
       }
     },
     "TDS_EN_冠志模板": {
-      "template": "templates\\active\\TDS_EN_冠志模板.docx",
+      "template": "templates/active/TDS_EN_冠志模板.docx",
       "template_sha256": "2165efbe143be1238e5680c2850cf9adf5938de9cbb0a552d0b32b8cf373e537",
       "language": "en-US",
       "company": "guanzhi",
+      "asset_contract": {"media_allowed": true, "first_paragraph_left_twips": 1360},
       "slots": [
         {
           "field_id": "product.title",
@@ -622,10 +625,11 @@
       }
     },
     "TDS_EN_国彩模板": {
-      "template": "templates\\active\\TDS_EN_国彩模板.docx",
+      "template": "templates/active/TDS_EN_国彩模板.docx",
       "template_sha256": "6ff73b00e917881f52477f139c034b4e2b4cfeef89880e7e95c96a36e275510f",
       "language": "en-US",
       "company": "guocai",
+      "asset_contract": {"media_allowed": false, "first_paragraph_left_twips": null},
       "slots": [
         {
           "field_id": "product.title",
