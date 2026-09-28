@@ -12,7 +12,9 @@ small set of mutations that generation is allowed to make:
   sequence prefix afterwards;
 * Section 2.8 route prefixes and Section 11 middle sublabels are template
   content, not writable values;
-* no operation may rewrite a sequence/label cell as a generic value write.
+* no operation may rewrite a sequence/label cell as a generic value write;
+  the only label-text exception is a source-backed Section 9 condition
+  qualifier that leaves the property identity and label formatting unchanged.
 
 The functions intentionally operate on the existing OOXML nodes.  They do not
 rebuild tables or normalize the formatting of locked cells.
@@ -22,6 +24,7 @@ from __future__ import annotations
 
 import copy
 import re
+import unicodedata
 from dataclasses import dataclass
 from typing import Callable, Iterable, Sequence
 
@@ -495,6 +498,72 @@ def _write_paragraph_content(paragraph, text: str, *, force_nonbold: bool = True
     paragraph._p.append(run)
 
 
+def _s9_condition_free_label(text: str) -> str:
+    text = re.sub(r"^\s*9\.\d+\s*", "", str(text or ""))
+    text = re.sub(r"[（(][^）)]*(?:%|℃|°c|aqueous|solution|m/v|w/w)[^）)]*[）)]", "", text, flags=re.I)
+    text = re.sub(r"[/／]\s*\d+(?:\.\d+)?\s*(?:℃|°c)", "", text, flags=re.I)
+    return re.sub(r"[\s:：()（）\[\]【】%％/／_-]+", "", unicodedata.normalize("NFKC", text)).casefold()
+
+
+def _s9_property_identity(text: str) -> str | None:
+    label = _s9_condition_free_label(text)
+    aliases = (
+        ("relative_vapour_density", ("relativevapourdensity", "相对蒸气密度")),
+        ("dust_explosion_class", ("dustexplosionclass", "粉尘爆炸级别", "粉尘爆炸等级")),
+        ("water_solubility", ("solubilityinwater", "水溶性")),
+        ("surface_tension", ("surfacetension", "表面张力")),
+        ("dynamic_viscosity", ("dynamicviscosity", "viscosity", "动力粘度", "动力黏度", "粘度", "黏度")),
+        ("ionicity", ("ionicity", "离子性")),
+        ("ph", ("phvalue", "ph值", "ph")),
+    )
+    for key, candidates in aliases:
+        if key == "ph":
+            if label == "ph" or label.startswith(("phvalue", "ph值")):
+                return key
+        elif any(unicodedata.normalize("NFKC", alias).casefold() in label for alias in candidates):
+            return key
+    return None
+
+
+def _s9_label_has_condition(text: str) -> bool:
+    return bool(re.search(
+        r"(?:[（(][^）)]*(?:%|℃|°c|aqueous|solution|m/v|w/w)[^）)]*[）)]|"
+        r"[/／]\s*\d+(?:\.\d+)?\s*(?:℃|°c))", str(text or ""), re.I
+    ))
+
+
+def _write_s9_qualified_label(cell, label: str) -> None:
+    """Change only S9 qualifier text while retaining every existing run style."""
+    paragraphs = cell.paragraphs
+    if len(paragraphs) != 1 or not paragraphs[0].runs:
+        raise MutationViolation("qualified S9 label requires one styled label paragraph")
+    paragraph = paragraphs[0]
+    old_text = "".join(run.text for run in paragraph.runs)
+    prefix = re.match(r"^\s*9\.\d+\s*", old_text)
+    if not prefix:
+        raise MutationViolation("qualified S9 label has no maintained 9.n prefix")
+    boundary = prefix.end()
+    new_body = re.sub(r"^\s*9\.\d+\s*", "", label)
+    cursor = 0
+    body_written = False
+    for run in paragraph.runs:
+        start, end = cursor, cursor + len(run.text)
+        old_run_text = run.text
+        if end <= boundary:
+            pass
+        elif start < boundary:
+            run.text = old_run_text[:boundary - start] + new_body
+            body_written = True
+        elif not body_written:
+            run.text = new_body
+            body_written = True
+        else:
+            run.text = ""
+        cursor = end
+    if not body_written:
+        raise MutationViolation("qualified S9 label has no property-name run")
+
+
 def _replace_leading_pattern_in_runs(paragraph, pattern: str, replacement: str) -> str:
     """Replace a leading pattern without collapsing the existing run tree."""
     current = paragraph.text
@@ -802,6 +871,20 @@ def write_row_values(row, values: Sequence[object], *, table_index: int | None =
         if any(value.strip() for value in values[1:]):
             raise MutationViolation("Section 15 structural heading is not writable")
         return None
+
+    if table_index == 8 and not inserted_data_row and values and values[0].strip():
+        current_label = cells[0].text
+        requested_label = values[0]
+        if requested_label.strip() != current_label.strip():
+            same_property = (
+                _s9_property_identity(current_label) is not None
+                and _s9_property_identity(current_label) == _s9_property_identity(requested_label)
+            )
+            if not same_property or not _s9_label_has_condition(requested_label):
+                raise MutationViolation(
+                    "Section 9 label changes may add only an explicit source-backed test condition"
+                )
+            _write_s9_qualified_label(cells[0], requested_label)
 
     if inserted_data_row:
         if table_index not in {8, 14}:
@@ -1417,9 +1500,24 @@ def _canonical_locked_text(text: str) -> str:
 
 def _row_candidates(template_table, output_table, table_index, output_index, output_row):
     output_cells = unique_cells(output_row)
+    if table_index == 8 and output_cells:
+        # S9 conditions may specialize a property label and pure missing rows
+        # are removed before renumbering. Anchor by property identity so a
+        # compacted row index cannot select a neighboring property's format.
+        identity = _s9_property_identity(output_cells[0].text)
+        if identity:
+            candidates = [
+                row for row in template_table.rows
+                if unique_cells(row)
+                and _s9_property_identity(unique_cells(row)[0].text) == identity
+            ]
+            if candidates:
+                return candidates
     if table_index == 2 and output_index >= 4:
-        reference_index = min(output_index, len(template_table.rows) - 1)
-        return [template_table.rows[reference_index]] if len(template_table.rows) > 4 else []
+        # Every S3 component row is a valid data exemplar. A final output row
+        # may inherit the template's last-row border treatment after unused
+        # sample rows are suppressed, so match against the whole data block.
+        return list(template_table.rows[4:])
     if table_index == 7:
         if _is_s82_parent_row(output_row):
             return [template_table.rows[12]] if len(template_table.rows) > 12 else []
@@ -1458,6 +1556,27 @@ def _row_paging_signature(row) -> tuple[bool, bool]:
         tr_pr.find(qn("w:cantSplit")) is not None,
         tr_pr.find(qn("w:tblHeader")) is not None,
     )
+
+
+def _approved_s114_height_anchor(template_row, output_row) -> bool:
+    """Accept only the documented 1169-to-285 twip short-value adjustment."""
+    if not any(re.match(r"^\s*11\.4\b", cell.text) for cell in unique_cells(output_row)):
+        return False
+    template_pr = copy.deepcopy(template_row._tr.trPr)
+    output_pr = copy.deepcopy(output_row._tr.trPr)
+    if template_pr is None or output_pr is None:
+        return False
+    template_height = template_pr.find(qn("w:trHeight"))
+    output_height = output_pr.find(qn("w:trHeight"))
+    if template_height is None or output_height is None:
+        return False
+    if (template_height.get(qn("w:val")), template_height.get(qn("w:hRule"))) != ("1169", "atLeast"):
+        return False
+    if (output_height.get(qn("w:val")), output_height.get(qn("w:hRule"))) != ("285", "atLeast"):
+        return False
+    template_pr.remove(template_height)
+    output_pr.remove(output_height)
+    return _without_text(template_pr) == _without_text(output_pr)
 
 
 def audit_cross_page_contract(template, output) -> dict:
@@ -1625,7 +1744,13 @@ def compare_format_anchors(template, output, *, language: str = "cn",
                 candidate_cells = unique_cells(candidate)
                 if len(candidate_cells) != len(output_cells):
                     continue
-                if _without_text(output_row._tr.trPr) != _without_text(candidate._tr.trPr):
+                row_properties_match = (
+                    _without_text(output_row._tr.trPr) == _without_text(candidate._tr.trPr)
+                ) or (
+                    table_index == 10
+                    and _approved_s114_height_anchor(candidate, output_row)
+                )
+                if not row_properties_match:
                     continue
                 cell_formats_match = True
                 for cell_index, (expected_cell, actual_cell) in enumerate(
@@ -1917,6 +2042,8 @@ def locked_cell_snapshots(document, *, allow_added_data_rows: bool = False) -> l
                 continue
             label = cells[0].text.strip()
             logical = _canonical_locked_text(label)
+            if table_index == 8:
+                logical = _s9_condition_free_label(logical)
             logical = re.sub(r"\s+", " ", logical)
             occurrence[logical] = occurrence.get(logical, 0) + 1
             row_key = (logical, occurrence[logical])
@@ -2013,6 +2140,10 @@ def compare_locked_skeleton(template, output) -> list[str]:
             expected_text = _canonical_locked_text(expected_item.text)
             actual_text = _canonical_locked_text(actual_item.text)
             if expected_text != actual_text:
+                if (actual_item.table_index == 8
+                        and _s9_condition_free_label(expected_text) == _s9_condition_free_label(actual_text)
+                        and _s9_label_has_condition(actual_text)):
+                    continue
                 errors.append(
                     f"locked {'label' if expected_item.cell_role == 'sequence_label' else 'sub-label/header'} text changed: {key}; "
                     + format_diagnostic(

@@ -1,4 +1,4 @@
-# MSDS Agent 覆写 SOP v1.0
+# MSDS Agent 覆写 SOP v1.1
 
 这套 SOP 解决两个相反风险：源文件不规则导致无法精准匹配，以及 Agent 为了填满模板而虚构、改写或错路由。Agent 不直接把源文件写进模板，而是先产出可审计的事实和路由，再由固定程序写入。
 
@@ -36,4 +36,4 @@
 
 ## D. Agent 交付记录
 
-批准事实 JSON 必须提供 `overwrite_sop`：SOP 版本、全部阶段状态、已加载局部规则、跨 Section 路由清单、标准化允许范围和审计计划。缺少该记录时，程序在模板克隆前阻断。SOP 自证不能覆盖事实台账、源文保真或 DOCX 格式审计。
+批准事实 JSON 必须提供 `overwrite_sop`：SOP 版本、全部阶段状态、已加载局部规则、跨 Section 路由清单、标准化允许范围和审计计划。模板克隆前只要求 `openspec/agent_overwrite_contract.json` 中 `preflight_required_stages` 列出的阶段完成；后续克隆/写入、空行处理/重编号、审计/渲染阶段必须记录为 `pending`、`not_started` 或经实际完成的 `completed`。不能把尚未执行的后续阶段预先标成完成，也不能因其尚未执行而阻止首次模板克隆。最终输出仍须通过独立的 DOCX 规则审计、矩阵和渲染门禁；SOP 自证不能覆盖事实台账、源文保真或 DOCX 格式审计。

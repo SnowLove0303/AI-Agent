@@ -1,5 +1,40 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.27.16 — 2026-09-28
+
+- Split the agent execution SOP gate into preflight-complete stages and later
+  build stages. The preflight no longer blocks template cloning while requiring
+  post-write audit/render stages to be completed in advance; incomplete
+  preflight stages remain blocking and final output audits remain mandatory.
+- Bumped the Agent contract to 1.7.0 and overwrite SOP to 1.1 to invalidate
+  execution records reviewed against the previous mutation/stage rules.
+- Synced the GUI recognition reader into source extraction, cross-checked its
+  table/text/image coverage against source OOXML, and retained heuristic field
+  candidates as review warnings only.
+- Deferred Tk imports until the desktop viewer is opened, so CLI extraction
+  and recognition remain importable under Python builds without Tk.
+- Applied Section 9 independent-property mapping and source-backed measurement
+  qualifier rules; kept template labels authoritative elsewhere and retained
+  source explanation lines in reserved note slots.
+- Added PU-3011 recognition and workflow timing reports under
+  `docs/performance-studies/PU-3011/`. The fresh 2026-09-28 run remains
+  explicitly marked partial because it stopped at the preflight cycle.
+
+## v3.27.15 maintenance — 2026-09-28
+
+- Clarified template labels as the output authority outside the narrow,
+  source-backed Section 9 measurement-condition exception.
+- Preserved Section 12 explanation lines in template note slots and added
+  source-coverage handling for recognized Section 8 label/value cells.
+
+## v3.27.15 — 2026-09-24
+
+- Kept Section 9 properties independent and preserved explicit measurement
+  conditions only when supported by the reviewed source. Added distinct
+  ionicity, viscosity, solubility and other-information mappings.
+- Added CN/EN regressions for pH, surface tension, viscosity and separated
+  property rows.
+
 ## v3.27.14 — 2026-09-23
 
 - Narrowed duplicate-heading removal to the reviewed Section 11 toxicology

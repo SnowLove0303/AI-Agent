@@ -88,6 +88,7 @@ scripts/jev_engine.py
 scripts/layout_preservation_policy.py
 scripts/missing_data_policy.py
 scripts/msds_pipeline.py
+scripts/msds_table_search.py
 scripts/normalize_en_layout.py
 scripts/output_matrix.py
 scripts/preflight_facts.py

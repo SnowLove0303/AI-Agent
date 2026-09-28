@@ -403,8 +403,6 @@ def align_note_section_rows(values, table) -> list:
         if len(unique_cells(row)) != 1:
             break
         note_slots += 1
-    if not note_slots:
-        return rows
     notes = []
     endpoints = []
     for row in rows:
@@ -417,12 +415,17 @@ def align_note_section_rows(values, table) -> list:
                 notes.append([text])
         else:
             endpoints.append(values)
-    if note_slots == 1 and len(notes) > 1:
-        # The maintained S13 skeleton deliberately combines the two legal
-        # explanation lines into one one-cell row before the final two-column
-        # treatment-method row.
-        notes = [["\n".join(row[0] for row in notes)]]
-    return notes[:note_slots] + [[""]] * max(0, note_slots - len(notes)) + endpoints
+    if notes and not note_slots:
+        raise ReleaseBlocked(
+            "source explanation lines have no template note slot; preserve them before release"
+        )
+    if len(notes) > note_slots:
+        # Keep every source explanation line when the template offers fewer
+        # note slots: combine overflow into the last reserved note cell.
+        notes = notes[:note_slots - 1] + [[
+            "\n".join(row[0] for row in notes[note_slots - 1:])
+        ]]
+    return notes + [[""]] * max(0, note_slots - len(notes)) + endpoints
 
 
 def _s9_property_key(text: object) -> str | None:
@@ -441,13 +444,15 @@ def _s9_property_key(text: object) -> str | None:
         ("saturated_vapour_pressure", "饱和蒸气压", "saturatedvapourpressure"),
         ("relative_vapour_density", "相对蒸气密度", "relativevapourdensity"),
         ("density", "相对密度", "密度", "density"),
+        ("ionicity", "离子性", "ionicity"),
         ("water_solubility", "水溶性", "solubilityinwater"),
         ("surface_tension", "表面张力", "surfacetension"),
         ("log_pow", "辛醇水分配系数对数值", "辛醇水分配系数的对数值", "logpow"),
         ("auto_ignition_temperature", "自燃温度", "autoignitiontemperature"),
         ("ignition_temperature", "引燃温度", "ignitiontemperature"),
         ("decomposition_temperature", "分解温度", "decompositiontemperature"),
-        ("dynamic_viscosity", "动力粘度", "动力黏度", "dynamicviscosity"),
+        ("dynamic_viscosity", "动力粘度", "动力黏度", "粘度", "黏度", "viscosity"),
+        ("dust_explosion_class", "粉尘爆炸级别", "粉尘爆炸等级", "dustexplosionclass"),
         ("solid_content", "固体含量", "solidcontent"),
         ("other_information", "其他信息", "otherinformation"),
     )
@@ -486,8 +491,8 @@ def align_s3_rows(values, table) -> list[list[str]]:
 
 
 def align_s9_rows(values, table) -> list[list[str]]:
-    """Map sparse physical-property facts to template properties by meaning."""
-    mapped: dict[str, str] = {}
+    """Map S9 facts one property per row and retain explicit test qualifiers."""
+    mapped: dict[str, tuple[str, str]] = {}
     positional: dict[int, str] = {}
     for row in list(values or []):
         if isinstance(row, dict):
@@ -504,17 +509,74 @@ def align_s9_rows(values, table) -> list[list[str]]:
             if str(label or value).strip():
                 raise ValueError(f"unmapped Section 9 property: {label!r}")
             continue
-        if key in mapped and mapped[key] != str(value or "").strip():
+        source_value = str(value or "").strip()
+        for value_line in source_value.splitlines():
+            embedded_key = _s9_property_key(value_line)
+            if embedded_key and embedded_key != key:
+                raise ValueError(
+                    f"Section 9 property {label!r} contains a separate property "
+                    f"{value_line.strip()!r}; map each property to its own row"
+                )
+        if key in mapped and mapped[key][0] != source_value:
             raise ValueError(f"duplicate conflicting Section 9 property: {label!r}")
-        mapped[key] = str(value or "").strip()
+        mapped[key] = (source_value, str(label or "").strip())
 
     output = []
     for index, row in enumerate(list(table.rows)[1:], start=1):
         cells = unique_cells(row)
         label = cells[0].text if cells else ""
         key = _s9_property_key(label)
-        output.append([label, mapped.get(key, positional.get(index, ""))])
+        source = mapped.get(key)
+        output_label = label
+        value = positional.get(index, "")
+        if source:
+            value, source_label = source
+            if _s9_label_has_explicit_condition(source_label):
+                prefix = re.match(r"^(\s*9\.\d+\s*)", label)
+                if prefix:
+                    output_label = _s9_qualified_template_label(label, source_label)
+        output.append([output_label, value])
     return output
+
+
+def _s9_label_has_explicit_condition(label: object) -> bool:
+    text = str(label or "")
+    return bool(re.search(
+        r"(?:\([^)]*(?:%|℃|°c|aqueous|solution|m/v|w/w)[^)]*\)|"
+        r"（[^）]*(?:%|℃|°c|水溶液|溶液|m/v|w/w)[^）]*）|"
+        r"[/／]\s*\d+(?:\.\d+)?\s*(?:℃|°c))",
+        text, re.I,
+    ))
+
+
+def _s9_qualified_template_label(template_label: str, source_label: str) -> str:
+    """Carry an explicit test condition onto a matching template property label."""
+    parenthesized = re.search(
+        r"[（(]([^）)]*(?:%|℃|°c|aqueous|solution|m/v|w/w)[^）)]*)[）)]",
+        source_label, re.I,
+    )
+    slash_temperature = re.search(
+        r"[/／]\s*(\d+(?:\.\d+)?\s*(?:℃|°c))", source_label, re.I
+    )
+    qualifier = parenthesized.group(1).strip() if parenthesized else (
+        slash_temperature.group(1).strip() if slash_temperature else ""
+    )
+    prefix = re.match(r"^(\s*9\.\d+\s*)", template_label)
+    if not qualifier or not prefix:
+        return template_label
+    trailing = re.search(r"([ \t]*)$", template_label).group(1)
+    colon = "：" if "：" in template_label else ":"
+    body = re.sub(r"^\s*9\.\d+\s*", "", template_label)
+    body = re.sub(
+        r"[（(][^）)]*(?:%|℃|°c|aqueous|solution|m/v|w/w)[^）)]*[）)]", "", body,
+        flags=re.I,
+    )
+    body = re.sub(r"[:：][ \t]*$", "", body)
+    if not body:
+        return template_label
+    chinese = bool(re.search(r"[\u3400-\u9fff]", body))
+    left, right = ("（", "）") if chinese else (" (", ")")
+    return f"{prefix.group(1)}{body}{left}{qualifier}{right}{colon}{trailing}"
 
 
 def suppress_s8_recommendation_value(rows, language: str) -> list:

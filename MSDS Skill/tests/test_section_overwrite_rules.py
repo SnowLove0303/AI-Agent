@@ -56,7 +56,7 @@ def test_modified_active_template_cannot_become_the_audit_baseline(tmp_path):
 def test_local_rules_are_semantic_and_cover_known_high_risk_sections():
     assert {2, 8, 9, 10, 11, 12, 13, 14} <= set(LOCAL_SECTION_POLICIES)
     assert local_policy_for(8)["match_basis"] == "ppe_and_control_meaning"
-    assert local_policy_for(9)["match_basis"] == "property_alias"
+    assert local_policy_for(9)["match_basis"] == "property_alias_one_fact_per_property_row"
     assert local_policy_for(11)["match_basis"] == "endpoint_study_field"
 
 
@@ -116,6 +116,55 @@ def test_section9_matches_properties_by_label_not_source_position():
     assert next(value for label, value in rows if "ph" in label.casefold()) == "7-9"
 
 
+def test_section9_preserves_conditions_and_keeps_each_property_independent():
+    template = Document(str(ROOT / "examples" / "template_reference.docx"))
+    rows = align_s9_rows([
+        {"label": "9.3 pH值（5%水溶液）：", "value": "10-12"},
+        {"label": "9.4 离子性：", "value": "不适用"},
+        {"label": "9.6 表面张力（10%水溶液）：", "value": "55dynes/cm"},
+        {"label": "9.9 水溶性：", "value": "完全混溶"},
+        {"label": "9.10 粘度/25℃：", "value": "<500mPa.S"},
+        {"label": "9.22 其他信息：", "value": "上述数据非产品指标。"},
+    ], template.tables[8])
+    by_label = {label.strip(): value for label, value in rows}
+    assert by_label["9.3  pH值（5%水溶液）："] == "10-12"
+    assert by_label["9.4  离子性："] == "不适用"
+    assert by_label["9.14 表面张力（10%水溶液）："] == "55dynes/cm"
+    assert by_label["9.13 水溶性："] == "完全混溶"
+    assert by_label["9.19 动力粘度（25℃）："] == "<500mPa.S"
+    assert by_label["9.24 其他信息："] == "上述数据非产品指标。"
+    assert "<500mPa.S" not in by_label["9.13 水溶性："]
+    assert "离子性" not in by_label["9.24 其他信息："]
+
+    en_template = Document(str(ROOT / "examples" / "template_reference_en.docx"))
+    en_rows = align_s9_rows([
+        {"label": "9.3 pH value (5% aqueous solution):", "value": "10-12"},
+        {"label": "9.4 Ionicity:", "value": "Not applicable"},
+        {"label": "9.6 Surface tension (10% aqueous solution):", "value": "55dynes/cm"},
+        {"label": "9.9 Solubility in water:", "value": "Completely miscible"},
+        {"label": "9.10 Viscosity/25°C:", "value": "<500mPa.S"},
+        {"label": "9.22 Other information:", "value": "These data are not product specifications."},
+    ], en_template.tables[8])
+    en_by_label = {label.strip(): value for label, value in en_rows}
+    assert any("pH value (5% aqueous solution)" in label for label in en_by_label)
+    assert any("Surface tension (10% aqueous solution)" in label for label in en_by_label)
+    assert any("Dynamic viscosity (25°C)" in label for label in en_by_label)
+    assert en_by_label["9.4  Ionicity:"] == "Not applicable"
+    assert en_by_label["9.13 Solubility in water:"] == "Completely miscible"
+
+
+def test_section9_rejects_a_property_embedded_in_another_property_value():
+    template = Document(str(ROOT / "examples" / "template_reference.docx"))
+    with pytest.raises(ValueError, match="each property to its own row"):
+        align_s9_rows([
+            {"label": "水溶性：", "value": "完全混溶\n粘度/25℃：\n<500mPa.S"},
+        ], template.tables[8])
+    with pytest.raises(ValueError, match="each property to its own row"):
+        align_s9_rows([
+            {"label": "其他信息：", "value": "离子性：不适用"},
+        ], template.tables[8])
+
+
 def test_section13_combines_two_notes_into_one_note_slot():
     template = Document(str(ROOT / "examples" / "template_reference.docx"))
     rows = align_note_section_rows([
@@ -124,3 +173,27 @@ def test_section13_combines_two_notes_into_one_note_slot():
         ["处理方法：", "处置值"],
     ], template.tables[12])
     assert rows == [["第一条说明\n第二条说明"], ["处理方法：", "处置值"]]
+
+
+def test_section12_never_discards_explanation_lines_when_notes_exceed_slots():
+    template = Document(str(ROOT / "examples" / "template_reference.docx"))
+    rows = align_note_section_rows([
+        ["产品无可用生态毒理学研究。"],
+        ["以下结果属于组分 A："],
+        ["测试条件：96 小时。"],
+        ["12.1 生态毒性：", "LC50：1,500mg/l"],
+    ], template.tables[11])
+    note_text = "\n".join(row[0] for row in rows if len(row) == 1)
+    assert "产品无可用生态毒理学研究。" in note_text
+    assert "以下结果属于组分 A：" in note_text
+    assert "测试条件：96 小时。" in note_text
+    assert rows[-1] == ["12.1 生态毒性：", "LC50：1,500mg/l"]
+
+
+def test_source_note_without_a_template_note_slot_blocks_instead_of_dropping():
+    table = Document().add_table(rows=1, cols=2)
+    row = table.add_row()
+    row.cells[0].text = "12.1 生态毒性："
+    row.cells[1].text = "LC50：1,500mg/l"
+    with pytest.raises(ReleaseBlocked, match="no template note slot"):
+        align_note_section_rows([["来源说明必须保留。"], ["12.1 生态毒性：", "LC50"]], table)

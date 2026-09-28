@@ -1,5 +1,5 @@
 MSDS Unified Eight-Deliverable Standardizer Skill
-3.27.14
+3.27.16
 Section 11.2 skin-irritation and 11.3 eye-irritation duplicate heading cleanup;
 ordinary Section 1-16 source values remain verbatim.
 Standard EN master template and 12-row geometry baseline, strict bold and format lock, 7-page exact convergence

@@ -2,7 +2,7 @@
 
 Status: `ACTIVE`
 Spec ID: `MSDS-AGENT-OVERWRITE-001`
-Version: `1.6.0`
+Version: `1.7.0`
 
 This OpenSpec is the execution-layer contract for the maintained MSDS skill. It
 does not replace the existing requirements documents. It makes their order and
@@ -34,7 +34,7 @@ The JSON version of this contract is the machine-readable checklist consumed by
 
 ## Agent mutation boundary
 
-The Agent has exactly four allowed mutation intents:
+The Agent has five allowed mutation intents:
 
 1. write a source-grounded value into an existing label-associated value cell;
 2. clear a value cell when the source value is absent or unsupported;
@@ -42,15 +42,19 @@ The Agent has exactly four allowed mutation intents:
 4. insert a complete source-backed styled data row only for S3 components,
    S8.2 control records, S9 physical/chemical properties or S15 regulations
    when the existing template capacity is insufficient.
+5. specialize an existing Section 9 property label only by adding a test
+   condition explicitly present in the reviewed source fact, while preserving
+   the property identity and every locked label-format property.
 
 For a newly inserted S9 row only, the source-backed field name may seed the
 new first cell while inheriting the cloned label style. This is an insertion
 payload, not permission to edit an existing template label.
 
-The Agent may not edit label text, sequence text, boldness, fonts, run or
-paragraph properties, cell/table properties, borders, widths, merges, headers,
-footers, page fields or global layout. It may not rebuild tables or fill an
-empty value with an invented placeholder. Pictogram insertion, company/header/
+The Agent may not edit label text outside the narrowly governed Section 9
+condition exception, sequence text, boldness, fonts, run or paragraph
+properties, cell/table properties, borders, widths, merges, headers, footers,
+page fields or global layout. It may not rebuild tables or fill an empty value
+with an invented placeholder. Pictogram insertion, company/header/
 footer stamping, endpoint alias routing and numeric-prefix renumbering are
 deterministic runtime actions, not Agent permissions. The runtime must audit
 these actions separately and still preserve the pinned template skeleton.
@@ -92,8 +96,12 @@ semantic, locked-format, whitespace, geometry, source-traceability or render
 gates.
 
 The approved facts JSON must also contain a reviewed `overwrite_sop` record.
-It records completion of the global sequence, loaded local Section rules and
-cross-Section semantic routes. A source fact may route from one source Section
+It records completion of the preflight stages listed in
+`agent_overwrite_contract.json` as `preflight_required_stages`, loaded local
+Section rules and cross-Section semantic routes. Clone/write, omission/
+renumbering and audit/render stages remain pending until actually executed;
+their pending status does not block the pre-clone check. The final independent
+DOCX and render gates remain release blockers. A source fact may route from one source Section
 to another target Section only when the mapping carries source evidence and a
 semantic reason. The SOP record never authorizes unsupported content or
 bypasses the global source-fidelity and template-lock gates.
@@ -131,6 +139,10 @@ by `requirements_spec.md`.
   reviewed before S8.2 can be judged absent.
 - A source-backed `NCO含量 / NCO content` is a separate Section 9 property
   fact and target row; it must not be buried in an `Other information` value.
+- Section 9 properties each occupy a separate row. A measurement qualifier may
+  be added to a property label only when present in its reviewed source fact;
+  ionicity, viscosity, water solubility and `Other information` are never
+  combined.
 - Preserve the formal footer's leading `P` clipping guard. A missing revision
   date uses the build date and localized date formatting; a historical test
   date must not be used as a default.

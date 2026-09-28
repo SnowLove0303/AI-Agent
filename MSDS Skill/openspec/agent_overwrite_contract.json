@@ -1,6 +1,6 @@
 {
   "spec_id": "MSDS-AGENT-OVERWRITE-001",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "status": "active",
   "purpose": "Fail-closed execution contract for source-grounded in-place MSDS template overwrite.",
   "read_before_action": [
@@ -78,7 +78,10 @@
     "section2_facts_are_disjoint_by_default",
     "emergency_overview_is_explicit_source_only",
     "s82_topology_is_inherited_from_template",
-    "s114_vertical_alignment_is_inherited_from_template"
+    "s114_vertical_alignment_is_inherited_from_template",
+    "s9_properties_are_independent",
+    "s9_condition_qualifiers_are_source_traced",
+    "s9_other_info_is_not_a_property_catchall"
   ],
   "execution_mode": {
     "status": "reviewed",
@@ -90,7 +93,7 @@
     "release_policy": "fail_closed"
   },
   "sop": {
-    "version": "1.0",
+    "version": "1.1",
     "required_stages": [
       "lock_input",
       "inventory_source",
@@ -103,6 +106,15 @@
       "suppress_empty_rows_and_renumber",
       "audit_and_render_qa"
     ],
+    "preflight_required_stages": [
+      "lock_input",
+      "inventory_source",
+      "build_fact_ledger",
+      "semantic_route",
+      "normalize_structure_only",
+      "review_mapping_and_traceability",
+      "plan_template_mutations"
+    ],
     "required_local_sections": [2, 8, 9, 10, 11, 12, 13, 14]
   },
   "agent_mutation_boundary": {
@@ -110,7 +122,8 @@
       "write_value_cell",
       "clear_value_cell",
       "suppress_empty_or_unsupported_whole_row",
-      "insert_source_backed_styled_data_row"
+      "insert_source_backed_styled_data_row",
+      "specialize_section9_source_condition_label"
     ],
     "allowed_row_insert_sections": [3, 8, 9, 15],
     "allowed_row_delete_sections": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
@@ -120,7 +133,7 @@
       "the operation removes or clones a complete styled row without rebuilding the table"
     ],
     "forbidden_operations": [
-      "edit_locked_label_text",
+      "edit_locked_label_text_except_source_traced_section9_condition_qualifier",
       "edit_locked_sequence_text_except_runtime_post_omission_prefix",
       "edit_bold_or_run_format",
       "write_bold_writable_value",
@@ -165,6 +178,9 @@
     "any failed semantic, geometry, whitespace or render gate",
     "Section 2 fact routing missing, ambiguous, cross-target or duplicated",
     "S8.2 grid/column/topology drift",
-    "S11.4 vertical alignment drift"
+    "S11.4 vertical alignment drift",
+    "Section 9 named properties merged into one row or Other information",
+    "Section 9 source test condition lost, changed, guessed or untraced",
+    "source-backed Section 9 Not applicable property omitted"
   ]
 }

@@ -1,0 +1,406 @@
+{
+  "status": "completed",
+  "timing_timezone": "UTC",
+  "task_start_exactly_captured": false,
+  "first_measured_event_utc": "2026-09-28T06:00:20.1227024Z",
+  "completion_report_written_at_utc": "2026-09-28T06:45:30.657Z",
+  "observed_interval_from_first_measured_event_seconds": 2710.534,
+  "observed_interval_human": "45.18 minutes",
+  "cannot_claim_precise_full_workflow_duration_from_message_receipt": true,
+  "phases": [
+    {
+      "phase": "initial_source_extraction",
+      "start_utc": "2026-09-28T06:00:20.1227024Z",
+      "end_utc": "2026-09-28T06:00:20.5645247Z",
+      "machine_seconds": 0.4386243,
+      "result": "268 units extracted; initial 265 processed / 3 unmapped / 0 unreadable; 2/2 images reviewed; 199 draft facts."
+    },
+    {
+      "phase": "semantic_review_and_approved_fact_construction",
+      "start_utc": "2026-09-28T06:00:20.5645247Z",
+      "end_utc": "not separately captured; evidence assembled by 2026-09-28T06:29:12Z",
+      "machine_seconds": null,
+      "active_agent_seconds": null,
+      "result": "Full source/table/image review; mapping, routing, exact source anchors, translation review, review ledger and output traces; final counts 268 processed, 0 unmapped, 0 unreadable."
+    },
+    {
+      "phase": "initial_preflight_observation",
+      "start_utc": "before 2026-09-28T06:11:18Z",
+      "end_utc": "before 2026-09-28T06:11:18Z",
+      "machine_seconds": 0.8,
+      "result": "105 blockers; all were repaired with exact source anchors, semantic routing, approved translations and SOP records."
+    },
+    {
+      "phase": "final_official_preflight",
+      "start_utc": "2026-09-28T06:29:12.6711151Z",
+      "end_utc": "2026-09-28T06:29:13.0369597Z",
+      "machine_seconds": 0.3658446,
+      "result": "PREFLIGHT_PASS; 0 blockers; template_clone_started=false; pdf_converter_started=false."
+    },
+    {
+      "phase": "build_attempt_1",
+      "start_utc": "2026-09-28T06:29:21.1031085Z",
+      "end_utc": "2026-09-28T06:29:26.9633251Z",
+      "machine_seconds": 5.8597462,
+      "result": "Failed at OpenSpec audit: pictogram row contained source image but checker only read cell text."
+    },
+    {
+      "phase": "build_attempt_2",
+      "start_utc": "2026-09-28T06:30:45.7235985Z",
+      "end_utc": "2026-09-28T06:30:50.9936471Z",
+      "machine_seconds": 5.2695754,
+      "result": "Image-only value check still indexed wrong row; no output promoted."
+    },
+    {
+      "phase": "initial_single-pictogram_release_build",
+      "start_utc": "2026-09-28T06:31:24.0633287Z",
+      "end_utc": "2026-09-28T06:31:44.6295500Z",
+      "machine_seconds": 20.565718,
+      "result": "RELEASE_PASS for 4 DOCX + 4 PDF, then visual QA found second source pictogram omitted by the helper."
+    },
+    {
+      "phase": "supplementary_package_audit_without_templates",
+      "start_utc": "2026-09-28T06:33:26.5283238Z",
+      "end_utc": "2026-09-28T06:33:26.6899436Z",
+      "machine_seconds": 0.1612424,
+      "result": "Failed one terminology check because locked template heading baseline was not supplied; corrected by passing pinned CN/EN templates."
+    },
+    {
+      "phase": "supplementary_package_audit_with_templates",
+      "start_utc": "2026-09-28T06:33:57.4594495Z",
+      "end_utc": "2026-09-28T06:33:57.6560447Z",
+      "machine_seconds": 0.1962885,
+      "result": "RELEASE_PASS 100/100 on single-image interim package; superseded after visual discovery of missing second image."
+    },
+    {
+      "phase": "multi-pictogram_build_attempt_1",
+      "start_utc": "2026-09-28T06:37:18.3887388Z",
+      "end_utc": "2026-09-28T06:37:24.7921306Z",
+      "machine_seconds": 6.4028531,
+      "result": "Failed whitespace audit due two picture runs and a spacer; adjusted to one run holding both images."
+    },
+    {
+      "phase": "final_official_build",
+      "start_utc": "2026-09-28T06:38:00.2340600Z",
+      "end_utc": "2026-09-28T06:38:21.2225085Z",
+      "machine_seconds": 20.9879076,
+      "pipeline_seconds": 20.749,
+      "docx_seconds": 6.800359400000161,
+      "pdf_seconds": 10.212,
+      "pdf_converter_preflight_seconds": 0.799933,
+      "result": "RELEASE_PASS 4 DOCX + 4 PDF; all documents contain both source pictograms; PDF lineage verified."
+    },
+    {
+      "phase": "visual_qa_all_32_pages",
+      "start_utc": "after 2026-09-28T06:38:21.2225085Z",
+      "end_utc": "before 2026-09-28T06:41:04.5527227Z",
+      "machine_seconds": null,
+      "active_agent_seconds": null,
+      "result": "Rendered and visually reviewed all 32 pages across 4 PDFs; counts 7+7+9+9; no clipping/layout blockers observed. Exact manual review duration not separately instrumented."
+    },
+    {
+      "phase": "final_flat_package_audit",
+      "start_utc": "2026-09-28T06:41:04.5527227Z",
+      "end_utc": "2026-09-28T06:41:05.2878809Z",
+      "machine_seconds": 0.7254973,
+      "result": "Flat-only temp input: RELEASE_PASS 100/100; exact 8 filenames discovered once each. Also audit_eight_file_release PASS and audit_four_format_release errors=0."
+    }
+  ],
+  "separate_waits": {
+    "user_wait_seconds": 0,
+    "wps_wait_seconds": "included in build machine intervals; no user-operated wait was requested",
+    "other_unmetered_elapsed": "semantic review and visual inspection were not measured independently; do not present them as active-agent seconds"
+  },
+  "machine_build_breakdown_final": {
+    "variants": [
+      {
+        "language": "zh",
+        "brand": "guanzhi",
+        "docx_seconds": 1.506,
+        "pdf_seconds": 2.55
+      },
+      {
+        "language": "zh",
+        "brand": "guocai",
+        "docx_seconds": 1.499,
+        "pdf_seconds": 2.458
+      },
+      {
+        "language": "en",
+        "brand": "guanzhi",
+        "docx_seconds": 1.913,
+        "pdf_seconds": 2.486
+      },
+      {
+        "language": "en",
+        "brand": "guocai",
+        "docx_seconds": 1.883,
+        "pdf_seconds": 2.718
+      }
+    ],
+    "docx_seconds": 6.800359400000161,
+    "pdf_seconds": 10.212,
+    "cache": {
+      "root": "F:\\App Location\\Guanzhi Tong\\Skill\\MSDS Skill\\TDS MSDS 预处理\\1-1 单组份水性聚氨酯树脂 PU\\PU-3011\\覆写输出\\MSDS\\stage_multi\\.msds_cache",
+      "source_adapter": "direct-docx",
+      "source_cache_reused": false,
+      "evidence_packet": "not-used-by-build"
+    },
+    "pdf": {
+      "workers": 1,
+      "batch_seconds": 10.214,
+      "converter": "wpscli version 1.1.0, skill version 2.1.0",
+      "lineage_verified": true,
+      "failures": [],
+      "retries": 0
+    },
+    "stage_events": [
+      {
+        "stage": "extract_all_source_information",
+        "seconds": 0.000761,
+        "status": "ok",
+        "details": {
+          "model": "PU-3011"
+        }
+      },
+      {
+        "stage": "extract_all_source_information",
+        "seconds": 1.5e-05,
+        "status": "ok",
+        "details": {
+          "adapter": "direct-docx",
+          "source_format": "docx",
+          "cache_dir": "F:\\App Location\\Guanzhi Tong\\Skill\\MSDS Skill\\TDS MSDS 预处理\\1-1 单组份水性聚氨酯树脂 PU\\PU-3011\\覆写输出\\MSDS\\stage_multi\\.msds_cache"
+        }
+      },
+      {
+        "stage": "constrained_information_normalization",
+        "seconds": 0.320383,
+        "status": "ok",
+        "details": {
+          "model": "PU-3011"
+        }
+      },
+      {
+        "stage": "fixed_structure_template_overwrite",
+        "seconds": 0.019267,
+        "status": "ok",
+        "details": {
+          "phase": "template_preparation"
+        }
+      },
+      {
+        "stage": "pdf_converter_preflight",
+        "seconds": 0.799933,
+        "status": "ok"
+      },
+      {
+        "stage": "fixed_structure_template_overwrite",
+        "seconds": 0.15371,
+        "status": "ok",
+        "details": {
+          "language": "zh",
+          "brand": "guanzhi"
+        }
+      },
+      {
+        "stage": "post_overwrite_fine_tuning",
+        "seconds": 0.096456,
+        "status": "ok",
+        "details": {
+          "language": "zh",
+          "brand": "guanzhi"
+        }
+      },
+      {
+        "stage": "docx_save",
+        "seconds": 0.008364,
+        "status": "ok",
+        "details": {
+          "language": "zh",
+          "brand": "guanzhi"
+        }
+      },
+      {
+        "stage": "release_audit",
+        "seconds": 1.221509,
+        "status": "ok",
+        "details": {
+          "language": "zh",
+          "brand": "guanzhi"
+        }
+      },
+      {
+        "stage": "fixed_structure_template_overwrite",
+        "seconds": 0.13803,
+        "status": "ok",
+        "details": {
+          "language": "zh",
+          "brand": "guocai"
+        }
+      },
+      {
+        "stage": "post_overwrite_fine_tuning",
+        "seconds": 0.094231,
+        "status": "ok",
+        "details": {
+          "language": "zh",
+          "brand": "guocai"
+        }
+      },
+      {
+        "stage": "docx_save",
+        "seconds": 0.009436,
+        "status": "ok",
+        "details": {
+          "language": "zh",
+          "brand": "guocai"
+        }
+      },
+      {
+        "stage": "release_audit",
+        "seconds": 1.229766,
+        "status": "ok",
+        "details": {
+          "language": "zh",
+          "brand": "guocai"
+        }
+      },
+      {
+        "stage": "fixed_structure_template_overwrite",
+        "seconds": 0.50001,
+        "status": "ok",
+        "details": {
+          "language": "en",
+          "brand": "guanzhi"
+        }
+      },
+      {
+        "stage": "post_overwrite_fine_tuning",
+        "seconds": 0.096256,
+        "status": "ok",
+        "details": {
+          "language": "en",
+          "brand": "guanzhi"
+        }
+      },
+      {
+        "stage": "docx_save",
+        "seconds": 0.008688,
+        "status": "ok",
+        "details": {
+          "language": "en",
+          "brand": "guanzhi"
+        }
+      },
+      {
+        "stage": "release_audit",
+        "seconds": 1.282324,
+        "status": "ok",
+        "details": {
+          "language": "en",
+          "brand": "guanzhi"
+        }
+      },
+      {
+        "stage": "fixed_structure_template_overwrite",
+        "seconds": 0.489428,
+        "status": "ok",
+        "details": {
+          "language": "en",
+          "brand": "guocai"
+        }
+      },
+      {
+        "stage": "post_overwrite_fine_tuning",
+        "seconds": 0.094909,
+        "status": "ok",
+        "details": {
+          "language": "en",
+          "brand": "guocai"
+        }
+      },
+      {
+        "stage": "docx_save",
+        "seconds": 0.009078,
+        "status": "ok",
+        "details": {
+          "language": "en",
+          "brand": "guocai"
+        }
+      },
+      {
+        "stage": "release_audit",
+        "seconds": 1.262346,
+        "status": "ok",
+        "details": {
+          "language": "en",
+          "brand": "guocai"
+        }
+      },
+      {
+        "stage": "pdf_conversion_batch",
+        "seconds": 10.214341,
+        "status": "ok",
+        "details": {
+          "workers": 1,
+          "count": 4
+        }
+      }
+    ],
+    "stage_totals": {
+      "extract_all_source_information": 0.000776,
+      "constrained_information_normalization": 0.320383,
+      "fixed_structure_template_overwrite": 1.300445,
+      "pdf_converter_preflight": 0.799933,
+      "post_overwrite_fine_tuning": 0.381852,
+      "docx_save": 0.035566,
+      "release_audit": 4.995945,
+      "pdf_conversion_batch": 10.214341
+    },
+    "stage_total_seconds": 18.049241,
+    "total_seconds": 20.749,
+    "time_categories": {
+      "machine": {
+        "seconds": 20.749,
+        "source": "measured-by-pipeline"
+      },
+      "agent_review": {
+        "seconds": null,
+        "source": "not-supplied"
+      },
+      "human_wait": {
+        "seconds": null,
+        "source": "not-supplied"
+      },
+      "retry": {
+        "seconds": 0.0,
+        "count": 0,
+        "source": "supplied-pipeline-count"
+      }
+    }
+  },
+  "attempt_history": {
+    "failed_builds": 3,
+    "interim_single_image_pass_superseded": 1,
+    "final_two_image_pass": 1
+  },
+  "source_coverage_final": {
+    "source_units": 268,
+    "processed": 268,
+    "unmapped": 0,
+    "unreadable": 0,
+    "image_reviewed": "2/2"
+  },
+  "final_status": "8 deliverables produced, audited and visually reviewed; source file unchanged.",
+  "openspec": {
+    "root": "F:\\Workspace\\Codex\\guanzhitong",
+    "change_id": "overwrite-pu3011-msds-eight-deliverables",
+    "archive_path": "openspec/changes/archive/2026-09-28-overwrite-pu3011-msds-eight-deliverables",
+    "archived": true,
+    "strict_validation": "PASS",
+    "strict_validation_command": "openspec validate --archived --strict --json",
+    "validation_summary": "1 archived change passed; 0 failed; 0 issues"
+  },
+  "completed_at_utc": "2026-09-28T06:45:30.657Z"
+}

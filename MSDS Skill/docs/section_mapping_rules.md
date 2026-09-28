@@ -1,9 +1,9 @@
 # Section Mapping Rules
 
 ## General
-Map by meaning, not by source row number or visual position. Preserve source qualifiers and uncertainty.
+Map by meaning, not by source row number or visual position. The pinned template is the label authority for S1-S8 and S10-S16: source labels are evidence for interpreting the neighboring value, not output labels. If a source label conflicts with its value, route by supported meaning, retain the source wording in evidence, and flag the conflict for review. Preserve source qualifiers and uncertainty. Section 9 alone may use a source-backed distinct property label or test condition when needed to retain the property identity or meaning, subject to the Section 9 label-format rules.
 
-After unsupported/missing-data items are removed, renumber surviving numbered items **within each section** continuously in visible order. Change only the numeric prefix; preserve label wording and formatting. Unnumbered children do not consume numbers. For Section 9, use the maintained five-character numeric prefix slot (`9.1` followed by the template's separator spacing); do not preserve a stale single-space width from a removed `9.12` row.
+After unsupported/missing-data items are removed, renumber surviving numbered items **within each section** continuously in visible order. Change only the numeric prefix; preserve the template label wording and formatting. Unnumbered children do not consume numbers. For Section 9, use the maintained five-character numeric prefix slot (`9.1` followed by the template's separator spacing); do not preserve a stale single-space width from a removed `9.12` row.
 
 ## Executable per-section table contract
 
@@ -26,7 +26,7 @@ allowed change to the maintained table.
 | S9 / table 9 | physical/chemical properties | value cells | omit missing-data row | remove whole item, then prefix-only renumber |
 | S10 / table 10 | stability/reactivity endpoints | value cells | omit unsupported/missing item | smallest safe row omission |
 | S11 / table 11 | toxicology notes/endpoints | semantic endpoint-skeleton alignment, then value cells | preserve explicit availability sentence; omit absent endpoints | no invented endpoint or generic renumber; merge-safe omission only |
-| S12 / table 12 | ecology endpoints | source-backed 12.1–12.3 value cells | template-only notes hidden | remove note rows only |
+| S12 / table 12 | ecology endpoints and source explanation notes | source-backed 12.1–12.3 values; notes in reserved one-cell value slots | source-backed notes retained; template-only examples hidden | remove only unsupported/example note rows |
 | S13 / table 13 | disposal endpoints | value cells | source-only | no row rebuild |
 | S14 / table 14 | transport endpoints | value cells | source-only | no row rebuild |
 | S15 / table 15 | laws/regulations | value cells | empty legal rows hidden | remove only empty row; preserve order |
@@ -100,7 +100,15 @@ High-risk fixed structure.
 - Never generate composite labels like `8.2 暴露控制 / 呼吸系统防护：`.
 
 ## Section 9 — Physical/chemical properties
-Map property by property. **Properties whose source value is only a missing-data placeholder must disappear as whole dedicated rows before write.** Do not leave a blank visual slot. Then renumber the surviving visible Section 9 properties continuously in their original semantic order; change only the numeric prefix. Preserve substantive values such as `不适用` / `Not applicable`, measured values and source-supported `其他信息` / `Other information`. `NCO含量` / `NCO content` is a dedicated independent property: when it appears inline in `其他信息`, split it before mapping so it cannot be lost in generic prose. Existing “其他信息” may compactly hold source-only technical parameters such as MFFT/Tg/hydroxyl content when semantically appropriate.
+Map each source property as one independent fact to one independent output row. Never combine distinct properties into a shared label or value, including water solubility with viscosity or ionicity with `其他信息` / `Other information`. A named physical/chemical property remains its own row even when its source value is `不适用` / `Not applicable`; only a pure missing-data value suppresses that property's complete row.
+
+Preserve source test conditions and qualifiers in the property label when they identify how the value was measured or apply (for example, `pH值（5%水溶液）` or `表面张力（10%水溶液）`). This is a narrow Section 9 exception to the ordinary locked-label rule. It may add only a qualifier explicitly present in the reviewed source fact; it must not rename the underlying property or invent a condition. Keep the template's `9.n` prefix slot, separator spacing, label font/bold/run/paragraph/cell formatting, and global layout exactly. English labels must translate the same qualifier without changing the reported condition.
+
+When the source contains multiple rows for the same property, map them separately by test condition and value. A missing duplicate may be omitted without suppressing a supported qualified result. If two supported facts cannot be represented independently in the available rows, add a complete styled source-backed Section 9 row under the insertion rule or block as unresolved; do not merge them.
+
+`NCO含量` / `NCO content` is a dedicated independent property: when it appears inline in `其他信息`, split it before mapping. `其他信息` may contain only source-backed information that has no more specific registered property slot, such as MFFT/Tg/hydroxyl content; it must never be used as a catch-all for a named property. Preserve source wording, units, conditions, uncertainty, negative conclusions and source-supported `其他信息`.
+
+Before release, compare every S9 source property against the output by semantic key, label qualifier, value and disposition. The audit must reject a merged row, a missing supported property, a lost/changed qualifier, an unsupported qualifier, a substantive `不适用` value omitted, or a missing-data row left visible. It must also verify continuous numbering after whole-row omission and identical technical facts in CN/EN and Guanzhi/Guocai variants.
 
 ## Section 10 — Stability/reactivity
 Map only equivalent concepts. If source lacks “应避免条件/禁配物”, those items disappear rather than showing empty values. The sequence prefix, label wording, boldness, indentation, spacing and alignment remain the fresh template's locked geometry; only the value cell and authorized numeric prefix may change.

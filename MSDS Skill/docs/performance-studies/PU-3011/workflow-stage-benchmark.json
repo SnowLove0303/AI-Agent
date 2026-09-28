@@ -1,0 +1,55 @@
+{
+  "benchmark_schema_version": "3.26.0",
+  "publishes_formal_matrix": false,
+  "source": "F:\\App Location\\Guanzhi Tong\\Skill\\MSDS Skill\\TDS MSDS 预处理\\1-1 单组份水性聚氨酯树脂 PU\\PU-3011\\PU-3011 msds_CN 冠志.docx",
+  "facts": "F:\\App Location\\Guanzhi Tong\\Skill\\MSDS Skill\\TDS MSDS 预处理\\1-1 单组份水性聚氨酯树脂 PU\\PU-3011\\覆写输出\\MSDS\\approved_facts.json",
+  "runs": 3,
+  "worker_counts": [
+    1
+  ],
+  "mode": "docx-only",
+  "packet": {
+    "cold_cache": {
+      "count": 3,
+      "median_seconds": 0.250367,
+      "maximum_seconds": 0.255125,
+      "samples_seconds": [
+        0.250367,
+        0.255125,
+        0.235343
+      ],
+      "failure_count": 0,
+      "failures": []
+    },
+    "warm_cache": {
+      "count": 3,
+      "median_seconds": 0.017307,
+      "maximum_seconds": 0.017477,
+      "samples_seconds": [
+        0.016599,
+        0.017307,
+        0.017477
+      ],
+      "failure_count": 0,
+      "failures": []
+    }
+  },
+  "matrices": {
+    "1": {
+      "count": 3,
+      "median_seconds": 6.70989,
+      "maximum_seconds": 6.779594,
+      "samples_seconds": [
+        6.201234,
+        6.70989,
+        6.779594
+      ],
+      "failure_count": 0,
+      "failures": []
+    }
+  },
+  "environment": {
+    "python": "3.12.10",
+    "platform": "nt"
+  }
+}

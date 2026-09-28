@@ -104,8 +104,31 @@ def validate_agent_execution_contract(facts: dict) -> list[str]:
         stage_names = [item.get("stage") for item in stages if isinstance(item, dict)] if isinstance(stages, list) else []
         if stage_names != required_stages:
             errors.append("overwrite_sop stages must match the required global order")
-        elif any(item.get("status") != "completed" for item in stages):
-            errors.append("overwrite_sop every required stage must be completed")
+        else:
+            required_before_clone = expected_sop.get(
+                "preflight_required_stages", required_stages
+            )
+            status_by_stage = {
+                item.get("stage"): item.get("status")
+                for item in stages if isinstance(item, dict)
+            }
+            incomplete = [
+                stage for stage in required_before_clone
+                if status_by_stage.get(stage) != "completed"
+            ]
+            if incomplete:
+                errors.append(
+                    "overwrite_sop preflight stages must be completed: "
+                    + ", ".join(incomplete)
+                )
+            invalid = [
+                stage for stage in required_stages
+                if status_by_stage.get(stage) not in {"completed", "pending", "not_started"}
+            ]
+            if invalid:
+                errors.append(
+                    "overwrite_sop stage status is invalid: " + ", ".join(invalid)
+                )
         if sorted(sop.get("loaded_local_sections") or []) != expected_sop.get("required_local_sections", []):
             errors.append("overwrite_sop local Section rule set is incomplete")
         if not isinstance(sop.get("cross_section_routes"), list):

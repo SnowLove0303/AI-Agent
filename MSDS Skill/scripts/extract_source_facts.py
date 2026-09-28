@@ -36,11 +36,13 @@ Values use ``\\n``-joined logical lines; missing sentinels are kept verbatim
 from __future__ import annotations
 
 import argparse
+from collections import Counter
 import hashlib
 import json
 import re
 import sys
 import zipfile
+from xml.etree import ElementTree
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -71,6 +73,8 @@ try:
     from docx import Document
 except ImportError:  # pragma: no cover
     Document = None
+
+from msds_table_search import read_file as recognize_source_gui  # noqa: E402
 
 
 MODEL_RE = re.compile(r"\b([A-Z]{1,4}-\d{3,4}[A-Z0-9]*)\b")
@@ -625,8 +629,9 @@ def extract_s8(table, ext: Extraction) -> tuple[list, list]:
 
 
 def extract_s12(table, ext: Extraction) -> list:
-    """Project source ecology endpoints into the formal 12.1-12.3 slots."""
+    """Project endpoints to template labels and retain source explanation lines."""
     endpoints = []
+    notes = []
     label_map = (
         (re.compile(r"生态毒性|ecotoxicity", re.I), "12.1 生态毒性："),
         (re.compile(r"持久性|降解性|persistence|degradability", re.I), "12.2 持久性和降解性："),
@@ -636,13 +641,17 @@ def extract_s12(table, ext: Extraction) -> list:
         label, value = row
         mapped = next((target for pattern, target in label_map if pattern.search(label)), None)
         if mapped is None:
-            ext.flag("s12", "unmapped-endpoint", f"{label}: {value}"[:120])
+            note = "\n".join(part.strip() for part in (label, value) if part and part.strip())
+            if note:
+                notes.append([note])
+            if value.strip():
+                ext.flag("s12", "unmapped-endpoint", f"{label}: {value}"[:120])
             continue
         endpoints.append([mapped, value])
-    # The CN template has two illustrative leading note rows.  They are
-    # deliberately blank here so source-presence policy removes them while
-    # retaining real 12.1/12.2/12.3 endpoints in their matching rows.
-    return [[""], [""]] + endpoints
+    # The template reserves two one-cell explanation rows before the fixed
+    # endpoint labels. Keep source notes in those value-only rows; empty
+    # placeholders are harmless and are removed by the source-presence pass.
+    return [[""], [""]] + notes + endpoints
 
 
 def extract_pairs(table, ext: Extraction, section: str) -> list:
@@ -900,6 +909,16 @@ def coverage_fingerprint(document, sections: dict,
                             for cell in unique_cells(row)
                         ) and ci > 0
                     )
+                    if ti == 7 and ci == 0:
+                        # A known PPE label may carry its value in the same
+                        # source cell. The target uses the canonical template
+                        # label; count the source unit covered only if the
+                        # recovered value appears in the extracted draft.
+                        ppe_key, ppe_value, _ = split_s8_label_value(text, "")
+                        mapped_structural = mapped_structural or bool(
+                            ppe_key and ppe_value
+                            and coverage_key(ppe_value) in corpus
+                        )
                     if text and not mapped_structural and text not in corpus and key not in row_corpus and not any(
                         key in candidate for candidate in row_corpus
                     ):
@@ -1215,6 +1234,145 @@ def extract_en_skeleton(sections: dict, cas_rows: list) -> dict:
     }
 
 
+def _recognition_check(source: Path, document) -> dict:
+    """Use the GUI reader as the raw-content front end and cross-check this adapter."""
+    recognized = recognize_source_gui(source)
+    table_records = [record for record in recognized.get("records", [])
+                     if record.get("kind") == "table"
+                     and not str(record.get("section", "")).startswith("第 0 部分")]
+    source_tables = list(document.tables)
+    document_xml = recognized.get("source_ooxml", {}).get("word/document.xml", "")
+    try:
+        document_root = ElementTree.fromstring(document_xml)
+    except ElementTree.ParseError:
+        document_root = None
+    w_ns = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
+    xml_tables = (document_root.findall(f".//{w_ns}body/{w_ns}tbl")
+                  if document_root is not None else [])
+    problems = []
+    if recognized.get("source_type") != "docx":
+        problems.append("GUI reader did not return a DOCX recognition record")
+    reader_coverage = recognized.get("coverage", {})
+    if not reader_coverage.get("table_count_matches"):
+        problems.append("GUI reader reports a body-table XML/normalized-count mismatch")
+    if len(table_records) != len(source_tables):
+        problems.append(
+            f"body-table count disagreement: GUI={len(table_records)}, semantic-reader={len(source_tables)}"
+        )
+
+    table_text_matches = True
+    field_warnings = []
+    for index, (record, table) in enumerate(zip(table_records, source_tables), start=1):
+        for candidate in record.get("field_candidates", []):
+            for warning in candidate.get("warnings", []):
+                field_warnings.append({
+                    "source_section": record.get("section"),
+                    "field_label": candidate.get("label"),
+                    **warning,
+                })
+        if len(record.get("rows", [])) != len(table.rows):
+            table_text_matches = False
+            problems.append(
+                f"table {index} row-count disagreement: GUI={len(record.get('rows', []))}, semantic-reader={len(table.rows)}"
+            )
+            continue
+        gui_text = "".join(
+            str(segment.get("text", ""))
+            for row in record.get("rows", [])
+            for cell in row
+            for segment in cell.get("content", [])
+            if segment.get("type") == "text"
+        )
+        xml_table = xml_tables[index - 1] if index <= len(xml_tables) else None
+        semantic_text = "".join(
+            node.text or "" for node in xml_table.iter(f"{w_ns}t")
+        ) if xml_table is not None else ""
+        if Counter(char for char in gui_text if not char.isspace()) != Counter(
+            char for char in semantic_text if not char.isspace()
+        ):
+            table_text_matches = False
+            problems.append(f"table {index} text-character disagreement")
+
+    source_xml_text = []
+    for part_name, xml in recognized.get("source_ooxml", {}).items():
+        if part_name == "word/document.xml" or part_name.startswith(("word/header", "word/footer")):
+            try:
+                root = ElementTree.fromstring(xml)
+            except ElementTree.ParseError:
+                problems.append(f"GUI reader returned invalid XML for {part_name}")
+                continue
+            source_xml_text.extend(
+                node.text or ""
+                for node in root.iter("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}t")
+            )
+    recognized_text = []
+    for record in recognized.get("records", []):
+        if record.get("kind") == "table":
+            recognized_text.extend(
+                segment.get("text", "")
+                for row in record.get("rows", [])
+                for cell in row
+                for segment in cell.get("content", [])
+                if segment.get("type") == "text"
+            )
+        else:
+            recognized_text.extend(
+                segment.get("text", "")
+                for segment in record.get("content", [])
+                if segment.get("type") == "text"
+                and segment.get("text") not in {"页眉：", "页脚："}
+            )
+    source_characters = Counter(char for value in source_xml_text for char in value if not char.isspace())
+    recognized_characters = Counter(char for value in recognized_text for char in value if not char.isspace())
+    text_matches = bool(source_xml_text) and source_characters == recognized_characters
+    if not text_matches:
+        problems.append("normalized non-whitespace character multiset differs from the source OOXML")
+
+    gui_image_count = sum(
+        len(cell.get("images", []))
+        for record in table_records
+        for row in record.get("rows", [])
+        for cell in row
+    )
+    media_image_count = len(extract_images(source))
+    images_match = gui_image_count == media_image_count
+    if not images_match:
+        problems.append(f"embedded-image count disagreement: GUI={gui_image_count}, package={media_image_count}")
+
+    warnings = recognized.get("recognition_warnings", [])
+    # Field instructions are retained in source_ooxml; their rendered text is
+    # independently covered by the exact w:t multiset check above.
+    blocking_warnings = [
+        warning for warning in warnings
+        if not (warning.get("code") == "source_ooxml_not_normalized"
+                and warning.get("element") == "w:instrText")
+    ]
+    problems.extend(
+        f"GUI recognition warning {warning.get('code', 'unknown')}: {warning.get('message', '')}"
+        for warning in blocking_warnings
+    )
+    return {
+        "module": "MSDS retrieval GUI read_file",
+        "schema_version": recognized.get("schema_version"),
+        "status": "ready" if not problems else "needs-review",
+        "body_table_count": len(table_records),
+        "source_body_table_xml_count": reader_coverage.get("body_table_xml_count"),
+        "normalized_cell_count": reader_coverage.get("normalized_cell_count"),
+        "image_count": gui_image_count,
+        "source_ooxml_part_count": len(recognized.get("source_ooxml", {})),
+        "checks": {
+            "table_count_matches": len(table_records) == len(source_tables)
+                and bool(reader_coverage.get("table_count_matches")),
+            "table_text_matches": table_text_matches,
+            "source_text_character_multiset_matches": text_matches,
+            "image_count_matches": images_match,
+        },
+        "warnings": warnings,
+        "field_warnings": field_warnings,
+        "problems": problems,
+    }
+
+
 def _extract_docx(source: Path, *, original_source: Path | None = None,
                   source_format: str = "docx", source_adapter: str = "direct-docx") -> dict:
     if Document is None:
@@ -1222,6 +1380,9 @@ def _extract_docx(source: Path, *, original_source: Path | None = None,
     original = original_source or source
     ext = Extraction()
     document = Document(str(source))
+    recognition = _recognition_check(source, document)
+    if recognition["status"] != "ready":
+        ext.flag("recognition", "gui-reader-review", "; ".join(recognition["problems"]))
     tables = document.tables
     if len(tables) != 16:
         ext.flag("layout", "table-count", f"expected 16 tables, found {len(tables)}")
@@ -1249,6 +1410,9 @@ def _extract_docx(source: Path, *, original_source: Path | None = None,
     source_hash = sha256(original)
     images = extract_images(source)
     coverage = coverage_fingerprint(document, sections, s8_control_parameters)
+    coverage["recognition"] = recognition
+    if recognition["status"] != "ready":
+        coverage["status"] = "needs-review"
     coverage["source_sha256"] = source_hash
     coverage["source_format"] = source_format
     for index, image in enumerate(images, start=1):
@@ -1285,6 +1449,7 @@ def _extract_docx(source: Path, *, original_source: Path | None = None,
         "source_mapping": mapping_draft,
         "agent_execution": blank_execution_contract(),
         "source_coverage": coverage,
+        "source_recognition": recognition,
         "fact_ledger": fact_ledger,
         "output_traceability": blank_output_traceability(source_hash),
         "images": images,

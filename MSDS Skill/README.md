@@ -1,6 +1,10 @@
-# MSDS Skill 3.27.14
+# MSDS Skill 3.27.16
 
-V3.27.14 limits duplicate-heading cleanup to reviewed Section 11 toxicology
+V3.27.16 fixes the circular pre-clone SOP gate and packages the validated GUI
+recognition reader. It keeps Section 9 source-backed qualifiers and independent
+property rows, and defers Tk imports until the desktop viewer starts.
+V3.27.15 adds source-traced Section 9 condition labels and independent-property
+mapping gates. V3.27.14 limits duplicate-heading cleanup to reviewed Section 11 toxicology
 labels, including the `皮肤-` / `skin -` and `眼-` / `eye -` prefixes in 11.2
 and 11.3. Ordinary Section 1-16 source values remain verbatim. V3.27.12 fixes repeated endpoint/route headings in Section 11 values: when the
 template already owns `急性毒性` + `经口` / `Acute toxicity` + `Oral`, only the
@@ -58,7 +62,14 @@ Read [`SKILL.md`](SKILL.md) for the operating contract. The reusable scripts, te
 
 ## Version
 
-Public release: `MSDS Skill 3.27.14`
+Public release: `MSDS Skill 3.27.16`
+
+PU-3011 performance and recognition study reports are retained in the source
+repository at [`docs/performance-studies/PU-3011/`](docs/performance-studies/PU-3011/)
+and are excluded from the runtime ZIP. The
+2026-09-28 full-workflow trial is explicitly partial: it stopped at a
+pre-clone SOP gate, produced no formal DOCX/PDF matrix and does not claim a
+completed benchmark.
 
 Template baseline: the current user-supplied formal CN/EN templates are kept
 as source records, while active baselines normalize value cells only. CN source

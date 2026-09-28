@@ -1,0 +1,300 @@
+{
+  "schema_version": "1.0",
+  "task_received_at_utc": "2026-09-28T07:46:43Z",
+  "run_root": "F:\\App Location\\Guanzhi Tong\\Skill\\MSDS Skill\\TDS MSDS 预处理\\1-1 单组份水性聚氨酯树脂 PU\\PU-3011\\覆写计时试跑-20260928",
+  "source": "F:\\App Location\\Guanzhi Tong\\Skill\\MSDS Skill\\TDS MSDS 预处理\\1-1 单组份水性聚氨酯树脂 PU\\PU-3011\\PU-3011 msds_CN 冠志.docx",
+  "source_sha256": "074EE9974B23984B3F089223541A4DFE78FF9C952772C7DD8AFE0ADB10814808",
+  "events": [
+    {
+      "end_utc": "2026-09-28T07:47:18Z",
+      "agent_review_seconds": null,
+      "wait_seconds": 0,
+      "notes": "Source inventoried, original SHA-256 captured, isolated copy created. Overlapped with contract inspection; counted once in task wall.",
+      "machine_seconds": null,
+      "retry_seconds": 0,
+      "start_utc": "2026-09-28T07:46:43Z",
+      "wall_seconds": 35,
+      "stage": "source_inventory_and_initial_hash"
+    },
+    {
+      "end_utc": "2026-09-28T07:50:20.0254432Z",
+      "agent_review_seconds": null,
+      "wait_seconds": 0,
+      "notes": "Workspace and skill-root OpenSpec checked; skill/contracts/templates checked. Includes initial 35s overlap with inventory.",
+      "machine_seconds": null,
+      "retry_seconds": 0,
+      "start_utc": "2026-09-28T07:46:43Z",
+      "wall_seconds": 217.0254,
+      "stage": "openspec_skill_normative_review"
+    },
+    {
+      "end_utc": "2026-09-28T07:48:26Z",
+      "agent_review_seconds": null,
+      "wait_seconds": 0,
+      "notes": "Initial Python resolved LibreOffice Python without tkinter; recovered using py -3.12 Python 3.12.10/Tk 8.6.",
+      "machine_seconds": 0.858,
+      "retry_seconds": 67.142,
+      "start_utc": "2026-09-28T07:47:18Z",
+      "wall_seconds": 68,
+      "stage": "failed_python_route_and_recovery"
+    },
+    {
+      "end_utc": "2026-09-28T07:50:20.8742745Z",
+      "agent_review_seconds": 0,
+      "wait_seconds": 0,
+      "notes": "Cold maintained workflow, GUI read_file; 268/268 units, 16 tables, 2 images, 201 initial facts, no cache reuse.",
+      "machine_seconds": 0.8488313,
+      "retry_seconds": 0,
+      "start_utc": "2026-09-28T07:50:20.0254432Z",
+      "wall_seconds": 0.8488313,
+      "stage": "raw_extraction_gui_recognition"
+    },
+    {
+      "end_utc": "2026-09-28T08:00:47.6835101Z",
+      "agent_review_seconds": null,
+      "wait_seconds": 0,
+      "notes": "Fresh semantic review, initial CN fact/mapping draft and formal preflight. End is preflight-first.json UTC mtime; review-active time not instrumented.",
+      "machine_seconds": 1.2,
+      "retry_seconds": 0,
+      "start_utc": "2026-09-28T07:50:20.8742745Z",
+      "wall_seconds": 626.8092,
+      "stage": "fact_review_mapping_and_first_preflight",
+      "unknown_seconds": 625.6092,
+      "blockers_after": 281
+    },
+    {
+      "end_utc": "2026-09-28T08:03:58Z",
+      "agent_review_seconds": null,
+      "wait_seconds": 0,
+      "notes": "Mapping repairs and EN draft/preflight; blockers 281→223→215. 1.7s separately timed invocation runtime; remaining interval unknown.",
+      "machine_seconds": 1.7,
+      "retry_seconds": 0,
+      "start_utc": "2026-09-28T08:00:47.6835101Z",
+      "wall_seconds": 190.3165,
+      "stage": "mapping_repairs_and_generic_en_draft",
+      "unknown_seconds": 188.6165,
+      "blockers_before": 281,
+      "blockers_after": 215
+    },
+    {
+      "wall_seconds": 124,
+      "end_utc": "2026-09-28T08:07:15Z",
+      "retry_seconds": 0,
+      "wait_seconds": 0,
+      "start_utc": "2026-09-28T08:05:11Z",
+      "notes": "S1-S4, 34 rows, review queue 131→108; elapsed interval only, active review unknown.",
+      "agent_review_seconds": null,
+      "stage": "manual_english_translation_batch_s1_s4",
+      "machine_seconds": null,
+      "unknown_seconds": 124,
+      "time_basis": "clock_interval"
+    },
+    {
+      "start_utc": "2026-09-28T08:07:15Z",
+      "wall_seconds": 78,
+      "retry_seconds": 0,
+      "stage": "manual_english_translation_batch_s5_s9",
+      "agent_review_seconds": null,
+      "wait_seconds": 0,
+      "machine_seconds": null,
+      "end_utc": "2026-09-28T08:08:33Z",
+      "notes": "S5-S9, review queue 108→65; upper bound from clock/file mtimes; active review unknown.",
+      "unknown_seconds": 78,
+      "time_basis": "file_mtime_interval_upper_bound"
+    },
+    {
+      "retry_seconds": 0,
+      "wall_seconds": 36,
+      "end_utc": "2026-09-28T08:09:09Z",
+      "wait_seconds": 0,
+      "agent_review_seconds": null,
+      "machine_seconds": 0.6,
+      "stage": "manual_english_translation_batch_s10_s16",
+      "unknown_seconds": 35.4,
+      "notes": "S10-S16; queue 65→0, S16 one row/two cells. One measured facts write ~0.6s; remaining interval unknown.",
+      "time_basis": "file_mtime_interval",
+      "start_utc": "2026-09-28T08:08:33Z",
+      "blockers_before": 65,
+      "blockers_after": 0
+    },
+    {
+      "stage": "bilingual_traceability_assembly",
+      "start_utc": "2026-09-28T08:14:54Z",
+      "end_utc": "2026-09-28T08:21:20.7863726Z",
+      "wall_seconds": 386.7864,
+      "machine_seconds": 3.7,
+      "agent_review_seconds": null,
+      "wait_seconds": 0,
+      "retry_seconds": 0,
+      "unknown_seconds": 383.0864,
+      "status": "completed",
+      "notes": "S1-S16: 150 traces for 150 mapped facts, plus 8 explicit-missing S9 hide decisions. Six measured evidence-data invocations total 3.7s; remaining interval unknown."
+    },
+    {
+      "stage": "full_trace_preflight_workflow",
+      "start_utc": "2026-09-28T08:22:49Z",
+      "end_utc": "2026-09-28T08:23:02.0350321Z",
+      "wall_seconds": 13.035,
+      "machine_seconds": 1.1,
+      "agent_review_seconds": null,
+      "wait_seconds": 0,
+      "retry_seconds": 0,
+      "unknown_seconds": 11.935,
+      "status": "completed",
+      "notes": "Full generic run_workflow preflight after 150 mapped fact traces. 7 blockers; build and PDF conversion were not started. One recorded workflow invocation runtime was 1.1s; remainder is unknown startup/inspection interval.",
+      "blockers_before": 333,
+      "blockers_after": 7
+    },
+    {
+      "stage": "repair_trace_preflight_findings",
+      "start_utc": "2026-09-28T08:23:02.0350321Z",
+      "end_utc": "2026-09-28T08:23:54.4345224Z",
+      "wall_seconds": 52.3995,
+      "machine_seconds": 1.2,
+      "agent_review_seconds": null,
+      "wait_seconds": 0,
+      "retry_seconds": 0,
+      "unknown_seconds": 51.1995,
+      "status": "completed",
+      "blockers_before": 7,
+      "blockers_after": 3,
+      "notes": "Fixed three invalid source-only mapping policies and restored source-backed S3 heading/column-header traces after grounding gate identified populated S3 cells. Two SOP blockers remain pending next formal preflight; no template clone."
+    },
+    {
+      "stage": "preflight_rerun_after_trace_repairs",
+      "start_utc": "2026-09-28T08:24:40Z",
+      "end_utc": "2026-09-28T08:24:52.8555715Z",
+      "wall_seconds": 12.8556,
+      "machine_seconds": 1.0,
+      "agent_review_seconds": null,
+      "wait_seconds": 0,
+      "retry_seconds": 0,
+      "unknown_seconds": 11.8556,
+      "status": "completed",
+      "blockers_before": 3,
+      "blockers_after": 2,
+      "notes": "Final generic workflow preflight; two SOP blockers remain; build/PDF not started."
+    },
+    {
+      "stage": "agent_execution_record_assembly",
+      "start_utc": "2026-09-28T08:21:20.7863726Z",
+      "end_utc": "2026-09-28T08:22:49Z",
+      "wall_seconds": null,
+      "wall_seconds_upper_bound": 88.2136,
+      "machine_seconds": 0.6,
+      "agent_review_seconds": null,
+      "wait_seconds": 0,
+      "retry_seconds": 0,
+      "unknown_seconds_upper_bound": 87.6136,
+      "status": "completed",
+      "time_basis": "file_mtime_to_next_clock_read_upper_bound",
+      "notes": "Added accurate read-source/acknowledgement record and partial SOP progress. One facts JSON write .6s; exact review interval unknown."
+    },
+    {
+      "stage": "repair_mapping_policy_round2",
+      "start_utc": "2026-09-28T08:23:54.4345224Z",
+      "end_utc": "2026-09-28T08:24:37.8208372Z",
+      "wall_seconds": 43.3863,
+      "machine_seconds": 0.5,
+      "agent_review_seconds": null,
+      "wait_seconds": 0,
+      "retry_seconds": 0,
+      "unknown_seconds": 42.8863,
+      "status": "completed",
+      "blockers_before": 3,
+      "blockers_after": 2,
+      "notes": "Restored FACT-0005 source-only line_break_policy; one data update .5s."
+    },
+    {
+      "stage": "final_workflow_source_hash_and_output_state_check",
+      "start_utc": "2026-09-28T08:24:52.8555715Z",
+      "end_utc": "2026-09-28T08:28:38Z",
+      "wall_seconds": 225.1444,
+      "machine_seconds": 0.6,
+      "agent_review_seconds": null,
+      "wait_seconds": 0,
+      "retry_seconds": 0,
+      "unknown_seconds": 224.5444,
+      "status": "completed",
+      "notes": "Verified workflow blocked before clone/PDF; no output folder; source and read-only copy hashes match. Hash/inventory command .6s; remaining interval unknown."
+    }
+  ],
+  "accounting": {
+    "total_observed_wall_seconds": 2515.0,
+    "machine_seconds": 15.1068313,
+    "agent_review_seconds": null,
+    "wait_seconds": 0.0,
+    "retry_seconds": 67.142,
+    "unknown_seconds": 2432.7511687,
+    "basis": "Exact task envelope 2026-09-28T07:46:43Z through 2026-09-28T08:28:38Z. machine + retry + wait + unknown = 2515s. Agent active review is unmeasured within unknown, not zero. OpenSpec/source inventory overlap not counted twice. Unknown includes 08:09:09–08:14:54Z (345s).",
+    "unattributed_gaps": [
+      {
+        "start_utc": "2026-09-28T08:03:58Z",
+        "end_utc": "2026-09-28T08:05:11Z",
+        "wall_seconds": 73.0,
+        "classification": "unknown"
+      },
+      {
+        "start_utc": "2026-09-28T08:09:09Z",
+        "end_utc": "2026-09-28T08:14:54Z",
+        "wall_seconds": 345.0,
+        "classification": "unknown"
+      },
+      {
+        "start_utc": "2026-09-28T08:24:37.8208372Z",
+        "end_utc": "2026-09-28T08:24:40Z",
+        "wall_seconds": 2.1792,
+        "classification": "unknown"
+      }
+    ],
+    "last_updated_utc": "2026-09-28T08:28:38Z"
+  },
+  "notes": [
+    "Agent active-review time not instrumented; stage elapsed windows are not asserted as active time.",
+    "Unknown is the reconciled remainder and includes uninstrumented review/tool intervals and explicit time gaps.",
+    "Initial Python misroute recovered using py -3.12; 67.142s retry separately counted.",
+    "Trial stopped before template cloning because active execution contract requires all post-clone stages completed for pre-clone preflight. No release documents generated."
+  ],
+  "milestones": [
+    {
+      "utc": "2026-09-28T08:18:17.6883586Z",
+      "stage": "bilingual_traceability_assembly",
+      "result": "S1-S8 trace batch persisted; 68 items; overall trace remains needs-review"
+    },
+    {
+      "utc": "2026-09-28T08:19:19.1350981Z",
+      "stage": "bilingual_traceability_assembly",
+      "result": "S1-S8: 66 trace items, plus four S3 data facts; S1 supplier parent and S3 header labels marked source_only; trace status needs-review"
+    },
+    {
+      "utc": "2026-09-28T08:20:17.3010931Z",
+      "stage": "bilingual_traceability_assembly",
+      "result": "S9: 15 mapped trace items, 8 pure no-data hidden decisions; only pH 1% qualifier is retained as source-backed measurement condition; trace remains needs-review"
+    },
+    {
+      "utc": "2026-09-28T08:20:54.4346884Z",
+      "stage": "bilingual_traceability_assembly",
+      "result": "S10-S12 added 52 traces (S10 3; S11 43; S12 6); cumulative trace items 133; trace remains needs-review"
+    },
+    {
+      "utc": "2026-09-28T08:21:20.7863726Z",
+      "stage": "bilingual_traceability_assembly",
+      "result": "Completed: 148 trace items for 148 mapped facts across S1-S16; 8 explicit-missing S9 hidden decisions; trace completeness verification next"
+    },
+    {
+      "utc": "2026-09-28T08:23:02.0350321Z",
+      "stage": "full_trace_preflight_workflow",
+      "result": "7 blockers after complete trace: 2 truthful SOP completion blockers; 3 missing line_break_policy in attempted source_only dispositions; 2 ungrounded populated EN S3 headers. No template clone started."
+    }
+  ],
+  "reconciliation": {
+    "wall_seconds": 2515.0,
+    "machine_seconds": 15.1068313,
+    "agent_review_seconds": null,
+    "wait_seconds": 0.0,
+    "retry_seconds": 67.142,
+    "unknown_seconds": 2432.7511687,
+    "equation": "15.1068313 + 67.142 + 0.0 + 2432.7511687 = 2515.0",
+    "agent_review_interpretation": "not measured separately; not additive to unknown"
+  }
+}

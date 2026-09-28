@@ -3,9 +3,9 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS standardization skill that discovers supported source files, binds source-grounded facts to synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, preserves locked templates, and releases four DOCX plus four PDF deliverables only after semantic and render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.27.14
+# Unified MSDS Eight-Deliverable Standardizer v3.27.16
 
-## Global Source Fidelity and Layered Section Rules (v3.27.14)
+## Global Source Fidelity and Layered Section Rules (v3.27.16)
 
 1. The global source-grounding gate is shared by S1-S16. `output_traceability`
    records output decisions but never becomes evidence by itself.
@@ -18,25 +18,39 @@ description: One maintained MSDS/SDS standardization skill that discovers suppor
 4. Flexible source handling normalizes section names, numbering, labels,
    tables, nested tables and line breaks without paraphrasing source facts.
 5. The reviewed `overwrite_sop` record is required before template cloning;
-   cross-Section semantic routing is allowed only with source facts, a reason
-   and the normal global evidence/audit gates.
+   only stages listed in `preflight_required_stages` must be complete at that
+   checkpoint. Later build stages remain pending until executed and remain
+   subject to the independent final output audits. Cross-Section semantic
+   routing requires source facts, a reason and the normal global evidence/audit
+   gates.
+6. For every section except Section 9, destination labels come from the pinned
+   template. Treat source labels as evidence for interpretation, never as
+   authority to replace a template label; route the value by meaning and raise
+   a review item when source label and value conflict. Section 9 alone may
+   retain a source-specific property label/measurement qualifier when the
+   source supports it and the Section 9 label-format rules are met.
+7. Preserve every source explanation line. Route it to an applicable
+   template note/value slot with source traceability; if available note slots
+   are insufficient, retain the lines with semantic breaks in the last note
+   slot, or block release when no legal slot exists. Never truncate notes to
+   fit the template.
 
-6. Section 2.1 GHS classification values are rendered one logical
+8. Section 2.1 GHS classification values are rendered one logical
    classification/H-code entry per line. A controlled reviewed correction may
    repair a source typo only when the typo and its governing H-code occur in
    the same source fact; the correction is recorded in the evidence route.
    For the PA-4902 regression, `依然液体` + `H226` is corrected to
    `易燃液体` + `H226`.
-7. Section 2.5 H-statements and Section 2.6 P-statements are split into
+9. Section 2.5 H-statements and Section 2.6 P-statements are split into
    logical code lines. Section 2.3 label elements retain the fixed two-line
    shape `标题` + `说明`; a specific concentration limit remains attached to
    the explanation line and is never emitted as a standalone third line.
-8. Duplicate-heading removal is an explicit Section 11 rule, not a global
+10. Duplicate-heading removal is an explicit Section 11 rule, not a global
    inference. For 11.1, remove repeated toxicity/route titles already owned by
    the template. For 11.2, remove repeated skin-irritation headings including
    `皮肤-` / `skin -`; for 11.3, remove repeated eye-irritation headings
    including `眼-` / `eye -`. Preserve the remaining source wording verbatim.
-9. Ordinary S1-S16 values retain their source wording. Similarity between a
+11. Ordinary S1-S16 values retain their source wording. Similarity between a
    value prefix and a template label alone is never grounds for deletion.
 
 ## Mandatory EN Master Template & Format/Bold Immutable Lock (v3.27.4)
@@ -167,12 +181,17 @@ The template's pre-existing bold content is locked label/sequence/header/
 structure content. The maintained English health-hazard route prefixes are
 also bold locked template content; only their descriptions are writable.
 The template's labels, sequence prefixes, bold child labels, paragraph layout,
-indentation, spacing, borders, merges, widths and table geometry are immutable.
+indentation, spacing, borders, merges, widths and table geometry are immutable,
+except that Section 9 may add a source-explicit test-condition qualifier to a
+property label under the controlled rule below. The exception never changes
+the property identity or any label formatting.
 Only a declared value cell may be written, an entire source-absent row may be
 hidden, a source-backed styled row may be inserted through its dedicated
-writer, and a visible numeric prefix may be renumbered; none of those
-permissions authorizes changing label wording or formatting. Sequence plus
-label alignment is therefore a global contract, not a Section 9/10 exception.
+writer, and a visible numeric prefix may be renumbered. The only label-text
+exception is a Section 9 test-condition qualifier explicitly present in its
+reviewed source fact. Preserve the template's property name, five-character
+`9.n` prefix slot, separator spacing, bold/run/paragraph/cell formatting and
+layout; all other label wording stays locked.
 
 Every non-empty writable value run in S1-S16 MUST carry explicit `w:rFonts`
 (`ascii`, `hAnsi`, `eastAsia`, `cs`), `w:sz` and `w:szCs`; inheritance from
@@ -284,7 +303,8 @@ Structural baseline:
 - Sections 9 and 15 may be expanded only when verified source rows exceed the
   pinned template capacity. Clone the last styled data/note row in place and
   write the source-backed new row through the dedicated insertion boundary;
-  never rebuild the table or alter any existing label.
+  never rebuild the table or alter any existing label except the controlled,
+  source-traced Section 9 test-condition qualifier.
 
 A newer user-approved template immediately supersedes this one. Do not restore geometry or paragraph formatting from older outputs. Text visible in the template (including PEA-4139, example ingredients, hazards, toxicology and ecology values, and the two 8.2 example OEL rows) is illustrative structure only and MUST NOT become product facts.
 
@@ -297,7 +317,7 @@ The maintained EN health-hazard route prefixes are bold template-owned content
 Only the descriptive tail after such a prefix is a writable regular Times New Roman 12
 pt value. Runtime Agents may not translate, restyle or replace these prefixes.
 
-The template owns: table count/order, row/column geometry, grid, merges, cell properties, borders, widths, section placement, label cells, paragraph properties, character-format anchors, and page-crossing behavior. All maintained formal templates permit their tables to continue across pages; each active baseline's row-level `cantSplit` settings are also template-owned and must be preserved exactly on surviving output rows. The source owns facts only. Agent mutation is restricted to writing or clearing label-associated value cells, deciding whether a value is source-absent/unsupported and therefore hidden, and requesting only necessary complete styled-row insertion or deletion under the section rule. Labels, sequence text, boldness, fonts, paragraph properties, cell properties, tables and page layout are never Agent-editable. A bold label/run is a hard lock, but non-bold template-owned prefixes and sublabels are hard locks as well. In particular, S2.8 route prefixes (`吸入：`, `食入：`, `皮肤：`, `眼睛：`, `症状和体征：`, or the exact maintained EN equivalent) remain in the same template run tree; the value tail is appended after the prefix without rewriting it. The previous Section 2 label-alias path is retired; source headings select semantic slots but never rewrite template labels.
+The template owns: table count/order, row/column geometry, grid, merges, cell properties, borders, widths, section placement, label cells, paragraph properties, character-format anchors, and page-crossing behavior. All maintained formal templates permit their tables to continue across pages; each active baseline's row-level `cantSplit` settings are also template-owned and must be preserved exactly on surviving output rows. The source owns facts only. Agent mutation is restricted to writing or clearing label-associated value cells, the controlled source-traced Section 9 test-condition qualifier, deciding whether a value is source-absent/unsupported and therefore hidden, and requesting only necessary complete styled-row insertion or deletion under the section rule. Labels outside that qualifier exception, sequence text, boldness, fonts, paragraph properties, cell properties, tables and page layout are never Agent-editable. A bold label/run is a hard lock, but non-bold template-owned prefixes and sublabels are hard locks as well. In particular, S2.8 route prefixes (`吸入：`, `食入：`, `皮肤：`, `眼睛：`, `症状和体征：`, or the exact maintained EN equivalent) remain in the same template run tree; the value tail is appended after the prefix without rewriting it. The previous Section 2 label-alias path is retired; source headings select semantic slots but never rewrite template labels.
 
 The shared runtime builds a slot registry from the fresh clone before clearing values: a non-empty template value object is writable, an intentionally blank object is not writable unless the semantic contract explicitly marks it as an input slot, and Section 8.2 data rows are handled only by their dedicated writer. Section 8 `建议 / Recommendation` is an explicitly source-gated ordinary value slot: substantive source text is retained in the non-bold value cell, while an absent source value remains empty under the source-presence policy. Section 11.1 route sublabels and Section 11.7 child sublabels are locked and are never cleared as value cells. Before any Section 11 write, the runtime maps facts to the fixed endpoint skeleton by endpoint and sublabel, pads absent slots, and only then applies source-presence row omission. This prevents source data from leaking into blank template slots or shifting into a neighboring toxicology label. Any necessary company/header/footer overlay, pictogram insertion or post-omission numeric-prefix renumbering is runtime-controlled and is not an Agent permission.
 
@@ -306,7 +326,7 @@ Deletion of an unsupported item must use the smallest safe template boundary. It
 **Release blocker:** if any output cannot prove lineage from the pinned template snapshot or fails geometry equivalence after allowed row suppression, do not deliver it. The active CN, EN and EN-source template files are byte-pinned; a changed baseline hash blocks the run before any clone is made. A template is not replaceable by a prior output, a rendered PDF or an unapproved copy.
 
 ## 3. Locked-format contract
-Bold template labels and table geometry are locked: wording for the selected language, punctuation, run formatting, paragraph formatting, merges, widths, borders and row structure must not be casually rebuilt.
+Bold template labels and table geometry are locked: wording for the selected language, punctuation, run formatting, paragraph formatting, merges, widths, borders and row structure must not be casually rebuilt. The sole wording exception is a source-traced Section 9 test-condition qualifier; it may be added only under the dedicated Section 9 rule below.
 
 Allowed mutation exception: after an explicitly permitted whole-row omission, numeric prefixes may be changed to restore continuous visible section numbering. Only the numeric prefix is mutable. The complete executable boundary is defined in `docs/template_mutation_whitelist.md` and enforced by `scripts/template_mutation_whitelist.py` plus `scripts/audit_template_mutation_whitelist.py`.
 
@@ -326,9 +346,10 @@ For inserted non-bold Chinese body text, retain the approved body-character-form
 
 ### 3A. Agent mutation whitelist
 
-The sequence column and label column are immutable. The Agent may request only
-the following semantic operations; the runtime performs them through the
-approved write boundary:
+Sequence text and label wording are immutable except for omission-only numeric
+renumbering and the source-traced Section 9 test-condition qualifier. The Agent
+may request only the following semantic operations; the runtime performs them
+through the approved write boundary:
 
 - write source-grounded content to an existing label-associated value cell;
 - clear a value cell when the source value is absent or unsupported;
@@ -368,7 +389,7 @@ Never invent:
 
 For customer-facing MSDS output, a source-supported missing value normally uses `无数据` in Chinese or `No data available` in English. Do not add provenance commentary such as `源文件未提供` or `source file not provided`. Endpoint-specific rules below override this default: source-backed Section 2 `其他危险` preserves the source wording such as `无适用资料。`; Section 11.7 writes `无数据` only when the source explicitly has that endpoint with missing data; absent Section 11.7 children are hidden. This Section 11.7 child-field matching requirement must not be generalized into a blanket Section 11 omission rule: for every Section 11 endpoint, a source-backed explicit missing-data phrase remains the endpoint value, while only a source-absent or unmatched endpoint is hidden. The shared model distinguishes `SUPPORTED`, `EXPLICIT_MISSING`, `NOT_APPLICABLE`, and `ABSENT`; only an explicit endpoint state may produce a placeholder, while an absent template-only field is suppressed.
 
-Section 9 property exception: when a property value is only a missing-data placeholder, omit the entire dedicated property row before customer-facing write. Do not leave a blank row. Renumber the surviving visible Section 9 properties continuously in original semantic order. The runtime preserves the template's five-character `9.n` prefix slot, so a moved two-digit row receives two separator spaces when it becomes a one-digit item. A source-backed `NCO含量 / NCO content` is an independent Section 9 property row, never text buried in `其他信息 / Other information`. Preserve substantive values, including `不适用` / `Not applicable`, measured values and source-supported `其他信息` / `Other information`.
+Section 9 property exception: map every distinct property to its own dedicated row. Never merge water solubility with viscosity, ionicity with `其他信息`, or any other named properties. If a reviewed source label includes a test condition/qualifier (for example pH solution concentration, surface-tension solution concentration, or measurement temperature), carry that qualifier in the property label; this is the sole Section 9 label-text exception and it may not alter the property name or locked label formatting/prefix slot. When a property value is only a missing-data placeholder, omit its entire row before customer-facing write. Preserve substantive values, including `不适用` / `Not applicable`, measured values and source-supported `其他信息`. `NCO含量 / NCO content` remains an independent property, never buried in `其他信息`. Run a source-to-output audit that checks property identity, qualifier, value, row independence, disposition and CN/EN × company parity; any mismatch blocks release.
 
 Do not treat `不适用` or substantive negative conclusions as missing data. Keep conclusions such as `非危险品`, `无危险反应`, `初沸点以下无闪点`, or `未满足分类标准` when source-supported.
 
@@ -478,10 +499,10 @@ Do not create composite labels that do not exist in the template. Preserve stand
 
 The source `8.1 控制参数` exposure-limit/control-parameter statement maps to the existing template row `8.2 工程控制：`; the source `8.2 暴露控制` PPE rows map to the template's `8.1 暴露控制` block. This is semantic mapping, not positional copying. First recover each PPE label/value boundary from separate cells, tabs, inline values and meaningful line breaks; then map by the approved labels for respiratory, hand, glove material, FKM, IIR, NBR, recommendation, eye and body protection. A tail accidentally left after a label is reported as contamination and cannot replace the authoritative value cell. An unknown or ambiguous PPE label enters review and blocks formal projection; it is never assigned by row position. If the source stores `工作场所组分控制参数` in a nested table, extract the four columns `物质 / 依据 / 类型 / 数值` and map each verified record to the dedicated writer. The template `建议：` row keeps its fixed label; if the source supplies a substantive recommendation, write it only to the non-bold value cell, otherwise leave the value empty. Synthetic spaced separators such as ` / ` become semantic line breaks before writing; compact source expressions such as `通风/排气` and `有/无` remain unchanged. A value line containing only `/` or `／` is a release blocker.
 
-Source-side label/value contamination is reviewed during extraction and the
-independent value cell remains authoritative. Output labels are never
-rewritten; the persisted DOCX is compared with the fresh template skeleton so
-only a label change relative to that baseline blocks release. The output audit
+For Section 8 PPE, source-side label/value contamination is reviewed during
+extraction and the independent value cell remains authoritative. Section 8
+output labels are never rewritten; the persisted DOCX is compared with the
+fresh template skeleton so any label change blocks release. The output audit
 must not inspect a template baseline in isolation and declare its existing
 example text to be an overwrite defect. Unknown or ambiguous PPE labels
 likewise enter review and block formal projection; they are never assigned by
@@ -820,7 +841,22 @@ generators are frozen regression vehicles and are not production entry points.
   telemetry inputs, not semantic overwrite permissions. The report records
   machine time separately from caller-supplied review/wait time.
 
-## 20D. Reusable evidence packet and one-shot preflight
+## 20D. GUI-backed source recognition
+
+`scripts/extract_source_facts.py` uses the bundled
+`scripts/msds_table_search.py` reader as its raw DOCX recognition front end.
+It cross-checks body-table counts and per-table text against the original
+OOXML, compares the full visible-text character inventory, checks embedded
+image counts, and retains the reader's OOXML and warnings in the evidence
+packet. Per-field warnings such as text appended to a label are retained as
+`source_recognition.field_warnings` and remain review evidence. Recognition
+mismatches and unsupported content-bearing OOXML are blocking review items.
+`w:instrText` field instructions remain preserved in
+OOXML; they are informational when rendered `w:t` text passes the full-source
+comparison. GUI field candidates are heuristic hints, never approved facts;
+semantic routing and review remain required.
+
+## 20E. Reusable evidence packet and one-shot preflight
 
 Before asking the Agent to complete the semantic review, run the mechanical
 source stage once:
@@ -855,7 +891,7 @@ If a stale `WORD/`, `PDF/` or deployment subtree creates duplicate basenames,
 the audit reports the duplicate slot and skips the expensive DOCX text scan;
 remove the stale copy before rerunning the audit.
 
-## 20E. Resumable efficiency workflow (mandatory Harness entrypoint)
+## 20F. Resumable efficiency workflow (mandatory Harness entrypoint)
 
 For repeated or slow Harness runs, use the single resumable coordinator instead
 of writing a product-specific `build_*_facts.py`, manually invoking four

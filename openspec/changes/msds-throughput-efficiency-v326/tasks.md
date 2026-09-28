@@ -33,7 +33,8 @@
 
 - [x] 6.1 Run the targeted efficiency/cache/family/audit tests, the complete MSDS test suite and strict OpenSpec validation; verify all failures remain release-blocking and the pre-existing change artifacts are not modified by this change.
 - [ ] 6.2 Run a real comparable matrix benchmark with the preserved baseline and the optimized path, including DOCX-only and PDF-enabled modes, then record the result and environment; verify the report separates Agent/manual time from machine time and contains no unsupported speedup claim.
-- [x] 6.3 Update the public version/changelog and manifest only after implementation and verification pass, keep formal output at four DOCX plus four PDF, build the requested local ZIP, and retain the old packages/snapshot until explicit user acceptance; commit, push and old-package removal remain acceptance-gated.
+- [x] 6.3 Update the public version/changelog and manifest only after implementation and verification pass, keep formal output at four DOCX plus four PDF, build the requested local ZIP, and retain the old packages/snapshot until explicit user acceptance; commit/push require an explicit user request (provided for this task), and old-package removal remains acceptance-gated.
+- [x] 6.4 Fix the pre-clone SOP stage cycle with an explicit preflight-stage list, preserve final audit gates, port the reviewed GUI source-recognition and Section 9 qualifier protections, and attach PU-3011 timing reports; verify targeted tests and strict OpenSpec validation.
 
 ### Verification note
 

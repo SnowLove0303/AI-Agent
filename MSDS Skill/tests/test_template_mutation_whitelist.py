@@ -78,6 +78,35 @@ def test_label_text_change_is_blocked():
     assert any("locked label text changed" in error for error in errors)
 
 
+def test_s9_source_condition_qualifier_is_allowed_without_format_drift():
+    for template_path, source_label, expected_label in (
+        (TEMPLATE, "9.3  pH值（5%水溶液）：", "9.3  pH值（5%水溶液）："),
+        (TEMPLATE_EN, "9.3  pH value (5% aqueous solution): ",
+         "9.3  pH value (5% aqueous solution): "),
+    ):
+        template = Document(str(template_path))
+        output = Document(str(template_path))
+        row = output.tables[8].rows[3]
+        write_row_values(
+            row, [source_label, "10-12"], table_index=8, row_index=3
+        )
+        assert row.cells[0].text == expected_label
+        assert compare_locked_skeleton(template, output) == []
+
+
+def test_s9_property_rename_without_a_source_condition_is_blocked():
+    output = Document(str(TEMPLATE))
+    row = output.tables[8].rows[3]
+    try:
+        write_row_values(
+            row, ["9.3  acidity:", "10-12"], table_index=8, row_index=3
+        )
+    except MutationViolation as exc:
+        assert "source-backed test condition" in str(exc)
+    else:
+        raise AssertionError("arbitrary Section 9 label mutation was accepted")
+
+
 def test_label_format_change_is_blocked():
     template = Document(str(TEMPLATE))
     output = Document(str(TEMPLATE))
@@ -236,6 +265,41 @@ def test_s28_route_prefixes_survive_clear_and_overwrite_in_cn_and_en():
         language = "en" if template_path == TEMPLATE_EN else "cn"
         assert compare_locked_skeleton(template, output) == []
         assert compare_format_anchors(template, output, language=language) == []
+
+
+def test_s9_format_audit_anchors_by_property_after_missing_rows_are_removed():
+    template = Document(str(TEMPLATE))
+    output = Document(str(TEMPLATE))
+    table = output.tables[8]
+    write_row_values(
+        table.rows[3], ["9.3 pH值（5%水溶液）：", "10-12"],
+        table_index=8, row_index=3,
+    )
+    table._tbl.remove(table.rows[2]._tr)  # remove pure missing odor threshold
+    assert compare_format_anchors(template, output) == []
+
+
+def test_format_audit_accepts_only_the_reviewed_s114_short_row_height():
+    template = Document(str(TEMPLATE))
+    output = Document(str(TEMPLATE))
+    from s11_layout_policy import normalize
+
+    row = output.tables[10].rows[9]
+    write_row_values(row, [unique_cells(row)[0].text, "short"], table_index=10, row_index=9)
+    decision = normalize(output, [["11.4 致敏性：", "皮肤接触不致敏"]])
+    assert decision["applied"] is True
+    assert compare_format_anchors(template, output) == []
+
+    tr_pr = output.tables[10].rows[9]._tr.trPr
+    tr_pr.find(qn("w:trHeight")).set(qn("w:val"), "284")
+    assert compare_format_anchors(template, output)
+
+
+def test_s3_compacted_component_rows_match_any_approved_component_anchor():
+    template = Document(str(TEMPLATE_EN))
+    output = Document(str(TEMPLATE_EN))
+    output.tables[2]._tbl.remove(output.tables[2].rows[4]._tr)
+    assert compare_format_anchors(template, output, language="en") == []
 
 
 def test_s28_health_rows_keep_composite_handling_after_authorized_renumbering():

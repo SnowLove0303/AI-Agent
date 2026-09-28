@@ -42,7 +42,13 @@ def reviewed_sop():
     return {
         "version": sop["version"],
         "status": "reviewed",
-        "stages": [{"stage": stage, "status": "completed"} for stage in sop["required_stages"]],
+        "stages": [
+            {
+                "stage": stage,
+                "status": "completed" if stage in sop["preflight_required_stages"] else "pending",
+            }
+            for stage in sop["required_stages"]
+        ],
         "loaded_local_sections": sop["required_local_sections"],
         "cross_section_routes": [],
         "audit_plan": ["source_fidelity", "template_lock", "section_local_rules", "render_qa"],
@@ -62,6 +68,23 @@ def test_reviewed_agent_execution_record_is_accepted():
     assert validate_agent_execution_contract({
         "agent_execution": reviewed_execution(), "overwrite_sop": reviewed_sop()
     }) == []
+
+
+def test_sop_preflight_does_not_require_post_clone_stages_to_be_completed():
+    facts = {
+        "agent_execution": reviewed_execution(),
+        "overwrite_sop": reviewed_sop(),
+    }
+    assert validate_agent_execution_contract(facts) == []
+
+
+def test_sop_blocks_incomplete_preflight_stage():
+    sop = reviewed_sop()
+    sop["stages"][4]["status"] = "pending"
+    errors = validate_agent_execution_contract({
+        "agent_execution": reviewed_execution(), "overwrite_sop": sop
+    })
+    assert any("normalize_structure_only" in error for error in errors)
 
 
 def test_agent_execution_requires_reviewed_overwrite_sop():

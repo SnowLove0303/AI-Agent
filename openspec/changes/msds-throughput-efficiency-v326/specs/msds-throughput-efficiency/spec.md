@@ -120,7 +120,7 @@ The system MUST convert only saved, fully audited final DOCX masters into PDFs, 
 
 ### Requirement: Four-stage order and mutation boundary remain invariant
 
-The system MUST execute full source extraction, constrained information normalization, fixed-structure template overwrite and post-overwrite fine-tuning in that order. Efficiency features MUST NOT permit changes to template labels, sequence, bold label formatting, table architecture, geometry, headers or footers; only approved value-cell writes, empty/presence decisions and explicitly authorized styled-row operations remain permitted.
+The system MUST execute full source extraction, constrained information normalization, fixed-structure template overwrite and post-overwrite fine-tuning in that order. Efficiency features MUST NOT permit changes to template labels, sequence, bold label formatting, table architecture, geometry, headers or footers, except a source-traced Section 9 measurement-condition qualifier that preserves property identity and formatting; only approved value-cell writes, empty/presence decisions and explicitly authorized styled-row operations remain permitted.
 
 #### Scenario: Optimized run follows the business stages
 
@@ -136,3 +136,13 @@ The system MUST execute full source extraction, constrained information normaliz
 
 - **WHEN** a source field is absent or explicitly unsupported
 - **THEN** the authorized fine-tuning policy hides/removes the corresponding value row where required and repairs visible sequence prefixes without changing the locked labels or table architecture
+
+#### Scenario: Preflight does not require post-clone stages to be complete
+
+- **WHEN** the reviewed overwrite SOP record reaches the preflight before any template is cloned
+- **THEN** only the stages declared as preflight-required MUST be complete; later clone/write, fine-tuning and audit/render stages MAY remain pending, while all independent final output gates remain blocking after the build
+
+#### Scenario: Section 9 retains a source-backed measurement condition
+
+- **WHEN** a reviewed Section 9 source property explicitly includes a measurement condition or qualifier
+- **THEN** the output MAY add only that qualifier to the matching template property label, MUST preserve the property identity and label formatting, and MUST keep every distinct property in its own row

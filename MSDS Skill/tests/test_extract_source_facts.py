@@ -9,15 +9,36 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from extract_source_facts import (
     Extraction,
     _extract_docx,
+    _recognition_check,
     extract,
     extract_s11,
     extract_s12,
     extract_s2,
     extract_s8,
     extract_s9,
+    coverage_fingerprint,
     main,
     split_inline_protective_material,
 )
+
+
+def test_recognition_module_load_does_not_require_tkinter():
+    import builtins
+    import subprocess
+    import sys
+
+    script = (
+        "import builtins, sys; "
+        "sys.path.insert(0, r'" + str(ROOT / "scripts") + "'); "
+        "original = builtins.__import__; "
+        "builtins.__import__ = lambda name, *a, **k: "
+        "(_ for _ in ()).throw(ModuleNotFoundError(name)) if name == 'tkinter' "
+        "or name.startswith('tkinter.') else original(name, *a, **k); "
+        "import msds_table_search; "
+        "assert callable(msds_table_search.read_file)"
+    )
+    result = subprocess.run([sys.executable, "-c", script], capture_output=True, text=True)
+    assert result.returncode == 0, result.stderr
 from source_ingest import SourceSelectionError
 
 
@@ -41,6 +62,8 @@ def test_extractor_detects_model_and_covers_every_cell():
     assert mapping["unresolved"]
     assert all("['']" not in item["source_text"] for item in mapping["items"])
     assert data["source_coverage"]["status"] == "ready"
+    assert data["source_recognition"]["status"] == "ready"
+    assert all(data["source_recognition"]["checks"].values())
     assert data["source_coverage"]["unmapped"] == []
     assert data["source_coverage"]["unreadable"] == []
     assert data["source_coverage"]["counts"]["source_unit_count"] == len(
@@ -291,6 +314,67 @@ def test_s12_keeps_source_121_and_suppresses_only_template_notes():
     assert rows[2][0].startswith("12.1")
     assert rows[3][0].startswith("12.2")
     assert rows[4][0].startswith("12.3")
+
+
+def test_s12_preserves_source_explanation_rows_before_endpoint_facts():
+    from docx import Document
+
+    document = Document()
+    table = document.add_table(rows=1, cols=2)
+    for note in (
+        "该产品无可用的生态毒理学研究。",
+        "以下是N,N－二甲基乙酰胺生态毒理学数据：",
+    ):
+        row = table.add_row()
+        row.cells[0].text = note
+    row = table.add_row()
+    row.cells[0].text = "生态毒性："
+    row.cells[1].text = "鱼类 LC50：1,500mg/l"
+
+    rows = extract_s12(table, Extraction())
+    assert rows[2:4] == [["该产品无可用的生态毒理学研究。"],
+                         ["以下是N,N－二甲基乙酰胺生态毒理学数据："]]
+    assert rows[4] == ["12.1 生态毒性：", "鱼类 LC50：1,500mg/l"]
+
+
+def test_s8_mixed_label_value_is_covered_after_value_routes_to_template_label():
+    from docx import Document
+
+    document = Document()
+    for _ in range(7):
+        document.add_table(rows=1, cols=1)
+    table = document.add_table(rows=1, cols=2)
+    row = table.add_row()
+    row.cells[0].text = "手部防护： 喷涂过程中要求有呼吸防护设备。"
+    row.cells[1].text = "建议戴上防护手套。"
+    sections = {f"s{number}": [] for number in range(1, 17)}
+    sections["s8"] = [
+        ["8.1 暴露控制：", ""],
+        ["呼吸系统防护：", "喷涂过程中要求有呼吸防护设备。"],
+        ["手部防护：", "建议戴上防护手套。"],
+    ]
+
+    coverage = coverage_fingerprint(document, sections)
+    assert coverage["unmapped"] == []
+
+
+def test_gui_section8_suffix_warning_is_preserved_in_skill_recognition_record(tmp_path):
+    from docx import Document
+
+    source = tmp_path / "label_suffix.docx"
+    document = Document()
+    table = document.add_table(rows=1, cols=2)
+    table.rows[0].cells[0].text = "手部防护： 喷涂过程中要求有呼吸防护设备。"
+    table.rows[0].cells[1].text = "建议戴上防护手套。"
+    document.save(source)
+
+    recognition = _recognition_check(source, Document(str(source)))
+    assert recognition["status"] == "ready"
+    assert any(
+        warning["code"] == "label_cell_contains_unmapped_text"
+        and warning["text"] == "喷涂过程中要求有呼吸防护设备。"
+        for warning in recognition["field_warnings"]
+    )
 
 
 def test_s2_extracts_precautionary_groups_and_does_not_leak_headings_to_other():
