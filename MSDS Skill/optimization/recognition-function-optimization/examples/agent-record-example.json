@@ -1,0 +1,2158 @@
+{
+  "schema_version": "agent-recognition-v1",
+  "item_id": "SRC-068e91f0a9a6fffe",
+  "source": {
+    "name": "PU-7206 msds_CN 冠志.pdf",
+    "source_type": "pdf",
+    "sha256": "068e91f0a9a6fffebe9228ed7e76de5da197cd03ddf3e3e5d4d8f9936ccc4af8",
+    "path": null
+  },
+  "evidence": {
+    "raw_recognition": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\benchmark-100\\items\\0005_ef02df7dfa0d\\recognition.json",
+    "raw_comparison": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\benchmark-100\\items\\0005_ef02df7dfa0d\\comparison.json"
+  },
+  "quality": {
+    "overall": "PARTIAL",
+    "dimensions": {
+      "content": "PARTIAL",
+      "formatting": "UNAVAILABLE",
+      "images": "PARTIAL",
+      "package": "UNAVAILABLE",
+      "render": "UNAVAILABLE",
+      "structure": "PARTIAL"
+    },
+    "warnings": [
+      {
+        "code": "pdf_format_inference_limited",
+        "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+      }
+    ],
+    "section_counts": {
+      "0": 0,
+      "1": 8,
+      "2": 1,
+      "3": 1,
+      "4": 1,
+      "5": 1,
+      "6": 0,
+      "7": 1,
+      "8": 1,
+      "9": 0,
+      "10": 1,
+      "11": 1,
+      "12": 0,
+      "13": 1,
+      "14": 1,
+      "15": 1,
+      "16": 1,
+      "unclassified": 2
+    },
+    "table_count": 14,
+    "image_count": 0,
+    "blocking_dimensions": [
+      "formatting",
+      "package",
+      "render"
+    ]
+  },
+  "sections": {
+    "0": [],
+    "1": [
+      {
+        "id": "SRC-068e91f0a9a6fffe/record/0",
+        "section": "1",
+        "kind": "table",
+        "label": "第 1 部分 · 第 1 页 · 表格 1",
+        "title": "1.物料及供应商标识",
+        "text": null,
+        "page": 1,
+        "source_locator": "SRC-068e91f0a9a6fffe/record/0",
+        "tables": [
+          {
+            "id": "SRC-068e91f0a9a6fffe/record/0",
+            "section": "1",
+            "label": "第 1 部分 · 第 1 页 · 表格 1",
+            "title": "1.物料及供应商标识",
+            "columns": 1,
+            "rows": [
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/0/row/0",
+                "row": 0,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/0/row/0/cell/0",
+                    "row": 0,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "1.物料及供应商标识",
+                    "normalized_text": "1.物料及供应商标识",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              },
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/0/row/1",
+                "row": 1,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/0/row/1/cell/0",
+                    "row": 1,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "1.1 产品名称： PU-7206\n中文名称： 水性聚氨酯分散体\n化学品分类： 水性聚氨酯树脂分散体\n产品使用建议和使用限制： 涂料、油墨\n1.2\n1.3 供应商信息：\n供应商名称： 广州冠志新材料科技有限公司\n供应商地址： 广州市萝岗区科学城掬泉路3号广州国际企业孵化器A区\n1106室\n电话： 86-20-82567990\n传真： 86-20-32214789",
+                    "normalized_text": "1.1 产品名称： PU-7206 中文名称： 水性聚氨酯分散体 化学品分类： 水性聚氨酯树脂分散体 产品使用建议和使用限制： 涂料、油墨 1.2 1.3 供应商信息： 供应商名称： 广州冠志新材料科技有限公司 供应商地址： 广州市萝岗区科学城掬泉路3号广州国际企业孵化器A区 1106室 电话： 86-20-82567990 传真： 86-20-32214789",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              }
+            ],
+            "structure": {
+              "capture_level": "detected_text_grid_with_geometry",
+              "column_count": 1,
+              "geometry_available": true,
+              "row_count": 2,
+              "source_bbox_pdf_points": [
+                53.925,
+                125.47,
+                542.85,
+                340.89
+              ],
+              "text_capture_method": "table_extractor"
+            },
+            "source_locator": "SRC-068e91f0a9a6fffe/record/0"
+          }
+        ],
+        "segments": []
+      },
+      {
+        "id": "SRC-068e91f0a9a6fffe/record/2",
+        "section": "1",
+        "kind": "text",
+        "label": "第 1 页全文",
+        "title": null,
+        "text": "物料安全数据表\nVersion：1.0\nPU-7206\n1.物料及供应商标识\n1.1 产品名称： PU-7206\n中文名称： 水性聚氨酯分散体\n化学品分类： 水性聚氨酯树脂分散体\n产品使用建议和使用限制： 涂料、油墨\n1.2\n1.3 供应商信息：\n供应商名称： 广州冠志新材料科技有限公司\n供应商地址： 广州市萝岗区科学城掬泉路3号广州国际企业孵化器A区\n1106室\n电话： 86-20-82567990\n传真： 86-20-32214789\n2.危险性概述\n2.1GHS危险性类别：\n严重眼睛刺激性，类别2（H319）\n生殖毒性物质，类别1B（H360）\n2.2GHS 标签要素：无\n象形图：\n信号词：危险\n危险性说明：\nH319 造成严重眼刺激。\nH360 可能对生育能力或胎儿造成伤害。\n防范说明：\n预防措施：P280 戴防护手套/穿防护服/戴防护眼罩/戴防护面具。\n事故响应：P305+P351 +P338 +P310 如溅入眼睛，用水小心冲洗几分钟。如戴隐形眼镜且\nP\n广州冠志新材料科技有限公司 PU-7206-MSDS 修订日期：2023/9/27\n1/7",
+        "page": 1,
+        "source_locator": "SRC-068e91f0a9a6fffe/record/2",
+        "tables": [],
+        "segments": []
+      },
+      {
+        "id": "SRC-068e91f0a9a6fffe/record/7",
+        "section": "1",
+        "kind": "text",
+        "label": "第 2 页全文",
+        "title": null,
+        "text": "物料安全数据表\nVersion：1.0\nPU-7206\n便于取出，取出隐形眼镜，继续冲洗。立即呼叫解毒中心或就医。\n其他危险：无适用资料。\n3. 成分/组成资料\n产品类型： 混合物\n3.1\n3.2 成分\n化学品名称 CAS编号 含量%（w/w）\n聚氨酯/脲聚合物 N/A 38.0~42.0\n水 7732-18-5 53.0~55.0\nN-乙基吡咯烷酮（NEP） 2687-91-4 5.5~6.5\n4.急救措施\n4.1. 一般措施： 立即脱掉所有被污染的衣物。\n误服： 若意外吞食，不要催吐，立即就医。无意识时，不要经口\n4.2.\n喂食任何食物。\n4.3.\n接触眼睛： 立即翻起上下眼睑用大量缓和流动的水清洗眼睛至少20\n分钟。且将头倾斜，避免化学品流入另一只未受污染的眼\n睛，并立即就医。\n4.4. 接触皮肤： 立即用肥皂和大量的水冲洗。若发生皮肤反应，就医。\n吸入： 一旦吸入，如有不适，就医。\n4.5.\n5.消防措施\n5.1.\n合适的灭火剂： 二氧化碳（CO\n2\n），耐醇泡沫，化学干粉。大火时应用水\n喷洒。\n不合适的灭火剂： 高流量的水喷射。\n5.2.\n物质或混合物的特殊危害： 燃烧时释放一氧化碳、二氧化碳、氮氧化物等。\n5.3.\n在着火或爆炸情况下，不要吸进烟尘。\n消防预防措施和保护设备： 消防人员必须佩戴自供气式呼吸器。\n5.4.\n禁止污染的灭火用水流入土壤，地下水或地表水中。\n6.意外泄漏措施\nP\n广州冠志新材料科技有限公司 PU-7206-MSDS 修订日期：2023/9/27\n2/7",
+        "page": 2,
+        "source_locator": "SRC-068e91f0a9a6fffe/record/7",
+        "tables": [],
+        "segments": []
+      },
+      {
+        "id": "SRC-068e91f0a9a6fffe/record/11",
+        "section": "1",
+        "kind": "text",
+        "label": "第 3 页全文",
+        "title": null,
+        "text": "物料安全数据表\nVersion：1.0\nPU-7206\n6.1.\n个人预防措施、应急程序： 戴防护设备。确保充分的通风/排气。\n令未授权人员离开。\n环境保护措施： 禁止排入下水道，废水或土壤中。\n6.2.\n6.3. 污染物收集和清除的方法： 用化学品吸收材料或必要时用干沙收集，并储存与密闭容\n器中。\n7.操作和储存\n安全操作防范： 在具有适当排气通风的场所使用。避免与皮肤和眼睛接触。\n7.1\n不要呼吸蒸气或喷雾。远离食物，饮料和烟草，休息前及\n工作结束及时洗手。更换被污染或浸湿的衣物。\n7.2 安全储存条件： 容器保持紧闭，存储在凉爽通风处。为保证产品质量，必\n须遵守我们产品信息表的储存条件。\n8.接触控制/个人防护\n8.1暴露控制\n呼吸系统防护： 喷涂过程中要求有呼吸防护设备。\n手部防护： 喷建涂议过戴程上中防要护求手有套呼。吸防护设备。\n防护手套的合适材料： EN374-3\n氟化橡胶 –FKM:厚度≧0.4mm；穿透时间≧480min.\n丁基橡胶 –IIR：厚度≧0.5mm；穿透时间≧480min.\n丁腈橡胶 –NBR：厚度≧0.35mm；穿透时间≧480min.\n建议： 污染的手套应废弃。\n眼睛防护： 戴护目镜/面罩。\n身体防护： 穿着适当的防护服。\n9. 物理和化学特性\n外观： 半透明至乳白色液体\n9.1\n9.2 嗅觉阀值： 无数据\n9.3 pH值（1%水溶液）： 7-9\n9.4 离子性： 阴离子\n9.5\n初沸点： 约100℃\nP\n广州冠志新材料科技有限公司 PU-7206-MSDS 修订日期：2023/9/27\n3/7",
+        "page": 3,
+        "source_locator": "SRC-068e91f0a9a6fffe/record/11",
+        "tables": [],
+        "segments": []
+      },
+      {
+        "id": "SRC-068e91f0a9a6fffe/record/14",
+        "section": "1",
+        "kind": "text",
+        "label": "第 4 页全文",
+        "title": null,
+        "text": "物料安全数据表\nVersion：1.0\nPU-7206\n9.6\n闪点： 76℃\n蒸发速率： 无数据\n9.7\n可燃性（固态、气态）： 不适用\n9.8\n燃烧值： 不适用\n9.9\n饱和蒸气压： 无数据\n9.10\n相对蒸气密度： 无数据\n9.11\n9.12 密度： 1.0-1.1g/cm3\n水溶性： 完全混溶\n9.13\n表面张力： 无数据\n9.14\n9.15\n辛醇/水分配系数对数值： 无数据\n自燃温度： 不适用\n9.16\n引燃温度： 无数据\n9.17\n分解温度： 无数据\n9.18\n9.19 动力粘度： <500mPa.s 在20℃\n爆炸特性： 无数据\n9.20\n9.20 粉尘爆炸级别： 不适用\n9.21 固体含量： 40±2%（150℃，30min）\n9.22 其他信息： 上述数据非产品指标，产品指标请参见产品技术信息表。\n10.稳定性和反应性\n化学稳定性： 根据规范使用，不会发生分解。\n10.1\n10.2\n危险分解产物： 涂料在干燥/固化时，释放出中和剂。\n可能的危害反应： 正确储存或操作时，无危害反应。\n10.3\n11.毒性资料\n该产品无可用的毒理学研究。\n以下是N-乙基吡咯烷酮毒理学数据：\n11.1 急性毒性： 经口：半数致死剂量（LD50）/大鼠：3,200mg/kg\n吸入：半数致死浓度（LC50）/4h/大鼠：＞5.1mg/l\n经皮：半数致死剂量（LD50）/大鼠：＞2,000mg/kg\n11.2 主要皮肤刺激性： 物种：兔子\nP\n广州冠志新材料科技有限公司 PU-7206-MSDS 修订日期：2023/9/27\n4/7",
+        "page": 4,
+        "source_locator": "SRC-068e91f0a9a6fffe/record/14",
+        "tables": [],
+        "segments": []
+      },
+      {
+        "id": "SRC-068e91f0a9a6fffe/record/15",
+        "section": "1",
+        "kind": "text",
+        "label": "第 5 页全文",
+        "title": null,
+        "text": "物料安全数据表\nVersion：1.0\nPU-7206\n分类：不是刺激皮肤物质\n结果：未引起实验室动物皮肤刺激\n11.3 主要粘膜刺激性： 物种：兔子\n分类：刺激眼睛\n结果：可对眼睛造成严重损伤\n11.4 致敏性： 物种：小鼠\n分类：不是皮肤过敏物质\n结果：未引起实验室动物过敏\n11.5 致突变性： 在细菌细胞培养中没有引起基因损害。在哺乳类细胞培养\n中没有引起基因损害。\n11.6 致癌性： 在动物试验中未见致癌影响。\n11.7 生殖毒性： 根据动物试验，有一些对生长发育有影响的证据。动物试\n验表明仅在非常高剂量的情况下，此物质才有降低生育能\n力的风险。\n11.8 特异性靶器官系统毒性\n无数据资料。\n（一次接触/反复接触）：\n11.9 吸入危险： 无数据资料。\n11.10 附加信息： 吸入可能有害，可能引起呼吸道刺激。\n吞咽可能有害。\n通过皮肤吸收可能有害，可能引起皮肤刺激。\n引起眼睛灼伤。\n12.生态信息\n该产品无可用的生态毒理学研究。\n以下是N-乙基吡咯烷酮生态毒理学数据：\n12.1 生态毒性： 对鱼类的毒性：\n半数致死浓度（LC50）/96h/斑马鱼：＞464-999mg/l\n其他：\n半数致死有效浓度（EC50）/72h/藻类：＞101mg/l\n半数致死有效浓度（EC50）/48h/大型溞：＞104mg/l\n12.2 持久性和降解性： 生物降解性：90-100%，28d，即快速生物降解。\nP\n广州冠志新材料科技有限公司 PU-7206-MSDS 修订日期：2023/9/27\n5/7",
+        "page": 5,
+        "source_locator": "SRC-068e91f0a9a6fffe/record/15",
+        "tables": [],
+        "segments": []
+      },
+      {
+        "id": "SRC-068e91f0a9a6fffe/record/20",
+        "section": "1",
+        "kind": "text",
+        "label": "第 6 页全文",
+        "title": null,
+        "text": "物料安全数据表\nVersion：1.0\nPU-7206\n12.3 其他不利的影响： 无数据资料。\n13. 处理注意事项\n必需遵守适用的国标、国家或当地法规进行废弃。\n在欧盟领域内废弃，应根据欧洲废弃物分类（EWC）的适当法规。\n处理方法： 尽可能将容器倒空（例如经倾倒，刮擦或排干直至“滴干”）\n可根据化学工业现存的回收方案送往适当的收集点处理。\n容器应按照国家法令和环境相关法规进行回收。\n不能将废弃物通过废水排放。\n14. 运输信息\n14.1 公路和铁路运输： 非危险品陆运输方式。\n14.2 海上运输： 非危险品海运方式。\n14.3 空运： 非危险品运输方式。\n14.4 用户特殊注意事项： 非危险货物。\n避免温度高于+35℃，温度不可低于+5℃。\n远离食物、酸和碱。\n15. 法规信息\n物质或混合物的相关安全、健康和环保法律法规\n其它的规定：\n符合下列法规要求：\n危险化学品安全管理条例，国务院令591号\nGB/T 16483 化学品安全技术说明书内容和项目顺序\nGB13690 化学品分类和危险性公示通则\nGB30000.2-29 化学品分类和标签规范\nGB15258 化学品安全标签编写规定\n16. 其他信息\n就我们所掌握的知识信息，截止本安全技术说明书发布之日，它提供的资料是正确的。所提\n供的信息仅仅作为安全处理，使用，生产，储存，运输，处置和排放的指导书，而不是一份\nP\n广州冠志新材料科技有限公司 PU-7206-MSDS 修订日期：2023/9/27\n6/7",
+        "page": 6,
+        "source_locator": "SRC-068e91f0a9a6fffe/record/20",
+        "tables": [],
+        "segments": []
+      },
+      {
+        "id": "SRC-068e91f0a9a6fffe/record/21",
+        "section": "1",
+        "kind": "text",
+        "label": "第 7 页全文",
+        "title": null,
+        "text": "物料安全数据表\nVersion：1.0\nPU-7206\n担保或品质说明书。本资料只针对所指定的具体物料，而对这种物料与其它物料混合使用或\n在其它制程中使用的情况，则未必有效（除非在文本中有特别说明）。\nP\n广州冠志新材料科技有限公司 PU-7206-MSDS 修订日期：2023/9/27\n7/7",
+        "page": 7,
+        "source_locator": "SRC-068e91f0a9a6fffe/record/21",
+        "tables": [],
+        "segments": []
+      }
+    ],
+    "2": [
+      {
+        "id": "SRC-068e91f0a9a6fffe/record/1",
+        "section": "2",
+        "kind": "table",
+        "label": "第 2 部分 · 第 1 页 · 表格 2",
+        "title": "2.危险性概述",
+        "text": null,
+        "page": 1,
+        "source_locator": "SRC-068e91f0a9a6fffe/record/1",
+        "tables": [
+          {
+            "id": "SRC-068e91f0a9a6fffe/record/1",
+            "section": "2",
+            "label": "第 2 部分 · 第 1 页 · 表格 2",
+            "title": "2.危险性概述",
+            "columns": 1,
+            "rows": [
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/1/row/0",
+                "row": 0,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/1/row/0/cell/0",
+                    "row": 0,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "2.危险性概述",
+                    "normalized_text": "2.危险性概述",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              },
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/1/row/1",
+                "row": 1,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/1/row/1/cell/0",
+                    "row": 1,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "2.1GHS危险性类别：\n严重眼睛刺激性，类别2（H319）\n生殖毒性物质，类别1B（H360）\n2.2GHS 标签要素：无\n象形图：\n信号词：危险\n危险性说明：\nH319 造成严重眼刺激。\nH360 可能对生育能力或胎儿造成伤害。\n防范说明：\n预防措施：P280 戴防护手套/穿防护服/戴防护眼罩/戴防护面具。\n事故响应：P305+P351 +P338 +P310 如溅入眼睛，用水小心冲洗几分钟。如戴隐形眼镜且",
+                    "normalized_text": "2.1GHS危险性类别： 严重眼睛刺激性，类别2（H319） 生殖毒性物质，类别1B（H360） 2.2GHS 标签要素：无 象形图： 信号词：危险 危险性说明： H319 造成严重眼刺激。 H360 可能对生育能力或胎儿造成伤害。 防范说明： 预防措施：P280 戴防护手套/穿防护服/戴防护眼罩/戴防护面具。 事故响应：P305+P351 +P338 +P310 如溅入眼睛，用水小心冲洗几分钟。如戴隐形眼镜且",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              }
+            ],
+            "structure": {
+              "capture_level": "detected_text_grid_with_geometry",
+              "column_count": 1,
+              "geometry_available": true,
+              "row_count": 2,
+              "source_bbox_pdf_points": [
+                53.925,
+                360.97,
+                542.85,
+                740.59
+              ],
+              "text_capture_method": "table_extractor"
+            },
+            "source_locator": "SRC-068e91f0a9a6fffe/record/1"
+          }
+        ],
+        "segments": []
+      }
+    ],
+    "3": [
+      {
+        "id": "SRC-068e91f0a9a6fffe/record/4",
+        "section": "3",
+        "kind": "table",
+        "label": "第 3 部分 · 第 2 页 · 表格 1",
+        "title": "3. 成分/组成资料",
+        "text": null,
+        "page": 2,
+        "source_locator": "SRC-068e91f0a9a6fffe/record/4",
+        "tables": [
+          {
+            "id": "SRC-068e91f0a9a6fffe/record/4",
+            "section": "3",
+            "label": "第 3 部分 · 第 2 页 · 表格 1",
+            "title": "3. 成分/组成资料",
+            "columns": 1,
+            "rows": [
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/4/row/0",
+                "row": 0,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/4/row/0/cell/0",
+                    "row": 0,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "3. 成分/组成资料",
+                    "normalized_text": "3. 成分/组成资料",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              },
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/4/row/1",
+                "row": 1,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/4/row/1/cell/0",
+                    "row": 1,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "产品类型： 混合物\n3.1\n3.2 成分\n化学品名称 CAS编号 含量%（w/w）\n聚氨酯/脲聚合物 N/A 38.0~42.0\n水 7732-18-5 53.0~55.0\nN-乙基吡咯烷酮（NEP） 2687-91-4 5.5~6.5",
+                    "normalized_text": "产品类型： 混合物 3.1 3.2 成分 化学品名称 CAS编号 含量%（w/w） 聚氨酯/脲聚合物 N/A 38.0~42.0 水 7732-18-5 53.0~55.0 N-乙基吡咯烷酮（NEP） 2687-91-4 5.5~6.5",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              }
+            ],
+            "structure": {
+              "capture_level": "detected_text_grid_with_geometry",
+              "column_count": 1,
+              "geometry_available": true,
+              "row_count": 2,
+              "source_bbox_pdf_points": [
+                53.91818182,
+                180.37,
+                542.98181818,
+                317.79
+              ],
+              "text_capture_method": "table_extractor"
+            },
+            "source_locator": "SRC-068e91f0a9a6fffe/record/4"
+          }
+        ],
+        "segments": []
+      }
+    ],
+    "4": [
+      {
+        "id": "SRC-068e91f0a9a6fffe/record/5",
+        "section": "4",
+        "kind": "table",
+        "label": "第 4 部分 · 第 2 页 · 表格 2",
+        "title": "4.急救措施",
+        "text": null,
+        "page": 2,
+        "source_locator": "SRC-068e91f0a9a6fffe/record/5",
+        "tables": [
+          {
+            "id": "SRC-068e91f0a9a6fffe/record/5",
+            "section": "4",
+            "label": "第 4 部分 · 第 2 页 · 表格 2",
+            "title": "4.急救措施",
+            "columns": 1,
+            "rows": [
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/5/row/0",
+                "row": 0,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/5/row/0/cell/0",
+                    "row": 0,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "4.急救措施",
+                    "normalized_text": "4.急救措施",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              },
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/5/row/1",
+                "row": 1,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/5/row/1/cell/0",
+                    "row": 1,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "4.1. 一般措施： 立即脱掉所有被污染的衣物。\n误服： 若意外吞食，不要催吐，立即就医。无意识时，不要经口\n4.2.\n喂食任何食物。\n接触眼睛： 立即翻起上下眼睑用大量缓和流动的水清洗眼睛至少20\n4.3.\n分钟。且将头倾斜，避免化学品流入另一只未受污染的眼\n睛，并立即就医。\n4.4. 接触皮肤： 立即用肥皂和大量的水冲洗。若发生皮肤反应，就医。",
+                    "normalized_text": "4.1. 一般措施： 立即脱掉所有被污染的衣物。 误服： 若意外吞食，不要催吐，立即就医。无意识时，不要经口 4.2. 喂食任何食物。 接触眼睛： 立即翻起上下眼睑用大量缓和流动的水清洗眼睛至少20 4.3. 分钟。且将头倾斜，避免化学品流入另一只未受污染的眼 睛，并立即就医。 4.4. 接触皮肤： 立即用肥皂和大量的水冲洗。若发生皮肤反应，就医。",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              },
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/5/row/2",
+                "row": 2,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/5/row/2/cell/0",
+                    "row": 2,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "吸入： 一旦吸入，如有不适，就医。\n4.5.",
+                    "normalized_text": "吸入： 一旦吸入，如有不适，就医。 4.5.",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              }
+            ],
+            "structure": {
+              "capture_level": "detected_text_grid_with_geometry",
+              "column_count": 1,
+              "geometry_available": true,
+              "row_count": 3,
+              "source_bbox_pdf_points": [
+                53.91818182,
+                337.87,
+                542.98181818,
+                514.79
+              ],
+              "text_capture_method": "table_extractor"
+            },
+            "source_locator": "SRC-068e91f0a9a6fffe/record/5"
+          }
+        ],
+        "segments": []
+      }
+    ],
+    "5": [
+      {
+        "id": "SRC-068e91f0a9a6fffe/record/6",
+        "section": "5",
+        "kind": "table",
+        "label": "第 5 部分 · 第 2 页 · 表格 3",
+        "title": "5.消防措施",
+        "text": null,
+        "page": 2,
+        "source_locator": "SRC-068e91f0a9a6fffe/record/6",
+        "tables": [
+          {
+            "id": "SRC-068e91f0a9a6fffe/record/6",
+            "section": "5",
+            "label": "第 5 部分 · 第 2 页 · 表格 3",
+            "title": "5.消防措施",
+            "columns": 1,
+            "rows": [
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/6/row/0",
+                "row": 0,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/6/row/0/cell/0",
+                    "row": 0,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "5.消防措施",
+                    "normalized_text": "5.消防措施",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              },
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/6/row/1",
+                "row": 1,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/6/row/1/cell/0",
+                    "row": 1,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "合适的灭火剂： 二氧化碳（CO ），耐醇泡沫，化学干粉。大火时应用水\n5.1. 2\n喷洒。\n不合适的灭火剂： 高流量的水喷射。\n5.2.\n物质或混合物的特殊危害： 燃烧时释放一氧化碳、二氧化碳、氮氧化物等。\n5.3.\n在着火或爆炸情况下，不要吸进烟尘。\n消防预防措施和保护设备： 消防人员必须佩戴自供气式呼吸器。\n5.4.\n禁止污染的灭火用水流入土壤，地下水或地表水中。",
+                    "normalized_text": "合适的灭火剂： 二氧化碳（CO ），耐醇泡沫，化学干粉。大火时应用水 5.1. 2 喷洒。 不合适的灭火剂： 高流量的水喷射。 5.2. 物质或混合物的特殊危害： 燃烧时释放一氧化碳、二氧化碳、氮氧化物等。 5.3. 在着火或爆炸情况下，不要吸进烟尘。 消防预防措施和保护设备： 消防人员必须佩戴自供气式呼吸器。 5.4. 禁止污染的灭火用水流入土壤，地下水或地表水中。",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              }
+            ],
+            "structure": {
+              "capture_level": "detected_text_grid_with_geometry",
+              "column_count": 1,
+              "geometry_available": true,
+              "row_count": 2,
+              "source_bbox_pdf_points": [
+                53.91818182,
+                534.87,
+                542.98181818,
+                691.79
+              ],
+              "text_capture_method": "table_extractor"
+            },
+            "source_locator": "SRC-068e91f0a9a6fffe/record/6"
+          }
+        ],
+        "segments": []
+      }
+    ],
+    "6": [],
+    "7": [
+      {
+        "id": "SRC-068e91f0a9a6fffe/record/8",
+        "section": "7",
+        "kind": "table",
+        "label": "第 7 部分 · 第 3 页 · 表格 1",
+        "title": "7.操作和储存",
+        "text": null,
+        "page": 3,
+        "source_locator": "SRC-068e91f0a9a6fffe/record/8",
+        "tables": [
+          {
+            "id": "SRC-068e91f0a9a6fffe/record/8",
+            "section": "7",
+            "label": "第 7 部分 · 第 3 页 · 表格 1",
+            "title": "7.操作和储存",
+            "columns": 1,
+            "rows": [
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/8/row/0",
+                "row": 0,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/8/row/0/cell/0",
+                    "row": 0,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "7.操作和储存",
+                    "normalized_text": "7.操作和储存",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              },
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/8/row/1",
+                "row": 1,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/8/row/1/cell/0",
+                    "row": 1,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "安全操作防范： 在具有适当排气通风的场所使用。避免与皮肤和眼睛接触。\n7.1\n不要呼吸蒸气或喷雾。远离食物，饮料和烟草，休息前及\n工作结束及时洗手。更换被污染或浸湿的衣物。\n7.2 安全储存条件： 容器保持紧闭，存储在凉爽通风处。为保证产品质量，必\n须遵守我们产品信息表的储存条件。",
+                    "normalized_text": "安全操作防范： 在具有适当排气通风的场所使用。避免与皮肤和眼睛接触。 7.1 不要呼吸蒸气或喷雾。远离食物，饮料和烟草，休息前及 工作结束及时洗手。更换被污染或浸湿的衣物。 7.2 安全储存条件： 容器保持紧闭，存储在凉爽通风处。为保证产品质量，必 须遵守我们产品信息表的储存条件。",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              }
+            ],
+            "structure": {
+              "capture_level": "detected_text_grid_with_geometry",
+              "column_count": 1,
+              "geometry_available": true,
+              "row_count": 2,
+              "source_bbox_pdf_points": [
+                53.91666667,
+                243.47,
+                542.85714286,
+                359.77
+              ],
+              "text_capture_method": "table_extractor"
+            },
+            "source_locator": "SRC-068e91f0a9a6fffe/record/8"
+          }
+        ],
+        "segments": []
+      }
+    ],
+    "8": [
+      {
+        "id": "SRC-068e91f0a9a6fffe/record/10",
+        "section": "8",
+        "kind": "table",
+        "label": "第 8 部分 · 第 3 页 · 表格 3",
+        "title": "8.接触控制/个人防护",
+        "text": null,
+        "page": 3,
+        "source_locator": "SRC-068e91f0a9a6fffe/record/10",
+        "tables": [
+          {
+            "id": "SRC-068e91f0a9a6fffe/record/10",
+            "section": "8",
+            "label": "第 8 部分 · 第 3 页 · 表格 3",
+            "title": "8.接触控制/个人防护",
+            "columns": 1,
+            "rows": [
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/10/row/0",
+                "row": 0,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/10/row/0/cell/0",
+                    "row": 0,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "8.接触控制/个人防护",
+                    "normalized_text": "8.接触控制/个人防护",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              },
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/10/row/1",
+                "row": 1,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/10/row/1/cell/0",
+                    "row": 1,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "8.1暴露控制\n呼吸系统防护： 喷涂过程中要求有呼吸防护设备。\n手部防护： 喷建涂议过戴程上中防要护求手有套呼。吸防护设备。\n防护手套的合适材料： EN374-3\n氟化橡胶 –FKM:厚度≧0.4mm；穿透时间≧480min.",
+                    "normalized_text": "8.1暴露控制 呼吸系统防护： 喷涂过程中要求有呼吸防护设备。 手部防护： 喷建涂议过戴程上中防要护求手有套呼。吸防护设备。 防护手套的合适材料： EN374-3 氟化橡胶 –FKM:厚度≧0.4mm；穿透时间≧480min.",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              },
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/10/row/2",
+                "row": 2,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/10/row/2/cell/0",
+                    "row": 2,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "丁基橡胶 –IIR：厚度≧0.5mm；穿透时间≧480min.\n丁腈橡胶 –NBR：厚度≧0.35mm；穿透时间≧480min.\n建议： 污染的手套应废弃。\n眼睛防护： 戴护目镜/面罩。\n身体防护： 穿着适当的防护服。",
+                    "normalized_text": "丁基橡胶 –IIR：厚度≧0.5mm；穿透时间≧480min. 丁腈橡胶 –NBR：厚度≧0.35mm；穿透时间≧480min. 建议： 污染的手套应废弃。 眼睛防护： 戴护目镜/面罩。 身体防护： 穿着适当的防护服。",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              }
+            ],
+            "structure": {
+              "capture_level": "detected_text_grid_with_geometry",
+              "column_count": 1,
+              "geometry_available": true,
+              "row_count": 3,
+              "source_bbox_pdf_points": [
+                53.91666667,
+                379.97,
+                546.8,
+                595.89
+              ],
+              "text_capture_method": "table_extractor"
+            },
+            "source_locator": "SRC-068e91f0a9a6fffe/record/10"
+          }
+        ],
+        "segments": []
+      }
+    ],
+    "9": [],
+    "10": [
+      {
+        "id": "SRC-068e91f0a9a6fffe/record/12",
+        "section": "10",
+        "kind": "table",
+        "label": "第 10 部分 · 第 4 页 · 表格 1",
+        "title": "10.稳定性和反应性",
+        "text": null,
+        "page": 4,
+        "source_locator": "SRC-068e91f0a9a6fffe/record/12",
+        "tables": [
+          {
+            "id": "SRC-068e91f0a9a6fffe/record/12",
+            "section": "10",
+            "label": "第 10 部分 · 第 4 页 · 表格 1",
+            "title": "10.稳定性和反应性",
+            "columns": 1,
+            "rows": [
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/12/row/0",
+                "row": 0,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/12/row/0/cell/0",
+                    "row": 0,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "10.稳定性和反应性",
+                    "normalized_text": "10.稳定性和反应性",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              },
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/12/row/1",
+                "row": 1,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/12/row/1/cell/0",
+                    "row": 1,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "化学稳定性： 根据规范使用，不会发生分解。\n10.1\n危险分解产物： 涂料在干燥/固化时，释放出中和剂。\n10.2\n可能的危害反应： 正确储存或操作时，无危害反应。\n10.3",
+                    "normalized_text": "化学稳定性： 根据规范使用，不会发生分解。 10.1 危险分解产物： 涂料在干燥/固化时，释放出中和剂。 10.2 可能的危害反应： 正确储存或操作时，无危害反应。 10.3",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              }
+            ],
+            "structure": {
+              "capture_level": "detected_text_grid_with_geometry",
+              "column_count": 1,
+              "geometry_available": true,
+              "row_count": 2,
+              "source_bbox_pdf_points": [
+                53.91428571,
+                496.47,
+                542.85714286,
+                575.39
+              ],
+              "text_capture_method": "table_extractor"
+            },
+            "source_locator": "SRC-068e91f0a9a6fffe/record/12"
+          }
+        ],
+        "segments": []
+      }
+    ],
+    "11": [
+      {
+        "id": "SRC-068e91f0a9a6fffe/record/13",
+        "section": "11",
+        "kind": "table",
+        "label": "第 11 部分 · 第 4 页 · 表格 2",
+        "title": "11.毒性资料",
+        "text": null,
+        "page": 4,
+        "source_locator": "SRC-068e91f0a9a6fffe/record/13",
+        "tables": [
+          {
+            "id": "SRC-068e91f0a9a6fffe/record/13",
+            "section": "11",
+            "label": "第 11 部分 · 第 4 页 · 表格 2",
+            "title": "11.毒性资料",
+            "columns": 1,
+            "rows": [
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/13/row/0",
+                "row": 0,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/13/row/0/cell/0",
+                    "row": 0,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "11.毒性资料",
+                    "normalized_text": "11.毒性资料",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              },
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/13/row/1",
+                "row": 1,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/13/row/1/cell/0",
+                    "row": 1,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "该产品无可用的毒理学研究。\n以下是N-乙基吡咯烷酮毒理学数据：\n11.1 急性毒性： 经口：半数致死剂量（LD50）/大鼠：3,200mg/kg\n吸入：半数致死浓度（LC50）/4h/大鼠：＞5.1mg/l\n经皮：半数致死剂量（LD50）/大鼠：＞2,000mg/kg\n11.2 主要皮肤刺激性： 物种：兔子",
+                    "normalized_text": "该产品无可用的毒理学研究。 以下是N-乙基吡咯烷酮毒理学数据： 11.1 急性毒性： 经口：半数致死剂量（LD50）/大鼠：3,200mg/kg 吸入：半数致死浓度（LC50）/4h/大鼠：＞5.1mg/l 经皮：半数致死剂量（LD50）/大鼠：＞2,000mg/kg 11.2 主要皮肤刺激性： 物种：兔子",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              }
+            ],
+            "structure": {
+              "capture_level": "detected_text_grid_with_geometry",
+              "column_count": 1,
+              "geometry_available": true,
+              "row_count": 2,
+              "source_bbox_pdf_points": [
+                53.91428571,
+                595.47,
+                542.85714286,
+                732.29
+              ],
+              "text_capture_method": "table_extractor"
+            },
+            "source_locator": "SRC-068e91f0a9a6fffe/record/13"
+          }
+        ],
+        "segments": []
+      }
+    ],
+    "12": [],
+    "13": [
+      {
+        "id": "SRC-068e91f0a9a6fffe/record/16",
+        "section": "13",
+        "kind": "table",
+        "label": "第 13 部分 · 第 6 页 · 表格 1",
+        "title": "13. 处理注意事项",
+        "text": null,
+        "page": 6,
+        "source_locator": "SRC-068e91f0a9a6fffe/record/16",
+        "tables": [
+          {
+            "id": "SRC-068e91f0a9a6fffe/record/16",
+            "section": "13",
+            "label": "第 13 部分 · 第 6 页 · 表格 1",
+            "title": "13. 处理注意事项",
+            "columns": 1,
+            "rows": [
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/16/row/0",
+                "row": 0,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/16/row/0/cell/0",
+                    "row": 0,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "13. 处理注意事项",
+                    "normalized_text": "13. 处理注意事项",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              },
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/16/row/1",
+                "row": 1,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/16/row/1/cell/0",
+                    "row": 1,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "必需遵守适用的国标、国家或当地法规进行废弃。\n在欧盟领域内废弃，应根据欧洲废弃物分类（EWC）的适当法规。\n处理方法： 尽可能将容器倒空（例如经倾倒，刮擦或排干直至“滴干”）\n可根据化学工业现存的回收方案送往适当的收集点处理。\n容器应按照国家法令和环境相关法规进行回收。\n不能将废弃物通过废水排放。",
+                    "normalized_text": "必需遵守适用的国标、国家或当地法规进行废弃。 在欧盟领域内废弃，应根据欧洲废弃物分类（EWC）的适当法规。 处理方法： 尽可能将容器倒空（例如经倾倒，刮擦或排干直至“滴干”） 可根据化学工业现存的回收方案送往适当的收集点处理。 容器应按照国家法令和环境相关法规进行回收。 不能将废弃物通过废水排放。",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              }
+            ],
+            "structure": {
+              "capture_level": "detected_text_grid_with_geometry",
+              "column_count": 1,
+              "geometry_available": true,
+              "row_count": 2,
+              "source_bbox_pdf_points": [
+                53.91818182,
+                164.97,
+                542.85454545,
+                303.89
+              ],
+              "text_capture_method": "table_extractor"
+            },
+            "source_locator": "SRC-068e91f0a9a6fffe/record/16"
+          }
+        ],
+        "segments": []
+      }
+    ],
+    "14": [
+      {
+        "id": "SRC-068e91f0a9a6fffe/record/17",
+        "section": "14",
+        "kind": "table",
+        "label": "第 14 部分 · 第 6 页 · 表格 2",
+        "title": "14. 运输信息",
+        "text": null,
+        "page": 6,
+        "source_locator": "SRC-068e91f0a9a6fffe/record/17",
+        "tables": [
+          {
+            "id": "SRC-068e91f0a9a6fffe/record/17",
+            "section": "14",
+            "label": "第 14 部分 · 第 6 页 · 表格 2",
+            "title": "14. 运输信息",
+            "columns": 1,
+            "rows": [
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/17/row/0",
+                "row": 0,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/17/row/0/cell/0",
+                    "row": 0,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "14. 运输信息",
+                    "normalized_text": "14. 运输信息",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              },
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/17/row/1",
+                "row": 1,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/17/row/1/cell/0",
+                    "row": 1,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "14.1 公路和铁路运输： 非危险品陆运输方式。\n14.2 海上运输： 非危险品海运方式。\n14.3 空运： 非危险品运输方式。\n14.4 用户特殊注意事项： 非危险货物。\n避免温度高于+35℃，温度不可低于+5℃。\n远离食物、酸和碱。",
+                    "normalized_text": "14.1 公路和铁路运输： 非危险品陆运输方式。 14.2 海上运输： 非危险品海运方式。 14.3 空运： 非危险品运输方式。 14.4 用户特殊注意事项： 非危险货物。 避免温度高于+35℃，温度不可低于+5℃。 远离食物、酸和碱。",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              }
+            ],
+            "structure": {
+              "capture_level": "detected_text_grid_with_geometry",
+              "column_count": 1,
+              "geometry_available": true,
+              "row_count": 2,
+              "source_bbox_pdf_points": [
+                53.91818182,
+                323.97,
+                542.85454545,
+                461.39
+              ],
+              "text_capture_method": "table_extractor"
+            },
+            "source_locator": "SRC-068e91f0a9a6fffe/record/17"
+          }
+        ],
+        "segments": []
+      }
+    ],
+    "15": [
+      {
+        "id": "SRC-068e91f0a9a6fffe/record/18",
+        "section": "15",
+        "kind": "table",
+        "label": "第 15 部分 · 第 6 页 · 表格 3",
+        "title": "15. 法规信息",
+        "text": null,
+        "page": 6,
+        "source_locator": "SRC-068e91f0a9a6fffe/record/18",
+        "tables": [
+          {
+            "id": "SRC-068e91f0a9a6fffe/record/18",
+            "section": "15",
+            "label": "第 15 部分 · 第 6 页 · 表格 3",
+            "title": "15. 法规信息",
+            "columns": 1,
+            "rows": [
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/18/row/0",
+                "row": 0,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/18/row/0/cell/0",
+                    "row": 0,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "15. 法规信息",
+                    "normalized_text": "15. 法规信息",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              },
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/18/row/1",
+                "row": 1,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/18/row/1/cell/0",
+                    "row": 1,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "物质或混合物的相关安全、健康和环保法律法规\n其它的规定：\n符合下列法规要求：\n危险化学品安全管理条例，国务院令591号\nGB/T 16483 化学品安全技术说明书内容和项目顺序\nGB13690 化学品分类和危险性公示通则\nGB30000.2-29 化学品分类和标签规范\nGB15258 化学品安全标签编写规定",
+                    "normalized_text": "物质或混合物的相关安全、健康和环保法律法规 其它的规定： 符合下列法规要求： 危险化学品安全管理条例，国务院令591号 GB/T 16483 化学品安全技术说明书内容和项目顺序 GB13690 化学品分类和危险性公示通则 GB30000.2-29 化学品分类和标签规范 GB15258 化学品安全标签编写规定",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              }
+            ],
+            "structure": {
+              "capture_level": "detected_text_grid_with_geometry",
+              "column_count": 1,
+              "geometry_available": true,
+              "row_count": 2,
+              "source_bbox_pdf_points": [
+                53.91818182,
+                481.47,
+                542.85454545,
+                657.39
+              ],
+              "text_capture_method": "table_extractor"
+            },
+            "source_locator": "SRC-068e91f0a9a6fffe/record/18"
+          }
+        ],
+        "segments": []
+      }
+    ],
+    "16": [
+      {
+        "id": "SRC-068e91f0a9a6fffe/record/19",
+        "section": "16",
+        "kind": "table",
+        "label": "第 16 部分 · 第 6 页 · 表格 4",
+        "title": "16. 其他信息",
+        "text": null,
+        "page": 6,
+        "source_locator": "SRC-068e91f0a9a6fffe/record/19",
+        "tables": [
+          {
+            "id": "SRC-068e91f0a9a6fffe/record/19",
+            "section": "16",
+            "label": "第 16 部分 · 第 6 页 · 表格 4",
+            "title": "16. 其他信息",
+            "columns": 1,
+            "rows": [
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/19/row/0",
+                "row": 0,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/19/row/0/cell/0",
+                    "row": 0,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "16. 其他信息",
+                    "normalized_text": "16. 其他信息",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              },
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/19/row/1",
+                "row": 1,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/19/row/1/cell/0",
+                    "row": 1,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "就我们所掌握的知识信息，截止本安全技术说明书发布之日，它提供的资料是正确的。所提\n供的信息仅仅作为安全处理，使用，生产，储存，运输，处置和排放的指导书，而不是一份",
+                    "normalized_text": "就我们所掌握的知识信息，截止本安全技术说明书发布之日，它提供的资料是正确的。所提 供的信息仅仅作为安全处理，使用，生产，储存，运输，处置和排放的指导书，而不是一份",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              }
+            ],
+            "structure": {
+              "capture_level": "detected_text_grid_with_geometry",
+              "column_count": 1,
+              "geometry_available": true,
+              "row_count": 2,
+              "source_bbox_pdf_points": [
+                53.91818182,
+                677.47,
+                542.85454545,
+                737.29
+              ],
+              "text_capture_method": "table_extractor"
+            },
+            "source_locator": "SRC-068e91f0a9a6fffe/record/19"
+          }
+        ],
+        "segments": []
+      }
+    ],
+    "unclassified": [
+      {
+        "id": "SRC-068e91f0a9a6fffe/record/3",
+        "section": null,
+        "kind": "text",
+        "label": "第 1 页图像提示",
+        "title": null,
+        "text": "本页含 2 个图像对象（GHS 象形图 / pictogram / 图像）；图像文字不会被表格提取器识别。请打开原文件核对图示或扫描内容。",
+        "page": 1,
+        "source_locator": "SRC-068e91f0a9a6fffe/record/3",
+        "tables": [],
+        "segments": []
+      },
+      {
+        "id": "SRC-068e91f0a9a6fffe/record/9",
+        "section": null,
+        "kind": "table",
+        "label": "未分类 · 第 3 页 · 表格 2",
+        "title": "容器保持紧闭，存储在凉爽通风处。为保证产品质量，必",
+        "text": null,
+        "page": 3,
+        "source_locator": "SRC-068e91f0a9a6fffe/record/9",
+        "tables": [
+          {
+            "id": "SRC-068e91f0a9a6fffe/record/9",
+            "section": null,
+            "label": "未分类 · 第 3 页 · 表格 2",
+            "title": "容器保持紧闭，存储在凉爽通风处。为保证产品质量，必",
+            "columns": 1,
+            "rows": [
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/9/row/0",
+                "row": 0,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/9/row/0/cell/0",
+                    "row": 0,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "容器保持紧闭，存储在凉爽通风处。为保证产品质量，必",
+                    "normalized_text": "容器保持紧闭，存储在凉爽通风处。为保证产品质量，必",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              },
+              {
+                "id": "SRC-068e91f0a9a6fffe/record/9/row/1",
+                "row": 1,
+                "cells": [
+                  {
+                    "id": "SRC-068e91f0a9a6fffe/record/9/row/1/cell/0",
+                    "row": 1,
+                    "column": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "text": "须遵守我们产品信息表的储存条件。",
+                    "normalized_text": "须遵守我们产品信息表的储存条件。",
+                    "format": {},
+                    "background": null,
+                    "segments": []
+                  }
+                ]
+              }
+            ],
+            "structure": {
+              "capture_level": "detected_text_grid_with_geometry",
+              "column_count": 1,
+              "geometry_available": true,
+              "row_count": 2,
+              "source_bbox_pdf_points": [
+                235.2,
+                322.15,
+                537.5,
+                359.77
+              ],
+              "text_capture_method": "table_extractor"
+            },
+            "source_locator": "SRC-068e91f0a9a6fffe/record/9"
+          }
+        ],
+        "segments": []
+      }
+    ]
+  },
+  "tables": [
+    {
+      "id": "SRC-068e91f0a9a6fffe/record/0",
+      "section": "1",
+      "label": "第 1 部分 · 第 1 页 · 表格 1",
+      "title": "1.物料及供应商标识",
+      "columns": 1,
+      "rows": [
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/0/row/0",
+          "row": 0,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/0/row/0/cell/0",
+              "row": 0,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "1.物料及供应商标识",
+              "normalized_text": "1.物料及供应商标识",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        },
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/0/row/1",
+          "row": 1,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/0/row/1/cell/0",
+              "row": 1,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "1.1 产品名称： PU-7206\n中文名称： 水性聚氨酯分散体\n化学品分类： 水性聚氨酯树脂分散体\n产品使用建议和使用限制： 涂料、油墨\n1.2\n1.3 供应商信息：\n供应商名称： 广州冠志新材料科技有限公司\n供应商地址： 广州市萝岗区科学城掬泉路3号广州国际企业孵化器A区\n1106室\n电话： 86-20-82567990\n传真： 86-20-32214789",
+              "normalized_text": "1.1 产品名称： PU-7206 中文名称： 水性聚氨酯分散体 化学品分类： 水性聚氨酯树脂分散体 产品使用建议和使用限制： 涂料、油墨 1.2 1.3 供应商信息： 供应商名称： 广州冠志新材料科技有限公司 供应商地址： 广州市萝岗区科学城掬泉路3号广州国际企业孵化器A区 1106室 电话： 86-20-82567990 传真： 86-20-32214789",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        }
+      ],
+      "structure": {
+        "capture_level": "detected_text_grid_with_geometry",
+        "column_count": 1,
+        "geometry_available": true,
+        "row_count": 2,
+        "source_bbox_pdf_points": [
+          53.925,
+          125.47,
+          542.85,
+          340.89
+        ],
+        "text_capture_method": "table_extractor"
+      },
+      "source_locator": "SRC-068e91f0a9a6fffe/record/0"
+    },
+    {
+      "id": "SRC-068e91f0a9a6fffe/record/1",
+      "section": "2",
+      "label": "第 2 部分 · 第 1 页 · 表格 2",
+      "title": "2.危险性概述",
+      "columns": 1,
+      "rows": [
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/1/row/0",
+          "row": 0,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/1/row/0/cell/0",
+              "row": 0,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "2.危险性概述",
+              "normalized_text": "2.危险性概述",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        },
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/1/row/1",
+          "row": 1,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/1/row/1/cell/0",
+              "row": 1,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "2.1GHS危险性类别：\n严重眼睛刺激性，类别2（H319）\n生殖毒性物质，类别1B（H360）\n2.2GHS 标签要素：无\n象形图：\n信号词：危险\n危险性说明：\nH319 造成严重眼刺激。\nH360 可能对生育能力或胎儿造成伤害。\n防范说明：\n预防措施：P280 戴防护手套/穿防护服/戴防护眼罩/戴防护面具。\n事故响应：P305+P351 +P338 +P310 如溅入眼睛，用水小心冲洗几分钟。如戴隐形眼镜且",
+              "normalized_text": "2.1GHS危险性类别： 严重眼睛刺激性，类别2（H319） 生殖毒性物质，类别1B（H360） 2.2GHS 标签要素：无 象形图： 信号词：危险 危险性说明： H319 造成严重眼刺激。 H360 可能对生育能力或胎儿造成伤害。 防范说明： 预防措施：P280 戴防护手套/穿防护服/戴防护眼罩/戴防护面具。 事故响应：P305+P351 +P338 +P310 如溅入眼睛，用水小心冲洗几分钟。如戴隐形眼镜且",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        }
+      ],
+      "structure": {
+        "capture_level": "detected_text_grid_with_geometry",
+        "column_count": 1,
+        "geometry_available": true,
+        "row_count": 2,
+        "source_bbox_pdf_points": [
+          53.925,
+          360.97,
+          542.85,
+          740.59
+        ],
+        "text_capture_method": "table_extractor"
+      },
+      "source_locator": "SRC-068e91f0a9a6fffe/record/1"
+    },
+    {
+      "id": "SRC-068e91f0a9a6fffe/record/4",
+      "section": "3",
+      "label": "第 3 部分 · 第 2 页 · 表格 1",
+      "title": "3. 成分/组成资料",
+      "columns": 1,
+      "rows": [
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/4/row/0",
+          "row": 0,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/4/row/0/cell/0",
+              "row": 0,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "3. 成分/组成资料",
+              "normalized_text": "3. 成分/组成资料",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        },
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/4/row/1",
+          "row": 1,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/4/row/1/cell/0",
+              "row": 1,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "产品类型： 混合物\n3.1\n3.2 成分\n化学品名称 CAS编号 含量%（w/w）\n聚氨酯/脲聚合物 N/A 38.0~42.0\n水 7732-18-5 53.0~55.0\nN-乙基吡咯烷酮（NEP） 2687-91-4 5.5~6.5",
+              "normalized_text": "产品类型： 混合物 3.1 3.2 成分 化学品名称 CAS编号 含量%（w/w） 聚氨酯/脲聚合物 N/A 38.0~42.0 水 7732-18-5 53.0~55.0 N-乙基吡咯烷酮（NEP） 2687-91-4 5.5~6.5",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        }
+      ],
+      "structure": {
+        "capture_level": "detected_text_grid_with_geometry",
+        "column_count": 1,
+        "geometry_available": true,
+        "row_count": 2,
+        "source_bbox_pdf_points": [
+          53.91818182,
+          180.37,
+          542.98181818,
+          317.79
+        ],
+        "text_capture_method": "table_extractor"
+      },
+      "source_locator": "SRC-068e91f0a9a6fffe/record/4"
+    },
+    {
+      "id": "SRC-068e91f0a9a6fffe/record/5",
+      "section": "4",
+      "label": "第 4 部分 · 第 2 页 · 表格 2",
+      "title": "4.急救措施",
+      "columns": 1,
+      "rows": [
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/5/row/0",
+          "row": 0,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/5/row/0/cell/0",
+              "row": 0,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "4.急救措施",
+              "normalized_text": "4.急救措施",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        },
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/5/row/1",
+          "row": 1,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/5/row/1/cell/0",
+              "row": 1,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "4.1. 一般措施： 立即脱掉所有被污染的衣物。\n误服： 若意外吞食，不要催吐，立即就医。无意识时，不要经口\n4.2.\n喂食任何食物。\n接触眼睛： 立即翻起上下眼睑用大量缓和流动的水清洗眼睛至少20\n4.3.\n分钟。且将头倾斜，避免化学品流入另一只未受污染的眼\n睛，并立即就医。\n4.4. 接触皮肤： 立即用肥皂和大量的水冲洗。若发生皮肤反应，就医。",
+              "normalized_text": "4.1. 一般措施： 立即脱掉所有被污染的衣物。 误服： 若意外吞食，不要催吐，立即就医。无意识时，不要经口 4.2. 喂食任何食物。 接触眼睛： 立即翻起上下眼睑用大量缓和流动的水清洗眼睛至少20 4.3. 分钟。且将头倾斜，避免化学品流入另一只未受污染的眼 睛，并立即就医。 4.4. 接触皮肤： 立即用肥皂和大量的水冲洗。若发生皮肤反应，就医。",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        },
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/5/row/2",
+          "row": 2,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/5/row/2/cell/0",
+              "row": 2,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "吸入： 一旦吸入，如有不适，就医。\n4.5.",
+              "normalized_text": "吸入： 一旦吸入，如有不适，就医。 4.5.",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        }
+      ],
+      "structure": {
+        "capture_level": "detected_text_grid_with_geometry",
+        "column_count": 1,
+        "geometry_available": true,
+        "row_count": 3,
+        "source_bbox_pdf_points": [
+          53.91818182,
+          337.87,
+          542.98181818,
+          514.79
+        ],
+        "text_capture_method": "table_extractor"
+      },
+      "source_locator": "SRC-068e91f0a9a6fffe/record/5"
+    },
+    {
+      "id": "SRC-068e91f0a9a6fffe/record/6",
+      "section": "5",
+      "label": "第 5 部分 · 第 2 页 · 表格 3",
+      "title": "5.消防措施",
+      "columns": 1,
+      "rows": [
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/6/row/0",
+          "row": 0,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/6/row/0/cell/0",
+              "row": 0,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "5.消防措施",
+              "normalized_text": "5.消防措施",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        },
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/6/row/1",
+          "row": 1,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/6/row/1/cell/0",
+              "row": 1,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "合适的灭火剂： 二氧化碳（CO ），耐醇泡沫，化学干粉。大火时应用水\n5.1. 2\n喷洒。\n不合适的灭火剂： 高流量的水喷射。\n5.2.\n物质或混合物的特殊危害： 燃烧时释放一氧化碳、二氧化碳、氮氧化物等。\n5.3.\n在着火或爆炸情况下，不要吸进烟尘。\n消防预防措施和保护设备： 消防人员必须佩戴自供气式呼吸器。\n5.4.\n禁止污染的灭火用水流入土壤，地下水或地表水中。",
+              "normalized_text": "合适的灭火剂： 二氧化碳（CO ），耐醇泡沫，化学干粉。大火时应用水 5.1. 2 喷洒。 不合适的灭火剂： 高流量的水喷射。 5.2. 物质或混合物的特殊危害： 燃烧时释放一氧化碳、二氧化碳、氮氧化物等。 5.3. 在着火或爆炸情况下，不要吸进烟尘。 消防预防措施和保护设备： 消防人员必须佩戴自供气式呼吸器。 5.4. 禁止污染的灭火用水流入土壤，地下水或地表水中。",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        }
+      ],
+      "structure": {
+        "capture_level": "detected_text_grid_with_geometry",
+        "column_count": 1,
+        "geometry_available": true,
+        "row_count": 2,
+        "source_bbox_pdf_points": [
+          53.91818182,
+          534.87,
+          542.98181818,
+          691.79
+        ],
+        "text_capture_method": "table_extractor"
+      },
+      "source_locator": "SRC-068e91f0a9a6fffe/record/6"
+    },
+    {
+      "id": "SRC-068e91f0a9a6fffe/record/8",
+      "section": "7",
+      "label": "第 7 部分 · 第 3 页 · 表格 1",
+      "title": "7.操作和储存",
+      "columns": 1,
+      "rows": [
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/8/row/0",
+          "row": 0,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/8/row/0/cell/0",
+              "row": 0,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "7.操作和储存",
+              "normalized_text": "7.操作和储存",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        },
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/8/row/1",
+          "row": 1,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/8/row/1/cell/0",
+              "row": 1,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "安全操作防范： 在具有适当排气通风的场所使用。避免与皮肤和眼睛接触。\n7.1\n不要呼吸蒸气或喷雾。远离食物，饮料和烟草，休息前及\n工作结束及时洗手。更换被污染或浸湿的衣物。\n7.2 安全储存条件： 容器保持紧闭，存储在凉爽通风处。为保证产品质量，必\n须遵守我们产品信息表的储存条件。",
+              "normalized_text": "安全操作防范： 在具有适当排气通风的场所使用。避免与皮肤和眼睛接触。 7.1 不要呼吸蒸气或喷雾。远离食物，饮料和烟草，休息前及 工作结束及时洗手。更换被污染或浸湿的衣物。 7.2 安全储存条件： 容器保持紧闭，存储在凉爽通风处。为保证产品质量，必 须遵守我们产品信息表的储存条件。",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        }
+      ],
+      "structure": {
+        "capture_level": "detected_text_grid_with_geometry",
+        "column_count": 1,
+        "geometry_available": true,
+        "row_count": 2,
+        "source_bbox_pdf_points": [
+          53.91666667,
+          243.47,
+          542.85714286,
+          359.77
+        ],
+        "text_capture_method": "table_extractor"
+      },
+      "source_locator": "SRC-068e91f0a9a6fffe/record/8"
+    },
+    {
+      "id": "SRC-068e91f0a9a6fffe/record/9",
+      "section": null,
+      "label": "未分类 · 第 3 页 · 表格 2",
+      "title": "容器保持紧闭，存储在凉爽通风处。为保证产品质量，必",
+      "columns": 1,
+      "rows": [
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/9/row/0",
+          "row": 0,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/9/row/0/cell/0",
+              "row": 0,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "容器保持紧闭，存储在凉爽通风处。为保证产品质量，必",
+              "normalized_text": "容器保持紧闭，存储在凉爽通风处。为保证产品质量，必",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        },
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/9/row/1",
+          "row": 1,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/9/row/1/cell/0",
+              "row": 1,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "须遵守我们产品信息表的储存条件。",
+              "normalized_text": "须遵守我们产品信息表的储存条件。",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        }
+      ],
+      "structure": {
+        "capture_level": "detected_text_grid_with_geometry",
+        "column_count": 1,
+        "geometry_available": true,
+        "row_count": 2,
+        "source_bbox_pdf_points": [
+          235.2,
+          322.15,
+          537.5,
+          359.77
+        ],
+        "text_capture_method": "table_extractor"
+      },
+      "source_locator": "SRC-068e91f0a9a6fffe/record/9"
+    },
+    {
+      "id": "SRC-068e91f0a9a6fffe/record/10",
+      "section": "8",
+      "label": "第 8 部分 · 第 3 页 · 表格 3",
+      "title": "8.接触控制/个人防护",
+      "columns": 1,
+      "rows": [
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/10/row/0",
+          "row": 0,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/10/row/0/cell/0",
+              "row": 0,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "8.接触控制/个人防护",
+              "normalized_text": "8.接触控制/个人防护",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        },
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/10/row/1",
+          "row": 1,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/10/row/1/cell/0",
+              "row": 1,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "8.1暴露控制\n呼吸系统防护： 喷涂过程中要求有呼吸防护设备。\n手部防护： 喷建涂议过戴程上中防要护求手有套呼。吸防护设备。\n防护手套的合适材料： EN374-3\n氟化橡胶 –FKM:厚度≧0.4mm；穿透时间≧480min.",
+              "normalized_text": "8.1暴露控制 呼吸系统防护： 喷涂过程中要求有呼吸防护设备。 手部防护： 喷建涂议过戴程上中防要护求手有套呼。吸防护设备。 防护手套的合适材料： EN374-3 氟化橡胶 –FKM:厚度≧0.4mm；穿透时间≧480min.",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        },
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/10/row/2",
+          "row": 2,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/10/row/2/cell/0",
+              "row": 2,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "丁基橡胶 –IIR：厚度≧0.5mm；穿透时间≧480min.\n丁腈橡胶 –NBR：厚度≧0.35mm；穿透时间≧480min.\n建议： 污染的手套应废弃。\n眼睛防护： 戴护目镜/面罩。\n身体防护： 穿着适当的防护服。",
+              "normalized_text": "丁基橡胶 –IIR：厚度≧0.5mm；穿透时间≧480min. 丁腈橡胶 –NBR：厚度≧0.35mm；穿透时间≧480min. 建议： 污染的手套应废弃。 眼睛防护： 戴护目镜/面罩。 身体防护： 穿着适当的防护服。",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        }
+      ],
+      "structure": {
+        "capture_level": "detected_text_grid_with_geometry",
+        "column_count": 1,
+        "geometry_available": true,
+        "row_count": 3,
+        "source_bbox_pdf_points": [
+          53.91666667,
+          379.97,
+          546.8,
+          595.89
+        ],
+        "text_capture_method": "table_extractor"
+      },
+      "source_locator": "SRC-068e91f0a9a6fffe/record/10"
+    },
+    {
+      "id": "SRC-068e91f0a9a6fffe/record/12",
+      "section": "10",
+      "label": "第 10 部分 · 第 4 页 · 表格 1",
+      "title": "10.稳定性和反应性",
+      "columns": 1,
+      "rows": [
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/12/row/0",
+          "row": 0,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/12/row/0/cell/0",
+              "row": 0,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "10.稳定性和反应性",
+              "normalized_text": "10.稳定性和反应性",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        },
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/12/row/1",
+          "row": 1,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/12/row/1/cell/0",
+              "row": 1,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "化学稳定性： 根据规范使用，不会发生分解。\n10.1\n危险分解产物： 涂料在干燥/固化时，释放出中和剂。\n10.2\n可能的危害反应： 正确储存或操作时，无危害反应。\n10.3",
+              "normalized_text": "化学稳定性： 根据规范使用，不会发生分解。 10.1 危险分解产物： 涂料在干燥/固化时，释放出中和剂。 10.2 可能的危害反应： 正确储存或操作时，无危害反应。 10.3",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        }
+      ],
+      "structure": {
+        "capture_level": "detected_text_grid_with_geometry",
+        "column_count": 1,
+        "geometry_available": true,
+        "row_count": 2,
+        "source_bbox_pdf_points": [
+          53.91428571,
+          496.47,
+          542.85714286,
+          575.39
+        ],
+        "text_capture_method": "table_extractor"
+      },
+      "source_locator": "SRC-068e91f0a9a6fffe/record/12"
+    },
+    {
+      "id": "SRC-068e91f0a9a6fffe/record/13",
+      "section": "11",
+      "label": "第 11 部分 · 第 4 页 · 表格 2",
+      "title": "11.毒性资料",
+      "columns": 1,
+      "rows": [
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/13/row/0",
+          "row": 0,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/13/row/0/cell/0",
+              "row": 0,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "11.毒性资料",
+              "normalized_text": "11.毒性资料",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        },
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/13/row/1",
+          "row": 1,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/13/row/1/cell/0",
+              "row": 1,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "该产品无可用的毒理学研究。\n以下是N-乙基吡咯烷酮毒理学数据：\n11.1 急性毒性： 经口：半数致死剂量（LD50）/大鼠：3,200mg/kg\n吸入：半数致死浓度（LC50）/4h/大鼠：＞5.1mg/l\n经皮：半数致死剂量（LD50）/大鼠：＞2,000mg/kg\n11.2 主要皮肤刺激性： 物种：兔子",
+              "normalized_text": "该产品无可用的毒理学研究。 以下是N-乙基吡咯烷酮毒理学数据： 11.1 急性毒性： 经口：半数致死剂量（LD50）/大鼠：3,200mg/kg 吸入：半数致死浓度（LC50）/4h/大鼠：＞5.1mg/l 经皮：半数致死剂量（LD50）/大鼠：＞2,000mg/kg 11.2 主要皮肤刺激性： 物种：兔子",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        }
+      ],
+      "structure": {
+        "capture_level": "detected_text_grid_with_geometry",
+        "column_count": 1,
+        "geometry_available": true,
+        "row_count": 2,
+        "source_bbox_pdf_points": [
+          53.91428571,
+          595.47,
+          542.85714286,
+          732.29
+        ],
+        "text_capture_method": "table_extractor"
+      },
+      "source_locator": "SRC-068e91f0a9a6fffe/record/13"
+    },
+    {
+      "id": "SRC-068e91f0a9a6fffe/record/16",
+      "section": "13",
+      "label": "第 13 部分 · 第 6 页 · 表格 1",
+      "title": "13. 处理注意事项",
+      "columns": 1,
+      "rows": [
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/16/row/0",
+          "row": 0,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/16/row/0/cell/0",
+              "row": 0,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "13. 处理注意事项",
+              "normalized_text": "13. 处理注意事项",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        },
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/16/row/1",
+          "row": 1,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/16/row/1/cell/0",
+              "row": 1,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "必需遵守适用的国标、国家或当地法规进行废弃。\n在欧盟领域内废弃，应根据欧洲废弃物分类（EWC）的适当法规。\n处理方法： 尽可能将容器倒空（例如经倾倒，刮擦或排干直至“滴干”）\n可根据化学工业现存的回收方案送往适当的收集点处理。\n容器应按照国家法令和环境相关法规进行回收。\n不能将废弃物通过废水排放。",
+              "normalized_text": "必需遵守适用的国标、国家或当地法规进行废弃。 在欧盟领域内废弃，应根据欧洲废弃物分类（EWC）的适当法规。 处理方法： 尽可能将容器倒空（例如经倾倒，刮擦或排干直至“滴干”） 可根据化学工业现存的回收方案送往适当的收集点处理。 容器应按照国家法令和环境相关法规进行回收。 不能将废弃物通过废水排放。",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        }
+      ],
+      "structure": {
+        "capture_level": "detected_text_grid_with_geometry",
+        "column_count": 1,
+        "geometry_available": true,
+        "row_count": 2,
+        "source_bbox_pdf_points": [
+          53.91818182,
+          164.97,
+          542.85454545,
+          303.89
+        ],
+        "text_capture_method": "table_extractor"
+      },
+      "source_locator": "SRC-068e91f0a9a6fffe/record/16"
+    },
+    {
+      "id": "SRC-068e91f0a9a6fffe/record/17",
+      "section": "14",
+      "label": "第 14 部分 · 第 6 页 · 表格 2",
+      "title": "14. 运输信息",
+      "columns": 1,
+      "rows": [
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/17/row/0",
+          "row": 0,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/17/row/0/cell/0",
+              "row": 0,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "14. 运输信息",
+              "normalized_text": "14. 运输信息",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        },
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/17/row/1",
+          "row": 1,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/17/row/1/cell/0",
+              "row": 1,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "14.1 公路和铁路运输： 非危险品陆运输方式。\n14.2 海上运输： 非危险品海运方式。\n14.3 空运： 非危险品运输方式。\n14.4 用户特殊注意事项： 非危险货物。\n避免温度高于+35℃，温度不可低于+5℃。\n远离食物、酸和碱。",
+              "normalized_text": "14.1 公路和铁路运输： 非危险品陆运输方式。 14.2 海上运输： 非危险品海运方式。 14.3 空运： 非危险品运输方式。 14.4 用户特殊注意事项： 非危险货物。 避免温度高于+35℃，温度不可低于+5℃。 远离食物、酸和碱。",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        }
+      ],
+      "structure": {
+        "capture_level": "detected_text_grid_with_geometry",
+        "column_count": 1,
+        "geometry_available": true,
+        "row_count": 2,
+        "source_bbox_pdf_points": [
+          53.91818182,
+          323.97,
+          542.85454545,
+          461.39
+        ],
+        "text_capture_method": "table_extractor"
+      },
+      "source_locator": "SRC-068e91f0a9a6fffe/record/17"
+    },
+    {
+      "id": "SRC-068e91f0a9a6fffe/record/18",
+      "section": "15",
+      "label": "第 15 部分 · 第 6 页 · 表格 3",
+      "title": "15. 法规信息",
+      "columns": 1,
+      "rows": [
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/18/row/0",
+          "row": 0,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/18/row/0/cell/0",
+              "row": 0,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "15. 法规信息",
+              "normalized_text": "15. 法规信息",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        },
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/18/row/1",
+          "row": 1,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/18/row/1/cell/0",
+              "row": 1,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "物质或混合物的相关安全、健康和环保法律法规\n其它的规定：\n符合下列法规要求：\n危险化学品安全管理条例，国务院令591号\nGB/T 16483 化学品安全技术说明书内容和项目顺序\nGB13690 化学品分类和危险性公示通则\nGB30000.2-29 化学品分类和标签规范\nGB15258 化学品安全标签编写规定",
+              "normalized_text": "物质或混合物的相关安全、健康和环保法律法规 其它的规定： 符合下列法规要求： 危险化学品安全管理条例，国务院令591号 GB/T 16483 化学品安全技术说明书内容和项目顺序 GB13690 化学品分类和危险性公示通则 GB30000.2-29 化学品分类和标签规范 GB15258 化学品安全标签编写规定",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        }
+      ],
+      "structure": {
+        "capture_level": "detected_text_grid_with_geometry",
+        "column_count": 1,
+        "geometry_available": true,
+        "row_count": 2,
+        "source_bbox_pdf_points": [
+          53.91818182,
+          481.47,
+          542.85454545,
+          657.39
+        ],
+        "text_capture_method": "table_extractor"
+      },
+      "source_locator": "SRC-068e91f0a9a6fffe/record/18"
+    },
+    {
+      "id": "SRC-068e91f0a9a6fffe/record/19",
+      "section": "16",
+      "label": "第 16 部分 · 第 6 页 · 表格 4",
+      "title": "16. 其他信息",
+      "columns": 1,
+      "rows": [
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/19/row/0",
+          "row": 0,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/19/row/0/cell/0",
+              "row": 0,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "16. 其他信息",
+              "normalized_text": "16. 其他信息",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        },
+        {
+          "id": "SRC-068e91f0a9a6fffe/record/19/row/1",
+          "row": 1,
+          "cells": [
+            {
+              "id": "SRC-068e91f0a9a6fffe/record/19/row/1/cell/0",
+              "row": 1,
+              "column": 0,
+              "colspan": 1,
+              "rowspan": 1,
+              "text": "就我们所掌握的知识信息，截止本安全技术说明书发布之日，它提供的资料是正确的。所提\n供的信息仅仅作为安全处理，使用，生产，储存，运输，处置和排放的指导书，而不是一份",
+              "normalized_text": "就我们所掌握的知识信息，截止本安全技术说明书发布之日，它提供的资料是正确的。所提 供的信息仅仅作为安全处理，使用，生产，储存，运输，处置和排放的指导书，而不是一份",
+              "format": {},
+              "background": null,
+              "segments": []
+            }
+          ]
+        }
+      ],
+      "structure": {
+        "capture_level": "detected_text_grid_with_geometry",
+        "column_count": 1,
+        "geometry_available": true,
+        "row_count": 2,
+        "source_bbox_pdf_points": [
+          53.91818182,
+          677.47,
+          542.85454545,
+          737.29
+        ],
+        "text_capture_method": "table_extractor"
+      },
+      "source_locator": "SRC-068e91f0a9a6fffe/record/19"
+    }
+  ],
+  "images": [],
+  "indexes": {
+    "tables": {
+      "SRC-068e91f0a9a6fffe/record/0": {
+        "section": "1",
+        "title": "1.物料及供应商标识"
+      },
+      "SRC-068e91f0a9a6fffe/record/1": {
+        "section": "2",
+        "title": "2.危险性概述"
+      },
+      "SRC-068e91f0a9a6fffe/record/4": {
+        "section": "3",
+        "title": "3. 成分/组成资料"
+      },
+      "SRC-068e91f0a9a6fffe/record/5": {
+        "section": "4",
+        "title": "4.急救措施"
+      },
+      "SRC-068e91f0a9a6fffe/record/6": {
+        "section": "5",
+        "title": "5.消防措施"
+      },
+      "SRC-068e91f0a9a6fffe/record/8": {
+        "section": "7",
+        "title": "7.操作和储存"
+      },
+      "SRC-068e91f0a9a6fffe/record/9": {
+        "section": null,
+        "title": "容器保持紧闭，存储在凉爽通风处。为保证产品质量，必"
+      },
+      "SRC-068e91f0a9a6fffe/record/10": {
+        "section": "8",
+        "title": "8.接触控制/个人防护"
+      },
+      "SRC-068e91f0a9a6fffe/record/12": {
+        "section": "10",
+        "title": "10.稳定性和反应性"
+      },
+      "SRC-068e91f0a9a6fffe/record/13": {
+        "section": "11",
+        "title": "11.毒性资料"
+      },
+      "SRC-068e91f0a9a6fffe/record/16": {
+        "section": "13",
+        "title": "13. 处理注意事项"
+      },
+      "SRC-068e91f0a9a6fffe/record/17": {
+        "section": "14",
+        "title": "14. 运输信息"
+      },
+      "SRC-068e91f0a9a6fffe/record/18": {
+        "section": "15",
+        "title": "15. 法规信息"
+      },
+      "SRC-068e91f0a9a6fffe/record/19": {
+        "section": "16",
+        "title": "16. 其他信息"
+      }
+    },
+    "segments": {}
+  }
+}

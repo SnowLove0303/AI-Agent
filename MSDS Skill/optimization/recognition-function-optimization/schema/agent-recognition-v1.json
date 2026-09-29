@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agent-recognition-v1",
+  "title": "Agent MSDS Recognition Record",
+  "type": "object",
+  "required": ["schema_version", "item_id", "source", "quality", "sections", "tables", "images", "indexes"],
+  "properties": {
+    "schema_version": {"const": "agent-recognition-v1"},
+    "item_id": {"type": "string"},
+    "source": {"type": "object", "required": ["sha256", "source_type"], "additionalProperties": true},
+    "evidence": {"type": "object", "additionalProperties": true},
+    "quality": {
+      "type": "object",
+      "required": ["overall", "dimensions", "section_counts"],
+      "properties": {
+        "overall": {"enum": ["COMPLETE", "PARTIAL", "BLOCKED", "UNAVAILABLE"]},
+        "dimensions": {"type": "object"},
+        "section_counts": {"type": "object"}
+      }
+    },
+    "sections": {"type": "object"},
+    "tables": {"type": "array"},
+    "images": {"type": "array"},
+    "indexes": {"type": "object"}
+  }
+}

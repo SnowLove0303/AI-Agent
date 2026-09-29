@@ -1,0 +1,5308 @@
+{
+  "schema_version": "agent-recognition-v1",
+  "seed": 20260929,
+  "source_root": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)",
+  "items": [
+    {
+      "item_id": "SRC-133029dbcdf57f98",
+      "source": {
+        "name": "PU-1036 msds_CN 冠志.pdf",
+        "source_type": "pdf",
+        "sha256": "133029dbcdf57f982fd4ae5e81508279fd1180865a2cf2c7f5c942c83f0db2da",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 9,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 0,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 0,
+          "16": 1
+        },
+        "table_count": 14,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-133029dbcdf57f98.json"
+    },
+    {
+      "item_id": "SRC-d94b54f947ff95b2",
+      "source": {
+        "name": "PU-1036 tds_EN Guocai.pdf",
+        "source_type": "pdf",
+        "sha256": "d94b54f947ff95b2151460baba845848162478ee6b308f51840ee5d21016c6d0",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 1
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-d94b54f947ff95b2.json"
+    },
+    {
+      "item_id": "SRC-ed03705857fd2a21",
+      "source": {
+        "name": "PU-2303 msds_CN 冠志.pdf",
+        "source_type": "pdf",
+        "sha256": "ed03705857fd2a2129d6e63aaae1f0f35fd08a4ee96bfa6cfdaf0ed44a0fa06a",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 8,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 0,
+          "16": 1,
+          "unclassified": 2
+        },
+        "table_count": 16,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-ed03705857fd2a21.json"
+    },
+    {
+      "item_id": "SRC-8257dba081665268",
+      "source": {
+        "name": "PU-6012 tds_CN 冠志.pdf",
+        "source_type": "pdf",
+        "sha256": "8257dba08166526883c3345abf19ba5ced0868b1d1a0b44e947c89ef3c7afa0d",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-8257dba081665268.json"
+    },
+    {
+      "item_id": "SRC-068e91f0a9a6fffe",
+      "source": {
+        "name": "PU-7206 msds_CN 冠志.pdf",
+        "source_type": "pdf",
+        "sha256": "068e91f0a9a6fffebe9228ed7e76de5da197cd03ddf3e3e5d4d8f9936ccc4af8",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 8,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 0,
+          "7": 1,
+          "8": 1,
+          "9": 0,
+          "10": 1,
+          "11": 1,
+          "12": 0,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1,
+          "unclassified": 2
+        },
+        "table_count": 14,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-068e91f0a9a6fffe.json"
+    },
+    {
+      "item_id": "SRC-525e7991a19696a1",
+      "source": {
+        "name": "HPU-7660 msds_CN 冠志.pdf",
+        "source_type": "pdf",
+        "sha256": "525e7991a19696a1154656b497fd961173eaff03ba3f8bea2db251a24ff5ac6d",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 9,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 0,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 0,
+          "16": 1
+        },
+        "table_count": 14,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-525e7991a19696a1.json"
+    },
+    {
+      "item_id": "SRC-bd71c299f08cfd17",
+      "source": {
+        "name": "HPU-7790 msds_EN Guanzhi.pdf",
+        "source_type": "pdf",
+        "sha256": "bd71c299f08cfd17c706e013f1e6be109948f3b3d6cdfdb53ca9776344debf38",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 8,
+          "2": 1,
+          "3": 1,
+          "4": 0,
+          "5": 1,
+          "6": 1,
+          "7": 0,
+          "8": 0,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 0,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 12,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-bd71c299f08cfd17.json"
+    },
+    {
+      "item_id": "SRC-2c2bac8043027429",
+      "source": {
+        "name": "PA-3661 MSDS（冠志）.pdf",
+        "source_type": "pdf",
+        "sha256": "2c2bac80430274291f6a1c5c3970e4f8b665c08de197a3e458a564e4691c832a",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 6,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 16,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-2c2bac8043027429.json"
+    },
+    {
+      "item_id": "SRC-3da1eb0df52ec25c",
+      "source": {
+        "name": "PU-2836 tds_CN 国彩.pdf",
+        "source_type": "pdf",
+        "sha256": "3da1eb0df52ec25c7466e72d7e4a02078115f5cce0e0234e962fc6ecfc178a46",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 1
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-3da1eb0df52ec25c.json"
+    },
+    {
+      "item_id": "SRC-42209d41a318050d",
+      "source": {
+        "name": "PU-3911 tds_CN 冠志.pdf",
+        "source_type": "pdf",
+        "sha256": "42209d41a318050dd7af6a0a90dfcd0e9d7b48f925f74cb89fac6a14fbcaa779",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 1,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-42209d41a318050d.json"
+    },
+    {
+      "item_id": "SRC-62574d24280ea5e3",
+      "source": {
+        "name": "PU-608 msds_CN 冠志.pdf",
+        "source_type": "pdf",
+        "sha256": "62574d24280ea5e3412ca9e05521a38e5e56f8b53883621e8a879662c90d5342",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 8,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1,
+          "unclassified": 1
+        },
+        "table_count": 16,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-62574d24280ea5e3.json"
+    },
+    {
+      "item_id": "SRC-3967c5e91e3c5877",
+      "source": {
+        "name": "PU-6088 msds_EN 国彩(1).pdf",
+        "source_type": "pdf",
+        "sha256": "3967c5e91e3c58774598d53ddf63ec8fa5650e0a37a4a1337f023348b6dcb15c",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 17,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 10
+        },
+        "table_count": 25,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-3967c5e91e3c5877.json"
+    },
+    {
+      "item_id": "SRC-d60dcda1450ce7ce",
+      "source": {
+        "name": "HPU-7651 msds_EN 国彩.pdf",
+        "source_type": "pdf",
+        "sha256": "d60dcda1450ce7cea0f918eeaa1f774c797113ff47cc3aa4dbd111241286cb89",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 8,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 0,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 0,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 14,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-d60dcda1450ce7ce.json"
+    },
+    {
+      "item_id": "SRC-89fa3493015d4e50",
+      "source": {
+        "name": "HPU-7700 tds_CN 冠志.pdf",
+        "source_type": "pdf",
+        "sha256": "89fa3493015d4e50ff2c13794c68bd8b31dbf3b76cc292baaf72ace818ff0b3a",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 1,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-89fa3493015d4e50.json"
+    },
+    {
+      "item_id": "SRC-cf37b9460454a570",
+      "source": {
+        "name": "PA-4868 tds_CN 冠志.pdf",
+        "source_type": "pdf",
+        "sha256": "cf37b9460454a57050fa4f63678204447c2f359306277bc0ae8d334e08ba759f",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-cf37b9460454a570.json"
+    },
+    {
+      "item_id": "SRC-4c372f42301307ff",
+      "source": {
+        "name": "PA-3330 tds_CN 国彩.pdf",
+        "source_type": "pdf",
+        "sha256": "4c372f42301307ff82d674f01c07286c982dfefc2fe9ae919881eda8e7d7c4eb",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 1,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 1
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-4c372f42301307ff.json"
+    },
+    {
+      "item_id": "SRC-f0fa718b3079b70a",
+      "source": {
+        "name": "PA-4822 TDS_EN Guanzhi.pdf",
+        "source_type": "pdf",
+        "sha256": "f0fa718b3079b70abe6e35f99a400929bccf0ad6b85eba26d1a6c0641f3a24dc",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 1,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-f0fa718b3079b70a.json"
+    },
+    {
+      "item_id": "SRC-ee044767592dc883",
+      "source": {
+        "name": "PUA-1011 msds_EN Guocai.pdf",
+        "source_type": "pdf",
+        "sha256": "ee044767592dc8838b120210c359160796b388aca7132ebc98564d360dd380b5",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 9,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 2,
+          "12": 1,
+          "13": 0,
+          "14": 1,
+          "15": 1,
+          "16": 1,
+          "unclassified": 2
+        },
+        "table_count": 17,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-ee044767592dc883.json"
+    },
+    {
+      "item_id": "SRC-fbb2668e8584feb3",
+      "source": {
+        "name": "PUA-5811 msds_CN 冠志.pdf",
+        "source_type": "pdf",
+        "sha256": "fbb2668e8584feb3d72dcbb3ee5e062ee09b563d0c5d82baa42f7a3e6c6fcdc0",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 7,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 0,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1,
+          "unclassified": 1
+        },
+        "table_count": 15,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-fbb2668e8584feb3.json"
+    },
+    {
+      "item_id": "SRC-b14729c6120ca818",
+      "source": {
+        "name": "UV-5269 msds_CN 国彩.pdf",
+        "source_type": "pdf",
+        "sha256": "b14729c6120ca818b5ff34e5a829979938051292212587017d5efa8e0fbb6c76",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 6,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 0,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1,
+          "unclassified": 1
+        },
+        "table_count": 14,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-b14729c6120ca818.json"
+    },
+    {
+      "item_id": "SRC-a7121262b6aa4f95",
+      "source": {
+        "name": "UV-5274 msds_EN 国彩.pdf",
+        "source_type": "pdf",
+        "sha256": "a7121262b6aa4f95768c91d3cc32fd0eeef47cf7e00e6e02eceb736959364486",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 8,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 0,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 0,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 14,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-a7121262b6aa4f95.json"
+    },
+    {
+      "item_id": "SRC-aad7c9a20a6aa4c7",
+      "source": {
+        "name": "OS-9012 tds_CN 国彩.pdf",
+        "source_type": "pdf",
+        "sha256": "aad7c9a20a6aa4c7ae7649f74d9ce33816381ca83af79cebc4c221ee2b3af152",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 1,
+          "unclassified": 1
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-aad7c9a20a6aa4c7.json"
+    },
+    {
+      "item_id": "SRC-9174ceb7a50563a1",
+      "source": {
+        "name": "OS-9016L tds_CN 国彩.pdf",
+        "source_type": "pdf",
+        "sha256": "9174ceb7a50563a1cc4fb293281b9fc835efdc46fba8ce82c14825ad62519761",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 1,
+          "16": 0,
+          "unclassified": 1
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-9174ceb7a50563a1.json"
+    },
+    {
+      "item_id": "SRC-37d4a5210d156385",
+      "source": {
+        "name": "BL-8124 TDS_EN Guanzhi.pdf",
+        "source_type": "pdf",
+        "sha256": "37d4a5210d156385dd4ba005d00dfca76a62afe59a06df39fcdeff99abff7f27",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 3
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-37d4a5210d156385.json"
+    },
+    {
+      "item_id": "SRC-23a69da924b4854f",
+      "source": {
+        "name": "BL-8128W msds_CN 国彩.pdf",
+        "source_type": "pdf",
+        "sha256": "23a69da924b4854f7676cc4e0670923b3d6b031a15d51986e9cf69bfcf8a0eee",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 6,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 16,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-23a69da924b4854f.json"
+    },
+    {
+      "item_id": "SRC-30779380f0a56217",
+      "source": {
+        "name": "BL-8145 tds_CN 国彩.pdf",
+        "source_type": "pdf",
+        "sha256": "30779380f0a562175736a8c4950e147d90e161f02b991455a7dc5912d2094fc5",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 1
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-30779380f0a56217.json"
+    },
+    {
+      "item_id": "SRC-334b816ab6db6516",
+      "source": {
+        "name": "BL-8146 tds_CN 冠志.pdf",
+        "source_type": "pdf",
+        "sha256": "334b816ab6db6516d2cb888de704103fb921ebb90f0f88367ba447aa2621d6ca",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-334b816ab6db6516.json"
+    },
+    {
+      "item_id": "SRC-dce0319a54a28fbf",
+      "source": {
+        "name": "BEK-520 msds_CN 冠志.pdf",
+        "source_type": "pdf",
+        "sha256": "dce0319a54a28fbfec943ab9e060c0f6021ea9acba283e872ae12e5cd03f8353",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 6,
+          "2": 1,
+          "3": 1,
+          "4": 2,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 17,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-dce0319a54a28fbf.json"
+    },
+    {
+      "item_id": "SRC-4951032ddd5a4490",
+      "source": {
+        "name": "BEK-560 tds_CN 冠志.pdf",
+        "source_type": "pdf",
+        "sha256": "4951032ddd5a4490641b0c8a1563cfe2044b48bf580560a540d6ba8f1f7237bd",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 1,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 6
+        },
+        "table_count": 4,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-4951032ddd5a4490.json"
+    },
+    {
+      "item_id": "SRC-57a3e375eec14109",
+      "source": {
+        "name": "OS-405 tds_CN 冠志.pdf",
+        "source_type": "pdf",
+        "sha256": "57a3e375eec141092ec5f30d34f6fddfc423d9431395486edd95159636f0965b",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 1,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 1,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 2,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-57a3e375eec14109.json"
+    },
+    {
+      "item_id": "SRC-b40c74f461425c7b",
+      "source": {
+        "name": "OS-406 tds_CN 冠志.pdf",
+        "source_type": "pdf",
+        "sha256": "b40c74f461425c7b7aa24b1d4050fe9f04b45d415131e6369affd3e77da4da93",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 4
+        },
+        "table_count": 3,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-b40c74f461425c7b.json"
+    },
+    {
+      "item_id": "SRC-91b66eeea69e6e52",
+      "source": {
+        "name": "RU-10102 msds_CN 冠志.pdf",
+        "source_type": "pdf",
+        "sha256": "91b66eeea69e6e52568cffd9d00604ef29aaf99023a60626f6a7652e17bf7801",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 8,
+          "2": 1,
+          "3": 1,
+          "4": 0,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 0,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1,
+          "unclassified": 1
+        },
+        "table_count": 15,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-91b66eeea69e6e52.json"
+    },
+    {
+      "source": {
+        "bytes": 28672,
+        "extension": ".doc",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-1002 tds_CN 冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-1002 tds_CN 冠志.doc",
+        "sha256": "86f8bea5d07340de1d33d957a1dd1ca1a01d2b85f4a36c80c14d02d504eb7a4a"
+      },
+      "status": "BLOCKED",
+      "error": "NotImplementedError: "
+    },
+    {
+      "item_id": "SRC-7d07d788e33b56d9",
+      "source": {
+        "name": "PU-1107 tds_CN 冠志.doc",
+        "source_type": "doc",
+        "sha256": "7d07d788e33b56d98e93311ba12414eabba579e2294f143e843d2f1444b76f8c",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 1,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 1
+        },
+        "table_count": 1,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-7d07d788e33b56d9.json"
+    },
+    {
+      "item_id": "SRC-9cc50c1735ca86f0",
+      "source": {
+        "name": "PU-2341E tds_EN Guanzhi.pdf",
+        "source_type": "pdf",
+        "sha256": "9cc50c1735ca86f0739736d4aa283f606d2e4f20a1a379f2b978332a3ae2c141",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "pdf_format_inference_limited",
+            "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-9cc50c1735ca86f0.json"
+    },
+    {
+      "item_id": "SRC-217b7b5fd53d730d",
+      "source": {
+        "name": "PU-2346 tds_CN 冠志.doc",
+        "source_type": "doc",
+        "sha256": "217b7b5fd53d730d79c3f0901424c8a924c976a08351c48ed23edb79ac5b95bc",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 1,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 1
+        },
+        "table_count": 1,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-217b7b5fd53d730d.json"
+    },
+    {
+      "item_id": "SRC-7ded7bce6de5dee0",
+      "source": {
+        "name": "PU-2411 msds_CN 国彩.docx",
+        "source_type": "docx",
+        "sha256": "7ded7bce6de5dee00d72cac2e9ca896cc27e8e17e78069892162e6b69ca9e68e",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          },
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-7ded7bce6de5dee0.json"
+    },
+    {
+      "item_id": "SRC-d8e54e92a0ba8523",
+      "source": {
+        "name": "PU-2415 tds_CN 冠志.doc",
+        "source_type": "doc",
+        "sha256": "d8e54e92a0ba85230b5076db674845688521ee15a1b127dbffbfa21ef6f1c1ee",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-d8e54e92a0ba8523.json"
+    },
+    {
+      "item_id": "SRC-951499c2828fefc2",
+      "source": {
+        "name": "PU-2801 tds_CN 国彩.docx",
+        "source_type": "docx",
+        "sha256": "951499c2828fefc2d9d3ee3231c67f31d72304ccb37ff84782cdda791a7cc3bb",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [],
+        "section_counts": {
+          "0": 1,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-951499c2828fefc2.json"
+    },
+    {
+      "item_id": "SRC-0958e03aa19f9a0f",
+      "source": {
+        "name": "PU-2835 msds_CN 国彩.docx",
+        "source_type": "docx",
+        "sha256": "0958e03aa19f9a0fd0175c4afe0a8b0e5f4ee9cc20ad6891c69138f21cfc7dcf",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-0958e03aa19f9a0f.json"
+    },
+    {
+      "item_id": "SRC-ea040c1a9be761fc",
+      "source": {
+        "name": "PU-2835 tds_CN 冠志.docx",
+        "source_type": "docx",
+        "sha256": "ea040c1a9be761fc3345d080bd7a68674ed68d50294e9fc137a8faa083e30d3a",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [],
+        "section_counts": {
+          "0": 1,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-ea040c1a9be761fc.json"
+    },
+    {
+      "item_id": "SRC-27808229ddf4ad14",
+      "source": {
+        "name": "PU-3811 tds_CN 国彩.doc",
+        "source_type": "doc",
+        "sha256": "27808229ddf4ad14c94831c35811c9a0e35ba8cec55f31461544624686e64509",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 1,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 1,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 1
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-27808229ddf4ad14.json"
+    },
+    {
+      "item_id": "SRC-9835b8340cd343b8",
+      "source": {
+        "name": "PU-3811 tds_EN Guocai.doc",
+        "source_type": "doc",
+        "sha256": "9835b8340cd343b89872218dd4a4687aa54648489d8184b16d99ef4016f3e6ae",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 1,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 1,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 1
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-9835b8340cd343b8.json"
+    },
+    {
+      "item_id": "SRC-5fc3fcbafd4a03a2",
+      "source": {
+        "name": "PU-3822 msds_CN 国彩.docx",
+        "source_type": "docx",
+        "sha256": "5fc3fcbafd4a03a2575f3d2903cbe6f5ff9598785ae6390267b9542c84fe8885",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-5fc3fcbafd4a03a2.json"
+    },
+    {
+      "item_id": "SRC-233aa51e3b8bfaec",
+      "source": {
+        "name": "PU-3830 tds_CN 冠志.doc",
+        "source_type": "doc",
+        "sha256": "233aa51e3b8bfaec5f94a315164c7b44a7cd140d4d37acdef79928f112aee0c3",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-233aa51e3b8bfaec.json"
+    },
+    {
+      "item_id": "SRC-2ef8d2b1fdd9999d",
+      "source": {
+        "name": "PU-6012 tds_CN 国彩.doc",
+        "source_type": "doc",
+        "sha256": "2ef8d2b1fdd9999d764ae660bbce441f4b5d3f80af4f09905b033a8b53818ffc",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 1,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 1
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-2ef8d2b1fdd9999d.json"
+    },
+    {
+      "item_id": "SRC-33c188201eab098c",
+      "source": {
+        "name": "PU-6026 tds_EN Guocai.doc",
+        "source_type": "doc",
+        "sha256": "33c188201eab098ca39d723847eb5a93f5e9da4bd46a28beb6620765cffe00ab",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 1,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-33c188201eab098c.json"
+    },
+    {
+      "item_id": "SRC-9d31d20a8b069354",
+      "source": {
+        "name": "PU-7206 msds_CN 国彩.docx",
+        "source_type": "docx",
+        "sha256": "9d31d20a8b069354447ecf2bf1b251ecf0e48262a4d467c939e8e372ecddc2a3",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 2,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-9d31d20a8b069354.json"
+    },
+    {
+      "item_id": "SRC-baa241c934cf9099",
+      "source": {
+        "name": "PU-7330 Bio tds_EN 冠志.docx",
+        "source_type": "docx",
+        "sha256": "baa241c934cf90993ad9614c769c27b9c4cc7759ab3627f164d414fea50d4c18",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-baa241c934cf9099.json"
+    },
+    {
+      "item_id": "SRC-82c8597ef7bd9a16",
+      "source": {
+        "name": "PU-8130 msds_CN 国彩.docx",
+        "source_type": "docx",
+        "sha256": "82c8597ef7bd9a1625b1f6eee7c2664c6f96462684bf797abd2a9a16cb91d0b1",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-82c8597ef7bd9a16.json"
+    },
+    {
+      "item_id": "SRC-bb199088c37116b0",
+      "source": {
+        "name": "PU-8130 msds_EN Guanzhi.docx",
+        "source_type": "docx",
+        "sha256": "bb199088c37116b0301f293fb8970e6f27c578415c03bb77cb5ba013b6fde7ff",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-bb199088c37116b0.json"
+    },
+    {
+      "item_id": "SRC-f353cf36a5bc81aa",
+      "source": {
+        "name": "HPU-7651 tds_EN 国彩.doc",
+        "source_type": "doc",
+        "sha256": "f353cf36a5bc81aafd119381a1dd7d3e17e98e614fa2a63b9a57edb7560adda4",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 1,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-f353cf36a5bc81aa.json"
+    },
+    {
+      "item_id": "SRC-0c2f17d826f8a242",
+      "source": {
+        "name": "PA-3612 msds_CN 冠志.doc",
+        "source_type": "doc",
+        "sha256": "0c2f17d826f8a242160b878a287175fc4f63bf23e21676ebb08e414d6ae3b3ef",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 3,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-0c2f17d826f8a242.json"
+    },
+    {
+      "item_id": "SRC-a1e2eaf56d9b4ed2",
+      "source": {
+        "name": "PA-4853 tds_EN 冠志.docx",
+        "source_type": "docx",
+        "sha256": "a1e2eaf56d9b4ed2b686cf155ba9fd50a796bd3474c459565f4aa29d97db1fdd",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 1,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-a1e2eaf56d9b4ed2.json"
+    },
+    {
+      "item_id": "SRC-56a7e497757249ac",
+      "source": {
+        "name": "PA-4778 msds_CN冠志.doc",
+        "source_type": "doc",
+        "sha256": "56a7e497757249ac07eb4288daa3e80316304c9a2e86c038b356ea94efbded3a",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 3,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-56a7e497757249ac.json"
+    },
+    {
+      "item_id": "SRC-48f8ae838f7b153d",
+      "source": {
+        "name": "PA-4816 tds_CN 冠志.doc",
+        "source_type": "doc",
+        "sha256": "48f8ae838f7b153d5ec0ec6e459943e7b24ff05b705e95e588f079905acaae0d",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-48f8ae838f7b153d.json"
+    },
+    {
+      "item_id": "SRC-1dc13f426972a0c9",
+      "source": {
+        "name": "PA-4817 tds_CN 冠志.doc",
+        "source_type": "doc",
+        "sha256": "1dc13f426972a0c9e5563a13875538dc6d1b0f6836be957b1de89c1ed9fcee2d",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-1dc13f426972a0c9.json"
+    },
+    {
+      "item_id": "SRC-ded36413c71603ec",
+      "source": {
+        "name": "PA-3188A msds_CN 冠志_docx.docx",
+        "source_type": "docx",
+        "sha256": "ded36413c71603ec724b088e20b864d7cc157bcd55560ce3a2c7e871e692bbf6",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-ded36413c71603ec.json"
+    },
+    {
+      "item_id": "SRC-45fd9feb17c03088",
+      "source": {
+        "name": "PA-3225A tds_CN 国彩.doc",
+        "source_type": "doc",
+        "sha256": "45fd9feb17c03088bbca2c9d55efefe581a3db4c5da51b6cac6934fa415ef26d",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 1,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 1,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 1
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-45fd9feb17c03088.json"
+    },
+    {
+      "item_id": "SRC-9aa7ae301777d151",
+      "source": {
+        "name": "PA-3258 msds_CN 国彩.docx",
+        "source_type": "docx",
+        "sha256": "9aa7ae301777d151854eeae2988c2ec685aecea811b24a511cd5b9801c1c62ce",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-9aa7ae301777d151.json"
+    },
+    {
+      "item_id": "SRC-97df4fbf7f5b0ac9",
+      "source": {
+        "name": "PA-3332 msds_CN 冠志.docx",
+        "source_type": "docx",
+        "sha256": "97df4fbf7f5b0ac95bfc18be73719a4ca98f100d380cd5dfe292665a50ddae32",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-97df4fbf7f5b0ac9.json"
+    },
+    {
+      "item_id": "SRC-b9a33de77e9be504",
+      "source": {
+        "name": "PA-4220 msds_CN 冠志.docx",
+        "source_type": "docx",
+        "sha256": "b9a33de77e9be50467070eb7296c864728e8771ff72fcf542dea5f95a5cd2fd2",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-b9a33de77e9be504.json"
+    },
+    {
+      "item_id": "SRC-7d56f62f2f2acff8",
+      "source": {
+        "name": "PA-4570 msds_CN 国彩.docx",
+        "source_type": "docx",
+        "sha256": "7d56f62f2f2acff83d74d67dd117f8aafe22af6da9c0730880aaaeed95971322",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-7d56f62f2f2acff8.json"
+    },
+    {
+      "item_id": "SRC-4093660811886398",
+      "source": {
+        "name": "PA-4570 tds_CN 国彩.doc",
+        "source_type": "doc",
+        "sha256": "40936608118863984701ba5f8bcbbd878063292bab24c207791df8c4ac7eb0d0",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 1,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 1,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 1
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-4093660811886398.json"
+    },
+    {
+      "item_id": "SRC-30201e3efb818be8",
+      "source": {
+        "name": "PA-4840 tds_CN 冠志.doc",
+        "source_type": "doc",
+        "sha256": "30201e3efb818be837f48b60a6db7976aa4d02502c344f591f7c93d0c98a72da",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 1,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 1
+        },
+        "table_count": 1,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-30201e3efb818be8.json"
+    },
+    {
+      "item_id": "SRC-445dfbe5f4123e5f",
+      "source": {
+        "name": "PA-4845 tds_CN 冠志.doc",
+        "source_type": "doc",
+        "sha256": "445dfbe5f4123e5f13c5596d1555e4e5c75349b12fa7ca98d9edc13bbce774b1",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 1,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 1
+        },
+        "table_count": 1,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-445dfbe5f4123e5f.json"
+    },
+    {
+      "item_id": "SRC-966af20e04ce41a2",
+      "source": {
+        "name": "PA-4895 tds_CN 国彩.doc",
+        "source_type": "doc",
+        "sha256": "966af20e04ce41a22fd9d930cf3f906a273d2561aad1fec2687bbc184031727b",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 1,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 1,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 1
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-966af20e04ce41a2.json"
+    },
+    {
+      "item_id": "SRC-efed14e19a51ad62",
+      "source": {
+        "name": "PA-4896 msds_CN 冠志.docx",
+        "source_type": "docx",
+        "sha256": "efed14e19a51ad62b22f6b69f545d58cccc5eff711c2fe01bae4deebeecf477b",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-efed14e19a51ad62.json"
+    },
+    {
+      "item_id": "SRC-cecce573af065d78",
+      "source": {
+        "name": "EP-1705 msds_EN 冠志.doc",
+        "source_type": "doc",
+        "sha256": "cecce573af065d78a2324b4f38d147110b2a02a220d1d0c3e6d697546aa4844f",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 0,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 17,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-cecce573af065d78.json"
+    },
+    {
+      "item_id": "SRC-c0827b0c73e279ab",
+      "source": {
+        "name": "UV-5100 TDS_EN 国彩.doc",
+        "source_type": "doc",
+        "sha256": "c0827b0c73e279abffe8b17da9dd8f3a425dc2b5153392210ed826d881daf8c0",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 1,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-c0827b0c73e279ab.json"
+    },
+    {
+      "item_id": "SRC-f4134c9bffba6399",
+      "source": {
+        "name": "UV-5242 tds_CN 冠志.docx",
+        "source_type": "docx",
+        "sha256": "f4134c9bffba6399f09c0d08ada0058f42542957d66677e9a25b66ea52000d63",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [],
+        "section_counts": {
+          "0": 1,
+          "1": 0,
+          "2": 0,
+          "3": 1,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 1
+        },
+        "table_count": 1,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-f4134c9bffba6399.json"
+    },
+    {
+      "item_id": "SRC-30b515882c6c5ebd",
+      "source": {
+        "name": "UV-5274 msds_CN 冠志.docx",
+        "source_type": "docx",
+        "sha256": "30b515882c6c5ebd2a32590bdd03313933b7365258c63f7697d9d2dfc3e6b9a9",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-30b515882c6c5ebd.json"
+    },
+    {
+      "item_id": "SRC-f22073e92fd0c805",
+      "source": {
+        "name": "OS-9012 msds_CN 国彩.docx",
+        "source_type": "docx",
+        "sha256": "f22073e92fd0c8053432b19fc66bca061abfd487305c7855545517272e94c1ed",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "MISMATCH"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          },
+          {
+            "code": "table_wrapper_not_normalized",
+            "message": "文档 XML 中存在未被 python-docx 顶层表格集合识别的嵌套或包装表格；原始 XML 已保留。",
+            "normalized_count": 16,
+            "source_count": 17
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "content",
+          "render",
+          "structure"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-f22073e92fd0c805.json"
+    },
+    {
+      "item_id": "SRC-48dd12d2900baa5e",
+      "source": {
+        "name": "OS-9013 tds_CN 国彩.doc",
+        "source_type": "doc",
+        "sha256": "48dd12d2900baa5e7994c7d93036df12fe43c17f487b28de807305655dd09b3d",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 1,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-48dd12d2900baa5e.json"
+    },
+    {
+      "item_id": "SRC-4cced7259a2edb2c",
+      "source": {
+        "name": "OS-9016 tds_EN Guocai.doc",
+        "source_type": "doc",
+        "sha256": "4cced7259a2edb2c039487060d176e0b1cb1842e31fe110e51297a8bd5849386",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-4cced7259a2edb2c.json"
+    },
+    {
+      "item_id": "SRC-7de1a77bca3d7705",
+      "source": {
+        "name": "OS-9027 msds_CN 国彩.docx",
+        "source_type": "docx",
+        "sha256": "7de1a77bca3d77056cf1a5a537b3a2884eff86eddccf2a82ca35131ee7cce0ae",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "MISMATCH"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          },
+          {
+            "code": "table_wrapper_not_normalized",
+            "message": "文档 XML 中存在未被 python-docx 顶层表格集合识别的嵌套或包装表格；原始 XML 已保留。",
+            "normalized_count": 16,
+            "source_count": 17
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "content",
+          "render",
+          "structure"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-7de1a77bca3d7705.json"
+    },
+    {
+      "item_id": "SRC-8dc73ba5a540ead1",
+      "source": {
+        "name": "OS-9056 msds_EN Guocai.docx",
+        "source_type": "docx",
+        "sha256": "8dc73ba5a540ead1acf300c2c174687415f179b368c4b255a85b7ecaf601ac2f",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "MISMATCH"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          },
+          {
+            "code": "table_wrapper_not_normalized",
+            "message": "文档 XML 中存在未被 python-docx 顶层表格集合识别的嵌套或包装表格；原始 XML 已保留。",
+            "normalized_count": 16,
+            "source_count": 17
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "content",
+          "render",
+          "structure"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-8dc73ba5a540ead1.json"
+    },
+    {
+      "item_id": "SRC-2fbea13a75be9307",
+      "source": {
+        "name": "OS-9547 tds_EN 冠志.doc",
+        "source_type": "doc",
+        "sha256": "2fbea13a75be9307be1724b1faf7ebc936d8d9fb03459a8614ef773f476f2e2b",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-2fbea13a75be9307.json"
+    },
+    {
+      "item_id": "SRC-bc04b8b98663c6b1",
+      "source": {
+        "name": "BL-8126 tds_CN 国彩.doc",
+        "source_type": "doc",
+        "sha256": "bc04b8b98663c6b12d86d7fa4030b4fc5d577bc997412b1d0f70ee23685e44ff",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 1,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 1
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-bc04b8b98663c6b1.json"
+    },
+    {
+      "item_id": "SRC-e3e200047c78f4fe",
+      "source": {
+        "name": "BL-8146 msds_CN 冠志.docx",
+        "source_type": "docx",
+        "sha256": "e3e200047c78f4fe826ebc1b345f56318fe78faf71fe1f53f1152df9255306eb",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-e3e200047c78f4fe.json"
+    },
+    {
+      "item_id": "SRC-be89c35d0166e83f",
+      "source": {
+        "name": "BL-8166 msds_CN 冠志.docx",
+        "source_type": "docx",
+        "sha256": "be89c35d0166e83f0546c3d534716f2c9aa44ae5cf7ac6bad3231d2861cc28a3",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-be89c35d0166e83f.json"
+    },
+    {
+      "item_id": "SRC-fdb339c38558ab95",
+      "source": {
+        "name": "OS-8501 msds_EN Guanzhi.docx",
+        "source_type": "docx",
+        "sha256": "fdb339c38558ab95efa733a392bc89cef48f10ccbdfe60d219c4617dd3d32625",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-fdb339c38558ab95.json"
+    },
+    {
+      "item_id": "SRC-9061332598f6f836",
+      "source": {
+        "name": "OS-8503 msds_CN 冠志.docx",
+        "source_type": "docx",
+        "sha256": "9061332598f6f83643c946f321260fa606cb447ae90ea538f590768e9b9b5ead",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "MISMATCH"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          },
+          {
+            "code": "table_wrapper_not_normalized",
+            "message": "文档 XML 中存在未被 python-docx 顶层表格集合识别的嵌套或包装表格；原始 XML 已保留。",
+            "normalized_count": 16,
+            "source_count": 17
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "content",
+          "render",
+          "structure"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-9061332598f6f836.json"
+    },
+    {
+      "item_id": "SRC-c6937c9b8642c2d9",
+      "source": {
+        "name": "AMP-95 msds-CN-冠志.docx",
+        "source_type": "docx",
+        "sha256": "c6937c9b8642c2d91afc7f42653a34348387cc67ca0ecd022750379401f5a5df",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-c6937c9b8642c2d9.json"
+    },
+    {
+      "item_id": "SRC-a4f6551519812488",
+      "source": {
+        "name": "AMP-95 tds_CN 冠志.doc",
+        "source_type": "doc",
+        "sha256": "a4f65515198124881b1808eb934024b70da2cd90875e92ca1e3d5431c151f228",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 1,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 1,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-a4f6551519812488.json"
+    },
+    {
+      "source": {
+        "bytes": 405504,
+        "extension": ".doc",
+        "family": "GZ",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\7 水性助剂 OS等\\GZ-080 tds_CN 冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/7 水性助剂 OS等/GZ-080 tds_CN 冠志.doc",
+        "sha256": "e9417a3fa10caeaffe26fece5fad33fd699bc19c5676415d144996770cff2f7d"
+      },
+      "status": "BLOCKED",
+      "error": "NotImplementedError: "
+    },
+    {
+      "source": {
+        "bytes": 20959,
+        "extension": ".docx",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\7 水性助剂 OS等\\OS-1030 tds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/7 水性助剂 OS等/OS-1030 tds_CN 冠志.docx",
+        "sha256": "ff1efdb630545eba5ab18bf6bfd04432fbc60e79b24081cfe845f32f1533bccf"
+      },
+      "status": "BLOCKED",
+      "error": "NotImplementedError: "
+    },
+    {
+      "source": {
+        "bytes": 392704,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\7 水性助剂 OS等\\OS-12020 tds_CN 冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/7 水性助剂 OS等/OS-12020 tds_CN 冠志.doc",
+        "sha256": "09645d2035e01a7c67ba275751cb0bc0bcc3e70953d3a33a98eacee7bd7d1e45"
+      },
+      "status": "BLOCKED",
+      "error": "NotImplementedError: "
+    },
+    {
+      "item_id": "SRC-36891870786ba3f3",
+      "source": {
+        "name": "OS-1411 msds_EN 冠志.docx",
+        "source_type": "docx",
+        "sha256": "36891870786ba3f3d791bdc0f16067c506063fe7525bfc051874e74fc8381932",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-36891870786ba3f3.json"
+    },
+    {
+      "item_id": "SRC-15d548dd6e19398a",
+      "source": {
+        "name": "OS-1411 msds_EN 国彩.docx",
+        "source_type": "docx",
+        "sha256": "15d548dd6e19398a1ed4d5f4a90d5996d8137b08268ef86b2afff8fb81ced722",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-15d548dd6e19398a.json"
+    },
+    {
+      "item_id": "SRC-14564084936d7883",
+      "source": {
+        "name": "OS-1615 msds_CN 国彩.docx",
+        "source_type": "docx",
+        "sha256": "14564084936d7883b7a3b1e816dd7335d3d9a213615a3a5a40eee74fd955a8a8",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-14564084936d7883.json"
+    },
+    {
+      "item_id": "SRC-75baa74b1149d12a",
+      "source": {
+        "name": "OS-6020 msds_CN 冠志.docx",
+        "source_type": "docx",
+        "sha256": "75baa74b1149d12af191c89d7f6eccb1192dc711967fa5ca39f6aaae39b9904c",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-75baa74b1149d12a.json"
+    },
+    {
+      "item_id": "SRC-458bb0fe50a9a7d5",
+      "source": {
+        "name": "OS-6040 tds_CN 冠志.doc",
+        "source_type": "doc",
+        "sha256": "458bb0fe50a9a7d55cceae4fe2da8a3d8de46700fb749a1624db1d574bd141a3",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 1,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 1,
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 1
+        },
+        "table_count": 1,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-458bb0fe50a9a7d5.json"
+    },
+    {
+      "item_id": "SRC-b209bf72d17070d9",
+      "source": {
+        "name": "OS-8950 tds_EN Guanzhi.doc",
+        "source_type": "doc",
+        "sha256": "b209bf72d17070d96775e79610ac8894542f6749faca46801d8f74b4d2f09148",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-b209bf72d17070d9.json"
+    },
+    {
+      "item_id": "SRC-1aabb02489f6ae5d",
+      "source": {
+        "name": "OS-8970 tds_CN 国彩.doc",
+        "source_type": "doc",
+        "sha256": "1aabb02489f6ae5d602ed1a17ed515051362c9b5b1c9c2831f58f7a42c881684",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 1,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-1aabb02489f6ae5d.json"
+    },
+    {
+      "item_id": "SRC-dfd545f843b1896d",
+      "source": {
+        "name": "冠志TDS FB-805.doc",
+        "source_type": "doc",
+        "sha256": "dfd545f843b1896df6d57b287e4aa2044b62e3b109125cf51a921ec997ca5530",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 3
+        },
+        "table_count": 2,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-dfd545f843b1896d.json"
+    },
+    {
+      "item_id": "SRC-1a7c4d78d8337eea",
+      "source": {
+        "name": "冠志TDS FB810St.doc",
+        "source_type": "doc",
+        "sha256": "1a7c4d78d8337eeacbbae8afc45e33b4d915ccca49b18c9afabeab69560edf97",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 2
+        },
+        "table_count": 1,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-1a7c4d78d8337eea.json"
+    },
+    {
+      "item_id": "SRC-f29d183484710af9",
+      "source": {
+        "name": "HPU-7711A msds_CN 国彩.docx",
+        "source_type": "docx",
+        "sha256": "f29d183484710af9cc99490eca105722bbf021cfa1a9bd9524a3f8ea0e0ce88f",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "MISMATCH",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 0,
+        "blocking_dimensions": [
+          "content",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-f29d183484710af9.json"
+    },
+    {
+      "item_id": "SRC-a65c3535cf977444",
+      "source": {
+        "name": "OS-8802 msds_EN Guocai.docx",
+        "source_type": "docx",
+        "sha256": "a65c3535cf9774446eeaa5323a57e69c4124b3580b8e07297ef20405161c1893",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "PARTIAL",
+          "images": "PASS",
+          "package": "PASS",
+          "render": "UNAVAILABLE",
+          "structure": "PASS"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:instrText",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 2,
+          "1": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1
+        },
+        "table_count": 18,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-a65c3535cf977444.json"
+    },
+    {
+      "item_id": "SRC-e30e2b5b11b3c8a6",
+      "source": {
+        "name": "OS-8802G tds_CN Guanzhi.doc",
+        "source_type": "doc",
+        "sha256": "e30e2b5b11b3c8a69c3f84cecb7e2f571fb7a810439b9c571c490e3b1813920a",
+        "path": null
+      },
+      "quality": {
+        "overall": "PARTIAL",
+        "dimensions": {
+          "content": "PARTIAL",
+          "formatting": "UNAVAILABLE",
+          "images": "PARTIAL",
+          "package": "UNAVAILABLE",
+          "render": "UNAVAILABLE",
+          "structure": "PARTIAL"
+        },
+        "warnings": [
+          {
+            "code": "source_ooxml_not_normalized",
+            "count": 2,
+            "element": "w:pict",
+            "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+          }
+        ],
+        "section_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "unclassified": 1
+        },
+        "table_count": 1,
+        "image_count": 1,
+        "blocking_dimensions": [
+          "formatting",
+          "package",
+          "render"
+        ]
+      },
+      "path": "E:\\AI APP\\Codex\\openspec\\changes\\agent-structured-recognition-channel\\structured-100\\items\\SRC-e30e2b5b11b3c8a6.json"
+    }
+  ],
+  "counts": {
+    "PARTIAL": 96,
+    "BLOCKED": 4
+  }
+}

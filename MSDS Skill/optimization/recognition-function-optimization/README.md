@@ -10,6 +10,8 @@ read-only corpus root and its SHA-256 manifest.
 
 - `programs/` — packaged copies of the batch benchmark and maintained reader.
 - `tests/` — focused recognition/hash/VML-image regression tests.
+- `schema/` — versioned Agent import schema.
+- `examples/` — representative structured Agent record.
 - `manifests/` — corpus, environment, sample and regression-ledger evidence.
 - `reports/` — smoke analysis and the provisioned mixed-format benchmark.
 - `docs/` — replay and maintenance instructions.
@@ -43,6 +45,19 @@ python scripts/recognition_benchmark.py `
 
 Use `--dry-run` to regenerate only a deterministic sample manifest. Never use
 the corpus directory as `--workspace`.
+
+After a benchmark, emit Agent records with:
+
+```powershell
+python scripts/agent_structured_output.py `
+  --workspace OUT `
+  --output OUT/agent-structured
+```
+
+The `agent-recognition-v1` schema preserves Section 0–16 records, stable
+table/cell/segment/image locators, raw evidence references, hashes, warnings,
+and completeness status. A 100-item structured import manifest is included in
+`manifests/agent-import-manifest-100.json`.
 
 ## Verification boundary
 
