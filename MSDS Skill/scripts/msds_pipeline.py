@@ -428,39 +428,49 @@ def align_note_section_rows(values, table) -> list:
     return notes + [[""]] * max(0, note_slots - len(notes)) + endpoints
 
 
-def _s9_property_key(text: object) -> str | None:
+_S9_ALIASES = (
+    ("appearance", "外观", "外观", "appearance"),
+    ("odour_threshold", "嗅觉阈值", "嗅觉阀值", "odourthreshold"),
+    ("ph", "ph值", "ph"),
+    ("initial_boiling_point", "初沸点", "initialboilingpoint"),
+    ("flash_point", "闪点", "flashpoint"),
+    ("evaporation_rate", "蒸发速率", "evaporationrate"),
+    ("flammability", "可燃性固态气态", "可燃性", "flammability"),
+    ("heat_of_combustion", "燃烧值", "heatofcombustion"),
+    ("saturated_vapour_pressure", "饱和蒸气压", "saturatedvapourpressure"),
+    ("relative_vapour_density", "相对蒸气密度", "relativevapourdensity"),
+    ("density", "相对密度", "密度", "density"),
+    ("ionicity", "离子性", "ionicity"),
+    ("water_solubility", "水溶性", "solubilityinwater"),
+    ("surface_tension", "表面张力", "surfacetension"),
+    ("log_pow", "辛醇水分配系数对数值", "辛醇水分配系数的对数值", "logpow"),
+    ("auto_ignition_temperature", "自燃温度", "autoignitiontemperature"),
+    ("ignition_temperature", "引燃温度", "ignitiontemperature"),
+    ("decomposition_temperature", "分解温度", "decompositiontemperature"),
+    ("dynamic_viscosity", "动力粘度", "动力黏度", "粘度", "黏度", "viscosity"),
+    ("explosive_properties", "爆炸特性", "爆炸极限", "explosiveproperties", "explosionlimits"),
+    ("melting_point", "熔点", "meltingpoint", "freezingpoint"),
+    ("dust_explosion_class", "粉尘爆炸级别", "粉尘爆炸等级", "dustexplosionclass"),
+    ("solid_content", "固体含量", "solidcontent"),
+    ("other_information", "其他信息", "otherinformation"),
+)
+
+
+def _s9_property_all_keys(text: object) -> list[str]:
     value = unicodedata.normalize("NFKC", str(text or "")).casefold()
     value = re.sub(r"^\s*9\.\d+\s*", "", value)
     value = re.sub(r"[\s:：()（）\[\]【】%％/／_-]+", "", value)
-    aliases = (
-        ("appearance", "外观", "外观", "appearance"),
-        ("odour_threshold", "嗅觉阈值", "嗅觉阀值", "odourthreshold"),
-        ("ph", "ph值", "ph"),
-        ("initial_boiling_point", "初沸点", "initialboilingpoint"),
-        ("flash_point", "闪点", "flashpoint"),
-        ("evaporation_rate", "蒸发速率", "evaporationrate"),
-        ("flammability", "可燃性固态气态", "可燃性", "flammability"),
-        ("heat_of_combustion", "燃烧值", "heatofcombustion"),
-        ("saturated_vapour_pressure", "饱和蒸气压", "saturatedvapourpressure"),
-        ("relative_vapour_density", "相对蒸气密度", "relativevapourdensity"),
-        ("density", "相对密度", "密度", "density"),
-        ("ionicity", "离子性", "ionicity"),
-        ("water_solubility", "水溶性", "solubilityinwater"),
-        ("surface_tension", "表面张力", "surfacetension"),
-        ("log_pow", "辛醇水分配系数对数值", "辛醇水分配系数的对数值", "logpow"),
-        ("auto_ignition_temperature", "自燃温度", "autoignitiontemperature"),
-        ("ignition_temperature", "引燃温度", "ignitiontemperature"),
-        ("decomposition_temperature", "分解温度", "decompositiontemperature"),
-        ("dynamic_viscosity", "动力粘度", "动力黏度", "粘度", "黏度", "viscosity"),
-        ("dust_explosion_class", "粉尘爆炸级别", "粉尘爆炸等级", "dustexplosionclass"),
-        ("solid_content", "固体含量", "solidcontent"),
-        ("other_information", "其他信息", "otherinformation"),
-    )
-    for key, *candidates in aliases:
+    matched = []
+    for key, *candidates in _S9_ALIASES:
         if any(re.sub(r"[\s:：()（）\[\]【】%％/／_-]+", "", candidate.casefold()) in value
                for candidate in candidates):
-            return key
-    return None
+            matched.append(key)
+    return matched
+
+
+def _s9_property_key(text: object) -> str | None:
+    keys = _s9_property_all_keys(text)
+    return keys[0] if keys else None
 
 
 def _s3_structural_label(text: object) -> bool:
@@ -476,17 +486,19 @@ def align_s3_rows(values, table) -> list[list[str]]:
     template_rows = list(table.rows)[1:]
     if len(template_rows) < 3:
         return rows
-    product_row = rows[0] if rows and not _s3_structural_label(rows[0][0]) else []
+    has_product_row = bool(rows and not _s3_structural_label(rows[0][0]))
+    product_row = (list(rows[0]) + ["", ""])[:3] if has_product_row else []
     if not product_row:
         product_cells = unique_cells(template_rows[0])
         product_row = [product_cells[0].text, "", ""]
-    component_candidates = rows[1:] if product_row and rows and rows[0] is product_row else rows
+    component_candidates = rows[1:] if has_product_row else rows
     components = [row[:3] for row in component_candidates
                   if len(row) >= 3 and str(row[0] or "").strip()
                   and not _s3_structural_label(row[0])]
     structural = []
     for template_row in template_rows[1:3]:
-        structural.append([cell.text for cell in unique_cells(template_row)])
+        structural.append([(cell.text or "") for cell in unique_cells(template_row)])
+    structural = [(list(r) + ["", ""])[:3] for r in structural]
     return [product_row[:3], *structural, *components]
 
 
@@ -511,8 +523,8 @@ def align_s9_rows(values, table) -> list[list[str]]:
             continue
         source_value = str(value or "").strip()
         for value_line in source_value.splitlines():
-            embedded_key = _s9_property_key(value_line)
-            if embedded_key and embedded_key != key:
+            embedded_keys = _s9_property_all_keys(value_line)
+            if embedded_keys and key not in embedded_keys:
                 raise ValueError(
                     f"Section 9 property {label!r} contains a separate property "
                     f"{value_line.strip()!r}; map each property to its own row"

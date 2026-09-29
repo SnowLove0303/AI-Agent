@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "available_modes": [
+    "full",
+    "hotfix",
+    "tweak",
+    "quick",
+    "lightweight"
+  ],
+  "facts": {
+    "task_count": 14,
+    "file_count": 80,
+    "config_doc_only": "yes",
+    "schema_api_change": "no",
+    "new_module": "no",
+    "behavioral_constraint_change": "no",
+    "cross_module_change": "no",
+    "uncertainty": "high",
+    "request_kind": "standard",
+    "affected_paths": [
+      "TDS MSDS 预处理"
+    ],
+    "exclusion_checks": {
+      "production_behavior": "no",
+      "public_boundary": "no",
+      "installer": "no",
+      "state_machine": "no",
+      "external_side_effect": "no",
+      "data_permission_config_semantics": "no",
+      "expected_behavior_clear": "yes",
+      "verification_reproducible": "yes",
+      "impact_paths_complete": "yes"
+    }
+  },
+  "missing_facts": [],
+  "status": "ready",
+  "recommendation": {
+    "mode": "full",
+    "reasons": [
+      "Risk signals require the user to choose Quick or Full."
+    ],
+    "risk_reasons": [
+      "high uncertainty"
+    ]
+  },
+  "created_at": "2026-09-24T02:44:36.759Z",
+  "selection": {
+    "mode": "full",
+    "reason": "User explicitly selected Full on 2026-09-24; original request covers 4 models, 64 deliverables, source preservation, eight-format overwrite, and workbook completion marks.",
+    "followed_recommendation": true,
+    "acknowledged_non_recommendation": false,
+    "accepted_automatically": false,
+    "risk_override": false,
+    "verification_strategy": null,
+    "scope_confirmation": null,
+    "verification_result": null,
+    "escalation_reason": null,
+    "confirmed_at": "2026-09-24T02:47:22.881Z",
+    "selected_at": "2026-09-24T02:47:22.881Z"
+  },
+  "hash": "sha256:b519ad878274146b1a0a3e72b0567c53e2ecb5f994902eae86b457f9a4a4f3f4"
+}

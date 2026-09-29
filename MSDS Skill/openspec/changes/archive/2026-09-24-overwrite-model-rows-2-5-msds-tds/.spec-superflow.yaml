@@ -1,0 +1,46 @@
+# .spec-superflow.yaml — lightweight state machine
+# Derived data. Always rebuildable from artifacts. Lost/corrupt → fall back to content-level detection.
+
+# === Core state ===
+state: approved-for-build
+workflow: full
+revision: 1
+
+# === Hashes (fast staleness detection) ===
+artifacts_hash: sha256:ee5895a04f773c83a7e1217da622d1a63d7b17c0d35fac1b9cb3889572e96496
+contract_hash: sha256:f2a3ba4f79cb2c31dc4ef7cafaf083f050e693566bced7c2bc27cfbbed35e649
+
+# === Execution progress ===
+execution_mode: sdd
+execution_plan_hash: sha256:5d392a87209450dc82e9ea95e823de03c2d4a9e8abded5e68ae078e03ee50666
+execution_plan_revision: 1
+batches_completed: 0
+test_result: null
+spec_merged: false
+spec_publication_receipt: null
+
+# === Metadata ===
+change_name: overwrite-model-rows-2-5-msds-tds
+last_transition: 2026-09-24T02:54:09.693Z
+last_transition_from: bridging
+last_transition_to: approved-for-build
+
+# === Decision points ===
+dp_0_decisions: artifact_language=Chinese; workflow_path=full; intent=按型号数据库序号2-5，对应AMP-95、BEK-100L、BEK-200、BEK-200L，分别从TDS MSDS预处理的精确型号目录读取一份MSDS和一份TDS源文件，生成每型号16份八格式覆写成品；约束=保留原始源文件，输出写入各自覆写输出目录，所有16份通过对应审计后才在型号表最后一列写已覆写；范围=仅处理序号2-5，不改其他型号/历史成品；优化=保持范围聚焦，不引入额外优化；沟通=先自主完成可验证工作，只有页数门槛/事实证据等真实阻塞需用户决策时再询问。
+dp_0_result: confirmed
+dp_0_confirmed: true
+dp_0_timestamp: 2026-09-24T02:45:00Z
+dp_1_result: null
+dp_1_timestamp: null
+dp_2_result: null
+dp_2_timestamp: null
+dp_3_result: approved: user approved the exact execution-contract.md scope and all stated release gates on 2026-09-24
+dp_3_timestamp: 2026-09-24T03:05:00Z
+dp_4_result: sdd: plan revision 1; user-confirmed; Carry out the user-approved Full batch with two serial waves and review gates; use the Superflow-recommended SDD mode for the dependent 64-deliverable scope.
+dp_4_timestamp: 2026-09-24T02:52:53.681Z
+dp_5_result: null
+dp_5_timestamp: null
+dp_6_result: null
+dp_6_timestamp: null
+dp_7_result: null
+dp_7_timestamp: null

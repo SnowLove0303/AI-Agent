@@ -17,6 +17,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import sys
 import tempfile
 import time
 from pathlib import Path
@@ -25,10 +26,92 @@ from typing import Any
 from evidence_packet import prepare_packet
 from msds_pipeline import ReleaseBlocked, build_matrix
 from preflight_facts import run as run_preflight
+from scaffold_evidence_packet import scaffold_facts
 from source_ingest import SourceSelectionError, discover_source
 
 
-WORKFLOW_SCHEMA_VERSION = "3.26.0"
+WORKFLOW_SCHEMA_VERSION = "3.28.0"
+
+
+def check_runtime_environment(*, require_gui: bool = False,
+                              allow_embedded: bool = False,
+                 preflight_only: bool = False) -> dict[str, Any]:
+    """Verify that Python interpreter is standard and has required core libraries.
+
+    Catches embedded LibreOffice/third-party runtimes that lack standard GUI/doc
+    processing capabilities, providing actionable guidance.
+    """
+    executable = sys.executable or ""
+    is_embedded = any(
+        marker in executable.lower()
+        for marker in ("libreoffice", "soffice", "openoffice")
+    )
+    has_tkinter = False
+    try:
+        import tkinter  # noqa: F401
+        has_tkinter = True
+    except Exception:
+        has_tkinter = False
+
+    issues = []
+    if is_embedded:
+        issues.append(
+            f"Detected embedded office interpreter ({executable}). "
+            "Please execute using standard system Python 3.12+ (e.g., `py -3.12` or `run_msds.bat`)."
+        )
+    if require_gui and not has_tkinter:
+        issues.append(
+            "Tkinter is not available in the current Python environment. "
+            "Desktop GUI and visual review require a standard Python installation with Tkinter."
+        )
+
+    if issues:
+        warning_msg = "; ".join(issues)
+        if is_embedded and not allow_embedded:
+            raise RuntimeError(warning_msg)
+        return {
+            "status": "warning",
+            "executable": executable,
+            "has_tkinter": has_tkinter,
+            "issues": issues,
+            "warning": warning_msg,
+        }
+
+    return {
+        "status": "ok",
+        "executable": executable,
+        "python_version": sys.version.split()[0],
+        "has_tkinter": has_tkinter,
+    }
+
+
+def _record_stage_timing(ledger_path: Path, stage: str, started_at: float,
+                         ended_at: float, status: str,
+                         details: dict[str, Any] | None = None) -> None:
+    """Record active execution stage timing to timing-stage-ledger.json."""
+    ledger: dict[str, Any] = {"version": "1.0.0", "stages": []}
+    if ledger_path.exists():
+        try:
+            ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+            if not isinstance(ledger.get("stages"), list):
+                ledger["stages"] = []
+        except Exception:
+            ledger = {"version": "1.0.0", "stages": []}
+
+    duration = max(0.0, ended_at - started_at)
+    record = {
+        "stage": stage,
+        "started_at_epoch": started_at,
+        "ended_at_epoch": ended_at,
+        "duration_seconds": round(duration, 4),
+        "status": status,
+        "details": details or {},
+    }
+    ledger["stages"].append(record)
+    ledger["total_duration_seconds"] = round(
+        sum(float(s.get("duration_seconds", 0.0)) for s in ledger["stages"]), 4
+    )
+    _write_json_atomic(ledger_path, ledger)
 
 
 def _write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
@@ -97,29 +180,44 @@ def _packet_stage(packet: dict[str, Any], reused: bool) -> dict[str, Any]:
 
 
 def run_workflow(*, source: Path, workspace: Path, model: str | None = None,
-                 facts: Path | None = None, no_pdf: bool = False,
-                 timeout: int = 300, pdf_workers: int = 2,
+                 facts: Path | None = None, auto_scaffold: bool = False,
+                 no_pdf: bool = False, timeout: int = 300, pdf_workers: int = 2,
                  wpscli: str | None = None, family_profile: Path | None = None,
                  revision: str | None = None, agent_review_seconds: float | None = None,
                  human_wait_seconds: float | None = None, retry_count: int = 0,
-                 docx_preview_dir: Path | None = None) -> dict[str, Any]:
+                 docx_preview_dir: Path | None = None,
+                 allow_embedded: bool = False,
+                 preflight_only: bool = False) -> dict[str, Any]:
     """Run or resume the safe workflow and return its checkpoint report."""
+    env_info = check_runtime_environment(allow_embedded=allow_embedded)
+
     workspace = Path(workspace).expanduser().resolve()
     workspace.mkdir(parents=True, exist_ok=True)
     source = Path(source).expanduser()
     cache_dir = workspace / ".msds_cache"
     packet_path = workspace / "evidence-packet.json"
     state_path = workspace / "workflow-state.json"
+    timing_ledger_path = workspace / "timing-stage-ledger.json"
+
     state = _base_state(
         workspace=workspace, source=source, model=model,
         cache_dir=cache_dir, packet_path=packet_path,
     )
+    state["environment"] = env_info
     _save_state(state, state_path)
 
+    evidence_start = time.time()
     selected = discover_source(source, model=model)
     packet, reused = prepare_packet(
         selected.original_path, packet_path, model=model, cache_dir=cache_dir,
     )
+    evidence_end = time.time()
+    _record_stage_timing(
+        timing_ledger_path, "evidence", evidence_start, evidence_end,
+        "reused" if reused else "ready",
+        {"source_format": selected.source_format, "sha256": selected.source_sha256}
+    )
+
     state["source"] = {
         "path": str(selected.original_path),
         "format": selected.source_format,
@@ -128,7 +226,25 @@ def run_workflow(*, source: Path, workspace: Path, model: str | None = None,
     state["stages"]["evidence"] = _packet_stage(packet, reused)
     _save_state(state, state_path)
 
+    if facts is None and auto_scaffold:
+        scaffold_start = time.time()
+        scaffold_path = workspace / "scaffolded-facts.json"
+        scaffolded = scaffold_facts(packet, model=model, source_path=selected.original_path)
+        _write_json_atomic(scaffold_path, scaffolded)
+        scaffold_end = time.time()
+        _record_stage_timing(
+            timing_ledger_path, "scaffold", scaffold_start, scaffold_end, "completed",
+            {"scaffolded_facts": str(scaffold_path)}
+        )
+        facts = scaffold_path
+        state["stages"]["scaffold"] = {
+            "status": "generated",
+            "path": str(scaffold_path),
+        }
+        _save_state(state, state_path)
+
     if facts is None:
+        review_start = time.time()
         state["status"] = "awaiting_review"
         state["stages"]["review"] = {
             "status": "required",
@@ -136,6 +252,10 @@ def run_workflow(*, source: Path, workspace: Path, model: str | None = None,
             "next_action": "create reviewed approved facts JSON from facts_draft",
         }
         _save_state(state, state_path)
+        _record_stage_timing(
+            timing_ledger_path, "review", review_start, time.time(), "awaiting_review",
+            {"next_action": state["stages"]["review"]["next_action"]}
+        )
         return {
             "outcome": "EVIDENCE_PACKET_REUSED" if reused else "EVIDENCE_PACKET_READY",
             "status": state["status"],
@@ -143,6 +263,7 @@ def run_workflow(*, source: Path, workspace: Path, model: str | None = None,
             "state": str(state_path),
             "review_summary": packet.get("review_summary", {}),
             "next_action": state["stages"]["review"]["next_action"],
+            "timing_ledger": str(timing_ledger_path),
         }
 
     facts = Path(facts).expanduser().resolve()
@@ -154,6 +275,7 @@ def run_workflow(*, source: Path, workspace: Path, model: str | None = None,
     }
     _save_state(state, state_path)
 
+    preflight_start = time.time()
     preflight_path = workspace / "preflight.json"
     try:
         preflight = run_preflight(
@@ -163,6 +285,13 @@ def run_workflow(*, source: Path, workspace: Path, model: str | None = None,
     except (OSError, json.JSONDecodeError, ValueError, RuntimeError) as exc:
         preflight = {"status": "blocked", "errors": [str(exc)]}
     _write_json_atomic(preflight_path, preflight)
+    preflight_end = time.time()
+    _record_stage_timing(
+        timing_ledger_path, "preflight", preflight_start, preflight_end,
+        preflight.get("status", "blocked"),
+        {"error_count": len(preflight.get("errors") or [])}
+    )
+
     state["stages"]["preflight"] = {
         "status": "passed" if preflight.get("status") == "ready" else "blocked",
         "report": str(preflight_path),
@@ -181,8 +310,22 @@ def run_workflow(*, source: Path, workspace: Path, model: str | None = None,
             "preflight": str(preflight_path),
             "state": str(state_path),
             "errors": preflight.get("errors", []),
+            "timing_ledger": str(timing_ledger_path),
         }
 
+    if preflight_only:
+        state["status"] = "preflight_ready"
+        _save_state(state, state_path)
+        return {
+            "outcome": "PREFLIGHT_PASS",
+            "status": "ready",
+            "preflight": str(preflight_path),
+            "state": str(state_path),
+            "errors": [],
+            "timing_ledger": str(timing_ledger_path),
+        }
+
+    build_start = time.time()
     try:
         facts_payload = _read_json(facts)
         output_root = workspace / "output"
@@ -205,6 +348,11 @@ def run_workflow(*, source: Path, workspace: Path, model: str | None = None,
         )
     except (OSError, json.JSONDecodeError, FileNotFoundError, ReleaseBlocked,
             SourceSelectionError, ValueError, RuntimeError) as exc:
+        build_end = time.time()
+        _record_stage_timing(
+            timing_ledger_path, "build", build_start, build_end, "failed",
+            {"error": str(exc)}
+        )
         state["status"] = "release_failed"
         state["stages"]["build"] = {
             "status": "failed",
@@ -216,7 +364,18 @@ def run_workflow(*, source: Path, workspace: Path, model: str | None = None,
             "status": state["status"],
             "state": str(state_path),
             "error": str(exc),
+            "timing_ledger": str(timing_ledger_path),
         }
+
+    build_end = time.time()
+    _record_stage_timing(
+        timing_ledger_path, "build", build_start, build_end, "passed",
+        {
+            "docx_count": report.get("docx_count"),
+            "pdf_count": report.get("pdf_count"),
+            "timing": report.get("timing"),
+        }
+    )
 
     state["status"] = "release_pass"
     state["stages"]["build"] = {
@@ -235,6 +394,7 @@ def run_workflow(*, source: Path, workspace: Path, model: str | None = None,
         "docx_count": report.get("docx_count"),
         "pdf_count": report.get("pdf_count"),
         "timing": report.get("timing"),
+        "timing_ledger": str(timing_ledger_path),
     }
 
 
@@ -250,6 +410,12 @@ def main() -> int:
     parser.add_argument("--model", default=None)
     parser.add_argument("--facts", type=Path,
                         help="reviewed approved facts JSON; omit to stop at review checkpoint")
+    parser.add_argument("--auto-scaffold", action="store_true",
+                        help="auto-generate preflight-compliant scaffolded facts if --facts is omitted")
+    parser.add_argument("--preflight-only", action="store_true",
+                        help="stop after preflight validation without executing build_matrix")
+    parser.add_argument("--allow-embedded", action="store_true",
+                        help="permit execution under embedded office Python interpreters")
     parser.add_argument("--family-profile", type=Path, default=None)
     parser.add_argument("--revision", default=None)
     parser.add_argument("--no-pdf", action="store_true")
@@ -264,12 +430,15 @@ def main() -> int:
     try:
         result = run_workflow(
             source=args.source, workspace=args.workspace, model=args.model,
-            facts=args.facts, no_pdf=args.no_pdf, timeout=args.timeout,
+            facts=args.facts, auto_scaffold=args.auto_scaffold,
+            no_pdf=args.no_pdf, timeout=args.timeout,
             pdf_workers=args.pdf_workers, wpscli=args.wpscli,
             family_profile=args.family_profile, revision=args.revision,
             agent_review_seconds=args.agent_review_seconds,
             human_wait_seconds=args.human_wait_seconds,
             retry_count=args.retry_count, docx_preview_dir=args.docx_preview_dir,
+            allow_embedded=args.allow_embedded,
+            preflight_only=args.preflight_only,
         )
     except (OSError, json.JSONDecodeError, SourceSelectionError, ValueError,
             RuntimeError) as exc:
@@ -278,7 +447,7 @@ def main() -> int:
         return 1
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0 if result.get("outcome") in {
-        "EVIDENCE_PACKET_READY", "EVIDENCE_PACKET_REUSED", "RELEASE_PASS"
+        "EVIDENCE_PACKET_READY", "EVIDENCE_PACKET_REUSED", "RELEASE_PASS", "PREFLIGHT_PASS"
     } else 1
 
 

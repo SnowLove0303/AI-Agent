@@ -2,8 +2,9 @@
 """Source-pictogram extraction and insertion helpers.
 
 The source DOCX remains the authority for a supplied pictogram.  This helper
-copies the first embedded raster image into the cloned template's existing
-Section 2 pictogram cell without rebuilding tables or changing cell geometry.
+copies embedded raster images into the cloned template's existing
+Section 2 pictogram cell in a single run without rebuilding tables, adding blank
+spacers, or changing cell geometry.
 """
 from __future__ import annotations
 
@@ -25,14 +26,22 @@ _NS = {
 }
 
 
-def extract_first_embedded_image(source_docx: str | Path) -> tuple[str, bytes]:
+def extract_all_embedded_images(source_docx: str | Path) -> list[tuple[str, bytes]]:
+    """Extract all embedded raster images from the source DOCX."""
     source = Path(source_docx)
     with zipfile.ZipFile(source) as archive:
-        names = sorted(name for name in archive.namelist() if name.startswith("word/media/") and not name.endswith("/"))
-        if not names:
-            raise ValueError(f"source DOCX contains no embedded image: {source}")
-        name = names[0]
-        return Path(name).name, archive.read(name)
+        names = sorted(
+            name for name in archive.namelist()
+            if name.startswith("word/media/") and not name.endswith("/")
+        )
+        return [(Path(name).name, archive.read(name)) for name in names]
+
+
+def extract_first_embedded_image(source_docx: str | Path) -> tuple[str, bytes]:
+    images = extract_all_embedded_images(source_docx)
+    if not images:
+        raise ValueError(f"source DOCX contains no embedded image: {source_docx}")
+    return images[0]
 
 
 def _source_image_width_inches(source_docx: str | Path, image_name: str) -> float | None:
@@ -83,42 +92,65 @@ def _source_image_width_inches(source_docx: str | Path, image_name: str) -> floa
 
 def insert_source_pictogram(document, source_docx: str | Path,
                             width_inches: float | None = None) -> dict:
-    """Insert the source's first embedded image into the cloned S2 pictogram row."""
-    name, payload = extract_first_embedded_image(source_docx)
-    source_width = _source_image_width_inches(source_docx, name)
-    width_inches = width_inches or source_width or DEFAULT_PICTOGRAM_WIDTH_INCHES
-    if width_inches <= 0:
-        raise ValueError("pictogram width must be positive")
+    """Insert the source's embedded pictogram image(s) into the cloned S2 pictogram row in a single run."""
+    images = extract_all_embedded_images(source_docx)
+    if not images:
+        raise ValueError(f"source DOCX contains no embedded image: {source_docx}")
+
     row = document.tables[1].rows[4]
     cell = row.cells[-1]
     if not cell.paragraphs:
         paragraph = cell.add_paragraph()
     else:
         paragraph = cell.paragraphs[0]
+
     saved_rpr = None
     for existing in paragraph.runs:
         if existing._r.rPr is not None:
             saved_rpr = deepcopy(existing._r.rPr)
             break
+
     for child in list(paragraph._p):
         if child.tag != "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}pPr":
             paragraph._p.remove(child)
+
     run = paragraph.add_run()
     if saved_rpr is not None:
         run._r.append(saved_rpr)
-    run.add_picture(io.BytesIO(payload), width=Inches(width_inches))
+
+    is_multi = len(images) > 1
+    max_w = 0.8 if is_multi else (width_inches or DEFAULT_PICTOGRAM_WIDTH_INCHES)
+
+    inserted_images = []
+    for name, payload in images:
+        source_width = _source_image_width_inches(source_docx, name)
+        img_width = min(source_width or max_w, max_w)
+        if img_width <= 0:
+            img_width = DEFAULT_PICTOGRAM_WIDTH_INCHES
+        run.add_picture(io.BytesIO(payload), width=Inches(img_width))
+        inserted_images.append({
+            "name": name,
+            "bytes": len(payload),
+            "width_inches": img_width,
+        })
+
+    first_name = images[0][0]
+    first_payload = images[0][1]
     return {
-        "source_image_name": name,
-        "source_image_bytes": len(payload),
-        "source_width_inches": source_width,
-        "target_width_inches": width_inches,
+        "source_image_name": first_name,
+        "source_image_bytes": len(first_payload),
+        "source_width_inches": inserted_images[0]["width_inches"],
+        "target_width_inches": inserted_images[0]["width_inches"],
         "target_table": 1,
         "target_row": 4,
+        "image_count": len(inserted_images),
+        "all_images": inserted_images,
     }
 
 
 __all__ = [
     "DEFAULT_PICTOGRAM_WIDTH_INCHES",
+    "extract_all_embedded_images",
     "extract_first_embedded_image",
     "insert_source_pictogram",
 ]

@@ -36,8 +36,8 @@ S8_PPE_ALIASES = {
     "iir": ("丁基橡胶-iir", "丁基橡胶–iir", "butyl rubber-iir", "butyl rubber – iir"),
     "nbr": ("丁腈橡胶-nbr", "丁腈橡胶–nbr", "nitrile rubber-nbr", "nitrile rubber – nbr"),
     "recommendation": ("建议", "recommendation"),
-    "eye": ("眼睛防护", "眼部防护", "eye protection"),
-    "body": ("身体防护", "身体保护", "body protection"),
+    "eye": ("眼睛防护", "眼部防护", "eye protection", "eye/face protection", "eye / face protection", "eye face protection", "eye and face protection"),
+    "body": ("身体防护", "身体保护", "body protection", "skin and body protection", "skin/body protection"),
 }
 
 S8_PPE_LABELS = {
@@ -69,7 +69,7 @@ S8_PPE_LABELS = {
 def _compact(text: object) -> str:
     value = unicodedata.normalize("NFKC", str(text or "")).casefold()
     value = value.replace("：", ":")
-    value = re.sub(r"[\s:;,，；。]+", "", value)
+    value = re.sub(r"[\s:;,，；。/\\-]+", "", value)
     value = value.replace("–", "-").replace("—", "-")
     return value
 

@@ -29,28 +29,37 @@ _ROUTE_ALIASES = {
     "急性经口毒性": "oral",
     "oral": "oral",
     "acute oral toxicity": "oral",
+    "acutetoxicityoral": "oral",
+    "acute toxicity - oral": "oral",
     "吸入": "inhalation",
     "吸入性": "inhalation",
     "急性吸入毒性": "inhalation",
     "inhalation": "inhalation",
     "acute inhalation toxicity": "inhalation",
+    "acutetoxicityinhalation": "inhalation",
+    "acute toxicity - inhalation": "inhalation",
     "经皮": "dermal",
     "皮肤": "dermal",
     "急性经皮毒性": "dermal",
     "dermal": "dermal",
     "acute dermal toxicity": "dermal",
+    "acutetoxicitydermal": "dermal",
+    "acute toxicity - dermal": "dermal",
 }
 
 _CHILD_ALIASES = {
     "生育力": "fertility",
     "fertility": "fertility",
+    "reproductivetoxicity生育力": "fertility",
     "致畸形": "teratogenicity",
     "致畸": "teratogenicity",
     "胚胎": "teratogenicity",
     "teratogenicity": "teratogenicity",
+    "reproductivetoxicity致畸形": "teratogenicity",
     "体外遗传毒性": "in_vitro_genotoxicity",
     "体外基因毒性": "in_vitro_genotoxicity",
     "invitrogenotoxicity": "in_vitro_genotoxicity",
+    "in vitro genotoxicity": "in_vitro_genotoxicity",
 }
 
 
@@ -89,16 +98,16 @@ def _endpoint_number(label: object) -> int | None:
     aliases = (
         (1, ("急性毒性", "急性经口毒性", "急性吸入毒性", "急性经皮毒性",
              "acutetoxicity", "acute oral toxicity", "acute inhalation toxicity",
-             "acute dermal toxicity")),
-        (2, ("主要皮肤刺激性", "皮肤刺激", "primaryskinirritation")),
-        (3, ("主要眼睛刺激性", "主要粘膜刺激性", "原发性粘膜刺激", "眼睛刺激", "primaryeyeirritation")),
-        (4, ("致敏性", "sensitization")),
-        (5, ("致突变性", "mutagenicity", "genotoxicity")),
+             "acute dermal toxicity", "acutetoxicityoral", "acutetoxicitydermal", "acutetoxicityinhalation")),
+        (2, ("主要皮肤刺激性", "皮肤刺激", "primaryskinirritation", "skincorrosionirritation", "skincorrosion", "skinirritation", "原发性皮肤刺激")),
+        (3, ("主要眼睛刺激性", "主要粘膜刺激性", "原发性粘膜刺激", "眼睛刺激", "primaryeyeirritation", "seriouseyedamage", "seriouseyedamageeyeirritation", "eyeirritation")),
+        (4, ("致敏性", "sensitization", "sensitisation", "respiratoryorskinsensitisation")),
+        (5, ("致突变性", "mutagenicity", "genotoxicity", "invivogenotoxicity", "基因毒性", "体内基因毒性", "体内遗传毒性")),
         (6, ("致癌性", "carcinogenicity")),
-        (7, ("生殖毒性", "reproductivetoxicity")),
-        (8, ("特异性靶器官", "特异性靶器官系统毒性", "specifictargetorgantoxicity")),
-        (9, ("吸入危险", "aspirationhazard")),
-        (10, ("附加信息", "其他信息", "additionalinformation")),
+        (7, ("生殖毒性", "reproductivetoxicity", "invitrogenotoxicity", "体外遗传毒性", "体外基因毒性", "遗传毒性", "生育力", "致畸形")),
+        (8, ("特异性靶器官", "特异性靶器官系统毒性", "specifictargetorgantoxicity", "stot", "stotassessment", "亚急性", "亚慢性", "延迟毒性")),
+        (9, ("吸入危险", "吸入危害", "aspirationhazard")),
+        (10, ("附加信息", "其他信息", "additionalinformation", "cmr", "cmrassessment")),
     )
     for endpoint, candidates in aliases:
         if any(_compact(candidate) in text for candidate in candidates):

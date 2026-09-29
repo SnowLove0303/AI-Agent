@@ -77,6 +77,58 @@ except ImportError:  # pragma: no cover
 from msds_table_search import read_file as recognize_source_gui  # noqa: E402
 
 
+class SemanticMaster:
+    """Synchronized intermediate model binding source facts to template slots,
+
+    Chinese values, English translations, and presence decisions.
+    """
+
+    def __init__(self, items: list[dict[str, Any]] | None = None) -> None:
+        self.items = list(items or [])
+
+    def add_entry(self, *, slot_id: str, source_fact_id: str, source_section: str,
+                  zh_value: str, en_value: str, presence_decision: str = "written",
+                  source_locator: str = "", line_break_policy: str = "preserve_logical_lines",
+                  evidence_type: str = "approved_translation") -> None:
+        self.items.append({
+            "slot_id": slot_id,
+            "source_fact_id": source_fact_id,
+            "source_section": source_section,
+            "source_locator": source_locator,
+            "zh_value": zh_value,
+            "en_value": en_value,
+            "presence_decision": presence_decision,
+            "line_break_policy": line_break_policy,
+            "evidence_type": evidence_type,
+            "review_status": "reviewed",
+        })
+
+    def inherit_translations(self, en_overrides: dict[str, str] | None = None) -> None:
+        """Allow English values to inherit reviewed slot bindings and update translations."""
+        en_map = en_overrides or {}
+        for item in self.items:
+            slot = item["slot_id"]
+            if slot in en_map:
+                item["en_value"] = en_map[slot]
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "spec_id": "MSDS-SEMANTIC-MASTER-001",
+            "spec_version": "1.0.0",
+            "status": "reviewed",
+            "items": self.items,
+        }
+
+
+def blank_semantic_master() -> dict[str, Any]:
+    return {
+        "spec_id": "MSDS-SEMANTIC-MASTER-001",
+        "spec_version": "1.0.0",
+        "status": "needs-review",
+        "items": [],
+    }
+
+
 MODEL_RE = re.compile(r"\b([A-Z]{1,4}-\d{3,4}[A-Z0-9]*)\b")
 CAS_RE = re.compile(r"\b\d{2,7}-\d{2}-\d\b")
 # Do not use a broad ``label`` match here: ``GHS Label Elements`` is a
@@ -660,7 +712,10 @@ def extract_pairs(table, ext: Extraction, section: str) -> list:
         cells = row_texts(table, index)
         label = cells[0] if cells else ""
         value = cells[1] if len(cells) > 1 else ""
-        rows.append([label, value])
+        if not label.strip() and value.strip() and rows:
+            rows[-1][1] = f"{rows[-1][1]}\n{value}".strip()
+        else:
+            rows.append([label, value])
     return rows
 
 
@@ -1043,10 +1098,12 @@ def source_mapping_draft(sections: dict, control_parameters: list,
         return "verbatim_single_line"
 
     def text_value(value: object) -> str:
+        if isinstance(value, bool):
+            return ""
         if isinstance(value, dict):
             return "\n".join(text_value(item) for item in value.values() if text_value(item))
         if isinstance(value, (list, tuple)):
-            return "\n".join(text_value(item) for item in value if text_value(item))
+            return "\n".join(text_value(item) for item in value if not isinstance(item, bool) and text_value(item))
         return str(value or "").strip()
 
     def add(section: str, locator: str, value: object, target_slot: str | None = None,
@@ -1452,6 +1509,7 @@ def _extract_docx(source: Path, *, original_source: Path | None = None,
         "source_recognition": recognition,
         "fact_ledger": fact_ledger,
         "output_traceability": blank_output_traceability(source_hash),
+        "semantic_master": blank_semantic_master(),
         "images": images,
         "coverage": coverage,
         "sections_en_skeleton": extract_en_skeleton(sections, s3_data),

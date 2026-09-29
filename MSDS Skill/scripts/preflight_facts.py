@@ -9,6 +9,9 @@ import tempfile
 from pathlib import Path
 import sys
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from family_profile import FamilyProfileError, review_profile  # noqa: E402
@@ -109,20 +112,29 @@ def main() -> int:
     source_group.add_argument("--source-dir", type=Path)
     parser.add_argument("--facts", required=True, type=Path)
     parser.add_argument("--model", default=None)
+    parser.add_argument("--family-profile", default=None, type=Path)
+    parser.add_argument("--cache-dir", default=None, type=Path)
+    parser.add_argument("--preflight-report", default=None, type=Path)
     parser.add_argument("--out", type=Path, default=None)
-    parser.add_argument("--family-profile", type=Path, default=None)
-    parser.add_argument("--cache-dir", type=Path, default=None)
     args = parser.parse_args()
+
     try:
         result = run(
             args.source or args.source_dir, args.facts, args.model,
-            family_profile=args.family_profile, cache_dir=args.cache_dir,
+            family_profile=args.family_profile,
+            cache_dir=args.cache_dir,
         )
-    except (OSError, json.JSONDecodeError, SourceSelectionError, ValueError, RuntimeError) as blocked:
-        errors = [str(blocked)]
-        result = {"status": "blocked", "errors": errors, "blockers": errors}
-    if args.out is not None:
-        _write_json_atomic(args.out, result)
+    except (OSError, json.JSONDecodeError, SourceSelectionError, ValueError, RuntimeError) as exc:
+        result = {
+            "status": "blocked",
+            "errors": [str(exc)],
+            "blockers": [str(exc)],
+            "template_clone_started": False,
+            "pdf_converter_started": False,
+        }
+    report_target = args.preflight_report or args.out
+    if report_target is not None:
+        _write_json_atomic(Path(report_target), result)
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0 if result.get("status") == "ready" else 1
 

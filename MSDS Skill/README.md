@@ -1,4 +1,11 @@
-# MSDS Skill 3.27.16
+# MSDS Skill 3.28.0
+
+V3.28.0 implements the OpenSpec efficiency reconstruction overhaul. It introduces
+automated preflight evidence scaffolding (`--auto-scaffold`), reducing cold-start
+blockers from 280+ to 0 (`PREFLIGHT_PASS`); a synchronized `SemanticMaster` intermediate
+model for bilingual alignment and Word continuation-row preservation; compact
+multi-pictogram single-run layout embedding; a Python runtime environment shield and
+dedicated launchers (`run_msds.bat` / `run_msds.ps1`); and stage timing telemetry.
 
 V3.27.16 fixes the circular pre-clone SOP gate and packages the validated GUI
 recognition reader. It keeps Section 9 source-backed qualifiers and independent
@@ -62,7 +69,7 @@ Read [`SKILL.md`](SKILL.md) for the operating contract. The reusable scripts, te
 
 ## Version
 
-Public release: `MSDS Skill 3.27.16`
+Public release: `MSDS Skill 3.28.0`
 
 PU-3011 performance and recognition study reports are retained in the source
 repository at [`docs/performance-studies/PU-3011/`](docs/performance-studies/PU-3011/)

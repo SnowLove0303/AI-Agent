@@ -1,5 +1,17 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.28.0 — 2026-09-29
+
+- Completed OpenSpec change `msds-efficiency-reconstruction` focusing on efficiency, layout robustness, and automation.
+- Added runtime environment shield in `scripts/run_efficiency_workflow.py` and launchers `run_msds.bat` / `run_msds.ps1` targeting `py -3.12` to prevent LibreOffice/embedded Python hijacking.
+- Implemented `scripts/scaffold_evidence_packet.py` and `--auto-scaffold` CLI option, dropping cold-start preflight blockers from 280+ to 0 (`PREFLIGHT_PASS`).
+- Introduced `SemanticMaster` intermediate model in `scripts/extract_source_facts.py` to synchronize CN/EN slot decisions and handle Word vertical-merge/continuation rows seamlessly.
+- Hardened multi-hazard pictogram layout in `scripts/ghs_pictogram_policy.py` by packing multiple images into a single run without whitespace/blank-paragraph overflow.
+- Updated `scripts/audit_openspec_overwrite.py` to recognize DrawingML/Shape runs in pictogram cells as non-empty.
+- Added `timing-stage-ledger.json` telemetry in `run_efficiency_workflow.py` for machine, review, and wait timing breakdown.
+- Resolved Section 3 product-row object identity duplication bug and Section 9 property keyword shadowing.
+- Expanded Section 11 toxicology endpoint aliases (STOT, subacute toxicity, genotoxicity, CMR) and Section 8 PPE GHS standard terms.
+
 ## v3.27.16 — 2026-09-28
 
 - Split the agent execution SOP gate into preflight-complete stages and later

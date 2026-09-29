@@ -94,7 +94,11 @@ def audit_empty_value_rows(document, context=None) -> list[dict]:
                 values = [cells[-1].text.strip()]
             else:
                 values = [cell.text.strip() for cell in cells[1:]]
-            if not any(values) and not _is_allowed_blank_value(table_index, row_index, label):
+            has_drawing = any(
+                bool(c._tc.xpath(".//w:drawing") or c._tc.xpath(".//w:pict"))
+                for c in cells[1:]
+            )
+            if not any(values) and not has_drawing and not _is_allowed_blank_value(table_index, row_index, label):
                 problems.append({
                     "type": "empty_value_row_remains",
                     "table": table_index,

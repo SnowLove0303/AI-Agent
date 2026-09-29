@@ -4,6 +4,8 @@ import json
 import sys
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
@@ -81,3 +83,26 @@ def test_passed_preflight_calls_formal_build_once(tmp_path, monkeypatch):
     state = json.loads((tmp_path / "run" / "workflow-state.json").read_text(encoding='utf-8'))
     assert state["status"] == "release_pass"
     assert state["stages"]["build"]["status"] == "passed"
+
+
+def test_runtime_environment_shield_catches_embedded(monkeypatch):
+    monkeypatch.setattr(sys, "executable", r"C:\Program Files\LibreOffice\program\python.exe")
+    with pytest.raises(RuntimeError, match="Detected embedded office interpreter"):
+        workflow.check_runtime_environment()
+
+    # When allow_embedded=True, it reports warning instead of raising
+    report = workflow.check_runtime_environment(allow_embedded=True)
+    assert report["status"] == "warning"
+    assert any("embedded office" in issue for issue in report["issues"])
+
+
+def test_stage_timing_ledger_emission(tmp_path):
+    result = workflow.run_workflow(
+        source=SOURCE, workspace=tmp_path / "run", model="HPU-7660"
+    )
+    ledger_file = tmp_path / "run" / "timing-stage-ledger.json"
+    assert ledger_file.exists()
+    ledger = json.loads(ledger_file.read_text(encoding="utf-8"))
+    assert ledger["version"] == "1.0.0"
+    assert any(s["stage"] == "evidence" for s in ledger["stages"])
+    assert any(s["stage"] == "review" for s in ledger["stages"])
