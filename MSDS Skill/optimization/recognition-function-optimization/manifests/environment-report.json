@@ -1,0 +1,15 @@
+{
+  "schema": "recognition-environment-v1",
+  "captured_at": "2026-09-29T12:24:08.1736961Z",
+  "python_version": "3.12.10",
+  "packages": {
+    "pdfplumber": "0.11.10",
+    "pypdfium2": "5.13.0",
+    "pywin32": "312",
+    "python_docx": "1.2.0"
+  },
+  "word_com": "PASS Word COM 14.0",
+  "wps_com": "PASS WPS COM 14.0",
+  "corpus_root": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)",
+  "notes": "Dependencies installed into active Python; native COM automation available"
+}

@@ -1,0 +1,40 @@
+[
+  {
+    "kind": "docx",
+    "source": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2304 tds_CN 冠志.docx",
+    "exists": true,
+    "recognition": "PASS",
+    "records": 3,
+    "warnings": [],
+    "native_render": "PASS"
+  },
+  {
+    "kind": "doc",
+    "source": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\5 水性光固化树脂 UV\\UV-5100 TDS_EN 国彩.doc",
+    "exists": true,
+    "recognition": "PASS",
+    "records": 2,
+    "warnings": [
+      {
+        "code": "source_ooxml_not_normalized",
+        "element": "w:pict",
+        "count": 1,
+        "message": "元素原样保存在 source_ooxml 中，当前标准化文本视图未解析该元素。"
+      }
+    ],
+    "native_render": "PASS"
+  },
+  {
+    "kind": "pdf",
+    "source": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\8 复配树脂、涂料、涂饰剂 RU&RA\\RU-10102 msds_CN 冠志.pdf",
+    "exists": true,
+    "recognition": "PASS",
+    "records": 22,
+    "warnings": [
+      {
+        "code": "pdf_format_inference_limited",
+        "message": "PDF 不包含 Word 段落/字符样式语义；text_layout 保留可提取的字词位置、字体名和字号，原始 PDF 页面预览作为版式依据。"
+      }
+    ]
+  }
+]

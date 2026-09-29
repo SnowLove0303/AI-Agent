@@ -1,0 +1,3261 @@
+{
+  "comparator_version": "recognition-comparator-v1",
+  "counts": {
+    "BLOCKED": 2,
+    "COMPLETE": 28
+  },
+  "ledger": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\regression-ledger.json",
+  "manifest": {
+    "extensions": [
+      ".doc",
+      ".docx",
+      ".pdf"
+    ],
+    "schema_version": "recognition-benchmark-v1",
+    "seed": 20260929,
+    "selected": [
+      {
+        "bytes": 252275,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-1036 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-1036 msds_CN 冠志.pdf",
+        "sha256": "fd5feab2c922b1816b45b5700b60001b52d7e8653c78dc4a360728c21bc57cbc"
+      },
+      {
+        "bytes": 174385,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-1036 tds_EN Guocai.pdf",
+        "relative_path": "TDS MSDS/TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-1036 tds_EN Guocai.pdf",
+        "sha256": "8fdb110436aa3fc438c2b3b281bce1e710568e39eb1213831c28c4bcbf95478d"
+      },
+      {
+        "bytes": 109729,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2836 tds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-2836 tds_CN 国彩.pdf",
+        "sha256": "2497d1dd08aafb7b58db6f36b179bf8de31af8c0c42fffdfee122a0dfcfc4642"
+      },
+      {
+        "bytes": 116283,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-3911 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-3911 tds_CN 冠志.pdf",
+        "sha256": "ab64a0225602092fd5b147fc41dd9076c60e01203ccce4541cd75c6f7b12e32c"
+      },
+      {
+        "bytes": 224627,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-608 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-608 msds_CN 冠志.pdf",
+        "sha256": "aded2ef2e8defb73cd1c574c38a766a708d4e91a29f8a26a77eea5b172bf7442"
+      },
+      {
+        "bytes": 121994,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\6-1 水分散型异氰酸酯固化剂 OS\\OS-9012 tds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/6-1 水分散型异氰酸酯固化剂 OS/OS-9012 tds_CN 国彩.pdf",
+        "sha256": "f6d19467e0ab43f04bcf635f59e3978d989c188298e3494e602eefdc0c6ddbaf"
+      },
+      {
+        "bytes": 236214,
+        "extension": ".pdf",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8128W msds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8128W msds_CN 国彩.pdf",
+        "sha256": "44444f3257eaea3816ec441b97e60bb11c8bb8c0edaf60c8ddf177b68710cf94"
+      },
+      {
+        "bytes": 119705,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\7 水性助剂 OS等\\OS-405 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/7 水性助剂 OS等/OS-405 tds_CN 冠志.pdf",
+        "sha256": "0a76abfcaa3e01228c9522bcc8d4c47384c7d9997fc18ded532d5ae4f26dc646"
+      },
+      {
+        "bytes": 190967,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\7 水性助剂 OS等\\OS-406 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/7 水性助剂 OS等/OS-406 tds_CN 冠志.pdf",
+        "sha256": "68515f0d11f749d6ce46acfa8d02149ba123bafa26a2a9e204a48d57f517c554"
+      },
+      {
+        "bytes": 217869,
+        "extension": ".pdf",
+        "family": "RU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\8 复配树脂、涂料、涂饰剂 RU&RA\\RU-10102 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/8 复配树脂、涂料、涂饰剂 RU&RA/RU-10102 msds_CN 冠志.pdf",
+        "sha256": "ccc824c413193e03bae01df92fda9e5836f38e41088e385a269f0ff9bd3f26ac"
+      },
+      {
+        "bytes": 16312,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2801 tds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-2801 tds_CN 国彩.docx",
+        "sha256": "0d44700fa16de4268a2a539518199581349385ca8df32c0e49408186a996a32f"
+      },
+      {
+        "bytes": 49154,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2835 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-2835 msds_CN 国彩.docx",
+        "sha256": "23fbfc9ece54f3baa56168182e5e2b4ba9600cbbb37cd4213cb95bfde5271a3d"
+      },
+      {
+        "bytes": 35659,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-3822 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-3822 msds_CN 国彩.docx",
+        "sha256": "8b600e7277d53e59db31160118021a2a9037ef0e62eaaf9298e0828a02621650"
+      },
+      {
+        "bytes": 26112,
+        "extension": ".doc",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-6026 tds_EN Guocai.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-6026 tds_EN Guocai.doc",
+        "sha256": "d1d443595d9ba5e0e19dd3789015916bdf7a9e1f0540ec6d8aa5c8ae9e40e100"
+      },
+      {
+        "bytes": 115712,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-2 水性羟基丙烯酸乳液 PA\\PA-4778 msds_CN冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-2 水性羟基丙烯酸乳液 PA/PA-4778 msds_CN冠志.doc",
+        "sha256": "b1f1381e158f945ec12258b0b5a6922667c698e5c81662a481e93edf88b1bedb"
+      },
+      {
+        "bytes": 41472,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-2 水性羟基丙烯酸乳液 PA\\PA-4817 tds_CN 冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-2 水性羟基丙烯酸乳液 PA/PA-4817 tds_CN 冠志.doc",
+        "sha256": "99963c225c6c8197045604530b4c9176d8a45febf58a71eaa00c0e154f338840"
+      },
+      {
+        "bytes": 31506,
+        "extension": ".docx",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-3332 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-3332 msds_CN 冠志.docx",
+        "sha256": "3e752aef93a785eca7c93c6e4be0ce5beed1befeeaf90e088210a70c9ecdfbc0"
+      },
+      {
+        "bytes": 23040,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-4895 tds_CN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-4895 tds_CN 国彩.doc",
+        "sha256": "2f2e229362b6abd6d7ffa113efac70d78eaccf8b9834d35e35c22897563a2881"
+      },
+      {
+        "bytes": 48634,
+        "extension": ".docx",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-4896 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-4896 msds_CN 冠志.docx",
+        "sha256": "298cc0e0bdb4ce68bf6ed2d098110aefe83f0cf1f6534e403436513537525702"
+      },
+      {
+        "bytes": 94486,
+        "extension": ".doc",
+        "family": "EP",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\4-1 水性环氧树脂 EP\\EP-1705 msds_EN 冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/4-1 水性环氧树脂 EP/EP-1705 msds_EN 冠志.doc",
+        "sha256": "6347012a885a36d63f1197e49e81817b584a3e1db8f23dc898a5eeeed53f7457"
+      },
+      {
+        "bytes": 23552,
+        "extension": ".doc",
+        "family": "UV",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\5 水性光固化树脂 UV\\UV-5100 TDS_EN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/5 水性光固化树脂 UV/UV-5100 TDS_EN 国彩.doc",
+        "sha256": "4bafca23c6b6b656d00675930bb18e1c7e3e33669d3f79c4779aa0306cabe655"
+      },
+      {
+        "bytes": 24980,
+        "extension": ".docx",
+        "family": "UV",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\5 水性光固化树脂 UV\\UV-5242 tds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/5 水性光固化树脂 UV/UV-5242 tds_CN 冠志.docx",
+        "sha256": "d3768d9d960e98a094567382f4b991ec324e0559940ae02442703f251b6c5252"
+      },
+      {
+        "bytes": 29696,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-1 水分散型异氰酸酯固化剂 OS\\OS-9016 tds_EN Guocai.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-1 水分散型异氰酸酯固化剂 OS/OS-9016 tds_EN Guocai.doc",
+        "sha256": "a5c9fd477d0b1216d23464f479b33a1ad7a36e0133ed8a22c3d82dc07301eb04"
+      },
+      {
+        "bytes": 33628,
+        "extension": ".docx",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8146\\中文版\\BL-8146 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8146/中文版/BL-8146 msds_CN 冠志.docx",
+        "sha256": "e153fd7ad59716248fb5f6a9fda90ea4ac328935c4c0efef7ca72738001de146"
+      },
+      {
+        "bytes": 33422,
+        "extension": ".docx",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8166 tds msds 中英文版\\中文版\\BL-8166 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8166 tds msds 中英文版/中文版/BL-8166 msds_CN 冠志.docx",
+        "sha256": "0cbb732b21a212072e14cf0d0767b6054eca272804f2905d55baa8d017a6e63c"
+      },
+      {
+        "bytes": 20959,
+        "extension": ".docx",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\7 水性助剂 OS等\\OS-1030 tds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/7 水性助剂 OS等/OS-1030 tds_CN 冠志.docx",
+        "sha256": "ff1efdb630545eba5ab18bf6bfd04432fbc60e79b24081cfe845f32f1533bccf"
+      },
+      {
+        "bytes": 392704,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\7 水性助剂 OS等\\OS-12020 tds_CN 冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/7 水性助剂 OS等/OS-12020 tds_CN 冠志.doc",
+        "sha256": "09645d2035e01a7c67ba275751cb0bc0bcc3e70953d3a33a98eacee7bd7d1e45"
+      },
+      {
+        "bytes": 29586,
+        "extension": ".docx",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\7 水性助剂 OS等\\OS-1615 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/7 水性助剂 OS等/OS-1615 msds_CN 国彩.docx",
+        "sha256": "2c8fe0aeb0377ae20be06a7a17460ce285734739b1a94599f445638e43d8c1b6"
+      },
+      {
+        "bytes": 24064,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\水性噁唑啉交联剂\\OS-8970 tds_CN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/水性噁唑啉交联剂/OS-8970 tds_CN 国彩.doc",
+        "sha256": "f00eb3cb0a7d042206bb3e586f1991d20391df709cb7180b45993484b3c8846b"
+      },
+      {
+        "bytes": 28160,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\非水性无溶剂产品\\OS-8802G tds_CN Guanzhi.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/非水性无溶剂产品/OS-8802G tds_CN Guanzhi.doc",
+        "sha256": "0b7015dbfe245fceea676030c98a75f2396154295a0fff704f2779c4a945fca0"
+      }
+    ],
+    "source_root": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)"
+  },
+  "regressions": [
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "fd5feab2c922b1816b45b5700b60001b52d7e8653c78dc4a360728c21bc57cbc|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 252275,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-1036 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-1036 msds_CN 冠志.pdf",
+        "sha256": "fd5feab2c922b1816b45b5700b60001b52d7e8653c78dc4a360728c21bc57cbc"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "fd5feab2c922b1816b45b5700b60001b52d7e8653c78dc4a360728c21bc57cbc|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 252275,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-1036 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-1036 msds_CN 冠志.pdf",
+        "sha256": "fd5feab2c922b1816b45b5700b60001b52d7e8653c78dc4a360728c21bc57cbc"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "fd5feab2c922b1816b45b5700b60001b52d7e8653c78dc4a360728c21bc57cbc|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 252275,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-1036 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-1036 msds_CN 冠志.pdf",
+        "sha256": "fd5feab2c922b1816b45b5700b60001b52d7e8653c78dc4a360728c21bc57cbc"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "fd5feab2c922b1816b45b5700b60001b52d7e8653c78dc4a360728c21bc57cbc|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 252275,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-1036 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-1036 msds_CN 冠志.pdf",
+        "sha256": "fd5feab2c922b1816b45b5700b60001b52d7e8653c78dc4a360728c21bc57cbc"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "fd5feab2c922b1816b45b5700b60001b52d7e8653c78dc4a360728c21bc57cbc|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 252275,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-1036 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-1036 msds_CN 冠志.pdf",
+        "sha256": "fd5feab2c922b1816b45b5700b60001b52d7e8653c78dc4a360728c21bc57cbc"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "fd5feab2c922b1816b45b5700b60001b52d7e8653c78dc4a360728c21bc57cbc|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 252275,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-1036 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-1036 msds_CN 冠志.pdf",
+        "sha256": "fd5feab2c922b1816b45b5700b60001b52d7e8653c78dc4a360728c21bc57cbc"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "8fdb110436aa3fc438c2b3b281bce1e710568e39eb1213831c28c4bcbf95478d|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 174385,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-1036 tds_EN Guocai.pdf",
+        "relative_path": "TDS MSDS/TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-1036 tds_EN Guocai.pdf",
+        "sha256": "8fdb110436aa3fc438c2b3b281bce1e710568e39eb1213831c28c4bcbf95478d"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "8fdb110436aa3fc438c2b3b281bce1e710568e39eb1213831c28c4bcbf95478d|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 174385,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-1036 tds_EN Guocai.pdf",
+        "relative_path": "TDS MSDS/TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-1036 tds_EN Guocai.pdf",
+        "sha256": "8fdb110436aa3fc438c2b3b281bce1e710568e39eb1213831c28c4bcbf95478d"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "8fdb110436aa3fc438c2b3b281bce1e710568e39eb1213831c28c4bcbf95478d|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 174385,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-1036 tds_EN Guocai.pdf",
+        "relative_path": "TDS MSDS/TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-1036 tds_EN Guocai.pdf",
+        "sha256": "8fdb110436aa3fc438c2b3b281bce1e710568e39eb1213831c28c4bcbf95478d"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "8fdb110436aa3fc438c2b3b281bce1e710568e39eb1213831c28c4bcbf95478d|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 174385,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-1036 tds_EN Guocai.pdf",
+        "relative_path": "TDS MSDS/TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-1036 tds_EN Guocai.pdf",
+        "sha256": "8fdb110436aa3fc438c2b3b281bce1e710568e39eb1213831c28c4bcbf95478d"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "8fdb110436aa3fc438c2b3b281bce1e710568e39eb1213831c28c4bcbf95478d|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 174385,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-1036 tds_EN Guocai.pdf",
+        "relative_path": "TDS MSDS/TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-1036 tds_EN Guocai.pdf",
+        "sha256": "8fdb110436aa3fc438c2b3b281bce1e710568e39eb1213831c28c4bcbf95478d"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "8fdb110436aa3fc438c2b3b281bce1e710568e39eb1213831c28c4bcbf95478d|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 174385,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-1036 tds_EN Guocai.pdf",
+        "relative_path": "TDS MSDS/TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-1036 tds_EN Guocai.pdf",
+        "sha256": "8fdb110436aa3fc438c2b3b281bce1e710568e39eb1213831c28c4bcbf95478d"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "2497d1dd08aafb7b58db6f36b179bf8de31af8c0c42fffdfee122a0dfcfc4642|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 109729,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2836 tds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-2836 tds_CN 国彩.pdf",
+        "sha256": "2497d1dd08aafb7b58db6f36b179bf8de31af8c0c42fffdfee122a0dfcfc4642"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "2497d1dd08aafb7b58db6f36b179bf8de31af8c0c42fffdfee122a0dfcfc4642|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 109729,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2836 tds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-2836 tds_CN 国彩.pdf",
+        "sha256": "2497d1dd08aafb7b58db6f36b179bf8de31af8c0c42fffdfee122a0dfcfc4642"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "2497d1dd08aafb7b58db6f36b179bf8de31af8c0c42fffdfee122a0dfcfc4642|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 109729,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2836 tds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-2836 tds_CN 国彩.pdf",
+        "sha256": "2497d1dd08aafb7b58db6f36b179bf8de31af8c0c42fffdfee122a0dfcfc4642"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "2497d1dd08aafb7b58db6f36b179bf8de31af8c0c42fffdfee122a0dfcfc4642|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 109729,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2836 tds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-2836 tds_CN 国彩.pdf",
+        "sha256": "2497d1dd08aafb7b58db6f36b179bf8de31af8c0c42fffdfee122a0dfcfc4642"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "2497d1dd08aafb7b58db6f36b179bf8de31af8c0c42fffdfee122a0dfcfc4642|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 109729,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2836 tds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-2836 tds_CN 国彩.pdf",
+        "sha256": "2497d1dd08aafb7b58db6f36b179bf8de31af8c0c42fffdfee122a0dfcfc4642"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "2497d1dd08aafb7b58db6f36b179bf8de31af8c0c42fffdfee122a0dfcfc4642|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 109729,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2836 tds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-2836 tds_CN 国彩.pdf",
+        "sha256": "2497d1dd08aafb7b58db6f36b179bf8de31af8c0c42fffdfee122a0dfcfc4642"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "ab64a0225602092fd5b147fc41dd9076c60e01203ccce4541cd75c6f7b12e32c|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 116283,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-3911 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-3911 tds_CN 冠志.pdf",
+        "sha256": "ab64a0225602092fd5b147fc41dd9076c60e01203ccce4541cd75c6f7b12e32c"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "ab64a0225602092fd5b147fc41dd9076c60e01203ccce4541cd75c6f7b12e32c|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 116283,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-3911 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-3911 tds_CN 冠志.pdf",
+        "sha256": "ab64a0225602092fd5b147fc41dd9076c60e01203ccce4541cd75c6f7b12e32c"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "ab64a0225602092fd5b147fc41dd9076c60e01203ccce4541cd75c6f7b12e32c|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 116283,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-3911 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-3911 tds_CN 冠志.pdf",
+        "sha256": "ab64a0225602092fd5b147fc41dd9076c60e01203ccce4541cd75c6f7b12e32c"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "ab64a0225602092fd5b147fc41dd9076c60e01203ccce4541cd75c6f7b12e32c|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 116283,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-3911 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-3911 tds_CN 冠志.pdf",
+        "sha256": "ab64a0225602092fd5b147fc41dd9076c60e01203ccce4541cd75c6f7b12e32c"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "ab64a0225602092fd5b147fc41dd9076c60e01203ccce4541cd75c6f7b12e32c|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 116283,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-3911 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-3911 tds_CN 冠志.pdf",
+        "sha256": "ab64a0225602092fd5b147fc41dd9076c60e01203ccce4541cd75c6f7b12e32c"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "ab64a0225602092fd5b147fc41dd9076c60e01203ccce4541cd75c6f7b12e32c|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 116283,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-3911 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-3911 tds_CN 冠志.pdf",
+        "sha256": "ab64a0225602092fd5b147fc41dd9076c60e01203ccce4541cd75c6f7b12e32c"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "aded2ef2e8defb73cd1c574c38a766a708d4e91a29f8a26a77eea5b172bf7442|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 224627,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-608 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-608 msds_CN 冠志.pdf",
+        "sha256": "aded2ef2e8defb73cd1c574c38a766a708d4e91a29f8a26a77eea5b172bf7442"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "aded2ef2e8defb73cd1c574c38a766a708d4e91a29f8a26a77eea5b172bf7442|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 224627,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-608 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-608 msds_CN 冠志.pdf",
+        "sha256": "aded2ef2e8defb73cd1c574c38a766a708d4e91a29f8a26a77eea5b172bf7442"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "aded2ef2e8defb73cd1c574c38a766a708d4e91a29f8a26a77eea5b172bf7442|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 224627,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-608 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-608 msds_CN 冠志.pdf",
+        "sha256": "aded2ef2e8defb73cd1c574c38a766a708d4e91a29f8a26a77eea5b172bf7442"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "aded2ef2e8defb73cd1c574c38a766a708d4e91a29f8a26a77eea5b172bf7442|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 224627,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-608 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-608 msds_CN 冠志.pdf",
+        "sha256": "aded2ef2e8defb73cd1c574c38a766a708d4e91a29f8a26a77eea5b172bf7442"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "aded2ef2e8defb73cd1c574c38a766a708d4e91a29f8a26a77eea5b172bf7442|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 224627,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-608 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-608 msds_CN 冠志.pdf",
+        "sha256": "aded2ef2e8defb73cd1c574c38a766a708d4e91a29f8a26a77eea5b172bf7442"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "aded2ef2e8defb73cd1c574c38a766a708d4e91a29f8a26a77eea5b172bf7442|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 224627,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-608 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-608 msds_CN 冠志.pdf",
+        "sha256": "aded2ef2e8defb73cd1c574c38a766a708d4e91a29f8a26a77eea5b172bf7442"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "f6d19467e0ab43f04bcf635f59e3978d989c188298e3494e602eefdc0c6ddbaf|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 121994,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\6-1 水分散型异氰酸酯固化剂 OS\\OS-9012 tds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/6-1 水分散型异氰酸酯固化剂 OS/OS-9012 tds_CN 国彩.pdf",
+        "sha256": "f6d19467e0ab43f04bcf635f59e3978d989c188298e3494e602eefdc0c6ddbaf"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "f6d19467e0ab43f04bcf635f59e3978d989c188298e3494e602eefdc0c6ddbaf|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 121994,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\6-1 水分散型异氰酸酯固化剂 OS\\OS-9012 tds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/6-1 水分散型异氰酸酯固化剂 OS/OS-9012 tds_CN 国彩.pdf",
+        "sha256": "f6d19467e0ab43f04bcf635f59e3978d989c188298e3494e602eefdc0c6ddbaf"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "f6d19467e0ab43f04bcf635f59e3978d989c188298e3494e602eefdc0c6ddbaf|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 121994,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\6-1 水分散型异氰酸酯固化剂 OS\\OS-9012 tds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/6-1 水分散型异氰酸酯固化剂 OS/OS-9012 tds_CN 国彩.pdf",
+        "sha256": "f6d19467e0ab43f04bcf635f59e3978d989c188298e3494e602eefdc0c6ddbaf"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "f6d19467e0ab43f04bcf635f59e3978d989c188298e3494e602eefdc0c6ddbaf|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 121994,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\6-1 水分散型异氰酸酯固化剂 OS\\OS-9012 tds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/6-1 水分散型异氰酸酯固化剂 OS/OS-9012 tds_CN 国彩.pdf",
+        "sha256": "f6d19467e0ab43f04bcf635f59e3978d989c188298e3494e602eefdc0c6ddbaf"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "f6d19467e0ab43f04bcf635f59e3978d989c188298e3494e602eefdc0c6ddbaf|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 121994,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\6-1 水分散型异氰酸酯固化剂 OS\\OS-9012 tds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/6-1 水分散型异氰酸酯固化剂 OS/OS-9012 tds_CN 国彩.pdf",
+        "sha256": "f6d19467e0ab43f04bcf635f59e3978d989c188298e3494e602eefdc0c6ddbaf"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "f6d19467e0ab43f04bcf635f59e3978d989c188298e3494e602eefdc0c6ddbaf|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 121994,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\6-1 水分散型异氰酸酯固化剂 OS\\OS-9012 tds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/6-1 水分散型异氰酸酯固化剂 OS/OS-9012 tds_CN 国彩.pdf",
+        "sha256": "f6d19467e0ab43f04bcf635f59e3978d989c188298e3494e602eefdc0c6ddbaf"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "44444f3257eaea3816ec441b97e60bb11c8bb8c0edaf60c8ddf177b68710cf94|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 236214,
+        "extension": ".pdf",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8128W msds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8128W msds_CN 国彩.pdf",
+        "sha256": "44444f3257eaea3816ec441b97e60bb11c8bb8c0edaf60c8ddf177b68710cf94"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "44444f3257eaea3816ec441b97e60bb11c8bb8c0edaf60c8ddf177b68710cf94|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 236214,
+        "extension": ".pdf",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8128W msds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8128W msds_CN 国彩.pdf",
+        "sha256": "44444f3257eaea3816ec441b97e60bb11c8bb8c0edaf60c8ddf177b68710cf94"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "44444f3257eaea3816ec441b97e60bb11c8bb8c0edaf60c8ddf177b68710cf94|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 236214,
+        "extension": ".pdf",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8128W msds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8128W msds_CN 国彩.pdf",
+        "sha256": "44444f3257eaea3816ec441b97e60bb11c8bb8c0edaf60c8ddf177b68710cf94"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "44444f3257eaea3816ec441b97e60bb11c8bb8c0edaf60c8ddf177b68710cf94|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 236214,
+        "extension": ".pdf",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8128W msds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8128W msds_CN 国彩.pdf",
+        "sha256": "44444f3257eaea3816ec441b97e60bb11c8bb8c0edaf60c8ddf177b68710cf94"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "44444f3257eaea3816ec441b97e60bb11c8bb8c0edaf60c8ddf177b68710cf94|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 236214,
+        "extension": ".pdf",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8128W msds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8128W msds_CN 国彩.pdf",
+        "sha256": "44444f3257eaea3816ec441b97e60bb11c8bb8c0edaf60c8ddf177b68710cf94"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "44444f3257eaea3816ec441b97e60bb11c8bb8c0edaf60c8ddf177b68710cf94|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 236214,
+        "extension": ".pdf",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8128W msds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8128W msds_CN 国彩.pdf",
+        "sha256": "44444f3257eaea3816ec441b97e60bb11c8bb8c0edaf60c8ddf177b68710cf94"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "0a76abfcaa3e01228c9522bcc8d4c47384c7d9997fc18ded532d5ae4f26dc646|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 119705,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\7 水性助剂 OS等\\OS-405 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/7 水性助剂 OS等/OS-405 tds_CN 冠志.pdf",
+        "sha256": "0a76abfcaa3e01228c9522bcc8d4c47384c7d9997fc18ded532d5ae4f26dc646"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "0a76abfcaa3e01228c9522bcc8d4c47384c7d9997fc18ded532d5ae4f26dc646|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 119705,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\7 水性助剂 OS等\\OS-405 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/7 水性助剂 OS等/OS-405 tds_CN 冠志.pdf",
+        "sha256": "0a76abfcaa3e01228c9522bcc8d4c47384c7d9997fc18ded532d5ae4f26dc646"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "0a76abfcaa3e01228c9522bcc8d4c47384c7d9997fc18ded532d5ae4f26dc646|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 119705,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\7 水性助剂 OS等\\OS-405 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/7 水性助剂 OS等/OS-405 tds_CN 冠志.pdf",
+        "sha256": "0a76abfcaa3e01228c9522bcc8d4c47384c7d9997fc18ded532d5ae4f26dc646"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "0a76abfcaa3e01228c9522bcc8d4c47384c7d9997fc18ded532d5ae4f26dc646|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 119705,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\7 水性助剂 OS等\\OS-405 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/7 水性助剂 OS等/OS-405 tds_CN 冠志.pdf",
+        "sha256": "0a76abfcaa3e01228c9522bcc8d4c47384c7d9997fc18ded532d5ae4f26dc646"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "0a76abfcaa3e01228c9522bcc8d4c47384c7d9997fc18ded532d5ae4f26dc646|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 119705,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\7 水性助剂 OS等\\OS-405 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/7 水性助剂 OS等/OS-405 tds_CN 冠志.pdf",
+        "sha256": "0a76abfcaa3e01228c9522bcc8d4c47384c7d9997fc18ded532d5ae4f26dc646"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "0a76abfcaa3e01228c9522bcc8d4c47384c7d9997fc18ded532d5ae4f26dc646|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 119705,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\7 水性助剂 OS等\\OS-405 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/7 水性助剂 OS等/OS-405 tds_CN 冠志.pdf",
+        "sha256": "0a76abfcaa3e01228c9522bcc8d4c47384c7d9997fc18ded532d5ae4f26dc646"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "68515f0d11f749d6ce46acfa8d02149ba123bafa26a2a9e204a48d57f517c554|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 190967,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\7 水性助剂 OS等\\OS-406 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/7 水性助剂 OS等/OS-406 tds_CN 冠志.pdf",
+        "sha256": "68515f0d11f749d6ce46acfa8d02149ba123bafa26a2a9e204a48d57f517c554"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "68515f0d11f749d6ce46acfa8d02149ba123bafa26a2a9e204a48d57f517c554|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 190967,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\7 水性助剂 OS等\\OS-406 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/7 水性助剂 OS等/OS-406 tds_CN 冠志.pdf",
+        "sha256": "68515f0d11f749d6ce46acfa8d02149ba123bafa26a2a9e204a48d57f517c554"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "68515f0d11f749d6ce46acfa8d02149ba123bafa26a2a9e204a48d57f517c554|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 190967,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\7 水性助剂 OS等\\OS-406 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/7 水性助剂 OS等/OS-406 tds_CN 冠志.pdf",
+        "sha256": "68515f0d11f749d6ce46acfa8d02149ba123bafa26a2a9e204a48d57f517c554"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "68515f0d11f749d6ce46acfa8d02149ba123bafa26a2a9e204a48d57f517c554|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 190967,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\7 水性助剂 OS等\\OS-406 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/7 水性助剂 OS等/OS-406 tds_CN 冠志.pdf",
+        "sha256": "68515f0d11f749d6ce46acfa8d02149ba123bafa26a2a9e204a48d57f517c554"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "68515f0d11f749d6ce46acfa8d02149ba123bafa26a2a9e204a48d57f517c554|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 190967,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\7 水性助剂 OS等\\OS-406 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/7 水性助剂 OS等/OS-406 tds_CN 冠志.pdf",
+        "sha256": "68515f0d11f749d6ce46acfa8d02149ba123bafa26a2a9e204a48d57f517c554"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "68515f0d11f749d6ce46acfa8d02149ba123bafa26a2a9e204a48d57f517c554|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 190967,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\7 水性助剂 OS等\\OS-406 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/7 水性助剂 OS等/OS-406 tds_CN 冠志.pdf",
+        "sha256": "68515f0d11f749d6ce46acfa8d02149ba123bafa26a2a9e204a48d57f517c554"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "ccc824c413193e03bae01df92fda9e5836f38e41088e385a269f0ff9bd3f26ac|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 217869,
+        "extension": ".pdf",
+        "family": "RU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\8 复配树脂、涂料、涂饰剂 RU&RA\\RU-10102 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/8 复配树脂、涂料、涂饰剂 RU&RA/RU-10102 msds_CN 冠志.pdf",
+        "sha256": "ccc824c413193e03bae01df92fda9e5836f38e41088e385a269f0ff9bd3f26ac"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "ccc824c413193e03bae01df92fda9e5836f38e41088e385a269f0ff9bd3f26ac|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 217869,
+        "extension": ".pdf",
+        "family": "RU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\8 复配树脂、涂料、涂饰剂 RU&RA\\RU-10102 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/8 复配树脂、涂料、涂饰剂 RU&RA/RU-10102 msds_CN 冠志.pdf",
+        "sha256": "ccc824c413193e03bae01df92fda9e5836f38e41088e385a269f0ff9bd3f26ac"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "ccc824c413193e03bae01df92fda9e5836f38e41088e385a269f0ff9bd3f26ac|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 217869,
+        "extension": ".pdf",
+        "family": "RU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\8 复配树脂、涂料、涂饰剂 RU&RA\\RU-10102 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/8 复配树脂、涂料、涂饰剂 RU&RA/RU-10102 msds_CN 冠志.pdf",
+        "sha256": "ccc824c413193e03bae01df92fda9e5836f38e41088e385a269f0ff9bd3f26ac"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "ccc824c413193e03bae01df92fda9e5836f38e41088e385a269f0ff9bd3f26ac|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 217869,
+        "extension": ".pdf",
+        "family": "RU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\8 复配树脂、涂料、涂饰剂 RU&RA\\RU-10102 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/8 复配树脂、涂料、涂饰剂 RU&RA/RU-10102 msds_CN 冠志.pdf",
+        "sha256": "ccc824c413193e03bae01df92fda9e5836f38e41088e385a269f0ff9bd3f26ac"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "ccc824c413193e03bae01df92fda9e5836f38e41088e385a269f0ff9bd3f26ac|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 217869,
+        "extension": ".pdf",
+        "family": "RU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\8 复配树脂、涂料、涂饰剂 RU&RA\\RU-10102 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/8 复配树脂、涂料、涂饰剂 RU&RA/RU-10102 msds_CN 冠志.pdf",
+        "sha256": "ccc824c413193e03bae01df92fda9e5836f38e41088e385a269f0ff9bd3f26ac"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "ccc824c413193e03bae01df92fda9e5836f38e41088e385a269f0ff9bd3f26ac|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 217869,
+        "extension": ".pdf",
+        "family": "RU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\8 复配树脂、涂料、涂饰剂 RU&RA\\RU-10102 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/8 复配树脂、涂料、涂饰剂 RU&RA/RU-10102 msds_CN 冠志.pdf",
+        "sha256": "ccc824c413193e03bae01df92fda9e5836f38e41088e385a269f0ff9bd3f26ac"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "0d44700fa16de4268a2a539518199581349385ca8df32c0e49408186a996a32f|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 16312,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2801 tds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-2801 tds_CN 国彩.docx",
+        "sha256": "0d44700fa16de4268a2a539518199581349385ca8df32c0e49408186a996a32f"
+      },
+      "status": "MISMATCH"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "0d44700fa16de4268a2a539518199581349385ca8df32c0e49408186a996a32f|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 16312,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2801 tds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-2801 tds_CN 国彩.docx",
+        "sha256": "0d44700fa16de4268a2a539518199581349385ca8df32c0e49408186a996a32f"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "0d44700fa16de4268a2a539518199581349385ca8df32c0e49408186a996a32f|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 16312,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2801 tds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-2801 tds_CN 国彩.docx",
+        "sha256": "0d44700fa16de4268a2a539518199581349385ca8df32c0e49408186a996a32f"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "0d44700fa16de4268a2a539518199581349385ca8df32c0e49408186a996a32f|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 16312,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2801 tds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-2801 tds_CN 国彩.docx",
+        "sha256": "0d44700fa16de4268a2a539518199581349385ca8df32c0e49408186a996a32f"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "0d44700fa16de4268a2a539518199581349385ca8df32c0e49408186a996a32f|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 16312,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2801 tds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-2801 tds_CN 国彩.docx",
+        "sha256": "0d44700fa16de4268a2a539518199581349385ca8df32c0e49408186a996a32f"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "0d44700fa16de4268a2a539518199581349385ca8df32c0e49408186a996a32f|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 16312,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2801 tds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-2801 tds_CN 国彩.docx",
+        "sha256": "0d44700fa16de4268a2a539518199581349385ca8df32c0e49408186a996a32f"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "23fbfc9ece54f3baa56168182e5e2b4ba9600cbbb37cd4213cb95bfde5271a3d|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 49154,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2835 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-2835 msds_CN 国彩.docx",
+        "sha256": "23fbfc9ece54f3baa56168182e5e2b4ba9600cbbb37cd4213cb95bfde5271a3d"
+      },
+      "status": "MISMATCH"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "23fbfc9ece54f3baa56168182e5e2b4ba9600cbbb37cd4213cb95bfde5271a3d|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 49154,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2835 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-2835 msds_CN 国彩.docx",
+        "sha256": "23fbfc9ece54f3baa56168182e5e2b4ba9600cbbb37cd4213cb95bfde5271a3d"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "23fbfc9ece54f3baa56168182e5e2b4ba9600cbbb37cd4213cb95bfde5271a3d|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 49154,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2835 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-2835 msds_CN 国彩.docx",
+        "sha256": "23fbfc9ece54f3baa56168182e5e2b4ba9600cbbb37cd4213cb95bfde5271a3d"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "23fbfc9ece54f3baa56168182e5e2b4ba9600cbbb37cd4213cb95bfde5271a3d|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 49154,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2835 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-2835 msds_CN 国彩.docx",
+        "sha256": "23fbfc9ece54f3baa56168182e5e2b4ba9600cbbb37cd4213cb95bfde5271a3d"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "23fbfc9ece54f3baa56168182e5e2b4ba9600cbbb37cd4213cb95bfde5271a3d|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 49154,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2835 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-2835 msds_CN 国彩.docx",
+        "sha256": "23fbfc9ece54f3baa56168182e5e2b4ba9600cbbb37cd4213cb95bfde5271a3d"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "23fbfc9ece54f3baa56168182e5e2b4ba9600cbbb37cd4213cb95bfde5271a3d|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 49154,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2835 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-2835 msds_CN 国彩.docx",
+        "sha256": "23fbfc9ece54f3baa56168182e5e2b4ba9600cbbb37cd4213cb95bfde5271a3d"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "8b600e7277d53e59db31160118021a2a9037ef0e62eaaf9298e0828a02621650|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 35659,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-3822 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-3822 msds_CN 国彩.docx",
+        "sha256": "8b600e7277d53e59db31160118021a2a9037ef0e62eaaf9298e0828a02621650"
+      },
+      "status": "MISMATCH"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "8b600e7277d53e59db31160118021a2a9037ef0e62eaaf9298e0828a02621650|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 35659,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-3822 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-3822 msds_CN 国彩.docx",
+        "sha256": "8b600e7277d53e59db31160118021a2a9037ef0e62eaaf9298e0828a02621650"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "8b600e7277d53e59db31160118021a2a9037ef0e62eaaf9298e0828a02621650|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 35659,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-3822 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-3822 msds_CN 国彩.docx",
+        "sha256": "8b600e7277d53e59db31160118021a2a9037ef0e62eaaf9298e0828a02621650"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "8b600e7277d53e59db31160118021a2a9037ef0e62eaaf9298e0828a02621650|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 35659,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-3822 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-3822 msds_CN 国彩.docx",
+        "sha256": "8b600e7277d53e59db31160118021a2a9037ef0e62eaaf9298e0828a02621650"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "8b600e7277d53e59db31160118021a2a9037ef0e62eaaf9298e0828a02621650|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 35659,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-3822 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-3822 msds_CN 国彩.docx",
+        "sha256": "8b600e7277d53e59db31160118021a2a9037ef0e62eaaf9298e0828a02621650"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "8b600e7277d53e59db31160118021a2a9037ef0e62eaaf9298e0828a02621650|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 35659,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-3822 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-3822 msds_CN 国彩.docx",
+        "sha256": "8b600e7277d53e59db31160118021a2a9037ef0e62eaaf9298e0828a02621650"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "d1d443595d9ba5e0e19dd3789015916bdf7a9e1f0540ec6d8aa5c8ae9e40e100|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 26112,
+        "extension": ".doc",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-6026 tds_EN Guocai.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-6026 tds_EN Guocai.doc",
+        "sha256": "d1d443595d9ba5e0e19dd3789015916bdf7a9e1f0540ec6d8aa5c8ae9e40e100"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "d1d443595d9ba5e0e19dd3789015916bdf7a9e1f0540ec6d8aa5c8ae9e40e100|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 26112,
+        "extension": ".doc",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-6026 tds_EN Guocai.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-6026 tds_EN Guocai.doc",
+        "sha256": "d1d443595d9ba5e0e19dd3789015916bdf7a9e1f0540ec6d8aa5c8ae9e40e100"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "d1d443595d9ba5e0e19dd3789015916bdf7a9e1f0540ec6d8aa5c8ae9e40e100|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 26112,
+        "extension": ".doc",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-6026 tds_EN Guocai.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-6026 tds_EN Guocai.doc",
+        "sha256": "d1d443595d9ba5e0e19dd3789015916bdf7a9e1f0540ec6d8aa5c8ae9e40e100"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "d1d443595d9ba5e0e19dd3789015916bdf7a9e1f0540ec6d8aa5c8ae9e40e100|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 26112,
+        "extension": ".doc",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-6026 tds_EN Guocai.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-6026 tds_EN Guocai.doc",
+        "sha256": "d1d443595d9ba5e0e19dd3789015916bdf7a9e1f0540ec6d8aa5c8ae9e40e100"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "d1d443595d9ba5e0e19dd3789015916bdf7a9e1f0540ec6d8aa5c8ae9e40e100|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 26112,
+        "extension": ".doc",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-6026 tds_EN Guocai.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-6026 tds_EN Guocai.doc",
+        "sha256": "d1d443595d9ba5e0e19dd3789015916bdf7a9e1f0540ec6d8aa5c8ae9e40e100"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "d1d443595d9ba5e0e19dd3789015916bdf7a9e1f0540ec6d8aa5c8ae9e40e100|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 26112,
+        "extension": ".doc",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-6026 tds_EN Guocai.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-6026 tds_EN Guocai.doc",
+        "sha256": "d1d443595d9ba5e0e19dd3789015916bdf7a9e1f0540ec6d8aa5c8ae9e40e100"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "b1f1381e158f945ec12258b0b5a6922667c698e5c81662a481e93edf88b1bedb|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 115712,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-2 水性羟基丙烯酸乳液 PA\\PA-4778 msds_CN冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-2 水性羟基丙烯酸乳液 PA/PA-4778 msds_CN冠志.doc",
+        "sha256": "b1f1381e158f945ec12258b0b5a6922667c698e5c81662a481e93edf88b1bedb"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "b1f1381e158f945ec12258b0b5a6922667c698e5c81662a481e93edf88b1bedb|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 115712,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-2 水性羟基丙烯酸乳液 PA\\PA-4778 msds_CN冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-2 水性羟基丙烯酸乳液 PA/PA-4778 msds_CN冠志.doc",
+        "sha256": "b1f1381e158f945ec12258b0b5a6922667c698e5c81662a481e93edf88b1bedb"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "b1f1381e158f945ec12258b0b5a6922667c698e5c81662a481e93edf88b1bedb|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 115712,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-2 水性羟基丙烯酸乳液 PA\\PA-4778 msds_CN冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-2 水性羟基丙烯酸乳液 PA/PA-4778 msds_CN冠志.doc",
+        "sha256": "b1f1381e158f945ec12258b0b5a6922667c698e5c81662a481e93edf88b1bedb"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "b1f1381e158f945ec12258b0b5a6922667c698e5c81662a481e93edf88b1bedb|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 115712,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-2 水性羟基丙烯酸乳液 PA\\PA-4778 msds_CN冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-2 水性羟基丙烯酸乳液 PA/PA-4778 msds_CN冠志.doc",
+        "sha256": "b1f1381e158f945ec12258b0b5a6922667c698e5c81662a481e93edf88b1bedb"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "b1f1381e158f945ec12258b0b5a6922667c698e5c81662a481e93edf88b1bedb|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 115712,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-2 水性羟基丙烯酸乳液 PA\\PA-4778 msds_CN冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-2 水性羟基丙烯酸乳液 PA/PA-4778 msds_CN冠志.doc",
+        "sha256": "b1f1381e158f945ec12258b0b5a6922667c698e5c81662a481e93edf88b1bedb"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "b1f1381e158f945ec12258b0b5a6922667c698e5c81662a481e93edf88b1bedb|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 115712,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-2 水性羟基丙烯酸乳液 PA\\PA-4778 msds_CN冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-2 水性羟基丙烯酸乳液 PA/PA-4778 msds_CN冠志.doc",
+        "sha256": "b1f1381e158f945ec12258b0b5a6922667c698e5c81662a481e93edf88b1bedb"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "99963c225c6c8197045604530b4c9176d8a45febf58a71eaa00c0e154f338840|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 41472,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-2 水性羟基丙烯酸乳液 PA\\PA-4817 tds_CN 冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-2 水性羟基丙烯酸乳液 PA/PA-4817 tds_CN 冠志.doc",
+        "sha256": "99963c225c6c8197045604530b4c9176d8a45febf58a71eaa00c0e154f338840"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "99963c225c6c8197045604530b4c9176d8a45febf58a71eaa00c0e154f338840|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 41472,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-2 水性羟基丙烯酸乳液 PA\\PA-4817 tds_CN 冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-2 水性羟基丙烯酸乳液 PA/PA-4817 tds_CN 冠志.doc",
+        "sha256": "99963c225c6c8197045604530b4c9176d8a45febf58a71eaa00c0e154f338840"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "99963c225c6c8197045604530b4c9176d8a45febf58a71eaa00c0e154f338840|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 41472,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-2 水性羟基丙烯酸乳液 PA\\PA-4817 tds_CN 冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-2 水性羟基丙烯酸乳液 PA/PA-4817 tds_CN 冠志.doc",
+        "sha256": "99963c225c6c8197045604530b4c9176d8a45febf58a71eaa00c0e154f338840"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "99963c225c6c8197045604530b4c9176d8a45febf58a71eaa00c0e154f338840|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 41472,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-2 水性羟基丙烯酸乳液 PA\\PA-4817 tds_CN 冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-2 水性羟基丙烯酸乳液 PA/PA-4817 tds_CN 冠志.doc",
+        "sha256": "99963c225c6c8197045604530b4c9176d8a45febf58a71eaa00c0e154f338840"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "99963c225c6c8197045604530b4c9176d8a45febf58a71eaa00c0e154f338840|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 41472,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-2 水性羟基丙烯酸乳液 PA\\PA-4817 tds_CN 冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-2 水性羟基丙烯酸乳液 PA/PA-4817 tds_CN 冠志.doc",
+        "sha256": "99963c225c6c8197045604530b4c9176d8a45febf58a71eaa00c0e154f338840"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "99963c225c6c8197045604530b4c9176d8a45febf58a71eaa00c0e154f338840|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 41472,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-2 水性羟基丙烯酸乳液 PA\\PA-4817 tds_CN 冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-2 水性羟基丙烯酸乳液 PA/PA-4817 tds_CN 冠志.doc",
+        "sha256": "99963c225c6c8197045604530b4c9176d8a45febf58a71eaa00c0e154f338840"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "3e752aef93a785eca7c93c6e4be0ce5beed1befeeaf90e088210a70c9ecdfbc0|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 31506,
+        "extension": ".docx",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-3332 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-3332 msds_CN 冠志.docx",
+        "sha256": "3e752aef93a785eca7c93c6e4be0ce5beed1befeeaf90e088210a70c9ecdfbc0"
+      },
+      "status": "MISMATCH"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "3e752aef93a785eca7c93c6e4be0ce5beed1befeeaf90e088210a70c9ecdfbc0|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 31506,
+        "extension": ".docx",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-3332 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-3332 msds_CN 冠志.docx",
+        "sha256": "3e752aef93a785eca7c93c6e4be0ce5beed1befeeaf90e088210a70c9ecdfbc0"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "3e752aef93a785eca7c93c6e4be0ce5beed1befeeaf90e088210a70c9ecdfbc0|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 31506,
+        "extension": ".docx",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-3332 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-3332 msds_CN 冠志.docx",
+        "sha256": "3e752aef93a785eca7c93c6e4be0ce5beed1befeeaf90e088210a70c9ecdfbc0"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "3e752aef93a785eca7c93c6e4be0ce5beed1befeeaf90e088210a70c9ecdfbc0|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 31506,
+        "extension": ".docx",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-3332 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-3332 msds_CN 冠志.docx",
+        "sha256": "3e752aef93a785eca7c93c6e4be0ce5beed1befeeaf90e088210a70c9ecdfbc0"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "3e752aef93a785eca7c93c6e4be0ce5beed1befeeaf90e088210a70c9ecdfbc0|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 31506,
+        "extension": ".docx",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-3332 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-3332 msds_CN 冠志.docx",
+        "sha256": "3e752aef93a785eca7c93c6e4be0ce5beed1befeeaf90e088210a70c9ecdfbc0"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "3e752aef93a785eca7c93c6e4be0ce5beed1befeeaf90e088210a70c9ecdfbc0|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 31506,
+        "extension": ".docx",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-3332 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-3332 msds_CN 冠志.docx",
+        "sha256": "3e752aef93a785eca7c93c6e4be0ce5beed1befeeaf90e088210a70c9ecdfbc0"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "2f2e229362b6abd6d7ffa113efac70d78eaccf8b9834d35e35c22897563a2881|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 23040,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-4895 tds_CN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-4895 tds_CN 国彩.doc",
+        "sha256": "2f2e229362b6abd6d7ffa113efac70d78eaccf8b9834d35e35c22897563a2881"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "2f2e229362b6abd6d7ffa113efac70d78eaccf8b9834d35e35c22897563a2881|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 23040,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-4895 tds_CN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-4895 tds_CN 国彩.doc",
+        "sha256": "2f2e229362b6abd6d7ffa113efac70d78eaccf8b9834d35e35c22897563a2881"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "2f2e229362b6abd6d7ffa113efac70d78eaccf8b9834d35e35c22897563a2881|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 23040,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-4895 tds_CN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-4895 tds_CN 国彩.doc",
+        "sha256": "2f2e229362b6abd6d7ffa113efac70d78eaccf8b9834d35e35c22897563a2881"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "2f2e229362b6abd6d7ffa113efac70d78eaccf8b9834d35e35c22897563a2881|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 23040,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-4895 tds_CN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-4895 tds_CN 国彩.doc",
+        "sha256": "2f2e229362b6abd6d7ffa113efac70d78eaccf8b9834d35e35c22897563a2881"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "2f2e229362b6abd6d7ffa113efac70d78eaccf8b9834d35e35c22897563a2881|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 23040,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-4895 tds_CN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-4895 tds_CN 国彩.doc",
+        "sha256": "2f2e229362b6abd6d7ffa113efac70d78eaccf8b9834d35e35c22897563a2881"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "2f2e229362b6abd6d7ffa113efac70d78eaccf8b9834d35e35c22897563a2881|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 23040,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-4895 tds_CN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-4895 tds_CN 国彩.doc",
+        "sha256": "2f2e229362b6abd6d7ffa113efac70d78eaccf8b9834d35e35c22897563a2881"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "298cc0e0bdb4ce68bf6ed2d098110aefe83f0cf1f6534e403436513537525702|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 48634,
+        "extension": ".docx",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-4896 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-4896 msds_CN 冠志.docx",
+        "sha256": "298cc0e0bdb4ce68bf6ed2d098110aefe83f0cf1f6534e403436513537525702"
+      },
+      "status": "MISMATCH"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "298cc0e0bdb4ce68bf6ed2d098110aefe83f0cf1f6534e403436513537525702|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 48634,
+        "extension": ".docx",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-4896 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-4896 msds_CN 冠志.docx",
+        "sha256": "298cc0e0bdb4ce68bf6ed2d098110aefe83f0cf1f6534e403436513537525702"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "298cc0e0bdb4ce68bf6ed2d098110aefe83f0cf1f6534e403436513537525702|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 48634,
+        "extension": ".docx",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-4896 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-4896 msds_CN 冠志.docx",
+        "sha256": "298cc0e0bdb4ce68bf6ed2d098110aefe83f0cf1f6534e403436513537525702"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "298cc0e0bdb4ce68bf6ed2d098110aefe83f0cf1f6534e403436513537525702|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 48634,
+        "extension": ".docx",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-4896 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-4896 msds_CN 冠志.docx",
+        "sha256": "298cc0e0bdb4ce68bf6ed2d098110aefe83f0cf1f6534e403436513537525702"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "298cc0e0bdb4ce68bf6ed2d098110aefe83f0cf1f6534e403436513537525702|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 48634,
+        "extension": ".docx",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-4896 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-4896 msds_CN 冠志.docx",
+        "sha256": "298cc0e0bdb4ce68bf6ed2d098110aefe83f0cf1f6534e403436513537525702"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "298cc0e0bdb4ce68bf6ed2d098110aefe83f0cf1f6534e403436513537525702|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 48634,
+        "extension": ".docx",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-4896 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-4896 msds_CN 冠志.docx",
+        "sha256": "298cc0e0bdb4ce68bf6ed2d098110aefe83f0cf1f6534e403436513537525702"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "6347012a885a36d63f1197e49e81817b584a3e1db8f23dc898a5eeeed53f7457|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 94486,
+        "extension": ".doc",
+        "family": "EP",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\4-1 水性环氧树脂 EP\\EP-1705 msds_EN 冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/4-1 水性环氧树脂 EP/EP-1705 msds_EN 冠志.doc",
+        "sha256": "6347012a885a36d63f1197e49e81817b584a3e1db8f23dc898a5eeeed53f7457"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "6347012a885a36d63f1197e49e81817b584a3e1db8f23dc898a5eeeed53f7457|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 94486,
+        "extension": ".doc",
+        "family": "EP",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\4-1 水性环氧树脂 EP\\EP-1705 msds_EN 冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/4-1 水性环氧树脂 EP/EP-1705 msds_EN 冠志.doc",
+        "sha256": "6347012a885a36d63f1197e49e81817b584a3e1db8f23dc898a5eeeed53f7457"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "6347012a885a36d63f1197e49e81817b584a3e1db8f23dc898a5eeeed53f7457|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 94486,
+        "extension": ".doc",
+        "family": "EP",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\4-1 水性环氧树脂 EP\\EP-1705 msds_EN 冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/4-1 水性环氧树脂 EP/EP-1705 msds_EN 冠志.doc",
+        "sha256": "6347012a885a36d63f1197e49e81817b584a3e1db8f23dc898a5eeeed53f7457"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "6347012a885a36d63f1197e49e81817b584a3e1db8f23dc898a5eeeed53f7457|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 94486,
+        "extension": ".doc",
+        "family": "EP",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\4-1 水性环氧树脂 EP\\EP-1705 msds_EN 冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/4-1 水性环氧树脂 EP/EP-1705 msds_EN 冠志.doc",
+        "sha256": "6347012a885a36d63f1197e49e81817b584a3e1db8f23dc898a5eeeed53f7457"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "6347012a885a36d63f1197e49e81817b584a3e1db8f23dc898a5eeeed53f7457|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 94486,
+        "extension": ".doc",
+        "family": "EP",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\4-1 水性环氧树脂 EP\\EP-1705 msds_EN 冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/4-1 水性环氧树脂 EP/EP-1705 msds_EN 冠志.doc",
+        "sha256": "6347012a885a36d63f1197e49e81817b584a3e1db8f23dc898a5eeeed53f7457"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "6347012a885a36d63f1197e49e81817b584a3e1db8f23dc898a5eeeed53f7457|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 94486,
+        "extension": ".doc",
+        "family": "EP",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\4-1 水性环氧树脂 EP\\EP-1705 msds_EN 冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/4-1 水性环氧树脂 EP/EP-1705 msds_EN 冠志.doc",
+        "sha256": "6347012a885a36d63f1197e49e81817b584a3e1db8f23dc898a5eeeed53f7457"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "4bafca23c6b6b656d00675930bb18e1c7e3e33669d3f79c4779aa0306cabe655|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 23552,
+        "extension": ".doc",
+        "family": "UV",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\5 水性光固化树脂 UV\\UV-5100 TDS_EN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/5 水性光固化树脂 UV/UV-5100 TDS_EN 国彩.doc",
+        "sha256": "4bafca23c6b6b656d00675930bb18e1c7e3e33669d3f79c4779aa0306cabe655"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "4bafca23c6b6b656d00675930bb18e1c7e3e33669d3f79c4779aa0306cabe655|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 23552,
+        "extension": ".doc",
+        "family": "UV",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\5 水性光固化树脂 UV\\UV-5100 TDS_EN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/5 水性光固化树脂 UV/UV-5100 TDS_EN 国彩.doc",
+        "sha256": "4bafca23c6b6b656d00675930bb18e1c7e3e33669d3f79c4779aa0306cabe655"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "4bafca23c6b6b656d00675930bb18e1c7e3e33669d3f79c4779aa0306cabe655|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 23552,
+        "extension": ".doc",
+        "family": "UV",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\5 水性光固化树脂 UV\\UV-5100 TDS_EN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/5 水性光固化树脂 UV/UV-5100 TDS_EN 国彩.doc",
+        "sha256": "4bafca23c6b6b656d00675930bb18e1c7e3e33669d3f79c4779aa0306cabe655"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "4bafca23c6b6b656d00675930bb18e1c7e3e33669d3f79c4779aa0306cabe655|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 23552,
+        "extension": ".doc",
+        "family": "UV",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\5 水性光固化树脂 UV\\UV-5100 TDS_EN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/5 水性光固化树脂 UV/UV-5100 TDS_EN 国彩.doc",
+        "sha256": "4bafca23c6b6b656d00675930bb18e1c7e3e33669d3f79c4779aa0306cabe655"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "4bafca23c6b6b656d00675930bb18e1c7e3e33669d3f79c4779aa0306cabe655|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 23552,
+        "extension": ".doc",
+        "family": "UV",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\5 水性光固化树脂 UV\\UV-5100 TDS_EN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/5 水性光固化树脂 UV/UV-5100 TDS_EN 国彩.doc",
+        "sha256": "4bafca23c6b6b656d00675930bb18e1c7e3e33669d3f79c4779aa0306cabe655"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "4bafca23c6b6b656d00675930bb18e1c7e3e33669d3f79c4779aa0306cabe655|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 23552,
+        "extension": ".doc",
+        "family": "UV",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\5 水性光固化树脂 UV\\UV-5100 TDS_EN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/5 水性光固化树脂 UV/UV-5100 TDS_EN 国彩.doc",
+        "sha256": "4bafca23c6b6b656d00675930bb18e1c7e3e33669d3f79c4779aa0306cabe655"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "d3768d9d960e98a094567382f4b991ec324e0559940ae02442703f251b6c5252|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 24980,
+        "extension": ".docx",
+        "family": "UV",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\5 水性光固化树脂 UV\\UV-5242 tds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/5 水性光固化树脂 UV/UV-5242 tds_CN 冠志.docx",
+        "sha256": "d3768d9d960e98a094567382f4b991ec324e0559940ae02442703f251b6c5252"
+      },
+      "status": "MISMATCH"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "d3768d9d960e98a094567382f4b991ec324e0559940ae02442703f251b6c5252|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 24980,
+        "extension": ".docx",
+        "family": "UV",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\5 水性光固化树脂 UV\\UV-5242 tds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/5 水性光固化树脂 UV/UV-5242 tds_CN 冠志.docx",
+        "sha256": "d3768d9d960e98a094567382f4b991ec324e0559940ae02442703f251b6c5252"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "d3768d9d960e98a094567382f4b991ec324e0559940ae02442703f251b6c5252|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 24980,
+        "extension": ".docx",
+        "family": "UV",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\5 水性光固化树脂 UV\\UV-5242 tds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/5 水性光固化树脂 UV/UV-5242 tds_CN 冠志.docx",
+        "sha256": "d3768d9d960e98a094567382f4b991ec324e0559940ae02442703f251b6c5252"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "d3768d9d960e98a094567382f4b991ec324e0559940ae02442703f251b6c5252|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 24980,
+        "extension": ".docx",
+        "family": "UV",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\5 水性光固化树脂 UV\\UV-5242 tds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/5 水性光固化树脂 UV/UV-5242 tds_CN 冠志.docx",
+        "sha256": "d3768d9d960e98a094567382f4b991ec324e0559940ae02442703f251b6c5252"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "d3768d9d960e98a094567382f4b991ec324e0559940ae02442703f251b6c5252|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 24980,
+        "extension": ".docx",
+        "family": "UV",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\5 水性光固化树脂 UV\\UV-5242 tds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/5 水性光固化树脂 UV/UV-5242 tds_CN 冠志.docx",
+        "sha256": "d3768d9d960e98a094567382f4b991ec324e0559940ae02442703f251b6c5252"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "d3768d9d960e98a094567382f4b991ec324e0559940ae02442703f251b6c5252|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 24980,
+        "extension": ".docx",
+        "family": "UV",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\5 水性光固化树脂 UV\\UV-5242 tds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/5 水性光固化树脂 UV/UV-5242 tds_CN 冠志.docx",
+        "sha256": "d3768d9d960e98a094567382f4b991ec324e0559940ae02442703f251b6c5252"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "a5c9fd477d0b1216d23464f479b33a1ad7a36e0133ed8a22c3d82dc07301eb04|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 29696,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-1 水分散型异氰酸酯固化剂 OS\\OS-9016 tds_EN Guocai.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-1 水分散型异氰酸酯固化剂 OS/OS-9016 tds_EN Guocai.doc",
+        "sha256": "a5c9fd477d0b1216d23464f479b33a1ad7a36e0133ed8a22c3d82dc07301eb04"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "a5c9fd477d0b1216d23464f479b33a1ad7a36e0133ed8a22c3d82dc07301eb04|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 29696,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-1 水分散型异氰酸酯固化剂 OS\\OS-9016 tds_EN Guocai.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-1 水分散型异氰酸酯固化剂 OS/OS-9016 tds_EN Guocai.doc",
+        "sha256": "a5c9fd477d0b1216d23464f479b33a1ad7a36e0133ed8a22c3d82dc07301eb04"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "a5c9fd477d0b1216d23464f479b33a1ad7a36e0133ed8a22c3d82dc07301eb04|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 29696,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-1 水分散型异氰酸酯固化剂 OS\\OS-9016 tds_EN Guocai.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-1 水分散型异氰酸酯固化剂 OS/OS-9016 tds_EN Guocai.doc",
+        "sha256": "a5c9fd477d0b1216d23464f479b33a1ad7a36e0133ed8a22c3d82dc07301eb04"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "a5c9fd477d0b1216d23464f479b33a1ad7a36e0133ed8a22c3d82dc07301eb04|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 29696,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-1 水分散型异氰酸酯固化剂 OS\\OS-9016 tds_EN Guocai.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-1 水分散型异氰酸酯固化剂 OS/OS-9016 tds_EN Guocai.doc",
+        "sha256": "a5c9fd477d0b1216d23464f479b33a1ad7a36e0133ed8a22c3d82dc07301eb04"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "a5c9fd477d0b1216d23464f479b33a1ad7a36e0133ed8a22c3d82dc07301eb04|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 29696,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-1 水分散型异氰酸酯固化剂 OS\\OS-9016 tds_EN Guocai.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-1 水分散型异氰酸酯固化剂 OS/OS-9016 tds_EN Guocai.doc",
+        "sha256": "a5c9fd477d0b1216d23464f479b33a1ad7a36e0133ed8a22c3d82dc07301eb04"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "a5c9fd477d0b1216d23464f479b33a1ad7a36e0133ed8a22c3d82dc07301eb04|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 29696,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-1 水分散型异氰酸酯固化剂 OS\\OS-9016 tds_EN Guocai.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-1 水分散型异氰酸酯固化剂 OS/OS-9016 tds_EN Guocai.doc",
+        "sha256": "a5c9fd477d0b1216d23464f479b33a1ad7a36e0133ed8a22c3d82dc07301eb04"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "e153fd7ad59716248fb5f6a9fda90ea4ac328935c4c0efef7ca72738001de146|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 33628,
+        "extension": ".docx",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8146\\中文版\\BL-8146 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8146/中文版/BL-8146 msds_CN 冠志.docx",
+        "sha256": "e153fd7ad59716248fb5f6a9fda90ea4ac328935c4c0efef7ca72738001de146"
+      },
+      "status": "MISMATCH"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "e153fd7ad59716248fb5f6a9fda90ea4ac328935c4c0efef7ca72738001de146|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 33628,
+        "extension": ".docx",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8146\\中文版\\BL-8146 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8146/中文版/BL-8146 msds_CN 冠志.docx",
+        "sha256": "e153fd7ad59716248fb5f6a9fda90ea4ac328935c4c0efef7ca72738001de146"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "e153fd7ad59716248fb5f6a9fda90ea4ac328935c4c0efef7ca72738001de146|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 33628,
+        "extension": ".docx",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8146\\中文版\\BL-8146 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8146/中文版/BL-8146 msds_CN 冠志.docx",
+        "sha256": "e153fd7ad59716248fb5f6a9fda90ea4ac328935c4c0efef7ca72738001de146"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "e153fd7ad59716248fb5f6a9fda90ea4ac328935c4c0efef7ca72738001de146|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 33628,
+        "extension": ".docx",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8146\\中文版\\BL-8146 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8146/中文版/BL-8146 msds_CN 冠志.docx",
+        "sha256": "e153fd7ad59716248fb5f6a9fda90ea4ac328935c4c0efef7ca72738001de146"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "e153fd7ad59716248fb5f6a9fda90ea4ac328935c4c0efef7ca72738001de146|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 33628,
+        "extension": ".docx",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8146\\中文版\\BL-8146 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8146/中文版/BL-8146 msds_CN 冠志.docx",
+        "sha256": "e153fd7ad59716248fb5f6a9fda90ea4ac328935c4c0efef7ca72738001de146"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "e153fd7ad59716248fb5f6a9fda90ea4ac328935c4c0efef7ca72738001de146|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 33628,
+        "extension": ".docx",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8146\\中文版\\BL-8146 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8146/中文版/BL-8146 msds_CN 冠志.docx",
+        "sha256": "e153fd7ad59716248fb5f6a9fda90ea4ac328935c4c0efef7ca72738001de146"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "0cbb732b21a212072e14cf0d0767b6054eca272804f2905d55baa8d017a6e63c|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 33422,
+        "extension": ".docx",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8166 tds msds 中英文版\\中文版\\BL-8166 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8166 tds msds 中英文版/中文版/BL-8166 msds_CN 冠志.docx",
+        "sha256": "0cbb732b21a212072e14cf0d0767b6054eca272804f2905d55baa8d017a6e63c"
+      },
+      "status": "MISMATCH"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "0cbb732b21a212072e14cf0d0767b6054eca272804f2905d55baa8d017a6e63c|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 33422,
+        "extension": ".docx",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8166 tds msds 中英文版\\中文版\\BL-8166 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8166 tds msds 中英文版/中文版/BL-8166 msds_CN 冠志.docx",
+        "sha256": "0cbb732b21a212072e14cf0d0767b6054eca272804f2905d55baa8d017a6e63c"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "0cbb732b21a212072e14cf0d0767b6054eca272804f2905d55baa8d017a6e63c|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 33422,
+        "extension": ".docx",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8166 tds msds 中英文版\\中文版\\BL-8166 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8166 tds msds 中英文版/中文版/BL-8166 msds_CN 冠志.docx",
+        "sha256": "0cbb732b21a212072e14cf0d0767b6054eca272804f2905d55baa8d017a6e63c"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "0cbb732b21a212072e14cf0d0767b6054eca272804f2905d55baa8d017a6e63c|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 33422,
+        "extension": ".docx",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8166 tds msds 中英文版\\中文版\\BL-8166 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8166 tds msds 中英文版/中文版/BL-8166 msds_CN 冠志.docx",
+        "sha256": "0cbb732b21a212072e14cf0d0767b6054eca272804f2905d55baa8d017a6e63c"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "0cbb732b21a212072e14cf0d0767b6054eca272804f2905d55baa8d017a6e63c|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 33422,
+        "extension": ".docx",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8166 tds msds 中英文版\\中文版\\BL-8166 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8166 tds msds 中英文版/中文版/BL-8166 msds_CN 冠志.docx",
+        "sha256": "0cbb732b21a212072e14cf0d0767b6054eca272804f2905d55baa8d017a6e63c"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "0cbb732b21a212072e14cf0d0767b6054eca272804f2905d55baa8d017a6e63c|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 33422,
+        "extension": ".docx",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8166 tds msds 中英文版\\中文版\\BL-8166 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8166 tds msds 中英文版/中文版/BL-8166 msds_CN 冠志.docx",
+        "sha256": "0cbb732b21a212072e14cf0d0767b6054eca272804f2905d55baa8d017a6e63c"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "2c8fe0aeb0377ae20be06a7a17460ce285734739b1a94599f445638e43d8c1b6|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 29586,
+        "extension": ".docx",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\7 水性助剂 OS等\\OS-1615 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/7 水性助剂 OS等/OS-1615 msds_CN 国彩.docx",
+        "sha256": "2c8fe0aeb0377ae20be06a7a17460ce285734739b1a94599f445638e43d8c1b6"
+      },
+      "status": "MISMATCH"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "2c8fe0aeb0377ae20be06a7a17460ce285734739b1a94599f445638e43d8c1b6|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 29586,
+        "extension": ".docx",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\7 水性助剂 OS等\\OS-1615 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/7 水性助剂 OS等/OS-1615 msds_CN 国彩.docx",
+        "sha256": "2c8fe0aeb0377ae20be06a7a17460ce285734739b1a94599f445638e43d8c1b6"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "2c8fe0aeb0377ae20be06a7a17460ce285734739b1a94599f445638e43d8c1b6|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 29586,
+        "extension": ".docx",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\7 水性助剂 OS等\\OS-1615 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/7 水性助剂 OS等/OS-1615 msds_CN 国彩.docx",
+        "sha256": "2c8fe0aeb0377ae20be06a7a17460ce285734739b1a94599f445638e43d8c1b6"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "2c8fe0aeb0377ae20be06a7a17460ce285734739b1a94599f445638e43d8c1b6|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 29586,
+        "extension": ".docx",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\7 水性助剂 OS等\\OS-1615 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/7 水性助剂 OS等/OS-1615 msds_CN 国彩.docx",
+        "sha256": "2c8fe0aeb0377ae20be06a7a17460ce285734739b1a94599f445638e43d8c1b6"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "2c8fe0aeb0377ae20be06a7a17460ce285734739b1a94599f445638e43d8c1b6|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 29586,
+        "extension": ".docx",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\7 水性助剂 OS等\\OS-1615 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/7 水性助剂 OS等/OS-1615 msds_CN 国彩.docx",
+        "sha256": "2c8fe0aeb0377ae20be06a7a17460ce285734739b1a94599f445638e43d8c1b6"
+      },
+      "status": "PASS"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "2c8fe0aeb0377ae20be06a7a17460ce285734739b1a94599f445638e43d8c1b6|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 29586,
+        "extension": ".docx",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\7 水性助剂 OS等\\OS-1615 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/7 水性助剂 OS等/OS-1615 msds_CN 国彩.docx",
+        "sha256": "2c8fe0aeb0377ae20be06a7a17460ce285734739b1a94599f445638e43d8c1b6"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "f00eb3cb0a7d042206bb3e586f1991d20391df709cb7180b45993484b3c8846b|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 24064,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\水性噁唑啉交联剂\\OS-8970 tds_CN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/水性噁唑啉交联剂/OS-8970 tds_CN 国彩.doc",
+        "sha256": "f00eb3cb0a7d042206bb3e586f1991d20391df709cb7180b45993484b3c8846b"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "f00eb3cb0a7d042206bb3e586f1991d20391df709cb7180b45993484b3c8846b|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 24064,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\水性噁唑啉交联剂\\OS-8970 tds_CN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/水性噁唑啉交联剂/OS-8970 tds_CN 国彩.doc",
+        "sha256": "f00eb3cb0a7d042206bb3e586f1991d20391df709cb7180b45993484b3c8846b"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "f00eb3cb0a7d042206bb3e586f1991d20391df709cb7180b45993484b3c8846b|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 24064,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\水性噁唑啉交联剂\\OS-8970 tds_CN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/水性噁唑啉交联剂/OS-8970 tds_CN 国彩.doc",
+        "sha256": "f00eb3cb0a7d042206bb3e586f1991d20391df709cb7180b45993484b3c8846b"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "f00eb3cb0a7d042206bb3e586f1991d20391df709cb7180b45993484b3c8846b|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 24064,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\水性噁唑啉交联剂\\OS-8970 tds_CN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/水性噁唑啉交联剂/OS-8970 tds_CN 国彩.doc",
+        "sha256": "f00eb3cb0a7d042206bb3e586f1991d20391df709cb7180b45993484b3c8846b"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "f00eb3cb0a7d042206bb3e586f1991d20391df709cb7180b45993484b3c8846b|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 24064,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\水性噁唑啉交联剂\\OS-8970 tds_CN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/水性噁唑啉交联剂/OS-8970 tds_CN 国彩.doc",
+        "sha256": "f00eb3cb0a7d042206bb3e586f1991d20391df709cb7180b45993484b3c8846b"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "f00eb3cb0a7d042206bb3e586f1991d20391df709cb7180b45993484b3c8846b|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 24064,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\水性噁唑啉交联剂\\OS-8970 tds_CN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/水性噁唑啉交联剂/OS-8970 tds_CN 国彩.doc",
+        "sha256": "f00eb3cb0a7d042206bb3e586f1991d20391df709cb7180b45993484b3c8846b"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "content",
+      "key": "0b7015dbfe245fceea676030c98a75f2396154295a0fff704f2779c4a945fca0|20260929|recognition-comparator-v1|content",
+      "source": {
+        "bytes": 28160,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\非水性无溶剂产品\\OS-8802G tds_CN Guanzhi.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/非水性无溶剂产品/OS-8802G tds_CN Guanzhi.doc",
+        "sha256": "0b7015dbfe245fceea676030c98a75f2396154295a0fff704f2779c4a945fca0"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "structure",
+      "key": "0b7015dbfe245fceea676030c98a75f2396154295a0fff704f2779c4a945fca0|20260929|recognition-comparator-v1|structure",
+      "source": {
+        "bytes": 28160,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\非水性无溶剂产品\\OS-8802G tds_CN Guanzhi.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/非水性无溶剂产品/OS-8802G tds_CN Guanzhi.doc",
+        "sha256": "0b7015dbfe245fceea676030c98a75f2396154295a0fff704f2779c4a945fca0"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "formatting",
+      "key": "0b7015dbfe245fceea676030c98a75f2396154295a0fff704f2779c4a945fca0|20260929|recognition-comparator-v1|formatting",
+      "source": {
+        "bytes": 28160,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\非水性无溶剂产品\\OS-8802G tds_CN Guanzhi.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/非水性无溶剂产品/OS-8802G tds_CN Guanzhi.doc",
+        "sha256": "0b7015dbfe245fceea676030c98a75f2396154295a0fff704f2779c4a945fca0"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "images",
+      "key": "0b7015dbfe245fceea676030c98a75f2396154295a0fff704f2779c4a945fca0|20260929|recognition-comparator-v1|images",
+      "source": {
+        "bytes": 28160,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\非水性无溶剂产品\\OS-8802G tds_CN Guanzhi.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/非水性无溶剂产品/OS-8802G tds_CN Guanzhi.doc",
+        "sha256": "0b7015dbfe245fceea676030c98a75f2396154295a0fff704f2779c4a945fca0"
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "classification": "new",
+      "dimension": "package",
+      "key": "0b7015dbfe245fceea676030c98a75f2396154295a0fff704f2779c4a945fca0|20260929|recognition-comparator-v1|package",
+      "source": {
+        "bytes": 28160,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\非水性无溶剂产品\\OS-8802G tds_CN Guanzhi.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/非水性无溶剂产品/OS-8802G tds_CN Guanzhi.doc",
+        "sha256": "0b7015dbfe245fceea676030c98a75f2396154295a0fff704f2779c4a945fca0"
+      },
+      "status": "UNAVAILABLE"
+    },
+    {
+      "classification": "new",
+      "dimension": "render",
+      "key": "0b7015dbfe245fceea676030c98a75f2396154295a0fff704f2779c4a945fca0|20260929|recognition-comparator-v1|render",
+      "source": {
+        "bytes": 28160,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\非水性无溶剂产品\\OS-8802G tds_CN Guanzhi.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/非水性无溶剂产品/OS-8802G tds_CN Guanzhi.doc",
+        "sha256": "0b7015dbfe245fceea676030c98a75f2396154295a0fff704f2779c4a945fca0"
+      },
+      "status": "UNAVAILABLE"
+    }
+  ],
+  "results": [
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0001_fd5feab2c922",
+      "dimensions": {
+        "content": "PARTIAL",
+        "formatting": "UNAVAILABLE",
+        "images": "PARTIAL",
+        "package": "UNAVAILABLE",
+        "render": "UNAVAILABLE",
+        "structure": "PARTIAL"
+      },
+      "elapsed_seconds": 0.6243,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 252275,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-1036 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-1036 msds_CN 冠志.pdf",
+        "sha256": "fd5feab2c922b1816b45b5700b60001b52d7e8653c78dc4a360728c21bc57cbc"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0002_8fdb110436aa",
+      "dimensions": {
+        "content": "PARTIAL",
+        "formatting": "UNAVAILABLE",
+        "images": "PARTIAL",
+        "package": "UNAVAILABLE",
+        "render": "UNAVAILABLE",
+        "structure": "PARTIAL"
+      },
+      "elapsed_seconds": 0.1355,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 174385,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-1036 tds_EN Guocai.pdf",
+        "relative_path": "TDS MSDS/TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-1036 tds_EN Guocai.pdf",
+        "sha256": "8fdb110436aa3fc438c2b3b281bce1e710568e39eb1213831c28c4bcbf95478d"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0003_2497d1dd08aa",
+      "dimensions": {
+        "content": "PARTIAL",
+        "formatting": "UNAVAILABLE",
+        "images": "PARTIAL",
+        "package": "UNAVAILABLE",
+        "render": "UNAVAILABLE",
+        "structure": "PARTIAL"
+      },
+      "elapsed_seconds": 0.0667,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 109729,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2836 tds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-2836 tds_CN 国彩.pdf",
+        "sha256": "2497d1dd08aafb7b58db6f36b179bf8de31af8c0c42fffdfee122a0dfcfc4642"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0004_ab64a0225602",
+      "dimensions": {
+        "content": "PARTIAL",
+        "formatting": "UNAVAILABLE",
+        "images": "PARTIAL",
+        "package": "UNAVAILABLE",
+        "render": "UNAVAILABLE",
+        "structure": "PARTIAL"
+      },
+      "elapsed_seconds": 0.0564,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 116283,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-3911 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-3911 tds_CN 冠志.pdf",
+        "sha256": "ab64a0225602092fd5b147fc41dd9076c60e01203ccce4541cd75c6f7b12e32c"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0005_aded2ef2e8de",
+      "dimensions": {
+        "content": "PARTIAL",
+        "formatting": "UNAVAILABLE",
+        "images": "PARTIAL",
+        "package": "UNAVAILABLE",
+        "render": "UNAVAILABLE",
+        "structure": "PARTIAL"
+      },
+      "elapsed_seconds": 0.396,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 224627,
+        "extension": ".pdf",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-608 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/1-1 单组份水性聚氨酯树脂 PU/PU-608 msds_CN 冠志.pdf",
+        "sha256": "aded2ef2e8defb73cd1c574c38a766a708d4e91a29f8a26a77eea5b172bf7442"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0006_f6d19467e0ab",
+      "dimensions": {
+        "content": "PARTIAL",
+        "formatting": "UNAVAILABLE",
+        "images": "PARTIAL",
+        "package": "UNAVAILABLE",
+        "render": "UNAVAILABLE",
+        "structure": "PARTIAL"
+      },
+      "elapsed_seconds": 0.0778,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 121994,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\6-1 水分散型异氰酸酯固化剂 OS\\OS-9012 tds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/6-1 水分散型异氰酸酯固化剂 OS/OS-9012 tds_CN 国彩.pdf",
+        "sha256": "f6d19467e0ab43f04bcf635f59e3978d989c188298e3494e602eefdc0c6ddbaf"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0007_44444f3257ea",
+      "dimensions": {
+        "content": "PARTIAL",
+        "formatting": "UNAVAILABLE",
+        "images": "PARTIAL",
+        "package": "UNAVAILABLE",
+        "render": "UNAVAILABLE",
+        "structure": "PARTIAL"
+      },
+      "elapsed_seconds": 0.3468,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 236214,
+        "extension": ".pdf",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8128W msds_CN 国彩.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8128W msds_CN 国彩.pdf",
+        "sha256": "44444f3257eaea3816ec441b97e60bb11c8bb8c0edaf60c8ddf177b68710cf94"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0008_0a76abfcaa3e",
+      "dimensions": {
+        "content": "PARTIAL",
+        "formatting": "UNAVAILABLE",
+        "images": "PARTIAL",
+        "package": "UNAVAILABLE",
+        "render": "UNAVAILABLE",
+        "structure": "PARTIAL"
+      },
+      "elapsed_seconds": 0.0805,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 119705,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\7 水性助剂 OS等\\OS-405 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/7 水性助剂 OS等/OS-405 tds_CN 冠志.pdf",
+        "sha256": "0a76abfcaa3e01228c9522bcc8d4c47384c7d9997fc18ded532d5ae4f26dc646"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0009_68515f0d11f7",
+      "dimensions": {
+        "content": "PARTIAL",
+        "formatting": "UNAVAILABLE",
+        "images": "PARTIAL",
+        "package": "UNAVAILABLE",
+        "render": "UNAVAILABLE",
+        "structure": "PARTIAL"
+      },
+      "elapsed_seconds": 0.0859,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 190967,
+        "extension": ".pdf",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\7 水性助剂 OS等\\OS-406 tds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/7 水性助剂 OS等/OS-406 tds_CN 冠志.pdf",
+        "sha256": "68515f0d11f749d6ce46acfa8d02149ba123bafa26a2a9e204a48d57f517c554"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0010_ccc824c41319",
+      "dimensions": {
+        "content": "PARTIAL",
+        "formatting": "UNAVAILABLE",
+        "images": "PARTIAL",
+        "package": "UNAVAILABLE",
+        "render": "UNAVAILABLE",
+        "structure": "PARTIAL"
+      },
+      "elapsed_seconds": 0.3855,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 217869,
+        "extension": ".pdf",
+        "family": "RU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- PDF版本\\8 复配树脂、涂料、涂饰剂 RU&RA\\RU-10102 msds_CN 冠志.pdf",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- PDF版本/8 复配树脂、涂料、涂饰剂 RU&RA/RU-10102 msds_CN 冠志.pdf",
+        "sha256": "ccc824c413193e03bae01df92fda9e5836f38e41088e385a269f0ff9bd3f26ac"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0011_0d44700fa16d",
+      "dimensions": {
+        "content": "MISMATCH",
+        "formatting": "PARTIAL",
+        "images": "PASS",
+        "package": "PASS",
+        "render": "UNAVAILABLE",
+        "structure": "PASS"
+      },
+      "elapsed_seconds": 0.1363,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 16312,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2801 tds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-2801 tds_CN 国彩.docx",
+        "sha256": "0d44700fa16de4268a2a539518199581349385ca8df32c0e49408186a996a32f"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0012_23fbfc9ece54",
+      "dimensions": {
+        "content": "MISMATCH",
+        "formatting": "PARTIAL",
+        "images": "PASS",
+        "package": "PASS",
+        "render": "UNAVAILABLE",
+        "structure": "PASS"
+      },
+      "elapsed_seconds": 0.5756,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 49154,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-2835 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-2835 msds_CN 国彩.docx",
+        "sha256": "23fbfc9ece54f3baa56168182e5e2b4ba9600cbbb37cd4213cb95bfde5271a3d"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0013_8b600e7277d5",
+      "dimensions": {
+        "content": "MISMATCH",
+        "formatting": "PARTIAL",
+        "images": "PASS",
+        "package": "PASS",
+        "render": "UNAVAILABLE",
+        "structure": "PASS"
+      },
+      "elapsed_seconds": 0.5588,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 35659,
+        "extension": ".docx",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-3822 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-3822 msds_CN 国彩.docx",
+        "sha256": "8b600e7277d53e59db31160118021a2a9037ef0e62eaaf9298e0828a02621650"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0014_d1d443595d9b",
+      "dimensions": {
+        "content": "PARTIAL",
+        "formatting": "UNAVAILABLE",
+        "images": "PARTIAL",
+        "package": "UNAVAILABLE",
+        "render": "UNAVAILABLE",
+        "structure": "PARTIAL"
+      },
+      "elapsed_seconds": 3.9363,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 26112,
+        "extension": ".doc",
+        "family": "PU",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\1-1 单组份水性聚氨酯树脂 PU\\PU-6026 tds_EN Guocai.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/1-1 单组份水性聚氨酯树脂 PU/PU-6026 tds_EN Guocai.doc",
+        "sha256": "d1d443595d9ba5e0e19dd3789015916bdf7a9e1f0540ec6d8aa5c8ae9e40e100"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0015_b1f1381e158f",
+      "dimensions": {
+        "content": "PARTIAL",
+        "formatting": "UNAVAILABLE",
+        "images": "PARTIAL",
+        "package": "UNAVAILABLE",
+        "render": "UNAVAILABLE",
+        "structure": "PARTIAL"
+      },
+      "elapsed_seconds": 4.5273,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 115712,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-2 水性羟基丙烯酸乳液 PA\\PA-4778 msds_CN冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-2 水性羟基丙烯酸乳液 PA/PA-4778 msds_CN冠志.doc",
+        "sha256": "b1f1381e158f945ec12258b0b5a6922667c698e5c81662a481e93edf88b1bedb"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0016_99963c225c6c",
+      "dimensions": {
+        "content": "PARTIAL",
+        "formatting": "UNAVAILABLE",
+        "images": "PARTIAL",
+        "package": "UNAVAILABLE",
+        "render": "UNAVAILABLE",
+        "structure": "PARTIAL"
+      },
+      "elapsed_seconds": 3.0584,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 41472,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-2 水性羟基丙烯酸乳液 PA\\PA-4817 tds_CN 冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-2 水性羟基丙烯酸乳液 PA/PA-4817 tds_CN 冠志.doc",
+        "sha256": "99963c225c6c8197045604530b4c9176d8a45febf58a71eaa00c0e154f338840"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0017_3e752aef93a7",
+      "dimensions": {
+        "content": "MISMATCH",
+        "formatting": "PARTIAL",
+        "images": "PASS",
+        "package": "PASS",
+        "render": "UNAVAILABLE",
+        "structure": "PASS"
+      },
+      "elapsed_seconds": 0.5443,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 31506,
+        "extension": ".docx",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-3332 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-3332 msds_CN 冠志.docx",
+        "sha256": "3e752aef93a785eca7c93c6e4be0ce5beed1befeeaf90e088210a70c9ecdfbc0"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0018_2f2e229362b6",
+      "dimensions": {
+        "content": "PARTIAL",
+        "formatting": "UNAVAILABLE",
+        "images": "PARTIAL",
+        "package": "UNAVAILABLE",
+        "render": "UNAVAILABLE",
+        "structure": "PARTIAL"
+      },
+      "elapsed_seconds": 2.7731,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 23040,
+        "extension": ".doc",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-4895 tds_CN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-4895 tds_CN 国彩.doc",
+        "sha256": "2f2e229362b6abd6d7ffa113efac70d78eaccf8b9834d35e35c22897563a2881"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0019_298cc0e0bdb4",
+      "dimensions": {
+        "content": "MISMATCH",
+        "formatting": "PARTIAL",
+        "images": "PASS",
+        "package": "PASS",
+        "render": "UNAVAILABLE",
+        "structure": "PASS"
+      },
+      "elapsed_seconds": 0.5488,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 48634,
+        "extension": ".docx",
+        "family": "PA",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\2-3 水性羟基丙烯酸二级分散体 PA\\PA-4896 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/2-3 水性羟基丙烯酸二级分散体 PA/PA-4896 msds_CN 冠志.docx",
+        "sha256": "298cc0e0bdb4ce68bf6ed2d098110aefe83f0cf1f6534e403436513537525702"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0020_6347012a885a",
+      "dimensions": {
+        "content": "PARTIAL",
+        "formatting": "UNAVAILABLE",
+        "images": "PARTIAL",
+        "package": "UNAVAILABLE",
+        "render": "UNAVAILABLE",
+        "structure": "PARTIAL"
+      },
+      "elapsed_seconds": 2.6669,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 94486,
+        "extension": ".doc",
+        "family": "EP",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\4-1 水性环氧树脂 EP\\EP-1705 msds_EN 冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/4-1 水性环氧树脂 EP/EP-1705 msds_EN 冠志.doc",
+        "sha256": "6347012a885a36d63f1197e49e81817b584a3e1db8f23dc898a5eeeed53f7457"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0021_4bafca23c6b6",
+      "dimensions": {
+        "content": "PARTIAL",
+        "formatting": "UNAVAILABLE",
+        "images": "PARTIAL",
+        "package": "UNAVAILABLE",
+        "render": "UNAVAILABLE",
+        "structure": "PARTIAL"
+      },
+      "elapsed_seconds": 2.498,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 23552,
+        "extension": ".doc",
+        "family": "UV",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\5 水性光固化树脂 UV\\UV-5100 TDS_EN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/5 水性光固化树脂 UV/UV-5100 TDS_EN 国彩.doc",
+        "sha256": "4bafca23c6b6b656d00675930bb18e1c7e3e33669d3f79c4779aa0306cabe655"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0022_d3768d9d960e",
+      "dimensions": {
+        "content": "MISMATCH",
+        "formatting": "PARTIAL",
+        "images": "PASS",
+        "package": "PASS",
+        "render": "UNAVAILABLE",
+        "structure": "PASS"
+      },
+      "elapsed_seconds": 0.1308,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 24980,
+        "extension": ".docx",
+        "family": "UV",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\5 水性光固化树脂 UV\\UV-5242 tds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/5 水性光固化树脂 UV/UV-5242 tds_CN 冠志.docx",
+        "sha256": "d3768d9d960e98a094567382f4b991ec324e0559940ae02442703f251b6c5252"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0023_a5c9fd477d0b",
+      "dimensions": {
+        "content": "PARTIAL",
+        "formatting": "UNAVAILABLE",
+        "images": "PARTIAL",
+        "package": "UNAVAILABLE",
+        "render": "UNAVAILABLE",
+        "structure": "PARTIAL"
+      },
+      "elapsed_seconds": 2.6011,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 29696,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-1 水分散型异氰酸酯固化剂 OS\\OS-9016 tds_EN Guocai.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-1 水分散型异氰酸酯固化剂 OS/OS-9016 tds_EN Guocai.doc",
+        "sha256": "a5c9fd477d0b1216d23464f479b33a1ad7a36e0133ed8a22c3d82dc07301eb04"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0024_e153fd7ad597",
+      "dimensions": {
+        "content": "MISMATCH",
+        "formatting": "PARTIAL",
+        "images": "PASS",
+        "package": "PASS",
+        "render": "UNAVAILABLE",
+        "structure": "PASS"
+      },
+      "elapsed_seconds": 0.4959,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 33628,
+        "extension": ".docx",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8146\\中文版\\BL-8146 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8146/中文版/BL-8146 msds_CN 冠志.docx",
+        "sha256": "e153fd7ad59716248fb5f6a9fda90ea4ac328935c4c0efef7ca72738001de146"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0025_0cbb732b21a2",
+      "dimensions": {
+        "content": "MISMATCH",
+        "formatting": "PARTIAL",
+        "images": "PASS",
+        "package": "PASS",
+        "render": "UNAVAILABLE",
+        "structure": "PASS"
+      },
+      "elapsed_seconds": 0.4913,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 33422,
+        "extension": ".docx",
+        "family": "BL",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\6-2 水性封闭型异氰酸酯固化剂 BL\\BL-8166 tds msds 中英文版\\中文版\\BL-8166 msds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/6-2 水性封闭型异氰酸酯固化剂 BL/BL-8166 tds msds 中英文版/中文版/BL-8166 msds_CN 冠志.docx",
+        "sha256": "0cbb732b21a212072e14cf0d0767b6054eca272804f2905d55baa8d017a6e63c"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0026_ff1efdb63054",
+      "elapsed_seconds": 0.0332,
+      "error": "NotImplementedError: ",
+      "source": {
+        "bytes": 20959,
+        "extension": ".docx",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\7 水性助剂 OS等\\OS-1030 tds_CN 冠志.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/7 水性助剂 OS等/OS-1030 tds_CN 冠志.docx",
+        "sha256": "ff1efdb630545eba5ab18bf6bfd04432fbc60e79b24081cfe845f32f1533bccf"
+      },
+      "status": "BLOCKED"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0027_09645d2035e0",
+      "elapsed_seconds": 2.4974,
+      "error": "NotImplementedError: ",
+      "source": {
+        "bytes": 392704,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\7 水性助剂 OS等\\OS-12020 tds_CN 冠志.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/7 水性助剂 OS等/OS-12020 tds_CN 冠志.doc",
+        "sha256": "09645d2035e01a7c67ba275751cb0bc0bcc3e70953d3a33a98eacee7bd7d1e45"
+      },
+      "status": "BLOCKED"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0028_2c8fe0aeb037",
+      "dimensions": {
+        "content": "MISMATCH",
+        "formatting": "PARTIAL",
+        "images": "PASS",
+        "package": "PASS",
+        "render": "UNAVAILABLE",
+        "structure": "PASS"
+      },
+      "elapsed_seconds": 0.424,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 29586,
+        "extension": ".docx",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\7 水性助剂 OS等\\OS-1615 msds_CN 国彩.docx",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/7 水性助剂 OS等/OS-1615 msds_CN 国彩.docx",
+        "sha256": "2c8fe0aeb0377ae20be06a7a17460ce285734739b1a94599f445638e43d8c1b6"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0029_f00eb3cb0a7d",
+      "dimensions": {
+        "content": "PARTIAL",
+        "formatting": "UNAVAILABLE",
+        "images": "PARTIAL",
+        "package": "UNAVAILABLE",
+        "render": "UNAVAILABLE",
+        "structure": "PARTIAL"
+      },
+      "elapsed_seconds": 3.3093,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 24064,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\水性噁唑啉交联剂\\OS-8970 tds_CN 国彩.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/水性噁唑啉交联剂/OS-8970 tds_CN 国彩.doc",
+        "sha256": "f00eb3cb0a7d042206bb3e586f1991d20391df709cb7180b45993484b3c8846b"
+      },
+      "status": "COMPLETE"
+    },
+    {
+      "artifact_dir": "E:\\AI APP\\Codex\\openspec\\changes\\complete-recognition-optimization-release\\benchmark-provisioned-v2\\items\\0030_0b7015dbfe24",
+      "dimensions": {
+        "content": "PARTIAL",
+        "formatting": "UNAVAILABLE",
+        "images": "PARTIAL",
+        "package": "UNAVAILABLE",
+        "render": "UNAVAILABLE",
+        "structure": "PARTIAL"
+      },
+      "elapsed_seconds": 3.0852,
+      "overall": "PARTIAL",
+      "source": {
+        "bytes": 28160,
+        "extension": ".doc",
+        "family": "OS",
+        "path": "F:\\MSDS覆写\\MSDS\\TDS MSDS (2)\\TDS MSDS\\产品 TDS MSDS -- WORD版本\\非水性无溶剂产品\\OS-8802G tds_CN Guanzhi.doc",
+        "relative_path": "TDS MSDS/产品 TDS MSDS -- WORD版本/非水性无溶剂产品/OS-8802G tds_CN Guanzhi.doc",
+        "sha256": "0b7015dbfe245fceea676030c98a75f2396154295a0fff704f2779c4a945fca0"
+      },
+      "status": "COMPLETE"
+    }
+  ],
+  "schema_version": "recognition-benchmark-v1"
+}

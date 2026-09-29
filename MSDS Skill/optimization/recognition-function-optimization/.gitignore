@@ -1,0 +1,5 @@
+items/
+cache/
+*.tmp
+*.lock
+*_preview.pdf
