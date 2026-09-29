@@ -43,6 +43,16 @@ python scripts/recognition_benchmark.py `
   --timeout-seconds 180
 ```
 
+To replay one explicitly selected MSDS while keeping the same evidence format:
+
+```powershell
+python scripts/recognition_benchmark.py `
+  --source "F:\MSDS覆写\MSDS\TDS MSDS (2)\path\to\sample.docx" `
+  --workspace OUT `
+  --seed 20260929 `
+  --extensions docx
+```
+
 Use `--dry-run` to regenerate only a deterministic sample manifest. Never use
 the corpus directory as `--workspace`.
 
@@ -54,7 +64,10 @@ python scripts/agent_structured_output.py `
   --output OUT/agent-structured
 ```
 
-The `agent-recognition-v1` schema preserves Section 0–16 records, stable
+The structured converter takes the original SHA-256 and path from the benchmark
+sample manifest, so `source.sha256` is the actual input-file digest rather than
+a hash of the filename or recognition JSON. The `agent-recognition-v1` schema
+preserves Section 0–16 records, stable
 table/cell/segment/image locators, raw evidence references, hashes, warnings,
 and completeness status. A 100-item structured import manifest is included in
 `manifests/agent-import-manifest-100.json`.

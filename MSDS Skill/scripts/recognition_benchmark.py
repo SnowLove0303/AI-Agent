@@ -147,6 +147,8 @@ def raw_docx_evidence(path: Path) -> dict[str, Any]:
     except ET.ParseError:
         tables = []
     return {
+        "source_sha256": sha256_file(path),
+        "source_bytes": path.stat().st_size,
         "package_hash": digest_json(part_hashes),
         "part_hashes": part_hashes,
         # Match the reader's record order: header/footer furniture, body
@@ -396,12 +398,17 @@ def update_regression_ledger(path: Path, summary: dict[str, Any]) -> list[dict[s
 
 
 def run(args: argparse.Namespace) -> int:
-    root = Path(args.source_root).resolve()
+    source_path = Path(args.source).resolve() if args.source else None
+    root = Path(args.source_root).resolve() if args.source_root else (source_path.parent if source_path else None)
+    if root is None:
+        raise ValueError("--source-root or --source is required")
     workspace = Path(args.workspace).resolve()
     workspace.mkdir(parents=True, exist_ok=True)
     extensions = {f".{item.strip().lower().lstrip('.')}" for item in args.extensions.split(",") if item.strip()}
-    paths = discover(root, extensions)
-    selected = sample_paths(paths, args.sample_size, args.seed)
+    paths = [source_path] if source_path else discover(root, extensions)
+    if source_path is not None and (not source_path.exists() or source_path.suffix.lower() not in extensions):
+        raise ValueError(f"Selected source is missing or unsupported: {source_path}")
+    selected = [source_path] if source_path is not None else sample_paths(paths, args.sample_size, args.seed)
     manifest = build_manifest(root, selected, args.seed, extensions)
     (workspace / "sample-manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
     if args.dry_run:
@@ -447,7 +454,8 @@ def run(args: argparse.Namespace) -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Benchmark GUI-backed MSDS recognition without modifying sources")
-    parser.add_argument("--source-root", required=True)
+    parser.add_argument("--source-root")
+    parser.add_argument("--source")
     parser.add_argument("--workspace", required=True)
     parser.add_argument("--seed", type=int, default=20260929)
     parser.add_argument("--sample-size", type=int, default=6)

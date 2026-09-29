@@ -194,9 +194,15 @@ def convert_workspace(workspace: Path, output: Path) -> dict[str, Any]:
         if result.get("status") != "COMPLETE":
             records.append({"source": result.get("source"), "status": "BLOCKED", "error": result.get("error")})
             continue
+        source = result.get("source", {})
         artifact_dir = Path(result["artifact_dir"])
         recognition = json.loads((artifact_dir / "recognition.json").read_text(encoding="utf-8"))
         comparison = json.loads((artifact_dir / "comparison.json").read_text(encoding="utf-8"))
+        comparison["source_meta"] = {
+            "path": source.get("path"),
+            "sha256": source.get("sha256") or comparison.get("source", {}).get("source_sha256"),
+            "bytes": source.get("bytes"),
+        }
         structured = convert_item(recognition, comparison, {"recognition": str(artifact_dir / "recognition.json"), "comparison": str(artifact_dir / "comparison.json")})
         item_path = output / "items" / f"{structured['item_id']}.json"
         item_path.parent.mkdir(parents=True, exist_ok=True)
