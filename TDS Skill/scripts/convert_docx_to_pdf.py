@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse, hashlib, json, os, re, shutil, subprocess, sys, tempfile, time
 from pathlib import Path
+from tds_common import replace_or_retain
 
 
 def sha256(path: Path) -> str:
@@ -92,7 +93,7 @@ def convert(input_path: Path, output_path: Path, timeout: int=300, wpscli: str|N
         if result.returncode!=0 or not generated.is_file() or generated.stat().st_size==0:
             diagnostics='\n'.join(x for x in (result.stdout,result.stderr) if x)
             raise RuntimeError(f'WPS DOCX-to-PDF conversion failed (returncode={result.returncode}).\n{diagnostics}')
-        os.replace(generated,output_path)
+        replace_or_retain(generated,output_path,suffix='.pending.pdf')
     if not output_path.is_file() or output_path.stat().st_size==0: raise RuntimeError(f'conversion produced no usable PDF: {output_path}')
     return {'converter':'wpscli-word2pdf','converter_executable':str(executable),'converter_version':version(executable),'source_docx':str(input_path),'source_sha256':source_hash,'output_pdf':str(output_path),'output_sha256':sha256(output_path),'page_count':count_pdf_pages(output_path),'elapsed_seconds':round(time.time()-started,3),'source_is_final_docx':True,'independent_pdf_authoring':False}
 

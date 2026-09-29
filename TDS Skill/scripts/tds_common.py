@@ -1,6 +1,6 @@
 """TDS-only primitives. No MSDS imports or shared business rules."""
 from __future__ import annotations
-import hashlib, json, re, subprocess, zipfile
+import hashlib, json, os, re, shutil, subprocess, zipfile
 from copy import deepcopy
 from pathlib import Path
 from typing import Iterable
@@ -28,6 +28,67 @@ def norm(s: str) -> str: return re.sub(r'\s+','', (s or '').strip()).replace('�
 
 def text_sha256(value: str|None) -> str:
     return hashlib.sha256((value or '').encode('utf-8')).hexdigest()
+
+def template_registry_errors(registry: dict) -> list[str]:
+    """Fail closed when a variant points at a changed, missing, or duplicated template."""
+    errors=[]; identities=set()
+    for variant_id, variant in (registry.get('variants') or {}).items():
+        template=Path(ROOT / variant.get('template','')).resolve()
+        try: template.relative_to(ROOT.resolve())
+        except ValueError: errors.append(f'template_outside_skill:{variant_id}'); continue
+        if not template.is_file():
+            errors.append(f'template_missing:{variant_id}'); continue
+        expected=variant.get('template_sha256')
+        if expected and sha256(template)!=expected: errors.append(f'template_hash_mismatch:{variant_id}')
+        identity=(variant.get('language'),variant.get('company'))
+        if identity in identities: errors.append(f'duplicate_variant_identity:{identity}')
+        identities.add(identity)
+    if len(identities)!=len(registry.get('variants') or {}): errors.append('variant_identity_incomplete')
+    return errors
+
+def variant_asset_errors(docx_path: Path, variant: dict, variant_id: str='variant') -> list[str]:
+    """Check company-specific package assets and header indentation without rewriting them."""
+    errors=[]; policy=variant.get('asset_contract',{})
+    try:
+        with zipfile.ZipFile(docx_path) as archive:
+            media=sorted(n for n in archive.namelist() if n.startswith('word/media/'))
+            allowed=policy.get('media_allowed')
+            if allowed is False and media: errors.append(f'illegal_media:{variant_id}')
+            if allowed is True and not media: errors.append(f'missing_media:{variant_id}')
+    except (OSError,zipfile.BadZipFile):
+        return [f'docx_package_unreadable:{variant_id}']
+    from docx import Document
+    try:
+        doc=Document(str(docx_path)); paragraph=doc.paragraphs[0]
+        ppr=paragraph._p.pPr; ind=ppr.find(qn('w:ind')) if ppr is not None else None
+        actual=(xml_attrs(ind) or {}).get('left')
+        expected=policy.get('first_paragraph_left_twips')
+        if expected is None and actual not in (None,'0'): errors.append(f'first_paragraph_left_indent:{variant_id}:{actual}')
+        elif expected is not None and actual!=str(expected): errors.append(f'first_paragraph_left_indent:{variant_id}:{actual}!={expected}')
+    except Exception as exc:
+        errors.append(f'header_asset_check_failed:{variant_id}:{type(exc).__name__}')
+    return errors
+
+def cross_section_phrase_errors(mapping: dict, min_chars: int=8) -> list[str]:
+    """Reject normalized text that copies a complete source clause from another section."""
+    model=mapping.get('normalized_model') or {}; fields=model.get('fields') or {}
+    if not fields: return []
+    body_ids=('product.description','product.supply_form','product.features','product.application','product.storage')
+    errors=[]
+    def clauses(value):
+        chunks=re.split(r'[\n。！？!?；;]+', value or '')
+        return [re.sub(r'\s+',' ',chunk).strip() for chunk in chunks if len(re.sub(r'\s+',' ',chunk).strip())>=min_chars]
+    for lang in ('zh-CN','en-US'):
+        for target_id in body_ids:
+            target=fields.get(target_id) or {}; normalized=(target.get('normalized_values') or {}).get(lang,'')
+            source=(target.get('source_values') or {}).get(lang,'')
+            if not normalized or not source: continue
+            for source_id in body_ids:
+                if source_id==target_id: continue
+                for clause in clauses((fields.get(source_id) or {}).get('source_values',{}).get(lang,'')):
+                    if clause in normalized and clause not in source:
+                        errors.append(f'cross_section_phrase_leak:{lang}:{target_id}<-{source_id}:{clause}')
+    return errors
 
 def split_body_paragraphs(text: str) -> list[str]:
     raw = (text or '').strip()
@@ -167,6 +228,7 @@ def source_fidelity_errors(mapping: dict, strict_language: str='zh-CN') -> list[
         for key,value in sources.items():
             if expected_row.get(key) and text_sha256(value)!=expected_row[key]:
                 errors.append(f'performance_row_hash_mismatch:{strict_language}:{field_id}:{key}')
+    errors.extend(cross_section_phrase_errors(mapping))
     return errors
 
 def _source_field_item(mapping: dict, field_id: str) -> dict:
@@ -316,7 +378,7 @@ def numbering_shape(paragraph: Paragraph):
 
 def run_style(run) -> dict:
     rpr=run._r.rPr
-    return {'bold':run.bold,'italic':run.italic,'underline':str(run.underline) if run.underline is not None else None,'font':run.font.name,'size_pt':run.font.size.pt if run.font.size else None,'color':str(run.font.color.rgb) if run.font.color and run.font.color.rgb else None,'character_spacing':child_attrs(rpr,'w:spacing'),'kerning':child_attrs(rpr,'w:kern'),'position':child_attrs(rpr,'w:position')}
+    return {'bold':run.bold,'italic':run.italic,'underline':str(run.underline) if run.underline is not None else None,'font':run.font.name,'size_pt':run.font.size.pt if run.font.size else None,'color':str(run.font.color.rgb) if run.font.color and run.font.color.rgb else None,'rfonts':child_attrs(rpr,'w:rFonts'),'size_xml':child_attrs(rpr,'w:sz'),'size_cs_xml':child_attrs(rpr,'w:szCs'),'character_spacing':child_attrs(rpr,'w:spacing'),'kerning':child_attrs(rpr,'w:kern'),'position':child_attrs(rpr,'w:position')}
 
 def paragraph_shape(paragraph: Paragraph) -> dict:
     pf=paragraph.paragraph_format; ppr=paragraph._p.pPr
@@ -409,15 +471,27 @@ def convert_legacy(source: Path, outdir: Path) -> Path:
     if r.returncode or not out.is_file(): raise RuntimeError(f'DOC conversion failed: {r.stdout}\n{r.stderr}')
     return out
 
+def replace_or_retain(source: Path, target: Path, suffix: str='.pending') -> Path:
+    """Atomically publish or retain a recoverable sibling when the target is locked."""
+    try:
+        os.replace(source, target)
+        return target
+    except PermissionError as exc:
+        retained=target.with_name(target.name + suffix)
+        shutil.copy2(source, retained)
+        source.unlink(missing_ok=True)
+        raise PermissionError(f'target is locked: {target}; retained generated file at {retained}') from exc
+
 def fresh_write(template: Path, output: Path, edit) -> None:
     from docx import Document
     doc=Document(str(template)); edit(doc)
     output.parent.mkdir(parents=True,exist_ok=True)
-    tmp=output.with_name(output.name+'.edited.docx'); doc.save(str(tmp))
-    with zipfile.ZipFile(template) as src, zipfile.ZipFile(tmp) as changed, zipfile.ZipFile(output,'w') as dst:
+    tmp=output.with_name(output.name+'.edited.docx'); assembled=output.with_name(output.name+'.assembled.docx'); doc.save(str(tmp))
+    with zipfile.ZipFile(template) as src, zipfile.ZipFile(tmp) as changed, zipfile.ZipFile(assembled,'w') as dst:
         xml=changed.read('word/document.xml')
         for info in src.infolist(): dst.writestr(info, xml if info.filename=='word/document.xml' else src.read(info.filename))
     tmp.unlink()
+    replace_or_retain(assembled,output)
 
 SECTION_HEADINGS={
  'product.description':{'zh-CN':'【产品描述】','en-US':'【Characterization】'},
@@ -648,10 +722,7 @@ def apply_vertical_budget(doc, variant: dict, total_items: int) -> bool:
             spacing.set(qn('w:after'), after)
             first_h = False
         else:
-            line = '280' if lvl == 1 else '260'
             after = '30' if lvl == 1 else '20'
-            spacing.set(qn('w:line'), line)
-            spacing.set(qn('w:lineRule'), 'exact')
             spacing.set(qn('w:after'), after)
     return True
 
@@ -680,12 +751,7 @@ def apply_vertical_budget_snapshot(paragraphs: list[dict], variant: dict, total_
             spacing['space_after'] = str(int(after) * 635)
             first_h = False
         else:
-            line = '280' if lvl == 1 else '260'
             after = '30' if lvl == 1 else '20'
-            xml['line'] = line
-            xml['lineRule'] = 'exact'
             xml['after'] = after
             spacing['xml'] = xml
-            spacing['line_spacing'] = str(int(line) * 635)
-            spacing['line_spacing_rule'] = 'EXACTLY (4)'
             spacing['space_after'] = str(int(after) * 635)

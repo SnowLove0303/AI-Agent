@@ -14,6 +14,7 @@ scripts/map_tds_fields.py
 scripts/overwrite_tds.py
 scripts/convert_docx_to_pdf.py
 scripts/audit_tds_eight.py
+scripts/lint_tds_docx.py
 scripts/tds_cli.py
 templates/source/TDS_CN_冠志模板.doc
 templates/source/TDS_CN_国彩模板.doc

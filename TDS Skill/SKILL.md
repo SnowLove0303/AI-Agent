@@ -2,7 +2,7 @@
 name: tds-four-variant-eight-deliverable-standardizer
 description: Extract, normalize, professionally translate, and overwrite TDS content into CN/EN × Guanzhi/Guocai templates, producing four DOCX and four DOCX-derived PDF deliverables with auditable judgment evidence.
 metadata:
-  version: 1.3.24
+  version: 1.3.25
   short-description: TDS Skill — evidence-led normalization, agent judgment, four refreshed templates, eight auditable files
 ---
 
@@ -27,6 +27,9 @@ metadata:
 - active 模板本身的版式就是唯一权威。若模板示例标题看起来偏右，Skill 不得擅自删除模板缩进或强制居中；应保留原模板版式并把“模板基线需人工修订”作为独立问题提出。只有用户另行确认模板变更，才能更新 active 模板与 registry。
 - 具体抽取边界、归类、合并/拆分、单位与限定条件保留方式、术语选择和英文句法由 Agent 根据上下文、源证据和目标变体判断。若存在会改变客户含义的多种解释，保留原始证据并标记 `needs_judgment`；未解决前不得发布。
 - 中文内容忠实度门禁：映射记录源事实文件、文本字段和性能行 SHA-256；覆写前校验中文源值与标准化值一致并直接写入源值，生成后逐字段、逐章节行、逐性能行回读 DOCX。发现词序、术语、数值、单位、测试条件或免责声明变化时，阻断 DOCX 后的 PDF 转换和交付包发布；仅允许登记的列表序号剥离、外层空白收束和段落拆分。
+- 运行时模板完整性门禁：每个变体必须命中注册表中的唯一 active 模板及 SHA-256；冠志/国彩页眉媒体与首段避让缩进按公司资产合约检查，禁止通过前一变体输出生成后一变体。
+- 正文继承合约：描述、供应形式、应用、储存及扩展段落必须逐段继承对应 active 模板锚点的字体、字号、行距、首行缩进、左右缩进和字符属性；英文垂直预算只能调整段前/段后空间，不得改变正文行距或行距规则。
+- 交付前必须运行 `scripts/lint_tds_docx.py`（CLI 的 DOCX preflight 已自动调用）；任一模板哈希、公司资产、正文继承、源事实或非法换行检查失败，禁止进入 PDF 转换。
 
 执行源文件、翻译或覆写任务前，读取 `references/agent_judgment_protocol.md`。它规定判断顺序和证据格式，不替代 Agent 对具体内容的专业判断。
 
