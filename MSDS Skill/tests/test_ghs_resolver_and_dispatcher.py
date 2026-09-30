@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Unit tests for GHS code resolver and Jev dispatcher."""
+"""Unit tests for GHS code resolver and deterministic dispatcher."""
 from pathlib import Path
 import sys
 
@@ -9,7 +9,7 @@ if str(SCRIPTS_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPTS_DIR))
 
 from ghs_code_resolver import resolve_precautionary_statements, format_precautionary_text
-from jev_dispatcher import resolve_signal_word, route_s3_to_s2
+from semantic_dispatcher import resolve_signal_word, route_s3_to_s2
 from section2_ghs_policy import format_label_elements
 
 

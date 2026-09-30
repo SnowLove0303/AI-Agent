@@ -2,11 +2,13 @@ from __future__ import annotations
 
 import io
 import sys
+import struct
+import zlib
+import binascii
 from pathlib import Path
 
 from docx import Document
 from docx.shared import Inches
-from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -18,14 +20,24 @@ from ghs_pictogram_policy import extract_all_embedded_images, insert_source_pict
 TEMPLATE = ROOT / "examples" / "template_reference.docx"
 
 
+def _png_bytes(rgb: tuple[int, int, int]) -> bytes:
+    """Create a valid 1x1 RGB PNG without an optional imaging dependency."""
+    raw = b"\x00" + bytes(rgb)
+
+    def chunk(kind: bytes, payload: bytes) -> bytes:
+        checksum = binascii.crc32(kind + payload) & 0xFFFFFFFF
+        return (struct.pack(">I", len(payload)) + kind + payload
+                + struct.pack(">I", checksum))
+
+    header = struct.pack(">IIBBBBB", 1, 1, 8, 2, 0, 0, 0)
+    return (b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", header)
+            + chunk(b"IDAT", zlib.compress(raw)) + chunk(b"IEND", b""))
+
+
 def _create_multi_image_docx(path: Path) -> Path:
     doc = Document()
-    for color in ("red", "black"):
-        img_io = io.BytesIO()
-        im = Image.new("RGB", (64, 64), color=color)
-        im.save(img_io, format="PNG")
-        img_io.seek(0)
-        doc.add_picture(img_io, width=Inches(0.5))
+    for color in ((255, 0, 0), (0, 0, 0)):
+        doc.add_picture(io.BytesIO(_png_bytes(color)), width=Inches(0.5))
     doc.save(str(path))
     return path
 

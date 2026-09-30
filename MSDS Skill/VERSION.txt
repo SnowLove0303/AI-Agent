@@ -1,14 +1,16 @@
 MSDS Unified Eight-Deliverable Standardizer Skill
-3.28.0
+3.29.0
+Breaking release: removed the remote semantic decision service, credential lookup, network calls, and decision persistence; semantic decisions are deterministic and offline.
+Added reproducible DOC/DOCX/PDF recognition benchmarking, source/recognition dimension hashes, legacy VML header image recognition, and an Agent-ready Section 0-16 structured JSON channel.
 Efficiency reconstruction & robust engineering overhaul: OpenSpec-guided multi-pictogram single-run embedding,
 SemanticMaster bilingual synchronization, automated preflight scaffolding (280+ to 0 blockers),
 Python runtime environment shield, and stage timing telemetry.
 Section 11.2 skin-irritation and 11.3 eye-irritation duplicate heading cleanup;
 ordinary Section 1-16 source values remain verbatim.
 Standard EN master template and 12-row geometry baseline, strict bold and format lock, 7-page exact convergence
-Jev System One domain adjudicator and decision ledger, dual-system fast/slow path routing
+Deterministic local semantic routing with fail-closed ambiguity handling
 Verbatim Section 2 GHS label elements, unified 12.0 pt value typography enforcement, Section 11 independent row playbook
-GHS precautionary reverse-resolution, Jev signal word and Section 3 amine salt routing, Section 11 multi-tier toxicology
+GHS precautionary reverse-resolution, deterministic signal-word and Section 3 amine-salt routing, Section 11 multi-tier toxicology
 Strict non-hazard Section 2 suppression, P-statement leakage prevention, continuous renumbering and release audit gate
 Resumable single-entry efficiency workflow with evidence, review, preflight and formal-build checkpoints
 Source-hash-bound cache reuse, reviewed family candidates and shared read-only audit context

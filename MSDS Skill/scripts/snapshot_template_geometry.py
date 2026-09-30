@@ -105,7 +105,11 @@ def table_snapshot(table, index):
     return {
         "table": index,
         "row_count": len(table.rows),
-        "column_count": len(grid_widths),
+        # Report logical cells rather than the physical grid width.  The
+        # Section 8.2 control-parameter table intentionally has a five-column
+        # grid with four logical data cells because the first cell spans two
+        # grid columns; audits and snapshots must agree on that contract.
+        "column_count": max((row["cell_count"] for row in rows), default=0),
         "unique_cell_counts": [row["cell_count"] for row in rows],
         "tblPr_hash": sha(table._tbl.tblPr),
         "tblGrid_hash": sha(grid),

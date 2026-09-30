@@ -1,5 +1,27 @@
 # MSDS Unified Eight-Deliverable Standardizer Skill — Changelog
 
+## v3.29.0 — 2026-09-30
+
+- **BREAKING: removed the remote semantic decision client**: deleted network
+  requests, credential lookup, retry handling, persistence, and legacy modules
+  and tests. Supported semantic decisions now
+  use deterministic offline rules; ambiguous input remains source-review gated.
+- **Recognition optimization release**: added deterministic stratified
+  DOC/DOCX/PDF sampling, source and recognition hashes, dimension-specific
+  comparison, regression ledger, explicit blocked/unavailable statuses, and
+  Word/WPS adapter diagnostics.
+- **Recognition completeness**: added VML header/footer image recognition and
+  Word/WPS fallback for legacy DOC conversion/rendering while keeping source
+  files read-only.
+- **Agent structured channel**: added `agent-recognition-v1` records with
+  Section 0–16 buckets, stable source locators, table/cell/segment/image
+  indexes, source hashes, warnings, and completeness status.
+- Packaged reusable programs, tests, schemas, manifests, reports and replay
+  instructions under `optimization/recognition-function-optimization/`.
+- Validation: 317 tests passed; the 100-item provisioned recognition run
+  completed 96 items and explicitly blocked 4 unsupported cases. No customer
+  eight-file MSDS/TDS release is claimed by this tooling package.
+
 ## v3.28.0 — 2026-09-29
 
 - Completed OpenSpec change `msds-efficiency-reconstruction` focusing on efficiency, layout robustness, and automation.
@@ -500,15 +522,11 @@ to an Agent as an alternative template authority.
 ## [3.26.6] - 2026-09-20
 
 ### Added
-- **Jev System One Core Engine (`scripts/jev_engine.py`)**:
-  - Integrated TypeSafe System One decision client (`JevEngine`) with official endpoint and API key (via environment variable `ZEN_API_KEY` / `JEV_API_KEY` or `~/.jev/zen.key`).
-  - Implemented resilient connection pooling, exponential retry, and deterministic zero-stop fallback protection (`fallback_choice`, `fallback_noul`, `fallback_score`).
-  - Added auditable `DecisionLedger` recording all decisions, prompts, confidence scores, and latencies into `jev_decision_ledger.json`.
-- **Domain Decision & Gatekeeping Adjudicator (`scripts/jev_domain_adjudicator.py`)**:
-  - Implemented 5 key arbitration scenarios: GHS Signal Word arbitration, Cross-Section Fact Routing, Independent Row Splitting per `independent_row_playbook.md`, TDS Technical Indicator Slot Mapping, and Pre-Release Semantic Consistency Auditing.
-  - Architected dual-system fast/slow path routing: deterministic regex rules execute locally in 0ms, while ambiguous/borderline cases invoke on-demand Jev arbitration.
-- **Full Unit Test Coverage (`tests/test_jev_engine.py`)**:
-  - Added 9 comprehensive unit tests covering initialization, fallback on network error, signal word arbitration, cross-section routing, row splitting, TDS slot mapping, semantic consistency gate, and decision ledger export (258/258 tests passing).
+- **Deterministic local semantic routing**:
+  - Covers signal words, cross-section evidence, independent-row splitting, TDS slot mapping, and semantic consistency checks without network or secret configuration.
+  - Ambiguous input remains fail-closed and is routed to the existing source-review gates.
+- **Offline regression coverage (`tests/test_semantic_rules.py`)**:
+  - Verifies supported mappings, safe fallbacks, contradiction blocking, and the absence of credential/network configuration.
 
 ## [3.26.5] - 2026-09-20
 
@@ -517,14 +535,14 @@ to an Agent as an alternative template authority.
   - Implemented `set_cell_value_unified` in `MSDS Skill/scripts/section2_ghs_policy.py`, guaranteeing that every table value cell across all 16 sections strictly enforces 12.0 pt (`<w:sz w:val="24"/>` / `<w:szCs w:val="24"/>`), exact fonts (Arial for English/numbers, 宋体 for Chinese), single-run-per-line run structure, explicit bold control, and elimination of dangling empty paragraphs.
   - Resolved the fundamental `cell.text = ...` style destruction defect by cleanly clearing cell paragraphs while preserving or setting explicit `<w:rPr>` properties.
 - **Strict Verbatim Source Routing for Section 2 Label Elements**:
-  - Enhanced `MSDS Skill/scripts/jev_dispatcher.py` (`route_s3_to_s2`) and extraction rules to strictly mirror source text verbatim without unauthorized rephrasing or omission.
+  - Enhanced `MSDS Skill/scripts/semantic_dispatcher.py` (`route_s3_to_s2`) and extraction rules to strictly mirror source text verbatim without unauthorized rephrasing or omission.
   - Section 2.2 GHS Label Elements strictly outputs verbatim source: `羟基丙烯酸酯聚合物GHS危险性分类：不适用\n请注意以下物质：\nN,N-二甲基乙醇胺，中和剂，已键合为盐，质量浓度小于2.0%` (CN) and synchronized accurate English equivalent.
 - **Independent Row and Paragraph Separation Playbook (`independent_row_playbook.md`)**:
   - Authored comprehensive playbook codifying the 3 core separation laws: 主客体分行律 (Subject-Object Separation Law), 分类边界律 (Categorical Boundary Separation Law), and 指标对照分行律 (Metric Pair Separation Law).
   - Enforced independent table row / paragraph splitting in Section 11 Table 10: product-level study status (`该产品无可用的毒理学研究。` / `No toxicological studies are available on the product itself.`) and polymer component data (`羟基聚丙烯酸酯分散体：\n毒性：无资料；刺激性：无资料。`) are cleanly separated into distinct independent rows instead of being congested together.
 - **Fail-Closed Value Typography Release Audit Gate**:
   - Extended `MSDS Skill/scripts/audit_section2_release.py` with `audit_value_cell_typography(docx_path)`, inspecting all table value cells to verify that font size is strictly 12.0 pt (`sz=24`), bold status matches semantic specification, and empty/unformatted runs are rejected.
-  - Added full test coverage in `MSDS Skill/tests/test_value_typography_enforcement.py` (3 test suites) and regression tests in `test_ghs_resolver_and_jev.py`.
+  - Added full test coverage in `MSDS Skill/tests/test_value_typography_enforcement.py` (3 test suites) and regression tests in `test_ghs_resolver_and_dispatcher.py`.
 
 ## [3.26.4] - 2026-09-20
 
@@ -532,8 +550,8 @@ to an Agent as an alternative template authority.
 - **GHS Precautionary Code Reverse Resolver (`scripts/ghs_code_resolver.py`)**:
   - Automatically resolves natural language safety, emergency handling, storage and disposal text to canonical alphanumeric GHS P-codes (`P280`, `P264`, `P270`, `P271`, `P304+P340`, `P305+P351+P338`, `P302+P352`, `P301+P330+P331`, `P391`, `P370+P378`, `P403+P235`, `P501`).
   - Standardizes precautionary output into four distinct blocks: 预防措施 / Prevention, 事故响应 / Response, 安全储存 / Storage, 废弃处置 / Disposal.
-- **Jev System One Dispatcher (`scripts/jev_dispatcher.py`)**:
-  - Integrates `C:\Users\Administrator\.jev\jev.py` (`decide_choice`) for intelligent routing and signal word resolution.
+- **Deterministic semantic dispatcher (`scripts/semantic_dispatcher.py`)**:
+  - Resolves explicit signal words locally and routes verified Section 3 amine neutralization / SCL threshold notes into Section 2.3 GHS Label Elements.
   - Automatically recognizes `警告词：警告` as canonical Signal Word (`警告` in CN, `Warning` in EN).
   - Intelligently extracts Section 3 amine neutralization / SCL threshold notes and routes them into Section 2.3 GHS Label Elements.
 - **Section 2 Non-Hazard & Skeleton Preservation Refinement**:

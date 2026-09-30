@@ -3,9 +3,9 @@ name: msds-unified-four-format-standardizer
 description: One maintained MSDS/SDS standardization skill that discovers supported source files, binds source-grounded facts to synchronized CN/EN outputs for Guangzhou Guanzhi and Yingde Guocai, preserves locked templates, and releases four DOCX plus four PDF deliverables only after semantic and render QA.
 ---
 
-# Unified MSDS Eight-Deliverable Standardizer v3.28.0
+# Unified MSDS Eight-Deliverable Standardizer v3.29.0
 
-## Global Source Fidelity and Layered Section Rules (v3.28.0)
+## Global Source Fidelity and Layered Section Rules (v3.29.0)
 
 1. The global source-grounding gate is shared by S1-S16. `output_traceability`
    records output decisions but never becomes evidence by itself.
@@ -61,11 +61,11 @@ description: One maintained MSDS/SDS standardization skill that discovers suppor
 4. Output must strictly converge to 7 pages without 8th blank overflow page, and enforce a 0 Chinese characters gate.
 
 
-## Mandatory Jev System One Adjudication and Decision Ledger (v3.26.6)
+## Mandatory deterministic semantic routing (v3.29.0)
 
-1. `MSDS Skill/scripts/jev_engine.py` and `jev_domain_adjudicator.py` must be used for all ambiguous GHS classifications, cross-section fact routing, independent row necessity, TDS parameter slot mapping, and semantic consistency pre-release audits.
-2. Fast-path deterministic rules handle explicit, unambiguous text in 0ms; Jev System One is invoked on-demand when ambiguity or cross-section conflicts arise.
-3. All Jev decisions must be recorded in `GLOBAL_LEDGER` and exported to `jev_decision_ledger.json` for full auditability.
+1. `scripts/semantic_rules.py` and `scripts/semantic_dispatcher.py` provide all local signal-word, cross-section, independent-row, TDS-slot and semantic-consistency decisions.
+2. The semantic layer is offline-only: it never calls a network service, reads credentials, retries a remote request or persists per-decision telemetry.
+3. Ambiguous or unsupported input returns a safe deterministic fallback or a blocking review result; source-grounding and release gates remain authoritative.
 
 
 ## Mandatory Verbatim Section 2, Unified Value Typography, and Independent Row Playbook (v3.26.5)
@@ -75,11 +75,11 @@ description: One maintained MSDS/SDS standardization skill that discovers suppor
 3. Follow `docs/independent_row_playbook.md` strictly: product-level study conclusions and polymer component data must NEVER be congested together; they must occupy distinct independent rows/paragraphs.
 
 
-## Mandatory GHS code reverse-resolution and Jev dispatcher routing (v3.26.4)
+## Mandatory GHS code reverse-resolution and deterministic semantic dispatch (v3.26.4)
 
 When source MSDS assets contain natural language hazard, precautionary, storage or disposal statements without alphanumeric codes, agents must NOT delete them or leave rows blank.
 1. `scripts/ghs_code_resolver.py` reverse-resolves statements against canonical GHS rules into standard P-codes (`P280`, `P264`, `P270`, `P271`, `P304+P340`, `P305+P351+P338`, `P302+P352`, `P301+P330+P331`, `P391`, `P370+P378`, `P403+P235`, `P501`) and groups them into standard 4-block headings (预防措施, 事故响应, 安全储存, 废弃处置).
-2. `scripts/jev_dispatcher.py` handles intelligent GHS Signal Word mapping (e.g. `警告词：警告` -> `警告` / `Warning`) and routes Section 3 amine neutralization / SCL threshold notes into Section 2.3 GHS Label Elements.
+2. `scripts/semantic_dispatcher.py` handles deterministic GHS Signal Word mapping (e.g. `警告词：警告` -> `警告` / `Warning`) and routes Section 3 amine neutralization / SCL threshold notes into Section 2.3 GHS Label Elements.
 3. Section 11 must provide transparent multi-tier toxicological reporting, explicitly declaring polymer absence of data and identifying reference components by name and CAS number.
 
 

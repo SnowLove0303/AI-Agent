@@ -36,16 +36,12 @@ from template_mutation_whitelist import composite_value_text, is_s28_row, unique
 
 try:
     from ghs_code_resolver import format_precautionary_text, resolve_precautionary_statements
-    from jev_dispatcher import resolve_signal_word, route_s3_to_s2
 except ImportError:
     try:
         from .ghs_code_resolver import format_precautionary_text, resolve_precautionary_statements
-        from .jev_dispatcher import resolve_signal_word, route_s3_to_s2
     except ImportError:
         format_precautionary_text = None
         resolve_precautionary_statements = None
-        resolve_signal_word = None
-        route_s3_to_s2 = None
 
 
 def set_cell_value_unified(

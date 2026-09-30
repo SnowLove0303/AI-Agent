@@ -1,4 +1,10 @@
-# MSDS Skill 3.28.0
+# MSDS Skill 3.29.0
+
+V3.29.0 removes the remote semantic decision service and adds deterministic
+offline semantic routing, reproducible multi-format recognition benchmarking,
+legacy VML header/footer image recognition, and the `agent-recognition-v1`
+structured import channel. The complete recognition optimization package is
+under `optimization/recognition-function-optimization/`.
 
 V3.28.0 implements the OpenSpec efficiency reconstruction overhaul. It introduces
 automated preflight evidence scaffolding (`--auto-scaffold`), reducing cold-start
@@ -30,13 +36,13 @@ title-plus-explanation shape, and the source typo `依然液体` is corrected to
 
 V3.27.4 preserves the locked labels and applies one value-write typography boundary: EN values are Times New Roman 12 pt and CN values are 宋体 12 pt; ordinary values are left-aligned and vertically centered, while the three Section 3 component data columns retain the template's centered alignment. Legitimate original sources under `覆写产出` remain allowed. The English 16-table master template (`examples/template_reference_en.docx`) uses Section 8 geometry `[9, 16, 6, 6, 5, 4, 3, 16, 24, 6, 18, 6, 3, 5, 9, 2]`.
 
-V3.26.6 embeds the Jev System One Core Engine (`scripts/jev_engine.py`) and Domain Adjudicator (`scripts/jev_domain_adjudicator.py`), providing on-demand TypeSafe System One decision making, fast/slow dual-path routing, and an auditable Decision Ledger.
+V3.26.6 established local semantic-routing rules for signal words, cross-section evidence, independent-row decisions, TDS slot mapping and semantic consistency checks. The maintained implementation is deterministic and offline; ambiguous input remains fail-closed for source review.
 
 
 V3.26.5 permanently enforces 100% unified 12.0 pt value cell typography via `set_cell_value_unified`, guarantees verbatim Section 2 label elements from source files, and codifies the Independent Row and Paragraph Separation Playbook (`docs/independent_row_playbook.md`) ensuring product-level status and polymer data are cleanly separated into independent table rows.
 
 
-V3.26.4 introduces the GHS code reverse-resolver (`scripts/ghs_code_resolver.py`), Jev System One dispatcher (`scripts/jev_dispatcher.py`), signal word recognition, Section 3 amine salt neutralization note intelligent routing into Section 2.3, and multi-tier toxicology reporting in Section 11.
+V3.26.4 introduces the GHS code reverse-resolver (`scripts/ghs_code_resolver.py`), deterministic semantic dispatch, signal word recognition, Section 3 amine salt neutralization note routing into Section 2.3, and multi-tier toxicology reporting in Section 11.
 
 
 
@@ -69,7 +75,7 @@ Read [`SKILL.md`](SKILL.md) for the operating contract. The reusable scripts, te
 
 ## Version
 
-Public release: `MSDS Skill 3.28.0`
+Public release: `MSDS Skill 3.29.0`
 
 PU-3011 performance and recognition study reports are retained in the source
 repository at [`docs/performance-studies/PU-3011/`](docs/performance-studies/PU-3011/)
